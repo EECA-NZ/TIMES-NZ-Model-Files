@@ -37,13 +37,17 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd head
+        pushd head
         pip install -r requirements.txt
+        popd
+        pushd tool
+        pip install -r requirements.txt
+        popd
 
     - name: Run raw_table_summary on TIMES-NZ-Model-Files
       run: |
-        cd head/utils
-        python raw_table_summary.py
+        cd tool
+        python times_excel_reader.py ../head/TIMES-NZ/ --output_dir ../head/TIMES-NZ/raw_table_summary/ --only_read
 
     - name: Display output
       run: |
