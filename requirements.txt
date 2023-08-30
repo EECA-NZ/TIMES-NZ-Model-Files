@@ -1,7 +1,0 @@
-openpyxl >= 3.0, < 3.1
-pandas >= 1.5
-more-itertools
-pre-commit
-black
-tabulate
-GitPython >= 3.1.31, < 3.2
