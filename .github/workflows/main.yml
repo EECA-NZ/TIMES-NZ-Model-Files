@@ -34,8 +34,8 @@ jobs:
 
     - name: Run raw_table_summary on TIMES-NZ-Model-Files
       run: |
-        cd tool
-        times-excel-reader ../head/TIMES-NZ/ --output_dir ../head/TIMES-NZ/raw_table_summary/ --only_read
+        cd head
+        times-excel-reader TIMES-NZ/ --output_dir TIMES-NZ/raw_table_summary/ --only_read
 
     - name: Display output
       run: |
@@ -70,5 +70,5 @@ jobs:
 
     - name: Run times-excel-reader on TIMES-NZ-Model-Files
       run: |
-        cd tool
+        echo "Temporarily disabled. See https://github.com/EECA-NZ/TIMES-NZ-Model-Files/issue/10"
         # times-excel-reader ../model # CURRENTLY BROKEN
