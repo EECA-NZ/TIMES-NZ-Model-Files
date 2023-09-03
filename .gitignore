@@ -2,3 +2,5 @@ utils/*.pkl
 .venv/
 *.pyc
 __pycache__/
+TIMES-NZ\ParScen_BackUp
+TIMES-NZ\SuppXLS\ParScenFiles
