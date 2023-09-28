@@ -38,11 +38,11 @@ jobs:
           echo "See README for more details."; \
           exit 1; fi
 
-    - name: Upload output
+    - name: Upload raw_tables.txt
       uses: actions/upload-artifact@v3
-      if: steps.raw_table_updated.outcome == 'failure'
+      if: ${{ failure() && steps.raw_table_updated.outcome == 'failure' }}
       with:
-        name: output
+        name: raw_tables
         path: head/TIMES-NZ/raw_table_summary/raw_tables.txt
 
     - name: Run times-excel-reader on TIMES-NZ-Model-Files
