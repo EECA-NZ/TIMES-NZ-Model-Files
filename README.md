@@ -51,22 +51,24 @@ Now you can start making changes to the code. You can create new files, modify e
 
 
 #### 4. Document Your Changes
-Use the python script `utils/raw_table_summary.py` to generate a summary of the model. This will help reviewers understand the changes made.
+
+Use the python tool `times-excel-reader` to generate a summary of the model at `TIMES-NZ/raw_table_summary/raw_tables.txt`. This will help reviewers see the changes you've made to the Excel files by viewing the diff of this text file in the pull request.
 
 We recommend using a Python virtual environment:
 ```bash
 python3 -m venv .venv
 .venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
+python -m pip install git+https://github.com/etsap-TIMES/times-excel-reader.git
 ```
 
-After changing the TIMES-NZ model excel files, before committing the changes and making a pull request, please run `times_excel_summary.py` in the utils subdirectory to generate a summary of the new model.
+After changing the TIMES-NZ model excel files, before committing the changes and making a pull request, please run `times-excel-reader` to generate a summary of the new model as follows:
 ```bash
 .venv/Scripts/Activate.ps1
-cd utils
-python .\raw_table_summary.py
+times-excel-reader TIMES-NZ/ --output_dir TIMES-NZ/raw_table_summary/ --only_read
 ```
 Then commit changes that have been made by the script to `TIMES-NZ/raw_table_summary/raw_tables.txt`, alongside your changes to the excel workbooks. These changes will be visible if you run `git diff` before committing.
+
+**Note:** If you are unable to run the `times-excel-reader` tool on your machine, you can open a pull request without changing the `raw_tables.txt` file. The GitHub Actions check will fail on your PR, and the check will create an artifact containing the updated `raw_tables.txt`. You can download this and update the one on your branch instead.
 
 #### 4. Commit Your Changes
 
@@ -88,7 +90,7 @@ After committing, you need to "push" your changes to GitHub. This makes them ava
 
 Command line:
 ```bash
-git push origin <your-branch-name>
+git push --set-upstream origin <your-branch-name>
 ```
 
 GitHub Desktop: Click the "Push origin" button in the toolbar.
