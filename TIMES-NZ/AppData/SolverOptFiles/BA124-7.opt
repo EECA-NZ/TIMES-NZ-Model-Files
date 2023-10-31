@@ -1,6 +1,6 @@
 scaind 1
 rerun yes
-iis yes
+iis 1
 lpmethod 4
 baralg 1
 barcrossalg 0
