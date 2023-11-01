@@ -53,10 +53,12 @@ Now you can start making changes to the code. You can create new files, modify e
 
 Use the Dockerized `times-excel-reader` tool to generate a summary of the model at `TIMES-NZ/raw_table_summary/raw_tables.txt`. This will help reviewers see the changes you've made to the Excel files by viewing the diff of this text file in the pull request.
 
-After changing the TIMES-NZ model excel files, before committing the changes and making a pull request, please run the following Docker commands to generate a summary of the new model:
-
+After changing the TIMES-NZ model excel files, before committing the changes and making a pull request, please run the following `docker run` command to generate a summary of the new model. Before running the following docker command for the first time, you will need to build the Docker image:
 ```bash
 docker build -t times_excel_reader .
+```
+This will also need to be done when there are updates to the Dockerfile or `requirements.txt`. Otherwise, you can just run the container as needed with the following `docker run` command:
+```bash
 docker run -it --rm --name my_times_reader -v ${PWD}/TIMES-NZ:/usr/src/app/TIMES-NZ times_excel_reader
 ```
 
