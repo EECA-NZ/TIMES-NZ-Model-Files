@@ -11,3 +11,4 @@ TIMES-NZ/AppData/Settings.json
 raw_tables.pkl
 TIMES-NZ/AppData/Cases.json
 TIMES-NZ/AppData/Groups.json
+TIMES-NZ/SuppXLS/ParScenFiles/*.xlsx
