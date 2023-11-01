@@ -9201,46 +9201,6 @@ TimeSlice,LimType,Attribute,Cset_Set,Cset_CN,Cset_CD,Year,AllRegions
 ,,COM_TAXNET,,TOTCO2,,0,0
 
 
-sheetname: Cars
-range: C14:D17
-filename: SuppXLS/Scen_Y_New-BEV_share.xlsx
-tag: ~UC_Sets: R_S: AllRegions
-types: ~UC_Sets: T_S: (object)
-~UC_Sets: T_S:
-UC_N
-MAX_PHEV_UPTAKE
-
-
-sheetname: Cars
-range: C15:O18
-filename: SuppXLS/Scen_Y_New-BEV_share.xlsx
-tag: ~UC_Sets: T_S:
-types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2050 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2050,UC_RHST,UC_RHST~0,UC_Desc
-MAX_PHEV_UPTAKE,,T_P_C*PEV*,2020,LO,-0.99,-0.98,-0.96,-0.83,0,5,Max number of PHEV cars per year
-,,"T_P_C*,-T_P_C*PEV*",,,0.01,0.02,0.04,0.17,,,
-
-
-sheetname: Cars
-range: C8:D11
-filename: SuppXLS/Scen_Y_New-BEV_share.xlsx
-tag: ~UC_Sets: R_S: AllRegions
-types: ~UC_Sets: T_S: (object)
-~UC_Sets: T_S:
-UC_N
-MAX_BEV_UPTAKE
-
-
-sheetname: Cars
-range: C9:O12
-filename: SuppXLS/Scen_Y_New-BEV_share.xlsx
-tag: ~UC_Sets: T_S:
-types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_RHST,UC_RHST~0,UC_Desc
-MAX_BEV_UPTAKE,,"T_P_C*BEV*,T_P_C*BAT*",2020,LO,-0.97,-0.89,-0.58,-9.99999999995449e-06,0,5,Max number of BEV cars per year
-,,"T_P_C*,-T_P_C*BEV*,-T_P_C*BAT*",,,0.03,0.11,0.42,0.99999,,,
-
-
 sheetname: CO2Price
 range: A2:B3
 filename: SuppXLS/Scen_Y_Par-CO2Price.xlsx

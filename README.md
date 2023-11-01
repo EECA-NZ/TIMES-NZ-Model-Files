@@ -57,7 +57,7 @@ After changing the TIMES-NZ model excel files, before committing the changes and
 
 ```bash
 docker build -t times_excel_reader .
-docker run -it --rm --name my_times_reader times_excel_reader
+docker run -it --rm --name my_times_reader -v ${PWD}/TIMES-NZ:/usr/src/app/TIMES-NZ times_excel_reader
 ```
 
 Then commit changes that have been made by the script to `TIMES-NZ/raw_table_summary/raw_tables.txt`, alongside your changes to the excel workbooks. These changes will be visible if you run `git diff` before committing.
