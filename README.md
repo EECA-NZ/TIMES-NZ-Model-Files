@@ -1,8 +1,63 @@
 # TIMES-NZ-Model-Files
 
-## Model excel files for TIMES-NZ
+## Excel Model Configuration Files for TIMES-NZ
 
-Guide on getting started with the TIMES-NZ model stored here: https://github.com/EECA-NZ/TIMES-NZ-internal-guide-EECA
+This repository houses the Excel files defining the TIMES-NZ (The Integrated MARKAL-EFOM System - New Zealand) energy system model configuration. It is intended for use by researchers and analysts working with energy models in New Zealand. For a guide on getting started with the TIMES-NZ model, refer to the [TIMES-NZ-internal-guide-EECA](https://github.com/EECA-NZ/TIMES-NZ-internal-guide-EEC) repository.
+
+## Integrated Workflow Across Repositories
+
+The TIMES-NZ project is divided across three main repositories, each serving a distinct purpose in the overall modeling and visualization process. The repositories and their functions are as follows:
+
+1. [TIMES-NZ-Model-Files](https://github.com/EECA-NZ/TIMES-NZ-Model-Files): Houses the Excel files defining the TIMES-NZ energy system model configuration, along with additional resources and tools for change tracking.
+
+2. [TIMES-NZ-GAMS-Files](https://github.com/EECA-NZ/TIMES-NZ-GAMS-Files): Contains the GAMS model files for TIMES-NZ scenarios and scripts to enable repeatable scenario execution.
+
+3. [TIMES-NZ-Visualisation](https://github.com/EECA-NZ/TIMES-NZ-Visualisation): Provides a tool for visualizing the results of TIMES-NZ scenarios using an RShiny application.
+
+### High-Level Workflow Overview
+
+#### Step 1: Model Configuration and Release Tagging
+- Begin by configuring the TIMES-NZ model in the TIMES-NZ-Model-Files repository, and using VEDA to run the model. Work is done in a development branch and merged to the main branch after review.
+- When ready to release a new version of the model, name your scenarios to include the release tag (e.g., kea-v2_1_2).
+- Once the configuration is complete and scenarios are named, commit your changes and tag the release (e.g., v2.1.2).
+
+#### Step 2: Scenario Execution with GAMS
+- Move to the TIMES-NZ-GAMS-Files repository.
+- Fetch the GAMS 'dd' files and the '.run' file associated with the scenario using the `get_from_veda.ps1` PowerShell script.
+- Run the GAMS solver using the `run_times_scenario.ps1` PowerShell script, and the output files will be generated.
+
+#### Step 3: Visualization Preparation
+- After running the scenario, take the output vd file and copy it into the TIMES-NZ-Visualisation's `data_cleaning` subdirectory.
+- Run the data extraction script in the `data_cleaning` subdirectory to process the output and generate a file ready for visualization (e.g., tui-v2_1_2.rda).
+
+#### Step 4: Visualization with RShiny
+- Launch the RShiny application to visualize the scenario results interactively.
+
+### Additional Details
+For more specific instructions, including the commands and scripts to be used at each step, please refer to the README files in the respective repositories:
+- [TIMES-NZ-Model-Files README](https://github.com/EECA-NZ/TIMES-NZ-Model-Files/blob/main/README.md)
+- [TIMES-NZ-GAMS-Files README](https://github.com/EECA-NZ/TIMES-NZ-GAMS-Files/blob/main/README.md)
+- [TIMES-NZ-Visualisation README](https://github.com/EECA-NZ/TIMES-NZ-Visualisation/blob/main/README.md)
+
+For any questions or support, you can contact [dataandanalytics@eeca.govt.nz].
+
+**Note:** The above workflow describes current state. In the future we hope to
+* automate the process of generating the Excel configuration files using Repeatable Analytical Pipelines (RAPs);
+* automate the production of GAMS files directly from the excel files without the use of VEDA.
+
+
+## Dependencies
+
+Before you start working with this project, you will need the following tools installed on your machine:
+
+- **Git**: Used for version control. Download and install from https://git-scm.com/downloads.
+- **Docker**: Required for running the `times-excel-reader` tool. Download and install from https://www.docker.com/get-started.
+
+- [GAMS](https://www.gams.com/) installed on your system.
+- A valid GAMS license placed in the system's designated location (e.g., `C:\GAMS\42\gamslice.txt`).
+- A working VEDA (VEDA 2.0 localhost) installation.
+
+Ensure that you are able to use Git via the command line in a PowerShell-like environment. This README assumes Windows 10 or higher.
 
 ## Installation
 
@@ -113,3 +168,5 @@ Guide on getting started with the TIMES-NZ model stored here: https://github.com
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please ensure that you have the necessary dependencies installed, as outlined at the beginning of this document.
