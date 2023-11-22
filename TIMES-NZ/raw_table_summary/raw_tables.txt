@@ -1241,6 +1241,30 @@ ELE,EHYD-RR-NSmall20,New run of river hydro >50 MW,PJ,GW,DAYNITE,,YES
 \I:,\I: EFCH2PEAK,Hydrogen peaker,PJ,GW,DAYNITE,,YES
 
 
+sheetname: AVA
+range: B4:Q5
+filename: SubRES_TMPL/SubRES_NewTech_ELC_TUI_Trans.xlsx
+tag: ~TFM_AVA
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,AllRegions,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
+
+
+sheetname: FILL Table
+range: B3:O4
+filename: SubRES_TMPL/SubRES_NewTech_ELC_TUI_Trans.xlsx
+tag: ~TFM_FILL
+types: Operation_Sum_Avg_Count (object), Scenario Name (object), TimeSlice (object), LimType (object), Attribute (object), Year (object), Other_Indexes (object), Tech_Comm_Info (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object)
+Operation_Sum_Avg_Count,Scenario Name,TimeSlice,LimType,Attribute,Year,Other_Indexes,Tech_Comm_Info,AllRegions,NI,SI,Pset_Set,Pset_PN
+
+
+sheetname: Trans Tables
+range: B39:Q40
+filename: SubRES_TMPL/SubRES_NewTech_ELC_TUI_Trans.xlsx
+tag: ~TFM_INS
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,AllRegions,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
+
+
 sheetname: OTH_COM
 range: C285:K553
 filename: SubRES_TMPL/SubRES_NewTech_RC.xlsx
@@ -1248,10 +1272,10 @@ tag: ~FI_Process
 types: Sets (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
 Sets,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 \I: Process Set Membership,Technology Name,Technology Description,Activity Unit,Capacity Unit,Timeslice Operational Level,Operational Commodity Group,Vintage Tracking
-DMD,C_EDU-OTH_ELEC-ELC,Education Electronics ELC,PJ,GW,,,
-DMD,C_EDU-LT_INC-ELC,Education Lighting Incandescent ELC,PJ,GW,,,
-DMD,C_EDU-LT_FLU-ELC,Education Lighting Fluorescent ELC,PJ,GW,,,
-DMD,C_EDU-LT_LED-ELC,Education Lighting LED ELC,PJ,GW,,,
+DMD,C_EDU-OTH_ELEC-ELC,Education Electronics ELC,PJ,GW,DAYNITE,,
+DMD,C_EDU-LT_INC-ELC,Education Lighting Incandescent ELC,PJ,GW,DAYNITE,,
+DMD,C_EDU-LT_FLU-ELC,Education Lighting Fluorescent ELC,PJ,GW,DAYNITE,,
+DMD,C_EDU-LT_LED-ELC,Education Lighting LED ELC,PJ,GW,DAYNITE,,
 DMD,C_EDU-SH_Boiler-COA,Education Boiler Systems COA,PJ,GW,,,
 DMD,C_EDU-SH_Boiler-DSL,Education Boiler Systems DSL,PJ,GW,,,
 DMD,C_EDU-SH_Boiler-FOL,Education Boiler Systems FOL,PJ,GW,,,
@@ -1259,9 +1283,9 @@ DMD,C_EDU-SH_Boiler-LPG,Education Boiler Systems LPG,PJ,GW,,,
 DMD,C_EDU-SH_Boiler-NGA,Education Boiler Systems NGA,PJ,GW,,,
 DMD,C_EDU-SH_Boiler-WOD,Education Boiler Systems WOD,PJ,GW,,,
 DMD,C_EDU-SH_Boiler-PLT,Education Boiler Systems PLT,PJ,GW,,,
-DMD,C_EDU-SH_Boiler-ELC,Education Boiler Systems ELC,PJ,GW,,,
+DMD,C_EDU-SH_Boiler-ELC,Education Boiler Systems ELC,PJ,GW,DAYNITE,,
 DMD,C_EDU-SH_Boiler-BIG,Education Boiler Systems BIG,PJ,GW,,,
-DMD,C_EDU-SH_Boiler-H2R,Education Boiler Systems H2R,PJ,GW,,,
+DMD,C_EDU-SH_Boiler-H2R,Education Boiler Systems H2R,PJ,GW,DAYNITE,,
 DMD,C_EDU-WH_Boiler-COA,Education Boiler Systems COA,PJ,GW,,,
 DMD,C_EDU-WH_Boiler-DSL,Education Boiler Systems DSL,PJ,GW,,,
 DMD,C_EDU-WH_Boiler-FOL,Education Boiler Systems FOL,PJ,GW,,,
@@ -1269,38 +1293,38 @@ DMD,C_EDU-WH_Boiler-LPG,Education Boiler Systems LPG,PJ,GW,,,
 DMD,C_EDU-WH_Boiler-NGA,Education Boiler Systems NGA,PJ,GW,,,
 DMD,C_EDU-WH_Boiler-WOD,Education Boiler Systems WOD,PJ,GW,,,
 DMD,C_EDU-WH_Boiler-PLT,Education Boiler Systems PLT,PJ,GW,,,
-DMD,C_EDU-WH_Boiler-ELC,Education Boiler Systems ELC,PJ,GW,,,
+DMD,C_EDU-WH_Boiler-ELC,Education Boiler Systems ELC,PJ,GW,DAYNITE,,
 DMD,C_EDU-WH_Boiler-BIG,Education Boiler Systems BIG,PJ,GW,,,
-DMD,C_EDU-WH_Boiler-H2R,Education Boiler Systems H2R,PJ,GW,,,
-DMD,C_EDU-SH_AIRHP-ELC,Education Heat Pump Air Source (for Heating) ELC,PJ,GW,,,
-DMD,C_EDU-SH_GHP-ELC,Education Heat Pump Ground Source (for Heating) ELC,PJ,GW,,,
-DMD,C_EDU-SH_RH-ELC,Education Resistance Heater ELC,PJ,GW,,,
-DMD,C_EDU-WH_AIRHP-ELC,Education Heat Pump Air Source (for Heating) ELC,PJ,GW,,,
-DMD,C_EDU-WH_GHP-ELC,Education Heat Pump Ground Source (for Heating) ELC,PJ,GW,,,
-DMD,C_EDU-WH_Cylinder-ELC,Education Hot Water Cylinder ELC,PJ,GW,,,
+DMD,C_EDU-WH_Boiler-H2R,Education Boiler Systems H2R,PJ,GW,DAYNITE,,
+DMD,C_EDU-SH_AIRHP-ELC,Education Heat Pump Air Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_EDU-SH_GHP-ELC,Education Heat Pump Ground Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_EDU-SH_RH-ELC,Education Resistance Heater ELC,PJ,GW,DAYNITE,,
+DMD,C_EDU-WH_AIRHP-ELC,Education Heat Pump Air Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_EDU-WH_GHP-ELC,Education Heat Pump Ground Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_EDU-WH_Cylinder-ELC,Education Hot Water Cylinder ELC,PJ,GW,DAYNITE,,
 DMD,C_EDU-WH_Cylinder-NGA,Education Hot Water Cylinder NGA,PJ,GW,,,
 DMD,C_EDU-WH_Cylinder-LPG,Education Hot Water Cylinder LPG,PJ,GW,,,
 DMD,C_EDU-WH_Instant-NGA,Education Instant NGA,PJ,GW,,,
 DMD,C_EDU-WH_Instant-LPG,Education Instant LPG,PJ,GW,,,
-DMD,C_EDU-WH_Instant-ELC,Education Instant ELC,PJ,GW,,,
+DMD,C_EDU-WH_Instant-ELC,Education Instant ELC,PJ,GW,DAYNITE,,
 DMD,C_EDU-MPM_-DSL,Education Motive power - mobile DSL,PJ,GW,,,
 DMD,C_EDU-MPM_-PET,Education Motive power - mobile PET,PJ,GW,,,
 DMD,C_EDU-MPM_-LPG,Education Motive power - mobile LPG,PJ,GW,,,
-DMD,C_EDU-MPM_-ELC,Education Motive power - mobile ELC,PJ,GW,,,
-DMD,C_EDU-MPM_-H2R,Education Motive power - mobile H2R,PJ,GW,,,
+DMD,C_EDU-MPM_-ELC,Education Motive power - mobile ELC,PJ,GW,DAYNITE,,
+DMD,C_EDU-MPM_-H2R,Education Motive power - mobile H2R,PJ,GW,DAYNITE,,
 DMD,C_EDU-MPS_-DSL,Education Motive power Stationary DSL,PJ,GW,,,
 DMD,C_EDU-MPS_-PET,Education Motive power Stationary PET,PJ,GW,,,
 DMD,C_EDU-MPS_-LPG,Education Motive power Stationary LPG,PJ,GW,,,
-DMD,C_EDU-MPS_-ELC,Education Motive power Stationary ELC,PJ,GW,,,
-DMD,C_EDU-MPS_-H2R,Education Motive power Stationary H2R,PJ,GW,,,
-DMD,C_EDU-RF_Refriger-ELC,Education Refrigeration Systems ELC,PJ,GW,,,
-DMD,C_EDU-SC_AirHP-ELC,Education Heat Pump Air Source (for Cooling) ELC,PJ,GW,,,
-DMD,C_EDU-SC_GHP-ELC,Education Heat Pump Ground Source (for Cooling) ELC,PJ,GW,,,
+DMD,C_EDU-MPS_-ELC,Education Motive power Stationary ELC,PJ,GW,DAYNITE,,
+DMD,C_EDU-MPS_-H2R,Education Motive power Stationary H2R,PJ,GW,DAYNITE,,
+DMD,C_EDU-RF_Refriger-ELC,Education Refrigeration Systems ELC,PJ,GW,DAYNITE,,
+DMD,C_EDU-SC_AirHP-ELC,Education Heat Pump Air Source (for Cooling) ELC,PJ,GW,DAYNITE,,
+DMD,C_EDU-SC_GHP-ELC,Education Heat Pump Ground Source (for Cooling) ELC,PJ,GW,DAYNITE,,
 \I:,\I:,0,PJ,GW,,,
-DMD,C_HLTH-OTH_ELEC-ELC,Healthcare Electronics ELC,PJ,GW,,,
-DMD,C_HLTH-LT_INC-ELC,Healthcare Lighting Incandescent ELC,PJ,GW,,,
-DMD,C_HLTH-LT_FLU-ELC,Healthcare Lighting Fluorescent ELC,PJ,GW,,,
-DMD,C_HLTH-LT_LED-ELC,Healthcare Lighting LED ELC,PJ,GW,,,
+DMD,C_HLTH-OTH_ELEC-ELC,Healthcare Electronics ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-LT_INC-ELC,Healthcare Lighting Incandescent ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-LT_FLU-ELC,Healthcare Lighting Fluorescent ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-LT_LED-ELC,Healthcare Lighting LED ELC,PJ,GW,DAYNITE,,
 DMD,C_HLTH-SH_Boiler-COA,Healthcare Boiler Systems COA,PJ,GW,,,
 DMD,C_HLTH-SH_Boiler-DSL,Healthcare Boiler Systems DSL,PJ,GW,,,
 DMD,C_HLTH-SH_Boiler-FOL,Healthcare Boiler Systems FOL,PJ,GW,,,
@@ -1308,9 +1332,9 @@ DMD,C_HLTH-SH_Boiler-LPG,Healthcare Boiler Systems LPG,PJ,GW,,,
 DMD,C_HLTH-SH_Boiler-NGA,Healthcare Boiler Systems NGA,PJ,GW,,,
 DMD,C_HLTH-SH_Boiler-WOD,Healthcare Boiler Systems WOD,PJ,GW,,,
 DMD,C_HLTH-SH_Boiler-PLT,Healthcare Boiler Systems PLT,PJ,GW,,,
-DMD,C_HLTH-SH_Boiler-ELC,Healthcare Boiler Systems ELC,PJ,GW,,,
+DMD,C_HLTH-SH_Boiler-ELC,Healthcare Boiler Systems ELC,PJ,GW,DAYNITE,,
 DMD,C_HLTH-SH_Boiler-BIG,Healthcare Boiler Systems BIG,PJ,GW,,,
-DMD,C_HLTH-SH_Boiler-H2R,Healthcare Boiler Systems H2R,PJ,GW,,,
+DMD,C_HLTH-SH_Boiler-H2R,Healthcare Boiler Systems H2R,PJ,GW,DAYNITE,,
 DMD,C_HLTH-WH_Boiler-COA,Healthcare Boiler Systems COA,PJ,GW,,,
 DMD,C_HLTH-WH_Boiler-DSL,Healthcare Boiler Systems DSL,PJ,GW,,,
 DMD,C_HLTH-WH_Boiler-FOL,Healthcare Boiler Systems FOL,PJ,GW,,,
@@ -1318,9 +1342,9 @@ DMD,C_HLTH-WH_Boiler-LPG,Healthcare Boiler Systems LPG,PJ,GW,,,
 DMD,C_HLTH-WH_Boiler-NGA,Healthcare Boiler Systems NGA,PJ,GW,,,
 DMD,C_HLTH-WH_Boiler-WOD,Healthcare Boiler Systems WOD,PJ,GW,,,
 DMD,C_HLTH-WH_Boiler-PLT,Healthcare Boiler Systems PLT,PJ,GW,,,
-DMD,C_HLTH-WH_Boiler-ELC,Healthcare Boiler Systems ELC,PJ,GW,,,
+DMD,C_HLTH-WH_Boiler-ELC,Healthcare Boiler Systems ELC,PJ,GW,DAYNITE,,
 DMD,C_HLTH-WH_Boiler-BIG,Healthcare Boiler Systems BIG,PJ,GW,,,
-DMD,C_HLTH-WH_Boiler-H2R,Healthcare Boiler Systems H2R,PJ,GW,,,
+DMD,C_HLTH-WH_Boiler-H2R,Healthcare Boiler Systems H2R,PJ,GW,DAYNITE,,
 DMD,C_HLTH-PH_Boiler-COA,Healthcare Boiler Systems COA,PJ,GW,,,
 DMD,C_HLTH-PH_Boiler-DSL,Healthcare Boiler Systems DSL,PJ,GW,,,
 DMD,C_HLTH-PH_Boiler-FOL,Healthcare Boiler Systems FOL,PJ,GW,,,
@@ -1329,38 +1353,38 @@ DMD,C_HLTH-PH_Boiler-NGA,Healthcare Boiler Systems NGA,PJ,GW,,,
 DMD,C_HLTH-PH_Boiler-WOD,Healthcare Boiler Systems WOD,PJ,GW,,,
 DMD,C_HLTH-PH_Boiler-PLT,Healthcare Boiler Systems PLT,PJ,GW,,,
 DMD,C_HLTH-PH_Boiler-BIG,Healthcare Boiler Systems BIG,PJ,GW,,,
-DMD,C_HLTH-PH_Boiler-H2R,Healthcare Boiler Systems H2R,PJ,GW,,,
+DMD,C_HLTH-PH_Boiler-H2R,Healthcare Boiler Systems H2R,PJ,GW,DAYNITE,,
 DMD,C_HLTH-WH_DirectH-GEO,Healthcare Direct Heat GEO,PJ,GW,,,
-DMD,C_HLTH-SH_AIRHP-ELC,Healthcare Heat Pump Air Source (for Heating) ELC,PJ,GW,,,
-DMD,C_HLTH-SH_GHP-ELC,Healthcare Heat Pump Ground Source (for Heating) ELC,PJ,GW,,,
-DMD,C_HLTH-SH_RH-ELC,Healthcare Resistance Heater ELC,PJ,GW,,,
-DMD,C_HLTH-WH_AIRHP-ELC,Healthcare Heat Pump Air Source (for Heating) ELC,PJ,GW,,,
-DMD,C_HLTH-WH_GHP-ELC,Healthcare Heat Pump Ground Source (for Heating) ELC,PJ,GW,,,
-DMD,C_HLTH-WH_Cylinder-ELC,Healthcare Hot Water Cylinder ELC,PJ,GW,,,
+DMD,C_HLTH-SH_AIRHP-ELC,Healthcare Heat Pump Air Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-SH_GHP-ELC,Healthcare Heat Pump Ground Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-SH_RH-ELC,Healthcare Resistance Heater ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-WH_AIRHP-ELC,Healthcare Heat Pump Air Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-WH_GHP-ELC,Healthcare Heat Pump Ground Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-WH_Cylinder-ELC,Healthcare Hot Water Cylinder ELC,PJ,GW,DAYNITE,,
 DMD,C_HLTH-WH_Cylinder-NGA,Healthcare Hot Water Cylinder NGA,PJ,GW,,,
 DMD,C_HLTH-WH_Cylinder-LPG,Healthcare Hot Water Cylinder LPG,PJ,GW,,,
 DMD,C_HLTH-WH_Instant-NGA,Healthcare Instant NGA,PJ,GW,,,
 DMD,C_HLTH-WH_Instant-LPG,Healthcare Instant LPG,PJ,GW,,,
-DMD,C_HLTH-WH_Instant-ELC,Healthcare Instant ELC,PJ,GW,,,
-DMD,C_HLTH-PH_RH-ELC,Healthcare Resistance Heater ELC,PJ,GW,,,
+DMD,C_HLTH-WH_Instant-ELC,Healthcare Instant ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-PH_RH-ELC,Healthcare Resistance Heater ELC,PJ,GW,DAYNITE,,
 DMD,C_HLTH-MPM_-DSL,Healthcare Motive power - mobile DSL,PJ,GW,,,
 DMD,C_HLTH-MPM_-PET,Healthcare Motive power - mobile PET,PJ,GW,,,
 DMD,C_HLTH-MPM_-LPG,Healthcare Motive power - mobile LPG,PJ,GW,,,
-DMD,C_HLTH-MPM_-ELC,Healthcare Motive power - mobile ELC,PJ,GW,,,
-DMD,C_HLTH-MPM_-H2R,Healthcare Motive power - mobile H2R,PJ,GW,,,
+DMD,C_HLTH-MPM_-ELC,Healthcare Motive power - mobile ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-MPM_-H2R,Healthcare Motive power - mobile H2R,PJ,GW,DAYNITE,,
 DMD,C_HLTH-MPS_-DSL,Healthcare Motive power Stationary DSL,PJ,GW,,,
 DMD,C_HLTH-MPS_-PET,Healthcare Motive power Stationary PET,PJ,GW,,,
 DMD,C_HLTH-MPS_-LPG,Healthcare Motive power Stationary LPG,PJ,GW,,,
-DMD,C_HLTH-MPS_-ELC,Healthcare Motive power Stationary ELC,PJ,GW,,,
-DMD,C_HLTH-MPS_-H2R,Healthcare Motive power Stationary H2R,PJ,GW,,,
-DMD,C_HLTH-RF_Refriger-ELC,Healthcare Refrigeration Systems ELC,PJ,GW,,,
-DMD,C_HLTH-SC_AIRHP-ELC,Healthcare Heat Pump Air Source (for Cooling) ELC,PJ,GW,,,
-DMD,C_HLTH-SC_GHP-ELC,Healthcare Heat Pump Ground Source (for Cooling) ELC,PJ,GW,,,
+DMD,C_HLTH-MPS_-ELC,Healthcare Motive power Stationary ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-MPS_-H2R,Healthcare Motive power Stationary H2R,PJ,GW,DAYNITE,,
+DMD,C_HLTH-RF_Refriger-ELC,Healthcare Refrigeration Systems ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-SC_AIRHP-ELC,Healthcare Heat Pump Air Source (for Cooling) ELC,PJ,GW,DAYNITE,,
+DMD,C_HLTH-SC_GHP-ELC,Healthcare Heat Pump Ground Source (for Cooling) ELC,PJ,GW,DAYNITE,,
 \I:,\I:,,PJ,GW,,,
-DMD,C_OFFC-OTH_EELC-ELC,Office Blocks Electronics ELC,PJ,GW,,,
-DMD,C_OFFC-LT_INC-ELC,Office Blocks Lighting Incandescent ELC,PJ,GW,,,
-DMD,C_OFFC-LT_FLU-ELC,Office Blocks Lighting Fluorescent ELC,PJ,GW,,,
-DMD,C_OFFC-LT_LED-ELC,Office Blocks Lighting LED ELC,PJ,GW,,,
+DMD,C_OFFC-OTH_EELC-ELC,Office Blocks Electronics ELC,PJ,GW,DAYNITE,,
+DMD,C_OFFC-LT_INC-ELC,Office Blocks Lighting Incandescent ELC,PJ,GW,DAYNITE,,
+DMD,C_OFFC-LT_FLU-ELC,Office Blocks Lighting Fluorescent ELC,PJ,GW,DAYNITE,,
+DMD,C_OFFC-LT_LED-ELC,Office Blocks Lighting LED ELC,PJ,GW,DAYNITE,,
 DMD,C_OFFC-SH_Boiler-COA,Office Blocks Boiler Systems COA,PJ,GW,,,
 DMD,C_OFFC-SH_Boiler-DSL,Office Blocks Boiler Systems DSL,PJ,GW,,,
 DMD,C_OFFC-SH_Boiler-FOL,Office Blocks Boiler Systems FOL,PJ,GW,,,
@@ -1368,9 +1392,9 @@ DMD,C_OFFC-SH_Boiler-LPG,Office Blocks Boiler Systems LPG,PJ,GW,,,
 DMD,C_OFFC-SH_Boiler-NGA,Office Blocks Boiler Systems NGA,PJ,GW,,,
 DMD,C_OFFC-SH_Boiler-WOD,Office Blocks Boiler Systems WOD,PJ,GW,,,
 DMD,C_OFFC-SH_Boiler-PLT,Office Blocks Boiler Systems PLT,PJ,GW,,,
-DMD,C_OFFC-SH_Boiler-ELC,Office Blocks Boiler Systems ELC,PJ,GW,,,
+DMD,C_OFFC-SH_Boiler-ELC,Office Blocks Boiler Systems ELC,PJ,GW,DAYNITE,,
 DMD,C_OFFC-SH_Boiler-BIG,Office Blocks Boiler Systems BIG,PJ,GW,,,
-DMD,C_OFFC-SH_Boiler-H2R,Office Blocks Boiler Systems H2R,PJ,GW,,,
+DMD,C_OFFC-SH_Boiler-H2R,Office Blocks Boiler Systems H2R,PJ,GW,DAYNITE,,
 DMD,C_OFFC-WH_Boiler-COA,Office Blocks Boiler Systems COA,PJ,GW,,,
 DMD,C_OFFC-WH_Boiler-DSL,Office Blocks Boiler Systems DSL,PJ,GW,,,
 DMD,C_OFFC-WH_Boiler-FOL,Office Blocks Boiler Systems FOL,PJ,GW,,,
@@ -1378,46 +1402,46 @@ DMD,C_OFFC-WH_Boiler-LPG,Office Blocks Boiler Systems LPG,PJ,GW,,,
 DMD,C_OFFC-WH_Boiler-NGA,Office Blocks Boiler Systems NGA,PJ,GW,,,
 DMD,C_OFFC-WH_Boiler-WOD,Office Blocks Boiler Systems WOD,PJ,GW,,,
 DMD,C_OFFC-WH_Boiler-PLT,Office Blocks Boiler Systems PLT,PJ,GW,,,
-DMD,C_OFFC-WH_Boiler-ELC,Office Blocks Boiler Systems ELC,PJ,GW,,,
+DMD,C_OFFC-WH_Boiler-ELC,Office Blocks Boiler Systems ELC,PJ,GW,DAYNITE,,
 DMD,C_OFFC-WH_Boiler-BIG,Office Blocks Boiler Systems BIG,PJ,GW,,,
-DMD,C_OFFC-WH_Boiler-H2R,Office Blocks Boiler Systems H2R,PJ,GW,,,
-DMD,C_OFFC-SH_AirHP-ELC,Office Blocks Heat Pump Air Source (for Heating) ELC,PJ,GW,,,
-DMD,C_OFFC-SH_GHP-ELC,Office Blocks Heat Pump Ground Source (for Heating) ELC,PJ,GW,,,
-DMD,C_OFFC-SH_RH-ELC,Office Blocks Resistance Heater ELC,PJ,GW,,,
-DMD,C_OFFC-WH_AirHP-ELC,Office Blocks Heat Pump Air Source (for Heating) ELC,PJ,GW,,,
-DMD,C_OFFC-WH_GHP-ELC,Office Blocks Heat Pump Ground Source (for Heating) ELC,PJ,GW,,,
-DMD,C_OFFC-WH_Cylinder-ELC,Office Blocks Hot Water Cylinder ELC,PJ,GW,,,
+DMD,C_OFFC-WH_Boiler-H2R,Office Blocks Boiler Systems H2R,PJ,GW,DAYNITE,,
+DMD,C_OFFC-SH_AirHP-ELC,Office Blocks Heat Pump Air Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_OFFC-SH_GHP-ELC,Office Blocks Heat Pump Ground Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_OFFC-SH_RH-ELC,Office Blocks Resistance Heater ELC,PJ,GW,DAYNITE,,
+DMD,C_OFFC-WH_AirHP-ELC,Office Blocks Heat Pump Air Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_OFFC-WH_GHP-ELC,Office Blocks Heat Pump Ground Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_OFFC-WH_Cylinder-ELC,Office Blocks Hot Water Cylinder ELC,PJ,GW,DAYNITE,,
 DMD,C_OFFC-WH_Cylinder-NGA,Office Blocks Hot Water Cylinder NGA,PJ,GW,,,
 DMD,C_OFFC-WH_Cylinder-LPG,Office Blocks Hot Water Cylinder LPG,PJ,GW,,,
 DMD,C_OFFC-WH_Instant-NGA,Office Blocks Instant NGA,PJ,GW,,,
 DMD,C_OFFC-WH_Instant-LPG,Office Blocks Instant LPG,PJ,GW,,,
-DMD,C_OFFC-WH_Instant-ELC,Office Blocks Instant ELC,PJ,GW,,,
+DMD,C_OFFC-WH_Instant-ELC,Office Blocks Instant ELC,PJ,GW,DAYNITE,,
 DMD,C_OFFC-MPM_-DSL,Office Blocks Motive power - mobile DSL,PJ,GW,,,
 DMD,C_OFFC-MPM_-PET,Office Blocks Motive power - mobile PET,PJ,GW,,,
 DMD,C_OFFC-MPM_-LPG,Office Blocks Motive power - mobile LPG,PJ,GW,,,
-DMD,C_OFFC-MPM_-ELC,Office Blocks Motive power - mobile ELC,PJ,GW,,,
-DMD,C_OFFC-MPM_-H2R,Office Blocks Motive power - mobile H2R,PJ,GW,,,
+DMD,C_OFFC-MPM_-ELC,Office Blocks Motive power - mobile ELC,PJ,GW,DAYNITE,,
+DMD,C_OFFC-MPM_-H2R,Office Blocks Motive power - mobile H2R,PJ,GW,DAYNITE,,
 DMD,C_OFFC-MPS_-DSL,Office Blocks Motive power Stationary DSL,PJ,GW,,,
 DMD,C_OFFC-MPS_-PET,Office Blocks Motive power Stationary PET,PJ,GW,,,
 DMD,C_OFFC-MPS_-LPG,Office Blocks Motive power Stationary LPG,PJ,GW,,,
-DMD,C_OFFC-MPS_-ELC,Office Blocks Motive power Stationary ELC,PJ,GW,,,
-DMD,C_OFFC-MPS_-H2R,Office Blocks Motive power Stationary H2R,PJ,GW,,,
-DMD,C_OFFC-SC_AIRHP-ELC,Office Blocks Heat Pump Air Source (for Cooling) ELC,PJ,GW,,,
-DMD,C_OFFC-SC_GHP-ELC,Office Blocks Heat Pump Ground Source (for Cooling) ELC,PJ,GW,,,
+DMD,C_OFFC-MPS_-ELC,Office Blocks Motive power Stationary ELC,PJ,GW,DAYNITE,,
+DMD,C_OFFC-MPS_-H2R,Office Blocks Motive power Stationary H2R,PJ,GW,DAYNITE,,
+DMD,C_OFFC-SC_AIRHP-ELC,Office Blocks Heat Pump Air Source (for Cooling) ELC,PJ,GW,DAYNITE,,
+DMD,C_OFFC-SC_GHP-ELC,Office Blocks Heat Pump Ground Source (for Cooling) ELC,PJ,GW,DAYNITE,,
 \I:,\I:,,PJ,GW,,,
-DMD,C_WSR-OTH_ELEC-ELC,WSR Electronics ELC,PJ,GW,,,
-DMD,C_WSR-CK_Elements-ELC,WSR Cooking Elements ELC,PJ,GW,,,
-DMD,C_WSR-CK_Induction-ELC,WSR Cooking Induction ELC,PJ,GW,,,
+DMD,C_WSR-OTH_ELEC-ELC,WSR Electronics ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-CK_Elements-ELC,WSR Cooking Elements ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-CK_Induction-ELC,WSR Cooking Induction ELC,PJ,GW,DAYNITE,,
 DMD,C_WSR-CK_Elements-NGA,WSR Cooking Elements NGA,PJ,GW,,,
 DMD,C_WSR-CK_Elements-LPG,WSR Cooking Elements LPG,PJ,GW,,,
-DMD,C_WSR-CK_Elements-H2R,WSR Cooking Elements H2R,PJ,GW,,,
-DMD,C_WSR-CK_Ovens-ELC,WSR Cooking Ovens ELC,PJ,GW,,,
+DMD,C_WSR-CK_Elements-H2R,WSR Cooking Elements H2R,PJ,GW,DAYNITE,,
+DMD,C_WSR-CK_Ovens-ELC,WSR Cooking Ovens ELC,PJ,GW,DAYNITE,,
 DMD,C_WSR-CK_Ovens-LPG,WSR Cooking Ovens LPG,PJ,GW,,,
 DMD,C_WSR-CK_Ovens-NGA,WSR Cooking Ovens NGA,PJ,GW,,,
-DMD,C_WSR-CK_Ovens-H2R,WSR Cooking Ovens H2R,PJ,GW,,,
-DMD,C_WSR-LT_INC-ELC,WSR Lighting Incandescent ELC,PJ,GW,,,
-DMD,C_WSR-LT_FLU-ELC,WSR Lighting Fluorescent ELC,PJ,GW,,,
-DMD,C_WSR-LT_LED-ELC,WSR Lighting LED ELC,PJ,GW,,,
+DMD,C_WSR-CK_Ovens-H2R,WSR Cooking Ovens H2R,PJ,GW,DAYNITE,,
+DMD,C_WSR-LT_INC-ELC,WSR Lighting Incandescent ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-LT_FLU-ELC,WSR Lighting Fluorescent ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-LT_LED-ELC,WSR Lighting LED ELC,PJ,GW,DAYNITE,,
 DMD,C_WSR-SH_Boiler-COA,WSR Boiler Systems COA,PJ,GW,,,
 DMD,C_WSR-SH_Boiler-DSL,WSR Boiler Systems DSL,PJ,GW,,,
 DMD,C_WSR-SH_Boiler-FOL,WSR Boiler Systems FOL,PJ,GW,,,
@@ -1425,9 +1449,9 @@ DMD,C_WSR-SH_Boiler-LPG,WSR Boiler Systems LPG,PJ,GW,,,
 DMD,C_WSR-SH_Boiler-NGA,WSR Boiler Systems NGA,PJ,GW,,,
 DMD,C_WSR-SH_Boiler-WOD,WSR Boiler Systems WOD,PJ,GW,,,
 DMD,C_WSR-SH_Boiler-PLT,WSR Boiler Systems PLT,PJ,GW,,,
-DMD,C_WSR-SH_Boiler-ELC,WSR Boiler Systems ELC,PJ,GW,,,
+DMD,C_WSR-SH_Boiler-ELC,WSR Boiler Systems ELC,PJ,GW,DAYNITE,,
 DMD,C_WSR-SH_Boiler-BIG,WSR Boiler Systems BIG,PJ,GW,,,
-DMD,C_WSR-SH_Boiler-H2R,WSR Boiler Systems H2R,PJ,GW,,,
+DMD,C_WSR-SH_Boiler-H2R,WSR Boiler Systems H2R,PJ,GW,DAYNITE,,
 DMD,C_WSR-WH_Boiler-COA,WSR Boiler Systems COA,PJ,GW,,,
 DMD,C_WSR-WH_Boiler-DSL,WSR Boiler Systems DSL,PJ,GW,,,
 DMD,C_WSR-WH_Boiler-FOL,WSR Boiler Systems FOL,PJ,GW,,,
@@ -1435,39 +1459,39 @@ DMD,C_WSR-WH_Boiler-LPG,WSR Boiler Systems LPG,PJ,GW,,,
 DMD,C_WSR-WH_Boiler-NGA,WSR Boiler Systems NGA,PJ,GW,,,
 DMD,C_WSR-WH_Boiler-WOD,WSR Boiler Systems WOD,PJ,GW,,,
 DMD,C_WSR-WH_Boiler-PLT,WSR Boiler Systems PLT,PJ,GW,,,
-DMD,C_WSR-WH_Boiler-ELC,WSR Boiler Systems ELC,PJ,GW,,,
+DMD,C_WSR-WH_Boiler-ELC,WSR Boiler Systems ELC,PJ,GW,DAYNITE,,
 DMD,C_WSR-WH_Boiler-BIG,WSR Boiler Systems BIG,PJ,GW,,,
-DMD,C_WSR-WH_Boiler-H2R,WSR Boiler Systems H2R,PJ,GW,,,
+DMD,C_WSR-WH_Boiler-H2R,WSR Boiler Systems H2R,PJ,GW,DAYNITE,,
 DMD,C_WSR-SH_DirectH-GEO,WSR Direct Heat GEO,PJ,GW,,,
-DMD,C_WSR-SH_AirHP-ELC,WSR Heat Pump Air Source (for Heating) ELC,PJ,GW,,,
-DMD,C_WSR-SH_GHP-ELC,WSR Heat Pump Ground Source (for Heating) ELC,PJ,GW,,,
-DMD,C_WSR-SH_RH-ELC,WSR Resistance Heater ELC,PJ,GW,,,
-DMD,C_WSR-WH_AirHP-ELC,WSR Heat Pump Air Source (for Heating) ELC,PJ,GW,,,
-DMD,C_WSR-WH_GHP-ELC,WSR Heat Pump Ground Source (for Heating) ELC,PJ,GW,,,
-DMD,C_WSR-WH_Cylinder-ELC,WSR Hot Water Cylinder ELC,PJ,GW,,,
+DMD,C_WSR-SH_AirHP-ELC,WSR Heat Pump Air Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-SH_GHP-ELC,WSR Heat Pump Ground Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-SH_RH-ELC,WSR Resistance Heater ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-WH_AirHP-ELC,WSR Heat Pump Air Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-WH_GHP-ELC,WSR Heat Pump Ground Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-WH_Cylinder-ELC,WSR Hot Water Cylinder ELC,PJ,GW,DAYNITE,,
 DMD,C_WSR-WH_Cylinder-NGA,WSR Hot Water Cylinder NGA,PJ,GW,,,
 DMD,C_WSR-WH_Cylinder-LPG,WSR Hot Water Cylinder LPG,PJ,GW,,,
 DMD,C_WSR-WH_INSTANT-NGA,WSR Instant NGA,PJ,GW,,,
 DMD,C_WSR-WH_INSTANT-LPG,WSR Instant LPG,PJ,GW,,,
-DMD,C_WSR-WH_INSTANT-ELC,WSR Instant ELC,PJ,GW,,,
+DMD,C_WSR-WH_INSTANT-ELC,WSR Instant ELC,PJ,GW,DAYNITE,,
 DMD,C_WSR-MPM_-DSL,WSR Motive power - mobile DSL,PJ,GW,,,
 DMD,C_WSR-MPM_-PET,WSR Motive power - mobile PET,PJ,GW,,,
 DMD,C_WSR-MPM_-LPG,WSR Motive power - mobile LPG,PJ,GW,,,
-DMD,C_WSR-MPM_-ELC,WSR Motive power - mobile ELC,PJ,GW,,,
-DMD,C_WSR-MPM_-H2R,WSR Motive power - mobile H2R,PJ,GW,,,
+DMD,C_WSR-MPM_-ELC,WSR Motive power - mobile ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-MPM_-H2R,WSR Motive power - mobile H2R,PJ,GW,DAYNITE,,
 DMD,C_WSR-MPS_-DSL,WSR Motive power Stationary DSL,PJ,GW,,,
 DMD,C_WSR-MPS_-PET,WSR Motive power Stationary PET,PJ,GW,,,
 DMD,C_WSR-MPS_-LPG,WSR Motive power Stationary LPG,PJ,GW,,,
-DMD,C_WSR-MPS_-ELC,WSR Motive power Stationary ELC,PJ,GW,,,
-DMD,C_WSR-MPS_-H2R,WSR Motive power Stationary H2R,PJ,GW,,,
-DMD,C_WSR-RF_Refriger-ELC,WSR Refrigeration Systems ELC,PJ,GW,,,
-DMD,C_WSR-SC_AIRHP-ELC,WSR Heat Pump Air Source (for Cooling) ELC,PJ,GW,,,
-DMD,C_WSR-SC_GHP-ELC,WSR Heat Pump Ground Source (for Cooling) ELC,PJ,GW,,,
+DMD,C_WSR-MPS_-ELC,WSR Motive power Stationary ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-MPS_-H2R,WSR Motive power Stationary H2R,PJ,GW,DAYNITE,,
+DMD,C_WSR-RF_Refriger-ELC,WSR Refrigeration Systems ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-SC_AIRHP-ELC,WSR Heat Pump Air Source (for Cooling) ELC,PJ,GW,DAYNITE,,
+DMD,C_WSR-SC_GHP-ELC,WSR Heat Pump Ground Source (for Cooling) ELC,PJ,GW,DAYNITE,,
 \I:,\I:,,PJ,GW,,,
-DMD,C_OTH-OTH_Elec-ELC,Other Electronics ELC,PJ,GW,,,
-DMD,C_OTH-LT_INC-ELC,Other Lighting Incandescent ELC,PJ,GW,,,
-DMD,C_OTH-LT_FLU-ELC,Other Lighting Fluorescent ELC,PJ,GW,,,
-DMD,C_OTH-LT_LED-ELC,Other Lighting LED ELC,PJ,GW,,,
+DMD,C_OTH-OTH_Elec-ELC,Other Electronics ELC,PJ,GW,DAYNITE,,
+DMD,C_OTH-LT_INC-ELC,Other Lighting Incandescent ELC,PJ,GW,DAYNITE,,
+DMD,C_OTH-LT_FLU-ELC,Other Lighting Fluorescent ELC,PJ,GW,DAYNITE,,
+DMD,C_OTH-LT_LED-ELC,Other Lighting LED ELC,PJ,GW,DAYNITE,,
 DMD,C_OTH-SH_Boiler-COA,Other Boiler Systems COA,PJ,GW,,,
 DMD,C_OTH-SH_Boiler-DSL,Other Boiler Systems DSL,PJ,GW,,,
 DMD,C_OTH-SH_Boiler-FOL,Other Boiler Systems FOL,PJ,GW,,,
@@ -1475,9 +1499,9 @@ DMD,C_OTH-SH_Boiler-LPG,Other Boiler Systems LPG,PJ,GW,,,
 DMD,C_OTH-SH_Boiler-NGA,Other Boiler Systems NGA,PJ,GW,,,
 DMD,C_OTH-SH_Boiler-WOD,Other Boiler Systems WOD,PJ,GW,,,
 DMD,C_OTH-SH_Boiler-PLT,Other Boiler Systems PLT,PJ,GW,,,
-DMD,C_OTH-SH_Boiler-ELC,Other Boiler Systems ELC,PJ,GW,,,
+DMD,C_OTH-SH_Boiler-ELC,Other Boiler Systems ELC,PJ,GW,DAYNITE,,
 DMD,C_OTH-SH_Boiler-BIG,Other Boiler Systems BIG,PJ,GW,,,
-DMD,C_OTH-SH_Boiler-H2R,Other Boiler Systems H2R,PJ,GW,,,
+DMD,C_OTH-SH_Boiler-H2R,Other Boiler Systems H2R,PJ,GW,DAYNITE,,
 DMD,C_OTH-WH_Boiler-COA,Other Boiler Systems COA,PJ,GW,,,
 DMD,C_OTH-WH_Boiler-DSL,Other Boiler Systems DSL,PJ,GW,,,
 DMD,C_OTH-WH_Boiler-FOL,Other Boiler Systems FOL,PJ,GW,,,
@@ -1485,35 +1509,35 @@ DMD,C_OTH-WH_Boiler-LPG,Other Boiler Systems LPG,PJ,GW,,,
 DMD,C_OTH-WH_Boiler-NGA,Other Boiler Systems NGA,PJ,GW,,,
 DMD,C_OTH-WH_Boiler-WOD,Other Boiler Systems WOD,PJ,GW,,,
 DMD,C_OTH-WH_Boiler-PLT,Other Boiler Systems PLT,PJ,GW,,,
-DMD,C_OTH-WH_Boiler-ELC,Other Boiler Systems ELC,PJ,GW,,,
+DMD,C_OTH-WH_Boiler-ELC,Other Boiler Systems ELC,PJ,GW,DAYNITE,,
 DMD,C_OTH-WH_Boiler-BIG,Other Boiler Systems BIG,PJ,GW,,,
-DMD,C_OTH-WH_Boiler-H2R,Other Boiler Systems H2R,PJ,GW,,,
+DMD,C_OTH-WH_Boiler-H2R,Other Boiler Systems H2R,PJ,GW,DAYNITE,,
 DMD,C_OTH-WH_DirectH-GEO,Other Direct Heat GEO,PJ,GW,,,
-DMD,C_OTH-SH_AirHP-ELC,Other Heat Pump Air Source (for Heating) ELC,PJ,GW,,,
-DMD,C_OTH-SH_GHP-ELC,Other Heat Pump Ground Source (for Heating) ELC,PJ,GW,,,
-DMD,C_OTH-SH_RH-ELC,Other Resistance Heater ELC,PJ,GW,,,
-DMD,C_OTH-WH_AirHP-ELC,Other Heat Pump Air Source (for Heating) ELC,PJ,GW,,,
-DMD,C_OTH-WH_GHP-ELC,Other Heat Pump Ground Source (for Heating) ELC,PJ,GW,,,
-DMD,C_OTH-WH_Cylinder-ELC,Other Hot Water Cylinder ELC,PJ,GW,,,
+DMD,C_OTH-SH_AirHP-ELC,Other Heat Pump Air Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_OTH-SH_GHP-ELC,Other Heat Pump Ground Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_OTH-SH_RH-ELC,Other Resistance Heater ELC,PJ,GW,DAYNITE,,
+DMD,C_OTH-WH_AirHP-ELC,Other Heat Pump Air Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_OTH-WH_GHP-ELC,Other Heat Pump Ground Source (for Heating) ELC,PJ,GW,DAYNITE,,
+DMD,C_OTH-WH_Cylinder-ELC,Other Hot Water Cylinder ELC,PJ,GW,DAYNITE,,
 DMD,C_OTH-WH_Cylinder-NGA,Other Hot Water Cylinder NGA,PJ,GW,,,
 DMD,C_OTH-WH_Cylinder-LPG,Other Hot Water Cylinder LPG,PJ,GW,,,
 DMD,C_OTH-WH_Instant-NGA,Other Instant NGA,PJ,GW,,,
 DMD,C_OTH-WH_Instant-LPG,Other Instant LPG,PJ,GW,,,
-DMD,C_OTH-WH_Instant-ELC,Other Instant ELC,PJ,GW,,,
+DMD,C_OTH-WH_Instant-ELC,Other Instant ELC,PJ,GW,DAYNITE,,
 DMD,C_OTH-MPM_-DSL,Other Motive power - mobile DSL,PJ,GW,,,
 DMD,C_OTH-MPM_-PET,Other Motive power - mobile PET,PJ,GW,,,
 DMD,C_OTH-MPM_-LPG,Other Motive power - mobile LPG,PJ,GW,,,
 DMD,C_OTH-MPM_-FOL,Other Motive power - mobile FOL,PJ,GW,,,
-DMD,C_OTH-MPM_-ELC,Other Motive power - mobile ELC,PJ,GW,,,
-DMD,C_OTH-MPM_-H2R,Other Motive power - mobile H2R,PJ,GW,,,
+DMD,C_OTH-MPM_-ELC,Other Motive power - mobile ELC,PJ,GW,DAYNITE,,
+DMD,C_OTH-MPM_-H2R,Other Motive power - mobile H2R,PJ,GW,DAYNITE,,
 DMD,C_OTH-MPS_-DSL,Other Motive power Stationary DSL,PJ,GW,,,
 DMD,C_OTH-MPS_-PET,Other Motive power Stationary PET,PJ,GW,,,
 DMD,C_OTH-MPS_-LPG,Other Motive power Stationary LPG,PJ,GW,,,
-DMD,C_OTH-MPS_-ELC,Other Motive power Stationary ELC,PJ,GW,,,
-DMD,C_OTH-MPS_-H2R,Other Motive power Stationary H2R,PJ,GW,,,
+DMD,C_OTH-MPS_-ELC,Other Motive power Stationary ELC,PJ,GW,DAYNITE,,
+DMD,C_OTH-MPS_-H2R,Other Motive power Stationary H2R,PJ,GW,DAYNITE,,
 \I:,\I:,Other Refrigeration Systems ELC,PJ,GW,,,
-DMD,C_OTH-SC_AIRHP-ELC,Other Heat Pump Air Source (for Cooling) ELC,PJ,GW,,,
-DMD,C_OTH-SC_GHP-ELC,Other Heat Pump Ground Source (for Cooling) ELC,PJ,GW,,,
+DMD,C_OTH-SC_AIRHP-ELC,Other Heat Pump Air Source (for Cooling) ELC,PJ,GW,DAYNITE,,
+DMD,C_OTH-SC_GHP-ELC,Other Heat Pump Ground Source (for Cooling) ELC,PJ,GW,DAYNITE,,
 
 
 sheetname: OTH_COM
@@ -1844,9 +1868,9 @@ R_JDW-SC_HP-ELC,Joined dwellings - Heat/Cooling Devices - Heat Pump (for Cooling
 \I:,Joined dwellings - Heat/Cooling Devices - Water Source Heat Pump (for Heating),RESELC,R_JDW-SH,0,0.082,0.0615,25,31.536,10000000000,,2020,,,,,,,,
 \I:,Joined dwellings - Heat/Cooling Devices - Water Source Heat Pump (for Cooling),RESELC,R_JDW-SH,0,0.0114,0.00855,25,31.536,10000000000,,2020,,,,,,,,
 R_JDW-SH_DUCHP-ELC,Joined dwellings - Heat/Cooling Devices - Ducted Heat Pump (for Heating),RESELC,R_JDW-SH,3.75,0.082,0.0615,15,31.536,1200,,2020,,,,,,,,
-R_JDW-SH_DUCHP-ELC,Joined dwellings - Heat/Cooling Devices - Ducted Heat Pump (for Cooling),RESELC,R_JDW-SH,3.45,0.0114,0.00855,15,31.536,1500,,2020,,,,,,,,
+R_JDW-SH_DUCHP-ELC,Joined dwellings - Heat/Cooling Devices - Ducted Heat Pump (for Cooling),RESELC,R_JDW-SC,3.45,0.0114,0.00855,15,31.536,1500,,2020,,,,,,,,
 R_JDW-SH_MSHP-ELC,Joined dwellings - Heat/Cooling Devices - Multi-Split Heat Pump (for Heating),RESELC,R_JDW-SH,3.75,0.082,0.0615,15,31.536,703.125,,2020,,,,,,,,
-R_JDW-SH_MSHP-ELC,Joined dwellings - Heat/Cooling Devices - Multi-Split Heat Pump (for Cooling),RESELC,R_JDW-SH,3.45,0.0114,0.00855,15,31.536,878.90625,,2020,,,,,,,,
+R_JDW-SH_MSHP-ELC,Joined dwellings - Heat/Cooling Devices - Multi-Split Heat Pump (for Cooling),RESELC,R_JDW-SC,3.45,0.0114,0.00855,15,31.536,878.90625,,2020,,,,,,,,
 R_JDW-SH_Centrgasheat-NGA,Joined dwellings - Heat/Cooling Devices - Centralised Gas Heating,RESNGA,R_JDW-SH,0.8,0.082,0.0615,30,31.536,1086,150,2020,,,,,,,,
 R_JDW-WH_HWC-SOL,Joined dwellings - Heat/Cooling Devices - Hot Water Cylinder,RESSOL,R_JDW-WH,,0.083,,20,31.536,2121,,2020,,0.6,,,,,,
 ,,RESELC,,,,,,,,,,,1,,,,,,
@@ -1875,55 +1899,87 @@ tag: ~FI_Process
 types: Sets (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
 Sets,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 \I: Process Set Membership,Technology Name,Technology Description,Activity Unit,Capacity Unit,Timeslice Operational Level,Operational Commodity Group,Vintage Tracking
-DMD,R_DDW-SH_HP-ELC,Detached dwellings - Heat/Cooling Devices - Heat Pump (for Heating),PJ,GW,,,
-\I:,R_DDW-SC_HP-ELC,Detached dwellings - Heat/Cooling Devices - Heat Pump (for Cooling),PJ,GW,,,
+DMD,R_DDW-SH_HP-ELC,Detached dwellings - Heat/Cooling Devices - Heat Pump (for Heating),PJ,GW,DAYNITE,,
+\I:,R_DDW-SC_HP-ELC,Detached dwellings - Heat/Cooling Devices - Heat Pump (for Cooling),PJ,GW,DAYNITE,,
 \I:,\I:,Detached dwellings - Heat/Cooling Devices - Ground Source Heat Pump (for Heating),PJ,GW,,,
 \I:,\I:,Detached dwellings - Heat/Cooling Devices - Ground Source Heat Pump (for Cooling),PJ,GW,,,
 \I:,\I:,Detached dwellings - Heat/Cooling Devices - Water Source Heat Pump (for Heating),PJ,GW,,,
 \I:,\I:,Detached dwellings - Heat/Cooling Devices - Water Source Heat Pump (for Cooling),PJ,GW,,,
-DMD,R_DDW-SH_DUCHP-ELC,Detached dwellings - Heat/Cooling Devices - Ducted Heat Pump (for Heating),PJ,GW,,,
-\I:,R_DDW-SH_DUCHP-ELC,Detached dwellings - Heat/Cooling Devices - Ducted Heat Pump (for Cooling),PJ,GW,,,
-DMD,R_DDW-SH_MSHP-ELC,Detached dwellings - Heat/Cooling Devices - Multi-Split Heat Pump (for Heating),PJ,GW,,,
-\I:,R_DDW-SH_MSHP-ELC,Detached dwellings - Heat/Cooling Devices - Multi-Split Heat Pump (for Cooling),PJ,GW,,,
+DMD,R_DDW-SH_DUCHP-ELC,Detached dwellings - Heat/Cooling Devices - Ducted Heat Pump (for Heating),PJ,GW,DAYNITE,,
+\I:,R_DDW-SH_DUCHP-ELC,Detached dwellings - Heat/Cooling Devices - Ducted Heat Pump (for Cooling),PJ,GW,DAYNITE,,
+DMD,R_DDW-SH_MSHP-ELC,Detached dwellings - Heat/Cooling Devices - Multi-Split Heat Pump (for Heating),PJ,GW,DAYNITE,,
+\I:,R_DDW-SH_MSHP-ELC,Detached dwellings - Heat/Cooling Devices - Multi-Split Heat Pump (for Cooling),PJ,GW,DAYNITE,,
 DMD,R_DDW-SH_Centrgasheat-NGA,Detached dwellings - Heat/Cooling Devices - Centralised Gas Heating,PJ,GW,,,
 DMD,R_DDW-WH_HWC-SOL,Detached dwellings - Heat/Cooling Devices - Hot Water Cylinder,PJ,GW,,,
-DMD,R_DDW-WH_HWC-ELC,Detached dwellings - Heat/Cooling Devices - Hot Water Cylinder,PJ,GW,,,
+DMD,R_DDW-WH_HWC-ELC,Detached dwellings - Heat/Cooling Devices - Hot Water Cylinder,PJ,GW,DAYNITE,,
 DMD,R_DDW-WH_Gasheat-NGA,Detached dwellings - Heat/Cooling Devices - Gas Water Heater,PJ,GW,,,
 DMD,R_DDW-WH_Gasheat-LPG,Detached dwellings - Heat/Cooling Devices - Gas Water Heater,PJ,GW,,,
-DMD,R_DDW-WH_HP-ELC,Detached dwellings - Heat/Cooling Devices - Heat Pump (Water Heating),PJ,GW,,,
-DMD,R_DDW-RF_Refriger-ELC,Detached dwellings - Heat/Cooling Devices - Refrigeration systems,PJ,GW,,,
-DMD,R_DDW-CK_IndCook-ELC,Detached dwellings - Heat/Cooling Devices - Induction Cooktops,PJ,GW,,,
-DMD,R_DDW-DW_Dwash-ELC,Detached dwellings - Heat/Cooling Devices - Dishwashers,PJ,GW,,,
-DMD,R_DDW-CW_Washer-ELC,Detached dwellings - Heat/Cooling Devices - Clothes Washers,PJ,GW,,,
-DMD,R_DDW-CD_Hpdryer-ELC,Detached dwellings - Heat/Cooling Devices - Heat Pump Dryer,PJ,GW,,,
-DMD,R_JDW-SH_HP-ELC,Joined dwellings - Heat/Cooling Devices - Heat Pump (for Heating),PJ,GW,,,
-DMD,R_JDW-SC_HP-ELC,Joined dwellings - Heat/Cooling Devices - Heat Pump (for Cooling),PJ,GW,,,
+DMD,R_DDW-WH_HP-ELC,Detached dwellings - Heat/Cooling Devices - Heat Pump (Water Heating),PJ,GW,DAYNITE,,
+DMD,R_DDW-RF_Refriger-ELC,Detached dwellings - Heat/Cooling Devices - Refrigeration systems,PJ,GW,DAYNITE,,
+DMD,R_DDW-CK_IndCook-ELC,Detached dwellings - Heat/Cooling Devices - Induction Cooktops,PJ,GW,DAYNITE,,
+DMD,R_DDW-DW_Dwash-ELC,Detached dwellings - Heat/Cooling Devices - Dishwashers,PJ,GW,DAYNITE,,
+DMD,R_DDW-CW_Washer-ELC,Detached dwellings - Heat/Cooling Devices - Clothes Washers,PJ,GW,DAYNITE,,
+DMD,R_DDW-CD_Hpdryer-ELC,Detached dwellings - Heat/Cooling Devices - Heat Pump Dryer,PJ,GW,DAYNITE,,
+DMD,R_JDW-SH_HP-ELC,Joined dwellings - Heat/Cooling Devices - Heat Pump (for Heating),PJ,GW,DAYNITE,,
+DMD,R_JDW-SC_HP-ELC,Joined dwellings - Heat/Cooling Devices - Heat Pump (for Cooling),PJ,GW,DAYNITE,,
 \I:,\I:,Joined dwellings - Heat/Cooling Devices - Ground Source Heat Pump (for Heating),PJ,GW,,,
 \I:,\I:,Joined dwellings - Heat/Cooling Devices - Ground Source Heat Pump (for Cooling),PJ,GW,,,
 \I:,\I:,Joined dwellings - Heat/Cooling Devices - Water Source Heat Pump (for Heating),PJ,GW,,,
 \I:,\I:,Joined dwellings - Heat/Cooling Devices - Water Source Heat Pump (for Cooling),PJ,GW,,,
-DMD,R_JDW-SH_DUCHP-ELC,Joined dwellings - Heat/Cooling Devices - Ducted Heat Pump (for Heating),PJ,GW,,,
-\I:,R_JDW-SH_DUCHP-ELC,Joined dwellings - Heat/Cooling Devices - Ducted Heat Pump (for Cooling),PJ,GW,,,
-DMD,R_JDW-SH_MSHP-ELC,Joined dwellings - Heat/Cooling Devices - Multi-Split Heat Pump (for Heating),PJ,GW,,,
-\I:,R_JDW-SH_MSHP-ELC,Joined dwellings - Heat/Cooling Devices - Multi-Split Heat Pump (for Cooling),PJ,GW,,,
+DMD,R_JDW-SH_DUCHP-ELC,Joined dwellings - Heat/Cooling Devices - Ducted Heat Pump (for Heating),PJ,GW,DAYNITE,,
+\I:,R_JDW-SH_DUCHP-ELC,Joined dwellings - Heat/Cooling Devices - Ducted Heat Pump (for Cooling),PJ,GW,DAYNITE,,
+DMD,R_JDW-SH_MSHP-ELC,Joined dwellings - Heat/Cooling Devices - Multi-Split Heat Pump (for Heating),PJ,GW,DAYNITE,,
+\I:,R_JDW-SH_MSHP-ELC,Joined dwellings - Heat/Cooling Devices - Multi-Split Heat Pump (for Cooling),PJ,GW,DAYNITE,,
 DMD,R_JDW-SH_Centrgasheat-NGA,Joined dwellings - Heat/Cooling Devices - Centralised Gas Heating,PJ,GW,,,
 DMD,R_JDW-WH_HWC-SOL,Joined dwellings - Heat/Cooling Devices - Hot Water Cylinder,PJ,GW,,,
-DMD,R_JDW-WH_HWC-ELC,Joined dwellings - Heat/Cooling Devices - Hot Water Cylinder,PJ,GW,,,
+DMD,R_JDW-WH_HWC-ELC,Joined dwellings - Heat/Cooling Devices - Hot Water Cylinder,PJ,GW,DAYNITE,,
 DMD,R_JDW-WH_Gasheat-NGA,Joined dwellings - Heat/Cooling Devices - Gas Water Heater,PJ,GW,,,
 DMD,R_JDW-WH_Gasheat-LPG,Joined dwellings - Heat/Cooling Devices - Gas Water Heater,PJ,GW,,,
-DMD,R_JDW-WH_HP-ELC,Joined dwellings - Heat/Cooling Devices - Heat Pump (Water Heating),PJ,GW,,,
-DMD,R_JDW-RF_Refriger-ELC,Joined dwellings - Heat/Cooling Devices - Refrigeration systems,PJ,GW,,,
-DMD,R_JDW-CK_IndCook-ELC,Joined dwellings - Heat/Cooling Devices - Induction Cooktops,PJ,GW,,,
-DMD,R_JDW-DW_Dwash-ELC,Joined dwellings - Heat/Cooling Devices - Dishwashers,PJ,GW,,,
-DMD,R_JDW-CW_Washer-ELC,Joined dwellings - Heat/Cooling Devices - Clothes Washers,PJ,GW,,,
-DMD,R_JDW-CD_Hpdryer-ELC,Joined dwellings - Heat/Cooling Devices - Heat Pump Dryer,PJ,GW,,,
-DMD,R_DDW-SH_RH-ELC,Detached dwellings - Heat/Cooling Devices - Resistance Heater,PJ,GW,,,
-DMD,R_JDW-SH_RH-ELC,Joined dwellings - Heat/Cooling Devices - Resistance Heater,PJ,GW,,,
+DMD,R_JDW-WH_HP-ELC,Joined dwellings - Heat/Cooling Devices - Heat Pump (Water Heating),PJ,GW,DAYNITE,,
+DMD,R_JDW-RF_Refriger-ELC,Joined dwellings - Heat/Cooling Devices - Refrigeration systems,PJ,GW,DAYNITE,,
+DMD,R_JDW-CK_IndCook-ELC,Joined dwellings - Heat/Cooling Devices - Induction Cooktops,PJ,GW,DAYNITE,,
+DMD,R_JDW-DW_Dwash-ELC,Joined dwellings - Heat/Cooling Devices - Dishwashers,PJ,GW,DAYNITE,,
+DMD,R_JDW-CW_Washer-ELC,Joined dwellings - Heat/Cooling Devices - Clothes Washers,PJ,GW,DAYNITE,,
+DMD,R_JDW-CD_Hpdryer-ELC,Joined dwellings - Heat/Cooling Devices - Heat Pump Dryer,PJ,GW,DAYNITE,,
+DMD,R_DDW-SH_RH-ELC,Detached dwellings - Heat/Cooling Devices - Resistance Heater,PJ,GW,DAYNITE,,
+DMD,R_JDW-SH_RH-ELC,Joined dwellings - Heat/Cooling Devices - Resistance Heater,PJ,GW,DAYNITE,,
 DMD,R_DDW-SH_Burner-WOD,Detached dwellings - Heat/Cooling Devices - Burner (Direct Heat),PJ,GW,,,
 DMD,R_DDW-SH_Burner-NGA,Detached dwellings - Heat/Cooling Devices - Burner (Direct Heat),PJ,GW,,,
 DMD,R_DDW-SH_Burner-LPG,Detached dwellings - Heat/Cooling Devices - Burner (Direct Heat),PJ,GW,,,
 DMD,R_JDW-SH_Burner-NGA,Joined dwellings - Heat/Cooling Devices - Burner (Direct Heat),PJ,GW,,,
 DMD,R_JDW-SH_Burner-LPG,Joined dwellings - Heat/Cooling Devices - Burner (Direct Heat),PJ,GW,,,
+
+
+sheetname: AVA
+range: B4:Q5
+filename: SubRES_TMPL/SubRES_NewTech_RC_Trans.xlsx
+tag: ~TFM_AVA
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,AllRegions,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
+
+
+sheetname: FILL Table
+range: B3:O4
+filename: SubRES_TMPL/SubRES_NewTech_RC_Trans.xlsx
+tag: ~TFM_FILL
+types: Operation_Sum_Avg_Count (object), Scenario Name (object), TimeSlice (object), LimType (object), Attribute (object), Year (object), Other_Indexes (object), Tech_Comm_Info (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object)
+Operation_Sum_Avg_Count,Scenario Name,TimeSlice,LimType,Attribute,Year,Other_Indexes,Tech_Comm_Info,AllRegions,NI,SI,Pset_Set,Pset_PN
+
+
+sheetname: Trans Tables
+range: B14:Q15
+filename: SubRES_TMPL/SubRES_NewTech_RC_Trans.xlsx
+tag: ~TFM_INS
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,AllRegions,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
+
+
+sheetname: Trans Tables
+range: B6:Q7
+filename: SubRES_TMPL/SubRES_NewTech_RC_Trans.xlsx
+tag: ~TFM_UPD
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,AllRegions,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
 
 
 sheetname: IND_NewTechs
@@ -2181,150 +2237,150 @@ tag: ~FI_Process
 types: Sets (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
 Sets,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 \I: Process Set Membership,Technology Name,Technology Description,Activity Unit,Capacity Unit,Timeslice Operational Level,Operational Commodity Group,Vintage Tracking
-DMD,ALU-PH-FURN-ELC-Furn,New Aluminium - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,,,YES
+DMD,ALU-PH-FURN-ELC-Furn,New Aluminium - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,CNST-MoTP-Mob-DSL-ICE_ofrd,"New Construction - Motive Power, Mobile  - Diesel",PJ,GW,,,YES
 DMD,CNST-MoTP-Mob-NGA-ICE_ofrd,"New Construction - Motive Power, Mobile  - Natural Gas",PJ,GW,,,YES
 DMD,CNST-MoTP-Mob-PET-ICE_ofrd,"New Construction - Motive Power, Mobile  - Petrol",PJ,GW,,,YES
 DMD,CNST-MoTP-Mob-LPG-ICE_ofrd,"New Construction - Motive Power, Mobile  - LPG",PJ,GW,,,YES
 DMD,CNST-MoTP-Stat-DSL-st_ngn,"New Construction - Motive Power, Stationary  - Diesel",PJ,GW,,,YES
 DMD,CNST-MoTP-Stat-PET-st_ngn,"New Construction - Motive Power, Stationary  - Petrol",PJ,GW,,,YES
-DMD,CNST-MoTP-Stat-ELC-Motor,"New Construction - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
-DMD,CNST-MoTP-Stat-ELC-VSD-Mtr,"New Construction - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
-DMD,DARY-AIR-ELC-CMPR,New Dairy - Compressed Air  - Electricity,PJ,GW,,,YES
+DMD,CNST-MoTP-Stat-ELC-Motor,"New Construction - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
+DMD,CNST-MoTP-Stat-ELC-VSD-Mtr,"New Construction - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
+DMD,DARY-AIR-ELC-CMPR,New Dairy - Compressed Air  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,DARY-MoTP-Stat-PET-st_ngn,"New Dairy - Motive Power, Stationary  - Petrol",PJ,GW,,,YES
 DMD,DARY-MoTP-Stat-DSL-st_ngn,"New Dairy - Motive Power, Stationary  - Diesel",PJ,GW,,,YES
-DMD,DARY-MoTP-Stat-ELC-Motor,"New Dairy - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
-DMD,DARY-MoTP-Stat-ELC-VSD-Mtr,"New Dairy - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
-DMD,DARY-PH-MVR_DRY-ELC-HPmp,New Dairy - Process Heat: MVR Drying  - Electricity,PJ,GW,,,YES
-DMD,DARY-PH-MVR_DRY-ELC-HRCVR,New Dairy - Process Heat: MVR Drying  - Electricity,PJ,GW,,,YES
+DMD,DARY-MoTP-Stat-ELC-Motor,"New Dairy - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
+DMD,DARY-MoTP-Stat-ELC-VSD-Mtr,"New Dairy - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
+DMD,DARY-PH-MVR_DRY-ELC-HPmp,New Dairy - Process Heat: MVR Drying  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,DARY-PH-MVR_DRY-ELC-HRCVR,New Dairy - Process Heat: MVR Drying  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,DARY-PH-MVR_DRY-COA-Boiler,New Dairy - Process Heat: MVR Drying  - Coal,PJ,GW,,,YES
 DMD,DARY-PH-MVR_DRY-NGA-Boiler,New Dairy - Process Heat: MVR Drying  - Natural Gas,PJ,GW,,,YES
 DMD,DARY-PH-MVR_DRY-WOD-Boiler,New Dairy - Process Heat: MVR Drying  - Wood,PJ,GW,,,YES
-DMD,DARY-PH-MVR_DRY-ELC-Boiler,New Dairy - Process Heat: MVR Drying  - Electricity,PJ,GW,,,YES
+DMD,DARY-PH-MVR_DRY-ELC-Boiler,New Dairy - Process Heat: MVR Drying  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,DARY-PH-MVR_PRE-COA-Boiler,New Dairy - Process Heat: MVR Evaporation Preheat  - Coal,PJ,GW,,,YES
 DMD,DARY-PH-MVR_PRE-NGA-Boiler,New Dairy - Process Heat: MVR Evaporation Preheat  - Natural Gas,PJ,GW,,,YES
 DMD,DARY-PH-MVR_PRE-WOD-Boiler,New Dairy - Process Heat: MVR Evaporation Preheat  - Wood,PJ,GW,,,YES
-DMD,DARY-PH-MVR_PRE-ELC-Boiler,New Dairy - Process Heat: MVR Evaporation Preheat  - Electricity,PJ,GW,,,YES
-DMD,DARY-PH-MVR_PRE-ELC-Fan,New Dairy - Process Heat: MVR Evaporation Preheat  - Electricity,PJ,GW,,,YES
+DMD,DARY-PH-MVR_PRE-ELC-Boiler,New Dairy - Process Heat: MVR Evaporation Preheat  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,DARY-PH-MVR_PRE-ELC-Fan,New Dairy - Process Heat: MVR Evaporation Preheat  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,DARY-PH-TVR_EVP-COA-Boiler,New Dairy - Process Heat: TVR Evaporation  - Coal,PJ,GW,,,YES
 DMD,DARY-PH-TVR_EVP-NGA-Boiler,New Dairy - Process Heat: TVR Evaporation  - Natural Gas,PJ,GW,,,YES
-DMD,DARY-PH-TVR_EVP-ELC-Fan,New Dairy - Process Heat: TVR Evaporation  - Electricity,PJ,GW,,,YES
+DMD,DARY-PH-TVR_EVP-ELC-Fan,New Dairy - Process Heat: TVR Evaporation  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,DARY-PH-TVR_EVP-WOD-Boiler,New Dairy - Process Heat: TVR Evaporation  - Wood,PJ,GW,,,YES
-DMD,DARY-PH-TVR_EVP-ELC-Boiler,New Dairy - Process Heat: TVR Evaporation  - Electricity,PJ,GW,,,YES
+DMD,DARY-PH-TVR_EVP-ELC-Boiler,New Dairy - Process Heat: TVR Evaporation  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,DARY-PH-TVR_DRY-WOD-Boiler,New Dairy - Process Heat: TVR Drying  - Wood,PJ,GW,,,YES
-DMD,DARY-PH-TVR_DRY-ELC-Boiler,New Dairy - Process Heat: TVR Drying  - Electricity,PJ,GW,,,YES
-DMD,DARY-PH-TVR_DRY-ELC-HPmp,New Dairy - Process Heat: TVR Drying  - Electricity,PJ,GW,,,YES
-DMD,DARY-PH-TVR_DRY-ELC-HRCVR,New Dairy - Process Heat: TVR Drying  - Electricity,PJ,GW,,,YES
+DMD,DARY-PH-TVR_DRY-ELC-Boiler,New Dairy - Process Heat: TVR Drying  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,DARY-PH-TVR_DRY-ELC-HPmp,New Dairy - Process Heat: TVR Drying  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,DARY-PH-TVR_DRY-ELC-HRCVR,New Dairy - Process Heat: TVR Drying  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,DARY-PH-TVR_DRY-COA-Boiler,New Dairy - Process Heat: TVR Drying  - Coal,PJ,GW,,,YES
 DMD,DARY-PH-TVR_DRY-NGA-Boiler,New Dairy - Process Heat: TVR Drying  - Natural Gas,PJ,GW,,,YES
 DMD,DARY-PH-MVR_TVR-COA-Boiler,New Dairy - Process Heat: MVR Evaporation TVR  - Coal,PJ,GW,,,YES
 DMD,DARY-PH-MVR_TVR-NGA-Boiler,New Dairy - Process Heat: MVR Evaporation TVR  - Natural Gas,PJ,GW,,,YES
 DMD,DARY-PH-MVR_TVR-WOD-Boiler,New Dairy - Process Heat: MVR Evaporation TVR  - Wood,PJ,GW,,,YES
-DMD,DARY-PH-MVR_TVR-ELC-Boiler,New Dairy - Process Heat: MVR Evaporation TVR  - Electricity,PJ,GW,,,YES
-DMD,DARY-PH-MVR_TVR-ELC-Fan,New Dairy - Process Heat: MVR Evaporation TVR  - Electricity,PJ,GW,,,YES
-DMD,DARY-PH-MVR_Fan-ELC-Fan,New Dairy - Process Heat: MVR Fan  - Electricity,PJ,GW,,,YES
+DMD,DARY-PH-MVR_TVR-ELC-Boiler,New Dairy - Process Heat: MVR Evaporation TVR  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,DARY-PH-MVR_TVR-ELC-Fan,New Dairy - Process Heat: MVR Evaporation TVR  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,DARY-PH-MVR_Fan-ELC-Fan,New Dairy - Process Heat: MVR Fan  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,DARY-PH-STM_HW-DSL-Boiler,New Dairy - Process Heat: Steam/Hot Water  - Diesel,PJ,GW,,,YES
 DMD,DARY-PH-STM_HW-GEO-Heat,New Dairy - Process Heat: Steam/Hot Water  - Geothermal,PJ,GW,,,YES
 DMD,DARY-PH-STM_HW-LPG-Boiler,New Dairy - Process Heat: Steam/Hot Water  - LPG,PJ,GW,,,YES
-DMD,DARY-PH-STM_HW-ELC-Boiler,New Dairy - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,DARY-PH-STM_HW-ELC-Boiler,New Dairy - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,DARY-PH-STM_HW-WOD-Boiler,New Dairy - Process Heat: Steam/Hot Water  - Wood,PJ,GW,,,YES
-DMD,DARY-PH-STM_HW-ELC-HPmp,New Dairy - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
-DMD,DARY-Pump-ELC-Pump,New Dairy - Pumping  - Electricity,PJ,GW,,,YES
+DMD,DARY-PH-STM_HW-ELC-HPmp,New Dairy - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,DARY-Pump-ELC-Pump,New Dairy - Pumping  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,DARY-Pump-DSL-Pump,New Dairy - Pumping  - Diesel,PJ,GW,,,YES
-DMD,DARY-RFGR-ELC-Refriger,New Dairy - Refrigeration  - Electricity,PJ,GW,,,YES
+DMD,DARY-RFGR-ELC-Refriger,New Dairy - Refrigeration  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,FOOD-MoTP-Stat-PET-st_ngn,"New Food - Motive Power, Stationary  - Petrol",PJ,GW,,,YES
 DMD,FOOD-MoTP-Stat-DSL-st_ngn,"New Food - Motive Power, Stationary  - Diesel",PJ,GW,,,YES
-DMD,FOOD-MoTP-Stat-ELC-Motor,"New Food - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
-DMD,FOOD-MoTP-Stat-ELC-VSD-Mtr,"New Food - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,FOOD-MoTP-Stat-ELC-Motor,"New Food - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
+DMD,FOOD-MoTP-Stat-ELC-VSD-Mtr,"New Food - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,FOOD-PH-DirH-NGA-Burner,New Food - Process Heat: Direct Heat  - Natural Gas,PJ,GW,,,YES
-DMD,FOOD-PH-DirH-ELC-Heater,New Food - Process Heat: Direct Heat  - Electricity,PJ,GW,,,YES
+DMD,FOOD-PH-DirH-ELC-Heater,New Food - Process Heat: Direct Heat  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,FOOD-PH-OVN-NGA-Oven,New Food - Process Heat: Oven  - Natural Gas,PJ,GW,,,YES
-DMD,FOOD-PH-OVN-ELC-Oven,New Food - Process Heat: Oven  - Electricity,PJ,GW,,,YES
+DMD,FOOD-PH-OVN-ELC-Oven,New Food - Process Heat: Oven  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,FOOD-PH-OVN-COA-Oven,New Food - Process Heat: Oven  - Coal,PJ,GW,,,YES
 DMD,FOOD-PH-STM_HW-WOD-Boiler,New Food - Process Heat: Steam/Hot Water  - Wood,PJ,GW,,,YES
 DMD,FOOD-PH-STM_HW-BGS-Heat,New Food - Process Heat: Steam/Hot Water  - Biogas,PJ,GW,,,YES
-DMD,FOOD-PH-STM_HW-ELC-HPmp,New Food - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,FOOD-PH-STM_HW-ELC-HPmp,New Food - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,FOOD-PH-STM_HW-FOL-Heat,New Food - Process Heat: Steam/Hot Water  - Fuel Oil,PJ,GW,,,YES
 DMD,FOOD-PH-STM_HW-DSL-Boiler,New Food - Process Heat: Steam/Hot Water  - Diesel,PJ,GW,,,YES
 DMD,FOOD-PH-STM_HW-LPG-Heat,New Food - Process Heat: Steam/Hot Water  - LPG,PJ,GW,,,YES
 DMD,FOOD-PH-STM_HW-COA-Boiler,New Food - Process Heat: Steam/Hot Water  - Coal,PJ,GW,,,YES
 DMD,FOOD-PH-STM_HW-NGA-Boiler,New Food - Process Heat: Steam/Hot Water  - Natural Gas,PJ,GW,,,YES
-DMD,FOOD-PH-STM_HW-ELC-Boiler,New Food - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
-DMD,FOOD-PH-STM_HW-ELC-MWO,New Food - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
-DMD,FOOD-PH-STM_HW-ELC-ELCTECH,New Food - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
-DMD,FOOD-Pump-ELC-Pump,New Food - Pumping  - Electricity,PJ,GW,,,YES
+DMD,FOOD-PH-STM_HW-ELC-Boiler,New Food - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,FOOD-PH-STM_HW-ELC-MWO,New Food - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,FOOD-PH-STM_HW-ELC-ELCTECH,New Food - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,FOOD-Pump-ELC-Pump,New Food - Pumping  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,FOOD-Pump-DSL-Pump,New Food - Pumping  - Diesel,PJ,GW,,,YES
-DMD,FOOD-RFGR-ELC-Refriger,New Food - Refrigeration  - Electricity,PJ,GW,,,YES
+DMD,FOOD-RFGR-ELC-Refriger,New Food - Refrigeration  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,IIS-FDSTCK-COA-_,New Iron/Steel - Steel production (feedstock)  - Coal,PJ,GW,,,YES
 DMD,IIS-MoTP-Stat-DSL-st_ngn,"New Iron/Steel - Motive Power, Stationary  - Diesel",PJ,GW,,,YES
-DMD,IIS-MoTP-Stat-ELC-Motor,"New Iron/Steel - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,IIS-MoTP-Stat-ELC-Motor,"New Iron/Steel - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,IIS-MoTP-Stat-PET-st_ngn,"New Iron/Steel - Motive Power, Stationary  - Petrol",PJ,GW,,,YES
-DMD,IIS-MoTP-Stat-ELC-VSD-Mtr,"New Iron/Steel - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,IIS-MoTP-Stat-ELC-VSD-Mtr,"New Iron/Steel - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,IIS-PH-FURN-COA-Furn,New Iron/Steel - Process Heat: Furnace/Kiln  - Coal,PJ,GW,,,YES
-DMD,IIS-PH-FURN-ELC-Furn,New Iron/Steel - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,,,YES
+DMD,IIS-PH-FURN-ELC-Furn,New Iron/Steel - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,IIS-PH-FURN-NGA-Furn,New Iron/Steel - Process Heat: Furnace/Kiln  - Natural Gas,PJ,GW,,,YES
 DMD,IIS-PH-FURN-WOD-Furn,New Iron/Steel - Process Heat: Furnace/Kiln  - Wood,PJ,GW,,,YES
 DMD,IIS-PH-FURN-LPG-Furn,New Iron/Steel - Process Heat: Furnace/Kiln  - LPG,PJ,GW,,,YES
 DMD,MEAT-MoTP-Stat-DSL-st_ngn,"New Meat - Motive Power, Stationary  - Diesel",PJ,GW,,,YES
-DMD,MEAT-MoTP-Stat-ELC-Motor,"New Meat - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,MEAT-MoTP-Stat-ELC-Motor,"New Meat - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,MEAT-MoTP-Stat-PET-st_ngn,"New Meat - Motive Power, Stationary  - Petrol",PJ,GW,,,YES
-DMD,MEAT-MoTP-Stat-ELC-VSD-Mtr,"New Meat - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,MEAT-MoTP-Stat-ELC-VSD-Mtr,"New Meat - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,MEAT-PH-STM_HW-NGA-Boiler,New Meat - Process Heat: Steam/Hot Water  - Natural Gas,PJ,GW,,,YES
 DMD,MEAT-PH-STM_HW-COA-Boiler,New Meat - Process Heat: Steam/Hot Water  - Coal,PJ,GW,,,YES
-DMD,MEAT-PH-STM_HW-ELC-HPmp,New Meat - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,MEAT-PH-STM_HW-ELC-HPmp,New Meat - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,MEAT-PH-STM_HW-DSL-Boiler,New Meat - Process Heat: Steam/Hot Water  - Diesel,PJ,GW,,,YES
 DMD,MEAT-PH-STM_HW-WOD-Boiler,New Meat - Process Heat: Steam/Hot Water  - Wood,PJ,GW,,,YES
-DMD,MEAT-PH-STM_HW-ELC-ELCTECH,New Meat - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,MEAT-PH-STM_HW-ELC-ELCTECH,New Meat - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,MEAT-PH-DirH-NGA-Burner,New Meat - Process Heat: Direct Heat  - Natural Gas,PJ,GW,,,YES
-DMD,MEAT-PH-DirH-ELC-Heater,New Meat - Process Heat: Direct Heat  - Electricity,PJ,GW,,,YES
-DMD,MEAT-RFGR-ELC-Refriger,New Meat - Refrigeration  - Electricity,PJ,GW,,,YES
+DMD,MEAT-PH-DirH-ELC-Heater,New Meat - Process Heat: Direct Heat  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,MEAT-RFGR-ELC-Refriger,New Meat - Refrigeration  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,METAL-MoTP-Stat-DSL-st_ngn,"New Metal product manufacturing - Motive Power, Stationary  - Diesel",PJ,GW,,,YES
-DMD,METAL-MoTP-Stat-ELC-Motor,"New Metal product manufacturing - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,METAL-MoTP-Stat-ELC-Motor,"New Metal product manufacturing - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,METAL-MoTP-Stat-PET-st_ngn,"New Metal product manufacturing - Motive Power, Stationary  - Petrol",PJ,GW,,,YES
-DMD,METAL-MoTP-Stat-ELC-VSD-Mtr,"New Metal product manufacturing - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
-DMD,METAL-PH-FURN-ELC-Furn,New Metal product manufacturing - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,,,YES
+DMD,METAL-MoTP-Stat-ELC-VSD-Mtr,"New Metal product manufacturing - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
+DMD,METAL-PH-FURN-ELC-Furn,New Metal product manufacturing - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,METAL-PH-FURN-COA-Furn,New Metal product manufacturing - Process Heat: Furnace/Kiln  - Coal,PJ,GW,,,YES
 DMD,METAL-PH-FURN-NGA-Furn,New Metal product manufacturing - Process Heat: Furnace/Kiln  - Natural Gas,PJ,GW,,,YES
 DMD,METAL-PH-FURN-WOD-Furn,New Metal product manufacturing - Process Heat: Furnace/Kiln  - Wood,PJ,GW,,,YES
 DMD,METAL-PH-FURN-FOL-Furn,New Metal product manufacturing - Process Heat: Furnace/Kiln  - Fuel Oil,PJ,GW,,,YES
 DMD,METAL-PH-FURN-LPG-Furn,New Metal product manufacturing - Process Heat: Furnace/Kiln  - LPG,PJ,GW,,,YES
-DMD,METAL-RFGR-ELC-Refriger,New Metal product manufacturing - Refrigeration  - Electricity,PJ,GW,,,YES
+DMD,METAL-RFGR-ELC-Refriger,New Metal product manufacturing - Refrigeration  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,METAL-PH-DirH-NGA-Burner,New Metal product manufacturing - Process Heat: Direct Heat  - Natural Gas,PJ,GW,,,YES
-DMD,METAL-PH-DirH-ELC-Heater,New Metal product manufacturing - Process Heat: Direct Heat  - Electricity,PJ,GW,,,YES
+DMD,METAL-PH-DirH-ELC-Heater,New Metal product manufacturing - Process Heat: Direct Heat  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,MTHOL-FDSTCK-NGA-FDSTCK,New Methanol - Methanol production (feedstock)  - Natural Gas,PJ,GW,,,YES
 DMD,MTHOL-PH_REFRM-NGA-REFRM,New Methanol - Process Heat: Reformer  - Natural Gas,PJ,GW,,,YES
-DMD,MNRL-MoTP-Stat-ELC-Motor,"New Mineral - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,MNRL-MoTP-Stat-ELC-Motor,"New Mineral - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,MNRL-MoTP-Stat-PET-st_ngn,"New Mineral - Motive Power, Stationary  - Petrol",PJ,GW,,,YES
 DMD,MNRL-MoTP-Stat-DSL-st_ngn,"New Mineral - Motive Power, Stationary  - Diesel",PJ,GW,,,YES
-DMD,MNRL-MoTP-Stat-ELC-VSD-Mtr,"New Mineral - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
-DMD,MNRL-PH-FURN-ELC-Furn,New Mineral - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,,,YES
+DMD,MNRL-MoTP-Stat-ELC-VSD-Mtr,"New Mineral - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
+DMD,MNRL-PH-FURN-ELC-Furn,New Mineral - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,MNRL-PH-FURN-COA-Furn,New Mineral - Process Heat: Furnace/Kiln  - Coal,PJ,GW,,,YES
 DMD,MNRL-PH-FURN-NGA-Furn,New Mineral - Process Heat: Furnace/Kiln  - Natural Gas,PJ,GW,,,YES
 DMD,MNRL-PH-FURN-WOD-Furn,New Mineral - Process Heat: Furnace/Kiln  - Wood,PJ,GW,,,YES
 DMD,MNRL-PH-FURN-LPG-Furn,New Mineral - Process Heat: Furnace/Kiln  - LPG,PJ,GW,,,YES
 DMD,MNRL-PH-STM_HW-NGA-Boiler,New Mineral - Process Heat: Steam/Hot Water  - Natural Gas,PJ,GW,,,YES
 DMD,MNRL-PH-STM_HW-DSL-Boiler,New Mineral - Process Heat: Steam/Hot Water  - Diesel,PJ,GW,,,YES
-DMD,MNRL-PH-STM_HW-ELC-HPmp,New Mineral - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,MNRL-PH-STM_HW-ELC-HPmp,New Mineral - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,MNRL-PH-STM_HW-COA-Boiler,New Mineral - Process Heat: Steam/Hot Water  - Coal,PJ,GW,,,YES
 DMD,MNRL-PH-STM_HW-LPG-Boiler,New Mineral - Process Heat: Steam/Hot Water  - LPG,PJ,GW,,,YES
 DMD,MNRL-PH-STM_HW-WOD-Boiler,New Mineral - Process Heat: Steam/Hot Water  - Wood,PJ,GW,,,YES
-DMD,MNRL-PH-STM_HW-ELC-Boiler,New Mineral - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,MNRL-PH-STM_HW-ELC-Boiler,New Mineral - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,MNNG-MoTP-Mob-PET-ICE_ofrd,"New Mining - Motive Power, Mobile  - Petrol",PJ,GW,,,YES
 DMD,MNNG-MoTP-Mob-DSL-ICE_ofrd,"New Mining - Motive Power, Mobile  - Diesel",PJ,GW,,,YES
 DMD,MNNG-MoTP-Mob-NGA-ICE_ofrd,"New Mining - Motive Power, Mobile  - Natural Gas",PJ,GW,,,YES
-DMD,MNNG-MoTP-Stat-ELC-VSD-Mtr,"New Mining - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,MNNG-MoTP-Stat-ELC-VSD-Mtr,"New Mining - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,MNNG-MoTP-Stat-PET-st_ngn,"New Mining - Motive Power, Stationary  - Petrol",PJ,GW,,,YES
-DMD,MNNG-MoTP-Stat-ELC-Motor,"New Mining - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,MNNG-MoTP-Stat-ELC-Motor,"New Mining - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,MNNG-MoTP-Stat-DSL-st_ngn,"New Mining - Motive Power, Stationary  - Diesel",PJ,GW,,,YES
 DMD,MNNG-PH-STM_HW-NGA-Boiler,New Mining - Process Heat: Steam/Hot Water  - Natural Gas,PJ,GW,,,YES
 DMD,MNNG-PH-STM_HW-DSL-Boiler,New Mining - Process Heat: Steam/Hot Water  - Diesel,PJ,GW,,,YES
 DMD,MNNG-PH-STM_HW-FOL-Boiler,New Mining - Process Heat: Steam/Hot Water  - Fuel Oil,PJ,GW,,,YES
-DMD,MNNG-PH-STM_HW-ELC-HPmp,New Mining - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,MNNG-PH-STM_HW-ELC-HPmp,New Mining - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,MNNG-PH-STM_HW-COA-Boiler,New Mining - Process Heat: Steam/Hot Water  - Coal,PJ,GW,,,YES
 DMD,MNNG-PH-STM_HW-LPG-Boiler,New Mining - Process Heat: Steam/Hot Water  - LPG,PJ,GW,,,YES
 DMD,MNNG-PH-STM_HW-WOD-Boiler,New Mining - Process Heat: Steam/Hot Water  - Wood,PJ,GW,,,YES
-DMD,MNNG-PH-STM_HW-ELC-Boiler,New Mining - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
-DMD,OTH-ELC-ELC-Tech,New Other - Other - Electricity  - Electricity,PJ,GW,,,YES
+DMD,MNNG-PH-STM_HW-ELC-Boiler,New Mining - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,OTH-ELC-ELC-Tech,New Other - Other - Electricity  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,OTH-DSL-DSL-Tech,New Other - Other - Diesel  - Diesel,PJ,GW,,,YES
 DMD,OTH-LPG-LPG-Tech,New Other - Other - LPG  - LPG,PJ,GW,,,YES
 DMD,OTH-COA-COA-Tech,New Other - Other - Coal  - Coal,PJ,GW,,,YES
@@ -2333,74 +2389,74 @@ DMD,OTH-PET-PET-Tech,New Other - Other - Petrol  - Petrol,PJ,GW,,,YES
 DMD,OTH-BGS-BGS-Tech,New Other - Other - Biogas  - Biogas,PJ,GW,,,YES
 DMD,OTH-FOL-FOL-Tech,New Other - Other - Fuel Oil  - Fuel Oil,PJ,GW,,,YES
 DMD,CHMCL-MoTP-Stat-DSL-st_ngn,"New Petroleum/Chemicals - Motive Power, Stationary  - Diesel",PJ,GW,,,YES
-DMD,CHMCL-MoTP-Stat-ELC-Motor,"New Petroleum/Chemicals - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,CHMCL-MoTP-Stat-ELC-Motor,"New Petroleum/Chemicals - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,CHMCL-MoTP-Stat-PET-st_ngn,"New Petroleum/Chemicals - Motive Power, Stationary  - Petrol",PJ,GW,,,YES
-DMD,CHMCL-MoTP-Stat-ELC-VSD-Mtr,"New Petroleum/Chemicals - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,CHMCL-MoTP-Stat-ELC-VSD-Mtr,"New Petroleum/Chemicals - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,CHMCL-PH-DirH-NGA-Burner,New Petroleum/Chemicals - Process Heat: Direct Heat  - Natural Gas,PJ,GW,,,YES
-DMD,CHMCL-PH-DirH-ELC-Heater,New Petroleum/Chemicals - Process Heat: Direct Heat  - Electricity,PJ,GW,,,YES
+DMD,CHMCL-PH-DirH-ELC-Heater,New Petroleum/Chemicals - Process Heat: Direct Heat  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,CHMCL-PH-STM_HW-NGA-Boiler,New Petroleum/Chemicals - Process Heat: Steam/Hot Water  - Natural Gas,PJ,GW,,,YES
 DMD,CHMCL-PH-STM_HW-FOL-Boiler,New Petroleum/Chemicals - Process Heat: Steam/Hot Water  - Fuel Oil,PJ,GW,,,YES
 DMD,CHMCL-PH-STM_HW-DSL-Boiler,New Petroleum/Chemicals - Process Heat: Steam/Hot Water  - Diesel,PJ,GW,,,YES
-DMD,CHMCL-PH-STM_HW-ELC-HPmp,New Petroleum/Chemicals - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,CHMCL-PH-STM_HW-ELC-HPmp,New Petroleum/Chemicals - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,CHMCL-PH-STM_HW-COA-Boiler,New Petroleum/Chemicals - Process Heat: Steam/Hot Water  - Coal,PJ,GW,,,YES
 DMD,CHMCL-PH-STM_HW-LPG-Boiler,New Petroleum/Chemicals - Process Heat: Steam/Hot Water  - LPG,PJ,GW,,,YES
 DMD,CHMCL-PH-STM_HW-WOD-Boiler,New Petroleum/Chemicals - Process Heat: Steam/Hot Water  - Wood,PJ,GW,,,YES
-DMD,CHMCL-PH-STM_HW-ELC-Boiler,New Petroleum/Chemicals - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,CHMCL-PH-STM_HW-ELC-Boiler,New Petroleum/Chemicals - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,CHMCL-PH-REFRM-NGA-REFRM,New Petroleum/Chemicals - Process Heat: Reformer  - Natural Gas,PJ,GW,,,YES
 DMD,CHMCL-MoTP-Stat-NGA-Pump,"New Petroleum/Chemicals - Motive Power, Stationary  - Natural Gas",PJ,GW,,,YES
-DMD,CHMCL-PH-FURN-ELC-Furn,New Petroleum/Chemicals - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,,,YES
+DMD,CHMCL-PH-FURN-ELC-Furn,New Petroleum/Chemicals - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,CHMCL-PH-FURN-COA-Furn,New Petroleum/Chemicals - Process Heat: Furnace/Kiln  - Coal,PJ,GW,,,YES
 DMD,CHMCL-PH-FURN-FOL-Furn,New Petroleum/Chemicals - Process Heat: Furnace/Kiln  - Fuel Oil,PJ,GW,,,YES
 DMD,CHMCL-PH-FURN-NGA-Furn,New Petroleum/Chemicals - Process Heat: Furnace/Kiln  - Natural Gas,PJ,GW,,,YES
 DMD,CHMCL-PH-FURN-WOD-Furn,New Petroleum/Chemicals - Process Heat: Furnace/Kiln  - Wood,PJ,GW,,,YES
 DMD,CHMCL-PH-FURN-LPG-Furn,New Petroleum/Chemicals - Process Heat: Furnace/Kiln  - LPG,PJ,GW,,,YES
 DMD,REFI-MoTP-Stat-PET-st_ngn,"New Refining - Motive Power, Stationary  - Petrol",PJ,GW,,,YES
-DMD,REFI-MoTP-Stat-ELC-Motor,"New Refining - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,REFI-MoTP-Stat-ELC-Motor,"New Refining - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,REFI-MoTP-Stat-DSL-st_ngn,"New Refining - Motive Power, Stationary  - Diesel",PJ,GW,,,YES
-DMD,REFI-MoTP-Stat-ELC-VSD-Mtr,"New Refining - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
-DMD,REFI-PH-FURN-ELC-Furn,New Refining - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,,,YES
+DMD,REFI-MoTP-Stat-ELC-VSD-Mtr,"New Refining - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
+DMD,REFI-PH-FURN-ELC-Furn,New Refining - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,REFI-PH-FURN-COA-Furn,New Refining - Process Heat: Furnace/Kiln  - Coal,PJ,GW,,,YES
 DMD,REFI-PH-FURN-NGA-Furn,New Refining - Process Heat: Furnace/Kiln  - Natural Gas,PJ,GW,,,YES
 DMD,REFI-PH-FURN-WOD-Furn,New Refining - Process Heat: Furnace/Kiln  - Wood,PJ,GW,,,YES
 DMD,REFI-PH-FURN-LPG-Furn,New Refining - Process Heat: Furnace/Kiln  - LPG,PJ,GW,,,YES
 DMD,REFI-PH-STM_HW-NGA-Boiler,New Refining - Process Heat: Steam/Hot Water  - Natural Gas,PJ,GW,,,YES
 DMD,REFI-PH-STM_HW-DSL-Boiler,New Refining - Process Heat: Steam/Hot Water  - Diesel,PJ,GW,,,YES
-DMD,REFI-PH-STM_HW-ELC-HPmp,New Refining - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,REFI-PH-STM_HW-ELC-HPmp,New Refining - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,REFI-PH-STM_HW-COA-Boiler,New Refining - Process Heat: Steam/Hot Water  - Coal,PJ,GW,,,YES
 DMD,REFI-PH-STM_HW-LPG-Boiler,New Refining - Process Heat: Steam/Hot Water  - LPG,PJ,GW,,,YES
 DMD,REFI-PH-STM_HW-WOD-Boiler,New Refining - Process Heat: Steam/Hot Water  - Wood,PJ,GW,,,YES
-DMD,REFI-PH-STM_HW-ELC-Boiler,New Refining - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,REFI-PH-STM_HW-ELC-Boiler,New Refining - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,UREA-FDSTCK-NGA-FDSTCK,New Urea - Urea production (feedstock)  - Natural Gas,PJ,GW,,,YES
 DMD,WOOD-MoTP-Stat-DSL-st_ngn,"New Wood products - Motive Power, Stationary  - Diesel",PJ,GW,,,YES
-DMD,WOOD-MoTP-Stat-ELC-Motor,"New Wood products - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,WOOD-MoTP-Stat-ELC-Motor,"New Wood products - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,WOOD-MoTP-Stat-PET-st_ngn,"New Wood products - Motive Power, Stationary  - Petrol",PJ,GW,,,YES
-DMD,WOOD-MoTP-Stat-ELC-VSD-Mtr,"New Wood products - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,WOOD-MoTP-Stat-ELC-VSD-Mtr,"New Wood products - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,WOOD-PH-FURN-NGA-Furn,New Wood products - Process Heat: Furnace/Kiln  - Natural Gas,PJ,GW,,,YES
 DMD,WOOD-PH-FURN-COA-Furn,New Wood products - Process Heat: Furnace/Kiln  - Coal,PJ,GW,,,YES
-DMD,WOOD-PH-FURN-ELC-Furn,New Wood products - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,,,YES
+DMD,WOOD-PH-FURN-ELC-Furn,New Wood products - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,WOOD-PH-FURN-WOD-Furn,New Wood products - Process Heat: Furnace/Kiln  - Wood,PJ,GW,,,YES
 DMD,WOOD-PH-FURN-LPG-Furn,New Wood products - Process Heat: Furnace/Kiln  - LPG,PJ,GW,,,YES
 DMD,WOOD-PH-STM_HW-NGA-Boiler,New Wood products - Process Heat: Steam/Hot Water  - Natural Gas,PJ,GW,,,YES
 DMD,WOOD-PH-STM_HW-DSL-Boiler,New Wood products - Process Heat: Steam/Hot Water  - Diesel,PJ,GW,,,YES
 DMD,WOOD-PH-STM_HW-FOL-Boiler,New Wood products - Process Heat: Steam/Hot Water  - Fuel Oil,PJ,GW,,,YES
-DMD,WOOD-PH-STM_HW-ELC-HPmp,New Wood products - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,WOOD-PH-STM_HW-ELC-HPmp,New Wood products - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,WOOD-PH-STM_HW-COA-Boiler,New Wood products - Process Heat: Steam/Hot Water  - Coal,PJ,GW,,,YES
 DMD,WOOD-PH-STM_HW-LPG-Boiler,New Wood products - Process Heat: Steam/Hot Water  - LPG,PJ,GW,,,YES
 DMD,WOOD-PH-STM_HW-WOD-Boiler,New Wood products - Process Heat: Steam/Hot Water  - Wood,PJ,GW,,,YES
-DMD,WOOD-PH-STM_HW-ELC-Boiler,New Wood products - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,WOOD-PH-STM_HW-ELC-Boiler,New Wood products - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,WOOD-PH-STM_HW-GEO-Heat,New Wood products - Process Heat: Steam/Hot Water  - Geothermal,PJ,GW,,,YES
-DMD,WOOD-Pump-ELC-Pump,New Wood products - Pumping  - Electricity,PJ,GW,,,YES
+DMD,WOOD-Pump-ELC-Pump,New Wood products - Pumping  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,WOOD-Pump-DSL-Pump,New Wood products - Pumping  - Diesel,PJ,GW,,,YES
-DMD,WOOD-Fan-ELC-Fan,New Wood products - Fans  - Electricity,PJ,GW,,,YES
-DMD,WOOD-Refin-ELC-Refinery,New Wood products - Refiners  - Electricity,PJ,GW,,,YES
-DMD,WOOD-AIR-ELC-CMPR,New Wood products - Compressed Air  - Electricity,PJ,GW,,,YES
+DMD,WOOD-Fan-ELC-Fan,New Wood products - Fans  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,WOOD-Refin-ELC-Refinery,New Wood products - Refiners  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,WOOD-AIR-ELC-CMPR,New Wood products - Compressed Air  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,PLPPPR-MoTP-Stat-DSL-st_ngn,"New Wood pulp and paper - Motive Power, Stationary  - Diesel",PJ,GW,,,YES
-DMD,PLPPPR-MoTP-Stat-ELC-Motor,"New Wood pulp and paper - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
+DMD,PLPPPR-MoTP-Stat-ELC-Motor,"New Wood pulp and paper - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
 DMD,PLPPPR-MoTP-Stat-PET-st_ngn,"New Wood pulp and paper - Motive Power, Stationary  - Petrol",PJ,GW,,,YES
-DMD,PLPPPR-MoTP-Stat-ELCVSD-Mtr,"New Wood pulp and paper - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
-DMD,PLPPPR-PH-DirH-ELC-Heater,New Wood pulp and paper - Process Heat: Direct Heat  - Electricity,PJ,GW,,,YES
+DMD,PLPPPR-MoTP-Stat-ELCVSD-Mtr,"New Wood pulp and paper - Motive Power, Stationary  - Electricity",PJ,GW,DAYNITE,,YES
+DMD,PLPPPR-PH-DirH-ELC-Heater,New Wood pulp and paper - Process Heat: Direct Heat  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,PLPPPR-PH-DirH-NGA-Burner,New Wood pulp and paper - Process Heat: Direct Heat  - Natural Gas,PJ,GW,,,YES
-DMD,PLPPPR-PH-FURN-ELC-Furn,New Wood pulp and paper - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,,,YES
+DMD,PLPPPR-PH-FURN-ELC-Furn,New Wood pulp and paper - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,PLPPPR-PH-FURN-NGA-Furn,New Wood pulp and paper - Process Heat: Furnace/Kiln  - Natural Gas,PJ,GW,,,YES
 DMD,PLPPPR-PH-FURN-COA-Furn,New Wood pulp and paper - Process Heat: Furnace/Kiln  - Coal,PJ,GW,,,YES
 DMD,PLPPPR-PH-FURN-WOD-Furn,New Wood pulp and paper - Process Heat: Furnace/Kiln  - Wood,PJ,GW,,,YES
@@ -2409,16 +2465,16 @@ DMD,PLPPPR-PH-STM_HW-NGA-Boiler,New Wood pulp and paper - Process Heat: Steam/Ho
 DMD,PLPPPR-PH-STM_HW-DSL-Boiler,New Wood pulp and paper - Process Heat: Steam/Hot Water  - Diesel,PJ,GW,,,YES
 DMD,PLPPPR-PH-STM_HW-FOL-Boiler,New Wood pulp and paper - Process Heat: Steam/Hot Water  - Fuel Oil,PJ,GW,,,YES
 DMD,PLPPPR-PH-STM_HW-GEO-Heat,New Wood pulp and paper - Process Heat: Steam/Hot Water  - Geothermal,PJ,GW,,,YES
-DMD,PLPPPR-PH-STM_HW-ELC-HPmp,New Wood pulp and paper - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
+DMD,PLPPPR-PH-STM_HW-ELC-HPmp,New Wood pulp and paper - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,PLPPPR-PH-STM_HW-COA-Boiler,New Wood pulp and paper - Process Heat: Steam/Hot Water  - Coal,PJ,GW,,,YES
 DMD,PLPPPR-PH-STM_HW-LPG-Boiler,New Wood pulp and paper - Process Heat: Steam/Hot Water  - LPG,PJ,GW,,,YES
 DMD,PLPPPR-PH-STM_HW-WOD-Boiler,New Wood pulp and paper - Process Heat: Steam/Hot Water  - Wood,PJ,GW,,,YES
-DMD,PLPPPR-PH-STM_HW-ELC-Boiler,New Wood pulp and paper - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,,,YES
-DMD,PLPPPR-Pump-ELC-Pump,New Wood pulp and paper - Pumping  - Electricity,PJ,GW,,,YES
+DMD,PLPPPR-PH-STM_HW-ELC-Boiler,New Wood pulp and paper - Process Heat: Steam/Hot Water  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,PLPPPR-Pump-ELC-Pump,New Wood pulp and paper - Pumping  - Electricity,PJ,GW,DAYNITE,,YES
 DMD,PLPPPR-Pump-DSL-Pump,New Wood pulp and paper - Pumping  - Diesel,PJ,GW,,,YES
-DMD,PLPPPR-Fan-ELC-Fan,New Wood pulp and paper - Fans  - Electricity,PJ,GW,,,YES
-DMD,PLPPPR-Refin-ELC-REF,New Wood pulp and paper - Refiners  - Electricity,PJ,GW,,,YES
-DMD,PLPPPR-AIR-ELC-CMPR,New Wood pulp and paper - Compressed Air  - Electricity,PJ,GW,,,YES
+DMD,PLPPPR-Fan-ELC-Fan,New Wood pulp and paper - Fans  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,PLPPPR-Refin-ELC-REF,New Wood pulp and paper - Refiners  - Electricity,PJ,GW,DAYNITE,,YES
+DMD,PLPPPR-AIR-ELC-CMPR,New Wood pulp and paper - Compressed Air  - Electricity,PJ,GW,DAYNITE,,YES
 
 
 sheetname: AF_Trans
@@ -2535,6 +2591,38 @@ T_P_BusBEVELC,BEV,TRAELC,T_P_Bus,2020,0.265481325150927,0.305745317574213,0.3363
 T_P_BusFCH2R,FC,TRAH2R,T_P_Bus,2020,0.161290322580645,0.175746924428822,0.205338809034908,,,,0.34,0.34,30,683.9038221,433.2139774,430.66590326747,428.11782913494,5,14.0581496287068,0.08,
 
 
+sheetname: AVA
+range: B4:Q5
+filename: SubRES_TMPL/SubRES_NewTransport-KEA_Trans.xlsx
+tag: ~TFM_AVA
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,AllRegions,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
+
+
+sheetname: FILL Table
+range: B3:O4
+filename: SubRES_TMPL/SubRES_NewTransport-KEA_Trans.xlsx
+tag: ~TFM_FILL
+types: Operation_Sum_Avg_Count (object), Scenario Name (object), TimeSlice (object), LimType (object), Attribute (object), Year (object), Other_Indexes (object), Tech_Comm_Info (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object)
+Operation_Sum_Avg_Count,Scenario Name,TimeSlice,LimType,Attribute,Year,Other_Indexes,Tech_Comm_Info,AllRegions,NI,SI,Pset_Set,Pset_PN
+
+
+sheetname: Trans Tables
+range: B14:Q15
+filename: SubRES_TMPL/SubRES_NewTransport-KEA_Trans.xlsx
+tag: ~TFM_INS
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,AllRegions,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
+
+
+sheetname: Trans Tables
+range: B6:Q7
+filename: SubRES_TMPL/SubRES_NewTransport-KEA_Trans.xlsx
+tag: ~TFM_UPD
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,AllRegions,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
+
+
 sheetname: TRA_NEW
 range: C53:K85
 filename: SubRES_TMPL/SubRES_NewTransport-TUI.xlsx
@@ -2619,6 +2707,14 @@ T_F_VHTFCH2R,FC,TRAH2R,T_F_VHTrk,2023,0.092196,,,,,,1.46,1.55,21.981385163,817,4
 T_P_BusICEDSL,ICE,TRADSL,T_P_Bus,2020,0.0732005477545315,0.0778105387304887,0.0802383611956865,,,,0.34,0.34,26.248,437,437,437,437,5,18.7441995049423,0.08,
 T_P_BusBEVELC,BEV,TRAELC,T_P_Bus,2020,0.265481325150927,0.311384631481041,0.337359295474851,,,,0.34,0.34,30,725.46645,452.370328,452.370328,452.370328,5,14.4185060203493,0.08,
 T_P_BusFCH2R,FC,TRAH2R,T_P_Bus,2020,0.161290322580645,0.175746924428822,0.205338809034908,,,,0.34,0.34,30,683.9038221,434.5664206,432.01834646747,429.47027233494,5,29.3827992239637,0.08,
+
+
+sheetname: AVA
+range: B4:Q5
+filename: SubRES_TMPL/SubRes_NewTech_ELC_KEA_Trans.xlsx
+tag: ~TFM_AVA
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,AllRegions,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
 
 
 sheetname: OTH_COM
@@ -3271,664 +3367,6 @@ R_JDW-CK_IndCook-ELC,Joined dwellings - Heat/Cooling Devices - Induction Cooktop
 R_JDW-DW_Dwash-ELC,Joined dwellings - Heat/Cooling Devices - Dishwashers,RESELC,R_JDW-DW,0.25,0.0416,0.0312,15,31.536,2640,,2020,
 R_JDW-CW_Washer-ELC,Joined dwellings - Heat/Cooling Devices - Clothes Washers,RESELC,R_JDW-CW,0.25,0.0416,0.0312,15,31.536,3994.66666666667,,2020,
 R_JDW-CD_Hpdryer-ELC,Joined dwellings - Heat/Cooling Devices - Heat Pump Dryer,RESELC,R_JDW-CD,1,0.0059,0.004425,10,31.536,2211.55555555556,,2020,
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
-tag: ~InputCell: 1,2,7
-types: VALUE (object)
-VALUE
-1
-
-
-sheetname: CO2Price
-range: G41:H44
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
-tag: ~UC_Sets: R_E: NI
-types: ~UC_Sets:TS_S (object)
-~UC_Sets:TS_S
-UC_N
-Hydro_AF-SUM-NI
-
-
-sheetname: CO2Price
-range: G42:W51
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
-tag: ~UC_Sets:TS_S
-types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
-UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
-Hydro_AF-SUM-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.332442233180967,-0.302220211982697,-0.31661165064854,,,
-Hydro_AF-Fal-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.329092579928095,-0.313421504693423,-0.313421504693423,,,
-Hydro_AF-WIN-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.241694801288398,-0.210169392424694,-0.210169392424694,,,
-Hydro_AF-SPR-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.24717339788176,-0.235403236077867,-0.235403236077867,,,
-
-
-sheetname: CO2Price
-range: G42:W51
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
-tag: ~UC_T
-types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
-UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
-Hydro_AF-SUM-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.332442233180967,-0.302220211982697,-0.31661165064854,,,
-Hydro_AF-Fal-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.329092579928095,-0.313421504693423,-0.313421504693423,,,
-Hydro_AF-WIN-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.241694801288398,-0.210169392424694,-0.210169392424694,,,
-Hydro_AF-SPR-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.24717339788176,-0.235403236077867,-0.235403236077867,,,
-
-
-sheetname: CO2Price
-range: G61:H64
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
-tag: ~UC_Sets: R_E: SI
-types: ~UC_Sets:TS_S (object)
-~UC_Sets:TS_S
-UC_N
-Hydro_AF-SUM-SI
-
-
-sheetname: CO2Price
-range: G62:W71
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
-tag: ~UC_Sets:TS_S
-types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~SI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
-UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~SI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
-Hydro_AF-SUM-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.220306090647132,-0.200278264224665,-0.20981532442584,,,
-Hydro_AF-Fal-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.233165843179645,-0.222062707790138,-0.222062707790138,,,
-Hydro_AF-WIN-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.212111185780031,-0.18444450937394,-0.18444450937394,,,
-Hydro_AF-SPR-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.221600002403735,-0.211047621336891,-0.211047621336891,,,
-
-
-sheetname: CO2Price
-range: G62:W71
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
-tag: ~UC_T
-types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~SI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
-UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~SI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
-Hydro_AF-SUM-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.220306090647132,-0.200278264224665,-0.20981532442584,,,
-Hydro_AF-Fal-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.233165843179645,-0.222062707790138,-0.222062707790138,,,
-Hydro_AF-WIN-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.212111185780031,-0.18444450937394,-0.18444450937394,,,
-Hydro_AF-SPR-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.221600002403735,-0.211047621336891,-0.211047621336891,,,
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
-tag: ~InputCell: 1,2,7
-types: VALUE (object)
-VALUE
-2
-
-
-sheetname: CO2Price
-range: G41:H44
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
-tag: ~UC_Sets: R_E: NI
-types: ~UC_Sets:TS_S (object)
-~UC_Sets:TS_S
-UC_N
-Hydro_AF-SUM-NI
-
-
-sheetname: CO2Price
-range: G42:W51
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
-tag: ~UC_Sets:TS_S
-types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
-UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
-Hydro_AF-SUM-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.332442233180967,-0.332442233180967,-0.332442233180967,,,
-Hydro_AF-Fal-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.329092579928095,-0.346413242029573,-0.346413242029573,,,
-Hydro_AF-WIN-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.241694801288398,-0.241694801288398,-0.161129867525599,,,
-Hydro_AF-SPR-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.24717339788176,-0.260182524086063,-0.260182524086063,,,
-
-
-sheetname: CO2Price
-range: G42:W51
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
-tag: ~UC_T
-types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
-UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
-Hydro_AF-SUM-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.332442233180967,-0.332442233180967,-0.332442233180967,,,
-Hydro_AF-Fal-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.329092579928095,-0.346413242029573,-0.346413242029573,,,
-Hydro_AF-WIN-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.241694801288398,-0.241694801288398,-0.161129867525599,,,
-Hydro_AF-SPR-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.24717339788176,-0.260182524086063,-0.260182524086063,,,
-
-
-sheetname: CO2Price
-range: G61:H64
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
-tag: ~UC_Sets: R_E: SI
-types: ~UC_Sets:TS_S (object)
-~UC_Sets:TS_S
-UC_N
-Hydro_AF-SUM-SI
-
-
-sheetname: CO2Price
-range: G62:W71
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
-tag: ~UC_Sets:TS_S
-types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~SI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
-UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~SI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
-Hydro_AF-SUM-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.220306090647132,-0.220306090647132,-0.220306090647132,,,
-Hydro_AF-Fal-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.233165843179645,-0.245437729662784,-0.245437729662784,,,
-Hydro_AF-WIN-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.212111185780031,-0.212111185780031,-0.141407457186688,,,
-Hydro_AF-SPR-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.221600002403735,-0.233263160424984,-0.233263160424984,,,
-
-
-sheetname: CO2Price
-range: G62:W71
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
-tag: ~UC_T
-types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~SI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
-UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~SI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
-Hydro_AF-SUM-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.220306090647132,-0.220306090647132,-0.220306090647132,,,
-Hydro_AF-Fal-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.233165843179645,-0.245437729662784,-0.245437729662784,,,
-Hydro_AF-WIN-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.212111185780031,-0.212111185780031,-0.141407457186688,,,
-Hydro_AF-SPR-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.221600002403735,-0.233263160424984,-0.233263160424984,,,
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
-tag: ~InputCell: 1,2,7
-types: VALUE (object)
-VALUE
-7
-
-
-sheetname: CO2Price
-range: G41:H44
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
-tag: ~UC_Sets: R_E: NI
-types: ~UC_Sets:TS_S (object)
-~UC_Sets:TS_S
-UC_N
-Hydro_AF-SUM-NI
-
-
-sheetname: CO2Price
-range: G42:W51
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
-tag: ~UC_Sets:TS_S
-types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
-UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
-Hydro_AF-SUM-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.332442233180967,-0.332442233180967,-0.332442233180967,,,
-Hydro_AF-Fal-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.329092579928095,-0.329092579928095,-0.329092579928095,,,
-Hydro_AF-WIN-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.241694801288398,-0.241694801288398,-0.241694801288398,,,
-Hydro_AF-SPR-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.24717339788176,-0.24717339788176,-0.24717339788176,,,
-
-
-sheetname: CO2Price
-range: G42:W51
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
-tag: ~UC_T
-types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
-UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
-Hydro_AF-SUM-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.332442233180967,-0.332442233180967,-0.332442233180967,,,
-Hydro_AF-Fal-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.329092579928095,-0.329092579928095,-0.329092579928095,,,
-Hydro_AF-WIN-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.241694801288398,-0.241694801288398,-0.241694801288398,,,
-Hydro_AF-SPR-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.24717339788176,-0.24717339788176,-0.24717339788176,,,
-
-
-sheetname: CO2Price
-range: G61:H64
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
-tag: ~UC_Sets: R_E: SI
-types: ~UC_Sets:TS_S (object)
-~UC_Sets:TS_S
-UC_N
-Hydro_AF-SUM-SI
-
-
-sheetname: CO2Price
-range: G62:W71
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
-tag: ~UC_Sets:TS_S
-types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~SI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
-UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~SI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
-Hydro_AF-SUM-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.220306090647132,-0.220306090647132,-0.220306090647132,,,
-Hydro_AF-Fal-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.233165843179645,-0.233165843179645,-0.233165843179645,,,
-Hydro_AF-WIN-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.212111185780031,-0.212111185780031,-0.212111185780031,,,
-Hydro_AF-SPR-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.221600002403735,-0.221600002403735,-0.221600002403735,,,
-
-
-sheetname: CO2Price
-range: G62:W71
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
-tag: ~UC_T
-types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~SI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
-UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~SI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
-Hydro_AF-SUM-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.220306090647132,-0.220306090647132,-0.220306090647132,,,
-Hydro_AF-Fal-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.233165843179645,-0.233165843179645,-0.233165843179645,,,
-Hydro_AF-WIN-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.212111185780031,-0.212111185780031,-0.212111185780031,,,
-Hydro_AF-SPR-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
-,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.221600002403735,-0.221600002403735,-0.221600002403735,,,
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro_0001.xlsx
-tag: ~InputCell: 1,2,7
-types: VALUE (object)
-VALUE
-1
-
-
-sheetname: CO2Price
-range: G22:P35
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro_0001.xlsx
-tag: ~TFM_INS
-types: TimeSlice (object), LimType (object), Attribute (object), Year (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object)
-TimeSlice,LimType,Attribute,Year,SI,Pset_Set,Pset_PN,Pset_CO,Cset_CN
-SUM-,,NCAP_AFC,2016,0.58373703,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2016,0.53955224,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2016,0.59310947,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2016,0.57395138,ELE,E*HYD*DAM*,,ELC
-SUM-,,NCAP_AFC,2025,0.642110733,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2025,0.566529852,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2025,0.6820758905,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2025,0.602648949,ELE,E*HYD*DAM*,,ELC
-SUM-,,NCAP_AFC,2055,0.6129238815,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2055,0.566529852,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2055,0.6820758905,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2055,0.602648949,ELE,E*HYD*DAM*,,ELC
-
-
-sheetname: CO2Price
-range: G7:P20
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro_0001.xlsx
-tag: ~TFM_INS
-types: TimeSlice (object), LimType (object), Attribute (object), Year (object), NI (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object)
-TimeSlice,LimType,Attribute,Year,NI,Pset_Set,Pset_PN,Pset_CO,Cset_CN
-SUM-,,NCAP_AFC,2016,0.38683659959432,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2016,0.382278910714286,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2016,0.520512449206349,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2016,0.514568429602888,ELE,E*HYD*DAM*,,ELC
-SUM-,,NCAP_AFC,2025,0.425520259553753,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2025,0.40139285625,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2025,0.598589316587301,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2025,0.540296851083032,ELE,E*HYD*DAM*,,ELC
-SUM-,,NCAP_AFC,2055,0.406178429574037,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2055,0.40139285625,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2055,0.598589316587301,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2055,0.540296851083032,ELE,E*HYD*DAM*,,ELC
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro_0002.xlsx
-tag: ~InputCell: 1,2,7
-types: VALUE (object)
-VALUE
-2
-
-
-sheetname: CO2Price
-range: G22:P35
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro_0002.xlsx
-tag: ~TFM_INS
-types: TimeSlice (object), LimType (object), Attribute (object), Year (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object)
-TimeSlice,LimType,Attribute,Year,SI,Pset_Set,Pset_PN,Pset_CO,Cset_CN
-SUM-,,NCAP_AFC,2016,0.58373703,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2016,0.53955224,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2016,0.59310947,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2016,0.57395138,ELE,E*HYD*DAM*,,ELC
-SUM-,,NCAP_AFC,2025,0.58373703,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2025,0.512574628,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2025,0.59310947,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2025,0.545253811,ELE,E*HYD*DAM*,,ELC
-SUM-,,NCAP_AFC,2055,0.58373703,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2055,0.512574628,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2055,0.889664205,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2055,0.545253811,ELE,E*HYD*DAM*,,ELC
-
-
-sheetname: CO2Price
-range: G7:P20
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro_0002.xlsx
-tag: ~TFM_INS
-types: TimeSlice (object), LimType (object), Attribute (object), Year (object), NI (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object)
-TimeSlice,LimType,Attribute,Year,NI,Pset_Set,Pset_PN,Pset_CO,Cset_CN
-SUM-,,NCAP_AFC,2016,0.38683659959432,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2016,0.382278910714286,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2016,0.520512449206349,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2016,0.514568429602888,ELE,E*HYD*DAM*,,ELC
-SUM-,,NCAP_AFC,2025,0.38683659959432,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2025,0.363164965178571,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2025,0.520512449206349,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2025,0.488840008122744,ELE,E*HYD*DAM*,,ELC
-SUM-,,NCAP_AFC,2055,0.38683659959432,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2055,0.363164965178571,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2055,0.780768673809524,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2055,0.488840008122744,ELE,E*HYD*DAM*,,ELC
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro_0007.xlsx
-tag: ~InputCell: 1,2,7
-types: VALUE (object)
-VALUE
-7
-
-
-sheetname: CO2Price
-range: G22:P35
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro_0007.xlsx
-tag: ~TFM_INS
-types: TimeSlice (object), LimType (object), Attribute (object), Year (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object)
-TimeSlice,LimType,Attribute,Year,SI,Pset_Set,Pset_PN,Pset_CO,Cset_CN
-SUM-,,NCAP_AFC,2016,0.58373703,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2016,0.53955224,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2016,0.59310947,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2016,0.57395138,ELE,E*HYD*DAM*,,ELC
-SUM-,,NCAP_AFC,2025,0.58373703,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2025,0.53955224,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2025,0.59310947,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2025,0.57395138,ELE,E*HYD*DAM*,,ELC
-SUM-,,NCAP_AFC,2055,0.58373703,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2055,0.53955224,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2055,0.59310947,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2055,0.57395138,ELE,E*HYD*DAM*,,ELC
-
-
-sheetname: CO2Price
-range: G7:P20
-filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro_0007.xlsx
-tag: ~TFM_INS
-types: TimeSlice (object), LimType (object), Attribute (object), Year (object), NI (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object)
-TimeSlice,LimType,Attribute,Year,NI,Pset_Set,Pset_PN,Pset_CO,Cset_CN
-SUM-,,NCAP_AFC,2016,0.38683659959432,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2016,0.382278910714286,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2016,0.520512449206349,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2016,0.514568429602888,ELE,E*HYD*DAM*,,ELC
-SUM-,,NCAP_AFC,2025,0.38683659959432,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2025,0.382278910714286,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2025,0.520512449206349,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2025,0.514568429602888,ELE,E*HYD*DAM*,,ELC
-SUM-,,NCAP_AFC,2055,0.38683659959432,ELE,E*HYD*DAM*,,ELC
-FAL-,,NCAP_AFC,2055,0.382278910714286,ELE,E*HYD*DAM*,,ELC
-WIN-,,NCAP_AFC,2055,0.520512449206349,ELE,E*HYD*DAM*,,ELC
-SPR-,,NCAP_AFC,2055,0.514568429602888,ELE,E*HYD*DAM*,,ELC
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-CO2Price_0005.xlsx
-tag: ~InputCell: 5
-types: VALUE (object)
-VALUE
-5
-
-
-sheetname: CO2Price
-range: F6:N16
-filename: SuppXLS/ParScenFiles/Scen_Par-CO2Price_0005.xlsx
-tag: ~TFM_INS
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), Cset_CN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,Cset_CN,Cset_CD,Year,AllRegions
-,,COM_TAXNET,,TOTCO2,,2020,0.025
-,,COM_TAXNET,,TOTCO2,,2025,0.04026275
-,,COM_TAXNET,,TOTCO2,,2030,0.0648435615025
-,,COM_TAXNET,,TOTCO2,,2035,0.104431204235391
-,,COM_TAXNET,,TOTCO2,,2040,0.16818749873314
-,,COM_TAXNET,,TOTCO2,,2045,0.27086764858471
-,,COM_TAXNET,,TOTCO2,,2050,0.436235056722161
-,,COM_TAXNET,,TOTCO2,,2055,0.702560921201608
-,,COM_TAXNET,,TOTCO2,,2060,0.702560921201608
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_FIXOM_0003.xlsx
-tag: ~InputCell: 3,4,5,6,7
-types: VALUE (object)
-VALUE
-3
-
-
-sheetname: CO2Price
-range: F6:N8
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_FIXOM_0003.xlsx
-tag: ~TFM_UPD
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), PSET_PN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,PSET_PN,Cset_CD,Year,AllRegions
-,,FIXOM,,T_*BEV*,,,*1.8
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_FIXOM_0004.xlsx
-tag: ~InputCell: 3,4,5,6,7
-types: VALUE (object)
-VALUE
-4
-
-
-sheetname: CO2Price
-range: F6:N8
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_FIXOM_0004.xlsx
-tag: ~TFM_UPD
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), PSET_PN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,PSET_PN,Cset_CD,Year,AllRegions
-,,FIXOM,,T_*BEV*,,,*2
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_FIXOM_0005.xlsx
-tag: ~InputCell: 3,4,5,6,7
-types: VALUE (object)
-VALUE
-5
-
-
-sheetname: CO2Price
-range: F6:N8
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_FIXOM_0005.xlsx
-tag: ~TFM_UPD
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), PSET_PN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,PSET_PN,Cset_CD,Year,AllRegions
-,,FIXOM,,T_*BEV*,,,*2.2
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_FIXOM_0006.xlsx
-tag: ~InputCell: 3,4,5,6,7
-types: VALUE (object)
-VALUE
-6
-
-
-sheetname: CO2Price
-range: F6:N8
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_FIXOM_0006.xlsx
-tag: ~TFM_UPD
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), PSET_PN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,PSET_PN,Cset_CD,Year,AllRegions
-,,FIXOM,,T_*BEV*,,,*2.4
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_FIXOM_0007.xlsx
-tag: ~InputCell: 3,4,5,6,7
-types: VALUE (object)
-VALUE
-7
-
-
-sheetname: CO2Price
-range: F6:N8
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_FIXOM_0007.xlsx
-tag: ~TFM_UPD
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), PSET_PN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,PSET_PN,Cset_CD,Year,AllRegions
-,,FIXOM,,T_*BEV*,,,*2.5
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_Lifetime_0003.xlsx
-tag: ~InputCell: 3,4,5,6,7
-types: VALUE (object)
-VALUE
-3
-
-
-sheetname: CO2Price
-range: F6:N8
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_Lifetime_0003.xlsx
-tag: ~TFM_UPD
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), PSET_PN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,PSET_PN,Cset_CD,Year,AllRegions
-,,LIFE,,T_*BEV*,,,*0.7
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_Lifetime_0004.xlsx
-tag: ~InputCell: 3,4,5,6,7
-types: VALUE (object)
-VALUE
-4
-
-
-sheetname: CO2Price
-range: F6:N8
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_Lifetime_0004.xlsx
-tag: ~TFM_UPD
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), PSET_PN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,PSET_PN,Cset_CD,Year,AllRegions
-,,LIFE,,T_*BEV*,,,*0.6
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_Lifetime_0005.xlsx
-tag: ~InputCell: 3,4,5,6,7
-types: VALUE (object)
-VALUE
-5
-
-
-sheetname: CO2Price
-range: F6:N8
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_Lifetime_0005.xlsx
-tag: ~TFM_UPD
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), PSET_PN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,PSET_PN,Cset_CD,Year,AllRegions
-,,LIFE,,T_*BEV*,,,*0.5
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_Lifetime_0006.xlsx
-tag: ~InputCell: 3,4,5,6,7
-types: VALUE (object)
-VALUE
-6
-
-
-sheetname: CO2Price
-range: F6:N8
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_Lifetime_0006.xlsx
-tag: ~TFM_UPD
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), PSET_PN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,PSET_PN,Cset_CD,Year,AllRegions
-,,LIFE,,T_*BEV*,,,*0.4
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_Lifetime_0007.xlsx
-tag: ~InputCell: 3,4,5,6,7
-types: VALUE (object)
-VALUE
-7
-
-
-sheetname: CO2Price
-range: F6:N8
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-BEV_Lifetime_0007.xlsx
-tag: ~TFM_UPD
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), PSET_PN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,PSET_PN,Cset_CD,Year,AllRegions
-,,LIFE,,T_*BEV*,,,*0.3
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-HT-H2R_0002.xlsx
-tag: ~InputCell: 2
-types: VALUE (object)
-VALUE
-2
-
-
-sheetname: CO2Price
-range: F6:N16
-filename: SuppXLS/ParScenFiles/Scen_Par-Y-HT-H2R_0002.xlsx
-tag: ~TFM_INS
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), CSET_CN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,CSET_CN,Cset_CD,Year,AllRegions
-,,COM_BNDNET,,TOTCO2,,2025,122
-,,COM_BNDNET,,TOTCO2,,2030,135
-,,COM_BNDNET,,TOTCO2,,2035,107
-,,COM_BNDNET,,TOTCO2,,2040,90
-,,COM_BNDNET,,TOTCO2,,2045,80
-,,COM_BNDNET,,TOTCO2,,2050,60
-,,COM_BNDNET,,TOTCO2,,2055,50
-,,COM_BNDNET,,TOTCO2,,2060,50
-,,COM_BNDNET,,TOTCO2,,0,0
 
 
 sheetname: Extrapol_AF
@@ -6228,6 +5666,43 @@ Cost,MINNGA4,NGA,2050,39
 Cost,MINNGA4,NGA,2060,39
 
 
+sheetname: Fill_t
+range: C6:L9
+filename: SuppXLS/Scen_ETL-RSD-HP.xlsx
+tag: ~TFM_Fill-R: w=exst_hp; Hcol=Region
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), AllRegions (object), Pset_CI (object), Pset_PN (object), Pset_CO (object), Cset_CN (object)
+TimeSlice,LimType,Attribute,Year,AllRegions,Pset_CI,Pset_PN,Pset_CO,Cset_CN
+,,PASTI,,1,,R*HP*,,
+,,INVCOST,,1,,R*HP*,,
+
+
+sheetname: INS
+range: B3:Q15
+filename: SuppXLS/Scen_ETL-RSD-HP.xlsx
+tag: ~TFM_INS
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), Attrib_Cond (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,Attrib_Cond,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
+,,CCAP0,,,2,1,,R_DDW-SH_HP-ELC,,,,,,
+,,CCAPM,,,50,25,,R_DDW-SH_HP-ELC,,,,,,
+,,SC0,,,558,558,,R_DDW-SH_HP-ELC,,,,,,
+,,SEG,,,5,5,,R_DDW-SH_HP-ELC,,,,,,
+,,PRAT,,,0.8,0.8,,R_DDW-SH_HP-ELC,,,,,,
+,,CCAP0,,,0.5,0.25,,R_JDW-SH_HP-ELC,,,,,,
+,,CCAPM,,,15,7,,R_JDW-SH_HP-ELC,,,,,,
+,,SC0,,,702.8125,702.8125,,R_JDW-SH_HP-ELC,,,,,,
+,,SEG,,,5,5,,R_JDW-SH_HP-ELC,,,,,,
+,,PRAT,,,0.8,0.8,,R_JDW-SH_HP-ELC,,,,,,
+,,TEG,,,,,,"R_DDW-SH_HP-ELC,R_JDW-SH_HP-ELC",,,,,,
+
+
+sheetname: UPD
+range: B3:Q4
+filename: SuppXLS/Scen_ETL-RSD-HP.xlsx
+tag: ~TFM_UPD
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), Attrib_Cond (object), Val_Cond (object), AllRegions (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,Attrib_Cond,Val_Cond,AllRegions,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
+
+
 sheetname: BEV_PHEV-imp
 range: AF14:AG17
 filename: SuppXLS/Scen_Individualistic.xlsx
@@ -8315,42 +7790,6 @@ SPR-WE-P,C_WSR*,0.00244406368663151,0.00244406368663151,COM_FR,DEM,2020
 
 sheetname: CO2Price
 range: A2:B3
-filename: SuppXLS/Scen_Par-Y-BEV_FIXOM.xlsx
-tag: ~InputCell: 3,4,5,6,7
-types: VALUE (object)
-VALUE
-7
-
-
-sheetname: CO2Price
-range: F6:N8
-filename: SuppXLS/Scen_Par-Y-BEV_FIXOM.xlsx
-tag: ~TFM_UPD
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), PSET_PN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,PSET_PN,Cset_CD,Year,AllRegions
-,,FIXOM,,T_*BEV*,,,*2.5
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/Scen_Par-Y-BEV_Lifetime.xlsx
-tag: ~InputCell: 3,4,5,6,7
-types: VALUE (object)
-VALUE
-7
-
-
-sheetname: CO2Price
-range: F6:N8
-filename: SuppXLS/Scen_Par-Y-BEV_Lifetime.xlsx
-tag: ~TFM_UPD
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), PSET_PN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,PSET_PN,Cset_CD,Year,AllRegions
-,,LIFE,,T_*BEV*,,,*0.3
-
-
-sheetname: CO2Price
-range: A2:B3
 filename: SuppXLS/Scen_Par-Y-HT-H2R.xlsx
 tag: ~InputCell: 2
 types: VALUE (object)
@@ -8396,8 +7835,8 @@ sheetname: Geo
 range: B14:L17
 filename: SuppXLS/Scen_RE_Potentials.xlsx
 tag: ~UC_T
-types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), *UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,*UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
 UC_GEO_LARGEBINARY,ELE,EGEOC*BIN*,2021,UP,1,0.125,0,5,Geothermal potential for large binary technologies
 ,,,2025,,,0.25,0,,
 
@@ -8423,8 +7862,8 @@ sheetname: Geo
 range: B24:L27
 filename: SuppXLS/Scen_RE_Potentials.xlsx
 tag: ~UC_T
-types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), *UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,*UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
 UC_GEO_LARGEFLASH,ELE,EGEOC*FLSH*,2021,UP,1,0.125,0,5,Geothermal potential for large flash technologies
 ,,,2025,,,0.25,0,,
 
@@ -8450,8 +7889,8 @@ sheetname: Geo
 range: B34:L39
 filename: SuppXLS/Scen_RE_Potentials.xlsx
 tag: ~UC_T
-types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), *UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,*UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
 UC_GEO_SMALLBINARY,ELE,EGEOBI*,2030,UP,1,0.345,0,5,Geothermal potential for small binary technologies
 ,,,2035,,,0.375,0,,
 ,,,2040,,,0.635,0,,
@@ -8479,8 +7918,8 @@ sheetname: Geo
 range: B44:L49
 filename: SuppXLS/Scen_RE_Potentials.xlsx
 tag: ~UC_T
-types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), *UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,*UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
 UC_GEO_SMALLFLASH,ELE,EGEOF*,2030,UP,1,0.295,0,5,Geothermal potential for small flash technologies
 ,,,2035,,,0.325,0,,
 ,,,2040,,,0.575,0,,
@@ -8525,8 +7964,8 @@ sheetname: Geo
 range: B54:L61
 filename: SuppXLS/Scen_RE_Potentials.xlsx
 tag: ~UC_T
-types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), *UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,*UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
 UC_GEONEW_TOTAL,ELE,EGEO*,2021,UP,1,0.15,0,5,Total geothermal potential for new power plants 
 ,,,2025,,,0.275,0,,
 ,,,2030,,,0.645,0,,
@@ -8539,8 +7978,8 @@ sheetname: Geo
 range: B6:L10
 filename: SuppXLS/Scen_RE_Potentials.xlsx
 tag: ~UC_T
-types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), *UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,*UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
 UC_GEO_Ngawha2021,ELE,EGEOCONSBIN20,2040,UP,1,0.05,0,4,Ngawha - consented binary type geothermal plant 2021-2040
 UC_GEO_Ngawha2040,ELE,EGEOCONSBIN20,2050,UP,1,0.075,0,4,Ngawha - consented binary type geothermal plant till 2050
 UC_GEO_Ngawha2050,ELE,EGEOCONSBIN20,2060,UP,1,0.1,0,3,"Ngawha - consented binary type geothermal plant, total"
@@ -9043,13 +8482,13 @@ filename: SuppXLS/Scen_X_ELCCO2_Constraints.xlsx
 tag: ~UC_Sets: R_S: AllRegions
 types: VALUE (object)
 VALUE
-~UC_Sets: T_S:
+~UC_Sets: T_E:
 
 
 sheetname: CO2 Limit
 range: A3
 filename: SuppXLS/Scen_X_ELCCO2_Constraints.xlsx
-tag: ~UC_Sets: T_S:
+tag: ~UC_Sets: T_E:
 types: 
 
 
@@ -9058,11 +8497,11 @@ sheetname: CO2 Limit
 range: C5:N9
 filename: SuppXLS/Scen_X_ELCCO2_Constraints.xlsx
 tag: ~UC_T
-types: UC_N (object), Pset: PN (object), PSet: CI (object), Cset: CN (object), PSet: CO (object), Year (object), LimType (object), UC_COMNET (object), UC_RHSTS (object), UC_RHSTS~0 (object), UC_Desc (object)
-UC_N,Pset: PN,PSet: CI,Cset: CN,PSet: CO,Year,LimType,UC_COMNET,UC_RHSTS,UC_RHSTS~0,UC_Desc
+types: UC_N (object), Pset: PN (object), PSet: CI (object), Cset: CN (object), PSet: CO (object), Year (object), LimType (object), UC_COMNET (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset: PN,PSet: CI,Cset: CN,PSet: CO,Year,LimType,UC_COMNET,UC_RHST,UC_RHST~0,UC_Desc
 UC_CO2CAP,,,TOTCO2,,2025,UP,1,28027.4706397703,5,
-,,,TOTCO2,,2030,UP,1,22951.3191143766,,
-,,,TOTCO2,,2050,UP,1,11221.2915725609,,
+,,,TOTCO2,,2030,,,19672.5592408943,,
+,,,TOTCO2,,2050,,,4488.51662902437,,
 
 
 sheetname: Geo
@@ -9166,7 +8605,7 @@ SPR-WE-P,FX,NCAP_AF,,0,,E*SOL*
 
 
 sheetname: CO2_price
-range: B4:J15
+range: B4:J14
 filename: SuppXLS/Scen_Y_CO2-price-high.xlsx
 tag: ~TFM_INS
 types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), Cset_CN (object), Cset_CD (object), Year (object), AllRegions (object)
@@ -9180,11 +8619,10 @@ TimeSlice,LimType,Attribute,Cset_Set,Cset_CN,Cset_CD,Year,AllRegions
 ,,COM_TAXNET,,TOTCO2,,2050,0.288956291052372
 ,,COM_TAXNET,,TOTCO2,,2055,0.319031093914795
 ,,COM_TAXNET,,TOTCO2,,2060,0.352236106415222
-,,COM_TAXNET,,TOTCO2,,0,5
 
 
 sheetname: CO2_price
-range: B4:J15
+range: B4:J14
 filename: SuppXLS/Scen_Y_CO2-price-ref.xlsx
 tag: ~TFM_INS
 types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), Cset_CN (object), Cset_CD (object), Year (object), AllRegions (object)
@@ -9198,33 +8636,6 @@ TimeSlice,LimType,Attribute,Cset_Set,Cset_CN,Cset_CD,Year,AllRegions
 ,,COM_TAXNET,,TOTCO2,,2050,0.288956291052372
 ,,COM_TAXNET,,TOTCO2,,2055,0.288956291052372
 ,,COM_TAXNET,,TOTCO2,,2060,0.288956291052372
-,,COM_TAXNET,,TOTCO2,,0,0
-
-
-sheetname: CO2Price
-range: A2:B3
-filename: SuppXLS/Scen_Y_Par-CO2Price.xlsx
-tag: ~InputCell: 5
-types: VALUE (object)
-VALUE
-5
-
-
-sheetname: CO2Price
-range: F6:N16
-filename: SuppXLS/Scen_Y_Par-CO2Price.xlsx
-tag: ~TFM_INS
-types: TimeSlice (object), LimType (object), Attribute (object), Cset_Set (object), Cset_CN (object), Cset_CD (object), Year (object), AllRegions (object)
-TimeSlice,LimType,Attribute,Cset_Set,Cset_CN,Cset_CD,Year,AllRegions
-,,COM_TAXNET,,TOTCO2,,2020,0.025
-,,COM_TAXNET,,TOTCO2,,2025,0.04026275
-,,COM_TAXNET,,TOTCO2,,2030,0.0648435615025
-,,COM_TAXNET,,TOTCO2,,2035,0.104431204235391
-,,COM_TAXNET,,TOTCO2,,2040,0.16818749873314
-,,COM_TAXNET,,TOTCO2,,2045,0.27086764858471
-,,COM_TAXNET,,TOTCO2,,2050,0.436235056722161
-,,COM_TAXNET,,TOTCO2,,2055,0.702560921201608
-,,COM_TAXNET,,TOTCO2,,2060,0.702560921201608
 
 
 sheetname: INS
@@ -9832,118 +9243,118 @@ sheetname: IND
 range: C5:AB116
 filename: VT_NI_IND_V2.xlsx
 tag: ~FI_T
-types: TechName (object), Comm-IN (object), Comm-OUT (object), Share-I~UP (object), Share-I~UP~2021 (object), Share-I~UP~0 (object), *PRC_RESID~2015 (object), PRC_RESID~2018 (object), *NCAP_PASTY (object), EFF (object), LIFE (object), INVCOST (object), VAROM (object), CAP2ACT (object), *ACT_BND~NI~2015 (object), ACT_BND~NI~2018 (object), *ACT_BND~SI~2018 (object), ACT_BND~NI~0 (object), AFA (object), *AFA~LO (object), *FLO_MARK~NI~2018 (object), *FLO_MARK~SI~2018 (object), *FLO_MARK~0 (object), NCAP_BND~2025 (object), NCAP_BND~0 (object)
-TechName,Comm-IN,Comm-OUT,Share-I~UP,Share-I~UP~2021,Share-I~UP~0,*PRC_RESID~2015,PRC_RESID~2018,*NCAP_PASTY,EFF,LIFE,INVCOST,VAROM,CAP2ACT,*ACT_BND~NI~2015,ACT_BND~NI~2018,*ACT_BND~SI~2018,ACT_BND~NI~0,AFA,*AFA~LO,*FLO_MARK~NI~2018,*FLO_MARK~SI~2018,*FLO_MARK~0,NCAP_BND~2025,NCAP_BND~0
-*Technology Name,Input Commodity,Output Commodity,Input Share,Input Share,Input Share,Existing Installed Capacity,Existing Installed Capacity,Existing Installed Capacity installation period,Efficiency,Lifetime,CAPEX,Variable O&M,Capacity to activity factor,Actual end-use in 2018,Actual end-use in 2018,Actual end-use in 2018,Actual end-use in 2018,Annual utilisation factor,Annual utilisation factor,Technology market share in end-use,Technology market share in end-use,Technology market share in end-use,Technology investment ban for existing tech,
+types: TechName (object), Comm-IN (object), Comm-OUT (object), Share-I~UP (object), Share-I~UP~2021 (object), Share-I~UP~0 (object), *PRC_RESID~2015 (object), PRC_RESID~2018 (object), NCAP_PASTI (object), EFF (object), LIFE (object), INVCOST (object), VAROM (object), CAP2ACT (object), *ACT_BND~NI~2015 (object), ACT_BND~NI~2018 (object), *ACT_BND~SI~2018 (object), ACT_BND~NI~0 (object), AFA (object), *AFA~LO (object), *FLO_MARK~NI~2018 (object), *FLO_MARK~SI~2018 (object), *FLO_MARK~0 (object), NCAP_BND~2025 (object), NCAP_BND~0 (object)
+TechName,Comm-IN,Comm-OUT,Share-I~UP,Share-I~UP~2021,Share-I~UP~0,*PRC_RESID~2015,PRC_RESID~2018,NCAP_PASTI,EFF,LIFE,INVCOST,VAROM,CAP2ACT,*ACT_BND~NI~2015,ACT_BND~NI~2018,*ACT_BND~SI~2018,ACT_BND~NI~0,AFA,*AFA~LO,*FLO_MARK~NI~2018,*FLO_MARK~SI~2018,*FLO_MARK~0,NCAP_BND~2025,NCAP_BND~0
+*Technology Name,Input Commodity,Output Commodity,Input Share,Input Share,Input Share,Existing Installed Capacity,Existing Installed Capacity,Existing Installed Capacity,Efficiency,Lifetime,CAPEX,Variable O&M,Capacity to activity factor,Actual end-use in 2018,Actual end-use in 2018,Actual end-use in 2018,Actual end-use in 2018,Annual utilisation factor,Annual utilisation factor,Technology market share in end-use,Technology market share in end-use,Technology market share in end-use,Technology investment ban for existing tech,
 *Units,,,,,,GW,GW,Years,%,Years,NZD/kW,MNZD/PJ,,Eun-use PJ,Eun-use PJ,Eun-use PJ,Eun-use PJ,%,%,%,%,Interpolation/extrapolation rule,,
-ALU-PH-FURN-ELC-Furn15,INDELC,ALU-PH-FURN,,,,0,0,21,0.8,25,63,,31.536,0,0,14.6282,5,0.9,0.63,0.05,,5,0,5
-CNST-MoTP-Mob-DSL-ICE_Off15,INDDSL,CNST-MoTP-Mob,,,,0.283,0.283,16,0.18,20,2388,,31.536,0.8,0.802685,0,5,0.09,0.06,0.928,0.05,5,0,5
-CNST-MoTP-Mob-NGA-ICE_Off15,INDNGA,CNST-MoTP-Mob,,,,0.023,0.023,16,0.13,20,2723,,31.536,0.06,0.0632,0,5,0.09,0.06,0.073,0.05,5,0,5
-CNST-MoTP-Stat-ELC-Mtr15,INDELC,CNST-MoTP-Stat,,,,0.023,0.023,6,0.675,10,280,,31.536,0.36,0.3585,0.1547,5,0.5,0.35,,,,0,5
-CNST-MoTP-Stat-DSL-St_ngn15,INDDSL,CNST-MoTP-Stat,,,,0.11,0.011,16,0.22,20,455,,31.536,0.17,0.1694,0,5,0.5,0.35,,,,0,5
-DARY-PH-MVR_DRY-COA-BLR15,INDCOA,DARY-PH-MVR_DRY,,,,0.18,0.18,16,0.8,20,750,,31.536,3.88,3.8845,2.7476,5,0.685,0.48,0.589,,5,0,5
-DARY-PH-MVR_DRY-NGA-BLR15,INDNGA,DARY-PH-MVR_DRY,,,,0.126,0.126,21,0.87,25,250,,31.536,2.72,2.7169,0,5,0.685,0.48,0.412,0,5,0,5
-DARY-PH-MVR_PRE-COA-BLR15,INDCOA,DARY-PH-MVR_PRE,,,,0.049,0.049,16,0.8,20,750,,31.536,1.04,1.0387,0.7347,5,0.685,0.48,0.589,1,5,0,5
-DARY-PH-MVR_PRE-NGA-BLR15,INDNGA,DARY-PH-MVR_PRE,,,,0.034,0.034,21,0.87,25,250,,31.536,0.73,0.7264,0,5,0.685,0.48,0.412,0,5,0,5
-DARY-PH-TVR_EVP-COA-BLR15,INDCOA,DARY-PH-TVR_EVP,,,,0.04,0.04,16,0.8,20,750,,31.536,0.86,0.8637,0.6109,5,0.685,0.48,0.589,1,5,0,5
-DARY-PH-TVR_EVP-NGA-BLR15,INDNGA,DARY-PH-TVR_EVP,,,,0.028,0.028,21,0.87,25,250,,31.536,0.6,0.6041,0,5,0.685,0.48,0.412,0,5,0,5
-DARY-PH-TVR_DRY-COA-BLR15,INDCOA,DARY-PH-TVR_DRY,,,,0.039,0.039,16,0.8,20,750,,31.536,0.84,0.8401,0.5942,5,0.685,0.48,0.589,1,5,0,5
-DARY-PH-TVR_DRY-NGA-BLR15,INDNGA,DARY-PH-TVR_DRY,,,,0.028,0.028,21,0.87,25,250,,31.536,0.59,0.5876,0,5,0.685,0.48,,,,0,5
-DARY-PH-MVR_TVR-COA-BLR15,INDCOA,DARY-PH-MVR_TVR,,,,0.019,0.019,16,0.8,20,750,,31.536,0.41,0.4087,0.2891,5,0.685,0.48,,,,0,5
-DARY-PH-MVR_TVR-NGA-BLR15,INDNGA,DARY-PH-MVR_TVR,,,,0,0.014,21,0.87,25,250,,31.536,0.29,0.2859,0,5,0.685,0.48,,,,0,5
-DARY-PH-MVR_Fan-ELC-Fan15,INDELC,DARY-PH-MVR_Fan,,,,1.687,1.687,21,43.4339175556657,25,404.591641485669,,31.536,36.44,36.4393,15.1668,5,0.685,0.48,1,1,5,0,5
-DARY-Pump-ELC-Pump15,INDELC,DARY-Pump,,,,0.036,0.036,6,0.75,10,2308,,31.536,0.56,0.5599,0.233,5,0.5,0.35,1,1,5,0,5
-DARY-RFGR-ELC-Refriger15,INDELC,DARY-RFGR,,,,0.022,0.022,5,1,5,0,,31.536,0.67,0.6679,0.278,5,1,0.7,1,,5,0,5
-DARY-PH-STM_HW-DSL-BLR15,INDDSL,DARY-PH-STM_HW,,,,0.004,0.004,21,0.85,25,300,,31.536,0.07,0.0709,0.0295,5,0.685,0.48,0.152,,5,0,5
-DARY-PH-STM_HW-GEO-Heat15,INDGEO,DARY-PH-STM_HW,,,,0.008,0.008,6,0.970124,10,100,,31.536,0.15,0.1542,0.0642,5,0.685,0.48,0.331,0.331,5,0,5
-DARY-PH-STM_HW-LPG-BLR15,INDLPG,DARY-PH-STM_HW,,,,0.012,0.012,21,0.87,25,350,,31.536,0.24,0.242,0.1007,5,0.685,0.48,,,,0,5
-DARY-MoTP-Stat-ELC-Mtr15,INDELC,DARY-MoTP-Stat,,,,0.008,0.008,6,0.675,10,280,,31.536,0.12,0.1185,0.0493,5,0.5,0.35,1,,5,0,5
-DARY-AIR-ELC-CMPR15,INDELC,DARY-AIR,,,,0.008,0.008,21,1,25,0,,31.536,0.16,0.1588,0.0661,5,0.68,0.48,1,1,5,0,5
-FOOD-PH-STM_HW-COA-BLR15,INDCOA,FOOD-PH-STM_HW,,,,0,0,21,0.8,25,750,,31.536,0,0,0.3401,5,0.685,0.48,0,,5,0,5
-FOOD-PH-STM_HW-NGA-BLR15,INDNGA,FOOD-PH-STM_HW,,,,0.349,0.349,21,0.87,25,250,,31.536,7.54,7.5357,0,5,0.685,0.48,1,0,5,0,5
-FOOD-PH-OVN-COA-Oven15,INDCOA,FOOD-PH-OVN,,,,0,0,6,0.5,10,100,,31.536,0,0,0.0519,5,0.9,0.63,0,,5,0,5
-FOOD-PH-OVN-ELC-Oven15,INDELC,FOOD-PH-OVN,,,,0.003,0.003,6,0.5,10,100,,31.536,0.07,0.0748,0.0234,5,0.9,0.63,0.056,0.311,5,0,5
-FOOD-PH-OVN-NGA-Oven15,INDNGA,FOOD-PH-OVN,,,,0.045,0.045,6,0.5,10,100,,31.536,1.26,1.2639,0,5,0.9,0.63,,,,0,5
-FOOD-Pump-ELC-Pump15,INDELC,FOOD-Pump,,,,0.044,0.044,6,0.75,10,2308,,31.536,0.69,0.691,0.2166,5,0.5,0.35,,,,0,5
-FOOD-MoTP-Stat-ELC-Mtr15,INDELC,FOOD-MoTP-Stat,,,,0.028,0.028,6,0.675,10,280,,31.536,0.44,0.4379,0.1373,5,0.5,0.35,,,,0,5
-FOOD-RFGR-ELC-Refriger15,INDELC,FOOD-RFGR,,,,0.12,0.012,5,1,5,0,,31.536,0.35,0.3537,0.1109,5,1,0.7,,,,0,5
-FOOD-PH-DirH-ELC-Heater15,INDELC,FOOD-PH-DirH,,,,0.003,0.003,3,0.999700089973008,3,80,,31.536,0.06,0.064,0.0201,5,0.9,0.63,,,,0,5
-IIS-FDSTCK-COA-_15,COA,IIS-FDSTCK,,,,0.652,0.652,96,1,100,0,,31.536,18.5,18.5,0,5,0.9,0.63,,,,0,5
-IIS-PH-FURN-ELC-Furn15,INDELC,IIS-PH-FURN,,,,0.058,0.058,21,0.8,25,63,,31.536,1.64,1.6357,0,5,0.9,0.63,0.738,0.05,5,0,5
-IIS-PH-FURN-NGA-Furn15,INDNGA,IIS-PH-FURN,,,,0.021,0.021,21,0.8,25,63,,31.536,0.58,0.5829,0,5,0.9,0.63,0.263,0.05,5,0,5
-IIS-MoTP-Stat-ELC-Mtr15,INDELC,IIS-MoTP-Stat,,,,0.039,0.039,6,0.675,10,280,,31.536,0.61,0.6058,0,5,0.5,0.35,1,0.05,5,0,5
-MEAT-PH-STM_HW-COA-BLR15,INDCOA,MEAT-PH-STM_HW,,,,0.06,0.06,16,0.8,20,750,,31.536,0.65,0.646,0.7797,5,0.343,0.24,0.332,0.962,5,0,5
-MEAT-PH-STM_HW-NGA-BLR15,INDNGA,MEAT-PH-STM_HW,,,,0.119,0.119,21,0.87,25,250,,31.536,1.28,1.2768,0,5,0.343,0.24,0.656,0,5,0,5
-MEAT-PH-STM_HW-WOD-BLR15,INDWOD,MEAT-PH-STM_HW,,,,0.002,0.002,21,0.85,25,2000,,31.536,0.03,0.0261,0.0315,5,0.5,0.35,0.014,0.039,5,0,5
-MEAT-PH-DirH-ELC-Heater15,INDELC,MEAT-PH-DirH,,,,0.002,0.002,3,0.999700089973008,3,80,,31.536,0.03,0.0324,0.0135,5,0.9,0.63,1,1,5,0,5
-MEAT-RFGR-ELC-Refriger15,INDELC,MEAT-RFGR,,,,0.038,0.038,5,1,5,0,,31.536,1.17,1.1699,0.4869,5,1,0.7,,,,0,5
-MEAT-MoTP-Stat-ELC-Mtr15,INDELC,MEAT-MoTP-Stat,,,,0.032,0.032,6,0.675,10,280,,31.536,0.5,0.4959,0.2064,5,0.5,0.35,,,,0,5
-METAL-PH-FURN-ELC-Furn15,INDELC,METAL-PH-FURN,,,,0.002,0.002,21,0.8,25,63,,31.536,0.05,0.0506,0.0125,5,0.9,0.63,0.031,0.045,5,0,5
-METAL-PH-FURN-FOL-Furn15,INDFOL,METAL-PH-FURN,,,,0.002,0.002,21,0.8,25,63,,31.536,0.04,0.0419,0.2672,5,0.9,0.63,,0.956,5,0,5
-METAL-PH-FURN-NGA-Furn15,INDNGA,METAL-PH-FURN,,,,0.055,0.055,21,0.8,25,63,,31.536,1.54,1.542,0,5,0.9,0.63,,,,0,5
-METAL-MoTP-Stat-ELC-Mtr15,INDELC,METAL-MoTP-Stat,,,,0.53,0.053,6,0.675,10,280,,31.536,0.83,0.8343,0.2052,5,0.5,0.35,,,,0,5
-METAL-RFGR-ELC-Refriger15,INDELC,METAL-RFGR,,,,0.007,0.007,5,1,5,0,,31.536,0.22,0.2174,0.0535,5,1,0.7,,,,0,5
-METAL-PH-DirH-NGA-Burner15,INDNGA,METAL-PH-DirH,,,,0.002,0.002,9,0.8,13,313,,31.536,0.03,0.0322,0,5,0.9,0.63,1,,5,0,5
-MTHOL-FDSTCK-NGA-FDSTCK15,NGA,MTHOL-FDSTCK,,,,1.447,1.447,96,1,100,0,,31.536,41.07,41.0689,0,5,0.9,0.63,1,0.05,5,0,5
-MTHOL-PH_REFRM-NGA-REFRM15,INDNGA,MTHOL-PH_REFRM,,,,1.045,1.045,21,1,25,0,,31.536,16.46,16.4618,0,5,0.5,0.35,1,,5,0,5
-MNRL-PH-FURN-COA-Furn15,INDCOA,MNRL-PH-FURN,,,,0.073,0.073,21,0.7,25,63,,31.536,2.07,2.0654,0,5,0.9,0.63,0.519,0.05,5,0,5
-MNRL-PH-FURN-ELC-Furn15,INDELC,MNRL-PH-FURN,,,,0.005,0.005,21,0.8,25,63,,31.536,0.14,0.1392,0,5,0.9,0.63,,,,0,5
-MNRL-PH-FURN-NGA-Furn15,INDNGA,MNRL-PH-FURN,,,,0,0.049,21,0.8,25,63,,31.536,1.36,1.364,0,5,0.9,0.63,,,,0,5
-MNRL-PH-FURN-WOD-Furn15,INDWOD,MNRL-PH-FURN,,,,0.015,0.015,21,0.7,25,63,,31.536,0.42,0.4152,0,5,0.9,0.63,,,,0,5
-MNRL-MoTP-Stat-ELC-Mtr15,INDELC,MNRL-MoTP-Stat,,,,0.033,0.033,6,0.675,10,280,,31.536,0.52,0.5158,0,5,0.5,0.35,1,,5,0,5
-MNRL-PH-STM_HW-NGA-BLR15,INDNGA,MNRL-PH-STM_HW,,,,0.028,0.028,21,0.87,25,350,,31.536,0.43,0.4316,0,5,0.5,0.35,1,0.05,5,0,5
-MNNG-MoTP-Mob-DSL-ICE_Off15,INDDSL,MNNG-MoTP-Mob,,,,0.226,0.226,16,0.18,20,2388,,31.536,0.64,0.6409,0,5,0.09,0.06,,0.05,5,0,5
-MNNG-MoTP-Stat-ELC-Mtr15,INDELC,MNNG-MoTP-Stat,,,,0.063,0.063,6,0.675,10,280,,31.536,0.99,0.9912,0,5,0.5,0.35,,,,0,5
-MNNG-MoTP-Stat-DSL-St_ngn15,INDDSL,MNNG-MoTP-Stat,,,,0.078,0.006,16,0.22,20,455,,31.536,1.2164,0.0897,0,5,0.5,0.35,,0.05,5,0,5
-MNNG-PH-STM_HW-FOL-BLR15,INDFOL,MNNG-PH-STM_HW,,,,0.11,0.002,21,0.85,25,300,,31.536,1.73,0.0256,0,5,0.5,0.35,,0.05,5,0,5
-MNNG-PH-STM_HW-NGA-BLR15,INDNGA,MNNG-PH-STM_HW,,,,0.09,0.009,21,0.87,25,350,,31.536,0.14,0.1388,0,5,0.5,0.35,,0.05,5,0,5
-OTH-ELC-ELC-Tech15,INDELC,OTH-ELC,,,,0.259,0.259,1,1,1,0,,31.536,4.08,4.0838,1.3938,5,0.5,0.35,,1,5,0,5
-OTH-DSL-DSL-Tech15,INDDSL,OTH-DSL,,,,0.257,0.257,1,1,1,0,,31.536,4.04,4.0376,1.3781,5,0.5,0.35,1,1,5,0,5
-OTH-LPG-LPG-Tech15,INDLPG,OTH-LPG,,,,0.169,0.169,21,1,25,0,,31.536,2.65,2.6538,0.9058,5,0.5,0.35,1,1,5,0,5
-OTH-COA-COA-Tech15,INDCOA,OTH-COA,,,,0.064,0.064,1,1,1,0,,31.536,1,1.0026,0.3422,5,0.5,0.35,,1,5,0,5
-OTH-NGA-NGA-Tech15,INDNGA,OTH-NGA,,,,0.067,0.067,1,1,1,0,,31.536,1.06,1.0554,0,5,0.5,0.35,,0.05,5,0,5
-OTH-PET-PET-Tech15,INDPET,OTH-PET,,,,0.004,0.004,1,1,1,0,,31.536,0.05,0.0501,0.0171,5,0.5,0.35,,1,5,0,5
-OTH-BGS-BGS-Tech15,INDBIG,OTH-BGS,,,,0.03,0.003,21,1,25,0,,31.536,0.04,0.0397,0.0136,5,0.5,0.35,,1,5,0,5
-OTH-FOL-FOL-Tech15,INDFOL,OTH-FOL,,,,0.001,0.001,21,1,25,0,,31.536,0.01,0.0083,0.0028,5,0.5,0.35,,1,5,0,5
-CHMCL-PH-STM_HW-FOL-BLR15,INDFOL,CHMCL-PH-STM_HW,,,,0.013,0.013,21,0.85,25,300,,31.536,0.2,0.1972,0,5,0.5,0.35,0.042,0.05,5,0,5
-CHMCL-PH-STM_HW-NGA-BLR15,INDNGA,CHMCL-PH-STM_HW,,,,0.289,0.289,21,0.87,25,350,,31.536,4.56,4.5554,0,5,0.5,0.35,0.959,0.05,5,0,5
-CHMCL-MoTP-Stat-ELC-Mtr15,INDELC,CHMCL-MoTP-Stat,,,,0.067,0.067,6,0.675,10,280,,31.536,1.05,1.0479,0,5,0.5,0.35,0.91,0.05,5,0,5
-CHMCL-MoTP-Stat-NGA-Pump15,INDNGA,CHMCL-MoTP-Stat,,,,0.007,0.007,6,0.1,10,462,,31.536,0.1,0.1038,0,5,0.5,0.35,0.091,0.05,5,0,5
-CHMCL-PH-REFRM-NGA-REFRM15,INDNGA,CHMCL-PH-REFRM,,,,0.096,0.096,21,1,25,0,,31.536,1.51,1.5107,0,5,0.5,0.35,1,0.05,5,0,5
-CHMCL-PH-DirH-NGA-Burner15,INDNGA,CHMCL-PH-DirH,,,,0.009,0.009,9,0.8,13,313,,31.536,0.23,0.2302,0,5,0.9,0.63,0.453,0.05,5,0,5
-CHMCL-PH-DirH-ELC-Heater15,INDELC,CHMCL-PH-DirH,,,,0.01,0.01,3,0.999700089973008,3,80,,31.536,0.28,0.2785,0,5,0.9,0.63,,,,0,5
-CHMCL-PH-FURN-FOL-Furn15,INDFOL,CHMCL-PH-FURN,,,,0.04,0.004,21,0.8,25,63,,31.536,0.11,0.1055,0,5,0.9,0.63,,,,0,5
-CHMCL-PH-FURN-NGA-Furn15,INDNGA,CHMCL-PH-FURN,,,,0.009,0.009,21,0.8,25,63,,31.536,0.23,0.2296,0,5,0.9,0.63,,,,0,5
-REFI-PH-FURN-NGA-Furn15,INDNGA,REFI-PH-FURN,,,,0.082,0.082,21,0.8,25,63,,31.536,2.31,2.3136,0,5,0.9,0.63,,,,0,5
-REFI-MoTP-Stat-ELC-Mtr15,INDELC,REFI-MoTP-Stat,,,,0.04,0.04,6,0.675,10,280,,31.536,0.63,0.626,0,5,0.5,0.35,1,,5,0,5
-REFI-PH-STM_HW-NGA-BLR15,INDNGA,REFI-PH-STM_HW,,,,0.027,0.027,21,0.87,25,350,,31.536,0.42,0.4176,0,5,0.5,0.35,1,0.05,5,0,5
-UREA-FDSTCK-NGA-FDSTCK15,NGA,UREA-FDSTCK,,,,0.141,0.141,96,1,100,0,,31.536,3.99,3.9926,0,5,0.9,0.63,1,0.05,5,0,5
-UREA-REFRM-NGA15,INDNGA,UREA-REFRM,,,,0.124,0.124,,1,100,0,,31.536,,3.5,0,5,0.9,,,,,0,5
-WOOD-PH-STM_HW-COA-BLR15,INDCOA,WOOD-PH-STM_HW,,,,0.009,0.009,16,0.8,20,750,,31.536,0.14,0.1383810793026,0.0440189206973995,5,0.5,0.35,0.013,0.015,5,0,5
-WOOD-PH-STM_HW-DSL-BLR15,INDDSL,WOOD-PH-STM_HW,,,,0.002,0.002,21,0.85,25,300,,31.536,0.03,0.0309536624755817,0.00984633752441831,5,0.5,0.35,0.003,0.004,5,0,5
-WOOD-PH-STM_HW-ELC-BLR15,INDELC,WOOD-PH-STM_HW,,,,0.002,0.002,21,0.99,25,3750,,31.536,0.02,0.0168424339940665,0.00535756600593349,5,0.5,0.35,0.002,0.002,5,0,5
-WOOD-PH-STM_HW-FOL-BLR15,INDFOL,WOOD-PH-STM_HW,,,,0.002,0.002,21,0.85,25,300,,31.536,0.02,0.0224565786587553,0.00714342134124466,5,0.5,0.35,0.003,0.003,5,0,5
-WOOD-PH-STM_HW-GEO-Heat15,INDGEO,WOOD-PH-STM_HW,,,,0.035,0.035,6,0.970124,10,100,,31.536,0.54,0.5442,0,5,0.5,0.35,,,,0,5
-WOOD-PH-STM_HW-NGA-BLR15,INDNGA,WOOD-PH-STM_HW,,,,0.031,0.031,21,0.87,25,350,,31.536,0.47,0.4744,0,5,0.5,0.35,0.044,0,5,0,5
-WOOD-PH-STM_HW-WOD-BLR15,INDWOD,WOOD-PH-STM_HW,,,,0.649,0.614,21,0.85,25,2000,,31.536,10.2225,9.66861924807128,3.07558075192872,5,0.5,0.35,0.888,0.979,5,0,5
-WOOD-Fan-ELC-Fan15,INDELC,WOOD-Fan,,,,8.208,4.572,5,43.4339175556657,5,404.591641485669,,31.536,129.422771173479,72.0863761628026,22.9306238371974,5,0.5,0.35,1,1,5,0,5
-WOOD-MoTP-Stat-ELC-Mtr15,INDELC,WOOD-MoTP-Stat,,,,0.048,0.048,6,0.675,10,280,,31.536,0.75,0.749640046375546,0.238459953624454,5,0.5,0.35,1,1,5,0,5
-WOOD-Refin-ELC-Refinery15,INDELC,WOOD-Refin,,,,0.023,0.012,6,1,10,0,,31.536,0.72,0.369699012851739,0.117600987148261,5,1,0.7,1,1,5,0,5
-WOOD-Pump-ELC-Pump15,INDELC,WOOD-Pump,,,,0.015,0.015,6,0.75,10,2308,,31.536,0.23,0.234959540899207,0.0747404591007929,5,0.5,0.35,,1,5,0,5
-WOOD-PH-FURN-NGA-Furn15,INDNGA,WOOD-PH-FURN,,,,0.08,0.008,21,0.8,25,63,,31.536,0.22,0.2194,0,5,0.9,0.63,,0.05,5,0,5
-WOOD-AIR-ELC-CMPR15,INDELC,WOOD-AIR,,,,0.009,0.009,21,1,25,0,,31.536,0.19,0.187087577609766,0.0595124223902342,5,0.68,0.48,,1,5,0,5
-PLPPPR-PH-STM_HW-COA-BLR15,INDCOA,PLPPPR-PH-STM_HW,,,,0.009,0.009,16,0.8,20,750,,31.536,0.13,0.1329,0.0194,5,0.5,0.35,,0.867,5,0,5
-PLPPPR-PH-STM_HW-FOL-BLR15,INDFOL,PLPPPR-PH-STM_HW,,,,0.007,0.007,21,0.85,25,300,,31.536,0.1,0.0971,0.003,5,0.5,0.35,0.004,0.134,5,0,5
-PLPPPR-PH-STM_HW-GEO-Heat15,INDGEO,PLPPPR-PH-STM_HW,,,,0.366,0.243,6,0.970124,10,100,,31.536,5.760248,3.8234,0,5,0.5,0.35,0.125,0,5,0,5
-PLPPPR-PH-STM_HW-NGA-BLR15,INDNGA,PLPPPR-PH-STM_HW,,,,0.151,0.151,21,0.87,25,350,,31.536,2.37,2.3671,0,5,0.5,0.35,,0,5,0,5
-PLPPPR-PH-STM_HW-WOD-BLR15,INDWOD,PLPPPR-PH-STM_HW,,,,1.548,1.548,21,0.85,25,2000,,31.536,24.4,24.4038,0,5,0.5,0.35,,0,5,0,5
-PLPPPR-Refin-ELC-REF15,INDELC,PLPPPR-Refin,,,,0.073,0.073,6,1,10,0,,31.536,2.27,2.2727,0.0033,5,1,0.7,,1,5,0,5
-PLPPPR-PH-FURN-NGA-Furn15,INDNGA,PLPPPR-PH-FURN,,,,0.028,0.028,21,0.8,25,63,,31.536,0.78,0.7775,0,5,0.9,0.63,,0.05,5,0,5
-PLPPPR-Pump-ELC-Pump15,INDELC,PLPPPR-Pump,,,,0.14,0.04,6,0.75,10,2308,,31.536,2.2025,0.6236,0.0009,5,0.5,0.35,,1,5,0,5
-PLPPPR-MoTP-Stat-ELC-Mtr15,INDELC,PLPPPR-MoTP-Stat,,,,0.029,0.029,6,0.675,10,280,,31.536,0.45,0.4504,0.0007,5,0.5,0.35,,1,5,0,5
-PLPPPR-Fan-ELC-Fan15,INDELC,PLPPPR-Fan,,,,0.621,0.621,5,43.4339175556657,5,404.591641485669,,31.536,9.782,9.7816,0.0142,5,0.5,0.35,,1,5,0,5
-PLPPPR-PH-DirH-NGA-Burner15,INDNGA,PLPPPR-PH-DirH,,,,0.006,0.006,9,0.8,13,313,,31.536,0.154,0.154,0,5,0.9,0.63,,0.05,5,0,5
-PLPPPR-AIR-ELC-CMPR15,INDELC,PLPPPR-AIR,,,,0.04,0.004,21,1,25,0,,31.536,0.068,0.068,0.0001,5,0.68,0.48,,1,5,0,5
+ALU-PH-FURN-ELC-Furn15,INDELC,ALU-PH-FURN,,,,0,0,,0.8,25,63,,31.536,0,0,14.6282,5,0.9,0.63,0.05,,5,0,5
+CNST-MoTP-Mob-DSL-ICE_Off15,INDDSL,CNST-MoTP-Mob,,,,0.283,0.283,,0.18,20,2388,,31.536,0.8,0.802685,0,5,0.09,0.06,0.928,0.05,5,0,5
+CNST-MoTP-Mob-NGA-ICE_Off15,INDNGA,CNST-MoTP-Mob,,,,0.023,0.023,,0.13,20,2723,,31.536,0.06,0.0632,0,5,0.09,0.06,0.073,0.05,5,0,5
+CNST-MoTP-Stat-ELC-Mtr15,INDELC,CNST-MoTP-Stat,,,,0.023,0.023,,0.675,10,280,,31.536,0.36,0.3585,0.1547,5,0.5,0.35,,,,0,5
+CNST-MoTP-Stat-DSL-St_ngn15,INDDSL,CNST-MoTP-Stat,,,,0.11,0.011,,0.22,20,455,,31.536,0.17,0.1694,0,5,0.5,0.35,,,,0,5
+DARY-PH-MVR_DRY-COA-BLR15,INDCOA,DARY-PH-MVR_DRY,,,,0.18,0.18,,0.8,20,750,,31.536,3.88,3.8845,2.7476,5,0.685,0.48,0.589,,5,0,5
+DARY-PH-MVR_DRY-NGA-BLR15,INDNGA,DARY-PH-MVR_DRY,,,,0.126,0.126,,0.87,25,250,,31.536,2.72,2.7169,0,5,0.685,0.48,0.412,0,5,0,5
+DARY-PH-MVR_PRE-COA-BLR15,INDCOA,DARY-PH-MVR_PRE,,,,0.049,0.049,,0.8,20,750,,31.536,1.04,1.0387,0.7347,5,0.685,0.48,0.589,1,5,0,5
+DARY-PH-MVR_PRE-NGA-BLR15,INDNGA,DARY-PH-MVR_PRE,,,,0.034,0.034,,0.87,25,250,,31.536,0.73,0.7264,0,5,0.685,0.48,0.412,0,5,0,5
+DARY-PH-TVR_EVP-COA-BLR15,INDCOA,DARY-PH-TVR_EVP,,,,0.04,0.04,,0.8,20,750,,31.536,0.86,0.8637,0.6109,5,0.685,0.48,0.589,1,5,0,5
+DARY-PH-TVR_EVP-NGA-BLR15,INDNGA,DARY-PH-TVR_EVP,,,,0.028,0.028,,0.87,25,250,,31.536,0.6,0.6041,0,5,0.685,0.48,0.412,0,5,0,5
+DARY-PH-TVR_DRY-COA-BLR15,INDCOA,DARY-PH-TVR_DRY,,,,0.039,0.039,,0.8,20,750,,31.536,0.84,0.8401,0.5942,5,0.685,0.48,0.589,1,5,0,5
+DARY-PH-TVR_DRY-NGA-BLR15,INDNGA,DARY-PH-TVR_DRY,,,,0.028,0.028,,0.87,25,250,,31.536,0.59,0.5876,0,5,0.685,0.48,,,,0,5
+DARY-PH-MVR_TVR-COA-BLR15,INDCOA,DARY-PH-MVR_TVR,,,,0.019,0.019,,0.8,20,750,,31.536,0.41,0.4087,0.2891,5,0.685,0.48,,,,0,5
+DARY-PH-MVR_TVR-NGA-BLR15,INDNGA,DARY-PH-MVR_TVR,,,,0,0.014,,0.87,25,250,,31.536,0.29,0.2859,0,5,0.685,0.48,,,,0,5
+DARY-PH-MVR_Fan-ELC-Fan15,INDELC,DARY-PH-MVR_Fan,,,,1.687,1.687,,43.4339175556657,25,404.591641485669,,31.536,36.44,36.4393,15.1668,5,0.685,0.48,1,1,5,0,5
+DARY-Pump-ELC-Pump15,INDELC,DARY-Pump,,,,0.036,0.036,,0.75,10,2308,,31.536,0.56,0.5599,0.233,5,0.5,0.35,1,1,5,0,5
+DARY-RFGR-ELC-Refriger15,INDELC,DARY-RFGR,,,,0.022,0.022,,1,5,0,,31.536,0.67,0.6679,0.278,5,1,0.7,1,,5,0,5
+DARY-PH-STM_HW-DSL-BLR15,INDDSL,DARY-PH-STM_HW,,,,0.004,0.004,,0.85,25,300,,31.536,0.07,0.0709,0.0295,5,0.685,0.48,0.152,,5,0,5
+DARY-PH-STM_HW-GEO-Heat15,INDGEO,DARY-PH-STM_HW,,,,0.008,0.008,,0.970124,10,100,,31.536,0.15,0.1542,0.0642,5,0.685,0.48,0.331,0.331,5,0,5
+DARY-PH-STM_HW-LPG-BLR15,INDLPG,DARY-PH-STM_HW,,,,0.012,0.012,,0.87,25,350,,31.536,0.24,0.242,0.1007,5,0.685,0.48,,,,0,5
+DARY-MoTP-Stat-ELC-Mtr15,INDELC,DARY-MoTP-Stat,,,,0.008,0.008,,0.675,10,280,,31.536,0.12,0.1185,0.0493,5,0.5,0.35,1,,5,0,5
+DARY-AIR-ELC-CMPR15,INDELC,DARY-AIR,,,,0.008,0.008,,1,25,0,,31.536,0.16,0.1588,0.0661,5,0.68,0.48,1,1,5,0,5
+FOOD-PH-STM_HW-COA-BLR15,INDCOA,FOOD-PH-STM_HW,,,,0,0,,0.8,25,750,,31.536,0,0,0.3401,5,0.685,0.48,0,,5,0,5
+FOOD-PH-STM_HW-NGA-BLR15,INDNGA,FOOD-PH-STM_HW,,,,0.349,0.349,,0.87,25,250,,31.536,7.54,7.5357,0,5,0.685,0.48,1,0,5,0,5
+FOOD-PH-OVN-COA-Oven15,INDCOA,FOOD-PH-OVN,,,,0,0,,0.5,10,100,,31.536,0,0,0.0519,5,0.9,0.63,0,,5,0,5
+FOOD-PH-OVN-ELC-Oven15,INDELC,FOOD-PH-OVN,,,,0.003,0.003,,0.5,10,100,,31.536,0.07,0.0748,0.0234,5,0.9,0.63,0.056,0.311,5,0,5
+FOOD-PH-OVN-NGA-Oven15,INDNGA,FOOD-PH-OVN,,,,0.045,0.045,,0.5,10,100,,31.536,1.26,1.2639,0,5,0.9,0.63,,,,0,5
+FOOD-Pump-ELC-Pump15,INDELC,FOOD-Pump,,,,0.044,0.044,,0.75,10,2308,,31.536,0.69,0.691,0.2166,5,0.5,0.35,,,,0,5
+FOOD-MoTP-Stat-ELC-Mtr15,INDELC,FOOD-MoTP-Stat,,,,0.028,0.028,,0.675,10,280,,31.536,0.44,0.4379,0.1373,5,0.5,0.35,,,,0,5
+FOOD-RFGR-ELC-Refriger15,INDELC,FOOD-RFGR,,,,0.12,0.012,,1,5,0,,31.536,0.35,0.3537,0.1109,5,1,0.7,,,,0,5
+FOOD-PH-DirH-ELC-Heater15,INDELC,FOOD-PH-DirH,,,,0.003,0.003,,0.999700089973008,3,80,,31.536,0.06,0.064,0.0201,5,0.9,0.63,,,,0,5
+IIS-FDSTCK-COA-_15,COA,IIS-FDSTCK,,,,0.652,0.652,,1,100,0,,31.536,18.5,18.5,0,5,0.9,0.63,,,,0,5
+IIS-PH-FURN-ELC-Furn15,INDELC,IIS-PH-FURN,,,,0.058,0.058,,0.8,25,63,,31.536,1.64,1.6357,0,5,0.9,0.63,0.738,0.05,5,0,5
+IIS-PH-FURN-NGA-Furn15,INDNGA,IIS-PH-FURN,,,,0.021,0.021,,0.8,25,63,,31.536,0.58,0.5829,0,5,0.9,0.63,0.263,0.05,5,0,5
+IIS-MoTP-Stat-ELC-Mtr15,INDELC,IIS-MoTP-Stat,,,,0.039,0.039,,0.675,10,280,,31.536,0.61,0.6058,0,5,0.5,0.35,1,0.05,5,0,5
+MEAT-PH-STM_HW-COA-BLR15,INDCOA,MEAT-PH-STM_HW,,,,0.06,0.06,,0.8,20,750,,31.536,0.65,0.646,0.7797,5,0.343,0.24,0.332,0.962,5,0,5
+MEAT-PH-STM_HW-NGA-BLR15,INDNGA,MEAT-PH-STM_HW,,,,0.119,0.119,,0.87,25,250,,31.536,1.28,1.2768,0,5,0.343,0.24,0.656,0,5,0,5
+MEAT-PH-STM_HW-WOD-BLR15,INDWOD,MEAT-PH-STM_HW,,,,0.002,0.002,,0.85,25,2000,,31.536,0.03,0.0261,0.0315,5,0.5,0.35,0.014,0.039,5,0,5
+MEAT-PH-DirH-ELC-Heater15,INDELC,MEAT-PH-DirH,,,,0.002,0.002,,0.999700089973008,3,80,,31.536,0.03,0.0324,0.0135,5,0.9,0.63,1,1,5,0,5
+MEAT-RFGR-ELC-Refriger15,INDELC,MEAT-RFGR,,,,0.038,0.038,,1,5,0,,31.536,1.17,1.1699,0.4869,5,1,0.7,,,,0,5
+MEAT-MoTP-Stat-ELC-Mtr15,INDELC,MEAT-MoTP-Stat,,,,0.032,0.032,,0.675,10,280,,31.536,0.5,0.4959,0.2064,5,0.5,0.35,,,,0,5
+METAL-PH-FURN-ELC-Furn15,INDELC,METAL-PH-FURN,,,,0.002,0.002,,0.8,25,63,,31.536,0.05,0.0506,0.0125,5,0.9,0.63,0.031,0.045,5,0,5
+METAL-PH-FURN-FOL-Furn15,INDFOL,METAL-PH-FURN,,,,0.002,0.002,,0.8,25,63,,31.536,0.04,0.0419,0.2672,5,0.9,0.63,,0.956,5,0,5
+METAL-PH-FURN-NGA-Furn15,INDNGA,METAL-PH-FURN,,,,0.055,0.055,,0.8,25,63,,31.536,1.54,1.542,0,5,0.9,0.63,,,,0,5
+METAL-MoTP-Stat-ELC-Mtr15,INDELC,METAL-MoTP-Stat,,,,0.53,0.053,,0.675,10,280,,31.536,0.83,0.8343,0.2052,5,0.5,0.35,,,,0,5
+METAL-RFGR-ELC-Refriger15,INDELC,METAL-RFGR,,,,0.007,0.007,,1,5,0,,31.536,0.22,0.2174,0.0535,5,1,0.7,,,,0,5
+METAL-PH-DirH-NGA-Burner15,INDNGA,METAL-PH-DirH,,,,0.002,0.002,,0.8,13,313,,31.536,0.03,0.0322,0,5,0.9,0.63,1,,5,0,5
+MTHOL-FDSTCK-NGA-FDSTCK15,NGA,MTHOL-FDSTCK,,,,1.447,,1.447,1,100,1000,,31.536,41.07,41.0689,0,5,0.9,0.63,1,0.05,5,0,5
+MTHOL-PH_REFRM-NGA-REFRM15,INDNGA,MTHOL-PH_REFRM,,,,1.045,,1.045,1,25,1000,,31.536,16.46,16.4618,0,5,0.5,0.35,1,,5,0,5
+MNRL-PH-FURN-COA-Furn15,INDCOA,MNRL-PH-FURN,,,,0.073,0.073,,0.7,25,63,,31.536,2.07,2.0654,0,5,0.9,0.63,0.519,0.05,5,0,5
+MNRL-PH-FURN-ELC-Furn15,INDELC,MNRL-PH-FURN,,,,0.005,0.005,,0.8,25,63,,31.536,0.14,0.1392,0,5,0.9,0.63,,,,0,5
+MNRL-PH-FURN-NGA-Furn15,INDNGA,MNRL-PH-FURN,,,,0,0.049,,0.8,25,63,,31.536,1.36,1.364,0,5,0.9,0.63,,,,0,5
+MNRL-PH-FURN-WOD-Furn15,INDWOD,MNRL-PH-FURN,,,,0.015,0.015,,0.7,25,63,,31.536,0.42,0.4152,0,5,0.9,0.63,,,,0,5
+MNRL-MoTP-Stat-ELC-Mtr15,INDELC,MNRL-MoTP-Stat,,,,0.033,0.033,,0.675,10,280,,31.536,0.52,0.5158,0,5,0.5,0.35,1,,5,0,5
+MNRL-PH-STM_HW-NGA-BLR15,INDNGA,MNRL-PH-STM_HW,,,,0.028,0.028,,0.87,25,350,,31.536,0.43,0.4316,0,5,0.5,0.35,1,0.05,5,0,5
+MNNG-MoTP-Mob-DSL-ICE_Off15,INDDSL,MNNG-MoTP-Mob,,,,0.226,0.226,,0.18,20,2388,,31.536,0.64,0.6409,0,5,0.09,0.06,,0.05,5,0,5
+MNNG-MoTP-Stat-ELC-Mtr15,INDELC,MNNG-MoTP-Stat,,,,0.063,0.063,,0.675,10,280,,31.536,0.99,0.9912,0,5,0.5,0.35,,,,0,5
+MNNG-MoTP-Stat-DSL-St_ngn15,INDDSL,MNNG-MoTP-Stat,,,,0.078,0.006,,0.22,20,455,,31.536,1.2164,0.0897,0,5,0.5,0.35,,0.05,5,0,5
+MNNG-PH-STM_HW-FOL-BLR15,INDFOL,MNNG-PH-STM_HW,,,,0.11,0.002,,0.85,25,300,,31.536,1.73,0.0256,0,5,0.5,0.35,,0.05,5,0,5
+MNNG-PH-STM_HW-NGA-BLR15,INDNGA,MNNG-PH-STM_HW,,,,0.09,0.009,,0.87,25,350,,31.536,0.14,0.1388,0,5,0.5,0.35,,0.05,5,0,5
+OTH-ELC-ELC-Tech15,INDELC,OTH-ELC,,,,0.259,0.259,,1,1,0,,31.536,4.08,4.0838,1.3938,5,0.5,0.35,,1,5,0,5
+OTH-DSL-DSL-Tech15,INDDSL,OTH-DSL,,,,0.257,0.257,,1,1,0,,31.536,4.04,4.0376,1.3781,5,0.5,0.35,1,1,5,0,5
+OTH-LPG-LPG-Tech15,INDLPG,OTH-LPG,,,,0.169,0.169,,1,25,0,,31.536,2.65,2.6538,0.9058,5,0.5,0.35,1,1,5,0,5
+OTH-COA-COA-Tech15,INDCOA,OTH-COA,,,,0.064,0.064,,1,1,0,,31.536,1,1.0026,0.3422,5,0.5,0.35,,1,5,0,5
+OTH-NGA-NGA-Tech15,INDNGA,OTH-NGA,,,,0.067,0.067,,1,1,0,,31.536,1.06,1.0554,0,5,0.5,0.35,,0.05,5,0,5
+OTH-PET-PET-Tech15,INDPET,OTH-PET,,,,0.004,0.004,,1,1,0,,31.536,0.05,0.0501,0.0171,5,0.5,0.35,,1,5,0,5
+OTH-BGS-BGS-Tech15,INDBIG,OTH-BGS,,,,0.03,0.003,,1,25,0,,31.536,0.04,0.0397,0.0136,5,0.5,0.35,,1,5,0,5
+OTH-FOL-FOL-Tech15,INDFOL,OTH-FOL,,,,0.001,0.001,,1,25,0,,31.536,0.01,0.0083,0.0028,5,0.5,0.35,,1,5,0,5
+CHMCL-PH-STM_HW-FOL-BLR15,INDFOL,CHMCL-PH-STM_HW,,,,0.013,0.013,,0.85,25,300,,31.536,0.2,0.1972,0,5,0.5,0.35,0.042,0.05,5,0,5
+CHMCL-PH-STM_HW-NGA-BLR15,INDNGA,CHMCL-PH-STM_HW,,,,0.289,0.289,,0.87,25,350,,31.536,4.56,4.5554,0,5,0.5,0.35,0.959,0.05,5,0,5
+CHMCL-MoTP-Stat-ELC-Mtr15,INDELC,CHMCL-MoTP-Stat,,,,0.067,0.067,,0.675,10,280,,31.536,1.05,1.0479,0,5,0.5,0.35,0.91,0.05,5,0,5
+CHMCL-MoTP-Stat-NGA-Pump15,INDNGA,CHMCL-MoTP-Stat,,,,0.007,0.007,,0.1,10,462,,31.536,0.1,0.1038,0,5,0.5,0.35,0.091,0.05,5,0,5
+CHMCL-PH-REFRM-NGA-REFRM15,INDNGA,CHMCL-PH-REFRM,,,,0.096,0.096,,1,25,0,,31.536,1.51,1.5107,0,5,0.5,0.35,1,0.05,5,0,5
+CHMCL-PH-DirH-NGA-Burner15,INDNGA,CHMCL-PH-DirH,,,,0.009,0.009,,0.8,13,313,,31.536,0.23,0.2302,0,5,0.9,0.63,0.453,0.05,5,0,5
+CHMCL-PH-DirH-ELC-Heater15,INDELC,CHMCL-PH-DirH,,,,0.01,0.01,,0.999700089973008,3,80,,31.536,0.28,0.2785,0,5,0.9,0.63,,,,0,5
+CHMCL-PH-FURN-FOL-Furn15,INDFOL,CHMCL-PH-FURN,,,,0.04,0.004,,0.8,25,63,,31.536,0.11,0.1055,0,5,0.9,0.63,,,,0,5
+CHMCL-PH-FURN-NGA-Furn15,INDNGA,CHMCL-PH-FURN,,,,0.009,0.009,,0.8,25,63,,31.536,0.23,0.2296,0,5,0.9,0.63,,,,0,5
+REFI-PH-FURN-NGA-Furn15,INDNGA,REFI-PH-FURN,,,,0.082,0.082,,0.8,25,63,,31.536,2.31,2.3136,0,5,0.9,0.63,,,,0,5
+REFI-MoTP-Stat-ELC-Mtr15,INDELC,REFI-MoTP-Stat,,,,0.04,0.04,,0.675,10,280,,31.536,0.63,0.626,0,5,0.5,0.35,1,,5,0,5
+REFI-PH-STM_HW-NGA-BLR15,INDNGA,REFI-PH-STM_HW,,,,0.027,0.027,,0.87,25,350,,31.536,0.42,0.4176,0,5,0.5,0.35,1,0.05,5,0,5
+UREA-FDSTCK-NGA-FDSTCK15,NGA,UREA-FDSTCK,,,,0.141,,0.141,1,100,1000,,31.536,3.99,3.9926,0,5,0.9,0.63,1,0.05,5,0,5
+UREA-REFRM-NGA15,INDNGA,UREA-REFRM,,,,0.124,,0.124,1,100,1000,,31.536,,3.5,0,5,0.9,,,,,0,5
+WOOD-PH-STM_HW-COA-BLR15,INDCOA,WOOD-PH-STM_HW,,,,0.009,0.009,,0.8,20,750,,31.536,0.14,0.1383810793026,0.0440189206973995,5,0.5,0.35,0.013,0.015,5,0,5
+WOOD-PH-STM_HW-DSL-BLR15,INDDSL,WOOD-PH-STM_HW,,,,0.002,0.002,,0.85,25,300,,31.536,0.03,0.0309536624755817,0.00984633752441831,5,0.5,0.35,0.003,0.004,5,0,5
+WOOD-PH-STM_HW-ELC-BLR15,INDELC,WOOD-PH-STM_HW,,,,0.002,0.002,,0.99,25,3750,,31.536,0.02,0.0168424339940665,0.00535756600593349,5,0.5,0.35,0.002,0.002,5,0,5
+WOOD-PH-STM_HW-FOL-BLR15,INDFOL,WOOD-PH-STM_HW,,,,0.002,0.002,,0.85,25,300,,31.536,0.02,0.0224565786587553,0.00714342134124466,5,0.5,0.35,0.003,0.003,5,0,5
+WOOD-PH-STM_HW-GEO-Heat15,INDGEO,WOOD-PH-STM_HW,,,,0.035,0.035,,0.970124,10,100,,31.536,0.54,0.5442,0,5,0.5,0.35,,,,0,5
+WOOD-PH-STM_HW-NGA-BLR15,INDNGA,WOOD-PH-STM_HW,,,,0.031,0.031,,0.87,25,350,,31.536,0.47,0.4744,0,5,0.5,0.35,0.044,0,5,0,5
+WOOD-PH-STM_HW-WOD-BLR15,INDWOD,WOOD-PH-STM_HW,,,,0.649,0.614,,0.85,25,2000,,31.536,10.2225,9.66861924807128,3.07558075192872,5,0.5,0.35,0.888,0.979,5,0,5
+WOOD-Fan-ELC-Fan15,INDELC,WOOD-Fan,,,,8.208,4.572,,43.4339175556657,5,404.591641485669,,31.536,129.422771173479,72.0863761628026,22.9306238371974,5,0.5,0.35,1,1,5,0,5
+WOOD-MoTP-Stat-ELC-Mtr15,INDELC,WOOD-MoTP-Stat,,,,0.048,0.048,,0.675,10,280,,31.536,0.75,0.749640046375546,0.238459953624454,5,0.5,0.35,1,1,5,0,5
+WOOD-Refin-ELC-Refinery15,INDELC,WOOD-Refin,,,,0.023,0.012,,1,10,0,,31.536,0.72,0.369699012851739,0.117600987148261,5,1,0.7,1,1,5,0,5
+WOOD-Pump-ELC-Pump15,INDELC,WOOD-Pump,,,,0.015,0.015,,0.75,10,2308,,31.536,0.23,0.234959540899207,0.0747404591007929,5,0.5,0.35,,1,5,0,5
+WOOD-PH-FURN-NGA-Furn15,INDNGA,WOOD-PH-FURN,,,,0.08,0.008,,0.8,25,63,,31.536,0.22,0.2194,0,5,0.9,0.63,,0.05,5,0,5
+WOOD-AIR-ELC-CMPR15,INDELC,WOOD-AIR,,,,0.009,0.009,,1,25,0,,31.536,0.19,0.187087577609766,0.0595124223902342,5,0.68,0.48,,1,5,0,5
+PLPPPR-PH-STM_HW-COA-BLR15,INDCOA,PLPPPR-PH-STM_HW,,,,0.009,0.009,,0.8,20,750,,31.536,0.13,0.1329,0.0194,5,0.5,0.35,,0.867,5,0,5
+PLPPPR-PH-STM_HW-FOL-BLR15,INDFOL,PLPPPR-PH-STM_HW,,,,0.007,0.007,,0.85,25,300,,31.536,0.1,0.0971,0.003,5,0.5,0.35,0.004,0.134,5,0,5
+PLPPPR-PH-STM_HW-GEO-Heat15,INDGEO,PLPPPR-PH-STM_HW,,,,0.366,0.243,,0.970124,10,100,,31.536,5.760248,3.8234,0,5,0.5,0.35,0.125,0,5,0,5
+PLPPPR-PH-STM_HW-NGA-BLR15,INDNGA,PLPPPR-PH-STM_HW,,,,0.151,0.151,,0.87,25,350,,31.536,2.37,2.3671,0,5,0.5,0.35,,0,5,0,5
+PLPPPR-PH-STM_HW-WOD-BLR15,INDWOD,PLPPPR-PH-STM_HW,,,,1.548,1.548,,0.85,25,2000,,31.536,24.4,24.4038,0,5,0.5,0.35,,0,5,0,5
+PLPPPR-Refin-ELC-REF15,INDELC,PLPPPR-Refin,,,,0.073,0.073,,1,10,0,,31.536,2.27,2.2727,0.0033,5,1,0.7,,1,5,0,5
+PLPPPR-PH-FURN-NGA-Furn15,INDNGA,PLPPPR-PH-FURN,,,,0.028,0.028,,0.8,25,63,,31.536,0.78,0.7775,0,5,0.9,0.63,,0.05,5,0,5
+PLPPPR-Pump-ELC-Pump15,INDELC,PLPPPR-Pump,,,,0.14,0.04,,0.75,10,2308,,31.536,2.2025,0.6236,0.0009,5,0.5,0.35,,1,5,0,5
+PLPPPR-MoTP-Stat-ELC-Mtr15,INDELC,PLPPPR-MoTP-Stat,,,,0.029,0.029,,0.675,10,280,,31.536,0.45,0.4504,0.0007,5,0.5,0.35,,1,5,0,5
+PLPPPR-Fan-ELC-Fan15,INDELC,PLPPPR-Fan,,,,0.621,0.621,,43.4339175556657,5,404.591641485669,,31.536,9.782,9.7816,0.0142,5,0.5,0.35,,1,5,0,5
+PLPPPR-PH-DirH-NGA-Burner15,INDNGA,PLPPPR-PH-DirH,,,,0.006,0.006,,0.8,13,313,,31.536,0.154,0.154,0,5,0.9,0.63,,0.05,5,0,5
+PLPPPR-AIR-ELC-CMPR15,INDELC,PLPPPR-AIR,,,,0.04,0.004,,1,25,0,,31.536,0.068,0.068,0.0001,5,0.68,0.48,,1,5,0,5
 
 
 sheetname: IND_PRC_COM
@@ -10895,8 +10306,8 @@ R_DDW-SH_Burner-COA00,Detached dwellings - Heat/Cooling Devices - Burner (Direct
 R_DDW-SH_OF-WOD00,Detached dwellings - Heat/Cooling Devices - Open Fire,RESWOD,R_DDW-SH,0.06,0.0821,0,50,31.536,0.00315924818736099,,0.00817962717368618,,,0,5,,,,
 R_DDW-SH_OF-COA00,Detached dwellings - Heat/Cooling Devices - Open Fire,RESCOA,R_DDW-SH,0.06,0.0821,0,50,31.536,0.00241913397850036,,0.00626339333088556,,,0,5,,,,
 R_DDW-SH_OFWB-COA00,"Detached dwellings - Heat/Cooling Devices - Open Fire, with Wetback",RESCOA,R_DDW-SH,0.06,0.0821,0,50,31.536,0.000286533212957856,,0.000741864746255177,,,0,5,,,,
-R_DDW-SH_HP-ELC00,Detached dwellings - Heat/Cooling Devices - Heat Pump (for Heating),RESELC,R_DDW-SH,3.75,0.0821,0.061575,12,31.536,4.14017532823776,,10.7193511273222,557.906976744186,,,,,,,
-R_DDW-SH_RH-ELC00,Detached dwellings - Heat/Cooling Devices - Resistance Heater,RESELC,R_DDW-SH,1,0.0821,0.061575,5,31.536,0.918161016705594,,2.37721583005415,24,,,,,,,
+R_DDW-SH_HP-ELC00,Detached dwellings - Heat/Cooling Devices - Heat Pump (for Heating),RESELC,R_DDW-SH,3.75,0.0821,0.061575,12,31.536,4.14017532823776,,10.7193511273222,557.906976744186,,0,5,,,,
+R_DDW-SH_RH-ELC00,Detached dwellings - Heat/Cooling Devices - Resistance Heater,RESELC,R_DDW-SH,1,0.0821,0.061575,5,31.536,0.918161016705594,,2.37721583005415,24,,0,5,,,,
 R_DDW-WH_OFWB-COA00,"Detached dwellings - Heat/Cooling Devices - Open Fire, with Wetback",RESCOA,R_DDW-WH,0.16,0.1666,0,50,31.536,0.00042919737970399,,0.00225495908315308,,,0,5,,,,
 R_DDW-WH_HWC-SOL00,Detached dwellings - Heat/Cooling Devices - Hot Water Cylinder,RESSOL,R_DDW-WH,0.6,0.125,,20,31.536,0.0346320964356062,,0.13651972414916,2121,,0,5,,,,
 R_DDW-WH_HWC-ELC00,Detached dwellings - Heat/Cooling Devices - Hot Water Cylinder,RESELC,R_DDW-WH,1,0.125,0.09375,20,31.536,2.39650174910587,,9.44700989497536,757.5,,,,,,,
@@ -10922,8 +10333,8 @@ R_DDW-UNAL_OTH-GEO00,Detached dwellings - Unallocated - Unallocated,RESGEO,R_DDW
 R_JDW-SH_Burner-NGA00,Joined dwellings - Heat/Cooling Devices - Burner (Direct Heat),RESNGA,R_JDW-SH,0.8,0.0821,0.061575,20,31.536,0.0868292929951197,,0.224810208737705,807.462686567164,150,,,,,,
 R_JDW-SH_Burner-LPG00,Joined dwellings - Heat/Cooling Devices - Burner (Direct Heat),RESLPG,R_JDW-SH,0.8,0.0821,0.061575,20,31.536,0.0336822780099077,,0.087206974616209,807.462686567164,150,,,,,,
 R_JDW-SH_Burner-DSL00,Joined dwellings - Heat/Cooling Devices - Burner (Direct Heat),RESDSL,R_JDW-SH,0.8,0.0045,0.003375,5,31.536,0.0564110285867763,,0.0080054018888066,,,0,5,,,,
-R_JDW-SH_HP-ELC00,Joined dwellings - Heat/Cooling Devices - Heat Pump (for Heating),RESELC,R_JDW-SH,3.75,0.0821,0.061575,12,31.536,0.668390674361264,,1.73053403797653,702.8125,,,,,,,
-R_JDW-SH_RH-ELC00,Joined dwellings - Heat/Cooling Devices - Resistance Heater,RESELC,R_JDW-SH,1,0.0821,0.061575,5,31.536,0.148228085159207,,0.383778165362981,24,,,,,,,
+R_JDW-SH_HP-ELC00,Joined dwellings - Heat/Cooling Devices - Heat Pump (for Heating),RESELC,R_JDW-SH,3.75,0.0821,0.061575,12,31.536,0.668390674361264,,1.73053403797653,702.8125,,0,5,,,,
+R_JDW-SH_RH-ELC00,Joined dwellings - Heat/Cooling Devices - Resistance Heater,RESELC,R_JDW-SH,1,0.0821,0.061575,5,31.536,0.148228085159207,,0.383778165362981,24,,0,5,,,,
 R_JDW-WH_HWC-SOL00,Joined dwellings - Heat/Cooling Devices - Hot Water Cylinder,RESSOL,R_JDW-WH,0.6,0.0833,,20,31.536,0.0119370541214673,,0.0313580299999237,2121,,0,5,,,,
 R_JDW-WH_HWC-ELC00,Joined dwellings - Heat/Cooling Devices - Hot Water Cylinder,RESELC,R_JDW-WH,1,0.0833,0.062475,20,31.536,0.826030590855487,,2.16994006941111,757.6,,,,,,,
 R_JDW-WH_Gasheat-NGA00,Joined dwellings - Heat/Cooling Devices - Gas Water Heater,RESNGA,R_JDW-WH,0.8,0.028,0.021,20,31.536,0.803622358384704,,0.70960497143256,250,150,,,,,,
@@ -13125,8 +12536,8 @@ R_DDW-SH_Burner-COA00,Detached dwellings - Heat/Cooling Devices - Burner (Direct
 R_DDW-SH_OF-WOD00,Detached dwellings - Heat/Cooling Devices - Open Fire,RESWOD,R_DDW-SH,0.06,0.0821,0,50,31.536,0.00195280389574741,,0.00505601550218143,,,0,5,,,,
 R_DDW-SH_OF-COA00,Detached dwellings - Heat/Cooling Devices - Open Fire,RESCOA,R_DDW-SH,0.06,0.0821,0,50,31.536,0.00149532229739019,,0.00387154733397781,,,0,5,,,,
 R_DDW-SH_OFWB-COA00,"Detached dwellings - Heat/Cooling Devices - Open Fire, with Wetback",RESCOA,R_DDW-SH,0.06,0.0821,0,50,31.536,0.000177112762702105,,0.000458563645743491,,,0,5,,,,
-R_DDW-SH_HP-ELC00,Detached dwellings - Heat/Cooling Devices - Heat Pump (for Heating),RESELC,R_DDW-SH,3.75,0.0821,0.061575,12,31.536,2.55913750062593,,6.62587723404059,557.906976744186,,,,,,,
-R_DDW-SH_RH-ELC00,Detached dwellings - Heat/Cooling Devices - Resistance Heater,RESELC,R_DDW-SH,1,0.0821,0.061575,5,31.536,0.567536421329348,,1.46941172666777,24,,,,,,,
+R_DDW-SH_HP-ELC00,Detached dwellings - Heat/Cooling Devices - Heat Pump (for Heating),RESELC,R_DDW-SH,3.75,0.0821,0.061575,12,31.536,2.55913750062593,,6.62587723404059,557.906976744186,,0,5,,,,
+R_DDW-SH_RH-ELC00,Detached dwellings - Heat/Cooling Devices - Resistance Heater,RESELC,R_DDW-SH,1,0.0821,0.061575,5,31.536,0.567536421329348,,1.46941172666777,24,,0,5,,,,
 R_DDW-WH_OFWB-COA00,"Detached dwellings - Heat/Cooling Devices - Open Fire, with Wetback",RESCOA,R_DDW-WH,0.16,0.1666,0,50,31.536,0.000132772963674401,,0.000697575555193823,,,0,5,,,,
 R_DDW-WH_HWC-SOL00,Detached dwellings - Heat/Cooling Devices - Hot Water Cylinder,RESSOL,R_DDW-WH,0.6,0.125,,20,31.536,0.0107134998941149,,0.0422326165826009,2121,,0,5,,,,
 R_DDW-WH_HWC-ELC00,Detached dwellings - Heat/Cooling Devices - Hot Water Cylinder,RESELC,R_DDW-WH,1,0.125,0.09375,20,31.536,0.741362027650596,,2.92244911299865,757.6,,,,,,,
@@ -13148,8 +12559,8 @@ R_DDW-MPS_Motor-ELC00,Detached dwellings - Stationary Motors - Electric Motor,RE
 R_DDW-MPM_ICE-PET00,Detached dwellings - Stationary Motors - Internal Combustion (Domestic Use),RESPET,R_DDW-MPM,0.25,0.0029,0,10,31.536,0.000142310573894392,,1.30149281491673e-05,1466.66666666667,,,,,,,
 R_JDW-SH_Burner-LPG00,Joined dwellings - Heat/Cooling Devices - Burner (Direct Heat),RESLPG,R_JDW-SH,0.8,0.0821,0.061575,20,31.536,0.0208197899672892,,0.0539046347951324,807.462686567164,150,,,,,,
 R_JDW-SH_Burner-DSL00,Joined dwellings - Heat/Cooling Devices - Burner (Direct Heat),RESDSL,R_JDW-SH,0.8,0.0045,0.003375,5,31.536,0.0348689529452242,,0.00494832285036266,,,0,5,,,,
-R_JDW-SH_HP-ELC00,Joined dwellings - Heat/Cooling Devices - Heat Pump (for Heating),RESELC,R_JDW-SH,3.75,0.0821,0.061575,12,31.536,0.413147633666671,,1.06968285195313,702.8125,,,,,,,
-R_JDW-SH_RH-ELC00,Joined dwellings - Heat/Cooling Devices - Resistance Heater,RESELC,R_JDW-SH,1,0.0821,0.061575,5,31.536,0.091623185324947,,0.237222102214658,24,,,,,,,
+R_JDW-SH_HP-ELC00,Joined dwellings - Heat/Cooling Devices - Heat Pump (for Heating),RESELC,R_JDW-SH,3.75,0.0821,0.061575,12,31.536,0.413147633666671,,1.06968285195313,702.8125,,0,5,,,,
+R_JDW-SH_RH-ELC00,Joined dwellings - Heat/Cooling Devices - Resistance Heater,RESELC,R_JDW-SH,1,0.0821,0.061575,5,31.536,0.091623185324947,,0.237222102214658,24,,0,5,,,,
 R_JDW-WH_HWC-SOL00,Joined dwellings - Heat/Cooling Devices - Hot Water Cylinder,RESSOL,R_JDW-WH,0.6,0.0833,,20,31.536,0.00369274867041833,,0.00970066168845703,2121,,0,5,,,,
 R_JDW-WH_HWC-ELC00,Joined dwellings - Heat/Cooling Devices - Hot Water Cylinder,RESELC,R_JDW-WH,1,0.0833,0.062475,20,31.536,0.25553401493094,,0.671274773882014,757.6,,,,,,,
 R_JDW-WH_Gasheat-LPG00,Joined dwellings - Heat/Cooling Devices - Gas Water Heater,RESLPG,R_JDW-WH,0.8,0.028,0.021,20,31.536,0.0925711677737513,,0.0817410817135646,250,150,,,,,,
