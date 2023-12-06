@@ -2,10 +2,10 @@ utils/*.pkl
 .venv/
 *.pyc
 __pycache__/
-TIMES-NZ\ParScen_BackUp
-TIMES-NZ\SuppXLS\ParScenFiles
-TIMES-NZ/AppData/ExResLayout.json
-TIMES-NZ/AppData/MasterFormFormSettings.json
-TIMES-NZ/AppData/ResultsFormSettings.json
-TIMES-NZ/AppData/Settings.json
+TIMES-NZ-NZEECS\ParScen_BackUp
+TIMES-NZ-NZEECS\SuppXLS\ParScenFiles
+TIMES-NZ-NZEECS/AppData/ExResLayout.json
+TIMES-NZ-NZEECS/AppData/MasterFormFormSettings.json
+TIMES-NZ-NZEECS/AppData/ResultsFormSettings.json
+TIMES-NZ-NZEECS/AppData/Settings.json
 raw_tables.pkl

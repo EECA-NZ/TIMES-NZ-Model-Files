@@ -26,12 +26,12 @@ jobs:
 
     - name: Run raw_table_summary on TIMES-NZ-Model-Files
       run: |
-        times-excel-reader head/TIMES-NZ/ --output_dir head/TIMES-NZ/raw_table_summary/ --only_read
+        times-excel-reader head/TIMES-NZ-NZEECS/ --output_dir head/TIMES-NZ-NZEECS/raw_table_summary/ --only_read
 
     - name: Check if raw_table_summary is updated
       id: raw_table_updated
       run: |
-        cd head/TIMES-NZ/raw_table_summary
+        cd head/TIMES-NZ-NZEECS/raw_table_summary
         if ! git diff --quiet; then \
           echo "ERROR: raw_table_summary is not up-to-date."; \
           echo "The uploaded artifact contains the raw_table_summary for your branch, commit that to pass this check."; \
@@ -43,7 +43,7 @@ jobs:
       if: ${{ failure() && steps.raw_table_updated.outcome == 'failure' }}
       with:
         name: raw_tables
-        path: head/TIMES-NZ/raw_table_summary/raw_tables.txt
+        path: head/TIMES-NZ-NZEECS/raw_table_summary/raw_tables.txt
 
     - name: Run times-excel-reader on TIMES-NZ-Model-Files
       run: |
