@@ -22,7 +22,7 @@ jobs:
     - name: Install times-excel-reader
       run: |
         pip install -U pip
-        pip install times-excel-reader @ git+https://github.com/etsap-TIMES/times-excel-reader.git@0f7793abf2d28c8aec83e90446a16d0f0ce98893
+        pip install git+https://github.com/etsap-TIMES/times-excel-reader.git@0f7793abf2d28c8aec83e90446a16d0f0ce98893
 
     - name: Run raw_table_summary on TIMES-NZ-Model-Files
       run: |
