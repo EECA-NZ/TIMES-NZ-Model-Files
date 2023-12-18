@@ -3276,7 +3276,6 @@ R_JDW-CD_Hpdryer-ELC,Joined dwellings - Heat/Cooling Devices - Heat Pump Dryer,R
 sheetname: CO2Price
 range: A2:B3
 filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
-uc_sets: {'R_E': 'SI'}
 tag: ~InputCell: 1,2,7
 types: VALUE (object)
 VALUE
@@ -3284,9 +3283,34 @@ VALUE
 
 
 sheetname: CO2Price
+range: G41:H44
+filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
+tag: ~UC_Sets: R_E: NI
+types: ~UC_Sets:TS_S (object)
+~UC_Sets:TS_S
+UC_N
+Hydro_AF-SUM-NI
+
+
+sheetname: CO2Price
 range: G42:W51
 filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
-uc_sets: {'R_E': 'SI'}
+tag: ~UC_Sets:TS_S
+types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
+UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
+Hydro_AF-SUM-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.332442233180967,-0.302220211982697,-0.31661165064854,,,
+Hydro_AF-Fal-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.329092579928095,-0.313421504693423,-0.313421504693423,,,
+Hydro_AF-WIN-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.241694801288398,-0.210169392424694,-0.210169392424694,,,
+Hydro_AF-SPR-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.24717339788176,-0.235403236077867,-0.235403236077867,,,
+
+
+sheetname: CO2Price
+range: G42:W51
+filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
 tag: ~UC_T
 types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
 UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
@@ -3301,9 +3325,34 @@ Hydro_AF-SPR-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
 
 
 sheetname: CO2Price
+range: G61:H64
+filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
+tag: ~UC_Sets: R_E: SI
+types: ~UC_Sets:TS_S (object)
+~UC_Sets:TS_S
+UC_N
+Hydro_AF-SUM-SI
+
+
+sheetname: CO2Price
 range: G62:W71
 filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
-uc_sets: {'R_E': 'SI'}
+tag: ~UC_Sets:TS_S
+types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~SI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
+UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~SI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
+Hydro_AF-SUM-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.220306090647132,-0.200278264224665,-0.20981532442584,,,
+Hydro_AF-Fal-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.233165843179645,-0.222062707790138,-0.222062707790138,,,
+Hydro_AF-WIN-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.212111185780031,-0.18444450937394,-0.18444450937394,,,
+Hydro_AF-SPR-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.221600002403735,-0.211047621336891,-0.211047621336891,,,
+
+
+sheetname: CO2Price
+range: G62:W71
+filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001.xlsx
 tag: ~UC_T
 types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~SI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
 UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~SI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
@@ -3320,7 +3369,6 @@ Hydro_AF-SPR-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
 sheetname: CO2Price
 range: A2:B3
 filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
-uc_sets: {'R_E': 'SI'}
 tag: ~InputCell: 1,2,7
 types: VALUE (object)
 VALUE
@@ -3328,9 +3376,34 @@ VALUE
 
 
 sheetname: CO2Price
+range: G41:H44
+filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
+tag: ~UC_Sets: R_E: NI
+types: ~UC_Sets:TS_S (object)
+~UC_Sets:TS_S
+UC_N
+Hydro_AF-SUM-NI
+
+
+sheetname: CO2Price
 range: G42:W51
 filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
-uc_sets: {'R_E': 'SI'}
+tag: ~UC_Sets:TS_S
+types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
+UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
+Hydro_AF-SUM-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.332442233180967,-0.332442233180967,-0.332442233180967,,,
+Hydro_AF-Fal-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.329092579928095,-0.346413242029573,-0.346413242029573,,,
+Hydro_AF-WIN-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.241694801288398,-0.241694801288398,-0.161129867525599,,,
+Hydro_AF-SPR-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.24717339788176,-0.260182524086063,-0.260182524086063,,,
+
+
+sheetname: CO2Price
+range: G42:W51
+filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
 tag: ~UC_T
 types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
 UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
@@ -3345,9 +3418,34 @@ Hydro_AF-SPR-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
 
 
 sheetname: CO2Price
+range: G61:H64
+filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
+tag: ~UC_Sets: R_E: SI
+types: ~UC_Sets:TS_S (object)
+~UC_Sets:TS_S
+UC_N
+Hydro_AF-SUM-SI
+
+
+sheetname: CO2Price
 range: G62:W71
 filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
-uc_sets: {'R_E': 'SI'}
+tag: ~UC_Sets:TS_S
+types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~SI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
+UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~SI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
+Hydro_AF-SUM-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.220306090647132,-0.220306090647132,-0.220306090647132,,,
+Hydro_AF-Fal-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.233165843179645,-0.245437729662784,-0.245437729662784,,,
+Hydro_AF-WIN-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.212111185780031,-0.212111185780031,-0.141407457186688,,,
+Hydro_AF-SPR-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.221600002403735,-0.233263160424984,-0.233263160424984,,,
+
+
+sheetname: CO2Price
+range: G62:W71
+filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002.xlsx
 tag: ~UC_T
 types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~SI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
 UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~SI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
@@ -3364,7 +3462,6 @@ Hydro_AF-SPR-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
 sheetname: CO2Price
 range: A2:B3
 filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
-uc_sets: {'R_E': 'SI'}
 tag: ~InputCell: 1,2,7
 types: VALUE (object)
 VALUE
@@ -3372,9 +3469,34 @@ VALUE
 
 
 sheetname: CO2Price
+range: G41:H44
+filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
+tag: ~UC_Sets: R_E: NI
+types: ~UC_Sets:TS_S (object)
+~UC_Sets:TS_S
+UC_N
+Hydro_AF-SUM-NI
+
+
+sheetname: CO2Price
 range: G42:W51
 filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
-uc_sets: {'R_E': 'SI'}
+tag: ~UC_Sets:TS_S
+types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
+UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
+Hydro_AF-SUM-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.332442233180967,-0.332442233180967,-0.332442233180967,,,
+Hydro_AF-Fal-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.329092579928095,-0.329092579928095,-0.329092579928095,,,
+Hydro_AF-WIN-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.241694801288398,-0.241694801288398,-0.241694801288398,,,
+Hydro_AF-SPR-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.24717339788176,-0.24717339788176,-0.24717339788176,,,
+
+
+sheetname: CO2Price
+range: G42:W51
+filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
 tag: ~UC_T
 types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
 UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
@@ -3389,9 +3511,34 @@ Hydro_AF-SPR-NI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
 
 
 sheetname: CO2Price
+range: G61:H64
+filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
+tag: ~UC_Sets: R_E: SI
+types: ~UC_Sets:TS_S (object)
+~UC_Sets:TS_S
+UC_N
+Hydro_AF-SUM-SI
+
+
+sheetname: CO2Price
 range: G62:W71
 filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
-uc_sets: {'R_E': 'SI'}
+tag: ~UC_Sets:TS_S
+types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~SI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
+UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~SI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
+Hydro_AF-SUM-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,SUM-,,E*HYD*DAM*,ELC,,,,,,-0.220306090647132,-0.220306090647132,-0.220306090647132,,,
+Hydro_AF-Fal-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,Fal-,,E*HYD*DAM*,ELC,,,,,,-0.233165843179645,-0.233165843179645,-0.233165843179645,,,
+Hydro_AF-WIN-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,WIN-,,E*HYD*DAM*,ELC,,,,,,-0.212111185780031,-0.212111185780031,-0.212111185780031,,,
+Hydro_AF-SPR-SI,,,E*HYD*DAM*,ELC,,,2016,LO,1,,,,0,5,
+,SPR-,,E*HYD*DAM*,ELC,,,,,,-0.221600002403735,-0.221600002403735,-0.221600002403735,,,
+
+
+sheetname: CO2Price
+range: G62:W71
+filename: SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007.xlsx
 tag: ~UC_T
 types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~SI (object), UC_ACT~2016 (object), UC_ACT~2025 (object), UC_ACT~2055 (object), UC_RHSRTS (object), UC_RHSRTS~0 (object), UC_Desc (object)
 UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~SI,UC_ACT~2016,UC_ACT~2025,UC_ACT~2055,UC_RHSRTS,UC_RHSRTS~0,UC_Desc
@@ -4538,10 +4685,46 @@ WIN-,UP,NCAP_AFC,,0.096,0.073,,"R_DDW*SOL*,-*00",RESSOL
 SPR-,UP,NCAP_AFC,,0.125,0.125,,"R_DDW*SOL*,-*00",RESSOL
 
 
+sheetname: Batteries
+range: B4:C5
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: TS_S:
+
+
+sheetname: Batteries
+range: B5
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: TS_S:
+types: 
+
+
+
+sheetname: CCS+h2
+range: C7:D10
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+CO2_for_H2-prod
+
+
 sheetname: CCS+h2
 range: C8:N11
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Cset_CN (object), Year (object), LimType (object), UC_FLO (object), UC_RHST~2025 (object), UC_RHST~2060 (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Cset_CN,Year,LimType,UC_FLO,UC_RHST~2025,UC_RHST~2060,UC_RHST~0,UC_Desc
+CO2_for_H2-prod,ELE,*CCS*,COseq,2025,lo,1,0,0,5,Limitting methanation of hydrogen to CCS power plant operation
+,,SUP_H2NGA_CCS,H2R,2025,,-45.8,,,,
+
+
+sheetname: CCS+h2
+range: C8:N11
+filename: SuppXLS/Scen_Base_constraints.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Cset_CN (object), Year (object), LimType (object), UC_FLO (object), UC_RHST~2025 (object), UC_RHST~2060 (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Cset_CN,Year,LimType,UC_FLO,UC_RHST~2025,UC_RHST~2060,UC_RHST~0,UC_Desc
@@ -4550,9 +4733,25 @@ CO2_for_H2-prod,ELE,*CCS*,COseq,2025,lo,1,0,0,5,Limitting methanation of hydroge
 
 
 sheetname: CH_RH
+range: B50:C51
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: CH_RH
+range: B51
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: CH_RH
 range: B52:P55
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Pset_CI (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_ACT~2020 (object), UC_ACT~2060 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Pset_CI,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_ACT~2020,UC_ACT~2060,UC_RHST,UC_RHST~0,UC_Desc
@@ -4561,9 +4760,27 @@ MAX-ELE-CK-SHARE,,"C*WSR*CK*Elements*,C*WSR*CK*Induction*",,C_WSR-CK,,,2020,LO,-
 
 
 sheetname: Cars
+range: C16:D19
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_SUC: (object)
+~UC_Sets: T_SUC:
+UC_N
+Max_BEVMTruck_uptake_number
+
+
+sheetname: Cars
 range: C17:Q19
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_SUC': '', 'Ts_S': ''}
+tag: ~UC_Sets: T_SUC:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Pset_CI (object), Pset_CO (object), Cset_CN (object), UC_ATTR (object), Year (object), LimType (object), UC_CAP (object), UC_CAP~RHS (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Pset_CI,Pset_CO,Cset_CN,UC_ATTR,Year,LimType,UC_CAP,UC_CAP~RHS,UC_RHST,UC_RHST~0,UC_Desc
+Max_BEVMTruck_uptake_number,,T_F_MT*BEV*,,,,"CAP,GROWTH",2020,LO,1.15,1,-17.5,5,Max number of BE medium trucks can be deployed per first year and next years
+
+
+sheetname: Cars
+range: C17:Q19
+filename: SuppXLS/Scen_Base_constraints.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Pset_CI (object), Pset_CO (object), Cset_CN (object), UC_ATTR (object), Year (object), LimType (object), UC_CAP (object), UC_CAP~RHS (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Pset_CI,Pset_CO,Cset_CN,UC_ATTR,Year,LimType,UC_CAP,UC_CAP~RHS,UC_RHST,UC_RHST~0,UC_Desc
@@ -4571,9 +4788,44 @@ Max_BEVMTruck_uptake_number,,T_F_MT*BEV*,,,,"CAP,GROWTH",2020,LO,1.15,1,-17.5,5,
 
 
 sheetname: Cars
+range: C27:D28
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_SUC:
+
+
+sheetname: Cars
+range: C28
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: T_SUC:
+types: 
+
+
+
+sheetname: Cars
+range: C33:D36
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: Ts_S: (object)
+~UC_Sets: Ts_S:
+UC_N
+UC_BEV_BUS_limit
+
+
+sheetname: Cars
 range: C34:P36
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_SUC': '', 'Ts_S': ''}
+tag: ~UC_Sets: Ts_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Pset_CI (object), Pset_CO (object), Cset_CN (object), UC_ATTR (object), Year (object), LimType (object), UC_CAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Pset_CI,Pset_CO,Cset_CN,UC_ATTR,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0,UC_Desc
+UC_BEV_BUS_limit,,T_P_B*BEV*,,,,,2016,LO,1,0.000721,5,Minimal number of BE busses in the fleet
+
+
+sheetname: Cars
+range: C34:P36
+filename: SuppXLS/Scen_Base_constraints.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Pset_CI (object), Pset_CO (object), Cset_CN (object), UC_ATTR (object), Year (object), LimType (object), UC_CAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Pset_CI,Pset_CO,Cset_CN,UC_ATTR,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0,UC_Desc
@@ -4583,16 +4835,52 @@ UC_BEV_BUS_limit,,T_P_B*BEV*,,,,,2016,LO,1,0.000721,5,Minimal number of BE busse
 sheetname: Cars
 range: K28
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_SUC': '', 'Ts_S': ''}
 tag: ~UC_T
 types: 
 
 
 
 sheetname: Cars_2020
+range: C23:D26
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+Min_ICE_LPV_Uptake
+
+
+sheetname: Cars_2020
 range: C24:O45
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_RHST,UC_RHST~0,UC_Desc
+Min_ICE_LPV_Uptake,,T_P_CICE*,2020,LO,0.29,1,1,1,0,5,Minimum LPV uptakes
+,,"T_P_C*,-T_P_CICE*",,,-0.71,0,0,0,,,
+Min_ICE_LCV_Uptake,,T_C_CICE*,2020,LO,0.01,0.24,1,1,0,5,Minimum LCV uptakes
+,,"T_C_C*,-T_C_CICE*",,,-0.99,-0.76,0,0,,,
+Min_ICE_MT_Uptake,,T_F_M*ICE*,2020,LO,0.04,0.53,0.77,1,0,5,Minimum MT uptakes
+,,"T_F_M*,-T_F_M*ICE*",,,-0.96,-0.47,-0.23,0,,,
+Min_ICE_Bus_Uptake,,T_P_B*ICE*,2020,LO,0.06,0.34,0.67,1,0,5,Minimum Bus uptakes
+,,"T_P_B*,-T_P_B*ICE*",,,-0.94,-0.66,-0.33,0,,,
+Min_ICE_LCV_Uptake_ADCF,,ADCF*MoTP-Mob*Uti*DSL,2020,LO,0,0.05,0.5,1,0,5,Minimum LCV uptakes in DCF
+,,"ADCF*MoTP-Mob*Uti*,-ADCF*MoTP-Mob*Uti*DSL",,,-1,-0.95,-0.5,0,,,
+Min_ICE_LCV_Uptake_ALIVE,,ALIVE*MoTP-Mob*Uti*DSL,2020,LO,0,0.05,0.5,1,0,5,Minimum LCV uptakes in LIVE
+,,"ALIVE*MoTP-Mob*Uti*,-ALIVE*MoTP-Mob*Uti*DSL",,,-1,-0.95,-0.5,0,,,
+Min_ICE_LCV_Uptake_AHORT,,AHORT*MoTP-Mob*Uti*DSL,2020,LO,0,0.05,0.5,1,0,5,Minimum LCV uptakes in HORT
+,,"AHORT*MoTP-Mob*Uti*,-AHORT*MoTP-Mob*Uti*DSL",,,-1,-0.95,-0.5,0,,,
+Min_ICE_MT_Uptake_ADCF,,ADCF*MoTP-Mob*Uti*DSL,2020,LO,0.04,0.53,0.77,1,0,5,Minimum LCV uptakes in DCF
+,,"ADCF*MoTP-Mob*Uti*,-ADCF*MoTP-Mob*Uti*DSL",,,-0.96,-0.47,-0.23,0,,,
+Min_ICE_MT_Uptake_ALIVE,,ALIVE*MoTP-Mob*Uti*DSL,2020,LO,0.04,0.53,0.77,1,0,5,Minimum LCV uptakes in LIVE
+,,"ALIVE*MoTP-Mob*Uti*,-ALIVE*MoTP-Mob*Uti*DSL",,,-0.96,-0.47,-0.23,0,,,
+Min_ICE_MT_Uptake_AHORT,,AHORT*MoTP-Mob*Uti*DSL,2020,LO,0.04,0.53,0.77,1,0,5,Minimum LCV uptakes in HORT
+,,"AHORT*MoTP-Mob*Uti*,-AHORT*MoTP-Mob*Uti*DSL",,,-0.96,-0.47,-0.23,0,,,
+
+
+sheetname: Cars_2020
+range: C24:O45
+filename: SuppXLS/Scen_Base_constraints.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_RHST,UC_RHST~0,UC_Desc
@@ -4619,9 +4907,25 @@ Min_ICE_MT_Uptake_AHORT,,AHORT*MoTP-Mob*Uti*DSL,2020,LO,0.04,0.53,0.77,1,0,5,Min
 
 
 sheetname: IND_fuels
+range: C41:D42
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: IND_fuels
+range: C42
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: IND_fuels
 range: C43:R102
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Pset_CI (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_ACT~2020 (object), UC_ACT~2030 (object), UC_ACT~2050 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Pset_CI,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_ACT~2020,UC_ACT~2030,UC_ACT~2050,UC_RHST,UC_RHST~0,UC_Desc
@@ -4688,7 +4992,6 @@ MAX-GEO-SHR_PLPPPR-PH-STM_HW,,,INDGEO,PLPPPR-PH-STM_HW,,,2020,LO,-0.88,-0.88,-0.
 sheetname: Power_sector
 range: D15:N18
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
 tag: ~TFM_UPD
 types: TimeSlice (object), LimType (object), Attribute (object), Pset_PN (object), Pset_CI (object), Cset_CN (object), Pset_set (object), Year (object), NI (object), SI (object)
 TimeSlice,LimType,Attribute,Pset_PN,Pset_CI,Cset_CN,Pset_set,Year,NI,SI
@@ -4699,7 +5002,6 @@ TimeSlice,LimType,Attribute,Pset_PN,Pset_CI,Cset_CN,Pset_set,Year,NI,SI
 sheetname: Power_sector
 range: D23:U28
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
 tag: ~TFM_INS
 types: TimeSlice (object), LimType (object), Attribute (object), Year (object), Attrib_Cond (object), Val_Cond (object), AllRegions (object), NI (object), SI (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
 TimeSlice,LimType,Attribute,Year,Attrib_Cond,Val_Cond,AllRegions,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
@@ -4710,9 +5012,27 @@ TimeSlice,LimType,Attribute,Year,Attrib_Cond,Val_Cond,AllRegions,NI,SI,Pset_Set,
 
 
 sheetname: Power_sector
+range: D7:E10
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_WND_CAP-2025
+
+
+sheetname: Power_sector
 range: D8:N10
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP (object), UC_RHST~2020 (object), UC_RHST~2025 (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP,UC_RHST~2020,UC_RHST~2025,UC_RHST~0,UC_Desc
+MAX_WND_CAP-2025,ELE,E*WIN*,,UP,1,0.75,3,4,Upper bound for wind generation capacity in near term
+
+
+sheetname: Power_sector
+range: D8:N10
+filename: SuppXLS/Scen_Base_constraints.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP (object), UC_RHST~2020 (object), UC_RHST~2025 (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP,UC_RHST~2020,UC_RHST~2025,UC_RHST~0,UC_Desc
@@ -4720,9 +5040,25 @@ MAX_WND_CAP-2025,ELE,E*WIN*,,UP,1,0.75,3,4,Upper bound for wind generation capac
 
 
 sheetname: TRA_Policy
+range: B3:C4
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: TRA_Policy
+range: B4
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: TRA_Policy
 range: B8:N13
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset: PN (object), PSet: CI (object), Cset: CN (object), PSet: CO (object), LimType (object), Year (object), UC_ACT (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset: PN,PSet: CI,Cset: CN,PSet: CO,LimType,Year,UC_ACT,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -4735,7 +5071,6 @@ Max_DieselVans,T_C_C*DSL*,*DSL,,T_C_Car,LO,2020,-0.171,0,0,5,Max share of diesel
 sheetname: Thermal_gencap
 range: B13:L15
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_ACT (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_ACT,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -4743,9 +5078,25 @@ MSW_USE,,MINMNCWST00,2021,LO,1,1,0,5,Minimum level of waste incineration activit
 
 
 sheetname: Thermal_gencap
+range: B4:C5
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Thermal_gencap
+range: B5
+filename: SuppXLS/Scen_Base_constraints.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Thermal_gencap
 range: B6:L10
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -4755,9 +5106,68 @@ NUC_BAN,,E*NUC*,2025,UP,1,0,0,3,Nuclear plants ban (not allowed for whole time h
 
 
 sheetname: BEV_PHEV-share
+range: AF14:AG17
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_HTBEV_UPTAKE
+
+
+sheetname: BEV_PHEV-share
+range: AF15:AS18
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2040,UC_RHST,UC_RHST~0,UC_Desc
+MAX_HTBEV_UPTAKE,,T_F_H*BEV*,2020,LO,-0.97,-0.89,-0.58,-9.99999999995449e-06,-9.99999999995449e-06,0,5,Max number of BEV cars per year
+,,"T_F_H*,-T_F_H*BEV*",,,0.03,0.11,0.42,0.99999,0.99999,,,
+
+
+sheetname: BEV_PHEV-share
+range: AF21:AG24
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_HTBEV_UPTAKE_H2
+
+
+sheetname: BEV_PHEV-share
+range: AF22:AS25
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2040,UC_RHST,UC_RHST~0,UC_Desc
+MAX_HTBEV_UPTAKE_H2,,T_F_H*H2R*,2020,LO,-1,-1,-1,-1,-1,0,5,Max number of BEV cars per year
+,,"T_F_H*,-T_F_H*H2R*",,,0,0,0,0,0,,,
+
+
+sheetname: BEV_PHEV-share
+range: AF8:AG11
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_VHTBEV_UPTAKE
+
+
+sheetname: BEV_PHEV-share
 range: AF9:AS12
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2040,UC_RHST,UC_RHST~0,UC_Desc
+MAX_VHTBEV_UPTAKE,,"T_F_V*BEV*,T_F_V*H2R*",2020,LO,-1,-0.75,-0.3,0,-9.99999999995449e-06,0,5,Max number of BEV cars per year
+,,"T_F_V*,-T_F_V*BEV*,-T_F_V*H2R*",,,0,0.25,0.7,1,0.99999,,,
+
+
+sheetname: BEV_PHEV-share
+range: AF9:AS12
+filename: SuppXLS/Scen_Cohesive.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2040,UC_RHST,UC_RHST~0,UC_Desc
@@ -4766,9 +5176,28 @@ MAX_VHTBEV_UPTAKE,,"T_F_V*BEV*,T_F_V*H2R*",2020,LO,-1,-0.75,-0.3,0,-9.9999999999
 
 
 sheetname: BEV_PHEV-share
+range: C14:D17
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_PHEV_UPTAKE
+
+
+sheetname: BEV_PHEV-share
 range: C15:O18
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2050 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2050,UC_RHST,UC_RHST~0,UC_Desc
+MAX_PHEV_UPTAKE,,T_P_C*PHEV*,2020,LO,-0.99,-0.98,-0.96,-0.83,0,5,Max number of PHEV cars per year
+,,"T_P_C*,-T_P_C*PHEV*",,,0.01,0.02,0.04,0.17,,,
+
+
+sheetname: BEV_PHEV-share
+range: C15:O18
+filename: SuppXLS/Scen_Cohesive.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2050 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2050,UC_RHST,UC_RHST~0,UC_Desc
@@ -4777,9 +5206,28 @@ MAX_PHEV_UPTAKE,,T_P_C*PHEV*,2020,LO,-0.99,-0.98,-0.96,-0.83,0,5,Max number of P
 
 
 sheetname: BEV_PHEV-share
+range: C8:D11
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_BEV_UPTAKE
+
+
+sheetname: BEV_PHEV-share
 range: C9:O12
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_RHST,UC_RHST~0,UC_Desc
+MAX_BEV_UPTAKE,,"T_P_C*BEV*,T_P_C*H2R*",2020,LO,-0.97,-0.89,-0.58,-9.99999999995449e-06,0,5,Max number of BEV cars per year
+,,"T_P_C*,-T_P_C*BEV*,-T_P_C*H2R*",,,0.03,0.11,0.42,0.99999,,,
+
+
+sheetname: BEV_PHEV-share
+range: C9:O12
+filename: SuppXLS/Scen_Cohesive.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_RHST,UC_RHST~0,UC_Desc
@@ -4788,9 +5236,28 @@ MAX_BEV_UPTAKE,,"T_P_C*BEV*,T_P_C*H2R*",2020,LO,-0.97,-0.89,-0.58,-9.99999999995
 
 
 sheetname: BEV_PHEV-share
+range: R14:S17
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_PHEV_UPTAKE_commercial
+
+
+sheetname: BEV_PHEV-share
 range: R15:AD18
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2050 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2050,UC_RHST,UC_RHST~0,UC_Desc
+MAX_PHEV_UPTAKE_commercial,,T_C_C*PHEV*,2020,LO,-0.99,-0.98,-0.96,-0.83,0,5,Max number of PHEV commerical cars per year
+,,"T_C_C*,-T_C_C*PHEV*",,,0.01,0.02,0.04,0.17,,,
+
+
+sheetname: BEV_PHEV-share
+range: R15:AD18
+filename: SuppXLS/Scen_Cohesive.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2050 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2050,UC_RHST,UC_RHST~0,UC_Desc
@@ -4799,9 +5266,28 @@ MAX_PHEV_UPTAKE_commercial,,T_C_C*PHEV*,2020,LO,-0.99,-0.98,-0.96,-0.83,0,5,Max 
 
 
 sheetname: BEV_PHEV-share
+range: R8:S11
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_BEV_UPTAKE_commercial
+
+
+sheetname: BEV_PHEV-share
 range: R9:AD12
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_RHST,UC_RHST~0,UC_Desc
+MAX_BEV_UPTAKE_commercial,,"T_C_C*BEV*,T_C_C*H2R*",2020,LO,-0.97,-0.89,-0.58,-9.99999999995449e-06,0,5,Max number of BEV commercial cars per year
+,,"T_C_C*,-T_C_C*BEV*,-T_c_C*H2R*",,,0.03,0.11,0.42,0.99999,,,
+
+
+sheetname: BEV_PHEV-share
+range: R9:AD12
+filename: SuppXLS/Scen_Cohesive.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_RHST,UC_RHST~0,UC_Desc
@@ -5424,9 +5910,25 @@ TimeSlice,LimType,Attribute,Pset_PN,Pset_CI,Cset_CN,Pset_set,Year,AllRegions
 
 
 sheetname: Solar
+range: B13:C14
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Solar
+range: B14
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Solar
 range: B15:K21
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0,UC_Desc
@@ -5438,9 +5940,25 @@ UC_SOLARPV_UTILITY,ELE,ESO*UTI*,2020,UP,1,0.583,5,Ground based solar (tracking a
 
 
 sheetname: Solar
+range: B24:C25
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Solar
+range: B25
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Solar
 range: B26:K29
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0,UC_Desc
@@ -5449,9 +5967,25 @@ UC_SOLARPV_GRDIST,ELE,ESO*DIST*,2025,UP,1,0.327,3,Ground based solar (fixed - di
 
 
 sheetname: Solar
+range: B33:C34
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Solar
+range: B34
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Solar
 range: B35:L39
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -5461,9 +5995,29 @@ UC_SOLARPV_RES,ELE,ESOL*RES*,2020,UP,1,0.4,0.2,3,SOLAR residential rooftop poten
 
 
 sheetname: Solar
+range: B41:C44
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: ~UC_Sets: T_E: (object)
+~UC_Sets: T_E:
+UC_N
+UC_SOLARPV_COM
+
+
+sheetname: Solar
 range: B42:L46
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
+tag: ~UC_Sets: T_E:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRTS~NI (object), UC_RHSRTS~SI (object), UC_RHSRTS~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRTS~NI,UC_RHSRTS~SI,UC_RHSRTS~0,UC_Desc
+UC_SOLARPV_COM,ELE,ESOL*COM*,2020,UP,1,0.2,0.1,3,SOLAR commercial rooftop potential
+,,,2030,,,2.475,0.825,,
+,,,2050,,,5.0625,1.6875,,
+
+
+sheetname: Solar
+range: B42:L46
+filename: SuppXLS/Scen_Cohesive.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRTS~NI (object), UC_RHSRTS~SI (object), UC_RHSRTS~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRTS~NI,UC_RHSRTS~SI,UC_RHSRTS~0,UC_Desc
@@ -5473,9 +6027,25 @@ UC_SOLARPV_COM,ELE,ESOL*COM*,2020,UP,1,0.2,0.1,3,SOLAR commercial rooftop potent
 
 
 sheetname: Solar
+range: B51:C52
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Solar
+range: B52
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Solar
 range: B53:L57
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -5485,9 +6055,25 @@ UC_SOLARPV_IND,ELE,ESOL*IND*,2020,UP,1,0,0,3,Solar for industry
 
 
 sheetname: Solar
+range: B61:C62
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Solar
+range: B62
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Solar
 range: B63:K65
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: UC_N (object), Pset_CI (object), Pset_CO (object), Year (object), LimType (object), UC_NCAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_CI,Pset_CO,Year,LimType,UC_NCAP,UC_RHST,UC_RHST~0,UC_Desc
@@ -5495,9 +6081,28 @@ SOLAR_LO_Growth_rate,ELCSOL,ELCDD,2020,LO,1,0.03,5,SOLAR minimal growth rate per
 
 
 sheetname: TRA_costs_and_ban
+range: D16:E19
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+ICE_Car_ban
+
+
+sheetname: TRA_costs_and_ban
 range: D17:M20
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2035 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2035,UC_RHST,UC_RHST~0,UC_Desc
+ICE_Car_ban,,T_P_C*ICE*,2035,LO,-0.99999,0,5,Internal combustion cars number limit and futher ban
+,,"T_P_C*,-T_P_C*ICE*",,,1e-05,,,
+
+
+sheetname: TRA_costs_and_ban
+range: D17:M20
+filename: SuppXLS/Scen_Cohesive.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2035 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2035,UC_RHST,UC_RHST~0,UC_Desc
@@ -5506,9 +6111,28 @@ ICE_Car_ban,,T_P_C*ICE*,2035,LO,-0.99999,0,5,Internal combustion cars number lim
 
 
 sheetname: TRA_costs_and_ban
+range: D22:E25
+filename: SuppXLS/Scen_Cohesive.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+HYB_Car_ban
+
+
+sheetname: TRA_costs_and_ban
 range: D23:N26
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2035,UC_NCAP~2040,UC_RHST,UC_RHST~0,UC_Desc
+HYB_Car_ban,,T_P_C*HYB*,2035,LO,-0.975,-0.99999,0,5,Hybrid cars number limit and futher ban
+,,"T_P_C*,-T_P_C*HYB*",,,0.025,1e-05,,,
+
+
+sheetname: TRA_costs_and_ban
+range: D23:N26
+filename: SuppXLS/Scen_Cohesive.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2035,UC_NCAP~2040,UC_RHST,UC_RHST~0,UC_Desc
@@ -5519,7 +6143,6 @@ HYB_Car_ban,,T_P_C*HYB*,2035,LO,-0.975,-0.99999,0,5,Hybrid cars number limit and
 sheetname: TRA_costs_and_ban
 range: D37:M39
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
 tag: ~TFM_UPD
 types: TimeSlice (object), LimType (object), Attribute (object), Pset_PN (object), Pset_CI (object), Cset_CN (object), Pset_set (object), Year (object), AllRegions (object)
 TimeSlice,LimType,Attribute,Pset_PN,Pset_CI,Cset_CN,Pset_set,Year,AllRegions
@@ -5539,9 +6162,25 @@ TimeSlice,LimType,Attribute,Year,Attrib_Cond,Val_Cond,AllRegions,NI,SI,Pset_Set,
 
 
 sheetname: COA
+range: A2:B3
+filename: SuppXLS/Scen_DD2.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: COA
+range: A3
+filename: SuppXLS/Scen_DD2.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: COA
 range: A4:J7
 filename: SuppXLS/Scen_DD2.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_PN (object), Region (object), LimType (object), UC_ACT (object), UC_RHSRT~2037 (object), UC_RHSRT~2060 (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_PN,Region,LimType,UC_ACT,UC_RHSRT~2037,UC_RHSRT~2060,UC_RHSRT~0,UC_Desc
@@ -5590,9 +6229,48 @@ Cost,MINNGA4,NGA,2060,39
 
 
 sheetname: BEV_PHEV-imp
+range: AF14:AG17
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_HTBEV_UPTAKE
+
+
+sheetname: BEV_PHEV-imp
+range: AF15:AT18
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_NCAP~2050 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2040,UC_NCAP~2050,UC_RHST,UC_RHST~0,UC_Desc
+MAX_HTBEV_UPTAKE,,T_F_H*BEV*,2020,LO,-0.97,-0.89,-0.58,0,0,0,0,5,Max number of BEV cars per year
+,,"T_F_H*,-T_F_H*BEV*",,,0.03,0.11,0.42,1,1,1,,,
+
+
+sheetname: BEV_PHEV-imp
+range: AF8:AG11
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_VHTBEV_UPTAKE
+
+
+sheetname: BEV_PHEV-imp
 range: AF9:AT12
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_NCAP~2050 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2040,UC_NCAP~2050,UC_RHST,UC_RHST~0,UC_Desc
+MAX_VHTBEV_UPTAKE,,"T_F_V*BEV*,T_F_V*H2R*",2020,LO,-1,-0.75,-0.3,0,0,0,0,5,Max number of BEV cars per year
+,,"T_F_V*,-T_F_V*BEV*,-T_F_V*H2R*",,,0,0.25,0.7,1,1,,,,
+
+
+sheetname: BEV_PHEV-imp
+range: AF9:AT12
+filename: SuppXLS/Scen_Individualistic.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2020 (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_NCAP~2050 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2040,UC_NCAP~2050,UC_RHST,UC_RHST~0,UC_Desc
@@ -5601,9 +6279,28 @@ MAX_VHTBEV_UPTAKE,,"T_F_V*BEV*,T_F_V*H2R*",2020,LO,-1,-0.75,-0.3,0,0,0,0,5,Max n
 
 
 sheetname: BEV_PHEV-imp
+range: C14:D17
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_PHEV_UPTAKE
+
+
+sheetname: BEV_PHEV-imp
 range: C15:O18
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2055 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2055,UC_RHST,UC_RHST~0,UC_Desc
+MAX_PHEV_UPTAKE,,T_P_C*PhEV*,2025,LO,-0.99,-0.98,-0.96,-0.83,0,5,Max number of PHEV cars per year
+,,"T_P_C*,-T_P_C*PHEV*",,,0.01,0.02,0.04,0.17,,,
+
+
+sheetname: BEV_PHEV-imp
+range: C15:O18
+filename: SuppXLS/Scen_Individualistic.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2055 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2055,UC_RHST,UC_RHST~0,UC_Desc
@@ -5612,9 +6309,28 @@ MAX_PHEV_UPTAKE,,T_P_C*PhEV*,2025,LO,-0.99,-0.98,-0.96,-0.83,0,5,Max number of P
 
 
 sheetname: BEV_PHEV-imp
+range: C8:D11
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_BEV_UPTAKE
+
+
+sheetname: BEV_PHEV-imp
 range: C9:O12
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2040,UC_RHST,UC_RHST~0,UC_Desc
+MAX_BEV_UPTAKE,,"T_P_C*BEV*,T_P_C*H2R*",2025,LO,-0.97,-0.89,-0.58,-9.99999999995449e-06,0,5,Max number of BEV cars per year
+,,"T_P_C*,-T_P_C*BEV*,-T_P_C*H2R*",,,0.03,0.11,0.42,0.99999,,,
+
+
+sheetname: BEV_PHEV-imp
+range: C9:O12
+filename: SuppXLS/Scen_Individualistic.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2040,UC_RHST,UC_RHST~0,UC_Desc
@@ -5623,9 +6339,28 @@ MAX_BEV_UPTAKE,,"T_P_C*BEV*,T_P_C*H2R*",2025,LO,-0.97,-0.89,-0.58,-9.99999999995
 
 
 sheetname: BEV_PHEV-imp
+range: Q14:R17
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_PHEV_UPTAKE_commercial
+
+
+sheetname: BEV_PHEV-imp
 range: Q15:AC18
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2055 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2055,UC_RHST,UC_RHST~0,UC_Desc
+MAX_PHEV_UPTAKE_commercial,,T_C_C*PhEV*,2025,LO,-0.99,-0.98,-0.96,-0.83,0,5,Max number of PHEV commercial cars per year
+,,"T_C_C*,-T_C_C*PHEV*",,,0.01,0.02,0.04,0.17,,,
+
+
+sheetname: BEV_PHEV-imp
+range: Q15:AC18
+filename: SuppXLS/Scen_Individualistic.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2055 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2055,UC_RHST,UC_RHST~0,UC_Desc
@@ -5634,9 +6369,28 @@ MAX_PHEV_UPTAKE_commercial,,T_C_C*PhEV*,2025,LO,-0.99,-0.98,-0.96,-0.83,0,5,Max 
 
 
 sheetname: BEV_PHEV-imp
+range: Q8:R11
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+MAX_BEV_UPTAKE_commercial
+
+
+sheetname: BEV_PHEV-imp
 range: Q9:AC12
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2040,UC_RHST,UC_RHST~0,UC_Desc
+MAX_BEV_UPTAKE_commercial,,"T_C_C*BEV*,T_C_C*H2R*",2025,LO,-0.97,-0.89,-0.58,-9.99999999995449e-06,0,5,Max number of BEV commercial cars per year
+,,"T_C_C*,-T_C_C*BEV*,-T_C_C*H2R*",,,0.03,0.11,0.42,0.99999,,,
+
+
+sheetname: BEV_PHEV-imp
+range: Q9:AC12
+filename: SuppXLS/Scen_Individualistic.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2025 (object), UC_NCAP~2030 (object), UC_NCAP~2035 (object), UC_NCAP~2040 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2040,UC_RHST,UC_RHST~0,UC_Desc
@@ -6214,9 +6968,28 @@ types:
 
 
 sheetname: ICE_CAR_ban
+range: G17:H20
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+ICE_Car_ban
+
+
+sheetname: ICE_CAR_ban
 range: G18:R21
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2045 (object), UC_NCAP~2050 (object), UC_NCAP~2060 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2045,UC_NCAP~2050,UC_NCAP~2060,UC_RHST,UC_RHST~0,UC_Desc
+ICE_Car_ban,,T_P_C*ICE*,2045,UP,0.05,0.05,0.05,0,5,Internal combustion cars number limit and futher ban
+,,"T_P_C*,-T_P_C*ICE*",,,-0.95,-0.95,-0.95,,,
+
+
+sheetname: ICE_CAR_ban
+range: G18:R21
+filename: SuppXLS/Scen_Individualistic.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2045 (object), UC_NCAP~2050 (object), UC_NCAP~2060 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2045,UC_NCAP~2050,UC_NCAP~2060,UC_RHST,UC_RHST~0,UC_Desc
@@ -6225,9 +6998,28 @@ ICE_Car_ban,,T_P_C*ICE*,2045,UP,0.05,0.05,0.05,0,5,Internal combustion cars numb
 
 
 sheetname: ICE_CAR_ban
+range: G23:H26
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_S: (object)
+~UC_Sets: T_S:
+UC_N
+HYB_Car_ban
+
+
+sheetname: ICE_CAR_ban
 range: G24:S27
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_Sets: T_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2045 (object), UC_NCAP~2050 (object), UC_NCAP~2055 (object), UC_NCAP~2060 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2045,UC_NCAP~2050,UC_NCAP~2055,UC_NCAP~2060,UC_RHST,UC_RHST~0,UC_Desc
+HYB_Car_ban,,T_P_C*HYB*,2045,UP,0.2,0.2,0.2,0.2,0,5,Hybrid cars number limit in new sales
+,,"T_P_C*,-T_P_C*HYB*",,,-0.8,-0.8,-0.8,-0.8,,,
+
+
+sheetname: ICE_CAR_ban
+range: G24:S27
+filename: SuppXLS/Scen_Individualistic.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_NCAP~2045 (object), UC_NCAP~2050 (object), UC_NCAP~2055 (object), UC_NCAP~2060 (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2045,UC_NCAP~2050,UC_NCAP~2055,UC_NCAP~2060,UC_RHST,UC_RHST~0,UC_Desc
@@ -6340,9 +7132,25 @@ SPR-WE-P,COM_FR,T_P_B*,DEM,2020,0.00385316129032258,0.00385316129032258
 
 
 sheetname: Solar
+range: B11:C12
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Solar
+range: B12
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Solar
 range: B13:K19
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0,UC_Desc
@@ -6354,9 +7162,25 @@ UC_SOLARPV_UTILITY,ELE,ESO*UTI*,2020,UP,1,0.58,5,Ground based solar (tracking an
 
 
 sheetname: Solar
+range: B22:C23
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Solar
+range: B23
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Solar
 range: B24:K27
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0,UC_Desc
@@ -6365,9 +7189,25 @@ UC_SOLARPV_GRDIST,ELE,ESO*DIST*,2025,UP,1,0.33,3,Ground based solar (fixed - dis
 
 
 sheetname: Solar
+range: B31:C32
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Solar
+range: B32
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Solar
 range: B33:L37
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -6377,9 +7217,29 @@ UC_SOLARPV_RES,ELE,ESOL*RES*,2020,UP,1,0.4,0.2,3,SOLAR residential rooftop poten
 
 
 sheetname: Solar
+range: B39:C42
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: ~UC_Sets: T_E: (object)
+~UC_Sets: T_E:
+UC_N
+UC_SOLARPV_COM
+
+
+sheetname: Solar
 range: B40:L44
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
+tag: ~UC_Sets: T_E:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRTS~NI (object), UC_RHSRTS~SI (object), UC_RHSRTS~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRTS~NI,UC_RHSRTS~SI,UC_RHSRTS~0,UC_Desc
+UC_SOLARPV_COM,ELE,ESOL*COM*,2020,UP,1,0.2,0.1,3,SOLAR commercial rooftop potential
+,,,2030,,,2.5,0.8,,
+,,,2050,,,5.1,1.7,,
+
+
+sheetname: Solar
+range: B40:L44
+filename: SuppXLS/Scen_Individualistic.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRTS~NI (object), UC_RHSRTS~SI (object), UC_RHSRTS~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRTS~NI,UC_RHSRTS~SI,UC_RHSRTS~0,UC_Desc
@@ -6389,9 +7249,25 @@ UC_SOLARPV_COM,ELE,ESOL*COM*,2020,UP,1,0.2,0.1,3,SOLAR commercial rooftop potent
 
 
 sheetname: Solar
+range: B49:C50
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Solar
+range: B50
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Solar
 range: B51:L57
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -6403,9 +7279,25 @@ UC_SOLARPV_IND,ELE,ESOL*IND*,2020,UP,1,0,0,3,Solar for industry
 
 
 sheetname: Solar
+range: B61:C62
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Solar
+range: B62
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Solar
 range: B63:K65
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: UC_N (object), Pset_CI (object), Pset_CO (object), Year (object), LimType (object), UC_NCAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_CI,Pset_CO,Year,LimType,UC_NCAP,UC_RHST,UC_RHST~0,UC_Desc
@@ -7484,9 +8376,25 @@ TimeSlice,LimType,Attribute,Cset_Set,CSET_CN,Cset_CD,Year,AllRegions
 
 
 sheetname: Geo
+range: B12:C13
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Geo
+range: B13
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Geo
 range: B14:L17
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -7495,9 +8403,25 @@ UC_GEO_LARGEBINARY,ELE,EGEOC*BIN*,2021,UP,1,0.125,0,5,Geothermal potential for l
 
 
 sheetname: Geo
+range: B22:C23
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Geo
+range: B23
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Geo
 range: B24:L27
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -7506,9 +8430,25 @@ UC_GEO_LARGEFLASH,ELE,EGEOC*FLSH*,2021,UP,1,0.125,0,5,Geothermal potential for l
 
 
 sheetname: Geo
+range: B32:C33
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Geo
+range: B33
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Geo
 range: B34:L39
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -7519,9 +8459,25 @@ UC_GEO_SMALLBINARY,ELE,EGEOBI*,2030,UP,1,0.345,0,5,Geothermal potential for smal
 
 
 sheetname: Geo
+range: B42:C43
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Geo
+range: B43
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Geo
 range: B44:L49
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -7532,9 +8488,42 @@ UC_GEO_SMALLFLASH,ELE,EGEOF*,2030,UP,1,0.295,0,5,Geothermal potential for small 
 
 
 sheetname: Geo
+range: B4:C5
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Geo
+range: B5
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Geo
+range: B52:C53
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Geo
+range: B53
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Geo
 range: B54:L61
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -7549,7 +8538,6 @@ UC_GEONEW_TOTAL,ELE,EGEO*,2021,UP,1,0.15,0,5,Total geothermal potential for new 
 sheetname: Geo
 range: B6:L10
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -7559,9 +8547,25 @@ UC_GEO_Ngawha2050,ELE,EGEOCONSBIN20,2060,UP,1,0.1,0,3,"Ngawha - consented binary
 
 
 sheetname: Hydro
+range: C15:D16
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Hydro
+range: C16
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Hydro
 range: C17:M22
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -7572,9 +8576,25 @@ UC_HYDRO_RoR_lrg,ELE,EHYD*RR*new*,2021,UP,1,0,0.33,3,New Hydro - Large RoR
 
 
 sheetname: Hydro
+range: C25:D26
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Hydro
+range: C26
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Hydro
 range: C27:M30
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -7583,9 +8603,25 @@ UC_HYDRO_DAM_NEW,ELE,EHY*DAM*,2025,UP,1,0,0.168,3,New Hydro - Dams
 
 
 sheetname: Hydro
+range: C34:D35
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Hydro
+range: C35
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Hydro
 range: C36:M38
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -7593,9 +8629,25 @@ UC_PUMPHYD_STG_LRG,,EHY*PUM*L,2025,UP,1,0,1.3,3,Pumped hydro - large (lake onslo
 
 
 sheetname: Hydro
+range: C41:D42
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Hydro
+range: C42
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Hydro
 range: C43:M45
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -7603,9 +8655,25 @@ UC_PUMPHYD_STG_SML,,EHY*PUM*S,2025,UP,1,0.2,0.73,3,Pumped hydro -small/generic
 
 
 sheetname: Hydro
+range: C4:D5
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Hydro
+range: C5
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Hydro
 range: C6:M12
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -7619,7 +8687,6 @@ UC_HYDRO_RoRsm,ELE,EHYD*RR*Sma*,2021,UP,1,0.02,0.016,3,New Hydro - Small RoR
 sheetname: TID
 range: B10:L14
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRTS~NI (object), UC_RHSRTS~SI (object), UC_RHSRTS~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRTS~NI,UC_RHSRTS~SI,UC_RHSRTS~0,UC_Desc
@@ -7628,10 +8695,43 @@ TID_CAP_BND,,ETID*,2025,UP,1,0.2,0,5,TIDAl potential 2025
 ,,ETID*,2050,UP,1,0.2,0,5,TIDAl potential 2050
 
 
+sheetname: TID
+range: B8:C9
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: TID
+range: B9
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Wind
+range: C18:D19
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Wind
+range: C19
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
 sheetname: Wind
 range: C20:M25
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -7642,9 +8742,25 @@ UC_WIND_DISTR,ELE,EWIN*DIST*,2030,UP,1,0.29,0.215,5,Onshore (small - locally emb
 
 
 sheetname: Wind
+range: C6:D7
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: R_E: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_E:
+
+
+sheetname: Wind
+range: C7
+filename: SuppXLS/Scen_RE_Potentials.xlsx
+tag: ~UC_Sets: T_E:
+types: 
+
+
+
+sheetname: Wind
 range: C8:M13
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSR~NI (object), UC_RHSR~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSR~NI,UC_RHSR~SI,UC_RHSRT~0,UC_Desc
@@ -7655,19 +8771,108 @@ UC_WIND_OFFSHORE,ELE,EWIN*OFF*FIX*,2021,UP,1,2.978,4.07,5,Fixed offshore wind po
 
 
 sheetname: Sheet1
+range: C7:D10
+filename: SuppXLS/Scen_UC_Growth.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: Ts_S: (object)
+~UC_Sets: Ts_S:
+UC_N
+UC_BE_BUS_limit
+
+
+sheetname: Sheet1
 range: C8:O10
 filename: SuppXLS/Scen_UC_Growth.xlsx
-uc_sets: {'R_S': 'AllRegions', 'Ts_S': ''}
+tag: ~UC_Sets: Ts_S:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Pset_CI (object), Pset_CO (object), Cset_CN (object), UC_ATTR (object), Year (object), LimType (object), UC_CAP (object), UC_RHST (object), UC_RHST~0 (object)
+UC_N,Pset_Set,Pset_PN,Pset_CI,Pset_CO,Cset_CN,UC_ATTR,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0
+UC_BE_BUS_limit,,T_P_B*ELC*,,,,,2016,LO,1,0.000721,5
+
+
+sheetname: Sheet1
+range: C8:O10
+filename: SuppXLS/Scen_UC_Growth.xlsx
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Pset_CI (object), Pset_CO (object), Cset_CN (object), UC_ATTR (object), Year (object), LimType (object), UC_CAP (object), UC_RHST (object), UC_RHST~0 (object)
 UC_N,Pset_Set,Pset_PN,Pset_CI,Pset_CO,Cset_CN,UC_ATTR,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0
 UC_BE_BUS_limit,,T_P_B*ELC*,,,,,2016,LO,1,0.000721,5
 
 
+sheetname: UC_Growth
+range: B7:C10
+filename: SuppXLS/Scen_UC_Growth.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: ~UC_Sets: T_SUC: (object)
+~UC_Sets: T_SUC:
+UC_N
+UC_BETruck_uptake
+
+
+sheetname: UC_Growth
+range: B8:O10
+filename: SuppXLS/Scen_UC_Growth.xlsx
+tag: ~UC_Sets: T_SUC:
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Pset_CI (object), Pset_CO (object), Cset_CN (object), UC_ATTR (object), Year (object), LimType (object), UC_CAP (object), UC_CAP~RHS (object), UC_RHST (object), UC_RHST~0 (object)
+UC_N,Pset_Set,Pset_PN,Pset_CI,Pset_CO,Cset_CN,UC_ATTR,Year,LimType,UC_CAP,UC_CAP~RHS,UC_RHST,UC_RHST~0
+UC_BETruck_uptake,,T_F_T*BAT*,,,,"CAP,GROWTH",2025,LO,1.15,1,-0.035,5
+
+
+sheetname: UC_WEM
+range: C5:D8
+filename: SuppXLS/Scen_WEM_WCM.xlsx
+tag: ~UC_Sets: R_S: NI,SI
+types: ~UC_Sets:TS_S (object)
+~UC_Sets:TS_S
+UC_N
+WEM
+
+
 sheetname: UC_WEM
 range: C6:R42
 filename: SuppXLS/Scen_WEM_WCM.xlsx
-uc_sets: {'R_S': 'NI,SI'}
+tag: ~UC_Sets:TS_S
+types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_CAP~SI (object), UC_FLO (object), UC_RHSTS (object), UC_RHSTS~0 (object), UC_Desc (object)
+UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_CAP~SI,UC_FLO,UC_RHSTS,UC_RHSTS~0,UC_Desc
+WEM,,,ELCREHYDRRInflex00,ELC,,,2020,Lo,0.498299465240642,0.504365591397849,,0,5,NZ Winter energy margin
+,,,ELCREHYDDAM00,ELC,,,2020,,0.46048815348957,0.481135714285714,,,,
+,,,ELCREHYDRRFlex00,ELC,,,2020,,0.499129032258065,0.297912529550827,,,,
+,,,ELCTE*CHP00,ELC,,,2020,,0.705045685279188,,,,,
+,,,ELCTECOA00,ELC,,,2020,,0.93,,,,,
+,,,"ELCTE*NGA*00,-*CHP*",ELC,,,2020,,0.943,,,,,
+,,,ELCTEDSL00,ELC,,,2020,,0.044,,,,,
+,,,ELCRE*Wind*00,ELC,,,2020,,0.375445815943977,0.340191489361702,,,,
+,,,ELCREGEO00,ELC,,,2020,,0.930122373680435,,,,,
+,,,ELCREBIG00,ELC,,,2020,,0.705045685279188,,,,,
+,,,EHYD-DAM-New20,ELC,,,2020,,0.46048815348957,0.481135714285714,,,,
+,,,EHCO_SCPC20,ELC,,,2020,,0.93,0.93,,,,
+,,,EHCO_CCS30,ELC,,,2020,,0.93,0.93,,,,
+,,,EHCOL_SCPC20,ELC,,,2020,,0.93,0.93,,,,
+,,,EHCOL_CCS30,ELC,,,2020,,0.93,0.93,,,,
+,,,ENGA_GTCC20,ELC,,,2020,,0.943,0.943,,,,
+,,,ENGA_GTCCF20,ELC,,,2020,,0.943,0.943,,,,
+,,,ENGA_CCS30,ELC,,,2020,,0.943,0.943,,,,
+,,,EWIN*HIGHCF*,ELC,,,2020,,0.4,0.4,,,,
+,,,EWIND*LOWCF*,ELC,,,2020,,0.35,0.35,,,,
+,,,"EWIND*DIST*,EWIND*CON*",ELC,,,2020,,0.35,0.35,,,,
+,,,EWI*OFF*,ELC,,,2020,,0.52,0.52,,,,
+,,,EGEO*,ELC,,,2020,,0.930122373680435,0.930122373680435,,,,
+,,,ETIDE20,ELC,,,2020,,0.5,0.5,,,,
+,,,ESOL*,ELC,,,2020,,0.2,0.2,,,,
+,,,EBIG20,ELC,,,2020,,0.705045685279188,0.705045685279188,,,,
+,,,EOIL20,ELC,,,2020,,0.044,0.044,,,,
+,,,EWOD20,ELC,,,2020,,0.705045685279188,0.705045685279188,,,,
+,,,EBIL20 ,ELC,,,2020,,0.705045685279188,0.705045685279188,,,,
+,,,ENUC_LWR20,ELC,,,2020,,0.85,0.85,,,,
+,,,ENUC_EPR30,ELC,,,2020,,0.85,0.85,,,,
+,,,ENUC_FBR50,ELC,,,2020,,0.85,0.85,,,,
+,,,EWSTINC20,ELC,,,2020,,0.705045685279188,0.705045685279188,,,,
+,,,EHY*RR*,ELC,,,2020,,0.498299465240642,0.504365591397849,,,,
+,"FAL-,WIN-",,G_ELC_LV-00,,ELCDD,,2020,,,,-0.0737688237688238,,,
+
+
+sheetname: UC_WEM
+range: C6:R42
+filename: SuppXLS/Scen_WEM_WCM.xlsx
 tag: ~UC_T
 types: UC_N (object), TimeSlice (object), Pset_Set (object), Pset_PN (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP~NI (object), UC_CAP~SI (object), UC_FLO (object), UC_RHSTS (object), UC_RHSTS~0 (object), UC_Desc (object)
 UC_N,TimeSlice,Pset_Set,Pset_PN,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP~NI,UC_CAP~SI,UC_FLO,UC_RHSTS,UC_RHSTS~0,UC_Desc
@@ -7709,9 +8914,59 @@ WEM,,,ELCREHYDRRInflex00,ELC,,,2020,Lo,0.498299465240642,0.504365591397849,,0,5,
 
 
 sheetname: UC_WEM_SI
+range: C3
+filename: SuppXLS/Scen_WEM_WCM.xlsx
+tag: ~UC_Sets: R_E: SI
+types: 
+
+
+
+sheetname: UC_WEM_SI
 range: C5:R41
 filename: SuppXLS/Scen_WEM_WCM.xlsx
-uc_sets: {'R_E': 'SI'}
+tag: ~UC_Sets:TS_S
+types: UC_N (object), TimeSlice (object), Pset_PN (object), Pset_CI (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP (object), UC_FLO (object), UC_RHSRTS~NI (object), UC_RHSRTS~SI (object), UC_RHSRTS~0 (object), UC_Desc (object)
+UC_N,TimeSlice,Pset_PN,Pset_CI,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP,UC_FLO,UC_RHSRTS~NI,UC_RHSRTS~SI,UC_RHSRTS~0,UC_Desc
+WEM_SI,,ELCREHYDRRInflex00,,ELC,,,2020,Lo,0.504365591397849,,0,0,5, SI Winter energy margin
+,,ELCREHYDDAM00,,ELC,,,2020,,0.481135714285714,,,,,
+,,ELCREHYDRRFlex00,,ELC,,,2020,,0.297912529550827,,,,,
+,,ELCTE*CHP00,,ELC,,,2020,,,,,,,
+,,ELCTECOA00,,ELC,,,2020,,,,,,,
+,,"ELCTE*NGA*00,-*CHP*",,ELC,,,2020,,,,,,,
+,,ELCTEDSL00,,ELC,,,2020,,,,,,,
+,,ELCRE*Wind*00,,ELC,,,2020,,0.340191489361702,,,,,
+,,ELCREGEO00,,ELC,,,2020,,,,,,,
+,,ELCREBIG00,,ELC,,,2020,,,,,,,
+,,EHYD-DAM-New20,,ELC,,,2020,,0.481135714285714,,,,,
+,,EHCO_SCPC20,,ELC,,,2020,,0.93,,,,,
+,,EHCO_CCS30,,ELC,,,2020,,0.93,,,,,
+,,EHCOL_SCPC20,,ELC,,,2020,,0.93,,,,,
+,,EHCOL_CCS30,,ELC,,,2020,,0.93,,,,,
+,,ENGA_GTCC20,,ELC,,,2020,,0.943,,,,,
+,,ENGA_GTCCF20,,ELC,,,2020,,0.943,,,,,
+,,ENGA_CCS30,,ELC,,,2020,,0.943,,,,,
+,,EWIN*HIGHCF*,,ELC,,,2020,,0.4,,,,,
+,,EWIND*LOWCF*,,ELC,,,2020,,0.35,,,,,
+,,"EWIND*DIST*,EWIND*CON*",,ELC,,,2020,,0.35,,,,,
+,,EWI*OFF*,,ELC,,,2020,,0.52,,,,,
+,,EGEO*,,ELC,,,2020,,0.930122373680435,,,,,
+,,ETIDE20,,ELC,,,2020,,0.5,,,,,
+,,ESOL*,,ELC,,,2020,,0.2,,,,,
+,,EBIG20,,ELC,,,2020,,0.705045685279188,,,,,
+,,EOIL20,,ELC,,,2020,,0.044,,,,,
+,,EWOD20,,ELC,,,2020,,0.705045685279188,,,,,
+,,EBIL20 ,,ELC,,,2020,,0.705045685279188,,,,,
+,,ENUC_LWR20,,ELC,,,2020,,0.85,,,,,
+,,ENUC_EPR30,,ELC,,,2020,,0.85,,,,,
+,,ENUC_FBR50,,ELC,,,2020,,0.85,,,,,
+,,EWSTINC20,,ELC,,,2020,,0.705045685279188,,,,,
+,,EHY*RR*,,ELC,,,2020,,0.504365591397849,,,,,
+,"FAL-,WIN-",G_ELC_LV-00,,,ELCDD,,2020,,,-0.0826719576719577,,,,
+
+
+sheetname: UC_WEM_SI
+range: C5:R41
+filename: SuppXLS/Scen_WEM_WCM.xlsx
 tag: ~UC_T: SI
 types: UC_N (object), TimeSlice (object), Pset_PN (object), Pset_CI (object), Pset_CO (object), Cset_CN (object), Attribute (object), Year (object), LimType (object), UC_CAP (object), UC_FLO (object), UC_RHSRTS~NI (object), UC_RHSRTS~SI (object), UC_RHSRTS~0 (object), UC_Desc (object)
 UC_N,TimeSlice,Pset_PN,Pset_CI,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_CAP,UC_FLO,UC_RHSRTS~NI,UC_RHSRTS~SI,UC_RHSRTS~0,UC_Desc
@@ -7766,9 +9021,42 @@ TimeSlice,LimType,Attribute,Year,Attrib_Cond,Val_Cond,AllRegions,NI,SI,Pset_Set,
 
 
 sheetname: CO2 Limit
+range: A16:B17
+filename: SuppXLS/Scen_X_ELCCO2_Constraints.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: VALUE (object)
+VALUE
+"~UC_Sets: T_S: 2015,2016,2020,2025,2030"
+
+
+sheetname: CO2 Limit
+range: A17
+filename: SuppXLS/Scen_X_ELCCO2_Constraints.xlsx
+tag: ~UC_Sets: T_S: 2015,2016,2020,2025,2030
+types: 
+
+
+
+sheetname: CO2 Limit
+range: A2:B3
+filename: SuppXLS/Scen_X_ELCCO2_Constraints.xlsx
+tag: ~UC_Sets: R_S: AllRegions
+types: VALUE (object)
+VALUE
+~UC_Sets: T_S:
+
+
+sheetname: CO2 Limit
+range: A3
+filename: SuppXLS/Scen_X_ELCCO2_Constraints.xlsx
+tag: ~UC_Sets: T_S:
+types: 
+
+
+
+sheetname: CO2 Limit
 range: C5:N9
 filename: SuppXLS/Scen_X_ELCCO2_Constraints.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_S': '2015,2016,2020,2025,2030'}
 tag: ~UC_T
 types: UC_N (object), Pset: PN (object), PSet: CI (object), Cset: CN (object), PSet: CO (object), Year (object), LimType (object), UC_COMNET (object), UC_RHSTS (object), UC_RHSTS~0 (object), UC_Desc (object)
 UC_N,Pset: PN,PSet: CI,Cset: CN,PSet: CO,Year,LimType,UC_COMNET,UC_RHSTS,UC_RHSTS~0,UC_Desc
