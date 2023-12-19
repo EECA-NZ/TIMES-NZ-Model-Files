@@ -19,14 +19,15 @@ jobs:
       with:
         python-version: 3.9
 
-    - name: Install times-excel-reader
+    - name: Clone and Install xl2times
       run: |
-        pip install -U pip
-        pip install git+https://github.com/etsap-TIMES/times-excel-reader.git
+        git clone https://github.com/etsap-TIMES/xl2times.git
+        cd xl2times
+        pip install .
 
     - name: Run raw_table_summary on TIMES-NZ-Model-Files
       run: |
-        times-excel-reader head/TIMES-NZ/ --output_dir head/TIMES-NZ/raw_table_summary/ --only_read
+        xl2times head/TIMES-NZ/ --output_dir head/TIMES-NZ/raw_table_summary/ --only_read
 
     - name: Check if raw_table_summary is updated
       id: raw_table_updated
