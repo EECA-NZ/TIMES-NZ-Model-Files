@@ -9,11 +9,17 @@ RUN apt-get update && \
     apt-get install -y git && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy only the requirements.txt file into the container at /usr/src/app
-COPY requirements.txt ./
+# Clone the xl2times repository
+RUN git clone https://github.com/etsap-TIMES/xl2times.git
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Change to the xl2times directory
+WORKDIR /usr/src/app/xl2times
+
+# Install the xl2times package
+RUN pip install .
+
+# Set the working directory to the previous WORKDIR
+WORKDIR /usr/src/app
 
 # Run times-excel-reader when the container launches
-CMD ["times-excel-reader", "TIMES-NZ/", "--output_dir", "TIMES-NZ/raw_table_summary/", "--only_read"]
+CMD ["xl2times", "TIMES-NZ/", "--output_dir", "TIMES-NZ/raw_table_summary/", "--only_read"]
