@@ -158,7 +158,7 @@ def create_readme_files(parsed_data, base_dir):
             if not workbook:
                 continue
             workbook_name = os.path.basename(workbook)
-            workbook_rel_path = os.path.join(os.path.splitext(workbook)[0], 'README.md')
+            workbook_rel_path = os.path.join(os.path.splitext(workbook)[0], 'README.md').replace('\\', '/')
             index_readme_content += f"- [{workbook_name}]({workbook_rel_path})\n"
         print(f'Write index {index_readme_path}')
         index_readme.write(index_readme_content)

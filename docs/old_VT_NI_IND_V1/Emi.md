@@ -4,8 +4,6 @@
 
 #### Sheet Overview
 
-Testing. Adding documentation.
-
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 
 - **Range**: B4:K7
