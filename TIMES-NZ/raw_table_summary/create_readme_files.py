@@ -149,7 +149,6 @@ def create_readme_files(parsed_data, base_dir):
     os.makedirs(base_dir, exist_ok=True)
     expected_structure = expected_directory_structure(parsed_data)
     prune_directory_tree(expected_structure, base_dir)
-
     index_readme_path = os.path.join(base_dir, 'README.md')
     with open(index_readme_path, 'w', encoding='utf-8') as index_readme:
         index_readme_content = f"[Back to Main Documentation](../README.md)\n\n"
@@ -158,8 +157,12 @@ def create_readme_files(parsed_data, base_dir):
             if not workbook:
                 continue
             workbook_name = os.path.basename(workbook)
-            workbook_rel_path = os.path.join(os.path.splitext(workbook)[0], 'README.md').replace('\\', '/')
-            index_readme_content += f"- [{workbook_name}]({workbook_rel_path})\n"
+            workbook_path = os.path.normpath(os.path.splitext(workbook)[0])
+            workbook_dir_path = os.path.dirname(os.path.normpath(os.path.splitext(workbook)[0])).replace('\\', '/')
+            if not workbook_dir_path:
+                workbook_dir_path = '.'
+            workbook_rel_path = os.path.join(workbook_path, 'README.md').replace('\\', '/')
+            index_readme_content += f"- `{workbook_dir_path}/`[{workbook_name}]({workbook_rel_path})\n"
         print(f'Write index {index_readme_path}')
         index_readme.write(index_readme_content)
     for workbook, sheets in parsed_data.items():
