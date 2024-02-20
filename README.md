@@ -21,7 +21,7 @@ The TIMES-NZ project is divided across three main repositories, each serving a d
 
 #### Step 1: Model Configuration and Release Tagging
 - Begin by configuring the TIMES-NZ model in the TIMES-NZ-Model-Files repository, and using VEDA to run the model. Work is done in a development branch and merged to the main branch after review - i.e. we follow the standard [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow).
-- When ready to release a new version of the model, name your scenarios to include the release tag (e.g., For example, use a naming convention like kea-v2_1_2 where kea could be an identifier for the scenario set, and v2_1_2 indicates the version number).
+- When ready to release a new version of the model, name your scenarios to include the release tag (use the naming convention `kea-v2_1_2` where kea is an identifier for the scenario set, and v2_1_2 indicates the version number).
 - Once the configuration is complete and scenarios are named, commit your changes and tag the release (e.g., v2.1.2).
 Release tagging allows users and collaborators to easily identify and revert to specific versions of the model.
 
@@ -39,8 +39,7 @@ $scenario='tui-v2_1_2'
 cp $times_nz_gams_files_local_repo\$scenario\$scenario.vd $times_nz_visualization_local_repo\data_cleaning
 ```
 - Ensure that the file paths are correctly set in the script to avoid any file not found errors.
-
-- Run the data extraction script in the `data_cleaning` subdirectory to process the output and generate a file ready for visualization (.g., to process a scenario named tui-v2_1_2, you might run a script that generates a file named tui-v2_1_2.rda).
+- Run the data extraction script in the `data_cleaning` subdirectory to process the output and generate a file ready for visualization (e.g., to process a scenario named tui-v2_1_2, you might run a script that generates a file named tui-v2_1_2.rda).
 - After running the extraction script, it's a good practice to verify the integrity of the generated data file. Check for any inconsistencies or missing data that might impact the accuracy of your visualizations.
 
 #### Step 4: Visualization with RShiny
@@ -98,40 +97,60 @@ If you're new to Git and GitHub, here's a simple guide on how to get started.
 #### 1. Clone the Repository
 
 First, you'll need to make a copy of this repository on your local machine. This is called "cloning". If you're using command line, use the following command:
-
 ```PowerShell
 git clone git@github.com:EECA-NZ/TIMES-NZ-Model-Files.git
 ```
-or
+or if you have not yet configured your GitHub account with ssh keys for your laptop (instructions to do so [here](./docs/SystemConfigurationGuide.md)):
 ```PowerShell
 git clone https://github.com/EECA-NZ/TIMES-NZ-Model-Files.git
 ```
+
+#### 2. Ensure your repository is in a clean state and on the head of `main`
 
 After the clone, you can list the tags with `git tag -l` and then checkout a specific tag:
 ```PowerShell
 git checkout tags/<tag_name>
 ```
-
-#### 2. Create a Branch
-
-Before making changes, it's best practice to create a new branch. This keeps your changes isolated until they're ready to be merged into the main branch. Here's how you can do it:
-
-Command line:
+This allows us to roll back our model to earlier releases and replicate earlier results. However, for improving the model, our development pattern is to work from the head of the `main` branch. Before making any changes, ensure that you are on the head of `main` by running
 ```PowerShell
 git checkout main
 git pull
-git checkout -b <your-branch-name>
 ```
-The first two commands ensure you are branching from the head of the main branch. To get them to work, you may need to discard any local changes that you don't need. You can do this by running
+These commands ensure you are working from the most up-to-date state of the project: the head of the main branch. To get the above commands to work, you may need to discard any local changes that you don't need. You can do this by identifying any local changes using
 ```PowerShell
-git checkout <local-file-that-has-changes-to-discard>
+git status
+```
+which will list any modified files, new files not under version control and other local uncommitted changes to the project. Revert all of these by first (important!) backing up any changes that you want to retain, then running
+```PowerShell
+rm <any-local-untracked-file-that-is-not-part-of-the-project>
+git checkout <any-local-file-that-has-changes-to-discard>
+```
+when you have completely tidied up your local copy of the repo, and moved to the head of `main`, running `git status` will produce a very minimal output that looks like
+```
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
 ```
 
-#### 3. Make Your Changes
+#### 3. Create a Branch
+
+Before making changes, create a new branch. This keeps your changes isolated until they're ready to be merged into the main branch. After ensuring you are on the head of the `main` branch, here's how you can branch from it:
+
+Command line:
+```PowerShell
+git checkout -b <your-branch-name>
+```
+This command has two effects:
+* it branches from your current location in the git project (the head of main) and creates a new branch, named <your-branch-name>, which currently exists only on your local machine
+* it switches your local copy of the git repository to be that branch
+Any changes that you now commit will be committed to that branch, so you can modify the model without affecting the `main` branch until you are ready to merge the changes.
+
+#### 4. Make Your Changes
 
 Now you can start making changes to the code. You can create new files, modify existing ones, and delete what you don't need. Keep your changes focused and related to a single feature or fix.
 
-#### 4. Document Your Changes
+#### 5. Document Your Changes
 
 Use the Dockerized `times-excel-reader` tool to generate a summary of the model at `TIMES-NZ/raw_table_summary/raw_tables.txt`. This will help reviewers see the changes you've made to the Excel files by viewing the diff of this text file in the pull request.
 
@@ -182,10 +201,10 @@ Go to the repository on GitHub, and click on the "Pull request" button. Select y
 
 #### 8. Pull latest changes
 
-Incorporates changes from a remote repository into the current branch. If the current branch is behind the remote, then by default it will fast-forward the current branch to match the remote. 
-
+Incorporates changes from a remote repository into the current branch. If the current branch is behind the remote, then by default it will fast-forward the current branch to match the remote. For instance, as before, to ensure you are on the head of the `main` branch:
 Command line:
 ```PowerShell
+git checkout main
 git pull
 ```
 
