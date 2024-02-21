@@ -100,10 +100,7 @@ First, you'll need to make a copy of this repository on your local machine. This
 ```PowerShell
 git clone git@github.com:EECA-NZ/TIMES-NZ-Model-Files.git
 ```
-or if you have not yet configured your GitHub account with ssh keys for your laptop (instructions to do so [here](./docs/SystemConfigurationGuide.md)):
-```PowerShell
-git clone https://github.com/EECA-NZ/TIMES-NZ-Model-Files.git
-```
+This will work if you have configured your GitHub account with ssh keys for your laptop (instructions to do so [here](./docs/SystemConfigurationGuide.md)).
 
 #### 2. Ensure your repository is in a clean state and on the head of `main`
 
