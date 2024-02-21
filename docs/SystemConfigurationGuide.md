@@ -94,8 +94,9 @@ This will probably require you to start Docker Desktop, in order to start the Do
 
 First confirm that you have an SSH key by running the following command in PowerShell:
 ```powershell
-ls -la ~/.ssh
+ls -la C:/Users/<USER>/.ssh
 ```
+where <USER> is your Windows username
 
 If you don't have an SSH key, generate one by running the following command in PowerShell:
 ```powershell
@@ -104,7 +105,7 @@ ssh-keygen -t rsa -b 4096
 
 Copy the SSH key to the clipboard by running the following command in PowerShell:
 ```powershell
-cat ~/.ssh/id_rsa.pub | clip
+cat C:/Users/<USER>/.ssh/id_rsa.pub | clip
 ```
 
 Navigate to your GitHub account settings and click on "SSH and GPG keys" in the left-hand menu. Click on "New SSH key" and paste the key into the "Key" field. Click "Add SSH key".
