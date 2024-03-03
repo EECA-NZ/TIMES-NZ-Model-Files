@@ -215,7 +215,7 @@ def create_readme_files(parsed_data, base_dir):
         if not os.path.exists(workbook_readme_path):
             with open(workbook_readme_path, 'w', encoding='utf-8') as workbook_readme:
                 workbook_readme_content = f"# {os.path.basename(workbook)}\n\n"
-                workbook_readme_content += f"[Back to Index]({back_to_index})\n\n# {workbook_name}\n\n"
+                workbook_readme_content += f"[Back to Index]({back_to_index})\n\n"
                 workbook_readme_content += f"## Workbook Overview\n\n{workbook_doc}\n\n" if workbook_doc \
                     else "## Workbook Overview\n\n(TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)\n\n"
                 for sheet in sheets:
@@ -233,9 +233,9 @@ def create_readme_files(parsed_data, base_dir):
             if not os.path.exists(sheet_readme_path):
                 with open(sheet_readme_path, 'w', encoding='utf-8') as sheet_readme:
                     sheet_readme_content = f"# {sheet}\n\n"
-                    sheet_readme_content = f"[Back to {workbook_name}](README.md)\n\n# Sheet: {sheet}\n\n"
-                    sheet_readme_content += f"#### Sheet Overview\n\n{sheet_doc}\n\n" if sheet_doc \
-                        else "#### Sheet Overview\n\n(TODO: Overview of the sheet. Units used, sources of data, etc.)\n\n"
+                    sheet_readme_content = f"[Back to {workbook_name}](README.md)\n\n# '{sheet}' sheet in {workbook_name}\n\n"
+                    sheet_readme_content += f"## Sheet Overview\n\n{sheet_doc}\n\n" if sheet_doc \
+                        else "## Sheet Overview\n\n(TODO: Overview of the sheet. Units used, sources of data, etc.)\n\n"
                     sheet_readme_content += f"- **Range**: {info['range']}\n"
                     sheet_readme_content += f"- **Tags**: {info['tag']}\n"
                     if info['types']:
