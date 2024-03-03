@@ -6,7 +6,7 @@
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 
+#### Table definition: ~FI_Process
 - **Range**: B9:J249
-- **Tags**: ~FI_Process
 - **Columns**: Sets, TechName, TechDesc, Tact, Tcap, Tslvl, PrimaryCG, Vintage
 

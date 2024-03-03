@@ -6,7 +6,7 @@
 
 Future technology definitions
 
+#### Table definition: ~FI_Process
 - **Range**: B9:P249
-- **Tags**: ~FI_Process
 - **Columns**: Sets, TechName, *, *, *, *, *, TechDesc, *, Tact, Tcap, Tslvl, PrimaryCG, Vintage
 

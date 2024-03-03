@@ -6,7 +6,7 @@
 
 Discount rate and timeslice length
 
+#### Table definition: ~TFM_INS
 - **Range**: B5:I32
-- **Tags**: ~TFM_INS
 - **Columns**: TimeSlice, LimType, Attribute, AllRegions, NI, SI, Cset_CN
 

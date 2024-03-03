@@ -6,7 +6,7 @@
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 
+#### Table definition: ~TradeLinks
 - **Range**: B5:E8
-- **Tags**: ~TradeLinks
 - **Columns**: ELC, NI, SI
 

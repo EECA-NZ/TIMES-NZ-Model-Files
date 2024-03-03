@@ -6,7 +6,7 @@
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 
+#### Table definition: ~FI_T
 - **Range**: D3:N17
-- **Tags**: ~FI_T
 - **Columns**: TechName, Comm-IN, Comm-OUT, Share-I~UP, STOCK, EFF, LIFE, INVCOST, FIXOM, VAROM
 

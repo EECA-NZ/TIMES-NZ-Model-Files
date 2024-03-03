@@ -6,7 +6,7 @@
 
 Extrapolation table
 
+#### Table definition: ~TFM_INS
 - **Range**: C5:K8
-- **Tags**: ~TFM_INS
 - **Columns**: TimeSlice, LimType, Attribute, Year, NI, SI, Pset_Set, Pset_PN
 

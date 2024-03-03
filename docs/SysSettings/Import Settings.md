@@ -6,7 +6,7 @@
 
 Base run settings
 
+#### Table definition: ~ImpSettings
 - **Range**: B4:D11
-- **Tags**: ~ImpSettings
 - **Columns**: Option, Value
 

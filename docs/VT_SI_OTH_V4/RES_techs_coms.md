@@ -6,7 +6,11 @@
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 
+#### Table definition: ~FI_Comm
+- **Range**: B7:N41
+- **Columns**: Csets, CommName, *, *, *, CommDesc, *, Unit, LimType, CTSLvl, PeakTS, Ctype
+
+#### Table definition: ~FI_Process
 - **Range**: O7:AC64
-- **Tags**: ~FI_Process
 - **Columns**: Sets, TechName, *, *, *, *, *, TechDesc, *, Tact, Tcap, Tslvl, PrimaryCG, Vintage
 

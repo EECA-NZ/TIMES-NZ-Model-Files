@@ -6,7 +6,7 @@
 
 Refinery shutdown
 
+#### Table definition: ~TFM_INS
 - **Range**: C4:L7
-- **Tags**: ~TFM_INS
 - **Columns**: TimeSlice, LimType, Attribute, Pset_PN, Pset_CI, Cset_CN, Pset_set, Year, AllRegions
 

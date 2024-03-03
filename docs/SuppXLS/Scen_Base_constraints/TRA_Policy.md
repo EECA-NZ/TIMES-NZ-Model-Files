@@ -6,7 +6,7 @@
 
 Diesel car/van constraint
 
+#### Table definition: ~UC_T
 - **Range**: B8:N13
-- **Tags**: ~UC_T
 - **Columns**: UC_N, Pset:, PSet:, Cset:, PSet:, LimType, Year, UC_ACT, UC_RHSRT~NI, UC_RHSRT~SI, UC_RHSRT~0, UC_Desc
 

@@ -6,7 +6,7 @@
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 
+#### Table definition: ~TFM_INS
 - **Range**: J20:Q237
-- **Tags**: ~TFM_INS
 - **Columns**: TimeSlice, Cset_CN, NI, SI, Attribute, Cset_set, Year
 

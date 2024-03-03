@@ -6,5 +6,5 @@
 
 Natural gas price
 
+#### Table definition: ~TFM_INS
 - **Range**: C20
-- **Tags**: ~TFM_INS

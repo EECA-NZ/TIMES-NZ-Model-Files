@@ -64,7 +64,9 @@ def parse_raw_tables_file(filepath):
                 pass
         if block_info['filename'] not in parsed_data:
             parsed_data[block_info['filename']] = {}
-        parsed_data[block_info['filename']][block_info['sheetname']] = block_info
+        if block_info['sheetname'] not in parsed_data[block_info['filename']]:
+            parsed_data[block_info['filename']][block_info['sheetname']] = []
+        parsed_data[block_info['filename']][block_info['sheetname']].append(block_info)
     return parsed_data
 
 
@@ -236,10 +238,12 @@ def create_readme_files(parsed_data, base_dir):
                     sheet_readme_content = f"[Back to {workbook_name}](README.md)\n\n# '{sheet}' sheet in {workbook_name}\n\n"
                     sheet_readme_content += f"## Sheet Overview\n\n{sheet_doc}\n\n" if sheet_doc \
                         else "## Sheet Overview\n\n(TODO: Overview of the sheet. Units used, sources of data, etc.)\n\n"
-                    sheet_readme_content += f"- **Range**: {info['range']}\n"
-                    sheet_readme_content += f"- **Tags**: {info['tag']}\n"
-                    if info['types']:
-                        sheet_readme_content += "- **Columns**: " + ", ".join(info['types']) + "\n\n"
+                    for entry in info:
+                        sheet_readme_content += f"#### Table definition: {entry['tag']}\n"
+                        sheet_readme_content += f"- **Range**: {entry['range']}\n"
+                        #sheet_readme_content += f"- **Tags**: {entry['tag']}\n"
+                        if entry['types']:
+                            sheet_readme_content += "- **Columns**: " + ", ".join(entry['types']) + "\n\n"
                     print(f'Write sheet documentation {sheet_readme_path}')
                     sheet_readme.write(sheet_readme_content)
 

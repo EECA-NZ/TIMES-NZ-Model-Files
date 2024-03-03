@@ -6,7 +6,7 @@
 
 Transport sector emissions values
 
+#### Table definition: ~COMEMI
 - **Range**: B4:I7
-- **Tags**: ~COMEMI
 - **Columns**: CommName, TRANGA, TRALPG, TRAPET, TRADSL, TRAJET, TRAFOL
 

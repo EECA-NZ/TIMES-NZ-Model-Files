@@ -6,7 +6,15 @@
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 
+#### Table definition: ~FI_T
+- **Range**: B22:N37
+- **Columns**: TechName, Comm-IN, Comm-OUT, Share-I~UP, Share-I~UP~2021, Share-I~UP~2060, CAP2ACT, EFF, LIFE, FIXOM, VAROM, FLO_DELIV
+
+#### Table definition: ~FI_Comm
+- **Range**: B6:O18
+- **Columns**: Csets, Region, CommName, *, *, *, CommDesc, *, Unit, LimType, CTSLvl, PeakTS, Ctype
+
+#### Table definition: ~FI_Process
 - **Range**: Q6:AF18
-- **Tags**: ~FI_Process
 - **Columns**: Sets, Region, TechName, *, *, *, *, *, TechDesc, *, Tact, Tcap, Tslvl, PrimaryCG, Vintage
 

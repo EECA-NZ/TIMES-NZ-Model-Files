@@ -6,7 +6,7 @@
 
 Electricty emissions factors
 
+#### Table definition: ~COMEMI
 - **Range**: B6:J9
-- **Tags**: ~COMEMI
 - **Columns**: CommName, ELCCOA, ELCCOL, ELCOIL, ELCNGA, ELCBIL, ELCBIG, ELCWOD
 

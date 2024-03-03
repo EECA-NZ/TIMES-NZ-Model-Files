@@ -6,7 +6,11 @@
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 
+#### Table definition: ~FI_Process
+- **Range**: C57:K101
+- **Columns**: Sets, TechName, TechDesc, Tact, Tcap, Tslvl, PrimaryCG, Vintage
+
+#### Table definition: ~FI_T
 - **Range**: C5:P49
-- **Tags**: ~FI_T
 - **Columns**: TechName, *TechDesc, Comm-IN, Comm-OUT, EFF, AFA, AFA~LO, Life, CAP2ACT, INVCOST, FIXOM, Start, Flo_mark
 
