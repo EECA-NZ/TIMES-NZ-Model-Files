@@ -6,6 +6,6 @@
 
 ## Workbook Overview
 
-(TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)
+Transport sector future technologies in the Kea scenario
 
 - [TRA_NEW](TRA_NEW.md) - Overview of the 'TRA_NEW' sheet.

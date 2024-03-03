@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Wind generation maximum, thermal generation minimum
 
 - **Range**: D8:N10
 - **Tags**: ~UC_T

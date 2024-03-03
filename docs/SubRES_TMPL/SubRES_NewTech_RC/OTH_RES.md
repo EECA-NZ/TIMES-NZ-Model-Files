@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Residential sector future technology defintions and parameters
 
 - **Range**: C68:Q119
 - **Tags**: ~FI_Process

@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Winter Energy Margin for the North Island
 
 - **Range**: C6:R42
 - **Tags**: ~UC_T

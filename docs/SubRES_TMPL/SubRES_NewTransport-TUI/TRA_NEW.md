@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Technology parameters and definitions
 
 - **Range**: C7:Y47
 - **Tags**: ~FI_T

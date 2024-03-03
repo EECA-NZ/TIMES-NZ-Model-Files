@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Hydro availability factors
 
 - **Range**: Y6:AG11
 - **Tags**: ~TFM_INS

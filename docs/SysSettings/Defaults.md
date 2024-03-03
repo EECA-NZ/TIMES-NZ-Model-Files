@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Default units
 
 - **Range**: D3:J7
 - **Tags**: ~DefUnits

@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Commodity and process definitions for electricity sector
 
 - **Range**: R6:AG22
 - **Tags**: ~FI_Process

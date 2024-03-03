@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Base run settings
 
 - **Range**: B4:D11
 - **Tags**: ~ImpSettings

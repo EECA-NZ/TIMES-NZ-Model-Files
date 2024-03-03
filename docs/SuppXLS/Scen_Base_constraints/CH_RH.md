@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Residential and commercial uptake constraints
 
 - **Range**: B52:P55
 - **Tags**: ~UC_T

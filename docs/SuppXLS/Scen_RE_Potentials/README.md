@@ -6,7 +6,7 @@
 
 ## Workbook Overview
 
-(TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)
+Sets upper bounds for Renewable electricty uptake by technology
 
 - [Geo](Geo.md) - Overview of the 'Geo' sheet.
 - [Hydro](Hydro.md) - Overview of the 'Hydro' sheet.

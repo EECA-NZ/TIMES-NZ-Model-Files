@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Renewable electricity resource supply commodity and process definitions
 
 - **Range**: H3:Q13
 - **Tags**: ~FI_Comm

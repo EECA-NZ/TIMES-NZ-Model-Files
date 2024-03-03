@@ -6,7 +6,7 @@
 
 ## Workbook Overview
 
-(TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)
+Winter Energy Margin
 
 - [UC_WEM](UC_WEM.md) - Overview of the 'UC_WEM' sheet.
 - [UC_WEM_SI](UC_WEM_SI.md) - Overview of the 'UC_WEM_SI' sheet.

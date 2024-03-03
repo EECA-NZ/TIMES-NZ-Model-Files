@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Industrial uptake constraints
 
 - **Range**: C43:R102
 - **Tags**: ~UC_T

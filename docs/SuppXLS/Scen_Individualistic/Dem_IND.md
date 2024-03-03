@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Industrial demand projections
 
 - **Range**: Y5:AM78
 - **Tags**: ~TFM_INS-TS: Region=SI

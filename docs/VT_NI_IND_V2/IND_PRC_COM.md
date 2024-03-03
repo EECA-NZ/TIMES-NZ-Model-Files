@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Industrial sector technology and enduse commodity definitions
 
 - **Range**: R6:AG116
 - **Tags**: ~FI_Process

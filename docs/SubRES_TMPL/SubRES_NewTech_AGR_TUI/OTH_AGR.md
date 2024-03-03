@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Technology definitions and parameters
 
 - **Range**: B85:Q159
 - **Tags**: ~FI_Process

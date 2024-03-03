@@ -6,7 +6,7 @@
 
 ## Workbook Overview
 
-(TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)
+Kea Scenario parameters
 
 - [BEV_PHEV-share](BEV_PHEV-share.md) - Overview of the 'BEV_PHEV-share' sheet.
 - [Costs_techs](Costs_techs.md) - Overview of the 'Costs_techs' sheet.

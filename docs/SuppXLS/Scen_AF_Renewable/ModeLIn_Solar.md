@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Solar availability factors
 
 - **Range**: N6:V31
 - **Tags**: ~TFM_INS

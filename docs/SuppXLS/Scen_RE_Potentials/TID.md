@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Tidal uptake constraints
 
 - **Range**: B10:L14
 - **Tags**: ~UC_T

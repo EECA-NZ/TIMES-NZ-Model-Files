@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Wind uptake constraints
 
 - **Range**: C8:M13
 - **Tags**: ~UC_T

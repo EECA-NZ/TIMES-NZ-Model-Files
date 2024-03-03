@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Set number and length of model time periods
 
 - **Range**: B8:C9
 - **Tags**: ~ActivePDef

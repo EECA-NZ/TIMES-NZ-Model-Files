@@ -13,7 +13,7 @@ Usage:
 
 import os
 import shutil
-
+import openpyxl
 
 #### CONSTANTS ####
 FILEPATH = 'raw_tables.txt'
@@ -66,6 +66,40 @@ def parse_raw_tables_file(filepath):
             parsed_data[block_info['filename']] = {}
         parsed_data[block_info['filename']][block_info['sheetname']] = block_info
     return parsed_data
+
+
+def read_documentation_from_excel(workbook_path):
+    """
+    Read documentation from the "Documentation" sheet in an Excel workbook.
+    Assumes that documentation in the "Documentation" sheet is in the format:
+    - "Workbook: <documentation for the workbook>"
+    - "<sheet name>: <documentation for the sheet>"
+    - ...
+
+    Parameters:
+    - workbook_path: Path to the Excel workbook.
+
+    Returns:
+    - A dictionary with two keys: 'workbook' for workbook-level documentation,
+      and 'sheets' for sheet-specific documentation.
+    """
+    documentation = {'workbook': '', 'sheets': {}}
+    try:
+        print(workbook_path)
+        workbook = openpyxl.load_workbook(workbook_path, data_only=True)
+        if 'Documentation' in workbook.sheetnames:
+            sheet = workbook['Documentation']
+            for row in sheet.iter_rows(min_row=1, values_only=True):
+                if row[0] and isinstance(row[0], str):
+                    if row[0].startswith('Workbook'):
+                        documentation['workbook'] = row[0].replace('Workbook: ', '', 1).strip()
+                    else:
+                        sheet_name = row[0].split(':')[0].strip()
+                        doc_text = row[0].split(':', 1)[1].strip() if ':' in row[0] else ''
+                        documentation['sheets'][sheet_name] = doc_text
+    except Exception as e:
+        print(f"Error reading documentation from {workbook_path}: {e}")
+    return documentation
 
 
 def prune_directory_tree(expected_structure, actual_base_dir, test_run=False):
@@ -157,11 +191,11 @@ def create_readme_files(parsed_data, base_dir):
             if not workbook:
                 continue
             workbook_name = os.path.basename(workbook)
-            workbook_path = os.path.normpath(os.path.splitext(workbook)[0])
+            workbook_path_without_ext = os.path.normpath(os.path.splitext(workbook)[0])
             workbook_dir_path = os.path.dirname(os.path.normpath(os.path.splitext(workbook)[0])).replace('\\', '/')
             if not workbook_dir_path:
                 workbook_dir_path = '.'
-            workbook_rel_path = os.path.join(workbook_path, 'README.md').replace('\\', '/')
+            workbook_rel_path = os.path.join(workbook_path_without_ext, 'README.md').replace('\\', '/')
             index_readme_content += f"- `{workbook_dir_path}/`[{workbook_name}]({workbook_rel_path})\n"
         print(f'Write index {index_readme_path}')
         index_readme.write(index_readme_content)
@@ -174,11 +208,16 @@ def create_readme_files(parsed_data, base_dir):
         depth = workbook_dir.count(os.sep) - base_dir.count(os.sep)
         back_to_index = "../" * depth + "README.md"
         workbook_readme_path = os.path.join(workbook_dir, 'README.md')
+
+        xlsx_relpath = os.path.join('..', os.path.normpath(workbook)).replace('\\', '/')
+        documentation = read_documentation_from_excel(xlsx_relpath)
+        workbook_doc = documentation.get('workbook', '')
         if not os.path.exists(workbook_readme_path):
             with open(workbook_readme_path, 'w', encoding='utf-8') as workbook_readme:
                 workbook_readme_content = f"# {os.path.basename(workbook)}\n\n"
                 workbook_readme_content += f"[Back to Index]({back_to_index})\n\n# {workbook_name}\n\n"
-                workbook_readme_content += "## Workbook Overview\n\n(TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)\n\n"
+                workbook_readme_content += f"## Workbook Overview\n\n{workbook_doc}\n\n" if workbook_doc \
+                    else "## Workbook Overview\n\n(TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)\n\n"
                 for sheet in sheets:
                     sheet_readme_filename = f"{sheet}.md"
                     workbook_readme_content += f"- [{sheet}]({sheet_readme_filename.replace(' ', '%20')}) - Overview of the '{sheet}' sheet.\n"
@@ -189,11 +228,14 @@ def create_readme_files(parsed_data, base_dir):
                 continue
             sheet_readme_filename = f"{sheet}.md"
             sheet_readme_path = os.path.join(workbook_dir, sheet_readme_filename)
+            # Inside the loop where sheet_readme_path is determined
+            sheet_doc = documentation['sheets'].get(sheet, '')
             if not os.path.exists(sheet_readme_path):
                 with open(sheet_readme_path, 'w', encoding='utf-8') as sheet_readme:
                     sheet_readme_content = f"# {sheet}\n\n"
                     sheet_readme_content = f"[Back to {workbook_name}](README.md)\n\n# Sheet: {sheet}\n\n"
-                    sheet_readme_content += "#### Sheet Overview\n\n(TODO: Overview of the sheet. Units used, sources of data, etc.)\n\n"
+                    sheet_readme_content += f"#### Sheet Overview\n\n{sheet_doc}\n\n" if sheet_doc \
+                        else "#### Sheet Overview\n\n(TODO: Overview of the sheet. Units used, sources of data, etc.)\n\n"
                     sheet_readme_content += f"- **Range**: {info['range']}\n"
                     sheet_readme_content += f"- **Tags**: {info['tag']}\n"
                     if info['types']:

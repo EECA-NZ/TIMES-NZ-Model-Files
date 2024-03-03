@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Peaker availability
 
 - **Range**: B3:S9
 - **Tags**: ~TFM_INS

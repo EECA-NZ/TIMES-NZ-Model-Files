@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Primary fuel emissions data
 
 - **Range**: B5:K7
 - **Tags**: ~COMAGG

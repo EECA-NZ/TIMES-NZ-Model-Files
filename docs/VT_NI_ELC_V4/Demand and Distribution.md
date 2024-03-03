@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Electricity transmission and distribution grid definitions and parameters
 
 - **Range**: B3:J13
 - **Tags**: ~FI_Process

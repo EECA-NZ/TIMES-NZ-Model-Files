@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Future technology definitions
 
 - **Range**: B9:P249
 - **Tags**: ~FI_Process

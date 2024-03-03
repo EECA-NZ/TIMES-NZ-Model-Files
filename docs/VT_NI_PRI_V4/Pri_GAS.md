@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Fossil gas supply commodity and process definitions
 
 - **Range**: I3:R8
 - **Tags**: ~FI_Comm

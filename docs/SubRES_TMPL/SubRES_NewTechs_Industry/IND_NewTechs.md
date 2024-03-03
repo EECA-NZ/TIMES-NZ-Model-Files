@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Future technology parameters
 
 - **Range**: N8:AV249
 - **Tags**: ~FI_T

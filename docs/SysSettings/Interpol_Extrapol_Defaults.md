@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Interpolation and Extrapolation settings
 
 - **Range**: B4:O11
 - **Tags**: ~TFM_MIG

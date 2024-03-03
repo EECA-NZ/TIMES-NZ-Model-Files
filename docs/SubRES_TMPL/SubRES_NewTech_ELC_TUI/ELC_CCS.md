@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+CCS technology parameters
 
 - **Range**: C4:AV14
 - **Tags**: ~FI_T

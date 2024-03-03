@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Timeslice definitions
 
 - **Range**: E4:H9
 - **Tags**: ~TimeSlices

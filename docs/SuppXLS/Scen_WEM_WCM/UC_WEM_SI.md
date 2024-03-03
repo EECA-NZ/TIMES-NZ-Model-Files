@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Winter Energy Margin for the South Island
 
 - **Range**: C5:R41
 - **Tags**: ~UC_T: SI

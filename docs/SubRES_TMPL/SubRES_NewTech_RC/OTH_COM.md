@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Commercial sector future technology defintions and parameters
 
 - **Range**: C4:Y282
 - **Tags**: ~FI_T

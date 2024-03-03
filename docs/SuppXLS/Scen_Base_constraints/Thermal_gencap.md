@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+coal and nuclear ban
 
 - **Range**: B6:L10
 - **Tags**: ~UC_T

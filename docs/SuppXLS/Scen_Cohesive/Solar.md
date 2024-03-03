@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Solar maximum uptake constraints
 
 - **Range**: B63:K65
 - **Tags**: ~UC_T

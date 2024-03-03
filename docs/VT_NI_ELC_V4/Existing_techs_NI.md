@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Base year generation technology information and definitions
 
 - **Range**: O11:AD26
 - **Tags**: ~FI_Process

@@ -6,7 +6,7 @@
 
 ## Workbook Overview
 
-(TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)
+Base settings for TIMES model
 
 - [Constants](Constants.md) - Overview of the 'Constants' sheet.
 - [Defaults](Defaults.md) - Overview of the 'Defaults' sheet.

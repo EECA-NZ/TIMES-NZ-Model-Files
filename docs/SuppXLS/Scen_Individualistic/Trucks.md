@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Minimum ICE truck use constraint
 
 - **Range**: C4:T9
 - **Tags**: ~TFM_INS

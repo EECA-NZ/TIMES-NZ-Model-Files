@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Hydro uptake constraints
 
 - **Range**: C6:M12
 - **Tags**: ~UC_T

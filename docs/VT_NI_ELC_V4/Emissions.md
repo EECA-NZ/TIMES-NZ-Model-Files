@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Electricty emissions factors
 
 - **Range**: B6:J9
 - **Tags**: ~COMEMI

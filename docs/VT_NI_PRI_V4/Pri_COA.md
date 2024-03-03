@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Coal supply commodity and process definitions
 
 - **Range**: B7:K11
 - **Tags**: ~FI_Comm

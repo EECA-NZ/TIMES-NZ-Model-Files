@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Electric truck supply constraint
 
 - **Range**: K28
 - **Tags**: ~UC_T

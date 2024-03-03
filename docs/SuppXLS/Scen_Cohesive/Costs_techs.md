@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Carbon price, discount rates, coal prices
 
 - **Range**: O4:W11
 - **Tags**: ~TFM_INS

@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Discount rate and timeslice length
 
 - **Range**: B5:I32
 - **Tags**: ~TFM_INS

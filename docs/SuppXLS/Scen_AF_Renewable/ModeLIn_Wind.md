@@ -4,7 +4,7 @@
 
 #### Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Wind availability factors
 
 - **Range**: Y88:AG113
 - **Tags**: ~TFM_INS
