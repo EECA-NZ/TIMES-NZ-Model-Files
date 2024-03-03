@@ -8,5 +8,5 @@ Winter Energy Margin for the South Island
 
 #### Table definition: ~UC_T: SI
 - **Range**: C5:R41
-- **Columns**: UC_N, TimeSlice, Pset_PN, Pset_CI, Pset_CO, Cset_CN, Attribute, Year, LimType, UC_CAP, UC_FLO, UC_RHSRTS~NI, UC_RHSRTS~SI, UC_RHSRTS~0, UC_Desc
+- **Columns**: 'UC_N', 'TimeSlice', 'Pset_PN', 'Pset_CI', 'Pset_CO', 'Cset_CN', 'Attribute', 'Year', 'LimType', 'UC_CAP', 'UC_FLO', 'UC_RHSRTS~NI', 'UC_RHSRTS~SI', 'UC_RHSRTS~0', 'UC_Desc'
 

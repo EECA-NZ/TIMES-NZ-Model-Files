@@ -8,5 +8,5 @@
 
 #### Table definition: ~TradeLinks
 - **Range**: B5:E8
-- **Columns**: ELC, NI, SI
+- **Columns**: 'ELC', 'NI', 'SI'
 

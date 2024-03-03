@@ -8,13 +8,13 @@ Electricity transmission and distribution grid definitions and parameters
 
 #### Table definition: ~FI_T
 - **Range**: B15:R24
-- **Columns**: TechName, *TechDesc, Comm-IN, Comm-OUT, NCAP_PASTI~2015, AF, INVCOST, FIXOM, VAROM, Life, CAP2ACT, EFF, EFF~2020, EFF~2035, EFF~2050, EFF~0
+- **Columns**: 'TechName', '*TechDesc', 'Comm-IN', 'Comm-OUT', 'NCAP_PASTI~2015', 'AF', 'INVCOST', 'FIXOM', 'VAROM', 'Life', 'CAP2ACT', 'EFF', 'EFF~2020', 'EFF~2035', 'EFF~2050', 'EFF~0'
 
 #### Table definition: ~FI_Comm
 - **Range**: B27:K37
-- **Columns**: Csets, Region, CommName, CommDesc, Unit, LimType, CTSLvl, PeakTS, Ctype
+- **Columns**: 'Csets', 'Region', 'CommName', 'CommDesc', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_Process
 - **Range**: B3:J13
-- **Columns**: Sets, TechName, TechDesc, Tact, Tcap, Tslvl, PrimaryCG, Vintage
+- **Columns**: 'Sets', 'TechName', 'TechDesc', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 

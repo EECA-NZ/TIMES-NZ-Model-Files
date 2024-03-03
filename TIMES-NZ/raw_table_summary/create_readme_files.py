@@ -241,9 +241,8 @@ def create_readme_files(parsed_data, base_dir):
                     for entry in info:
                         sheet_readme_content += f"#### Table definition: {entry['tag']}\n"
                         sheet_readme_content += f"- **Range**: {entry['range']}\n"
-                        #sheet_readme_content += f"- **Tags**: {entry['tag']}\n"
                         if entry['types']:
-                            sheet_readme_content += "- **Columns**: " + ", ".join(entry['types']) + "\n\n"
+                            sheet_readme_content += "- **Columns**: '" + "', '".join(entry['types']) + "'\n\n"
                     print(f'Write sheet documentation {sheet_readme_path}')
                     sheet_readme.write(sheet_readme_content)
 

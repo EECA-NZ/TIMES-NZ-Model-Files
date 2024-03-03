@@ -8,5 +8,5 @@ Industrial fuel emissions
 
 #### Table definition: ~COMEMI
 - **Range**: B4:K7
-- **Columns**: CommName, INDCOA, INDPET, INDDSL, INDLPG, INDFOL, INDNGA, INDGEO, INDWOD
+- **Columns**: 'CommName', 'INDCOA', 'INDPET', 'INDDSL', 'INDLPG', 'INDFOL', 'INDNGA', 'INDGEO', 'INDWOD'
 

@@ -8,13 +8,13 @@
 
 #### Table definition: ~COMEMI
 - **Range**: B15:M18
-- **Columns**: CommName, COMCOA, COMNGA, COMLPG, COMDSL, COMBIG, COMGEO, COMFOL, COMPET, COMWOD, COMPLT
+- **Columns**: 'CommName', 'COMCOA', 'COMNGA', 'COMLPG', 'COMDSL', 'COMBIG', 'COMGEO', 'COMFOL', 'COMPET', 'COMWOD', 'COMPLT'
 
 #### Table definition: ~COMEMI
 - **Range**: B3:L6
-- **Columns**: CommName, AGRCOA, AGRDSL, AGRPET, AGRFOL, AGRLPG, AGRNGA, AGRGEO, AGRWOD, AGRPLT
+- **Columns**: 'CommName', 'AGRCOA', 'AGRDSL', 'AGRPET', 'AGRFOL', 'AGRLPG', 'AGRNGA', 'AGRGEO', 'AGRWOD', 'AGRPLT'
 
 #### Table definition: ~COMEMI
 - **Range**: B9:H12
-- **Columns**: CommName, RESCOA, RESNGA, RESLPG, RESDSL, RESWOD
+- **Columns**: 'CommName', 'RESCOA', 'RESNGA', 'RESLPG', 'RESDSL', 'RESWOD'
 

@@ -8,5 +8,5 @@
 
 #### Table definition: ~TFM_AVA
 - **Range**: B4:F7
-- **Columns**: Pset_PN, AllRegions, NI, SI
+- **Columns**: 'Pset_PN', 'AllRegions', 'NI', 'SI'
 

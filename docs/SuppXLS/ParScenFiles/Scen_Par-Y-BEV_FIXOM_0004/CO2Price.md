@@ -8,9 +8,9 @@
 
 #### Table definition: ~InputCell: 3,4,5,6,7
 - **Range**: A2:B3
-- **Columns**: VALUE
+- **Columns**: 'VALUE'
 
 #### Table definition: ~TFM_UPD
 - **Range**: F6:N8
-- **Columns**: TimeSlice, LimType, Attribute, Cset_Set, PSET_PN, Cset_CD, Year, AllRegions
+- **Columns**: 'TimeSlice', 'LimType', 'Attribute', 'Cset_Set', 'PSET_PN', 'Cset_CD', 'Year', 'AllRegions'
 

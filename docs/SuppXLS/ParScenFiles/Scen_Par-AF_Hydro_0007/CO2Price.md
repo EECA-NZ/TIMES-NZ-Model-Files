@@ -8,13 +8,13 @@
 
 #### Table definition: ~InputCell: 1,2,7
 - **Range**: A2:B3
-- **Columns**: VALUE
+- **Columns**: 'VALUE'
 
 #### Table definition: ~TFM_INS
 - **Range**: G22:P35
-- **Columns**: TimeSlice, LimType, Attribute, Year, SI, Pset_Set, Pset_PN, Pset_CO, Cset_CN
+- **Columns**: 'TimeSlice', 'LimType', 'Attribute', 'Year', 'SI', 'Pset_Set', 'Pset_PN', 'Pset_CO', 'Cset_CN'
 
 #### Table definition: ~TFM_INS
 - **Range**: G7:P20
-- **Columns**: TimeSlice, LimType, Attribute, Year, NI, Pset_Set, Pset_PN, Pset_CO, Cset_CN
+- **Columns**: 'TimeSlice', 'LimType', 'Attribute', 'Year', 'NI', 'Pset_Set', 'Pset_PN', 'Pset_CO', 'Cset_CN'
 

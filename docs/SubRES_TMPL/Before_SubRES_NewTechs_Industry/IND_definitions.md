@@ -8,5 +8,5 @@
 
 #### Table definition: ~FI_Process
 - **Range**: B9:J249
-- **Columns**: Sets, TechName, TechDesc, Tact, Tcap, Tslvl, PrimaryCG, Vintage
+- **Columns**: 'Sets', 'TechName', 'TechDesc', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 

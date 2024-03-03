@@ -8,5 +8,5 @@ Base run settings
 
 #### Table definition: ~ImpSettings
 - **Range**: B4:D11
-- **Columns**: Option, Value
+- **Columns**: 'Option', 'Value'
 

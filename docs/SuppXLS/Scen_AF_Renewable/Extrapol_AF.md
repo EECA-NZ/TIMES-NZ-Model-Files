@@ -8,5 +8,5 @@ Extrapolation table
 
 #### Table definition: ~TFM_INS
 - **Range**: C5:K8
-- **Columns**: TimeSlice, LimType, Attribute, Year, NI, SI, Pset_Set, Pset_PN
+- **Columns**: 'TimeSlice', 'LimType', 'Attribute', 'Year', 'NI', 'SI', 'Pset_Set', 'Pset_PN'
 

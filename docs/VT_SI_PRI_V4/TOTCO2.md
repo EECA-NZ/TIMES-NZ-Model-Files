@@ -8,9 +8,9 @@
 
 #### Table definition: ~FI_Comm
 - **Range**: B10:K14
-- **Columns**: Csets, Region, CommName, CommDesc, Unit, LimType, CTSLvl, PeakTS, Ctype
+- **Columns**: 'Csets', 'Region', 'CommName', 'CommDesc', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~COMAGG
 - **Range**: B5:J7
-- **Columns**: CommName, ELCCO2, *REFCO2, TRACO2, INDCO2, AGRCO2, COMCO2, RESCO2
+- **Columns**: 'CommName', 'ELCCO2', '*REFCO2', 'TRACO2', 'INDCO2', 'AGRCO2', 'COMCO2', 'RESCO2'
 

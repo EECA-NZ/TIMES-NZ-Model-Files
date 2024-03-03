@@ -8,9 +8,9 @@
 
 #### Table definition: ~FI_Comm
 - **Range**: A6:M58
-- **Columns**: Csets, CommName, *, *, *, CommDesc, *, Unit, LimType, CTSLvl, PeakTS, Ctype
+- **Columns**: 'Csets', 'CommName', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_Process
 - **Range**: N6:AB129
-- **Columns**: Sets, TechName, *, *, *, *, *, TechDesc, *, Tact, Tcap, Tslvl, PrimaryCG, Vintage
+- **Columns**: 'Sets', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 

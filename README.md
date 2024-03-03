@@ -160,6 +160,11 @@ This will also need to be done when there are updates to the Dockerfile or `requ
 docker run -it --rm --name my_times_reader -v ${PWD}/TIMES-NZ:/usr/src/app/TIMES-NZ times_excel_reader
 ```
 
+Having updated `raw_tables.txt`, re-run the python script `create_readme_files.py` the sits alongside the `raw_tables.txt` file. This is done by running the following command in the `TIMES-NZ/raw_table_summary` directory:
+```PowerShell
+python create_readme_files.py
+```
+
 **Note:**
 
 * If you are unable to run the `times-excel-reader` tool on your machine, you can open a pull request without changing the `raw_tables.txt` file. The GitHub Actions check will fail on your PR, and the check will create an artifact containing the updated `raw_tables.txt`. You can download this and update the one on your branch instead.

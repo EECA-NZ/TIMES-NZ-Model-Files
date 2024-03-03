@@ -8,9 +8,9 @@ Industrial sector technology and enduse commodity definitions
 
 #### Table definition: ~FI_Comm
 - **Range**: C6:P80
-- **Columns**: Csets, Region, CommName, *, *, *, CommDesc, *, Unit, LimType, CTSLvl, PeakTS, Ctype
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_Process
 - **Range**: R6:AG116
-- **Columns**: Sets, Region, TechName, *, *, *, *, *, TechDesc, *, Tact, Tcap, Tslvl, PrimaryCG, Vintage
+- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
