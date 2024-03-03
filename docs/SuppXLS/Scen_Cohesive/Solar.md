@@ -1,8 +1,8 @@
 [Back to Scen_Cohesive.xlsx](README.md)
 
-# Sheet: Solar
+# 'Solar' sheet in Scen_Cohesive.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Solar maximum uptake constraints
 

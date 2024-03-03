@@ -1,8 +1,8 @@
 [Back to SubRES_NewTech_ELC_TUI.xlsx](README.md)
 
-# Sheet: ELC_CCS
+# 'ELC_CCS' sheet in SubRES_NewTech_ELC_TUI.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 CCS technology parameters
 

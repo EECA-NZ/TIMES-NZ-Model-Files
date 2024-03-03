@@ -2,8 +2,6 @@
 
 [Back to Index](../../README.md)
 
-# Scen_Individualistic.xlsx
-
 ## Workbook Overview
 
 Tui Scenario parameters

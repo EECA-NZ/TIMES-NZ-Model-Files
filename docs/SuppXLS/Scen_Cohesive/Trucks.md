@@ -1,8 +1,8 @@
 [Back to Scen_Cohesive.xlsx](README.md)
 
-# Sheet: Trucks
+# 'Trucks' sheet in Scen_Cohesive.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Minimum ICE truck use constraint
 

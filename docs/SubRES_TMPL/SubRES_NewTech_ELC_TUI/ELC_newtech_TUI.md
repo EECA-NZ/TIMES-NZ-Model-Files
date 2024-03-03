@@ -1,8 +1,8 @@
 [Back to SubRES_NewTech_ELC_TUI.xlsx](README.md)
 
-# Sheet: ELC_newtech_TUI
+# 'ELC_newtech_TUI' sheet in SubRES_NewTech_ELC_TUI.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 

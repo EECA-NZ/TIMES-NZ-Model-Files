@@ -1,8 +1,8 @@
 [Back to VT_SI_OTH_V4.xlsx](README.md)
 
-# Sheet: COM_techs
+# 'COM_techs' sheet in VT_SI_OTH_V4.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 

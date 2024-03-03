@@ -1,8 +1,8 @@
 [Back to VT_SI_ELC_V4.xlsx](README.md)
 
-# Sheet: Demand and Distribution
+# 'Demand and Distribution' sheet in VT_SI_ELC_V4.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Electricity transmission and distribution grid definitions and parameters
 

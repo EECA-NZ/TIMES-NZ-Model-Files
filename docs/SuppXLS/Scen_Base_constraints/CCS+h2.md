@@ -1,8 +1,8 @@
 [Back to Scen_Base_constraints.xlsx](README.md)
 
-# Sheet: CCS+h2
+# 'CCS+h2' sheet in Scen_Base_constraints.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Limiting methanation of hydrogen to CCS power plant operation
 

@@ -2,8 +2,6 @@
 
 [Back to Index](../../README.md)
 
-# Scen_Cohesive.xlsx
-
 ## Workbook Overview
 
 Kea Scenario parameters

@@ -1,8 +1,8 @@
 [Back to SubRES_NewTech_RC.xlsx](README.md)
 
-# Sheet: OTH_COM
+# 'OTH_COM' sheet in SubRES_NewTech_RC.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Commercial sector future technology defintions and parameters
 

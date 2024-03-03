@@ -2,8 +2,6 @@
 
 [Back to Index](../../README.md)
 
-# Scen_WEM_WCM.xlsx
-
 ## Workbook Overview
 
 Winter Energy Margin

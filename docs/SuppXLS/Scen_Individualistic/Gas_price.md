@@ -1,8 +1,8 @@
 [Back to Scen_Individualistic.xlsx](README.md)
 
-# Sheet: Gas_price
+# 'Gas_price' sheet in Scen_Individualistic.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Natural gas price
 

@@ -2,8 +2,6 @@
 
 [Back to Index](../../README.md)
 
-# SubRES_NewTransport-TUI.xlsx
-
 ## Workbook Overview
 
 Transport sector future technologies in the Tui scenario

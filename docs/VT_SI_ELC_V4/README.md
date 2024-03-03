@@ -2,8 +2,6 @@
 
 [Back to Index](../README.md)
 
-# VT_SI_ELC_V4.xlsx
-
 ## Workbook Overview
 
 South Island Electricity Sector Base Year

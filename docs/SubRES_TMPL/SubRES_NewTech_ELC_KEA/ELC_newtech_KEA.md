@@ -1,8 +1,8 @@
 [Back to SubRES_NewTech_ELC_KEA.xlsx](README.md)
 
-# Sheet: ELC_newtech_KEA
+# 'ELC_newtech_KEA' sheet in SubRES_NewTech_ELC_KEA.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Technology definitions and parameters
 

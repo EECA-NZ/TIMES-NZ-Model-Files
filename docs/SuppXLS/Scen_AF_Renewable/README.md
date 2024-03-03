@@ -2,8 +2,6 @@
 
 [Back to Index](../../README.md)
 
-# Scen_AF_Renewable.xlsx
-
 ## Workbook Overview
 
 Renewable electricity availability factors

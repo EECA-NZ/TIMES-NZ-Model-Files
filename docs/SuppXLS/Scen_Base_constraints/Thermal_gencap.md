@@ -1,8 +1,8 @@
 [Back to Scen_Base_constraints.xlsx](README.md)
 
-# Sheet: Thermal_gencap
+# 'Thermal_gencap' sheet in Scen_Base_constraints.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 coal and nuclear ban
 

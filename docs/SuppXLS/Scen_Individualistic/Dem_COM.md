@@ -1,8 +1,8 @@
 [Back to Scen_Individualistic.xlsx](README.md)
 
-# Sheet: Dem_COM
+# 'Dem_COM' sheet in Scen_Individualistic.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Commercial demand projections
 

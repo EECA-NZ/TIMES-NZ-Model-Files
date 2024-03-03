@@ -1,8 +1,8 @@
 [Back to SysSettings.xlsx](README.md)
 
-# Sheet: Constants
+# 'Constants' sheet in SysSettings.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Discount rate and timeslice length
 

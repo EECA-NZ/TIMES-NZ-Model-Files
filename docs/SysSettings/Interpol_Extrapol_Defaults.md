@@ -1,8 +1,8 @@
 [Back to SysSettings.xlsx](README.md)
 
-# Sheet: Interpol_Extrapol_Defaults
+# 'Interpol_Extrapol_Defaults' sheet in SysSettings.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Interpolation and Extrapolation settings
 

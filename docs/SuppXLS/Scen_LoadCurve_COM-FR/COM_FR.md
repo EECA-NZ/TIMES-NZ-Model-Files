@@ -1,8 +1,8 @@
 [Back to Scen_LoadCurve_COM-FR.xlsx](README.md)
 
-# Sheet: COM_FR
+# 'COM_FR' sheet in Scen_LoadCurve_COM-FR.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 

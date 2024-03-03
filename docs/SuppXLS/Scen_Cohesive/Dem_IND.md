@@ -1,8 +1,8 @@
 [Back to Scen_Cohesive.xlsx](README.md)
 
-# Sheet: Dem_IND
+# 'Dem_IND' sheet in Scen_Cohesive.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Industrial demand projections
 

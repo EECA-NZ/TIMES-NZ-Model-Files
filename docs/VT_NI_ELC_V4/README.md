@@ -2,8 +2,6 @@
 
 [Back to Index](../README.md)
 
-# VT_NI_ELC_V4.xlsx
-
 ## Workbook Overview
 
 North Island Electricity Sector Base Year

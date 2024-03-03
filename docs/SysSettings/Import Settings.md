@@ -1,8 +1,8 @@
 [Back to SysSettings.xlsx](README.md)
 
-# Sheet: Import Settings
+# 'Import Settings' sheet in SysSettings.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Base run settings
 

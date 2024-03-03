@@ -1,8 +1,8 @@
 [Back to Scen_RE_Potentials.xlsx](README.md)
 
-# Sheet: Geo
+# 'Geo' sheet in Scen_RE_Potentials.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Geothermal uptake constraints
 

@@ -1,8 +1,8 @@
 [Back to Scen_WEM_WCM.xlsx](README.md)
 
-# Sheet: WCM
+# 'WCM' sheet in Scen_WEM_WCM.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Peaker availability
 

@@ -2,8 +2,6 @@
 
 [Back to Index](../README.md)
 
-# VT_SI_IND_V2.xlsx
-
 ## Workbook Overview
 
 (TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)

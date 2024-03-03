@@ -2,8 +2,6 @@
 
 [Back to Index](../../README.md)
 
-# SubRES_NewTransport-KEA.xlsx
-
 ## Workbook Overview
 
 Transport sector future technologies in the Kea scenario

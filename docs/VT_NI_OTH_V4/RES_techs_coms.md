@@ -1,8 +1,8 @@
 [Back to VT_NI_OTH_V4.xlsx](README.md)
 
-# Sheet: RES_techs_coms
+# 'RES_techs_coms' sheet in VT_NI_OTH_V4.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 

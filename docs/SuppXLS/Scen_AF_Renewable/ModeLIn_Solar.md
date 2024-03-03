@@ -1,8 +1,8 @@
 [Back to Scen_AF_Renewable.xlsx](README.md)
 
-# Sheet: ModeLIn_Solar
+# 'ModeLIn_Solar' sheet in Scen_AF_Renewable.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Solar availability factors
 

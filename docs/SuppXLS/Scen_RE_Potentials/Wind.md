@@ -1,8 +1,8 @@
 [Back to Scen_RE_Potentials.xlsx](README.md)
 
-# Sheet: Wind
+# 'Wind' sheet in Scen_RE_Potentials.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Wind uptake constraints
 

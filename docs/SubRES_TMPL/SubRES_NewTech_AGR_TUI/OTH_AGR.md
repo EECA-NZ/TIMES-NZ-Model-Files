@@ -1,8 +1,8 @@
 [Back to SubRES_NewTech_AGR_TUI.xlsx](README.md)
 
-# Sheet: OTH_AGR
+# 'OTH_AGR' sheet in SubRES_NewTech_AGR_TUI.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Technology definitions and parameters
 

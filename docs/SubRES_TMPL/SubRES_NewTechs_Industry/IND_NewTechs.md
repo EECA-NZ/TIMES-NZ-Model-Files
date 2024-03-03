@@ -1,8 +1,8 @@
 [Back to SubRES_NewTechs_Industry.xlsx](README.md)
 
-# Sheet: IND_NewTechs
+# 'IND_NewTechs' sheet in SubRES_NewTechs_Industry.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Future technology parameters
 

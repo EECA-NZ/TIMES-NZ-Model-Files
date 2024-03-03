@@ -1,8 +1,8 @@
 [Back to SubRES_NewTech_RC.xlsx](README.md)
 
-# Sheet: OTH_RES
+# 'OTH_RES' sheet in SubRES_NewTech_RC.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Residential sector future technology defintions and parameters
 

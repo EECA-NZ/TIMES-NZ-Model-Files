@@ -2,8 +2,6 @@
 
 [Back to Index](../../../README.md)
 
-# Scen_Par-CO2Price_0005.xlsx
-
 ## Workbook Overview
 
 (TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)

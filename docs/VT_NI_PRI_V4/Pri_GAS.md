@@ -1,8 +1,8 @@
 [Back to VT_NI_PRI_V4.xlsx](README.md)
 
-# Sheet: Pri_GAS
+# 'Pri_GAS' sheet in VT_NI_PRI_V4.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Fossil gas supply commodity and process definitions
 

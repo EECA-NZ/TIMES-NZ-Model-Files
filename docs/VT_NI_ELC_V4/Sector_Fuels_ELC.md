@@ -1,8 +1,8 @@
 [Back to VT_NI_ELC_V4.xlsx](README.md)
 
-# Sheet: Sector_Fuels_ELC
+# 'Sector_Fuels_ELC' sheet in VT_NI_ELC_V4.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Commodity and process definitions for electricity sector
 

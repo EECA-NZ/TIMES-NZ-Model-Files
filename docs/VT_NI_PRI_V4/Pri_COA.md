@@ -1,8 +1,8 @@
 [Back to VT_NI_PRI_V4.xlsx](README.md)
 
-# Sheet: Pri_COA
+# 'Pri_COA' sheet in VT_NI_PRI_V4.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Coal supply commodity and process definitions
 

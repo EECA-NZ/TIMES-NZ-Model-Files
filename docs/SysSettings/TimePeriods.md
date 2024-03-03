@@ -1,8 +1,8 @@
 [Back to SysSettings.xlsx](README.md)
 
-# Sheet: TimePeriods
+# 'TimePeriods' sheet in SysSettings.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Set number and length of model time periods
 

@@ -1,8 +1,8 @@
 [Back to SubRES_NewTransport-KEA.xlsx](README.md)
 
-# Sheet: TRA_NEW
+# 'TRA_NEW' sheet in SubRES_NewTransport-KEA.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Technology parameters and definitions
 

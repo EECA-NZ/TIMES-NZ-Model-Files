@@ -1,8 +1,8 @@
 [Back to Scen_Individualistic.xlsx](README.md)
 
-# Sheet: Trucks
+# 'Trucks' sheet in Scen_Individualistic.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Minimum ICE truck use constraint
 

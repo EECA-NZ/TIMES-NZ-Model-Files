@@ -1,8 +1,8 @@
 [Back to VT_NI_ELC_V4.xlsx](README.md)
 
-# Sheet: Existing_techs_NI
+# 'Existing_techs_NI' sheet in VT_NI_ELC_V4.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Base year generation technology information and definitions
 

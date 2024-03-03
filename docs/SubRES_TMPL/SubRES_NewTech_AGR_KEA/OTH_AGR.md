@@ -1,8 +1,8 @@
 [Back to SubRES_NewTech_AGR_KEA.xlsx](README.md)
 
-# Sheet: OTH_AGR
+# 'OTH_AGR' sheet in SubRES_NewTech_AGR_KEA.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Technology definitions and parameters
 

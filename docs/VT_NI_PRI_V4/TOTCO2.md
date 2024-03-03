@@ -1,8 +1,8 @@
 [Back to VT_NI_PRI_V4.xlsx](README.md)
 
-# Sheet: TOTCO2
+# 'TOTCO2' sheet in VT_NI_PRI_V4.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Primary fuel emissions data
 

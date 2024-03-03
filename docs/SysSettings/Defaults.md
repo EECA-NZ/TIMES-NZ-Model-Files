@@ -1,8 +1,8 @@
 [Back to SysSettings.xlsx](README.md)
 
-# Sheet: Defaults
+# 'Defaults' sheet in SysSettings.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Default units
 

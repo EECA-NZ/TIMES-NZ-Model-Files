@@ -2,8 +2,6 @@
 
 [Back to Index](../README.md)
 
-# VT_NI_IND_V2.xlsx
-
 ## Workbook Overview
 
 North Island Industrial Sector

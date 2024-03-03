@@ -1,8 +1,8 @@
 [Back to VT_NI_IND_V2.xlsx](README.md)
 
-# Sheet: IND_PRC_COM
+# 'IND_PRC_COM' sheet in VT_NI_IND_V2.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Industrial sector technology and enduse commodity definitions
 

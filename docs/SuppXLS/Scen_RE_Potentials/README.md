@@ -2,8 +2,6 @@
 
 [Back to Index](../../README.md)
 
-# Scen_RE_Potentials.xlsx
-
 ## Workbook Overview
 
 Sets upper bounds for Renewable electricty uptake by technology

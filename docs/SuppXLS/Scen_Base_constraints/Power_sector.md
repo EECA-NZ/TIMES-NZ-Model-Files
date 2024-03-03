@@ -1,8 +1,8 @@
 [Back to Scen_Base_constraints.xlsx](README.md)
 
-# Sheet: Power_sector
+# 'Power_sector' sheet in Scen_Base_constraints.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Wind generation maximum, thermal generation minimum
 

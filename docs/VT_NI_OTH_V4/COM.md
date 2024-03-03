@@ -1,8 +1,8 @@
 [Back to VT_NI_OTH_V4.xlsx](README.md)
 
-# Sheet: COM
+# 'COM' sheet in VT_NI_OTH_V4.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 

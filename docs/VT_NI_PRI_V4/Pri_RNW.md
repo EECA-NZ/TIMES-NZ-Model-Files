@@ -1,8 +1,8 @@
 [Back to VT_NI_PRI_V4.xlsx](README.md)
 
-# Sheet: Pri_RNW
+# 'Pri_RNW' sheet in VT_NI_PRI_V4.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Renewable electricity resource supply commodity and process definitions
 

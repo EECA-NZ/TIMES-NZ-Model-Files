@@ -2,8 +2,6 @@
 
 [Back to Index](../README.md)
 
-# SysSettings.xlsx
-
 ## Workbook Overview
 
 Base settings for TIMES model

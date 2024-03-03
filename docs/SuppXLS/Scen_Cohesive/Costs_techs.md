@@ -1,8 +1,8 @@
 [Back to Scen_Cohesive.xlsx](README.md)
 
-# Sheet: Costs_techs
+# 'Costs_techs' sheet in Scen_Cohesive.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Carbon price, discount rates, coal prices
 

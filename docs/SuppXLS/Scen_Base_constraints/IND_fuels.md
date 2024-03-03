@@ -1,8 +1,8 @@
 [Back to Scen_Base_constraints.xlsx](README.md)
 
-# Sheet: IND_fuels
+# 'IND_fuels' sheet in Scen_Base_constraints.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Industrial uptake constraints
 

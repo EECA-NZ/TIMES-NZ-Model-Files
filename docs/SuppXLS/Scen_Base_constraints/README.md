@@ -2,8 +2,6 @@
 
 [Back to Index](../../README.md)
 
-# Scen_Base_constraints.xlsx
-
 ## Workbook Overview
 
 Misc Base constraints for the model

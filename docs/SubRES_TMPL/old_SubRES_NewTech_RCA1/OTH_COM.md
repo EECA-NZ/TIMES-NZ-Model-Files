@@ -1,8 +1,8 @@
 [Back to old_SubRES_NewTech_RCA1.xlsx](README.md)
 
-# Sheet: OTH_COM
+# 'OTH_COM' sheet in old_SubRES_NewTech_RCA1.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 

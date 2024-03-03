@@ -2,8 +2,6 @@
 
 [Back to Index](../README.md)
 
-# VT_NI_PRI_V4.xlsx
-
 ## Workbook Overview
 
 North Island Primary Fuel Supply

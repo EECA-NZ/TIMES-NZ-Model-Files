@@ -1,8 +1,8 @@
 [Back to Scen_AF_Renewable.xlsx](README.md)
 
-# Sheet: ModeLIn_Wind
+# 'ModeLIn_Wind' sheet in Scen_AF_Renewable.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Wind availability factors
 

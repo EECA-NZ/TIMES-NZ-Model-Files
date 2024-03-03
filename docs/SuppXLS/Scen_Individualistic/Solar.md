@@ -1,8 +1,8 @@
 [Back to Scen_Individualistic.xlsx](README.md)
 
-# Sheet: Solar
+# 'Solar' sheet in Scen_Individualistic.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 Solar maximum uptake constraints
 

@@ -2,8 +2,6 @@
 
 [Back to Index](../../../README.md)
 
-# ScenTrade__Trade_Links.xlsx
-
 ## Workbook Overview
 
 (TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)

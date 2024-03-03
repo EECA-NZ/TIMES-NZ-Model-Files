@@ -1,8 +1,8 @@
 [Back to old_SubRES_NewTech_RCA1.xlsx](README.md)
 
-# Sheet: OTH_RES
+# 'OTH_RES' sheet in old_SubRES_NewTech_RCA1.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 

@@ -1,8 +1,8 @@
 [Back to Before_SubRES_NewTechs_Industry.xlsx](README.md)
 
-# Sheet: IND_definitions
+# 'IND_definitions' sheet in Before_SubRES_NewTechs_Industry.xlsx
 
-#### Sheet Overview
+## Sheet Overview
 
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 
