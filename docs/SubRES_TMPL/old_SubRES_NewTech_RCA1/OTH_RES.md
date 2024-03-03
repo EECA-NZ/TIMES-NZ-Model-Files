@@ -12,5 +12,5 @@
 
 #### Table definition: ~FI_T
 - **Range**: C5:P49
-- **Columns**: 'TechName', '*TechDesc', 'Comm-IN', 'Comm-OUT', 'EFF', 'AFA', 'AFA~LO', 'Life', 'CAP2ACT', 'INVCOST', 'FIXOM', 'Start', 'Flo_mark'
+- **Columns**: 'TechName', '*TechDesc', 'Comm-IN', 'Comm-OUT', 'EFF', 'AFA', 'AFA\~LO', 'Life', 'CAP2ACT', 'INVCOST', 'FIXOM', 'Start', 'Flo_mark'
 

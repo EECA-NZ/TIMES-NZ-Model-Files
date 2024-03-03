@@ -16,5 +16,5 @@ Oil supply commodity and process definitions
 
 #### Table definition: ~FI_T
 - **Range**: I45:X66
-- **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'CUM', 'COST', 'COST~2020', 'COST~2025', 'COST~2030', 'COST~2035', 'COST~2040', 'COST~2050', 'COST~2060', 'ACT_BND', 'ACT_BND~2020', 'ENV_ACT~TOTCO2'
+- **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'CUM', 'COST', 'COST\~2020', 'COST\~2025', 'COST\~2030', 'COST\~2035', 'COST\~2040', 'COST\~2050', 'COST\~2060', 'ACT_BND', 'ACT_BND\~2020', 'ENV_ACT\~TOTCO2'
 

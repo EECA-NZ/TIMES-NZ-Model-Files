@@ -8,5 +8,5 @@
 
 #### Table definition: ~FI_T
 - **Range**: D3:N17
-- **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Share-I~UP', 'STOCK', 'EFF', 'LIFE', 'INVCOST', 'FIXOM', 'VAROM'
+- **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Share-I\~UP', 'STOCK', 'EFF', 'LIFE', 'INVCOST', 'FIXOM', 'VAROM'
 

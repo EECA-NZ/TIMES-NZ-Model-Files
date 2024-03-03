@@ -12,5 +12,5 @@
 
 #### Table definition: ~FI_T
 - **Range**: C65:E103
-- **Columns**: 'CommName', 'Demand~2018'
+- **Columns**: 'CommName', 'Demand\~2018'
 

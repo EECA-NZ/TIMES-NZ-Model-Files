@@ -8,7 +8,7 @@ Oil refinery process definitions
 
 #### Table definition: ~FI_T
 - **Range**: B9:S18
-- **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Share-O~UP', 'Share-O~UP~2020', 'Share-O~UP~2060', 'NCAP_PASTI~2005', 'CAP2ACT', 'Life', 'EFF', 'ACT_BND', 'ACT_BND~2020', 'ACT_BND~2025', 'INVCOST', 'Fixom', 'Varom', 'ENV_ACT~REFCO2'
+- **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Share-O\~UP', 'Share-O\~UP\~2020', 'Share-O\~UP\~2060', 'NCAP_PASTI\~2005', 'CAP2ACT', 'Life', 'EFF', 'ACT_BND', 'ACT_BND\~2020', 'ACT_BND\~2025', 'INVCOST', 'Fixom', 'Varom', 'ENV_ACT\~REFCO2'
 
 #### Table definition: ~FI_Comm
 - **Range**: U3:AD6

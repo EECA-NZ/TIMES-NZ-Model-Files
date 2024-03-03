@@ -8,7 +8,7 @@ Electricity transmission and distribution grid definitions and parameters
 
 #### Table definition: ~FI_T
 - **Range**: B18:R27
-- **Columns**: 'TechName', '*TechDesc', 'Comm-IN', 'Comm-OUT', 'NCAP_PASTI~2015', 'AF', 'INVCOST', 'FIXOM', 'VAROM', 'Life', 'CAP2ACT', 'EFF~2015', 'EFF~2021', 'EFF~2035', 'EFF~2060', 'EFF~0'
+- **Columns**: 'TechName', '*TechDesc', 'Comm-IN', 'Comm-OUT', 'NCAP_PASTI\~2015', 'AF', 'INVCOST', 'FIXOM', 'VAROM', 'Life', 'CAP2ACT', 'EFF\~2015', 'EFF\~2021', 'EFF\~2035', 'EFF\~2060', 'EFF\~0'
 
 #### Table definition: ~FI_Comm
 - **Range**: B36:K46

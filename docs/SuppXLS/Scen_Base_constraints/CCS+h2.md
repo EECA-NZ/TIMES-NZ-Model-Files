@@ -8,5 +8,5 @@ Limiting methanation of hydrogen to CCS power plant operation
 
 #### Table definition: ~UC_T
 - **Range**: C8:N11
-- **Columns**: 'UC_N', 'Pset_Set', 'Pset_PN', 'Cset_CN', 'Year', 'LimType', 'UC_FLO', 'UC_RHST~2025', 'UC_RHST~2060', 'UC_RHST~0', 'UC_Desc'
+- **Columns**: 'UC_N', 'Pset_Set', 'Pset_PN', 'Cset_CN', 'Year', 'LimType', 'UC_FLO', 'UC_RHST\~2025', 'UC_RHST\~2060', 'UC_RHST\~0', 'UC_Desc'
 

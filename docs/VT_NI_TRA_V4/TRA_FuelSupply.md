@@ -8,7 +8,7 @@
 
 #### Table definition: ~FI_T
 - **Range**: B21:N36
-- **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Share-I~UP', 'Share-I~UP~2020', 'Share-I~UP~2060', 'CAP2ACT', 'EFF', 'LIFE', 'FIXOM', 'VAROM', 'FLO_DELIV'
+- **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Share-I\~UP', 'Share-I\~UP\~2020', 'Share-I\~UP\~2060', 'CAP2ACT', 'EFF', 'LIFE', 'FIXOM', 'VAROM', 'FLO_DELIV'
 
 #### Table definition: ~FI_Comm
 - **Range**: B6:O18

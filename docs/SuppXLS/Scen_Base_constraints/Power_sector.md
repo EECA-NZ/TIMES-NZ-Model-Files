@@ -16,5 +16,5 @@ Wind generation maximum, thermal generation minimum
 
 #### Table definition: ~UC_T
 - **Range**: D8:N10
-- **Columns**: 'UC_N', 'Pset_Set', 'Pset_PN', 'Year', 'LimType', 'UC_NCAP', 'UC_RHST~2020', 'UC_RHST~2025', 'UC_RHST~0', 'UC_Desc'
+- **Columns**: 'UC_N', 'Pset_Set', 'Pset_PN', 'Year', 'LimType', 'UC_NCAP', 'UC_RHST\~2020', 'UC_RHST\~2025', 'UC_RHST\~0', 'UC_Desc'
 
