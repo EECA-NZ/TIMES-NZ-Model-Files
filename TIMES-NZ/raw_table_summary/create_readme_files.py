@@ -18,7 +18,7 @@ import openpyxl
 #### CONSTANTS ####
 FILEPATH = 'raw_tables.txt'
 BASE_DIR = '../../docs'
-
+OVERWRITE_READMES = True
 
 #### FUNCTIONS ####
 def parse_raw_tables_file(filepath):
@@ -183,8 +183,11 @@ def create_readme_files(parsed_data, base_dir):
     """
     base_dir = os.path.normpath(base_dir)
     os.makedirs(base_dir, exist_ok=True)
-    expected_structure = expected_directory_structure(parsed_data)
-    prune_directory_tree(expected_structure, base_dir)
+    if OVERWRITE_READMES:
+        prune_directory_tree({}, base_dir)
+    else:
+        expected_structure = expected_directory_structure(parsed_data)
+        prune_directory_tree(expected_structure, base_dir)
     index_readme_path = os.path.join(base_dir, 'README.md')
     with open(index_readme_path, 'w', encoding='utf-8') as index_readme:
         index_readme_content = f"[Back to Main Documentation](../README.md)\n\n"
@@ -218,8 +221,9 @@ def create_readme_files(parsed_data, base_dir):
             with open(workbook_readme_path, 'w', encoding='utf-8') as workbook_readme:
                 workbook_readme_content = f"# {os.path.basename(workbook)}\n\n"
                 workbook_readme_content += f"[Back to Index]({back_to_index})\n\n"
-                workbook_readme_content += f"## Workbook Overview\n\n{workbook_doc}\n\n" if workbook_doc \
-                    else "## Workbook Overview\n\n(TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)\n\n"
+                workbook_readme_content += "## Workbook Overview\n\n"
+                workbook_readme_content += f"{workbook_doc}\n\n" if workbook_doc \
+                    else "(TODO: Add a high-level overview of how this workbook fits into the TIMES-NZ model.)\n\n"
                 for sheet in sheets:
                     sheet_readme_filename = f"{sheet}.md"
                     workbook_readme_content += f"- [{sheet}]({sheet_readme_filename.replace(' ', '%20')}) - Overview of the '{sheet}' sheet.\n"
@@ -230,14 +234,14 @@ def create_readme_files(parsed_data, base_dir):
                 continue
             sheet_readme_filename = f"{sheet}.md"
             sheet_readme_path = os.path.join(workbook_dir, sheet_readme_filename)
-            # Inside the loop where sheet_readme_path is determined
             sheet_doc = documentation['sheets'].get(sheet, '')
             if not os.path.exists(sheet_readme_path):
                 with open(sheet_readme_path, 'w', encoding='utf-8') as sheet_readme:
                     sheet_readme_content = f"# {sheet}\n\n"
                     sheet_readme_content = f"[Back to {workbook_name}](README.md)\n\n# '{sheet}' sheet in {workbook_name}\n\n"
-                    sheet_readme_content += f"## Sheet Overview\n\n{sheet_doc}\n\n" if sheet_doc \
-                        else "## Sheet Overview\n\n(TODO: Overview of the sheet. Units used, sources of data, etc.)\n\n"
+                    sheet_readme_content += "## Sheet Overview\n\n"
+                    sheet_readme_content += f"{sheet_doc}\n\n" if sheet_doc \
+                        else "(TODO: Overview of the sheet. Units used, sources of data, etc.)\n\n"
                     for entry in info:
                         sheet_readme_content += f"#### Table definition: {entry['tag']}\n"
                         sheet_readme_content += f"- **Range**: {entry['range']}\n"
