@@ -7,10 +7,10 @@
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 
 #### Table definition: ~FI_Comm
-- **Range**: B5:O43
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: B5:P43
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_Process
-- **Range**: Q5:AF55
+- **Range**: R5:AG55
 - **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 

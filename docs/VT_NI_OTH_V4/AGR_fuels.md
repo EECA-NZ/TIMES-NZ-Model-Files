@@ -11,10 +11,10 @@
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Share-I\~UP', 'Share-I\~UP\~2025', '*Share-I\~UP\~2060', 'Share-I\~UP\~0', 'EFF', 'LIFE', 'EFF\~2021', 'EFF\~2025', 'EFF\~2040', 'EFF\~2060', 'EFF\~0', 'INVCOST', 'FIXOM', 'VAROM', 'FLO_DELIV'
 
 #### Table definition: ~FI_Comm
-- **Range**: B5:O17
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: B5:P17
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_Process
-- **Range**: Q5:AF17
+- **Range**: R5:AG17
 - **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
