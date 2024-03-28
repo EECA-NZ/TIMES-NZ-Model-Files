@@ -383,27 +383,27 @@ CCS_Store2,COseq,120000,0.2020525,0.0072425,4000,4000,3,30
 
 
 sheetname: ELC_CCS
-range: C28:K35
+range: C28:Q35
 filename: SubRES_TMPL/SubRES_NewTech_ELC_KEA.xlsx
 tag: ~FI_Process
-types: Sets (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-ELE,EHCO_CCS30,Coal: SCPC-post CCS - 2030,PJ,GW,DAYNITE,,YES
-ELE,EHCOL_CCS30,Lignite: SCPC-post CCS - 2030,PJ,GW,DAYNITE,,YES
-ELE,ENGA_CCS30,Natural Gas: GTCC-post CCS - 2030,PJ,GW,DAYNITE,,YES
-MIN,CCS_Store1,CO2 Storage,kt,kta,,,
-MIN,CCS_Store2,CO2 Storage,kt,kta,,,
+types: Sets (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Technology Name,,,,,, -:-  -:-  -:-  -:- ,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+ELE,EHCO_CCS30,,,,,, -:-  -:-  -:-  -:- ,Coal: SCPC-post CCS - 2030,PJ,GW,DAYNITE,,YES
+ELE,EHCOL_CCS30,,,,,, -:-  -:-  -:-  -:- ,Lignite: SCPC-post CCS - 2030,PJ,GW,DAYNITE,,YES
+ELE,ENGA_CCS30,,,,,, -:-  -:-  -:-  -:- ,Natural Gas: GTCC-post CCS - 2030,PJ,GW,DAYNITE,,YES
+MIN,CCS_Store1,,,,,, -:-  -:-  -:-  -:- ,CO2 Storage,kt,kta,,,
+MIN,CCS_Store2,,,,,, -:-  -:-  -:-  -:- ,CO2 Storage,kt,kta,,,
 
 
 sheetname: ELC_CCS
-range: C37:L40
+range: C37:Q40
 filename: SubRES_TMPL/SubRES_NewTech_ELC_KEA.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,COseq,CO2 captured,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,COseq,,,,, -:-  -:-  -:- ,CO2 captured,kt,,,,
 
 
 sheetname: ELC_CCS
@@ -571,27 +571,27 @@ CCS_Store2,COseq,120000,0.2020525,0.0072425,4000,4000,3,30
 
 
 sheetname: ELC_CCS
-range: C28:K35
+range: C28:Q35
 filename: SubRES_TMPL/SubRES_NewTech_ELC_TUI.xlsx
 tag: ~FI_Process
-types: Sets (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-ELE,EHCO_CCS30,Coal: SCPC-post CCS - 2030,PJ,GW,DAYNITE,,YES
-ELE,EHCOL_CCS30,Lignite: SCPC-post CCS - 2030,PJ,GW,DAYNITE,,YES
-ELE,ENGA_CCS30,Natural Gas: GTCC-post CCS - 2030,PJ,GW,DAYNITE,,YES
-MIN,CCS_Store1,CO2 Storage,kt,kta,,,
-MIN,CCS_Store2,CO2 Storage,kt,kta,,,
+types: Sets (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Technology Name,,,,,, -:-  -:-  -:-  -:- ,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+ELE,EHCO_CCS30,,,,,, -:-  -:-  -:-  -:- ,Coal: SCPC-post CCS - 2030,PJ,GW,DAYNITE,,YES
+ELE,EHCOL_CCS30,,,,,, -:-  -:-  -:-  -:- ,Lignite: SCPC-post CCS - 2030,PJ,GW,DAYNITE,,YES
+ELE,ENGA_CCS30,,,,,, -:-  -:-  -:-  -:- ,Natural Gas: GTCC-post CCS - 2030,PJ,GW,DAYNITE,,YES
+MIN,CCS_Store1,,,,,, -:-  -:-  -:-  -:- ,CO2 Storage,kt,kta,,,
+MIN,CCS_Store2,,,,,, -:-  -:-  -:-  -:- ,CO2 Storage,kt,kta,,,
 
 
 sheetname: ELC_CCS
-range: C37:L40
+range: C37:Q40
 filename: SubRES_TMPL/SubRES_NewTech_ELC_TUI.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,COseq,CO2 captured,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,,,,,,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,COseq,,,,, -:-  -:-  -:- ,CO2 captured,kt,,,,
 
 
 sheetname: ELC_CCS
