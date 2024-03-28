@@ -8241,7 +8241,7 @@ tag: ~FI_T
 types: TechName (object), Comm-IN (object), Comm-OUT (object), Share-O~UP (object), Share-O~UP~2020 (object), Share-O~UP~2060 (object), NCAP_PASTI~2005 (object), CAP2ACT (object), Life (object), EFF (object), ACT_BND (object), ACT_BND~2020 (object), ACT_BND~2025 (object), INVCOST (object), Fixom (object), Varom (object), ENV_ACT~REFCO2 (object)
 TechName,Comm-IN,Comm-OUT,Share-O~UP,Share-O~UP~2020,Share-O~UP~2060,NCAP_PASTI~2005,CAP2ACT,Life,EFF,ACT_BND,ACT_BND~2020,ACT_BND~2025,INVCOST,Fixom,Varom,ENV_ACT~REFCO2
 *Technology Name,Input Commodity,Output Commodity,Output Share,Output Share,Output Share,Installed capacity,Capacity to activity,Capacity lifetime,Efficiency,Activity Bound,Activity Bound,,MNZD/MMbbls/day,MNZD/MMbbls/day,MNZD/PJ,Emissions from refinery
-*Units,,,Pja,Pja,Pja,MMbbls/day,Pj/MMbbl,Years,,,,,,,,kt
+*Units,,,PJa,PJa,PJa,MMbbls/day,Pj/MMbbl,Years,,,,,,,,kt
 REFEOIL00,OILI,LPG,0,0,0,0.142,2096.2636346,80,1.02040483504924,244.443034268907,262.958515856992,0,10790.1234567901,554.619718309859,0.341547879446446,3.82948375864408
 ,,PET,0.276391534754272,0.306391534754272,0.506391534754272,,,,,,,,,,,
 ,,DSL,0.329345482997236,0.359345482997236,0.559345482997236,,,,,,,,,,,
@@ -8251,57 +8251,57 @@ REFEOIL00,OILI,LPG,0,0,0,0.142,2096.2636346,80,1.02040483504924,244.443034268907
 
 
 sheetname: Con_REF
-range: U3:AD6
+range: U3:AI6
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-ENV,,REFCO2,Refinery emissions,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+ENV,,REFCO2,Primary Fuel Supply,Refinery,,,Primary Fuel Supply -:- Refinery -:-  -:- ,Refinery emissions,kt,,,,
 
 
 sheetname: Con_REF
-range: U9:AD13
+range: U9:AJ13
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-PRE,,REFEOIL00,,PJ,Pja,,NRGI,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+PRE,,REFEOIL00,Primary Fuel Supply,Refinery,,Oil production,,Primary Fuel Supply -:- Refinery -:-  -:- Oil production -:- ,,PJ,PJa,,NRGI,
 
 
 sheetname: Pri_BIO
-range: B20:K46
+range: B20:Q46
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-MIN,,MINWODWST00,Residual Woody Biomass,PJ,PJa,,,
-MIN,,MINWODWST01,Residual woody biomass tranche 2,PJ,PJa,,,
-MIN,,MINAGRWST00,Straw & Stover,PJ,PJa,,,
-MIN,,MINAGRWST01,Fruit and vegetables culls,PJ,PJa,,,
-MIN,,MINMNCWST00,Municipal Solid Waste,PJ,PJa,,,
-MIN,,MINANMMNR00,Animal Manure,PJ,PJa,,,
-MIN,,MINOILWST00,Waste Oil,PJ,PJa,,,
-MIN,,MINOILWST01,Tallow Waste,PJ,PJa,,,
-MIN,,MINWODSUPCUR00,Domestic supply of current wood in use,PJ,PJa,,,
-MIN,,MINOILWST01,Domestic supply of current wood in use,PJ,PJa,,,
-PRE,,REF_WODWST,Biogas production refinery from Forest residues and woody wastes,PJ,GWth,,,
-PRE,,REF_AGRWST,"Biogas production refinery from Agricultural wastes (straws, stover, vegetable culls)",PJ,GWth,,,
-\I:,,REF_MNCWST,Biogas production refinery from Municipal solid waste,PJ,GWth,,,
-PRE,,REF_ANMMNR,Biogas production refinery from Animal manure,PJ,GWth,,,
-PRE,,SUP_BIGNGA,Biogas to natural gas,PJ,GWth,,,
-PRE,,CT_CWODPLT,Production of wood pellets from wood waste,PJ,GWth,,,
-\I:,,CT_CWODBDS,Production of biodiesel from woodwaste,PJ,GWth,,,
-PRE,,CT_CWODETH,Production of bioliquids (ethanol) from woodwaste,PJ,GWth,,,
-PRE,,CT_COILBDS,Production of biodiesel from waste oiles,PJ,GWth,,,
-PRE,,CT_CWODDID,Production of drop-in fuels from woodwaste,PJ,GWth,,,
-PRE,,WSTWOD2WOD,Waste wood to fuel wood,PJ,PJa,,,
-MIN,,MINWODSUPOSWOD,On-Site wood supply,PJ,PJa,,,
-MIN,,MINWODWST02,Purpose Grown Forests,PJ,PJa,,,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+MIN,,MINWODWST00,Primary Fuel Supply,Biomass/Biofuels,,,Residual Woody Biomass,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Residual Woody Biomass,Residual Woody Biomass,PJ,PJa,,,
+MIN,,MINWODWST01,Primary Fuel Supply,Biomass/Biofuels,,,Purpose Grown Forests,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Purpose Grown Forests,Residual woody biomass tranche 2,PJ,PJa,,,
+MIN,,MINAGRWST00,Primary Fuel Supply,Biomass/Biofuels,,,Straw & Stover,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Straw & Stover,Straw & Stover,PJ,PJa,,,
+MIN,,MINAGRWST01,Primary Fuel Supply,Biomass/Biofuels,,,Fruit and vegetables culls,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Fruit and vegetables culls,Fruit and vegetables culls,PJ,PJa,,,
+MIN,,MINMNCWST00,Primary Fuel Supply,Biomass/Biofuels,,,Municipal Solid Waste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Municipal Solid Waste,Municipal Solid Waste,PJ,PJa,,,
+MIN,,MINANMMNR00,Primary Fuel Supply,Biomass/Biofuels,,,Animal Manure,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Animal Manure,Animal Manure,PJ,PJa,,,
+MIN,,MINOILWST00,Primary Fuel Supply,Biomass/Biofuels,,,Waste Oil,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Waste Oil,Waste Oil,PJ,PJa,,,
+MIN,,MINOILWST01,Primary Fuel Supply,Biomass/Biofuels,,,Tallow Waste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Tallow Waste,Tallow Waste,PJ,PJa,,,
+MIN,,MINWODSUPCUR00,Primary Fuel Supply,Biomass/Biofuels,,,Domestic supply of current wood in use,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Domestic supply of current wood in use,Domestic supply of current wood in use,PJ,PJa,,,
+\I:=+B31,,MINOILWST01,Primary Fuel Supply,Biomass/Biofuels,,,Domestic supply of current wood in use,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Domestic supply of current wood in use,Domestic supply of current wood in use,PJ,PJa,,,
+PRE,,REF_WODWST,Primary Fuel Supply,Biomass/Biofuels,,,Biogas production refinery from Forest residues and woody wastes,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Biogas production refinery from Forest residues and woody wastes,Biogas production refinery from Forest residues and woody wastes,PJ,GWth,,,
+PRE,,REF_AGRWST,Primary Fuel Supply,Biomass/Biofuels,,,"Biogas production refinery from Agricultural wastes (straws, stover, vegetable culls)","Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Biogas production refinery from Agricultural wastes (straws, stover, vegetable culls)","Biogas production refinery from Agricultural wastes (straws, stover, vegetable culls)",PJ,GWth,,,
+\I:,,REF_MNCWST,Primary Fuel Supply,Biomass/Biofuels,,,Biogas production refinery from Municipal solid waste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Biogas production refinery from Municipal solid waste,Biogas production refinery from Municipal solid waste,PJ,GWth,,,
+PRE,,REF_ANMMNR,Primary Fuel Supply,Biomass/Biofuels,,,Biogas production refinery from Animal manure,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Biogas production refinery from Animal manure,Biogas production refinery from Animal manure,PJ,GWth,,,
+PRE,,SUP_BIGNGA,Primary Fuel Supply,Biomass/Biofuels,,,Biogas to natural gas,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Biogas to natural gas,Biogas to natural gas,PJ,GWth,,,
+PRE,,CT_CWODPLT,Primary Fuel Supply,Biomass/Biofuels,,,Production of wood pellets from wood waste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Production of wood pellets from wood waste,Production of wood pellets from wood waste,PJ,GWth,,,
+\I:,,CT_CWODBDS,Primary Fuel Supply,Biomass/Biofuels,,,Production of biodiesel from woodwaste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Production of biodiesel from woodwaste,Production of biodiesel from woodwaste,PJ,GWth,,,
+PRE,,CT_CWODETH,Primary Fuel Supply,Biomass/Biofuels,,,Production of bioliquids (ethanol) from woodwaste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Production of bioliquids (ethanol) from woodwaste,Production of bioliquids (ethanol) from woodwaste,PJ,GWth,,,
+PRE,,CT_COILBDS,Primary Fuel Supply,Biomass/Biofuels,,,Production of biodiesel from waste oiles,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Production of biodiesel from waste oiles,Production of biodiesel from waste oiles,PJ,GWth,,,
+PRE,,CT_CWODDID,Primary Fuel Supply,Biomass/Biofuels,,,Production of drop-in fuels from woodwaste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Production of drop-in fuels from woodwaste,Production of drop-in fuels from woodwaste,PJ,GWth,,,
+PRE,,WSTWOD2WOD,Primary Fuel Supply,Biomass/Biofuels,,,Waste wood to fuel wood,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Waste wood to fuel wood,Waste wood to fuel wood,PJ,PJa,,,
+MIN,,MINWODSUPOSWOD,Primary Fuel Supply,Biomass/Biofuels,,,On-Site wood supply,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- On-Site wood supply,On-Site wood supply,PJ,PJa,,,
+MIN,,MINWODWST02,Primary Fuel Supply,Biomass/Biofuels,,,Residual woody biomass tranche 2,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Residual woody biomass tranche 2,Purpose Grown Forests,PJ,PJa,,,
 
 
 sheetname: Pri_BIO
@@ -8326,23 +8326,23 @@ MINWODSUPOSWOD,,INDOSWOD,,5,,,,,,0,2.63494756303934,4.21221873737042,5.754496568
 
 
 sheetname: Pri_BIO
-range: B5:K18
+range: B5:P18
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,WODWST,Forest residues and woody wastes,PJ,FX,,,
-,,AGRWST,"Agricultural wastes (straws, stover, vegetable culls)",PJ,FX,,,
-,,MNCWST,Municipal solid waste,PJ,FX,,,
-,,ANMMNR,Animal manure,PJ,FX,,,
-,,OILWST,Oil wastes,PJ,FX,,,
-,,PLT,Wood pellet,PJ,FX,,,
-,,BDSL,Biodiesel,PJ,FX,,,
-,,WOD,Biomass - wood,PJ,FX,,,
-,,DID,Drop-in diesel,PJ,FX,,,
-,,DIJ,Drop-in jet,PJ,FX,,,
-,,INDOSWOD,On Site Wood,PJ,FX,,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,WODWST,Primary Fuel Supply,Biomass/Biofuels,Forest residues and woody wastes,,Primary Fuel Supply -:- Biomass/Biofuels -:- Forest residues and woody wastes -:- ,Forest residues and woody wastes,PJ,FX,,,
+,,AGRWST,Primary Fuel Supply,Biomass/Biofuels,"Agricultural wastes (straws, stover, vegetable culls)",,"Primary Fuel Supply -:- Biomass/Biofuels -:- Agricultural wastes (straws, stover, vegetable culls) -:- ","Agricultural wastes (straws, stover, vegetable culls)",PJ,FX,,,
+,,MNCWST,Primary Fuel Supply,Biomass/Biofuels,Municipal solid waste,,Primary Fuel Supply -:- Biomass/Biofuels -:- Municipal solid waste -:- ,Municipal solid waste,PJ,FX,,,
+,,ANMMNR,Primary Fuel Supply,Biomass/Biofuels,Animal manure,,Primary Fuel Supply -:- Biomass/Biofuels -:- Animal manure -:- ,Animal manure,PJ,FX,,,
+,,OILWST,Primary Fuel Supply,Biomass/Biofuels,Oil wastes,,Primary Fuel Supply -:- Biomass/Biofuels -:- Oil wastes -:- ,Oil wastes,PJ,FX,,,
+,,PLT,Primary Fuel Supply,Biomass/Biofuels,Wood pellet,,Primary Fuel Supply -:- Biomass/Biofuels -:- Wood pellet -:- ,Wood pellet,PJ,FX,,,
+,,BDSL,Primary Fuel Supply,Biomass/Biofuels,Biodiesel,,Primary Fuel Supply -:- Biomass/Biofuels -:- Biodiesel -:- ,Biodiesel,PJ,FX,,,
+,,WOD,Primary Fuel Supply,Biomass/Biofuels,Biomass - wood,,Primary Fuel Supply -:- Biomass/Biofuels -:- Biomass - wood -:- ,Biomass - wood,PJ,FX,,,
+,,DID,Primary Fuel Supply,Biomass/Biofuels,Drop-in diesel,,Primary Fuel Supply -:- Biomass/Biofuels -:- Drop-in diesel -:- ,Drop-in diesel,PJ,FX,,,
+,,DIJ,Primary Fuel Supply,Biomass/Biofuels,Drop-in jet,,Primary Fuel Supply -:- Biomass/Biofuels -:- Drop-in jet -:- ,Drop-in jet,PJ,FX,,,
+,,INDOSWOD,Primary Fuel Supply,Biomass/Biofuels,On Site Wood,,Primary Fuel Supply -:- Biomass/Biofuels -:- On Site Wood -:- ,On Site Wood,PJ,FX,,,
 
 
 sheetname: Pri_BIO
@@ -8370,19 +8370,19 @@ CT_CWODDID,WODWST,,2025,,0.5,0.5,0.5,0.5,0.5,0.5,3,5263,,,,3500,,,372.2618461694
 
 
 sheetname: Pri_COA
-range: B13:K22
+range: B13:Q22
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-MIN,,MINCOA1,,PJ,PJa,,,
-,,MINCOL1,,PJ,PJa,,,
-IMP,,IMPCOA1,,PJ,PJa,,,
-,,IMPCOL1,,PJ,PJa,,,
-EXP,,EXPCOA1,,PJ,PJa,,,
-,,EXPCOL1,,PJ,PJa,,,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+MIN,,MINCOA1,Primary Fuel Supply,Coal,,Mining - Coal Bituminous,,Primary Fuel Supply -:- Coal -:-  -:- Mining - Coal Bituminous -:- ,,PJ,PJa,,,
+,,MINCOL1,Primary Fuel Supply,Coal,,Mining - Coal Lignite,,Primary Fuel Supply -:- Coal -:-  -:- Mining - Coal Lignite -:- ,,PJ,PJa,,,
+IMP,,IMPCOA1,Primary Fuel Supply,Coal,,Import - Coal Bituminous,,Primary Fuel Supply -:- Coal -:-  -:- Import - Coal Bituminous -:- ,,PJ,PJa,,,
+,,IMPCOL1,Primary Fuel Supply,Coal,,Import - Coal Lignite,,Primary Fuel Supply -:- Coal -:-  -:- Import - Coal Lignite -:- ,,PJ,PJa,,,
+EXP,,EXPCOA1,Primary Fuel Supply,Coal,,Export - Coal Bituminous,,Primary Fuel Supply -:- Coal -:-  -:- Export - Coal Bituminous -:- ,,PJ,PJa,,,
+,,EXPCOL1,Primary Fuel Supply,Coal,,Export - Coal Lignite,,Primary Fuel Supply -:- Coal -:-  -:- Export - Coal Lignite -:- ,,PJ,PJa,,,
 
 
 sheetname: Pri_COA
@@ -8402,32 +8402,32 @@ EXPCOL1,COL,,,3,3,2.83667621776504,2.75071633237822,2.79369627507163,2.699140401
 
 
 sheetname: Pri_COA
-range: B7:K11
+range: B7:P11
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,COA,Coal - Sub-bituminous coal,PJ,,ANNUAL,,
-NRG,,COL,Coal - Lignite,PJ,,ANNUAL,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,COA,Primary Fuel Supply,,Coal Bituminous,,Primary Fuel Supply -:-  -:- Coal Bituminous -:- ,Coal - Sub-bituminous coal,PJ,,ANNUAL,,
+NRG,,COL,Primary Fuel Supply,,Coal Lignite,,Primary Fuel Supply -:-  -:- Coal Lignite -:- ,Coal - Lignite,PJ,,ANNUAL,,
 
 
 sheetname: Pri_GAS
-range: I10:R21
+range: I10:X21
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-MIN,,MINNGA1,Gas production - step 1,PJ,PJa,,,
-MIN,,MINNGA2,Gas production - step 2,PJ,PJa,,,
-MIN,,MINNGA3,Gas production - step 3,PJ,PJa,,,
-MIN,,MINNGA4,Gas production - step 4,PJ,PJa,,,
-IMP,,IMPLNG1,,PJ,PJa,,,
-EXP,,EXPNGA1,,PJ,PJa,,,
-EXP,,Non_NRG_OTH,,PJ,PJa,,,
-PRE,,LNGport2021,LNG port for natural gas imports,PJ,PJa,,,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+MIN,,MINNGA1,Primary Fuel Supply,Natural Gas,,Mining - Natural Gas Tranche 1,,Primary Fuel Supply -:- Natural Gas -:-  -:- Mining - Natural Gas Tranche 1 -:- ,Gas production - step 1,PJ,PJa,,,
+MIN,,MINNGA2,Primary Fuel Supply,Natural Gas,,Mining - Natural Gas Tranche 2,,Primary Fuel Supply -:- Natural Gas -:-  -:- Mining - Natural Gas Tranche 2 -:- ,Gas production - step 2,PJ,PJa,,,
+MIN,,MINNGA3,Primary Fuel Supply,Natural Gas,,Mining - Natural Gas Tranche 3,,Primary Fuel Supply -:- Natural Gas -:-  -:- Mining - Natural Gas Tranche 3 -:- ,Gas production - step 3,PJ,PJa,,,
+MIN,,MINNGA4,Primary Fuel Supply,Natural Gas,,Mining - Natural Gas Tranche 4,,Primary Fuel Supply -:- Natural Gas -:-  -:- Mining - Natural Gas Tranche 4 -:- ,Gas production - step 4,PJ,PJa,,,
+IMP,,IMPLNG1,Primary Fuel Supply,Natural Gas,,Import - LNG,,Primary Fuel Supply -:- Natural Gas -:-  -:- Import - LNG -:- ,,PJ,PJa,,,
+EXP,,EXPNGA1,Primary Fuel Supply,Natural Gas,,Export - Natural Gas,,Primary Fuel Supply -:- Natural Gas -:-  -:- Export - Natural Gas -:- ,,PJ,PJa,,,
+EXP,,Non_NRG_OTH,Primary Fuel Supply,Natural Gas,,Non Energy Use of Natural Gas,,Primary Fuel Supply -:- Natural Gas -:-  -:- Non Energy Use of Natural Gas -:- ,,PJ,PJa,,,
+PRE,,LNGport2021,Primary Fuel Supply,Natural Gas,,LNG Port,,Primary Fuel Supply -:- Natural Gas -:-  -:- LNG Port -:- ,LNG port for natural gas imports,PJ,PJa,,,
 
 
 sheetname: Pri_GAS
@@ -8458,60 +8458,66 @@ LNGport2021,LNG,NGA,2025,0,7.94938178304,170,170,5,1
 
 
 sheetname: Pri_GAS
-range: I3:R8
+range: I3:W8
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,NGA,,PJ,,,,
-NRG,,LNG,,PJ,,,,
-ENV,,GASCO2,Gas emissions,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,NGA,Primary Fuel Supply,Natural Gas,Natural Gas,,Primary Fuel Supply -:- Natural Gas -:- Natural Gas -:- ,,PJ,,,,
+NRG,,LNG,Primary Fuel Supply,Natural Gas,LNG,,Primary Fuel Supply -:- Natural Gas -:- LNG -:- ,,PJ,,,,
+ENV,,GASCO2,Primary Fuel Supply,Natural Gas,,,Primary Fuel Supply -:- Natural Gas -:-  -:- ,Gas emissions,kt,,,,
 
 
 sheetname: Pri_OIL
-range: I16:R37
+range: I16:X42
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-MIN,,MINOIL1,,PJ,PJa,,,
-,,MINLPG1,,PJ,PJa,,,
-IMP,,IMPOIL1,,PJ,PJa,,,
-,,IMPLPG1,,PJ,PJa,,,
-,,IMPPET1,,PJ,PJa,,,
-,,IMPDSL1,,PJ,PJa,,,
-,,IMPFOL1,,PJ,PJa,,,
-,,IMPJET1,,PJ,PJa,,,
-,,IMPOTH1,,PJ,PJa,,,
-,,IMPDID,,PJ,PJa,,,
-,,IMPDIJ,,PJ,PJa,,,
-EXP,,EXPOIL1,,PJ,PJa,,,
-,,EXPLPG1,,PJ,PJa,,,
-,,EXPPET1,,PJ,PJa,,,
-,,EXPDSL1,,PJ,PJa,,,
-,,EXPFOL1,,PJ,PJa,,,
-,,EXPJET1,,PJ,PJa,,,
-,,EXPOTH1,,PJ,PJa,,,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+MIN,,MINOIL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,MINLPG1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,MINPET1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,MINDSL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,MINFOL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,MINJET1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,MINOTH1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+IMP,,IMPOIL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPLPG1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPPET1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPDSL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPFOL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPJET1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPOTH1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPDID,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPDIJ,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+EXP,,EXPOIL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,EXPLPG1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,EXPPET1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,EXPDSL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,EXPFOL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,EXPJET1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,EXPOTH1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
 
 
 sheetname: Pri_OIL
-range: I3:R13
+range: I3:W14
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,OILD,Oil products - Crude oil (domestic - for export),PJ,,,,
-,,OILI,Oil products - Crude oil imported (for refinery),PJ,,,,
-,,LPG,Oil products - LPG,PJ,,,,
-,,PET,Oil products - Petroleum,PJ,,,,
-,,DSL,Oil products - Diesel oil,PJ,,,,
-,,FOL,Oil products - Light fuel oil,PJ,,,,
-,,JET,Oil products - Jet kerosen,PJ,,,,
-,,OTH,Oil products - Other fuels from refinery,PJ,,,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,OILD,Primary Fuel Supply,Petroleum,Crude Oil ,,Primary Fuel Supply -:- Petroleum -:- Crude Oil  -:- ,Oil products - Crude oil (domestic - for export),PJ,,,,
+,,OILI,Primary Fuel Supply,Petroleum,Crude Oil (domestic),,Primary Fuel Supply -:- Petroleum -:- Crude Oil (domestic) -:- ,Oil products - Crude oil imported (for refinery),PJ,,,,
+,,LPG,Primary Fuel Supply,Petroleum,Crude Oil (imported),,Primary Fuel Supply -:- Petroleum -:- Crude Oil (imported) -:- ,Oil products - LPG,PJ,,,,
+,,PET,Primary Fuel Supply,Petroleum,LPG,,Primary Fuel Supply -:- Petroleum -:- LPG -:- ,Oil products - Petroleum,PJ,,,,
+,,DSL,Primary Fuel Supply,Petroleum,Petrol,,Primary Fuel Supply -:- Petroleum -:- Petrol -:- ,Oil products - Diesel oil,PJ,,,,
+,,FOL,Primary Fuel Supply,Petroleum,Diesel,,Primary Fuel Supply -:- Petroleum -:- Diesel -:- ,Oil products - Light fuel oil,PJ,,,,
+,,JET,Primary Fuel Supply,Petroleum,Fuel Oil,,Primary Fuel Supply -:- Petroleum -:- Fuel Oil -:- ,Oil products - Jet kerosen,PJ,,,,
+,,OTH,Primary Fuel Supply,Petroleum,Aviation Fuel,,Primary Fuel Supply -:- Petroleum -:- Aviation Fuel -:- ,Oil products - Other fuels from refinery,PJ,,,,
+,,,Primary Fuel Supply,Petroleum,Other fuels from refinery,,,,,,,,
 
 
 sheetname: Pri_OIL
@@ -8543,19 +8549,19 @@ EXPOTH1,OTH,,,30,17.4386616018157,21.1437014241743,24.8466153646056,26.359056698
 
 
 sheetname: Pri_RNW
-range: H15:Q24
+range: H15:W24
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-MIN,,MINHYD1,,PJ,PJa,DAYNITE,,
-,,MINGEO1,,PJ,PJa,DAYNITE,,
-,,MINSOL1,,PJ,PJa,DAYNITE,,
-,,MINWIN1,,PJ,PJa,DAYNITE,,
-,,MINTID1,,PJ,PJa,DAYNITE,,
-,,MINURN1,,PJ,PJa,DAYNITE,,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+MIN,,MINHYD1,Primary Fuel Supply,Renewables,,Mining - Hydro,,Primary Fuel Supply -:- Renewables -:-  -:- Mining - Hydro -:- ,,PJ,PJa,DAYNITE,,
+,,MINGEO1,Primary Fuel Supply,Renewables,,Mining - Geothermal,,Primary Fuel Supply -:- Renewables -:-  -:- Mining - Geothermal -:- ,,PJ,PJa,DAYNITE,,
+,,MINSOL1,Primary Fuel Supply,Renewables,,Mining - Solar,,Primary Fuel Supply -:- Renewables -:-  -:- Mining - Solar -:- ,,PJ,PJa,DAYNITE,,
+,,MINWIN1,Primary Fuel Supply,Renewables,,Mining - Wind,,Primary Fuel Supply -:- Renewables -:-  -:- Mining - Wind -:- ,,PJ,PJa,DAYNITE,,
+,,MINTID1,Primary Fuel Supply,Renewables,,Mining - Tidal,,Primary Fuel Supply -:- Renewables -:-  -:- Mining - Tidal -:- ,,PJ,PJa,DAYNITE,,
+,,MINURN1,Primary Fuel Supply,,,Mining - Uranium,,Primary Fuel Supply -:-  -:-  -:- Mining - Uranium -:- ,,PJ,PJa,DAYNITE,,
 
 
 sheetname: Pri_RNW
@@ -8575,20 +8581,20 @@ MINURN1,,URN,6.6550808993064,6.70035414048127,6.73492712778337,6.78674563343641,
 
 
 sheetname: Pri_RNW
-range: H3:Q13
+range: H3:V13
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,HYD,Renewables - Hydro,PJ,FX,DAYNITE,,
-,,GEO,Renewables - GEO,PJ,FX,DAYNITE,,
-,,SOL,Renewables - Solar,PJ,FX,DAYNITE,,
-,,WIN,Renewables - Wind,PJ,FX,DAYNITE,,
-,,BIL,Biofuels - Bioliquid,PJ,FX,DAYNITE,,
-,,BIG,Biofuels - Biogas,PJ,FX,DAYNITE,,
-,,TID,Renewables - Tidal,PJ,FX,DAYNITE,,
-,,URN,Uranium,PJ,FX,DAYNITE,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,HYD,Primary Fuel Supply,Renewables,Hydro,,Primary Fuel Supply -:- Renewables -:- Hydro -:- ,Renewables - Hydro,PJ,FX,DAYNITE,,
+,,GEO,Primary Fuel Supply,Renewables,Geothermal,,Primary Fuel Supply -:- Renewables -:- Geothermal -:- ,Renewables - GEO,PJ,FX,DAYNITE,,
+,,SOL,Primary Fuel Supply,Renewables,Solar,,Primary Fuel Supply -:- Renewables -:- Solar -:- ,Renewables - Solar,PJ,FX,DAYNITE,,
+,,WIN,Primary Fuel Supply,Renewables,Wind,,Primary Fuel Supply -:- Renewables -:- Wind -:- ,Renewables - Wind,PJ,FX,DAYNITE,,
+,,BIL,Primary Fuel Supply,Renewables,Bioliquid,,Primary Fuel Supply -:- Renewables -:- Bioliquid -:- ,Biofuels - Bioliquid,PJ,FX,DAYNITE,,
+,,BIG,Primary Fuel Supply,Renewables,Biogas,,Primary Fuel Supply -:- Renewables -:- Biogas -:- ,Biofuels - Biogas,PJ,FX,DAYNITE,,
+,,TID,Primary Fuel Supply,Renewables,Tidal,,Primary Fuel Supply -:- Renewables -:- Tidal -:- ,Renewables - Tidal,PJ,FX,DAYNITE,,
+,,URN,Primary Fuel Supply,,Uranium,,Primary Fuel Supply -:-  -:- Uranium -:- ,Uranium,PJ,FX,DAYNITE,,
 
 
 sheetname: SUP_H2
@@ -8611,24 +8617,24 @@ MIN_DAC_CO2,Direct air capture costs,,DAC_CO2,,,,,,,,,,,,,,,,,,345.68,,,,,,,,,,,
 
 
 sheetname: SUP_H2
-range: C3:L17
+range: C3:Q17
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,H2C,centralised hydrogen,PJ,FX,DAYNITE,,
-NRG,,H2D,decentralised hydrogen,PJ,FX,DAYNITE,,
-NRG,,H2R,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
-NRG,,ELCNGA,Hydrogen and natural gas mix (ELC sector),PJ,FX,DAYNITE,,
-NRG,,DAC_CO2,CO2 from air,kt,,,,
-NRG,,TRAH2R,Hydrogen for transport sector,PJ,FX,DAYNITE,,
-NRG,,INDH2R,Hydrogen for industry sector,PJ,FX,DAYNITE,,
-NRG,,ELCH2R,Hydrogen for power generation sector,PJ,FX,DAYNITE,,
-NRG,,COMH2R,Hydrogen for commercial sector,PJ,FX,DAYNITE,,
-NRG,,RESH2R,Hydrogen for residential sector,PJ,FX,DAYNITE,,
-NRG,,AGRH2R,Hydrogen for agriculture sector,PJ,FX,DAYNITE,,
-NRG,,COseq,CO2 to CCS,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,H2C,Primary Fuel Supply,Hydrogen,,Centralised Hydrogen,Primary Fuel Supply -:- Hydrogen -:-  -:- Centralised Hydrogen,centralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2D,Primary Fuel Supply,Hydrogen,,Decentralised Hydrogen,Primary Fuel Supply -:- Hydrogen -:-  -:- Decentralised Hydrogen,decentralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2R,Primary Fuel Supply,Hydrogen,,Renewable Hydrogen,Primary Fuel Supply -:- Hydrogen -:-  -:- Renewable Hydrogen,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
+NRG,,ELCNGA,Primary Fuel Supply,Hydrogen,,Hydrogen and natural gas mix (ELC sector),Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen and natural gas mix (ELC sector),Hydrogen and natural gas mix (ELC sector),PJ,FX,DAYNITE,,
+NRG,,DAC_CO2,Primary Fuel Supply,Hydrogen,,CO2 from air,Primary Fuel Supply -:- Hydrogen -:-  -:- CO2 from air,CO2 from air,kt,,,,
+NRG,,TRAH2R,Transport,,,Hydrogen ,Transport -:-  -:-  -:- Hydrogen ,Hydrogen for transport sector,PJ,FX,DAYNITE,,
+NRG,,INDH2R,Industrial,,,Hydrogen ,Industrial -:-  -:-  -:- Hydrogen ,Hydrogen for industry sector,PJ,FX,DAYNITE,,
+NRG,,ELCH2R,Electricity Production,,,Hydrogen ,Electricity Production -:-  -:-  -:- Hydrogen ,Hydrogen for power generation sector,PJ,FX,DAYNITE,,
+NRG,,COMH2R,Commercial,,,Hydrogen ,Commercial -:-  -:-  -:- Hydrogen ,Hydrogen for commercial sector,PJ,FX,DAYNITE,,
+NRG,,RESH2R,Residential,,,Hydrogen ,Residential -:-  -:-  -:- Hydrogen ,Hydrogen for residential sector,PJ,FX,DAYNITE,,
+NRG,,AGRH2R,Agriculture,,,Hydrogen ,Agriculture -:-  -:-  -:- Hydrogen ,Hydrogen for agriculture sector,PJ,FX,DAYNITE,,
+NRG,,COseq,Primary Fuel Supply,Hydrogen,,CO2 to CCS,Primary Fuel Supply -:- Hydrogen -:-  -:- CO2 to CCS,CO2 to CCS,kt,,,,
 
 
 sheetname: SUP_H2
@@ -8674,36 +8680,36 @@ FTE_AGRH2D,H2D,AGRH2R,,,,1,100,29
 
 
 sheetname: SUP_H2
-range: N3:W29
+range: S3:AH29
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-PRE,,SUP_ELC-PEMC-H2,H2 production from PEM electrolysis - centralised,PJ,GW,DAYNITE,,
-PRE,,SUP_ELC-PEMD-H2,H2 production from PEM electrolysis - decentralised,PJ,GW,DAYNITE,,
-PRE,,\I:SUP_ELC-SOECC-H2,H2 production from SOEC electrolysis - centralised,PJ,GW,DAYNITE,,
-PRE,,\I:SUP_ELC-SOECD-H2,H2 production from SOEC electrolysis - decentralised,PJ,GW,DAYNITE,,
-PRE,,SUP_H2NGA,H2 methanisation to natural gas (CO2 from DAC),PJ,GW,DAYNITE,,
-PRE,,SUP_H2NGA_CCS,H2 methanisation to natural gas (CO2 from CCS),PJ,GW,DAYNITE,,
-PRE,,\I:SUP_SMRH2,H2 production from natural gas (steam methane reforming with CCS),PJ,GW,DAYNITE,,
-MIN,,MIN_DAC_CO2,Direct air capture costs,kt,kta,,,
-PRE,,FTE_TRAH2R,Hydrogen supply to transport sector (centralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_TRAH2D,Hydrogen supply to transport sector (decentralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_INDH2R,Hydrogen supply to industry sector (centralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_INDH2D,Hydrogen supply to industry sector (decentralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_ELCH2R,Hydrogen supply to power sector (centralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_COMH2R,Hydrogen supply to commercial sector (centralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_COMH2D,Hydrogen supply to commercial sector (decentralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_RESH2R,Hydrogen supply to residential sector (centralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_RESH2D,Hydrogen supply to residential sector (decentralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_AGRH2R,Hydrogen supply to agriculture sector (centralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_AGRH2D,Hydrogen supply to agriculture sector (decentralized),PJ,Pja,DAYNITE,,
-PRE,,D-H2_ELCNGA,Natural gas T&D to power & heat sectors,PJ,GW,DAYNITE,,
-\I:PRE,,D-H2_NPIP,New Pipeline (NI and SI),PJ,GW,DAYNITE,,
-PRE,,D-H2toNGA_blnd,Blending Hydrogen with Natural gas (only NI),PJ,GW,DAYNITE,,
-PRE,,D-H2_Trailer,Tube Trailer (NI and SI),PJ,Truck,DAYNITE,,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+PRE,,SUP_ELC-PEMC-H2,Primary Fuel Supply,Hydrogen,,H2 production from PEM electrolysis - centralised,,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 production from PEM electrolysis - centralised -:- ,H2 production from PEM electrolysis - centralised,PJ,GW,DAYNITE,,
+PRE,,SUP_ELC-PEMD-H2,Primary Fuel Supply,Hydrogen,,H2 production from PEM electrolysis - decentralised,,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 production from PEM electrolysis - decentralised -:- ,H2 production from PEM electrolysis - decentralised,PJ,GW,DAYNITE,,
+PRE,,\I:SUP_ELC-SOECC-H2,Primary Fuel Supply,Hydrogen,,H2 production from SOEC electrolysis - centralised,,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 production from SOEC electrolysis - centralised -:- ,H2 production from SOEC electrolysis - centralised,PJ,GW,DAYNITE,,
+PRE,,\I:SUP_ELC-SOECD-H2,Primary Fuel Supply,Hydrogen,,H2 production from SOEC electrolysis - decentralised,,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 production from SOEC electrolysis - decentralised -:- ,H2 production from SOEC electrolysis - decentralised,PJ,GW,DAYNITE,,
+PRE,,SUP_H2NGA,Primary Fuel Supply,Hydrogen,,H2 methanisation to natural gas (CO2 from DAC),,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 methanisation to natural gas (CO2 from DAC) -:- ,H2 methanisation to natural gas (CO2 from DAC),PJ,GW,DAYNITE,,
+PRE,,SUP_H2NGA_CCS,Primary Fuel Supply,Hydrogen,,H2 methanisation to natural gas (CO2 from CCS),,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 methanisation to natural gas (CO2 from CCS) -:- ,H2 methanisation to natural gas (CO2 from CCS),PJ,GW,DAYNITE,,
+PRE,,\I:SUP_SMRH2,Primary Fuel Supply,Hydrogen,,H2 production from natural gas (steam methane reforming with CCS),,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 production from natural gas (steam methane reforming with CCS) -:- ,H2 production from natural gas (steam methane reforming with CCS),PJ,GW,DAYNITE,,
+MIN,,MIN_DAC_CO2,Primary Fuel Supply,Hydrogen,,Direct air capture costs,,Primary Fuel Supply -:- Hydrogen -:-  -:- Direct air capture costs -:- ,Direct air capture costs,kt,kta,,,
+PRE,,FTE_TRAH2R,Primary Fuel Supply,Hydrogen,,Hydrogen supply to transport sector (centralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to transport sector (centralized) -:- ,Hydrogen supply to transport sector (centralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_TRAH2D,Primary Fuel Supply,Hydrogen,,Hydrogen supply to transport sector (decentralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to transport sector (decentralized) -:- ,Hydrogen supply to transport sector (decentralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_INDH2R,Primary Fuel Supply,Hydrogen,,Hydrogen supply to industry sector (centralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to industry sector (centralized) -:- ,Hydrogen supply to industry sector (centralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_INDH2D,Primary Fuel Supply,Hydrogen,,Hydrogen supply to industry sector (decentralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to industry sector (decentralized) -:- ,Hydrogen supply to industry sector (decentralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_ELCH2R,Primary Fuel Supply,Hydrogen,,Hydrogen supply to power sector (centralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to power sector (centralized) -:- ,Hydrogen supply to power sector (centralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_COMH2R,Primary Fuel Supply,Hydrogen,,Hydrogen supply to commercial sector (centralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to commercial sector (centralized) -:- ,Hydrogen supply to commercial sector (centralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_COMH2D,Primary Fuel Supply,Hydrogen,,Hydrogen supply to commercial sector (decentralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to commercial sector (decentralized) -:- ,Hydrogen supply to commercial sector (decentralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_RESH2R,Primary Fuel Supply,Hydrogen,,Hydrogen supply to residential sector (centralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to residential sector (centralized) -:- ,Hydrogen supply to residential sector (centralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_RESH2D,Primary Fuel Supply,Hydrogen,,Hydrogen supply to residential sector (decentralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to residential sector (decentralized) -:- ,Hydrogen supply to residential sector (decentralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_AGRH2R,Primary Fuel Supply,Hydrogen,,Hydrogen supply to Agriculture sector (centralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to Agriculture sector (centralized) -:- ,Hydrogen supply to agriculture sector (centralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_AGRH2D,Primary Fuel Supply,Hydrogen,,Hydrogen supply to agriculture sector (decentralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to agriculture sector (decentralized) -:- ,Hydrogen supply to agriculture sector (decentralized),PJ,Pja,DAYNITE,,
+PRE,,D-H2_ELCNGA,Primary Fuel Supply,Hydrogen,,Natural gas T&D to power & heat sectors,,Primary Fuel Supply -:- Hydrogen -:-  -:- Natural gas T&D to power & heat sectors -:- ,Natural gas T&D to power & heat sectors,PJ,GW,DAYNITE,,
+\I:PRE,,D-H2_NPIP,Primary Fuel Supply,Hydrogen,,New Pipeline (NI and SI),,Primary Fuel Supply -:- Hydrogen -:-  -:- New Pipeline (NI and SI) -:- ,New Pipeline (NI and SI),PJ,GW,DAYNITE,,
+PRE,,D-H2toNGA_blnd,Primary Fuel Supply,Hydrogen,,Blending Hydrogen with Natural gas (only NI),,Primary Fuel Supply -:- Hydrogen -:-  -:- Blending Hydrogen with Natural gas (only NI) -:- ,Blending Hydrogen with Natural gas (only NI),PJ,GW,DAYNITE,,
+PRE,,D-H2_Trailer,Primary Fuel Supply,Hydrogen,,Tube Trailer (NI and SI),,Primary Fuel Supply -:- Hydrogen -:-  -:- Tube Trailer (NI and SI) -:- ,Tube Trailer (NI and SI),PJ,Truck,DAYNITE,,
 
 
 sheetname: TOTCO2
@@ -10463,57 +10469,57 @@ REFEOIL00,OIL,LPG,0,1.01282037207396,0
 
 
 sheetname: Con_REF
-range: J3:S6
+range: J3:X6
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-ENV,,REFCO2,,,,,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+ENV,,REFCO2,Primary Fuel Supply,Refinery,,,Primary Fuel Supply -:- Refinery -:-  -:- ,,,,,,
 
 
 sheetname: Con_REF
-range: J9:S13
+range: J9:Y13
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-PRE,,REFEOIL00,,PJ,Pja,,NRGI,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+PRE,,REFEOIL00,Primary Fuel Supply,Refinery,,Oil production,,Primary Fuel Supply -:- Refinery -:-  -:- Oil production -:- ,,PJ,Pja,,NRGI,
 
 
 sheetname: Pri_BIO
-range: B20:K46
+range: B20:Q46
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-MIN,,MINWODWST00,Residual Woody Biomass,PJ,PJa,,,
-MIN,,MINWODWST02,Purpose Grown Forests,PJ,PJa,,,
-MIN,,MINAGRWST00,Straw & Stover,PJ,PJa,,,
-MIN,,MINAGRWST01,Fruit and vegetables culls,PJ,PJa,,,
-MIN,,MINMNCWST00,Municipal Solid Waste,PJ,PJa,,,
-MIN,,MINANMMNR00,Animal Manure,PJ,PJa,,,
-MIN,,MINOILWST00,Waste Oil,PJ,PJa,,,
-MIN,,MINOILWST01,Tallow Waste,PJ,PJa,,,
-MIN,,MINWODSUPCUR00,Domestic supply of current wood in use,PJ,PJa,,,
-MIN,,MINOILWST01,Domestic supply of current wood in use,PJ,PJa,,,
-PRE,,REF_WODWST,Biogas production refinery from Forest residues and woody wastes,PJ,GWth,,,
-PRE,,REF_AGRWST,"Biogas production refinery from Agricultural wastes (straws, stover, vegetable culls)",PJ,GWth,,,
-\I:,,REF_MNCWST,Biogas production refinery from Municipal solid waste,PJ,GWth,,,
-PRE,,REF_ANMMNR,Biogas production refinery from Animal manure,PJ,GWth,,,
-\I:,,SUP_BIGNGA,Biogas to natural gas,PJ,GWth,,,
-PRE,,CT_CWODPLT,Production of wood pellets from wood waste,PJ,GWth,,,
-\I:,,CT_CWODBDS,Production of biodiesel from woodwaste,PJ,GWth,,,
-PRE,,CT_CWODETH,Production of bioliquids (ethanol) from woodwaste,PJ,GWth,,,
-PRE,,CT_COILBDS,Production of biodiesel from waste oiles,PJ,GWth,,,
-PRE,,CT_CWODDID,Production of drop-in fuels from woodwaste,PJ,GWth,,,
-PRE,,WSTWOD2WOD,Waste wood to fuel wood,PJ,PJa,,,
-MIN,,MINWODSUPOSWOD,On-Site wood supply,PJ,PJa,,,
-MIN,,MINWODWST01,Residual woody biomass tranche 2,PJ,PJa,,,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+MIN,,MINWODWST00,Primary Fuel Supply,Biomass/Biofuels,,,Residual Woody Biomass,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Residual Woody Biomass,Residual Woody Biomass,PJ,PJa,,,
+MIN,,MINWODWST02,Primary Fuel Supply,Biomass/Biofuels,,,Purpose Grown Forests,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Purpose Grown Forests,Purpose Grown Forests,PJ,PJa,,,
+MIN,,MINAGRWST00,Primary Fuel Supply,Biomass/Biofuels,,,Straw & Stover,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Straw & Stover,Straw & Stover,PJ,PJa,,,
+MIN,,MINAGRWST01,Primary Fuel Supply,Biomass/Biofuels,,,Fruit and vegetables culls,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Fruit and vegetables culls,Fruit and vegetables culls,PJ,PJa,,,
+MIN,,MINMNCWST00,Primary Fuel Supply,Biomass/Biofuels,,,Municipal Solid Waste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Municipal Solid Waste,Municipal Solid Waste,PJ,PJa,,,
+MIN,,MINANMMNR00,Primary Fuel Supply,Biomass/Biofuels,,,Animal Manure,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Animal Manure,Animal Manure,PJ,PJa,,,
+MIN,,MINOILWST00,Primary Fuel Supply,Biomass/Biofuels,,,Waste Oil,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Waste Oil,Waste Oil,PJ,PJa,,,
+MIN,,MINOILWST01,Primary Fuel Supply,Biomass/Biofuels,,,Tallow Waste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Tallow Waste,Tallow Waste,PJ,PJa,,,
+MIN,,MINWODSUPCUR00,Primary Fuel Supply,Biomass/Biofuels,,,Domestic supply of current wood in use,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Domestic supply of current wood in use,Domestic supply of current wood in use,PJ,PJa,,,
+MIN,,MINOILWST01,Primary Fuel Supply,Biomass/Biofuels,,,Domestic supply of current wood in use,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Domestic supply of current wood in use,Domestic supply of current wood in use,PJ,PJa,,,
+PRE,,REF_WODWST,Primary Fuel Supply,Biomass/Biofuels,,,Biogas production refinery from Forest residues and woody wastes,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Biogas production refinery from Forest residues and woody wastes,Biogas production refinery from Forest residues and woody wastes,PJ,GWth,,,
+PRE,,REF_AGRWST,Primary Fuel Supply,Biomass/Biofuels,,,"Biogas production refinery from Agricultural wastes (straws, stover, vegetable culls)","Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Biogas production refinery from Agricultural wastes (straws, stover, vegetable culls)","Biogas production refinery from Agricultural wastes (straws, stover, vegetable culls)",PJ,GWth,,,
+\I:,,REF_MNCWST,Primary Fuel Supply,Biomass/Biofuels,,,Biogas production refinery from Municipal solid waste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Biogas production refinery from Municipal solid waste,Biogas production refinery from Municipal solid waste,PJ,GWth,,,
+PRE,,REF_ANMMNR,Primary Fuel Supply,Biomass/Biofuels,,,Biogas production refinery from Animal manure,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Biogas production refinery from Animal manure,Biogas production refinery from Animal manure,PJ,GWth,,,
+\I:,,SUP_BIGNGA,Primary Fuel Supply,Biomass/Biofuels,,,Biogas to natural gas,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Biogas to natural gas,Biogas to natural gas,PJ,GWth,,,
+PRE,,CT_CWODPLT,Primary Fuel Supply,Biomass/Biofuels,,,Production of wood pellets from wood waste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Production of wood pellets from wood waste,Production of wood pellets from wood waste,PJ,GWth,,,
+\I:,,CT_CWODBDS,Primary Fuel Supply,Biomass/Biofuels,,,Production of biodiesel from woodwaste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Production of biodiesel from woodwaste,Production of biodiesel from woodwaste,PJ,GWth,,,
+PRE,,CT_CWODETH,Primary Fuel Supply,Biomass/Biofuels,,,Production of bioliquids (ethanol) from woodwaste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Production of bioliquids (ethanol) from woodwaste,Production of bioliquids (ethanol) from woodwaste,PJ,GWth,,,
+PRE,,CT_COILBDS,Primary Fuel Supply,Biomass/Biofuels,,,Production of biodiesel from waste oiles,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Production of biodiesel from waste oiles,Production of biodiesel from waste oiles,PJ,GWth,,,
+PRE,,CT_CWODDID,Primary Fuel Supply,Biomass/Biofuels,,,Production of drop-in fuels from woodwaste,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Production of drop-in fuels from woodwaste,Production of drop-in fuels from woodwaste,PJ,GWth,,,
+PRE,,WSTWOD2WOD,Primary Fuel Supply,Biomass/Biofuels,,,Waste wood to fuel wood,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Waste wood to fuel wood,Waste wood to fuel wood,PJ,PJa,,,
+MIN,,MINWODSUPOSWOD,Primary Fuel Supply,Biomass/Biofuels,,,On-Site wood supply,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- On-Site wood supply,On-Site wood supply,PJ,PJa,,,
+MIN,,MINWODWST01,Primary Fuel Supply,Biomass/Biofuels,,,Residual woody biomass tranche 2,Primary Fuel Supply -:- Biomass/Biofuels -:-  -:-  -:- Residual woody biomass tranche 2,Residual woody biomass tranche 2,PJ,PJa,,,
 
 
 sheetname: Pri_BIO
@@ -10538,23 +10544,23 @@ MINWODSUPOSWOD,,INDOSWOD,,5,,,,,,0,0.784279,1.212293,1.563551,1.826826,2.474382,
 
 
 sheetname: Pri_BIO
-range: B5:K18
+range: B5:P18
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,WODWST,Forest residues and woody wastes,PJ,FX,,,
-,,AGRWST,"Agricultural wastes (straws, stover, vegetable culls)",PJ,FX,,,
-,,MNCWST,Municipal solid waste,PJ,FX,DAYNITE,,
-,,ANMMNR,Animal manure,PJ,FX,,,
-,,OILWST,Oil wastes,PJ,FX,,,
-,,PLT,Wood pellet,PJ,FX,,,
-,,BDSL,Biodiesel,PJ,FX,,,
-,,WOD,Biomass - wood,PJ,FX,DAYNITE,,
-,,DID,Drop-in diesel,PJ,FX,,,
-,,DIJ,Drop-in jet,PJ,FX,,,
-,,INDOSWOD,On Site Wood,PJ,FX,,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,WODWST,Primary Fuel Supply,Biomass/Biofuels,Forest residues and woody wastes,,Primary Fuel Supply -:- Biomass/Biofuels -:- Forest residues and woody wastes -:- ,Forest residues and woody wastes,PJ,FX,,,
+,,AGRWST,Primary Fuel Supply,Biomass/Biofuels,"Agricultural wastes (straws, stover, vegetable culls)",,"Primary Fuel Supply -:- Biomass/Biofuels -:- Agricultural wastes (straws, stover, vegetable culls) -:- ","Agricultural wastes (straws, stover, vegetable culls)",PJ,FX,,,
+,,MNCWST,Primary Fuel Supply,Biomass/Biofuels,Municipal solid waste,,Primary Fuel Supply -:- Biomass/Biofuels -:- Municipal solid waste -:- ,Municipal solid waste,PJ,FX,DAYNITE,,
+,,ANMMNR,Primary Fuel Supply,Biomass/Biofuels,Animal manure,,Primary Fuel Supply -:- Biomass/Biofuels -:- Animal manure -:- ,Animal manure,PJ,FX,,,
+,,OILWST,Primary Fuel Supply,Biomass/Biofuels,Oil wastes,,Primary Fuel Supply -:- Biomass/Biofuels -:- Oil wastes -:- ,Oil wastes,PJ,FX,,,
+,,PLT,Primary Fuel Supply,Biomass/Biofuels,Wood pellet,,Primary Fuel Supply -:- Biomass/Biofuels -:- Wood pellet -:- ,Wood pellet,PJ,FX,,,
+,,BDSL,Primary Fuel Supply,Biomass/Biofuels,Biodiesel,,Primary Fuel Supply -:- Biomass/Biofuels -:- Biodiesel -:- ,Biodiesel,PJ,FX,,,
+,,WOD,Primary Fuel Supply,Biomass/Biofuels,Biomass - wood,,Primary Fuel Supply -:- Biomass/Biofuels -:- Biomass - wood -:- ,Biomass - wood,PJ,FX,DAYNITE,,
+,,DID,Primary Fuel Supply,Biomass/Biofuels,Drop-in diesel,,Primary Fuel Supply -:- Biomass/Biofuels -:- Drop-in diesel -:- ,Drop-in diesel,PJ,FX,,,
+,,DIJ,Primary Fuel Supply,Biomass/Biofuels,Drop-in jet,,Primary Fuel Supply -:- Biomass/Biofuels -:- Drop-in jet -:- ,Drop-in jet,PJ,FX,,,
+,,INDOSWOD,Primary Fuel Supply,Biomass/Biofuels,On Site Wood,,Primary Fuel Supply -:- Biomass/Biofuels -:- On Site Wood -:- ,On Site Wood,PJ,FX,,,
 
 
 sheetname: Pri_BIO
@@ -10582,19 +10588,19 @@ CT_CWODDID,WODWST,,2025,,0.5,0.5,0.5,0.5,0.5,0.5,3,5263,5263,5263,5263,5263,,,37
 
 
 sheetname: Pri_COA
-range: B13:K22
+range: B13:Q22
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-MIN,,MINCOA1,,PJ,PJa,,,
-,,MINCOL1,,PJ,PJa,,,
-IMP,,IMPCOA1,,PJ,PJa,,,
-,,IMPCOL1,,PJ,PJa,,,
-EXP,,EXPCOA1,,PJ,PJa,,,
-,,EXPCOL1,,PJ,PJa,,,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+MIN,,MINCOA1,Primary Fuel Supply,Coal,,Mining - Coal Bituminous,,Primary Fuel Supply -:- Coal -:-  -:- Mining - Coal Bituminous -:- ,,PJ,PJa,,,
+,,MINCOL1,Primary Fuel Supply,Coal,,Mining - Coal Lignite,,Primary Fuel Supply -:- Coal -:-  -:- Mining - Coal Lignite -:- ,,PJ,PJa,,,
+IMP,,IMPCOA1,Primary Fuel Supply,Coal,,Import - Coal Bituminous,,Primary Fuel Supply -:- Coal -:-  -:- Import - Coal Bituminous -:- ,,PJ,PJa,,,
+,,IMPCOL1,Primary Fuel Supply,Coal,,Import - Coal Lignite,,Primary Fuel Supply -:- Coal -:-  -:- Import - Coal Lignite -:- ,,PJ,PJa,,,
+EXP,,EXPCOA1,Primary Fuel Supply,Coal,,Export - Coal Bituminous,,Primary Fuel Supply -:- Coal -:-  -:- Export - Coal Bituminous -:- ,,PJ,PJa,,,
+,,EXPCOL1,Primary Fuel Supply,Coal,,Export - Coal Lignite,,Primary Fuel Supply -:- Coal -:-  -:- Export - Coal Lignite -:- ,,PJ,PJa,,,
 
 
 sheetname: Pri_COA
@@ -10614,18 +10620,36 @@ EXPCOL1,COL,,,3,,,,,,,,0
 
 
 sheetname: Pri_COA
-range: B7:K11
+range: B7:P11
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,COA,Coal - Sub-bituminous coal,PJ,,ANNUAL,,
-NRG,,COL,Coal - Lignite,PJ,,ANNUAL,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,COA,Primary Fuel Supply,,Coal Bituminous,,Primary Fuel Supply -:-  -:- Coal Bituminous -:- ,Coal - Sub-bituminous coal,PJ,,ANNUAL,,
+NRG,,COL,Primary Fuel Supply,,Coal Lignite,,Primary Fuel Supply -:-  -:- Coal Lignite -:- ,Coal - Lignite,PJ,,ANNUAL,,
 
 
 sheetname: Pri_GAS
-range: I17:X23
+range: I10:X21
+filename: VT_SI_PRI_V4.xlsx
+tag: ~FI_Process
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+MIN,,MINNGA1,Primary Fuel Supply,Natural Gas,,Mining - Natural Gas Tranche 1,,Primary Fuel Supply -:- Natural Gas -:-  -:- Mining - Natural Gas Tranche 1 -:- ,Gas production - step 1,PJ,PJa,,,
+MIN,,MINNGA2,Primary Fuel Supply,Natural Gas,,Mining - Natural Gas Tranche 2,,Primary Fuel Supply -:- Natural Gas -:-  -:- Mining - Natural Gas Tranche 2 -:- ,Gas production - step 2,PJ,PJa,,,
+MIN,,MINNGA3,Primary Fuel Supply,Natural Gas,,Mining - Natural Gas Tranche 3,,Primary Fuel Supply -:- Natural Gas -:-  -:- Mining - Natural Gas Tranche 3 -:- ,Gas production - step 3,PJ,PJa,,,
+MIN,,MINNGA4,Primary Fuel Supply,Natural Gas,,Mining - Natural Gas Tranche 4,,Primary Fuel Supply -:- Natural Gas -:-  -:- Mining - Natural Gas Tranche 4 -:- ,Gas production - step 4,PJ,PJa,,,
+IMP,,IMPLNG1,Primary Fuel Supply,Natural Gas,,Import - LNG,,Primary Fuel Supply -:- Natural Gas -:-  -:- Import - LNG -:- ,,PJ,PJa,,,
+EXP,,EXPNGA1,Primary Fuel Supply,Natural Gas,,Export - Natural Gas,,Primary Fuel Supply -:- Natural Gas -:-  -:- Export - Natural Gas -:- ,,PJ,PJa,,,
+EXP,,Non_NRG_OTH,Primary Fuel Supply,Natural Gas,,Non Energy Use of Natural Gas,,Primary Fuel Supply -:- Natural Gas -:-  -:- Non Energy Use of Natural Gas -:- ,,PJ,PJa,,,
+PRE,,LNGport2021,Primary Fuel Supply,Natural Gas,,LNG Port,,Primary Fuel Supply -:- Natural Gas -:-  -:- LNG Port -:- ,LNG port for natural gas imports,PJ,PJa,,,
+
+
+sheetname: Pri_GAS
+range: I24:X30
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_T
 types: TechName (object), Comm-IN (object), Comm-OUT (object), CUM (object), COST (object), COST~2021 (object), COST~2025 (object), COST~2030 (object), COST~2035 (object), COST~2040 (object), COST~2050 (object), COST~2060 (object), ACT_BND (object), ACT_BND~2060 (object), ACT_BND~0 (object)
@@ -10638,77 +10662,70 @@ EXPNGA1,NGA,,,6.64,8.4,10.4,12.56,13.28,14.08,15.92,16,0,0,5
 
 
 sheetname: Pri_GAS
-range: I3:R6
+range: I3:W8
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,NGA,,PJ,,,,
-
-
-sheetname: Pri_GAS
-range: I8:R14
-filename: VT_SI_PRI_V4.xlsx
-tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-MIN,,MINNGA1,,PJ,PJa,,,
-IMP,,IMPNGA1,,PJ,PJa,,,
-EXP,,EXPNGA1,,PJ,PJa,,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,NGA,Primary Fuel Supply,Natural Gas,Natural Gas,,Primary Fuel Supply -:- Natural Gas -:- Natural Gas -:- ,,PJ,,,,
+NRG,,LNG,Primary Fuel Supply,Natural Gas,LNG,,Primary Fuel Supply -:- Natural Gas -:- LNG -:- ,,PJ,,,,
+ENV,,GASCO2,Primary Fuel Supply,Natural Gas,,,Primary Fuel Supply -:- Natural Gas -:-  -:- ,Gas emissions,kt,,,,
 
 
 sheetname: Pri_OIL
-range: I15:R39
+range: I17:X43
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-MIN,,MINOIL1,,PJ,PJa,,,
-,,MINLPG1,,PJ,PJa,,,
-,,MINPET1,,PJ,PJa,,,
-,,MINDSL1,,PJ,PJa,,,
-,,MINFOL1,,PJ,PJa,,,
-,,MINJET1,,PJ,PJa,,,
-,,MINOTH1,,PJ,PJa,,,
-IMP,,IMPOIL1,,PJ,PJa,,,
-,,IMPLPG1,,PJ,PJa,,,
-,,IMPPET1,,PJ,PJa,,,
-,,IMPDSL1,,PJ,PJa,,,
-,,IMPFOL1,,PJ,PJa,,,
-,,IMPJET1,,PJ,PJa,,,
-,,IMPOTH1,,PJ,PJa,,,
-EXP,,EXPOIL1,,PJ,PJa,,,
-,,EXPLPG1,,PJ,PJa,,,
-,,EXPPET1,,PJ,PJa,,,
-,,EXPDSL1,,PJ,PJa,,,
-,,EXPFOL1,,PJ,PJa,,,
-,,EXPJET1,,PJ,PJa,,,
-,,EXPOTH1,,PJ,PJa,,,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+MIN,,MINOIL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,MINLPG1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,MINPET1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,MINDSL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,MINFOL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,MINJET1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,MINOTH1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+IMP,,IMPOIL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPLPG1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPPET1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPDSL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPFOL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPJET1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPOTH1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPDID,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,IMPDIJ,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+EXP,,EXPOIL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,EXPLPG1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,EXPPET1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,EXPDSL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,EXPFOL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,EXPJET1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
+,,EXPOTH1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum -:-  -:-  -:- ,,PJ,PJa,,,
 
 
 sheetname: Pri_OIL
-range: I3:R12
+range: I3:W14
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,OIL,Oil products - Crude oil,PJ,,,,
-,,LPG,Oil products - LPG,PJ,,,,
-,,PET,Oil products - Petroleum,PJ,,,,
-,,DSL,Oil products - Diesel oil,PJ,,,,
-,,FOL,Oil products - Light fuel oil,PJ,,,,
-,,JET,Oil products - Jet kerosen,PJ,,,,
-,,OTH,Oil products - Other fuels from refinery,PJ,,,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,OILD,Primary Fuel Supply,Petroleum,Crude Oil ,,Primary Fuel Supply -:- Petroleum -:- Crude Oil  -:- ,Oil products - Crude oil,PJ,,,,
+,,OILI,Primary Fuel Supply,Petroleum,Crude Oil (domestic),,Primary Fuel Supply -:- Petroleum -:- Crude Oil (domestic) -:- ,,PJ,,,,
+,,LPG,Primary Fuel Supply,Petroleum,Crude Oil (imported),,Primary Fuel Supply -:- Petroleum -:- Crude Oil (imported) -:- ,Oil products - LPG,PJ,,,,
+,,PET,Primary Fuel Supply,Petroleum,LPG,,Primary Fuel Supply -:- Petroleum -:- LPG -:- ,Oil products - Petroleum,PJ,,,,
+,,DSL,Primary Fuel Supply,Petroleum,Petrol,,Primary Fuel Supply -:- Petroleum -:- Petrol -:- ,Oil products - Diesel oil,PJ,,,,
+,,FOL,Primary Fuel Supply,Petroleum,Diesel,,Primary Fuel Supply -:- Petroleum -:- Diesel -:- ,Oil products - Light fuel oil,PJ,,,,
+,,JET,Primary Fuel Supply,Petroleum,Fuel Oil,,Primary Fuel Supply -:- Petroleum -:- Fuel Oil -:- ,Oil products - Jet kerosen,PJ,,,,
+,,OTH,Primary Fuel Supply,Petroleum,Aviation Fuel,,Primary Fuel Supply -:- Petroleum -:- Aviation Fuel -:- ,Oil products - Other fuels from refinery,PJ,,,,
+,,,Primary Fuel Supply,Petroleum,Other fuels from refinery,,Primary Fuel Supply -:- Petroleum -:- Other fuels from refinery -:- ,,PJ,,,,
 
 
 sheetname: Pri_OIL
-range: I42:W66
+range: I46:W70
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_T
 types: TechName (object), Comm-IN (object), Comm-OUT (object), CUM (object), COST (object), COST~2021 (object), COST~2025 (object), COST~2030 (object), COST~2035 (object), COST~2040 (object), COST~2050 (object), COST~2060 (object), ACT_BND (object), ACT_BND~2060 (object)
@@ -10739,19 +10756,19 @@ EXPOTH1,OTH,,,30,17.4386616018157,21.1437014241743,24.8466153646056,26.359056698
 
 
 sheetname: Pri_RNW
-range: H15:Q24
+range: H15:W24
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-MIN,,MINHYD1,,PJ,PJa,DAYNITE,,
-,,MINGEO1,,PJ,PJa,DAYNITE,,
-,,MINSOL1,,PJ,PJa,DAYNITE,,
-,,MINWIN1,,PJ,PJa,DAYNITE,,
-,,MINTID1,,PJ,PJa,DAYNITE,,
-,,MINURN1,,PJ,PJa,DAYNITE,,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+MIN,,MINHYD1,Primary Fuel Supply,Renewables,,Mining - Hydro,,Primary Fuel Supply -:- Renewables -:-  -:- Mining - Hydro -:- ,,PJ,PJa,DAYNITE,,
+,,MINGEO1,Primary Fuel Supply,Renewables,,Mining - Geothermal,,Primary Fuel Supply -:- Renewables -:-  -:- Mining - Geothermal -:- ,,PJ,PJa,DAYNITE,,
+,,MINSOL1,Primary Fuel Supply,Renewables,,Mining - Solar,,Primary Fuel Supply -:- Renewables -:-  -:- Mining - Solar -:- ,,PJ,PJa,DAYNITE,,
+,,MINWIN1,Primary Fuel Supply,Renewables,,Mining - Wind,,Primary Fuel Supply -:- Renewables -:-  -:- Mining - Wind -:- ,,PJ,PJa,DAYNITE,,
+,,MINTID1,Primary Fuel Supply,Renewables,,Mining - Tidal,,Primary Fuel Supply -:- Renewables -:-  -:- Mining - Tidal -:- ,,PJ,PJa,DAYNITE,,
+,,MINURN1,Primary Fuel Supply,,,Mining - Uranium,,Primary Fuel Supply -:-  -:-  -:- Mining - Uranium -:- ,,PJ,PJa,DAYNITE,,
 
 
 sheetname: Pri_RNW
@@ -10771,20 +10788,20 @@ MINURN1,,URN,6.6550808993064,6.70035414048127,6.73492712778337,6.78674563343641,
 
 
 sheetname: Pri_RNW
-range: H3:Q13
+range: H3:V13
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,HYD,Renewables - Hydro,PJ,FX,DAYNITE,,
-,,GEO,Renewables - GEO,PJ,FX,DAYNITE,,
-,,SOL,Renewables - Solar,PJ,FX,DAYNITE,,
-,,WIN,Renewables - Wind,PJ,FX,DAYNITE,,
-,,BIL,Biofuels - Bioliquid,PJ,FX,DAYNITE,,
-,,BIG,Biofuels - Biogas,PJ,FX,DAYNITE,,
-,,TID,Renewables - Tidal,PJ,FX,DAYNITE,,
-,,URN,Uranium,PJ,FX,DAYNITE,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,HYD,Primary Fuel Supply,Renewables,Hydro,,Primary Fuel Supply -:- Renewables -:- Hydro -:- ,Renewables - Hydro,PJ,FX,DAYNITE,,
+,,GEO,Primary Fuel Supply,Renewables,Geothermal,,Primary Fuel Supply -:- Renewables -:- Geothermal -:- ,Renewables - GEO,PJ,FX,DAYNITE,,
+,,SOL,Primary Fuel Supply,Renewables,Solar,,Primary Fuel Supply -:- Renewables -:- Solar -:- ,Renewables - Solar,PJ,FX,DAYNITE,,
+,,WIN,Primary Fuel Supply,Renewables,Wind,,Primary Fuel Supply -:- Renewables -:- Wind -:- ,Renewables - Wind,PJ,FX,DAYNITE,,
+,,BIL,Primary Fuel Supply,Renewables,Bioliquid,,Primary Fuel Supply -:- Renewables -:- Bioliquid -:- ,Biofuels - Bioliquid,PJ,FX,DAYNITE,,
+,,BIG,Primary Fuel Supply,Renewables,Biogas,,Primary Fuel Supply -:- Renewables -:- Biogas -:- ,Biofuels - Biogas,PJ,FX,DAYNITE,,
+,,TID,Primary Fuel Supply,Renewables,Tidal,,Primary Fuel Supply -:- Renewables -:- Tidal -:- ,Renewables - Tidal,PJ,FX,DAYNITE,,
+,,URN,Primary Fuel Supply,,Uranium,,Primary Fuel Supply -:-  -:- Uranium -:- ,Uranium,PJ,FX,DAYNITE,,
 
 
 sheetname: SUP_H2
@@ -10808,24 +10825,24 @@ MIN_DAC_CO2,Direct air capture costs,,DAC_CO2,,,,,,,,,,,,,,,,,,345.68,,,,,,,,,,,
 
 
 sheetname: SUP_H2
-range: C3:L17
+range: C3:Q17
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,H2C,centralised hydrogen,PJ,FX,DAYNITE,,
-NRG,,H2D,decentralised hydrogen,PJ,FX,DAYNITE,,
-NRG,,H2R,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
-NRG,,ELCNGA,Hydrogen and natural gas mix (ELC sector),PJ,FX,DAYNITE,,
-NRG,,DAC_CO2,CO2 from air,kt,,,,
-NRG,,TRAH2R,Hydrogen for transport sector,PJ,FX,DAYNITE,,
-NRG,,INDH2R,Hydrogen for industry sector,PJ,FX,DAYNITE,,
-NRG,,ELCH2R,Hydrogen for power generation sector,PJ,FX,DAYNITE,,
-NRG,,COMH2R,Hydrogen for commercial sector,PJ,FX,DAYNITE,,
-NRG,,RESH2R,Hydrogen for residential sector,PJ,FX,DAYNITE,,
-NRG,,AGRH2R,Hydrogen for agricultural sector,PJ,FX,DAYNITE,,
-NRG,,COseq,CO2 to CCS,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,H2C,Primary Fuel Supply,Hydrogen,,Centralised Hydrogen,Primary Fuel Supply -:- Hydrogen -:-  -:- Centralised Hydrogen,centralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2D,Primary Fuel Supply,Hydrogen,,Decentralised Hydrogen,Primary Fuel Supply -:- Hydrogen -:-  -:- Decentralised Hydrogen,decentralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2R,Primary Fuel Supply,Hydrogen,,Renewable Hydrogen,Primary Fuel Supply -:- Hydrogen -:-  -:- Renewable Hydrogen,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
+NRG,,ELCNGA,Primary Fuel Supply,Hydrogen,,Hydrogen and natural gas mix (ELC sector),Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen and natural gas mix (ELC sector),Hydrogen and natural gas mix (ELC sector),PJ,FX,DAYNITE,,
+NRG,,DAC_CO2,Primary Fuel Supply,Hydrogen,,CO2 from air,Primary Fuel Supply -:- Hydrogen -:-  -:- CO2 from air,CO2 from air,kt,,,,
+NRG,,TRAH2R,Transport,,,Hydrogen ,Transport -:-  -:-  -:- Hydrogen ,Hydrogen for transport sector,PJ,FX,DAYNITE,,
+NRG,,INDH2R,Industrial,,,Hydrogen ,Industrial -:-  -:-  -:- Hydrogen ,Hydrogen for industry sector,PJ,FX,DAYNITE,,
+NRG,,ELCH2R,Electricity Production,,,Hydrogen ,Electricity Production -:-  -:-  -:- Hydrogen ,Hydrogen for power generation sector,PJ,FX,DAYNITE,,
+NRG,,COMH2R,Commercial,,,Hydrogen ,Commercial -:-  -:-  -:- Hydrogen ,Hydrogen for commercial sector,PJ,FX,DAYNITE,,
+NRG,,RESH2R,Residential,,,Hydrogen ,Residential -:-  -:-  -:- Hydrogen ,Hydrogen for residential sector,PJ,FX,DAYNITE,,
+NRG,,AGRH2R,Agriculture,,,Hydrogen ,Agriculture -:-  -:-  -:- Hydrogen ,Hydrogen for agricultural sector,PJ,FX,DAYNITE,,
+NRG,,COseq,Primary Fuel Supply,Hydrogen,,CO2 to CCS,Primary Fuel Supply -:- Hydrogen -:-  -:- CO2 to CCS,CO2 to CCS,kt,,,,
 
 
 sheetname: SUP_H2
@@ -10866,36 +10883,36 @@ FTE_AGRH2D,H2D,AGRH2R,,,,1,100,29
 
 
 sheetname: SUP_H2
-range: N3:W29
+range: S3:AH29
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Process
-types: Sets (object), Region (object), TechName (object), TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
-Sets,Region,TechName,TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,
-PRE,,SUP_ELC-PEMC-H2,H2 production from PEM electrolysis - centralised,PJ,GW,DAYNITE,,
-PRE,,SUP_ELC-PEMD-H2,H2 production from PEM electrolysis - decentralised,PJ,GW,DAYNITE,,
-PRE,,\I:SUP_ELC-SOECC-H2,H2 production from SOEC electrolysis - centralised,PJ,GW,DAYNITE,,
-PRE,,\I:SUP_ELC-SOECD-H2,H2 production from SOEC electrolysis - decentralised,PJ,GW,DAYNITE,,
-\I:,,\I:SUP_H2NGA,H2 methanisation to natural gas (CO2 from DAC),PJ,GW,DAYNITE,,
-\I:,,\I:SUP_H2NGA_CCS,H2 methanisation to natural gas (CO2 from CCS),PJ,GW,DAYNITE,,
-\I:,,\I:,H2 production from natural gas (steam methane reforming with CCS),PJ,GW,DAYNITE,,
-MIN,,MIN_DAC_CO2,Direct air capture costs,kt,kta,,,
-PRE,,FTE_TRAH2R,Hydrogen supply to transport sector (centralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_TRAH2D,Hydrogen supply to transport sector (decentralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_INDH2R,Hydrogen supply to industry sector (centralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_INDH2D,Hydrogen supply to industry sector (decentralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_ELCH2R,Hydrogen supply to power sector (centralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_COMH2R,Hydrogen supply to commercial sector (centralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_COMH2D,Hydrogen supply to commercial sector (decentralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_RESH2R,Hydrogen supply to residential sector (centralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_RESH2D,Hydrogen supply to residential sector (decentralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_AGRH2R,Hydrogen supply to Agriculture sector (centralized),PJ,Pja,DAYNITE,,
-PRE,,FTE_AGRH2D,Hydrogen supply to agriculture sector (decentralized),PJ,Pja,DAYNITE,,
-\I:,,D-H2_ELCNGA,Natural gas T&D to power & heat sectors,PJ,GW,DAYNITE,,
-\I:PRE,,D-H2_NPIP,New Pipeline (NI and SI),PJ,GW,DAYNITE,,
-\I:,,D-H2toNGA_blnd,Blending Hydrogen with Natural gas (only NI),PJ,GW,DAYNITE,,
-PRE,,D-H2_Trailer,Tube Trailer (NI and SI),PJ,Truck,DAYNITE,,
+types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Enduse (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
+Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,,
+PRE,,SUP_ELC-PEMC-H2,Primary Fuel Supply,Hydrogen,,H2 production from PEM electrolysis - centralised,,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 production from PEM electrolysis - centralised -:- ,H2 production from PEM electrolysis - centralised,PJ,GW,DAYNITE,,
+PRE,,SUP_ELC-PEMD-H2,Primary Fuel Supply,Hydrogen,,H2 production from PEM electrolysis - decentralised,,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 production from PEM electrolysis - decentralised -:- ,H2 production from PEM electrolysis - decentralised,PJ,GW,DAYNITE,,
+PRE,,\I:SUP_ELC-SOECC-H2,Primary Fuel Supply,Hydrogen,,H2 production from SOEC electrolysis - centralised,,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 production from SOEC electrolysis - centralised -:- ,H2 production from SOEC electrolysis - centralised,PJ,GW,DAYNITE,,
+PRE,,\I:SUP_ELC-SOECD-H2,Primary Fuel Supply,Hydrogen,,H2 production from SOEC electrolysis - decentralised,,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 production from SOEC electrolysis - decentralised -:- ,H2 production from SOEC electrolysis - decentralised,PJ,GW,DAYNITE,,
+\I:,,\I:SUP_H2NGA,Primary Fuel Supply,Hydrogen,,H2 methanisation to natural gas (CO2 from DAC),,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 methanisation to natural gas (CO2 from DAC) -:- ,H2 methanisation to natural gas (CO2 from DAC),PJ,GW,DAYNITE,,
+\I:,,\I:SUP_H2NGA_CCS,Primary Fuel Supply,Hydrogen,,H2 methanisation to natural gas (CO2 from CCS),,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 methanisation to natural gas (CO2 from CCS) -:- ,H2 methanisation to natural gas (CO2 from CCS),PJ,GW,DAYNITE,,
+\I:,,\I:,Primary Fuel Supply,Hydrogen,,H2 production from natural gas (steam methane reforming with CCS),,Primary Fuel Supply -:- Hydrogen -:-  -:- H2 production from natural gas (steam methane reforming with CCS) -:- ,H2 production from natural gas (steam methane reforming with CCS),PJ,GW,DAYNITE,,
+MIN,,MIN_DAC_CO2,Primary Fuel Supply,Hydrogen,,Direct air capture costs,,Primary Fuel Supply -:- Hydrogen -:-  -:- Direct air capture costs -:- ,Direct air capture costs,kt,kta,,,
+PRE,,FTE_TRAH2R,Primary Fuel Supply,Hydrogen,,Hydrogen supply to transport sector (centralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to transport sector (centralized) -:- ,Hydrogen supply to transport sector (centralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_TRAH2D,Primary Fuel Supply,Hydrogen,,Hydrogen supply to transport sector (decentralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to transport sector (decentralized) -:- ,Hydrogen supply to transport sector (decentralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_INDH2R,Primary Fuel Supply,Hydrogen,,Hydrogen supply to industry sector (centralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to industry sector (centralized) -:- ,Hydrogen supply to industry sector (centralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_INDH2D,Primary Fuel Supply,Hydrogen,,Hydrogen supply to industry sector (decentralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to industry sector (decentralized) -:- ,Hydrogen supply to industry sector (decentralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_ELCH2R,Primary Fuel Supply,Hydrogen,,Hydrogen supply to power sector (centralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to power sector (centralized) -:- ,Hydrogen supply to power sector (centralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_COMH2R,Primary Fuel Supply,Hydrogen,,Hydrogen supply to commercial sector (centralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to commercial sector (centralized) -:- ,Hydrogen supply to commercial sector (centralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_COMH2D,Primary Fuel Supply,Hydrogen,,Hydrogen supply to commercial sector (decentralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to commercial sector (decentralized) -:- ,Hydrogen supply to commercial sector (decentralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_RESH2R,Primary Fuel Supply,Hydrogen,,Hydrogen supply to residential sector (centralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to residential sector (centralized) -:- ,Hydrogen supply to residential sector (centralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_RESH2D,Primary Fuel Supply,Hydrogen,,Hydrogen supply to residential sector (decentralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to residential sector (decentralized) -:- ,Hydrogen supply to residential sector (decentralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_AGRH2R,Primary Fuel Supply,Hydrogen,,Hydrogen supply to Agriculture sector (centralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to Agriculture sector (centralized) -:- ,Hydrogen supply to Agriculture sector (centralized),PJ,Pja,DAYNITE,,
+PRE,,FTE_AGRH2D,Primary Fuel Supply,Hydrogen,,Hydrogen supply to agriculture sector (decentralized),,Primary Fuel Supply -:- Hydrogen -:-  -:- Hydrogen supply to agriculture sector (decentralized) -:- ,Hydrogen supply to agriculture sector (decentralized),PJ,Pja,DAYNITE,,
+\I:,,D-H2_ELCNGA,Primary Fuel Supply,Hydrogen,,Natural gas T&D to power & heat sectors,,Primary Fuel Supply -:- Hydrogen -:-  -:- Natural gas T&D to power & heat sectors -:- ,Natural gas T&D to power & heat sectors,PJ,GW,DAYNITE,,
+\I:PRE,,D-H2_NPIP,Primary Fuel Supply,Hydrogen,,New Pipeline (NI and SI),,Primary Fuel Supply -:- Hydrogen -:-  -:- New Pipeline (NI and SI) -:- ,New Pipeline (NI and SI),PJ,GW,DAYNITE,,
+\I:,,D-H2toNGA_blnd,Primary Fuel Supply,Hydrogen,,Blending Hydrogen with Natural gas (only NI),,Primary Fuel Supply -:- Hydrogen -:-  -:- Blending Hydrogen with Natural gas (only NI) -:- ,Blending Hydrogen with Natural gas (only NI),PJ,GW,DAYNITE,,
+PRE,,D-H2_Trailer,Primary Fuel Supply,Hydrogen,,Tube Trailer (NI and SI),,Primary Fuel Supply -:- Hydrogen -:-  -:- Tube Trailer (NI and SI) -:- ,Tube Trailer (NI and SI),PJ,Truck,DAYNITE,,
 
 
 sheetname: TOTCO2
