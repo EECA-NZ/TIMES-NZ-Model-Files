@@ -7,12 +7,12 @@
 Oil supply commodity and process definitions
 
 #### Table definition: ~FI_Process
-- **Range**: I16:R37
-- **Columns**: 'Sets', 'Region', 'TechName', 'TechDesc', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: I16:X42
+- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
 #### Table definition: ~FI_Comm
-- **Range**: I3:R13
-- **Columns**: 'Csets', 'Region', 'CommName', 'CommDesc', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: I3:W14
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_T
 - **Range**: I45:X66

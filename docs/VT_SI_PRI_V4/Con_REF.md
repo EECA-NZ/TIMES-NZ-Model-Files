@@ -11,10 +11,10 @@
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Share-O\~UP', 'EFF', 'ACT_BND'
 
 #### Table definition: ~FI_Comm
-- **Range**: J3:S6
-- **Columns**: 'Csets', 'Region', 'CommName', 'CommDesc', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: J3:X6
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_Process
-- **Range**: J9:S13
-- **Columns**: 'Sets', 'Region', 'TechName', 'TechDesc', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: J9:Y13
+- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 

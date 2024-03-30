@@ -4,7 +4,6 @@
 
 ## Workbooks Index
 
-- `SubRES_TMPL/`[Before_SubRES_NewTechs_Industry.xlsx](SubRES_TMPL/Before_SubRES_NewTechs_Industry/README.md)
 - `SubRES_TMPL/`[SubRES_NewTech_AGR_KEA.xlsx](SubRES_TMPL/SubRES_NewTech_AGR_KEA/README.md)
 - `SubRES_TMPL/`[SubRES_NewTech_AGR_KEA_Trans.xlsx](SubRES_TMPL/SubRES_NewTech_AGR_KEA_Trans/README.md)
 - `SubRES_TMPL/`[SubRES_NewTech_AGR_TUI.xlsx](SubRES_TMPL/SubRES_NewTech_AGR_TUI/README.md)
@@ -16,7 +15,6 @@
 - `SubRES_TMPL/`[SubRES_NewTechs_Industry_Trans.xlsx](SubRES_TMPL/SubRES_NewTechs_Industry_Trans/README.md)
 - `SubRES_TMPL/`[SubRES_NewTransport-KEA.xlsx](SubRES_TMPL/SubRES_NewTransport-KEA/README.md)
 - `SubRES_TMPL/`[SubRES_NewTransport-TUI.xlsx](SubRES_TMPL/SubRES_NewTransport-TUI/README.md)
-- `SubRES_TMPL/`[old_SubRES_NewTech_RCA1.xlsx](SubRES_TMPL/old_SubRES_NewTech_RCA1/README.md)
 - `SuppXLS/ParScenFiles/`[Scen_Par-AF_Hydro-UC_0001.xlsx](SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0001/README.md)
 - `SuppXLS/ParScenFiles/`[Scen_Par-AF_Hydro-UC_0002.xlsx](SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0002/README.md)
 - `SuppXLS/ParScenFiles/`[Scen_Par-AF_Hydro-UC_0007.xlsx](SuppXLS/ParScenFiles/Scen_Par-AF_Hydro-UC_0007/README.md)
@@ -55,5 +53,3 @@
 - `./`[VT_SI_OTH_V4.xlsx](VT_SI_OTH_V4/README.md)
 - `./`[VT_SI_PRI_V4.xlsx](VT_SI_PRI_V4/README.md)
 - `./`[VT_SI_TRA_V4.xlsx](VT_SI_TRA_V4/README.md)
-- `./`[old_VT_NI_IND_V1.xlsx](old_VT_NI_IND_V1/README.md)
-- `./`[old_VT_SI_IND_V1.xlsx](old_VT_SI_IND_V1/README.md)

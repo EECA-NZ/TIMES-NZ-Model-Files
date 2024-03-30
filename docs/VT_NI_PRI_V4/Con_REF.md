@@ -11,10 +11,10 @@ Oil refinery process definitions
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Share-O\~UP', 'Share-O\~UP\~2020', 'Share-O\~UP\~2060', 'NCAP_PASTI\~2005', 'CAP2ACT', 'Life', 'EFF', 'ACT_BND', 'ACT_BND\~2020', 'ACT_BND\~2025', 'INVCOST', 'Fixom', 'Varom', 'ENV_ACT\~REFCO2'
 
 #### Table definition: ~FI_Comm
-- **Range**: U3:AD6
-- **Columns**: 'Csets', 'Region', 'CommName', 'CommDesc', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: U3:AI6
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', 'CommDesc', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_Process
-- **Range**: U9:AD13
-- **Columns**: 'Sets', 'Region', 'TechName', 'TechDesc', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: U9:AJ13
+- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', 'TechDesc', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
