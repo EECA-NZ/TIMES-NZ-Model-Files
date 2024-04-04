@@ -7,8 +7,8 @@
 Primary fuel emissions data
 
 #### Table definition: ~FI_Comm
-- **Range**: B10:K19
-- **Columns**: 'Csets', 'Region', 'CommName', 'CommDesc', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: B10:P19
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~COMEMI
 - **Range**: B21:D24
