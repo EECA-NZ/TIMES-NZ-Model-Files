@@ -397,13 +397,13 @@ MIN,CCS_Store2,,,,,, -:-  -:-  -:-  -:- ,CO2 Storage,kt,kta,,,
 
 
 sheetname: ELC_CCS
-range: C37:Q40
+range: C37:O40
 filename: SubRES_TMPL/SubRES_NewTech_ELC_KEA.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,COseq,,,,CO2 to CCS, -:-  -:-  -:- CO2 to CCS,CO2 captured,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,COseq,,CO2 to CCS, -:- CO2 to CCS,CO2 captured,kt,,,,
 
 
 sheetname: ELC_CCS
@@ -585,13 +585,13 @@ MIN,CCS_Store2,,,,,, -:-  -:-  -:-  -:- ,CO2 Storage,kt,kta,,,
 
 
 sheetname: ELC_CCS
-range: C37:Q40
+range: C37:O40
 filename: SubRES_TMPL/SubRES_NewTech_ELC_TUI.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,,,,,,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,COseq,,,,CO2 to CCS, -:-  -:-  -:- CO2 to CCS,CO2 captured,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,,,,Commodity Name,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,COseq,,CO2 to CCS, -:- CO2 to CCS,CO2 captured,kt,,,,
 
 
 sheetname: ELC_CCS
@@ -6791,22 +6791,22 @@ G_ELC_A_00,Existing electricity distribution grid  AGRELC,ELCD,AGRELC,0.38,1,0.1
 
 
 sheetname: Demand and Distribution
-range: B36:P48
+range: B36:N48
 filename: VT_NI_ELC_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,ELC-HV,,,,, -:-  -:-  -:- ,High voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,ELC-MV,,,,, -:-  -:-  -:- ,Mid voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,ELCDD,,,,, -:-  -:-  -:- ,Low voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,ELCD,,,,, -:-  -:-  -:- ,Low voltage input ELC for demand sectors,PJ,FX,DAYNITE,,ELC
-NRG,,RESELC,,,,, -:-  -:-  -:- ,Residential ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,INDELC,,,,, -:-  -:-  -:- ,Industrial ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,COMELC,,,,, -:-  -:-  -:- ,Service ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,AGRELC,,,,, -:-  -:-  -:- ,Agricultural ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-,,,,,,, -:-  -:-  -:- ,,,,,,
-DEM,,OWNELC,,,,, -:-  -:-  -:- ,Electricity for own use,PJ,,DAYNITE,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,ELC-HV,,, -:- ,High voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELC-MV,,, -:- ,Mid voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELCDD,,, -:- ,Low voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELCD,,, -:- ,Low voltage input ELC for demand sectors,PJ,FX,DAYNITE,,ELC
+NRG,,RESELC,,, -:- ,Residential ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,INDELC,,, -:- ,Industrial ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,COMELC,,, -:- ,Service ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,AGRELC,,, -:- ,Agricultural ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+,,,,, -:- ,,,,,,
+DEM,,OWNELC,,, -:- ,Electricity for own use,PJ,,DAYNITE,,
 
 
 sheetname: Demand and Distribution
@@ -6839,14 +6839,14 @@ ELCCO2,89.1,93.1,69.69,53.96,0,0,0
 
 
 sheetname: Existing_techs_NI
-range: A11:O15
+range: A11:M15
 filename: VT_NI_ELC_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,ELC,,,,Electricity Production, -:-  -:-  -:- Electricity Production,Electricity,PJ,FX,DAYNITE,,ELC
-ENV,,ELCCO2,,,,Electricity Production, -:-  -:-  -:- Electricity Production,Electricity Plants Carbon dioxide,kt,,ANNUAL,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,ELC,,Electricity Production, -:- Electricity Production,Electricity,PJ,FX,DAYNITE,,ELC
+ENV,,ELCCO2,,Electricity Production, -:- Electricity Production,Electricity Plants Carbon dioxide,kt,,ANNUAL,,
 
 
 sheetname: Existing_techs_NI
@@ -6926,26 +6926,26 @@ FTE_ELCURN,URN,ELCURN,,,1,100,,,
 
 
 sheetname: Sector_Fuels_ELC
-range: B6:P22
+range: B6:N22
 filename: VT_NI_ELC_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,ELCCOA,,,Coal,Electricity Production, -:-  -:- Coal -:- Electricity Production,Electricity Plants Bituminous & Sub-bitum.,PJ,FX,,,
-,,ELCCOL,,,Coal,Electricity Production, -:-  -:- Coal -:- Electricity Production,Electricity Plants Lignite,PJ,FX,,,
-,,ELCOIL,,,Oil,Electricity Production, -:-  -:- Oil -:- Electricity Production,Electricity Plants Oil,PJ,FX,,,
-,,ELCNGA,,,Natural Gas,Electricity Production, -:-  -:- Natural Gas -:- Electricity Production,Electricity Plants Natural Gas,PJ,FX,,,
-,,ELCHYD,,,Hydro,Electricity Production, -:-  -:- Hydro -:- Electricity Production,Electricity Plants Hydro,PJ,FX,,,
-,,ELCGEO,,,Geothermal,Electricity Production, -:-  -:- Geothermal -:- Electricity Production,Electricity Plants Geothermal,PJ,FX,,,
-,,ELCSOL,,,Solar,Electricity Production, -:-  -:- Solar -:- Electricity Production,Electricity Plants Solar,PJ,FX,,,
-,,ELCWIN,,,Wind,Electricity Production, -:-  -:- Wind -:- Electricity Production,Electricity Plants Wind,PJ,FX,,,
-,,ELCBIL,,,Liquid Biofuels,Electricity Production, -:-  -:- Liquid Biofuels -:- Electricity Production,Electricity Plants Liquid Biofuels,PJ,FX,,,
-,,ELCBIG,,,Biogas,Electricity Production, -:-  -:- Biogas -:- Electricity Production,Electricity Plants Biogas,PJ,FX,,,
-,,ELCWOD,,,Wood,Electricity Production, -:-  -:- Wood -:- Electricity Production,Electricity Plants Wood,PJ,FX,,,
-,,ELCTID,,,Tidal,Electricity Production, -:-  -:- Tidal -:- Electricity Production,Electricity Plants Tidal,PJ,FX,,,
-,,ELCURN,,,Uranium,Electricity Production, -:-  -:- Uranium -:- Electricity Production,Electricity Plants Uranium,PJ,FX,,,
-ENV,,BATNRG,,,Electricity,Electricity Production, -:-  -:- Electricity -:- Electricity Production,Dummy Commodity for Batteries,PJ,N,DAYNITE,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,ELCCOA,Coal,Electricity Production,Coal -:- Electricity Production,Electricity Plants Bituminous & Sub-bitum.,PJ,FX,,,
+,,ELCCOL,Coal,Electricity Production,Coal -:- Electricity Production,Electricity Plants Lignite,PJ,FX,,,
+,,ELCOIL,Oil,Electricity Production,Oil -:- Electricity Production,Electricity Plants Oil,PJ,FX,,,
+,,ELCNGA,Natural Gas,Electricity Production,Natural Gas -:- Electricity Production,Electricity Plants Natural Gas,PJ,FX,,,
+,,ELCHYD,Hydro,Electricity Production,Hydro -:- Electricity Production,Electricity Plants Hydro,PJ,FX,,,
+,,ELCGEO,Geothermal,Electricity Production,Geothermal -:- Electricity Production,Electricity Plants Geothermal,PJ,FX,,,
+,,ELCSOL,Solar,Electricity Production,Solar -:- Electricity Production,Electricity Plants Solar,PJ,FX,,,
+,,ELCWIN,Wind,Electricity Production,Wind -:- Electricity Production,Electricity Plants Wind,PJ,FX,,,
+,,ELCBIL,Liquid Biofuels,Electricity Production,Liquid Biofuels -:- Electricity Production,Electricity Plants Liquid Biofuels,PJ,FX,,,
+,,ELCBIG,Biogas,Electricity Production,Biogas -:- Electricity Production,Electricity Plants Biogas,PJ,FX,,,
+,,ELCWOD,Wood,Electricity Production,Wood -:- Electricity Production,Electricity Plants Wood,PJ,FX,,,
+,,ELCTID,Tidal,Electricity Production,Tidal -:- Electricity Production,Electricity Plants Tidal,PJ,FX,,,
+,,ELCURN,Uranium,Electricity Production,Uranium -:- Electricity Production,Electricity Plants Uranium,PJ,FX,,,
+ENV,,BATNRG,Electricity,Electricity Production,Electricity -:- Electricity Production,Dummy Commodity for Batteries,PJ,N,DAYNITE,,
 
 
 sheetname: Sector_Fuels_ELC
@@ -7180,84 +7180,84 @@ PLPPPR-AIR-ELC-CMPR15,INDELC,PLPPPR-AIR,,,,0.04,0.004,21,1,25,0,,31.536,0.068,0.
 
 
 sheetname: IND_PRC_COM
-range: C6:Q80
+range: C6:O80
 filename: VT_NI_IND_V2.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-DEM,,ALU-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Aluminium - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,CNST-MoTP-Mob,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Construction - Motive Power, Mobile",PJ,,DAYNITE,,
-DEM,,CNST-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Construction - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,DARY-AIR,,,,Compressed Air, -:-  -:-  -:- Compressed Air,Dairy - Compressed Air,PJ,,DAYNITE,,
-DEM,,DARY-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Dairy - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,DARY-PH-MVR_DRY,,,,Process Heat Evaporation/Drying, -:-  -:-  -:- Process Heat Evaporation/Drying,Dairy - Process Heat: MVR Drying,PJ,,DAYNITE,,
-DEM,,DARY-PH-MVR_PRE,,,,Process Heat Evaporation/Drying, -:-  -:-  -:- Process Heat Evaporation/Drying,Dairy - Process Heat: MVR Evaporation Preheat,PJ,,DAYNITE,,
-DEM,,DARY-PH-TVR_EVP,,,,Process Heat Evaporation/Drying, -:-  -:-  -:- Process Heat Evaporation/Drying,Dairy - Process Heat: TVR Evaporation,PJ,,DAYNITE,,
-DEM,,DARY-PH-TVR_DRY,,,,Process Heat Evaporation/Drying, -:-  -:-  -:- Process Heat Evaporation/Drying,Dairy - Process Heat: TVR Drying,PJ,,DAYNITE,,
-DEM,,DARY-PH-MVR_TVR,,,,Process Heat Evaporation/Drying, -:-  -:-  -:- Process Heat Evaporation/Drying,Dairy - Process Heat: MVR Evaporation TVR,PJ,,DAYNITE,,
-DEM,,DARY-PH-MVR_Fan,,,,Process Heat MVR Fan, -:-  -:-  -:- Process Heat MVR Fan,Dairy - Process Heat: MVR Fan,PJ,,DAYNITE,,
-DEM,,DARY-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Dairy - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,DARY-Pump,,,,Pumping, -:-  -:-  -:- Pumping,Dairy - Pumping,PJ,,DAYNITE,,
-DEM,,DARY-RFGR,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Dairy - Refrigeration,PJ,,DAYNITE,,
-DEM,,FOOD-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Food - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,FOOD-PH-DirH,,,,Process Heat Direct, -:-  -:-  -:- Process Heat Direct,Food - Process Heat: Direct Heat,PJ,,DAYNITE,,
-DEM,,FOOD-PH-OVN,,,,Process Heat Oven, -:-  -:-  -:- Process Heat Oven,Food - Process Heat: Oven,PJ,,DAYNITE,,
-DEM,,FOOD-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Food - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,FOOD-Pump,,,,Pumping, -:-  -:-  -:- Pumping,Food - Pumping,PJ,,DAYNITE,,
-DEM,,FOOD-RFGR,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Food - Refrigeration,PJ,,DAYNITE,,
-DEM,,IIS-FDSTCK,,,,Feedstock, -:-  -:-  -:- Feedstock,Iron/Steel - Steel production (feedstock),PJ,,DAYNITE,,
-DEM,,IIS-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Iron/Steel - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,IIS-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Iron/Steel - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,MEAT-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Meat - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,MEAT-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Meat - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,MEAT-PH-DirH,,,,Process Heat Direct, -:-  -:-  -:- Process Heat Direct,Meat - Process Heat: Direct Heat,PJ,,DAYNITE,,
-DEM,,MEAT-RFGR,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Meat - Refrigeration,PJ,,DAYNITE,,
-DEM,,METAL-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Metal product manufacturing - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,METAL-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Metal product manufacturing - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,METAL-RFGR,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Metal product manufacturing - Refrigeration,PJ,,DAYNITE,,
-DEM,,METAL-PH-DirH,,,,Process Heat Direct, -:-  -:-  -:- Process Heat Direct,Metal product manufacturing - Process Heat: Direct Heat,PJ,,DAYNITE,,
-DEM,,MTHOL-FDSTCK,,,,Feedstock, -:-  -:-  -:- Feedstock,Methanol - Methanol production (feedstock),PJ,,DAYNITE,,
-DEM,,MTHOL-PH_REFRM,,,,Process Heat Reforming, -:-  -:-  -:- Process Heat Reforming,Methanol - Process Heat: Reformer,PJ,,DAYNITE,,
-DEM,,MNRL-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Mineral - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,MNRL-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Mineral - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,MNRL-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Mineral - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,MNNG-MoTP-Mob,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Mining - Motive Power, Mobile",PJ,,DAYNITE,,
-DEM,,MNNG-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Mining - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,MNNG-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Mining - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,OTH-ELC,,,,Other, -:-  -:-  -:- Other,Other - Other - Electricity,PJ,,DAYNITE,,
-DEM,,OTH-DSL,,,,Other, -:-  -:-  -:- Other,Other - Other - Diesel,PJ,,DAYNITE,,
-DEM,,OTH-LPG,,,,Other, -:-  -:-  -:- Other,Other - Other - LPG,PJ,,DAYNITE,,
-DEM,,OTH-COA,,,,Other, -:-  -:-  -:- Other,Other - Other - Coal,PJ,,DAYNITE,,
-DEM,,OTH-NGA,,,,Other, -:-  -:-  -:- Other,Other - Other - Natural Gas,PJ,,DAYNITE,,
-DEM,,OTH-PET,,,,Other, -:-  -:-  -:- Other,Other - Other - Petrol,PJ,,DAYNITE,,
-DEM,,OTH-BGS,,,,Other, -:-  -:-  -:- Other,Other - Other - Biogas,PJ,,DAYNITE,,
-DEM,,OTH-FOL,,,,Other, -:-  -:-  -:- Other,Other - Other - Fuel Oil,PJ,,DAYNITE,,
-DEM,,CHMCL-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Petroleum/Chemicals - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,CHMCL-PH-DirH,,,,Process Heat Direct, -:-  -:-  -:- Process Heat Direct,Petroleum/Chemicals - Process Heat: Direct Heat,PJ,,DAYNITE,,
-DEM,,CHMCL-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Petroleum/Chemicals - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,CHMCL-PH-REFRM,,,,Process Heat Reforming, -:-  -:-  -:- Process Heat Reforming,Petroleum/Chemicals - Process Heat: Reformer,PJ,,DAYNITE,,
-DEM,,CHMCL-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Petroleum/Chemicals - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,REFI-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Refining - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,REFI-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Refining - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,REFI-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Refining - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,UREA-FDSTCK,,,,Feedstock, -:-  -:-  -:- Feedstock,Urea - Urea production (feedstock),PJ,,DAYNITE,,
-DEM,,UREA-REFRM,,,,Process Heat Reforming, -:-  -:-  -:- Process Heat Reforming,Urea - Urea production reformer,PJ,,DAYNITE,,
-DEM,,WOOD-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Wood products - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,WOOD-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Wood products - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,WOOD-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Wood products - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,WOOD-Pump,,,,Pumping, -:-  -:-  -:- Pumping,Wood products - Pumping,PJ,,DAYNITE,,
-DEM,,WOOD-Fan,,,,Drying, -:-  -:-  -:- Drying,Wood products - Fans,PJ,,DAYNITE,,
-DEM,,WOOD-Refin,,,,Wood/Pulp and Paper Refining, -:-  -:-  -:- Wood/Pulp and Paper Refining,Wood products - Refiners,PJ,,DAYNITE,,
-DEM,,WOOD-AIR,,,,Compressed Air, -:-  -:-  -:- Compressed Air,Wood products - Compressed Air,PJ,,DAYNITE,,
-DEM,,PLPPPR-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Wood pulp and paper - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,PLPPPR-PH-DirH,,,,Process Heat Direct, -:-  -:-  -:- Process Heat Direct,Wood pulp and paper - Process Heat: Direct Heat,PJ,,DAYNITE,,
-DEM,,PLPPPR-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Wood pulp and paper - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,PLPPPR-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Wood pulp and paper - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,PLPPPR-Pump,,,,Pumping, -:-  -:-  -:- Pumping,Wood pulp and paper - Pumping,PJ,,DAYNITE,,
-DEM,,PLPPPR-Fan,,,,Fan, -:-  -:-  -:- Fan,Wood pulp and paper - Fans,PJ,,DAYNITE,,
-DEM,,PLPPPR-Refin,,,,Wood/Pulp and Paper Refining, -:-  -:-  -:- Wood/Pulp and Paper Refining,Wood pulp and paper - Refiners,PJ,,DAYNITE,,
-DEM,,PLPPPR-AIR,,,,Compressed Air, -:-  -:-  -:- Compressed Air,Wood pulp and paper - Compressed Air,PJ,,DAYNITE,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+DEM,,ALU-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Aluminium - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,CNST-MoTP-Mob,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Construction - Motive Power, Mobile",PJ,,DAYNITE,,
+DEM,,CNST-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Construction - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,DARY-AIR,,Compressed Air, -:- Compressed Air,Dairy - Compressed Air,PJ,,DAYNITE,,
+DEM,,DARY-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Dairy - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,DARY-PH-MVR_DRY,,Process Heat Evaporation/Drying, -:- Process Heat Evaporation/Drying,Dairy - Process Heat: MVR Drying,PJ,,DAYNITE,,
+DEM,,DARY-PH-MVR_PRE,,Process Heat Evaporation/Drying, -:- Process Heat Evaporation/Drying,Dairy - Process Heat: MVR Evaporation Preheat,PJ,,DAYNITE,,
+DEM,,DARY-PH-TVR_EVP,,Process Heat Evaporation/Drying, -:- Process Heat Evaporation/Drying,Dairy - Process Heat: TVR Evaporation,PJ,,DAYNITE,,
+DEM,,DARY-PH-TVR_DRY,,Process Heat Evaporation/Drying, -:- Process Heat Evaporation/Drying,Dairy - Process Heat: TVR Drying,PJ,,DAYNITE,,
+DEM,,DARY-PH-MVR_TVR,,Process Heat Evaporation/Drying, -:- Process Heat Evaporation/Drying,Dairy - Process Heat: MVR Evaporation TVR,PJ,,DAYNITE,,
+DEM,,DARY-PH-MVR_Fan,,Process Heat MVR Fan, -:- Process Heat MVR Fan,Dairy - Process Heat: MVR Fan,PJ,,DAYNITE,,
+DEM,,DARY-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Dairy - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,DARY-Pump,,Pumping, -:- Pumping,Dairy - Pumping,PJ,,DAYNITE,,
+DEM,,DARY-RFGR,,Refrigeration, -:- Refrigeration,Dairy - Refrigeration,PJ,,DAYNITE,,
+DEM,,FOOD-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Food - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,FOOD-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Food - Process Heat: Direct Heat,PJ,,DAYNITE,,
+DEM,,FOOD-PH-OVN,,Process Heat Oven, -:- Process Heat Oven,Food - Process Heat: Oven,PJ,,DAYNITE,,
+DEM,,FOOD-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Food - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,FOOD-Pump,,Pumping, -:- Pumping,Food - Pumping,PJ,,DAYNITE,,
+DEM,,FOOD-RFGR,,Refrigeration, -:- Refrigeration,Food - Refrigeration,PJ,,DAYNITE,,
+DEM,,IIS-FDSTCK,,Feedstock, -:- Feedstock,Iron/Steel - Steel production (feedstock),PJ,,DAYNITE,,
+DEM,,IIS-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Iron/Steel - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,IIS-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Iron/Steel - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,MEAT-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Meat - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,MEAT-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Meat - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,MEAT-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Meat - Process Heat: Direct Heat,PJ,,DAYNITE,,
+DEM,,MEAT-RFGR,,Refrigeration, -:- Refrigeration,Meat - Refrigeration,PJ,,DAYNITE,,
+DEM,,METAL-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Metal product manufacturing - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,METAL-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Metal product manufacturing - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,METAL-RFGR,,Refrigeration, -:- Refrigeration,Metal product manufacturing - Refrigeration,PJ,,DAYNITE,,
+DEM,,METAL-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Metal product manufacturing - Process Heat: Direct Heat,PJ,,DAYNITE,,
+DEM,,MTHOL-FDSTCK,,Feedstock, -:- Feedstock,Methanol - Methanol production (feedstock),PJ,,DAYNITE,,
+DEM,,MTHOL-PH_REFRM,,Process Heat Reforming, -:- Process Heat Reforming,Methanol - Process Heat: Reformer,PJ,,DAYNITE,,
+DEM,,MNRL-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Mineral - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,MNRL-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Mineral - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,MNRL-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Mineral - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,MNNG-MoTP-Mob,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Mining - Motive Power, Mobile",PJ,,DAYNITE,,
+DEM,,MNNG-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Mining - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,MNNG-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Mining - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,OTH-ELC,,Other, -:- Other,Other - Other - Electricity,PJ,,DAYNITE,,
+DEM,,OTH-DSL,,Other, -:- Other,Other - Other - Diesel,PJ,,DAYNITE,,
+DEM,,OTH-LPG,,Other, -:- Other,Other - Other - LPG,PJ,,DAYNITE,,
+DEM,,OTH-COA,,Other, -:- Other,Other - Other - Coal,PJ,,DAYNITE,,
+DEM,,OTH-NGA,,Other, -:- Other,Other - Other - Natural Gas,PJ,,DAYNITE,,
+DEM,,OTH-PET,,Other, -:- Other,Other - Other - Petrol,PJ,,DAYNITE,,
+DEM,,OTH-BGS,,Other, -:- Other,Other - Other - Biogas,PJ,,DAYNITE,,
+DEM,,OTH-FOL,,Other, -:- Other,Other - Other - Fuel Oil,PJ,,DAYNITE,,
+DEM,,CHMCL-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Petroleum/Chemicals - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,CHMCL-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Petroleum/Chemicals - Process Heat: Direct Heat,PJ,,DAYNITE,,
+DEM,,CHMCL-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Petroleum/Chemicals - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,CHMCL-PH-REFRM,,Process Heat Reforming, -:- Process Heat Reforming,Petroleum/Chemicals - Process Heat: Reformer,PJ,,DAYNITE,,
+DEM,,CHMCL-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Petroleum/Chemicals - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,REFI-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Refining - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,REFI-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Refining - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,REFI-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Refining - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,UREA-FDSTCK,,Feedstock, -:- Feedstock,Urea - Urea production (feedstock),PJ,,DAYNITE,,
+DEM,,UREA-REFRM,,Process Heat Reforming, -:- Process Heat Reforming,Urea - Urea production reformer,PJ,,DAYNITE,,
+DEM,,WOOD-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Wood products - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,WOOD-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Wood products - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,WOOD-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Wood products - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,WOOD-Pump,,Pumping, -:- Pumping,Wood products - Pumping,PJ,,DAYNITE,,
+DEM,,WOOD-Fan,,Drying, -:- Drying,Wood products - Fans,PJ,,DAYNITE,,
+DEM,,WOOD-Refin,,Wood/Pulp and Paper Refining, -:- Wood/Pulp and Paper Refining,Wood products - Refiners,PJ,,DAYNITE,,
+DEM,,WOOD-AIR,,Compressed Air, -:- Compressed Air,Wood products - Compressed Air,PJ,,DAYNITE,,
+DEM,,PLPPPR-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Wood pulp and paper - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,PLPPPR-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Wood pulp and paper - Process Heat: Direct Heat,PJ,,DAYNITE,,
+DEM,,PLPPPR-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Wood pulp and paper - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,PLPPPR-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Wood pulp and paper - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,PLPPPR-Pump,,Pumping, -:- Pumping,Wood pulp and paper - Pumping,PJ,,DAYNITE,,
+DEM,,PLPPPR-Fan,,Fan, -:- Fan,Wood pulp and paper - Fans,PJ,,DAYNITE,,
+DEM,,PLPPPR-Refin,,Wood/Pulp and Paper Refining, -:- Wood/Pulp and Paper Refining,Wood pulp and paper - Refiners,PJ,,DAYNITE,,
+DEM,,PLPPPR-AIR,,Compressed Air, -:- Compressed Air,Wood pulp and paper - Compressed Air,PJ,,DAYNITE,,
 
 
 sheetname: IND_PRC_COM
@@ -7290,22 +7290,22 @@ FTE-INDWOD_00,WOD,INDWOD,,,,,1,100,,,,,
 
 
 sheetname: Sector_Fuels
-range: B6:P18
+range: B6:N18
 filename: VT_NI_IND_V2.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,INDCOA,,,Coal,, -:-  -:- Coal -:- ,Industrial Coal,PJ,FX,,,
-NRG,,INDPET,,,Petrol,, -:-  -:- Petrol -:- ,Industrial Petroleum,PJ,FX,,,
-NRG,,INDDSL,,,Diesel,, -:-  -:- Diesel -:- ,Industrial Diesel,PJ,FX,,,
-NRG,,INDLPG,,,LPG,, -:-  -:- LPG -:- ,Industrial LPG,PJ,FX,,,
-NRG,,INDFOL,,,Fuel Oil,, -:-  -:- Fuel Oil -:- ,Industrial Fuel oil,PJ,FX,,,
-NRG,,INDNGA,,,Natural Gas,, -:-  -:- Natural Gas -:- ,Industrial Natural gas,PJ,FX,,,
-NRG,,INDGEO,,,Geothermal,, -:-  -:- Geothermal -:- ,Industrial Geothermal,PJ,FX,,,
-NRG,,INDBIG,,,Biogas,, -:-  -:- Biogas -:- ,Industrial Biogas,PJ,FX,,,
-NRG,,INDWOD,,,Wood,, -:-  -:- Wood -:- ,Industrial Wood,PJ,FX,,,
-ENV,,INDCO2,,,,, -:-  -:-  -:- ,Industrial emissions,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,INDCOA,Coal,,Coal -:- ,Industrial Coal,PJ,FX,,,
+NRG,,INDPET,Petrol,,Petrol -:- ,Industrial Petroleum,PJ,FX,,,
+NRG,,INDDSL,Diesel,,Diesel -:- ,Industrial Diesel,PJ,FX,,,
+NRG,,INDLPG,LPG,,LPG -:- ,Industrial LPG,PJ,FX,,,
+NRG,,INDFOL,Fuel Oil,,Fuel Oil -:- ,Industrial Fuel oil,PJ,FX,,,
+NRG,,INDNGA,Natural Gas,,Natural Gas -:- ,Industrial Natural gas,PJ,FX,,,
+NRG,,INDGEO,Geothermal,,Geothermal -:- ,Industrial Geothermal,PJ,FX,,,
+NRG,,INDBIG,Biogas,,Biogas -:- ,Industrial Biogas,PJ,FX,,,
+NRG,,INDWOD,Wood,,Wood -:- ,Industrial Wood,PJ,FX,,,
+ENV,,INDCO2,,, -:- ,Industrial emissions,kt,,,,
 
 
 sheetname: Sector_Fuels
@@ -7318,7 +7318,7 @@ Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,
 *,,,,,,,,,,,,,,
 PRE,,FTE-INDCOA_00,Industry,,,,Coal,Industry -:-  -:-  -:-  -:- Coal,Existing fuel technology Industrial Coal,PJ,PJa,,,
 PRE,,FTE-INDPET_00,Industry,,,,Petrol,Industry -:-  -:-  -:-  -:- Petrol,Existing fuel technology Industrial Petroleum,PJ,PJa,,,
-PRE,,FTE-INDDSL_00,Industry,Construction,"Motive Power, Mobile",Internal Combustion Engine,Diesel,"Industry -:- Construction -:- Motive Power, Mobile -:- Internal Combustion Engine -:- Diesel",Existing fuel technology Industrial Diesel,PJ,PJa,,,
+PRE,,FTE-INDDSL_00,Industry,,,,Diesel,Industry -:-  -:-  -:-  -:- Diesel,Existing fuel technology Industrial Diesel,PJ,PJa,,,
 PRE,,FTE-INDLPG_00,Industry,,,,LPG,Industry -:-  -:-  -:-  -:- LPG,Existing fuel technology Industrial LPG,PJ,PJa,,,
 PRE,,FTE-INDFOL_00,Industry,,,,Fuel Oil,Industry -:-  -:-  -:-  -:- Fuel Oil,Existing fuel technology Industrial Fuel oil,PJ,PJa,,,
 PRE,,FTE-INDNGA_00,Industry,,,,Natural Gas,Industry -:-  -:-  -:-  -:- Natural Gas,Existing fuel technology Industrial Natural gas,PJ,PJa,,,
@@ -7451,22 +7451,22 @@ FTE_AGRPLT,PLT,AGRPLT,,,,,1,100,,,,,,,,,
 
 
 sheetname: AGR_fuels
-range: B5:P17
+range: B5:N17
 filename: VT_NI_OTH_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,AGRCOA,,,Coal,, -:-  -:- Coal -:- ,Agriculture Coal,PJ,FX,ANNUAL,,
-NRG,,AGRDSL,,,Diesel,, -:-  -:- Diesel -:- ,Agriculture diesel oil,PJ,FX,ANNUAL,,
-NRG,,AGRPET,,,Petrol,, -:-  -:- Petrol -:- ,Agriculture petroleum,PJ,FX,ANNUAL,,
-NRG,,AGRFOL,,,Fuel Oil,, -:-  -:- Fuel Oil -:- ,Agriculture fuel oil,PJ,FX,ANNUAL,,
-NRG,,AGRLPG,,,LPG,, -:-  -:- LPG -:- ,Agriculture LPG,PJ,FX,ANNUAL,,
-NRG,,AGRNGA,,,Natural Gas,, -:-  -:- Natural Gas -:- ,Agriculture natural gas,PJ,FX,ANNUAL,,
-NRG,,AGRGEO,,,Geothermal,, -:-  -:- Geothermal -:- ,Agriculture geothermal,PJ,FX,ANNUAL,,
-NRG,,AGRWOD,,,Wood,, -:-  -:- Wood -:- ,Agriculture wood,PJ,FX,ANNUAL,,
-NRG,,AGRPLT,,,Pellet,, -:-  -:- Pellet -:- ,Agriculture pellet,PJ,FX,ANNUAL,,
-ENV,,AGRCO2,,,,, -:-  -:-  -:- ,Agriculture emissions,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,AGRCOA,Coal,,Coal -:- ,Agriculture Coal,PJ,FX,ANNUAL,,
+NRG,,AGRDSL,Diesel,,Diesel -:- ,Agriculture diesel oil,PJ,FX,ANNUAL,,
+NRG,,AGRPET,Petrol,,Petrol -:- ,Agriculture petroleum,PJ,FX,ANNUAL,,
+NRG,,AGRFOL,Fuel Oil,,Fuel Oil -:- ,Agriculture fuel oil,PJ,FX,ANNUAL,,
+NRG,,AGRLPG,LPG,,LPG -:- ,Agriculture LPG,PJ,FX,ANNUAL,,
+NRG,,AGRNGA,Natural Gas,,Natural Gas -:- ,Agriculture natural gas,PJ,FX,ANNUAL,,
+NRG,,AGRGEO,Geothermal,,Geothermal -:- ,Agriculture geothermal,PJ,FX,ANNUAL,,
+NRG,,AGRWOD,Wood,,Wood -:- ,Agriculture wood,PJ,FX,ANNUAL,,
+NRG,,AGRPLT,Pellet,,Pellet -:- ,Agriculture pellet,PJ,FX,ANNUAL,,
+ENV,,AGRCO2,,, -:- ,Agriculture emissions,kt,,,,
 
 
 sheetname: AGR_fuels
@@ -7684,62 +7684,62 @@ FTE_COMPLT_00,PLT,COMPLT,,,1,100,,,
 
 
 sheetname: COM_techs
-range: A6:N58
+range: A6:L58
 filename: VT_NI_OTH_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-NRG,COMCOA,,,Coal,, -:-  -:- Coal -:- , Commercial Coal,PJ,FX,,,
-NRG,COMNGA,,,Natural Gas,, -:-  -:- Natural Gas -:- ,Commercial Natural gas,PJ,FX,,,
-NRG,COMLPG,,,LPG,, -:-  -:- LPG -:- ,Commercial LPG,PJ,FX,,,
-NRG,COMDSL,,,Diesel,, -:-  -:- Diesel -:- ,Commercial Diesel,PJ,FX,,,
-NRG,COMBIG,,,Biogas,, -:-  -:- Biogas -:- ,Commercial Biogas,PJ,FX,,,
-NRG,COMGEO,,,Geothermal,, -:-  -:- Geothermal -:- ,Commercial Geothermal,PJ,FX,,,
-NRG,COMFOL,,,Fuel Oil,, -:-  -:- Fuel Oil -:- ,Commercial Fuel Oil,PJ,FX,,,
-NRG,COMPET,,,Petrol,, -:-  -:- Petrol -:- ,Commercial petroleum,PJ,FX,,,
-NRG,COMWOD,,,Wood,, -:-  -:- Wood -:- ,Commercial wood,PJ,FX,,,
-NRG,COMPLT,,,Wood,, -:-  -:- Wood -:- ,Commercial pellet,PJ,FX,,,
-ENV,COMCO2,,,,, -:-  -:-  -:- ,Commercial sector CO2,kt,,,,
-DEM,C_EDU-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,Education Other,PJ,,,,
-DEM,C_EDU-LT,,,,Lighting, -:-  -:-  -:- Lighting,Education Lighting,PJ,,,,
-DEM,C_EDU-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,Education Space Heating,PJ,,,,
-DEM,C_EDU-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,Education Hot Water,PJ,,,,
-DEM,C_EDU-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Education Motive Power, Mobile",PJ,,,,
-DEM,C_EDU-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Education Motive Power, Stationery",PJ,,,,
-DEM,C_EDU-RF,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Education Refrigeration,PJ,,,,
-DEM,C_EDU-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,Education Space Cooling,PJ,,,,
-DEM,C_HLTH-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,Healthcare Other,PJ,,,,
-DEM,C_HLTH-LT,,,,Lighting, -:-  -:-  -:- Lighting,Healthcare Lighting,PJ,,,,
-DEM,C_HLTH-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,Healthcare Space Heating,PJ,,,,
-DEM,C_HLTH-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,Healthcare Hot Water,PJ,,,,
-DEM,C_HLTH-PH,,,,Process Heat, -:-  -:-  -:- Process Heat,Healthcare Process Heat,PJ,,,,
-DEM,C_HLTH-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Healthcare Motive Power, Mobile",PJ,,,,
-DEM,C_HLTH-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Healthcare Motive Power, Stationery",PJ,,,,
-DEM,C_HLTH-RF,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Healthcare Refrigeration,PJ,,,,
-DEM,C_HLTH-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,Healthcare Space Cooling,PJ,,,,
-DEM,C_OFFC-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,Office Blocks Other,PJ,,,,
-DEM,C_OFFC-LT,,,,Lighting, -:-  -:-  -:- Lighting,Office Blocks Lighting,PJ,,,,
-DEM,C_OFFC-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,Office Blocks Space Heating,PJ,,,,
-DEM,C_OFFC-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,Office Blocks Hot Water,PJ,,,,
-DEM,C_OFFC-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Office Blocks Motive Power, Mobile",PJ,,,,
-DEM,C_OFFC-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Office Blocks Motive Power, Stationery",PJ,,,,
-DEM,C_OFFC-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,Office Blocks Space Cooling,PJ,,,,
-DEM,C_WSR-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,WSR Other,PJ,,,,
-DEM,C_WSR-CK,,,,Cooking, -:-  -:-  -:- Cooking,WSR Cooking,PJ,,,,
-DEM,C_WSR-LT,,,,Lighting, -:-  -:-  -:- Lighting,WSR Lighting,PJ,,,,
-DEM,C_WSR-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,WSR Space Heating,PJ,,,,
-DEM,C_WSR-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,WSR Hot Water,PJ,,,,
-DEM,C_WSR-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","WSR Motive Power, Mobile",PJ,,,,
-DEM,C_WSR-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","WSR Motive Power, Stationery",PJ,,,,
-DEM,C_WSR-RF,,,,Refrigeration, -:-  -:-  -:- Refrigeration,WSR Refrigeration,PJ,,,,
-DEM,C_WSR-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,WSR Space Cooling,PJ,,,,
-DEM,C_OTH-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,Other Other,PJ,,,,
-DEM,C_OTH-LT,,,,Lighting, -:-  -:-  -:- Lighting,Other Lighting,PJ,,,,
-DEM,C_OTH-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,Other Space Heating,PJ,,,,
-DEM,C_OTH-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,Other Hot Water,PJ,,,,
-DEM,C_OTH-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Other Motive Power, Mobile",PJ,,,,
-DEM,C_OTH-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Other Motive Power, Stationery",PJ,,,,
-DEM,C_OTH-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,Other Space Cooling,PJ,,,,
+types: Csets (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+NRG,COMCOA,Coal,,Coal -:- , Commercial Coal,PJ,FX,,,
+NRG,COMNGA,Natural Gas,,Natural Gas -:- ,Commercial Natural gas,PJ,FX,,,
+NRG,COMLPG,LPG,,LPG -:- ,Commercial LPG,PJ,FX,,,
+NRG,COMDSL,Diesel,,Diesel -:- ,Commercial Diesel,PJ,FX,,,
+NRG,COMBIG,Biogas,,Biogas -:- ,Commercial Biogas,PJ,FX,,,
+NRG,COMGEO,Geothermal,,Geothermal -:- ,Commercial Geothermal,PJ,FX,,,
+NRG,COMFOL,Fuel Oil,,Fuel Oil -:- ,Commercial Fuel Oil,PJ,FX,,,
+NRG,COMPET,Petrol,,Petrol -:- ,Commercial petroleum,PJ,FX,,,
+NRG,COMWOD,Wood,,Wood -:- ,Commercial wood,PJ,FX,,,
+NRG,COMPLT,Wood,,Wood -:- ,Commercial pellet,PJ,FX,,,
+ENV,COMCO2,,, -:- ,Commercial sector CO2,kt,,,,
+DEM,C_EDU-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,Education Other,PJ,,,,
+DEM,C_EDU-LT,,Lighting, -:- Lighting,Education Lighting,PJ,,,,
+DEM,C_EDU-SH,,Space Heating, -:- Space Heating,Education Space Heating,PJ,,,,
+DEM,C_EDU-WH,,Water Heating, -:- Water Heating,Education Hot Water,PJ,,,,
+DEM,C_EDU-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Education Motive Power, Mobile",PJ,,,,
+DEM,C_EDU-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Education Motive Power, Stationery",PJ,,,,
+DEM,C_EDU-RF,,Refrigeration, -:- Refrigeration,Education Refrigeration,PJ,,,,
+DEM,C_EDU-SC,,Space Cooling, -:- Space Cooling,Education Space Cooling,PJ,,,,
+DEM,C_HLTH-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,Healthcare Other,PJ,,,,
+DEM,C_HLTH-LT,,Lighting, -:- Lighting,Healthcare Lighting,PJ,,,,
+DEM,C_HLTH-SH,,Space Heating, -:- Space Heating,Healthcare Space Heating,PJ,,,,
+DEM,C_HLTH-WH,,Water Heating, -:- Water Heating,Healthcare Hot Water,PJ,,,,
+DEM,C_HLTH-PH,,Process Heat, -:- Process Heat,Healthcare Process Heat,PJ,,,,
+DEM,C_HLTH-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Healthcare Motive Power, Mobile",PJ,,,,
+DEM,C_HLTH-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Healthcare Motive Power, Stationery",PJ,,,,
+DEM,C_HLTH-RF,,Refrigeration, -:- Refrigeration,Healthcare Refrigeration,PJ,,,,
+DEM,C_HLTH-SC,,Space Cooling, -:- Space Cooling,Healthcare Space Cooling,PJ,,,,
+DEM,C_OFFC-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,Office Blocks Other,PJ,,,,
+DEM,C_OFFC-LT,,Lighting, -:- Lighting,Office Blocks Lighting,PJ,,,,
+DEM,C_OFFC-SH,,Space Heating, -:- Space Heating,Office Blocks Space Heating,PJ,,,,
+DEM,C_OFFC-WH,,Water Heating, -:- Water Heating,Office Blocks Hot Water,PJ,,,,
+DEM,C_OFFC-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Office Blocks Motive Power, Mobile",PJ,,,,
+DEM,C_OFFC-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Office Blocks Motive Power, Stationery",PJ,,,,
+DEM,C_OFFC-SC,,Space Cooling, -:- Space Cooling,Office Blocks Space Cooling,PJ,,,,
+DEM,C_WSR-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,WSR Other,PJ,,,,
+DEM,C_WSR-CK,,Cooking, -:- Cooking,WSR Cooking,PJ,,,,
+DEM,C_WSR-LT,,Lighting, -:- Lighting,WSR Lighting,PJ,,,,
+DEM,C_WSR-SH,,Space Heating, -:- Space Heating,WSR Space Heating,PJ,,,,
+DEM,C_WSR-WH,,Water Heating, -:- Water Heating,WSR Hot Water,PJ,,,,
+DEM,C_WSR-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","WSR Motive Power, Mobile",PJ,,,,
+DEM,C_WSR-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","WSR Motive Power, Stationery",PJ,,,,
+DEM,C_WSR-RF,,Refrigeration, -:- Refrigeration,WSR Refrigeration,PJ,,,,
+DEM,C_WSR-SC,,Space Cooling, -:- Space Cooling,WSR Space Cooling,PJ,,,,
+DEM,C_OTH-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,Other Other,PJ,,,,
+DEM,C_OTH-LT,,Lighting, -:- Lighting,Other Lighting,PJ,,,,
+DEM,C_OTH-SH,,Space Heating, -:- Space Heating,Other Space Heating,PJ,,,,
+DEM,C_OTH-WH,,Water Heating, -:- Water Heating,Other Hot Water,PJ,,,,
+DEM,C_OTH-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Other Motive Power, Mobile",PJ,,,,
+DEM,C_OTH-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Other Motive Power, Stationery",PJ,,,,
+DEM,C_OTH-SC,,Space Cooling, -:- Space Cooling,Other Space Cooling,PJ,,,,
 
 
 sheetname: COM_techs
@@ -7903,48 +7903,48 @@ RESCO2,92,53.96,60.43,69.69,
 
 
 sheetname: PROC_COM_AGR
-range: B5:P43
+range: B5:N43
 filename: VT_NI_OTH_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel/Enduse (object), * Fuel/Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel/Enduse,* Fuel/Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-DEM,,ADCF-MoTP-Stat,,,,Milking Machine, -:-  -:-  -:- Milking Machine,"Dairy Cattle Farming Motive Power, Stationary",PJ,,,,
-DEM,,ADCF-IRG,,,,Irrigation, -:-  -:-  -:- Irrigation,Dairy Cattle Farming Irrigation,PJ,,,,
-DEM,,ADCF-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,"Dairy Cattle Farming Low Temperature Heat (<100 C), Water Heating",PJ,,,,
-DEM,,ADCF-MoTP-Mob-Trac,,,,Tractor Services, -:-  -:-  -:- Tractor Services,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
-DEM,,ADCF-MoTP-Mob-MTr,,,,Truck Services, -:-  -:-  -:- Truck Services,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
-DEM,,ADCF-MoTP-Mob-Uti,,,,Farm Vehicle, -:-  -:-  -:- Farm Vehicle,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
-DEM,,ADCF-MoTP-Mob-Bike,,,,Off-road Motorbike Use, -:-  -:-  -:- Off-road Motorbike Use,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
-DEM,,ADCF-PUMP,,,,Pumping, -:-  -:-  -:- Pumping,Dairy Cattle Farming Pumping,PJ,,,,
-DEM,,ADCF-RFGR,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Dairy Cattle Farming Refrigeration,PJ,,,,
-DEM,,ADCF-LIG,,,,Lighting, -:-  -:-  -:- Lighting,Dairy Cattle Farming Lighting,PJ,,,,
-DEM,,ALIVE-IRG,,,,Irrigation, -:-  -:-  -:- Irrigation,Livestock Farming Irrigation,PJ,,,,
-DEM,,ALIVE-MoTP-Mob-Trac,,,,Tractor Services, -:-  -:-  -:- Tractor Services,"Livestock Farming Motive Power, Mobile",PJ,,,,
-DEM,,ALIVE-MoTP-Mob-MTr,,,,Truck Services, -:-  -:-  -:- Truck Services,"Livestock Farming Motive Power, Mobile",PJ,,,,
-DEM,,ALIVE-MoTP-Mob-Uti,,,,Farm Vehicle, -:-  -:-  -:- Farm Vehicle,"Livestock Farming Motive Power, Mobile",PJ,,,,
-DEM,,ALIVE-MoTP-Mob-Bike,,,,Off-road Motorbike Use, -:-  -:-  -:- Off-road Motorbike Use,"Livestock Farming Motive Power, Mobile",PJ,,,,
-DEM,,ALIVE-LIG,,,,Lighting, -:-  -:-  -:- Lighting,Livestock Farming Lighting,PJ,,,,
-DEM,,AHORT-IRG,,,,Irrigation, -:-  -:-  -:- Irrigation,Horticulture (Outdoor) Irrigation,PJ,,,,
-DEM,,AHORT-MoTP-Mob-Trac,,,,Tractor Services, -:-  -:-  -:- Tractor Services,"Horticulture (Outdoor) Motive Power, Mobile",PJ,,,,
-DEM,,AHORT-MoTP-Mob-MTr,,,,Truck Services, -:-  -:-  -:- Truck Services,"Horticulture (Outdoor) Motive Power, Mobile",PJ,,,,
-DEM,,AHORT-MoTP-Mob-Uti,,,,Farm Vehicle, -:-  -:-  -:- Farm Vehicle,"Horticulture (Outdoor) Motive Power, Mobile",PJ,,,,
-DEM,,AHORT-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Horticulture (Outdoor) Motive Power, Stationary",PJ,,,,
-DEM,,AHORT-LIG,,,,Lighting, -:-  -:-  -:- Lighting,Horticulture (Outdoor) Lighting,PJ,,,,
-DEM,,AINDC-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,"Indoor Cropping Low Temperature Heat (<100 C), Space Heating",PJ,,,,
-DEM,,AINDC-LIG,,,,Lighting, -:-  -:-  -:- Lighting,Indoor Cropping Lighting,PJ,,,,
-DEM,,AFORE-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Forestry and Logging Motive Power, Stationary",PJ,,,,
-DEM,,AFORE-MoTP-Mob-GB,,,,Ground Based Forestry, -:-  -:-  -:- Ground Based Forestry,"Forestry and Logging Motive Power, Mobile",PJ,,,,
-DEM,,AFORE-MoTP-Mob-CY,,,,Cable Yarding (Forestry), -:-  -:-  -:- Cable Yarding (Forestry),"Forestry and Logging Motive Power, Mobile",PJ,,,,
-DEM,,AFORE-LIG,,,,Lighting, -:-  -:-  -:- Lighting,Forestry and Logging Lighting,PJ,,,,
-DEM,,AFISH-BOAT,,,,Boat , -:-  -:-  -:- Boat ,"Fishing, Hunting and Trapping Motive Power, Mobile",PJ,,,,
-DEM,,AFISH-RFGR,,,,Refrigeration, -:-  -:-  -:- Refrigeration,"Fishing, Hunting and Trapping Refrigeration",PJ,,,,
-DEM,,AFISH-LIG,,,,Lighting, -:-  -:-  -:- Lighting,"Fishing, Hunting and Trapping Lighting",PJ,,,,
-DEM,,AOTH-ELC,,,,Other, -:-  -:-  -:- Other,Other Other - Elec,PJ,,,,
-DEM,,AOTH-NGA,,,,Other, -:-  -:-  -:- Other,Other Other - NG,PJ,,,,
-DEM,,AOTH-FOL,,,,Other, -:-  -:-  -:- Other,Other Other - Fuel Oil,PJ,,,,
-DEM,,AOTH-LPG,,,,Other, -:-  -:-  -:- Other,Other Other - LPG,PJ,,,,
-DEM,,AOTH-PET,,,,Other, -:-  -:-  -:- Other,Other Other - Petrol,PJ,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+DEM,,ADCF-MoTP-Stat,,Milking Machine, -:- Milking Machine,"Dairy Cattle Farming Motive Power, Stationary",PJ,,,,
+DEM,,ADCF-IRG,,Irrigation, -:- Irrigation,Dairy Cattle Farming Irrigation,PJ,,,,
+DEM,,ADCF-WH,,Water Heating, -:- Water Heating,"Dairy Cattle Farming Low Temperature Heat (<100 C), Water Heating",PJ,,,,
+DEM,,ADCF-MoTP-Mob-Trac,,Tractor Services, -:- Tractor Services,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
+DEM,,ADCF-MoTP-Mob-MTr,,Truck Services, -:- Truck Services,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
+DEM,,ADCF-MoTP-Mob-Uti,,Farm Vehicle, -:- Farm Vehicle,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
+DEM,,ADCF-MoTP-Mob-Bike,,Off-road Motorbike Use, -:- Off-road Motorbike Use,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
+DEM,,ADCF-PUMP,,Pumping, -:- Pumping,Dairy Cattle Farming Pumping,PJ,,,,
+DEM,,ADCF-RFGR,,Refrigeration, -:- Refrigeration,Dairy Cattle Farming Refrigeration,PJ,,,,
+DEM,,ADCF-LIG,,Lighting, -:- Lighting,Dairy Cattle Farming Lighting,PJ,,,,
+DEM,,ALIVE-IRG,,Irrigation, -:- Irrigation,Livestock Farming Irrigation,PJ,,,,
+DEM,,ALIVE-MoTP-Mob-Trac,,Tractor Services, -:- Tractor Services,"Livestock Farming Motive Power, Mobile",PJ,,,,
+DEM,,ALIVE-MoTP-Mob-MTr,,Truck Services, -:- Truck Services,"Livestock Farming Motive Power, Mobile",PJ,,,,
+DEM,,ALIVE-MoTP-Mob-Uti,,Farm Vehicle, -:- Farm Vehicle,"Livestock Farming Motive Power, Mobile",PJ,,,,
+DEM,,ALIVE-MoTP-Mob-Bike,,Off-road Motorbike Use, -:- Off-road Motorbike Use,"Livestock Farming Motive Power, Mobile",PJ,,,,
+DEM,,ALIVE-LIG,,Lighting, -:- Lighting,Livestock Farming Lighting,PJ,,,,
+DEM,,AHORT-IRG,,Irrigation, -:- Irrigation,Horticulture (Outdoor) Irrigation,PJ,,,,
+DEM,,AHORT-MoTP-Mob-Trac,,Tractor Services, -:- Tractor Services,"Horticulture (Outdoor) Motive Power, Mobile",PJ,,,,
+DEM,,AHORT-MoTP-Mob-MTr,,Truck Services, -:- Truck Services,"Horticulture (Outdoor) Motive Power, Mobile",PJ,,,,
+DEM,,AHORT-MoTP-Mob-Uti,,Farm Vehicle, -:- Farm Vehicle,"Horticulture (Outdoor) Motive Power, Mobile",PJ,,,,
+DEM,,AHORT-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Horticulture (Outdoor) Motive Power, Stationary",PJ,,,,
+DEM,,AHORT-LIG,,Lighting, -:- Lighting,Horticulture (Outdoor) Lighting,PJ,,,,
+DEM,,AINDC-SH,,Space Heating, -:- Space Heating,"Indoor Cropping Low Temperature Heat (<100 C), Space Heating",PJ,,,,
+DEM,,AINDC-LIG,,Lighting, -:- Lighting,Indoor Cropping Lighting,PJ,,,,
+DEM,,AFORE-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Forestry and Logging Motive Power, Stationary",PJ,,,,
+DEM,,AFORE-MoTP-Mob-GB,,Ground Based Forestry, -:- Ground Based Forestry,"Forestry and Logging Motive Power, Mobile",PJ,,,,
+DEM,,AFORE-MoTP-Mob-CY,,Cable Yarding (Forestry), -:- Cable Yarding (Forestry),"Forestry and Logging Motive Power, Mobile",PJ,,,,
+DEM,,AFORE-LIG,,Lighting, -:- Lighting,Forestry and Logging Lighting,PJ,,,,
+DEM,,AFISH-BOAT,,Boat , -:- Boat ,"Fishing, Hunting and Trapping Motive Power, Mobile",PJ,,,,
+DEM,,AFISH-RFGR,,Refrigeration, -:- Refrigeration,"Fishing, Hunting and Trapping Refrigeration",PJ,,,,
+DEM,,AFISH-LIG,,Lighting, -:- Lighting,"Fishing, Hunting and Trapping Lighting",PJ,,,,
+DEM,,AOTH-ELC,,Other, -:- Other,Other Other - Elec,PJ,,,,
+DEM,,AOTH-NGA,,Other, -:- Other,Other Other - NG,PJ,,,,
+DEM,,AOTH-FOL,,Other, -:- Other,Other Other - Fuel Oil,PJ,,,,
+DEM,,AOTH-LPG,,Other, -:- Other,Other Other - LPG,PJ,,,,
+DEM,,AOTH-PET,,Other, -:- Other,Other Other - Petrol,PJ,,,,
 
 
 sheetname: PROC_COM_AGR
@@ -8124,46 +8124,46 @@ FTE_RESPET_00,PET,RESPET,,,1,100,,,0.92
 
 
 sheetname: RES_techs_coms
-range: B7:O43
+range: B7:M43
 filename: VT_NI_OTH_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-NRG,RESCOA,,,Coal,, -:-  -:- Coal -:- ,Residential Coal,PJ,FX,,,
-NRG,RESNGA,,,Natural Gas,, -:-  -:- Natural Gas -:- ,Residential Natural gas,PJ,FX,,,
-NRG,RESLPG,,,LPG,, -:-  -:- LPG -:- ,Residential LPG,PJ,FX,,,
-NRG,RESDSL,,,Diesel,, -:-  -:- Diesel -:- ,Residential Diesel,PJ,FX,,,
-NRG,RESWOD,,,Wood,, -:-  -:- Wood -:- ,Residential Firewood,PJ,FX,,,
-NRG,RESGEO,,,Geothermal,, -:-  -:- Geothermal -:- ,Residential Geothermal,PJ,FX,,,
-NRG,RESSOL,,,Solar,, -:-  -:- Solar -:- ,Residential Solar energy,PJ,FX,,,
-NRG,RESPET,,,Petrol,, -:-  -:- Petrol -:- ,Residential petroleum,PJ,FX,,,
-ENV,RESCO2,,,,, -:-  -:-  -:- ,Residential CO2 emissions,kt,,,,
-DEM,R_DDW-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,"Detached dwellings - Low Temperature Heat (<100 C), Space Heating",PJ,,,,
-DEM,R_DDW-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,"Detached dwellings - Low Temperature Heat (<100 C), Water Heating",PJ,,,,
-DEM,R_DDW-CK,,,,Cooking, -:-  -:-  -:- Cooking,"Detached dwellings - Intermediate Heat (100-300 C), Cooking",PJ,,,,
-DEM,R_DDW-RF,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Detached dwellings - Refrigeration,PJ,,,,
-DEM,R_DDW-CD,,,,Clothes Drying, -:-  -:-  -:- Clothes Drying,"Detached dwellings - Low Temperature Heat (<100 C), Clothes Drying",PJ,,,,
-DEM,R_DDW-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,Detached dwellings - Space Cooling,PJ,,,,
-DEM,R_DDW-CW,,,,Clothes Washing, -:-  -:-  -:- Clothes Washing,"Detached dwellings - Low Temperature Heat (<100 C), Clothes Washing",PJ,,,,
-DEM,R_DDW-DW,,,,Dishwashing, -:-  -:-  -:- Dishwashing,"Detached dwellings - Low Temperature Heat (< 100 C), Dishwashers",PJ,,,,
-DEM,R_DDW-LT,,,,Lighting, -:-  -:-  -:- Lighting,Detached dwellings - Lighting,PJ,,,,
-DEM,R_DDW-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,Detached dwellings - Electronics and Other Electrical Uses,PJ,,,,
-DEM,R_DDW-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Detached dwellings - Motive Power, Stationary",PJ,,,,
-DEM,R_DDW-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Detached dwellings - Motive Power, Mobile",PJ,,,,
-DEM,R_DDW-UNAL,,,,Unallocated, -:-  -:-  -:- Unallocated,Detached dwellings - Unallocated,PJ,,,,
-DEM,R_JDW-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,"Joined dwellings - Low Temperature Heat (<100 C), Space Heating",PJ,,,,
-DEM,R_JDW-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,"Joined dwellings - Low Temperature Heat (<100 C), Water Heating",PJ,,,,
-DEM,R_JDW-CK,,,,Cooking, -:-  -:-  -:- Cooking,"Joined dwellings - Intermediate Heat (100-300 C), Cooking",PJ,,,,
-DEM,R_JDW-RF,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Joined dwellings - Refrigeration,PJ,,,,
-DEM,R_JDW-CD,,,,Clothes Drying, -:-  -:-  -:- Clothes Drying,"Joined dwellings - Low Temperature Heat (<100 C), Clothes Drying",PJ,,,,
-DEM,R_JDW-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,Joined dwellings - Space Cooling,PJ,,,,
-DEM,R_JDW-CW,,,,Clothes Washing, -:-  -:-  -:- Clothes Washing,"Joined dwellings - Low Temperature Heat (<100 C), Clothes Washing",PJ,,,,
-DEM,R_JDW-DW,,,,Dishwashing, -:-  -:-  -:- Dishwashing,"Joined dwellings - Low Temperature Heat (< 100 C), Dishwashers",PJ,,,,
-DEM,R_JDW-LT,,,,Lighting, -:-  -:-  -:- Lighting,Joined dwellings - Lighting,PJ,,,,
-DEM,R_JDW-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,Joined dwellings - Electronics and Other Electrical Uses,PJ,,,,
-DEM,R_JDW-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Joined dwellings - Motive Power, Stationary",PJ,,,,
-DEM,R_JDW-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Joined dwellings - Motive Power, Mobile",PJ,,,,
-DEM,R_JDW-UNAL,,,,Unallocated, -:-  -:-  -:- Unallocated,Joined dwellings - Unallocated,PJ,,,,
+types: Csets (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+NRG,RESCOA,Coal,,Coal -:- ,Residential Coal,PJ,FX,,,
+NRG,RESNGA,Natural Gas,,Natural Gas -:- ,Residential Natural gas,PJ,FX,,,
+NRG,RESLPG,LPG,,LPG -:- ,Residential LPG,PJ,FX,,,
+NRG,RESDSL,Diesel,,Diesel -:- ,Residential Diesel,PJ,FX,,,
+NRG,RESWOD,Wood,,Wood -:- ,Residential Firewood,PJ,FX,,,
+NRG,RESGEO,Geothermal,,Geothermal -:- ,Residential Geothermal,PJ,FX,,,
+NRG,RESSOL,Solar,,Solar -:- ,Residential Solar energy,PJ,FX,,,
+NRG,RESPET,Petrol,,Petrol -:- ,Residential petroleum,PJ,FX,,,
+ENV,RESCO2,,, -:- ,Residential CO2 emissions,kt,,,,
+DEM,R_DDW-SH,,Space Heating, -:- Space Heating,"Detached dwellings - Low Temperature Heat (<100 C), Space Heating",PJ,,,,
+DEM,R_DDW-WH,,Water Heating, -:- Water Heating,"Detached dwellings - Low Temperature Heat (<100 C), Water Heating",PJ,,,,
+DEM,R_DDW-CK,,Cooking, -:- Cooking,"Detached dwellings - Intermediate Heat (100-300 C), Cooking",PJ,,,,
+DEM,R_DDW-RF,,Refrigeration, -:- Refrigeration,Detached dwellings - Refrigeration,PJ,,,,
+DEM,R_DDW-CD,,Clothes Drying, -:- Clothes Drying,"Detached dwellings - Low Temperature Heat (<100 C), Clothes Drying",PJ,,,,
+DEM,R_DDW-SC,,Space Cooling, -:- Space Cooling,Detached dwellings - Space Cooling,PJ,,,,
+DEM,R_DDW-CW,,Clothes Washing, -:- Clothes Washing,"Detached dwellings - Low Temperature Heat (<100 C), Clothes Washing",PJ,,,,
+DEM,R_DDW-DW,,Dishwashing, -:- Dishwashing,"Detached dwellings - Low Temperature Heat (< 100 C), Dishwashers",PJ,,,,
+DEM,R_DDW-LT,,Lighting, -:- Lighting,Detached dwellings - Lighting,PJ,,,,
+DEM,R_DDW-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,Detached dwellings - Electronics and Other Electrical Uses,PJ,,,,
+DEM,R_DDW-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Detached dwellings - Motive Power, Stationary",PJ,,,,
+DEM,R_DDW-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Detached dwellings - Motive Power, Mobile",PJ,,,,
+DEM,R_DDW-UNAL,,Unallocated, -:- Unallocated,Detached dwellings - Unallocated,PJ,,,,
+DEM,R_JDW-SH,,Space Heating, -:- Space Heating,"Joined dwellings - Low Temperature Heat (<100 C), Space Heating",PJ,,,,
+DEM,R_JDW-WH,,Water Heating, -:- Water Heating,"Joined dwellings - Low Temperature Heat (<100 C), Water Heating",PJ,,,,
+DEM,R_JDW-CK,,Cooking, -:- Cooking,"Joined dwellings - Intermediate Heat (100-300 C), Cooking",PJ,,,,
+DEM,R_JDW-RF,,Refrigeration, -:- Refrigeration,Joined dwellings - Refrigeration,PJ,,,,
+DEM,R_JDW-CD,,Clothes Drying, -:- Clothes Drying,"Joined dwellings - Low Temperature Heat (<100 C), Clothes Drying",PJ,,,,
+DEM,R_JDW-SC,,Space Cooling, -:- Space Cooling,Joined dwellings - Space Cooling,PJ,,,,
+DEM,R_JDW-CW,,Clothes Washing, -:- Clothes Washing,"Joined dwellings - Low Temperature Heat (<100 C), Clothes Washing",PJ,,,,
+DEM,R_JDW-DW,,Dishwashing, -:- Dishwashing,"Joined dwellings - Low Temperature Heat (< 100 C), Dishwashers",PJ,,,,
+DEM,R_JDW-LT,,Lighting, -:- Lighting,Joined dwellings - Lighting,PJ,,,,
+DEM,R_JDW-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,Joined dwellings - Electronics and Other Electrical Uses,PJ,,,,
+DEM,R_JDW-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Joined dwellings - Motive Power, Stationary",PJ,,,,
+DEM,R_JDW-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Joined dwellings - Motive Power, Mobile",PJ,,,,
+DEM,R_JDW-UNAL,,Unallocated, -:- Unallocated,Joined dwellings - Unallocated,PJ,,,,
 
 
 sheetname: RES_techs_coms
@@ -8255,13 +8255,13 @@ REFEOIL00,OILI,LPG,0,0,0,0.142,2096.2636346,80,1.02040483504924,244.443034268907
 
 
 sheetname: Con_REF
-range: U3:AI6
+range: U3:AG6
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-ENV,,REFCO2,,,,, -:-  -:-  -:- ,Refinery emissions,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+ENV,,REFCO2,,, -:- ,Refinery emissions,kt,,,,
 
 
 sheetname: Con_REF
@@ -8330,23 +8330,23 @@ MINWODSUPOSWOD,,INDOSWOD,,5,,,,,,0,2.63494756303934,4.21221873737042,5.754496568
 
 
 sheetname: Pri_BIO
-range: B5:P18
+range: B5:N18
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,WODWST,,,Forest residues and woody wastes,, -:-  -:- Forest residues and woody wastes -:- ,Forest residues and woody wastes,PJ,FX,,,
-,,AGRWST,,,"Agricultural wastes (straws, stover, vegetable culls)",," -:-  -:- Agricultural wastes (straws, stover, vegetable culls) -:- ","Agricultural wastes (straws, stover, vegetable culls)",PJ,FX,,,
-,,MNCWST,,,Municipal solid waste,, -:-  -:- Municipal solid waste -:- ,Municipal solid waste,PJ,FX,,,
-,,ANMMNR,,,Animal manure,, -:-  -:- Animal manure -:- ,Animal manure,PJ,FX,,,
-,,OILWST,,,Oil wastes,, -:-  -:- Oil wastes -:- ,Oil wastes,PJ,FX,,,
-,,PLT,,,Wood pellet,, -:-  -:- Wood pellet -:- ,Wood pellet,PJ,FX,,,
-,,BDSL,,,Biodiesel,, -:-  -:- Biodiesel -:- ,Biodiesel,PJ,FX,,,
-,,WOD,,,Biomass - wood,, -:-  -:- Biomass - wood -:- ,Biomass - wood,PJ,FX,,,
-,,DID,,,Drop-In Diesel,, -:-  -:- Drop-In Diesel -:- ,Drop-in diesel,PJ,FX,,,
-,,DIJ,,,Drop-In Jet,, -:-  -:- Drop-In Jet -:- ,Drop-in jet,PJ,FX,,,
-,,INDOSWOD,,,Wood,, -:-  -:- Wood -:- ,On Site Wood,PJ,FX,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,WODWST,Forest residues and woody wastes,,Forest residues and woody wastes -:- ,Forest residues and woody wastes,PJ,FX,,,
+,,AGRWST,"Agricultural wastes (straws, stover, vegetable culls)",,"Agricultural wastes (straws, stover, vegetable culls) -:- ","Agricultural wastes (straws, stover, vegetable culls)",PJ,FX,,,
+,,MNCWST,Municipal solid waste,,Municipal solid waste -:- ,Municipal solid waste,PJ,FX,,,
+,,ANMMNR,Animal manure,,Animal manure -:- ,Animal manure,PJ,FX,,,
+,,OILWST,Oil wastes,,Oil wastes -:- ,Oil wastes,PJ,FX,,,
+,,PLT,Wood pellet,,Wood pellet -:- ,Wood pellet,PJ,FX,,,
+,,BDSL,Biodiesel,,Biodiesel -:- ,Biodiesel,PJ,FX,,,
+,,WOD,Biomass - wood,,Biomass - wood -:- ,Biomass - wood,PJ,FX,,,
+,,DID,Drop-In Diesel,,Drop-In Diesel -:- ,Drop-in diesel,PJ,FX,,,
+,,DIJ,Drop-In Jet,,Drop-In Jet -:- ,Drop-in jet,PJ,FX,,,
+,,INDOSWOD,Wood,,Wood -:- ,On Site Wood,PJ,FX,,,
 
 
 sheetname: Pri_BIO
@@ -8406,14 +8406,14 @@ EXPCOL1,COL,,,3,3,2.83667621776504,2.75071633237822,2.79369627507163,2.699140401
 
 
 sheetname: Pri_COA
-range: B7:P11
+range: B7:N11
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,COA,,,Coal,, -:-  -:- Coal -:- ,Coal - Sub-bituminous coal,PJ,,ANNUAL,,
-NRG,,COL,,,Coal Lignite,, -:-  -:- Coal Lignite -:- ,Coal - Lignite,PJ,,ANNUAL,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,COA,Coal,,Coal -:- ,Coal - Sub-bituminous coal,PJ,,ANNUAL,,
+NRG,,COL,Coal Lignite,,Coal Lignite -:- ,Coal - Lignite,PJ,,ANNUAL,,
 
 
 sheetname: Pri_GAS
@@ -8462,15 +8462,15 @@ LNGport2021,LNG,NGA,2025,0,7.94938178304,170,170,5,1
 
 
 sheetname: Pri_GAS
-range: I3:W8
+range: I3:U8
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,NGA,,,Natural Gas,, -:-  -:- Natural Gas -:- ,,PJ,,,,
-NRG,,LNG,,,LNG,, -:-  -:- LNG -:- ,,PJ,,,,
-ENV,,GASCO2,,,,, -:-  -:-  -:- ,Gas emissions,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,NGA,Natural Gas,,Natural Gas -:- ,,PJ,,,,
+NRG,,LNG,LNG,,LNG -:- ,,PJ,,,,
+ENV,,GASCO2,,, -:- ,Gas emissions,kt,,,,
 
 
 sheetname: Pri_OIL
@@ -8507,21 +8507,20 @@ EXP,,EXPOIL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum 
 
 
 sheetname: Pri_OIL
-range: I3:W14
+range: I3:U13
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,OILD,,,Crude Oil ,, -:-  -:- Crude Oil  -:- ,Oil products - Crude oil (domestic - for export),PJ,,,,
-,,OILI,,,Crude Oil (domestic),, -:-  -:- Crude Oil (domestic) -:- ,Oil products - Crude oil imported (for refinery),PJ,,,,
-,,LPG,,,Crude Oil (imported),, -:-  -:- Crude Oil (imported) -:- ,Oil products - LPG,PJ,,,,
-,,PET,,,LPG,, -:-  -:- LPG -:- ,Oil products - Petroleum,PJ,,,,
-,,DSL,,,Petrol,, -:-  -:- Petrol -:- ,Oil products - Diesel oil,PJ,,,,
-,,FOL,,,Fuel Oil,, -:-  -:- Fuel Oil -:- ,Oil products - Light fuel oil,PJ,,,,
-,,JET,,,Jet Fuel,, -:-  -:- Jet Fuel -:- ,Oil products - Jet kerosen,PJ,,,,
-,,OTH,,,Aviation Fuel,, -:-  -:- Aviation Fuel -:- ,Oil products - Other fuels from refinery,PJ,,,,
-,,,,,Other fuels from refinery,,,,,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,OILD,Crude Oil ,,Crude Oil  -:- ,Oil products - Crude oil (domestic - for export),PJ,,,,
+,,OILI,Crude Oil (domestic),,Crude Oil (domestic) -:- ,Oil products - Crude oil imported (for refinery),PJ,,,,
+,,LPG,Crude Oil (imported),,Crude Oil (imported) -:- ,Oil products - LPG,PJ,,,,
+,,PET,LPG,,LPG -:- ,Oil products - Petroleum,PJ,,,,
+,,DSL,Petrol,,Petrol -:- ,Oil products - Diesel oil,PJ,,,,
+,,FOL,Fuel Oil,,Fuel Oil -:- ,Oil products - Light fuel oil,PJ,,,,
+,,JET,Jet Fuel,,Jet Fuel -:- ,Oil products - Jet kerosen,PJ,,,,
+,,OTH,Other fuels from refinery,,Other fuels from refinery -:- ,Oil products - Other fuels from refinery,PJ,,,,
 
 
 sheetname: Pri_OIL
@@ -8585,20 +8584,20 @@ MINURN1,,URN,6.6550808993064,6.70035414048127,6.73492712778337,6.78674563343641,
 
 
 sheetname: Pri_RNW
-range: H3:V13
+range: H3:T13
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,HYD,,,Hydro,, -:-  -:- Hydro -:- ,Renewables - Hydro,PJ,FX,DAYNITE,,
-,,GEO,,,Geothermal,, -:-  -:- Geothermal -:- ,Renewables - GEO,PJ,FX,DAYNITE,,
-,,SOL,,,Solar,, -:-  -:- Solar -:- ,Renewables - Solar,PJ,FX,DAYNITE,,
-,,WIN,,,Wind,, -:-  -:- Wind -:- ,Renewables - Wind,PJ,FX,DAYNITE,,
-,,BIL,,,Bioliquid,, -:-  -:- Bioliquid -:- ,Biofuels - Bioliquid,PJ,FX,DAYNITE,,
-,,BIG,,,Biogas,, -:-  -:- Biogas -:- ,Biofuels - Biogas,PJ,FX,DAYNITE,,
-,,TID,,,Tidal,, -:-  -:- Tidal -:- ,Renewables - Tidal,PJ,FX,DAYNITE,,
-,,URN,,,Uranium,, -:-  -:- Uranium -:- ,Uranium,PJ,FX,DAYNITE,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,HYD,Hydro,,Hydro -:- ,Renewables - Hydro,PJ,FX,DAYNITE,,
+,,GEO,Geothermal,,Geothermal -:- ,Renewables - GEO,PJ,FX,DAYNITE,,
+,,SOL,Solar,,Solar -:- ,Renewables - Solar,PJ,FX,DAYNITE,,
+,,WIN,Wind,,Wind -:- ,Renewables - Wind,PJ,FX,DAYNITE,,
+,,BIL,Bioliquid,,Bioliquid -:- ,Biofuels - Bioliquid,PJ,FX,DAYNITE,,
+,,BIG,Biogas,,Biogas -:- ,Biofuels - Biogas,PJ,FX,DAYNITE,,
+,,TID,Tidal,,Tidal -:- ,Renewables - Tidal,PJ,FX,DAYNITE,,
+,,URN,Uranium,,Uranium -:- ,Uranium,PJ,FX,DAYNITE,,
 
 
 sheetname: SUP_H2
@@ -8621,24 +8620,24 @@ MIN_DAC_CO2,Direct air capture costs,,DAC_CO2,,,,,,,,,,,,,,,,,,345.68,,,,,,,,,,,
 
 
 sheetname: SUP_H2
-range: C3:Q17
+range: C3:O17
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,H2C,,,Green Hydrogen,, -:-  -:- Green Hydrogen -:- ,centralised hydrogen,PJ,FX,DAYNITE,,
-NRG,,H2D,,,Green Hydrogen,, -:-  -:- Green Hydrogen -:- ,decentralised hydrogen,PJ,FX,DAYNITE,,
-NRG,,H2R,,,Green Hydrogen,, -:-  -:- Green Hydrogen -:- ,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
-NRG,,ELCNGA,,,Natural Gas,Electricity Production, -:-  -:- Natural Gas -:- Electricity Production,Hydrogen and natural gas mix (ELC sector),PJ,FX,DAYNITE,,
-NRG,,DAC_CO2,,,,CO2 from air, -:-  -:-  -:- CO2 from air,CO2 from air,kt,,,,
-NRG,,TRAH2R,,,Green Hydrogen,, -:-  -:- Green Hydrogen -:- ,Hydrogen for transport sector,PJ,FX,DAYNITE,,
-NRG,,INDH2R,,,,Hydrogen , -:-  -:-  -:- Hydrogen ,Hydrogen for industry sector,PJ,FX,DAYNITE,,
-NRG,,ELCH2R,,,,Hydrogen , -:-  -:-  -:- Hydrogen ,Hydrogen for power generation sector,PJ,FX,DAYNITE,,
-NRG,,COMH2R,,,,Hydrogen , -:-  -:-  -:- Hydrogen ,Hydrogen for commercial sector,PJ,FX,DAYNITE,,
-NRG,,RESH2R,,,,Hydrogen , -:-  -:-  -:- Hydrogen ,Hydrogen for residential sector,PJ,FX,DAYNITE,,
-NRG,,AGRH2R,,,,Hydrogen , -:-  -:-  -:- Hydrogen ,Hydrogen for agriculture sector,PJ,FX,DAYNITE,,
-NRG,,COseq,,,,CO2 to CCS, -:-  -:-  -:- CO2 to CCS,CO2 to CCS,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,H2C,Green Hydrogen,,Green Hydrogen -:- ,centralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2D,Green Hydrogen,,Green Hydrogen -:- ,decentralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2R,Green Hydrogen,,Green Hydrogen -:- ,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
+NRG,,ELCNGA,Natural Gas,Electricity Production,Natural Gas -:- Electricity Production,Hydrogen and natural gas mix (ELC sector),PJ,FX,DAYNITE,,
+NRG,,DAC_CO2,,CO2 from air, -:- CO2 from air,CO2 from air,kt,,,,
+NRG,,TRAH2R,Green Hydrogen,,Green Hydrogen -:- ,Hydrogen for transport sector,PJ,FX,DAYNITE,,
+NRG,,INDH2R,,Hydrogen , -:- Hydrogen ,Hydrogen for industry sector,PJ,FX,DAYNITE,,
+NRG,,ELCH2R,,Hydrogen , -:- Hydrogen ,Hydrogen for power generation sector,PJ,FX,DAYNITE,,
+NRG,,COMH2R,,Hydrogen , -:- Hydrogen ,Hydrogen for commercial sector,PJ,FX,DAYNITE,,
+NRG,,RESH2R,,Hydrogen , -:- Hydrogen ,Hydrogen for residential sector,PJ,FX,DAYNITE,,
+NRG,,AGRH2R,,Hydrogen , -:- Hydrogen ,Hydrogen for agriculture sector,PJ,FX,DAYNITE,,
+NRG,,COseq,,CO2 to CCS, -:- CO2 to CCS,CO2 to CCS,kt,,,,
 
 
 sheetname: SUP_H2
@@ -8717,19 +8716,19 @@ PRE,,D-H2_Trailer,Primary Fuel Supply,Hydrogen,,Tube Trailer (NI and SI),,Primar
 
 
 sheetname: TOTCO2
-range: B10:P19
+range: B10:N19
 filename: VT_NI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-ENV,,TOTCO2,,,,, -:-  -:-  -:- ,Total CO2,kt,,,,
-,,ELCCO2,,,,Electricity Production, -:-  -:-  -:- Electricity Production,,kt,,,,
-,,TRACO2,,,,, -:-  -:-  -:- ,,kt,,,,
-,,INDCO2,,,,, -:-  -:-  -:- ,,kt,,,,
-,,AGRCO2,,,,, -:-  -:-  -:- ,,kt,,,,
-,,COMCO2,,,,, -:-  -:-  -:- ,,kt,,,,
-,,RESCO2,,,,, -:-  -:-  -:- ,,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+ENV,,TOTCO2,,, -:- ,Total CO2,kt,,,,
+,,ELCCO2,,Electricity Production, -:- Electricity Production,,kt,,,,
+,,TRACO2,,, -:- ,,kt,,,,
+,,INDCO2,,, -:- ,,kt,,,,
+,,AGRCO2,,, -:- ,,kt,,,,
+,,COMCO2,,, -:- ,,kt,,,,
+,,RESCO2,,, -:- ,,kt,,,,
 
 
 sheetname: TOTCO2
@@ -8793,26 +8792,26 @@ T_P_Rail15,TRAELC,T_P_Rail,1,60,,0.256338051282051,,,,,,,,,,,0.617484415,3,
 
 
 sheetname: TRA_Demand-Vehicles
-range: C6:Q22
+range: C6:O22
 filename: VT_NI_TRA_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-DEM,NI,T_P_Car,,,,Car/SUV, -:-  -:-  -:- Car/SUV,Passenger transport - cars,BVkm,,,,
-,NI,T_C_Car,,,,Van/Ute, -:-  -:-  -:- Van/Ute,Commercial transport - Van&Ute,BVkm,,,,
-,NI,T_P_Mcy,,,,Motorcycles, -:-  -:-  -:- Motorcycles,Passenger transport motorcycles,BVkm,,,,
-,NI,T_P_Bus,,,,Bus, -:-  -:-  -:- Bus,Passenger transport bus,BVkm,,,,
-,NI,T_F_MTrk,,,,Medium Truck, -:-  -:-  -:- Medium Truck,Freight transport - Medium Trucks,BVkm,,,,
-,NI,T_F_HTrk,,,,Heavy Truck, -:-  -:-  -:- Heavy Truck,Freight transport - Heavy Trucks,BVkm,,,,
-,NI,T_F_VHTrk,,,,Very Heavy Truck, -:-  -:-  -:- Very Heavy Truck,Freight transport - Very Heavy Trucks,BVkm,,,,
-,NI,T_F_Rail,,,,Freight Rail, -:-  -:-  -:- Freight Rail,Freight transport - rail,PJ,,,,
-,NI,T_P_Rail,,,,Passenger Rail, -:-  -:-  -:- Passenger Rail,Passenger transport - rail,PJ,,,,
-,NI,T_F_DSHIP,,,,Domestic Shipping, -:-  -:-  -:- Domestic Shipping,Domestic shipping,PJ,,,,
-,NI,T_F_ISHIP,,,,International Shipping, -:-  -:-  -:- International Shipping,International shipping,PJ,,,,
-,NI,T_O_JET,,,,Domestic Aviation, -:-  -:-  -:- Domestic Aviation,Other transport aviation jet fuel,PJ,,,,
-,NI,T_O_JET_Int,,,,International Aviation, -:-  -:-  -:- International Aviation,Other transport aviation jet fuel - International,PJ,,,,
-NRG,NI,H2R,,,Green Hydrogen,, -:-  -:- Green Hydrogen -:- ,Hydrogen fuel,PJ,FX,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+DEM,NI,T_P_Car,,Car/SUV, -:- Car/SUV,Passenger transport - cars,BVkm,,,,
+,NI,T_C_Car,,Van/Ute, -:- Van/Ute,Commercial transport - Van&Ute,BVkm,,,,
+,NI,T_P_Mcy,,Motorcycles, -:- Motorcycles,Passenger transport motorcycles,BVkm,,,,
+,NI,T_P_Bus,,Bus, -:- Bus,Passenger transport bus,BVkm,,,,
+,NI,T_F_MTrk,,Medium Truck, -:- Medium Truck,Freight transport - Medium Trucks,BVkm,,,,
+,NI,T_F_HTrk,,Heavy Truck, -:- Heavy Truck,Freight transport - Heavy Trucks,BVkm,,,,
+,NI,T_F_VHTrk,,Very Heavy Truck, -:- Very Heavy Truck,Freight transport - Very Heavy Trucks,BVkm,,,,
+,NI,T_F_Rail,,Freight Rail, -:- Freight Rail,Freight transport - rail,PJ,,,,
+,NI,T_P_Rail,,Passenger Rail, -:- Passenger Rail,Passenger transport - rail,PJ,,,,
+,NI,T_F_DSHIP,,Domestic Shipping, -:- Domestic Shipping,Domestic shipping,PJ,,,,
+,NI,T_F_ISHIP,,International Shipping, -:- International Shipping,International shipping,PJ,,,,
+,NI,T_O_JET,,Domestic Aviation, -:- Domestic Aviation,Other transport aviation jet fuel,PJ,,,,
+,NI,T_O_JET_Int,,International Aviation, -:- International Aviation,Other transport aviation jet fuel - International,PJ,,,,
+NRG,NI,H2R,Green Hydrogen,,Green Hydrogen -:- ,Hydrogen fuel,PJ,FX,,,
 
 
 sheetname: TRA_Demand-Vehicles
@@ -8906,22 +8905,22 @@ FTE_TRAFOL,FOL,TRAFOL,,,,,1,60,,,
 
 
 sheetname: TRA_FuelSupply
-range: B6:P18
+range: B6:N18
 filename: VT_NI_TRA_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,NI,TRANGA,,,Natural Gas,, -:-  -:- Natural Gas -:- ,Transport Natural Gas,PJ,FX,ANNUAL,,
-NRG,NI,TRABIL,,,Bio Liquids,, -:-  -:- Bio Liquids -:- ,Transport Bio Liquids,PJ,FX,ANNUAL,,
-NRG,NI,TRALPG,,,LPG,, -:-  -:- LPG -:- ,Transport LPG,PJ,FX,ANNUAL,,
-NRG,NI,TRAPET,,,Petrol,, -:-  -:- Petrol -:- ,Transport Petrol,PJ,FX,ANNUAL,,
-NRG,NI,TRADSL,,,Diesel,, -:-  -:- Diesel -:- ,Transport Diesel,PJ,FX,ANNUAL,,
-NRG,NI,TRAJET,,,Jet Fuel,, -:-  -:- Jet Fuel -:- ,Transport Aviation fuel_Kero,PJ,FX,ANNUAL,,
-NRG,NI,TRAH2R,,,Green Hydrogen,, -:-  -:- Green Hydrogen -:- ,Transport jet Hydrogen,PJ,FX,DAYNITE,,
-NRG,NI,TRAELC,,,Electricity,, -:-  -:- Electricity -:- ,Transport electricity ,PJ,FX,DAYNITE,,ELC
-NRG,NI,TRAFOL,,,Fuel Oil,, -:-  -:- Fuel Oil -:- ,Transport LFO,PJ,FX,ANNUAL,,
-ENV,NI,TRACO2,,,,, -:-  -:-  -:- ,Carbon dioxide from transport sector,Kt,,ANNUAL,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,NI,TRANGA,Natural Gas,,Natural Gas -:- ,Transport Natural Gas,PJ,FX,ANNUAL,,
+NRG,NI,TRABIL,Bio Liquids,,Bio Liquids -:- ,Transport Bio Liquids,PJ,FX,ANNUAL,,
+NRG,NI,TRALPG,LPG,,LPG -:- ,Transport LPG,PJ,FX,ANNUAL,,
+NRG,NI,TRAPET,Petrol,,Petrol -:- ,Transport Petrol,PJ,FX,ANNUAL,,
+NRG,NI,TRADSL,Diesel,,Diesel -:- ,Transport Diesel,PJ,FX,ANNUAL,,
+NRG,NI,TRAJET,Jet Fuel,,Jet Fuel -:- ,Transport Aviation fuel_Kero,PJ,FX,ANNUAL,,
+NRG,NI,TRAH2R,Green Hydrogen,,Green Hydrogen -:- ,Transport jet Hydrogen,PJ,FX,DAYNITE,,
+NRG,NI,TRAELC,Electricity,,Electricity -:- ,Transport electricity ,PJ,FX,DAYNITE,,ELC
+NRG,NI,TRAFOL,Fuel Oil,,Fuel Oil -:- ,Transport LFO,PJ,FX,ANNUAL,,
+ENV,NI,TRACO2,,, -:- ,Carbon dioxide from transport sector,Kt,,ANNUAL,,
 
 
 sheetname: TRA_FuelSupply
@@ -8960,20 +8959,20 @@ G_ELC_A_00,Existing electricity distribution grid  AGRELC,ELCD,AGRELC,0.3,1,0,,,
 
 
 sheetname: Demand and Distribution
-range: B27:P37
+range: B27:N37
 filename: VT_SI_ELC_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,ELC-HV,,,,, -:-  -:-  -:- ,High voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,ELC-MV,,,,, -:-  -:-  -:- ,Mid voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,ELCDD,,,,, -:-  -:-  -:- ,Low voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,ELCD,,,,, -:-  -:-  -:- ,Low voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,RESELC,,,,, -:-  -:-  -:- ,Residential ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,INDELC,,,,, -:-  -:-  -:- ,Industrial ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,COMELC,,,,, -:-  -:-  -:- ,Service ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,AGRELC,,,,, -:-  -:-  -:- ,Agricultural ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,ELC-HV,,, -:- ,High voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELC-MV,,, -:- ,Mid voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELCDD,,, -:- ,Low voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELCD,,, -:- ,Low voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,RESELC,,, -:- ,Residential ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,INDELC,,, -:- ,Industrial ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,COMELC,,, -:- ,Service ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,AGRELC,,, -:- ,Agricultural ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
 
 
 sheetname: Demand and Distribution
@@ -9004,14 +9003,14 @@ ELCCO2,89.1,93.1,69.69,53.96,,,
 
 
 sheetname: Existing_techs_SI
-range: A11:O15
+range: A11:M15
 filename: VT_SI_ELC_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,ELC,,,,Electricity Production, -:-  -:-  -:- Electricity Production,Electricity,PJ,,DAYNITE,,ELC
-ENV,,ELCCO2,,,,Electricity Production, -:-  -:-  -:- Electricity Production,Electricity Plants Carbon dioxide,kt,,ANNUAL,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,ELC,,Electricity Production, -:- Electricity Production,Electricity,PJ,,DAYNITE,,ELC
+ENV,,ELCCO2,,Electricity Production, -:- Electricity Production,Electricity Plants Carbon dioxide,kt,,ANNUAL,,
 
 
 sheetname: Existing_techs_SI
@@ -9070,25 +9069,25 @@ FTE_ELCTID,TID,ELCTID,,,1,100,,,
 
 
 sheetname: Sector_Fuels_ELC
-range: B6:P21
+range: B6:N21
 filename: VT_SI_ELC_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,ELCCOA,,,Coal,Electricity Production, -:-  -:- Coal -:- Electricity Production,Electricity Plants Bituminous & Sub-bitum.,PJ,,DAYNITE,,
-NRG,,ELCCOL,,,Coal,Electricity Production, -:-  -:- Coal -:- Electricity Production,Electricity Plants Lignite,PJ,,DAYNITE,,
-NRG,,ELCOIL,,,Oil,Electricity Production, -:-  -:- Oil -:- Electricity Production,Electricity Plants Oil,PJ,,DAYNITE,,
-NRG,,ELCNGA,,,Natural Gas,Electricity Production, -:-  -:- Natural Gas -:- Electricity Production,Electricity Plants Natural Gas,PJ,,DAYNITE,,
-NRG,,ELCHYD,,,Hydro,Electricity Production, -:-  -:- Hydro -:- Electricity Production,Electricity Plants Hydro,PJ,,DAYNITE,,
-NRG,,ELCGEO,,,Geothermal,Electricity Production, -:-  -:- Geothermal -:- Electricity Production,Electricity Plants Geothermal,PJ,,DAYNITE,,
-NRG,,ELCSOL,,,Solar,Electricity Production, -:-  -:- Solar -:- Electricity Production,Electricity Plants Solar,PJ,,DAYNITE,,
-NRG,,ELCWIN,,,Wind,Electricity Production, -:-  -:- Wind -:- Electricity Production,Electricity Plants Wind,PJ,,DAYNITE,,
-NRG,,ELCBIL,,,Liquid Biofuels,Electricity Production, -:-  -:- Liquid Biofuels -:- Electricity Production,Electricity Plants Liquid Biofuels,PJ,,DAYNITE,,
-NRG,,ELCBIG,,,Biogas,Electricity Production, -:-  -:- Biogas -:- Electricity Production,Electricity Plants Biogas,PJ,,DAYNITE,,
-NRG,,ELCWOD,,,Wood,Electricity Production, -:-  -:- Wood -:- Electricity Production,Electricity Plants Wood,PJ,,DAYNITE,,
-NRG,,ELCTID,,,Tidal,Electricity Production, -:-  -:- Tidal -:- Electricity Production,Electricity Plants Tidal,PJ,,DAYNITE,,
-ENV,,BATNRG,,,Electricity,Electricity Production, -:-  -:- Electricity -:- Electricity Production,Dummy Commodity for Batteries,PJ,N,DAYNITE,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,ELCCOA,Coal,Electricity Production,Coal -:- Electricity Production,Electricity Plants Bituminous & Sub-bitum.,PJ,,DAYNITE,,
+NRG,,ELCCOL,Coal,Electricity Production,Coal -:- Electricity Production,Electricity Plants Lignite,PJ,,DAYNITE,,
+NRG,,ELCOIL,Oil,Electricity Production,Oil -:- Electricity Production,Electricity Plants Oil,PJ,,DAYNITE,,
+NRG,,ELCNGA,Natural Gas,Electricity Production,Natural Gas -:- Electricity Production,Electricity Plants Natural Gas,PJ,,DAYNITE,,
+NRG,,ELCHYD,Hydro,Electricity Production,Hydro -:- Electricity Production,Electricity Plants Hydro,PJ,,DAYNITE,,
+NRG,,ELCGEO,Geothermal,Electricity Production,Geothermal -:- Electricity Production,Electricity Plants Geothermal,PJ,,DAYNITE,,
+NRG,,ELCSOL,Solar,Electricity Production,Solar -:- Electricity Production,Electricity Plants Solar,PJ,,DAYNITE,,
+NRG,,ELCWIN,Wind,Electricity Production,Wind -:- Electricity Production,Electricity Plants Wind,PJ,,DAYNITE,,
+NRG,,ELCBIL,Liquid Biofuels,Electricity Production,Liquid Biofuels -:- Electricity Production,Electricity Plants Liquid Biofuels,PJ,,DAYNITE,,
+NRG,,ELCBIG,Biogas,Electricity Production,Biogas -:- Electricity Production,Electricity Plants Biogas,PJ,,DAYNITE,,
+NRG,,ELCWOD,Wood,Electricity Production,Wood -:- Electricity Production,Electricity Plants Wood,PJ,,DAYNITE,,
+NRG,,ELCTID,Tidal,Electricity Production,Tidal -:- Electricity Production,Electricity Plants Tidal,PJ,,DAYNITE,,
+ENV,,BATNRG,Electricity,Electricity Production,Electricity -:- Electricity Production,Dummy Commodity for Batteries,PJ,N,DAYNITE,,
 
 
 sheetname: Sector_Fuels_ELC
@@ -9322,84 +9321,84 @@ PLPPPR-AIR-ELC-CMPR15,INDELC,PLPPPR-AIR,,,,,0.001,0.001,21,1,25,0,,31.536,0,0.00
 
 
 sheetname: IND_PRC_COM
-range: C6:Q80
+range: C6:O80
 filename: VT_SI_IND_V2.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-DEM,,ALU-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Aluminium - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,CNST-MoTP-Mob,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Construction - Motive Power, Mobile",PJ,,DAYNITE,,
-DEM,,CNST-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Construction - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,DARY-AIR,,,,Compressed Air, -:-  -:-  -:- Compressed Air,Dairy - Compressed Air,PJ,,DAYNITE,,
-DEM,,DARY-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Dairy - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,DARY-PH-MVR_DRY,,,,Process Heat Evaporation/Drying, -:-  -:-  -:- Process Heat Evaporation/Drying,Dairy - Process Heat: MVR Drying,PJ,,DAYNITE,,
-DEM,,DARY-PH-MVR_PRE,,,,Process Heat Evaporation/Drying, -:-  -:-  -:- Process Heat Evaporation/Drying,Dairy - Process Heat: MVR Evaporation Preheat,PJ,,DAYNITE,,
-DEM,,DARY-PH-TVR_EVP,,,,Process Heat Evaporation/Drying, -:-  -:-  -:- Process Heat Evaporation/Drying,Dairy - Process Heat: TVR Evaporation,PJ,,DAYNITE,,
-DEM,,DARY-PH-TVR_DRY,,,,Process Heat Evaporation/Drying, -:-  -:-  -:- Process Heat Evaporation/Drying,Dairy - Process Heat: TVR Drying,PJ,,DAYNITE,,
-DEM,,DARY-PH-MVR_TVR,,,,Process Heat Evaporation/Drying, -:-  -:-  -:- Process Heat Evaporation/Drying,Dairy - Process Heat: MVR Evaporation TVR,PJ,,DAYNITE,,
-DEM,,DARY-PH-MVR_Fan,,,,Process Heat MVR Fan, -:-  -:-  -:- Process Heat MVR Fan,Dairy - Process Heat: MVR Fan,PJ,,DAYNITE,,
-DEM,,DARY-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Dairy - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,DARY-Pump,,,,Pumping, -:-  -:-  -:- Pumping,Dairy - Pumping,PJ,,DAYNITE,,
-DEM,,DARY-RFGR,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Dairy - Refrigeration,PJ,,DAYNITE,,
-DEM,,FOOD-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Food - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,FOOD-PH-DirH,,,,Process Heat Direct, -:-  -:-  -:- Process Heat Direct,Food - Process Heat: Direct Heat,PJ,,DAYNITE,,
-DEM,,FOOD-PH-OVN,,,,Process Heat Oven, -:-  -:-  -:- Process Heat Oven,Food - Process Heat: Oven,PJ,,DAYNITE,,
-DEM,,FOOD-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Food - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,FOOD-Pump,,,,Pumping, -:-  -:-  -:- Pumping,Food - Pumping,PJ,,DAYNITE,,
-DEM,,FOOD-RFGR,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Food - Refrigeration,PJ,,DAYNITE,,
-DEM,,IIS-FDSTCK,,,,Feedstock, -:-  -:-  -:- Feedstock,Iron/Steel - Steel production (feedstock),PJ,,DAYNITE,,
-DEM,,IIS-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Iron/Steel - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,IIS-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Iron/Steel - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,MEAT-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Meat - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,MEAT-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Meat - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,MEAT-PH-DirH,,,,Process Heat Direct, -:-  -:-  -:- Process Heat Direct,Meat - Process Heat: Direct Heat,PJ,,DAYNITE,,
-DEM,,MEAT-RFGR,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Meat - Refrigeration,PJ,,DAYNITE,,
-DEM,,METAL-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Metal product manufacturing - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,METAL-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Metal product manufacturing - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,METAL-RFGR,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Metal product manufacturing - Refrigeration,PJ,,DAYNITE,,
-DEM,,METAL-PH-DirH,,,,Process Heat Direct, -:-  -:-  -:- Process Heat Direct,Metal product manufacturing - Process Heat: Direct Heat,PJ,,DAYNITE,,
-DEM,,MTHOL-FDSTCK,,,,Feedstock, -:-  -:-  -:- Feedstock,Methanol - Methanol production (feedstock),PJ,,DAYNITE,,
-DEM,,MTHOL-PH_REFRM,,,,Process Heat Reforming, -:-  -:-  -:- Process Heat Reforming,Methanol - Process Heat: Reformer,PJ,,DAYNITE,,
-DEM,,MNRL-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Mineral - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,MNRL-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Mineral - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,MNRL-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Mineral - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,MNNG-MoTP-Mob,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Mining - Motive Power, Mobile",PJ,,DAYNITE,,
-DEM,,MNNG-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Mining - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,MNNG-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Mining - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,OTH-ELC,,,,Other, -:-  -:-  -:- Other,Other - Other - Electricity,PJ,,DAYNITE,,
-DEM,,OTH-DSL,,,,Other, -:-  -:-  -:- Other,Other - Other - Diesel,PJ,,DAYNITE,,
-DEM,,OTH-LPG,,,,Other, -:-  -:-  -:- Other,Other - Other - LPG,PJ,,DAYNITE,,
-DEM,,OTH-COA,,,,Other, -:-  -:-  -:- Other,Other - Other - Coal,PJ,,DAYNITE,,
-DEM,,OTH-NGA,,,,Other, -:-  -:-  -:- Other,Other - Other - Natural Gas,PJ,,DAYNITE,,
-DEM,,OTH-PET,,,,Other, -:-  -:-  -:- Other,Other - Other - Petrol,PJ,,DAYNITE,,
-DEM,,OTH-BGS,,,,Other, -:-  -:-  -:- Other,Other - Other - Biogas,PJ,,DAYNITE,,
-DEM,,OTH-FOL,,,,Other, -:-  -:-  -:- Other,Other - Other - Fuel Oil,PJ,,DAYNITE,,
-DEM,,CHMCL-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Petroleum/Chemicals - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,CHMCL-PH-DirH,,,,Process Heat Direct, -:-  -:-  -:- Process Heat Direct,Petroleum/Chemicals - Process Heat: Direct Heat,PJ,,DAYNITE,,
-DEM,,CHMCL-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Petroleum/Chemicals - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,CHMCL-PH-REFRM,,,,Process Heat Reforming, -:-  -:-  -:- Process Heat Reforming,Petroleum/Chemicals - Process Heat: Reformer,PJ,,DAYNITE,,
-DEM,,CHMCL-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Petroleum/Chemicals - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,REFI-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Refining - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,REFI-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Refining - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,REFI-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Refining - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,UREA-FDSTCK,,,,Feedstock, -:-  -:-  -:- Feedstock,Urea - Urea production (feedstock),PJ,,DAYNITE,,
-DEM,,UREA-REFRM,,,,Process Heat Reforming, -:-  -:-  -:- Process Heat Reforming,Urea - Urea production reformer,PJ,,DAYNITE,,
-DEM,,WOOD-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Wood products - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,WOOD-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Wood products - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,WOOD-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Wood products - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,WOOD-Pump,,,,Pumping, -:-  -:-  -:- Pumping,Wood products - Pumping,PJ,,DAYNITE,,
-DEM,,WOOD-Fan,,,,Drying, -:-  -:-  -:- Drying,Wood products - Fans,PJ,,DAYNITE,,
-DEM,,WOOD-Refin,,,,Wood/Pulp and Paper Refining, -:-  -:-  -:- Wood/Pulp and Paper Refining,Wood products - Refiners,PJ,,DAYNITE,,
-DEM,,WOOD-AIR,,,,Compressed Air, -:-  -:-  -:- Compressed Air,Wood products - Compressed Air,PJ,,DAYNITE,,
-DEM,,PLPPPR-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Wood pulp and paper - Motive Power, Stationary",PJ,,DAYNITE,,
-DEM,,PLPPPR-PH-DirH,,,,Process Heat Direct, -:-  -:-  -:- Process Heat Direct,Wood pulp and paper - Process Heat: Direct Heat,PJ,,DAYNITE,,
-DEM,,PLPPPR-PH-FURN,,,,Process Heat Furnace, -:-  -:-  -:- Process Heat Furnace,Wood pulp and paper - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
-DEM,,PLPPPR-PH-STM_HW,,,,Process Heat Steam/Hot Water, -:-  -:-  -:- Process Heat Steam/Hot Water,Wood pulp and paper - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
-DEM,,PLPPPR-Pump,,,,Pumping, -:-  -:-  -:- Pumping,Wood pulp and paper - Pumping,PJ,,DAYNITE,,
-DEM,,PLPPPR-Fan,,,,Fan, -:-  -:-  -:- Fan,Wood pulp and paper - Fans,PJ,,DAYNITE,,
-DEM,,PLPPPR-Refin,,,,Wood/Pulp and Paper Refining, -:-  -:-  -:- Wood/Pulp and Paper Refining,Wood pulp and paper - Refiners,PJ,,DAYNITE,,
-DEM,,PLPPPR-AIR,,,,Compressed Air, -:-  -:-  -:- Compressed Air,Wood pulp and paper - Compressed Air,PJ,,DAYNITE,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+DEM,,ALU-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Aluminium - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,CNST-MoTP-Mob,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Construction - Motive Power, Mobile",PJ,,DAYNITE,,
+DEM,,CNST-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Construction - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,DARY-AIR,,Compressed Air, -:- Compressed Air,Dairy - Compressed Air,PJ,,DAYNITE,,
+DEM,,DARY-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Dairy - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,DARY-PH-MVR_DRY,,Process Heat Evaporation/Drying, -:- Process Heat Evaporation/Drying,Dairy - Process Heat: MVR Drying,PJ,,DAYNITE,,
+DEM,,DARY-PH-MVR_PRE,,Process Heat Evaporation/Drying, -:- Process Heat Evaporation/Drying,Dairy - Process Heat: MVR Evaporation Preheat,PJ,,DAYNITE,,
+DEM,,DARY-PH-TVR_EVP,,Process Heat Evaporation/Drying, -:- Process Heat Evaporation/Drying,Dairy - Process Heat: TVR Evaporation,PJ,,DAYNITE,,
+DEM,,DARY-PH-TVR_DRY,,Process Heat Evaporation/Drying, -:- Process Heat Evaporation/Drying,Dairy - Process Heat: TVR Drying,PJ,,DAYNITE,,
+DEM,,DARY-PH-MVR_TVR,,Process Heat Evaporation/Drying, -:- Process Heat Evaporation/Drying,Dairy - Process Heat: MVR Evaporation TVR,PJ,,DAYNITE,,
+DEM,,DARY-PH-MVR_Fan,,Process Heat MVR Fan, -:- Process Heat MVR Fan,Dairy - Process Heat: MVR Fan,PJ,,DAYNITE,,
+DEM,,DARY-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Dairy - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,DARY-Pump,,Pumping, -:- Pumping,Dairy - Pumping,PJ,,DAYNITE,,
+DEM,,DARY-RFGR,,Refrigeration, -:- Refrigeration,Dairy - Refrigeration,PJ,,DAYNITE,,
+DEM,,FOOD-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Food - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,FOOD-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Food - Process Heat: Direct Heat,PJ,,DAYNITE,,
+DEM,,FOOD-PH-OVN,,Process Heat Oven, -:- Process Heat Oven,Food - Process Heat: Oven,PJ,,DAYNITE,,
+DEM,,FOOD-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Food - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,FOOD-Pump,,Pumping, -:- Pumping,Food - Pumping,PJ,,DAYNITE,,
+DEM,,FOOD-RFGR,,Refrigeration, -:- Refrigeration,Food - Refrigeration,PJ,,DAYNITE,,
+DEM,,IIS-FDSTCK,,Feedstock, -:- Feedstock,Iron/Steel - Steel production (feedstock),PJ,,DAYNITE,,
+DEM,,IIS-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Iron/Steel - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,IIS-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Iron/Steel - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,MEAT-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Meat - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,MEAT-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Meat - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,MEAT-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Meat - Process Heat: Direct Heat,PJ,,DAYNITE,,
+DEM,,MEAT-RFGR,,Refrigeration, -:- Refrigeration,Meat - Refrigeration,PJ,,DAYNITE,,
+DEM,,METAL-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Metal product manufacturing - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,METAL-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Metal product manufacturing - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,METAL-RFGR,,Refrigeration, -:- Refrigeration,Metal product manufacturing - Refrigeration,PJ,,DAYNITE,,
+DEM,,METAL-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Metal product manufacturing - Process Heat: Direct Heat,PJ,,DAYNITE,,
+DEM,,MTHOL-FDSTCK,,Feedstock, -:- Feedstock,Methanol - Methanol production (feedstock),PJ,,DAYNITE,,
+DEM,,MTHOL-PH_REFRM,,Process Heat Reforming, -:- Process Heat Reforming,Methanol - Process Heat: Reformer,PJ,,DAYNITE,,
+DEM,,MNRL-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Mineral - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,MNRL-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Mineral - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,MNRL-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Mineral - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,MNNG-MoTP-Mob,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Mining - Motive Power, Mobile",PJ,,DAYNITE,,
+DEM,,MNNG-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Mining - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,MNNG-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Mining - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,OTH-ELC,,Other, -:- Other,Other - Other - Electricity,PJ,,DAYNITE,,
+DEM,,OTH-DSL,,Other, -:- Other,Other - Other - Diesel,PJ,,DAYNITE,,
+DEM,,OTH-LPG,,Other, -:- Other,Other - Other - LPG,PJ,,DAYNITE,,
+DEM,,OTH-COA,,Other, -:- Other,Other - Other - Coal,PJ,,DAYNITE,,
+DEM,,OTH-NGA,,Other, -:- Other,Other - Other - Natural Gas,PJ,,DAYNITE,,
+DEM,,OTH-PET,,Other, -:- Other,Other - Other - Petrol,PJ,,DAYNITE,,
+DEM,,OTH-BGS,,Other, -:- Other,Other - Other - Biogas,PJ,,DAYNITE,,
+DEM,,OTH-FOL,,Other, -:- Other,Other - Other - Fuel Oil,PJ,,DAYNITE,,
+DEM,,CHMCL-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Petroleum/Chemicals - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,CHMCL-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Petroleum/Chemicals - Process Heat: Direct Heat,PJ,,DAYNITE,,
+DEM,,CHMCL-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Petroleum/Chemicals - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,CHMCL-PH-REFRM,,Process Heat Reforming, -:- Process Heat Reforming,Petroleum/Chemicals - Process Heat: Reformer,PJ,,DAYNITE,,
+DEM,,CHMCL-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Petroleum/Chemicals - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,REFI-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Refining - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,REFI-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Refining - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,REFI-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Refining - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,UREA-FDSTCK,,Feedstock, -:- Feedstock,Urea - Urea production (feedstock),PJ,,DAYNITE,,
+DEM,,UREA-REFRM,,Process Heat Reforming, -:- Process Heat Reforming,Urea - Urea production reformer,PJ,,DAYNITE,,
+DEM,,WOOD-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Wood products - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,WOOD-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Wood products - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,WOOD-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Wood products - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,WOOD-Pump,,Pumping, -:- Pumping,Wood products - Pumping,PJ,,DAYNITE,,
+DEM,,WOOD-Fan,,Drying, -:- Drying,Wood products - Fans,PJ,,DAYNITE,,
+DEM,,WOOD-Refin,,Wood/Pulp and Paper Refining, -:- Wood/Pulp and Paper Refining,Wood products - Refiners,PJ,,DAYNITE,,
+DEM,,WOOD-AIR,,Compressed Air, -:- Compressed Air,Wood products - Compressed Air,PJ,,DAYNITE,,
+DEM,,PLPPPR-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Wood pulp and paper - Motive Power, Stationary",PJ,,DAYNITE,,
+DEM,,PLPPPR-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Wood pulp and paper - Process Heat: Direct Heat,PJ,,DAYNITE,,
+DEM,,PLPPPR-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Wood pulp and paper - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
+DEM,,PLPPPR-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Wood pulp and paper - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
+DEM,,PLPPPR-Pump,,Pumping, -:- Pumping,Wood pulp and paper - Pumping,PJ,,DAYNITE,,
+DEM,,PLPPPR-Fan,,Fan, -:- Fan,Wood pulp and paper - Fans,PJ,,DAYNITE,,
+DEM,,PLPPPR-Refin,,Wood/Pulp and Paper Refining, -:- Wood/Pulp and Paper Refining,Wood pulp and paper - Refiners,PJ,,DAYNITE,,
+DEM,,PLPPPR-AIR,,Compressed Air, -:- Compressed Air,Wood pulp and paper - Compressed Air,PJ,,DAYNITE,,
 
 
 sheetname: IND_PRC_COM
@@ -9541,22 +9540,22 @@ FTE-INDWOD_00,WOD,INDWOD,,,,,1,100,,,,,
 
 
 sheetname: Sector_Fuels
-range: B6:P18
+range: B6:N18
 filename: VT_SI_IND_V2.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,INDCOA,,,Coal,, -:-  -:- Coal -:- ,Industrial Coal,PJ,FX,,,
-NRG,,INDPET,,,Petrol,, -:-  -:- Petrol -:- ,Industrial Petroleum,PJ,FX,,,
-NRG,,INDDSL,,,Diesel,, -:-  -:- Diesel -:- ,Industrial Diesel,PJ,FX,,,
-NRG,,INDLPG,,,LPG,, -:-  -:- LPG -:- ,Industrial LPG,PJ,FX,,,
-NRG,,INDFOL,,,Fuel Oil,, -:-  -:- Fuel Oil -:- ,Industrial Fuel oil,PJ,FX,,,
-NRG,,INDNGA,,,Natural Gas,, -:-  -:- Natural Gas -:- ,Industrial Natural gas,PJ,FX,,,
-NRG,,INDGEO,,,Geothermal,, -:-  -:- Geothermal -:- ,Industrial Geothermal,PJ,FX,,,
-NRG,,INDBIG,,,Biogas,, -:-  -:- Biogas -:- ,Industrial Biogas,PJ,FX,,,
-NRG,,INDWOD,,,Wood,, -:-  -:- Wood -:- ,Industrial Wood,PJ,FX,,,
-ENV,,INDCO2,,,,, -:-  -:-  -:- ,Industrial emissions,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,INDCOA,Coal,,Coal -:- ,Industrial Coal,PJ,FX,,,
+NRG,,INDPET,Petrol,,Petrol -:- ,Industrial Petroleum,PJ,FX,,,
+NRG,,INDDSL,Diesel,,Diesel -:- ,Industrial Diesel,PJ,FX,,,
+NRG,,INDLPG,LPG,,LPG -:- ,Industrial LPG,PJ,FX,,,
+NRG,,INDFOL,Fuel Oil,,Fuel Oil -:- ,Industrial Fuel oil,PJ,FX,,,
+NRG,,INDNGA,Natural Gas,,Natural Gas -:- ,Industrial Natural gas,PJ,FX,,,
+NRG,,INDGEO,Geothermal,,Geothermal -:- ,Industrial Geothermal,PJ,FX,,,
+NRG,,INDBIG,Biogas,,Biogas -:- ,Industrial Biogas,PJ,FX,,,
+NRG,,INDWOD,Wood,,Wood -:- ,Industrial Wood,PJ,FX,,,
+ENV,,INDCO2,,, -:- ,Industrial emissions,kt,,,,
 
 
 sheetname: Sector_Fuels
@@ -9569,7 +9568,7 @@ Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,TechDesc,
 *,,,,,,,,,,,,,,
 PRE,,FTE-INDCOA_00,Industry,,,,Coal,Industry -:-  -:-  -:-  -:- Coal,Existing fuel technology PJ,PJ,PJa,,,
 PRE,,FTE-INDPET_00,Industry,,,,Petrol,Industry -:-  -:-  -:-  -:- Petrol,Existing fuel technology PJ,PJ,PJa,,,
-PRE,,FTE-INDDSL_00,Industry,Construction,"Motive Power, Mobile",Internal Combustion Engine,Diesel,"Industry -:- Construction -:- Motive Power, Mobile -:- Internal Combustion Engine -:- Diesel",Existing fuel technology PJ,PJ,PJa,,,
+PRE,,FTE-INDDSL_00,Industry,,,,Diesel,Industry -:-  -:-  -:-  -:- Diesel,Existing fuel technology PJ,PJ,PJa,,,
 PRE,,FTE-INDLPG_00,Industry,,,,LPG,Industry -:-  -:-  -:-  -:- LPG,Existing fuel technology PJ,PJ,PJa,,,
 PRE,,FTE-INDFOL_00,Industry,,,,Fuel Oil,Industry -:-  -:-  -:-  -:- Fuel Oil,Existing fuel technology PJ,PJ,PJa,,,
 PRE,,FTE-INDNGA_00,Industry,,,,Natural Gas,Industry -:-  -:-  -:-  -:- Natural Gas,Existing fuel technology PJ,PJ,PJa,,,
@@ -9696,20 +9695,20 @@ FTE_AGRPLT,PLT,AGRPLT,,,,,1,100,,,,,,,,,
 
 
 sheetname: AGR_fuels
-range: B5:P15
+range: B5:N15
 filename: VT_SI_OTH_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,AGRCOA,,,Coal,, -:-  -:- Coal -:- ,Agriculture Coal,PJ,FX,ANNUAL,,
-NRG,,AGRDSL,,,Diesel,, -:-  -:- Diesel -:- ,Agriculture diesel oil,PJ,FX,ANNUAL,,
-NRG,,AGRPET,,,Petrol,, -:-  -:- Petrol -:- ,Agriculture petroleum,PJ,FX,ANNUAL,,
-NRG,,AGRFOL,,,Fuel Oil,, -:-  -:- Fuel Oil -:- ,Agriculture fuel oil,PJ,FX,ANNUAL,,
-NRG,,AGRLPG,,,LPG,, -:-  -:- LPG -:- ,Agriculture LPG,PJ,FX,ANNUAL,,
-NRG,,AGRWOD,,,Wood,, -:-  -:- Wood -:- ,Agriculture wood,PJ,FX,ANNUAL,,
-NRG,,AGRPLT,,,Pellet,, -:-  -:- Pellet -:- ,Agriculture pellet,PJ,FX,ANNUAL,,
-ENV,,AGRCO2,,,,, -:-  -:-  -:- ,Agriculture emissions,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,AGRCOA,Coal,,Coal -:- ,Agriculture Coal,PJ,FX,ANNUAL,,
+NRG,,AGRDSL,Diesel,,Diesel -:- ,Agriculture diesel oil,PJ,FX,ANNUAL,,
+NRG,,AGRPET,Petrol,,Petrol -:- ,Agriculture petroleum,PJ,FX,ANNUAL,,
+NRG,,AGRFOL,Fuel Oil,,Fuel Oil -:- ,Agriculture fuel oil,PJ,FX,ANNUAL,,
+NRG,,AGRLPG,LPG,,LPG -:- ,Agriculture LPG,PJ,FX,ANNUAL,,
+NRG,,AGRWOD,Wood,,Wood -:- ,Agriculture wood,PJ,FX,ANNUAL,,
+NRG,,AGRPLT,Pellet,,Pellet -:- ,Agriculture pellet,PJ,FX,ANNUAL,,
+ENV,,AGRCO2,,, -:- ,Agriculture emissions,kt,,,,
 
 
 sheetname: AGR_fuels
@@ -9925,62 +9924,62 @@ FTE_COMPLT_00,PLT,COMPLT,,,1,100,,,
 
 
 sheetname: COM_techs
-range: A6:N58
+range: A6:L58
 filename: VT_SI_OTH_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-NRG,COMCOA,,,Coal,, -:-  -:- Coal -:- ,Commercial Coal,PJ,FX,,,
-NRG,COMNGA,,,Natural Gas,, -:-  -:- Natural Gas -:- ,Commercial Natural gas,PJ,FX,,,
-NRG,COMLPG,,,LPG,, -:-  -:- LPG -:- ,Commercial LPG,PJ,FX,,,
-NRG,COMDSL,,,Diesel,, -:-  -:- Diesel -:- ,Commercial Diesel,PJ,FX,,,
-NRG,COMBIG,,,Biogas,, -:-  -:- Biogas -:- ,Commercial Biogas,PJ,FX,,,
-NRG,COMGEO,,,Geothermal,, -:-  -:- Geothermal -:- ,Commercial Geothermal,PJ,FX,,,
-NRG,COMFOL,,,Fuel Oil,, -:-  -:- Fuel Oil -:- ,Commercial Fuel Oil,PJ,FX,,,
-NRG,COMPET,,,Petrol,, -:-  -:- Petrol -:- ,Commercial petroleum,PJ,FX,,,
-NRG,COMWOD,,,Wood,, -:-  -:- Wood -:- ,Commercial wood,PJ,FX,,,
-NRG,COMPLT,,,Wood,, -:-  -:- Wood -:- ,Commercial pellet,PJ,FX,,,
-ENV,COMCO2,,,,, -:-  -:-  -:- ,Commercial sector CO2,kt,,,,
-DEM,C_EDU-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,Education Other,PJ,,,,
-DEM,C_EDU-LT,,,,Lighting, -:-  -:-  -:- Lighting,Education Lighting,PJ,,,,
-DEM,C_EDU-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,Education Space Heating,PJ,,,,
-DEM,C_EDU-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,Education Hot Water,PJ,,,,
-DEM,C_EDU-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Education Motive Power, Mobile",PJ,,,,
-DEM,C_EDU-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Education Motive Power, Stationery",PJ,,,,
-DEM,C_EDU-RF,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Education Refrigeration,PJ,,,,
-DEM,C_EDU-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,Education Space Cooling,PJ,,,,
-DEM,C_HLTH-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,Healthcare Other,PJ,,,,
-DEM,C_HLTH-LT,,,,Lighting, -:-  -:-  -:- Lighting,Healthcare Lighting,PJ,,,,
-DEM,C_HLTH-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,Healthcare Space Heating,PJ,,,,
-DEM,C_HLTH-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,Healthcare Hot Water,PJ,,,,
-DEM,C_HLTH-PH,,,,Process Heat, -:-  -:-  -:- Process Heat,Healthcare Process Heat,PJ,,,,
-DEM,C_HLTH-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Healthcare Motive Power, Mobile",PJ,,,,
-DEM,C_HLTH-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Healthcare Motive Power, Stationery",PJ,,,,
-DEM,C_HLTH-RF,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Healthcare Refrigeration,PJ,,,,
-DEM,C_HLTH-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,Healthcare Space Cooling,PJ,,,,
-DEM,C_OFFC-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,Office Blocks Other,PJ,,,,
-DEM,C_OFFC-LT,,,,Lighting, -:-  -:-  -:- Lighting,Office Blocks Lighting,PJ,,,,
-DEM,C_OFFC-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,Office Blocks Space Heating,PJ,,,,
-DEM,C_OFFC-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,Office Blocks Hot Water,PJ,,,,
-DEM,C_OFFC-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Office Blocks Motive Power, Mobile",PJ,,,,
-DEM,C_OFFC-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Office Blocks Motive Power, Stationery",PJ,,,,
-DEM,C_OFFC-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,Office Blocks Space Cooling,PJ,,,,
-DEM,C_WSR-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,WSR Other,PJ,,,,
-DEM,C_WSR-CK,,,,Cooking, -:-  -:-  -:- Cooking,WSR Cooking,PJ,,,,
-DEM,C_WSR-LT,,,,Lighting, -:-  -:-  -:- Lighting,WSR Lighting,PJ,,,,
-DEM,C_WSR-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,WSR Space Heating,PJ,,,,
-DEM,C_WSR-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,WSR Hot Water,PJ,,,,
-DEM,C_WSR-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","WSR Motive Power, Mobile",PJ,,,,
-DEM,C_WSR-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","WSR Motive Power, Stationery",PJ,,,,
-DEM,C_WSR-RF,,,,Refrigeration, -:-  -:-  -:- Refrigeration,WSR Refrigeration,PJ,,,,
-DEM,C_WSR-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,WSR Space Cooling,PJ,,,,
-DEM,C_OTH-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,Other Other,PJ,,,,
-DEM,C_OTH-LT,,,,Lighting, -:-  -:-  -:- Lighting,Other Lighting,PJ,,,,
-DEM,C_OTH-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,Other Space Heating,PJ,,,,
-DEM,C_OTH-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,Other Hot Water,PJ,,,,
-DEM,C_OTH-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Other Motive Power, Mobile",PJ,,,,
-DEM,C_OTH-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Other Motive Power, Stationery",PJ,,,,
-DEM,C_OTH-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,Other Space Cooling,PJ,,,,
+types: Csets (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+NRG,COMCOA,Coal,,Coal -:- ,Commercial Coal,PJ,FX,,,
+NRG,COMNGA,Natural Gas,,Natural Gas -:- ,Commercial Natural gas,PJ,FX,,,
+NRG,COMLPG,LPG,,LPG -:- ,Commercial LPG,PJ,FX,,,
+NRG,COMDSL,Diesel,,Diesel -:- ,Commercial Diesel,PJ,FX,,,
+NRG,COMBIG,Biogas,,Biogas -:- ,Commercial Biogas,PJ,FX,,,
+NRG,COMGEO,Geothermal,,Geothermal -:- ,Commercial Geothermal,PJ,FX,,,
+NRG,COMFOL,Fuel Oil,,Fuel Oil -:- ,Commercial Fuel Oil,PJ,FX,,,
+NRG,COMPET,Petrol,,Petrol -:- ,Commercial petroleum,PJ,FX,,,
+NRG,COMWOD,Wood,,Wood -:- ,Commercial wood,PJ,FX,,,
+NRG,COMPLT,Wood,,Wood -:- ,Commercial pellet,PJ,FX,,,
+ENV,COMCO2,,, -:- ,Commercial sector CO2,kt,,,,
+DEM,C_EDU-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,Education Other,PJ,,,,
+DEM,C_EDU-LT,,Lighting, -:- Lighting,Education Lighting,PJ,,,,
+DEM,C_EDU-SH,,Space Heating, -:- Space Heating,Education Space Heating,PJ,,,,
+DEM,C_EDU-WH,,Water Heating, -:- Water Heating,Education Hot Water,PJ,,,,
+DEM,C_EDU-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Education Motive Power, Mobile",PJ,,,,
+DEM,C_EDU-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Education Motive Power, Stationery",PJ,,,,
+DEM,C_EDU-RF,,Refrigeration, -:- Refrigeration,Education Refrigeration,PJ,,,,
+DEM,C_EDU-SC,,Space Cooling, -:- Space Cooling,Education Space Cooling,PJ,,,,
+DEM,C_HLTH-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,Healthcare Other,PJ,,,,
+DEM,C_HLTH-LT,,Lighting, -:- Lighting,Healthcare Lighting,PJ,,,,
+DEM,C_HLTH-SH,,Space Heating, -:- Space Heating,Healthcare Space Heating,PJ,,,,
+DEM,C_HLTH-WH,,Water Heating, -:- Water Heating,Healthcare Hot Water,PJ,,,,
+DEM,C_HLTH-PH,,Process Heat, -:- Process Heat,Healthcare Process Heat,PJ,,,,
+DEM,C_HLTH-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Healthcare Motive Power, Mobile",PJ,,,,
+DEM,C_HLTH-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Healthcare Motive Power, Stationery",PJ,,,,
+DEM,C_HLTH-RF,,Refrigeration, -:- Refrigeration,Healthcare Refrigeration,PJ,,,,
+DEM,C_HLTH-SC,,Space Cooling, -:- Space Cooling,Healthcare Space Cooling,PJ,,,,
+DEM,C_OFFC-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,Office Blocks Other,PJ,,,,
+DEM,C_OFFC-LT,,Lighting, -:- Lighting,Office Blocks Lighting,PJ,,,,
+DEM,C_OFFC-SH,,Space Heating, -:- Space Heating,Office Blocks Space Heating,PJ,,,,
+DEM,C_OFFC-WH,,Water Heating, -:- Water Heating,Office Blocks Hot Water,PJ,,,,
+DEM,C_OFFC-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Office Blocks Motive Power, Mobile",PJ,,,,
+DEM,C_OFFC-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Office Blocks Motive Power, Stationery",PJ,,,,
+DEM,C_OFFC-SC,,Space Cooling, -:- Space Cooling,Office Blocks Space Cooling,PJ,,,,
+DEM,C_WSR-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,WSR Other,PJ,,,,
+DEM,C_WSR-CK,,Cooking, -:- Cooking,WSR Cooking,PJ,,,,
+DEM,C_WSR-LT,,Lighting, -:- Lighting,WSR Lighting,PJ,,,,
+DEM,C_WSR-SH,,Space Heating, -:- Space Heating,WSR Space Heating,PJ,,,,
+DEM,C_WSR-WH,,Water Heating, -:- Water Heating,WSR Hot Water,PJ,,,,
+DEM,C_WSR-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","WSR Motive Power, Mobile",PJ,,,,
+DEM,C_WSR-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","WSR Motive Power, Stationery",PJ,,,,
+DEM,C_WSR-RF,,Refrigeration, -:- Refrigeration,WSR Refrigeration,PJ,,,,
+DEM,C_WSR-SC,,Space Cooling, -:- Space Cooling,WSR Space Cooling,PJ,,,,
+DEM,C_OTH-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,Other Other,PJ,,,,
+DEM,C_OTH-LT,,Lighting, -:- Lighting,Other Lighting,PJ,,,,
+DEM,C_OTH-SH,,Space Heating, -:- Space Heating,Other Space Heating,PJ,,,,
+DEM,C_OTH-WH,,Water Heating, -:- Water Heating,Other Hot Water,PJ,,,,
+DEM,C_OTH-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Other Motive Power, Mobile",PJ,,,,
+DEM,C_OTH-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Other Motive Power, Stationery",PJ,,,,
+DEM,C_OTH-SC,,Space Cooling, -:- Space Cooling,Other Space Cooling,PJ,,,,
 
 
 sheetname: COM_techs
@@ -10144,47 +10143,47 @@ RESCO2,92,53.96,60.43,69.69,
 
 
 sheetname: PROC_COM_AGR
-range: B5:P42
+range: B5:N42
 filename: VT_SI_OTH_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-DEM,,ADCF-MoTP-Stat,,,,Milking Machine, -:-  -:-  -:- Milking Machine,"Dairy Cattle Farming Motive Power, Stationary",PJ,,,,
-DEM,,ADCF-IRG,,,,Irrigation, -:-  -:-  -:- Irrigation,Dairy Cattle Farming Irrigation,PJ,,,,
-DEM,,ADCF-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,"Dairy Cattle Farming Low Temperature Heat (<100 C), Water Heating",PJ,,,,
-DEM,,ADCF-MoTP-Mob-Trac,,,,Tractor Services, -:-  -:-  -:- Tractor Services,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
-DEM,,ADCF-MoTP-Mob-MTr,,,,Truck Services, -:-  -:-  -:- Truck Services,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
-DEM,,ADCF-MoTP-Mob-Uti,,,,Farm Vehicle, -:-  -:-  -:- Farm Vehicle,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
-DEM,,ADCF-MoTP-Mob-Bike,,,,Off-road Motorbike Use, -:-  -:-  -:- Off-road Motorbike Use,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
-DEM,,ADCF-PUMP,,,,Pumping, -:-  -:-  -:- Pumping,Dairy Cattle Farming Pumping,PJ,,,,
-DEM,,ADCF-RFGR,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Dairy Cattle Farming Refrigeration,PJ,,,,
-DEM,,ADCF-LIG,,,,Lighting, -:-  -:-  -:- Lighting,Dairy Cattle Farming Lighting,PJ,,,,
-DEM,,ALIVE-IRG,,,,Irrigation, -:-  -:-  -:- Irrigation,Livestock Farming Irrigation,PJ,,,,
-DEM,,ALIVE-MoTP-Mob-Trac,,,,Tractor Services, -:-  -:-  -:- Tractor Services,"Livestock Farming Motive Power, Mobile",PJ,,,,
-DEM,,ALIVE-MoTP-Mob-MTr,,,,Truck Services, -:-  -:-  -:- Truck Services,"Livestock Farming Motive Power, Mobile",PJ,,,,
-DEM,,ALIVE-MoTP-Mob-Uti,,,,Farm Vehicle, -:-  -:-  -:- Farm Vehicle,"Livestock Farming Motive Power, Mobile",PJ,,,,
-DEM,,ALIVE-MoTP-Mob-Bike,,,,Off-road Motorbike Use, -:-  -:-  -:- Off-road Motorbike Use,"Livestock Farming Motive Power, Mobile",PJ,,,,
-DEM,,ALIVE-LIG,,,,Lighting, -:-  -:-  -:- Lighting,Livestock Farming Lighting,PJ,,,,
-DEM,,AHORT-IRG,,,,Irrigation, -:-  -:-  -:- Irrigation,Horticulture (Outdoor) Irrigation,PJ,,,,
-DEM,,AHORT-MoTP-Mob-Trac,,,,Tractor Services, -:-  -:-  -:- Tractor Services,"Horticulture (Outdoor) Motive Power, Mobile",PJ,,,,
-DEM,,AHORT-MoTP-Mob-MTr,,,,Truck Services, -:-  -:-  -:- Truck Services,"Horticulture (Outdoor) Motive Power, Mobile",PJ,,,,
-DEM,,AHORT-MoTP-Mob-Uti,,,,Farm Vehicle, -:-  -:-  -:- Farm Vehicle,"Horticulture (Outdoor) Motive Power, Mobile",PJ,,,,
-DEM,,AHORT-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Horticulture (Outdoor) Motive Power, Stationary",PJ,,,,
-DEM,,AHORT-LIG,,,,Lighting, -:-  -:-  -:- Lighting,Horticulture (Outdoor) Lighting,PJ,,,,
-DEM,,AINDC-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,"Indoor Cropping Low Temperature Heat (<100 C), Space Heating",PJ,,,,
-DEM,,AINDC-LIG,,,,Lighting, -:-  -:-  -:- Lighting,"Indoor Cropping Low Temperature Heat (<100 C), Space Heating",PJ,,,,
-DEM,,AFORE-MoTP-Stat,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Forestry and Logging Motive Power, Stationary",PJ,,,,
-DEM,,AFORE-MoTP-Mob-GB,,,,Ground Based Forestry, -:-  -:-  -:- Ground Based Forestry,"Forestry and Logging Motive Power, Mobile",PJ,,,,
-DEM,,AFORE-MoTP-Mob-CY,,,,Cable Yarding (Forestry), -:-  -:-  -:- Cable Yarding (Forestry),"Forestry and Logging Motive Power, Mobile",PJ,,,,
-DEM,,AFORE-LIG,,,,Lighting, -:-  -:-  -:- Lighting,Forestry and Logging Lighting,PJ,,,,
-DEM,,AFISH-BOAT,,,,Boat , -:-  -:-  -:- Boat ,"Fishing, Hunting and Trapping Motive Power, Mobile",PJ,,,,
-DEM,,AFISH-RFGR,,,,Refrigeration, -:-  -:-  -:- Refrigeration,"Fishing, Hunting and Trapping Refrigeration",PJ,,,,
-DEM,,AFISH-LIG,,,,Lighting, -:-  -:-  -:- Lighting,"Fishing, Hunting and Trapping Lighting",PJ,,,,
-DEM,,AOTH-ELC,,,,Other, -:-  -:-  -:- Other,Other Other - Elec,PJ,,,,
-DEM,,AOTH-FOL,,,,Other, -:-  -:-  -:- Other,Other Other - Fuel Oil,PJ,,,,
-DEM,,AOTH-LPG,,,,Other, -:-  -:-  -:- Other,Other Other - LPG,PJ,,,,
-DEM,,AOTH-PET,,,,Other, -:-  -:-  -:- Other,Other Other - Petrol,PJ,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+DEM,,ADCF-MoTP-Stat,,Milking Machine, -:- Milking Machine,"Dairy Cattle Farming Motive Power, Stationary",PJ,,,,
+DEM,,ADCF-IRG,,Irrigation, -:- Irrigation,Dairy Cattle Farming Irrigation,PJ,,,,
+DEM,,ADCF-WH,,Water Heating, -:- Water Heating,"Dairy Cattle Farming Low Temperature Heat (<100 C), Water Heating",PJ,,,,
+DEM,,ADCF-MoTP-Mob-Trac,,Tractor Services, -:- Tractor Services,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
+DEM,,ADCF-MoTP-Mob-MTr,,Truck Services, -:- Truck Services,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
+DEM,,ADCF-MoTP-Mob-Uti,,Farm Vehicle, -:- Farm Vehicle,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
+DEM,,ADCF-MoTP-Mob-Bike,,Off-road Motorbike Use, -:- Off-road Motorbike Use,"Dairy Cattle Farming Motive Power, Mobile",PJ,,,,
+DEM,,ADCF-PUMP,,Pumping, -:- Pumping,Dairy Cattle Farming Pumping,PJ,,,,
+DEM,,ADCF-RFGR,,Refrigeration, -:- Refrigeration,Dairy Cattle Farming Refrigeration,PJ,,,,
+DEM,,ADCF-LIG,,Lighting, -:- Lighting,Dairy Cattle Farming Lighting,PJ,,,,
+DEM,,ALIVE-IRG,,Irrigation, -:- Irrigation,Livestock Farming Irrigation,PJ,,,,
+DEM,,ALIVE-MoTP-Mob-Trac,,Tractor Services, -:- Tractor Services,"Livestock Farming Motive Power, Mobile",PJ,,,,
+DEM,,ALIVE-MoTP-Mob-MTr,,Truck Services, -:- Truck Services,"Livestock Farming Motive Power, Mobile",PJ,,,,
+DEM,,ALIVE-MoTP-Mob-Uti,,Farm Vehicle, -:- Farm Vehicle,"Livestock Farming Motive Power, Mobile",PJ,,,,
+DEM,,ALIVE-MoTP-Mob-Bike,,Off-road Motorbike Use, -:- Off-road Motorbike Use,"Livestock Farming Motive Power, Mobile",PJ,,,,
+DEM,,ALIVE-LIG,,Lighting, -:- Lighting,Livestock Farming Lighting,PJ,,,,
+DEM,,AHORT-IRG,,Irrigation, -:- Irrigation,Horticulture (Outdoor) Irrigation,PJ,,,,
+DEM,,AHORT-MoTP-Mob-Trac,,Tractor Services, -:- Tractor Services,"Horticulture (Outdoor) Motive Power, Mobile",PJ,,,,
+DEM,,AHORT-MoTP-Mob-MTr,,Truck Services, -:- Truck Services,"Horticulture (Outdoor) Motive Power, Mobile",PJ,,,,
+DEM,,AHORT-MoTP-Mob-Uti,,Farm Vehicle, -:- Farm Vehicle,"Horticulture (Outdoor) Motive Power, Mobile",PJ,,,,
+DEM,,AHORT-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Horticulture (Outdoor) Motive Power, Stationary",PJ,,,,
+DEM,,AHORT-LIG,,Lighting, -:- Lighting,Horticulture (Outdoor) Lighting,PJ,,,,
+DEM,,AINDC-SH,,Space Heating, -:- Space Heating,"Indoor Cropping Low Temperature Heat (<100 C), Space Heating",PJ,,,,
+DEM,,AINDC-LIG,,Lighting, -:- Lighting,"Indoor Cropping Low Temperature Heat (<100 C), Space Heating",PJ,,,,
+DEM,,AFORE-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Forestry and Logging Motive Power, Stationary",PJ,,,,
+DEM,,AFORE-MoTP-Mob-GB,,Ground Based Forestry, -:- Ground Based Forestry,"Forestry and Logging Motive Power, Mobile",PJ,,,,
+DEM,,AFORE-MoTP-Mob-CY,,Cable Yarding (Forestry), -:- Cable Yarding (Forestry),"Forestry and Logging Motive Power, Mobile",PJ,,,,
+DEM,,AFORE-LIG,,Lighting, -:- Lighting,Forestry and Logging Lighting,PJ,,,,
+DEM,,AFISH-BOAT,,Boat , -:- Boat ,"Fishing, Hunting and Trapping Motive Power, Mobile",PJ,,,,
+DEM,,AFISH-RFGR,,Refrigeration, -:- Refrigeration,"Fishing, Hunting and Trapping Refrigeration",PJ,,,,
+DEM,,AFISH-LIG,,Lighting, -:- Lighting,"Fishing, Hunting and Trapping Lighting",PJ,,,,
+DEM,,AOTH-ELC,,Other, -:- Other,Other Other - Elec,PJ,,,,
+DEM,,AOTH-FOL,,Other, -:- Other,Other Other - Fuel Oil,PJ,,,,
+DEM,,AOTH-LPG,,Other, -:- Other,Other Other - LPG,PJ,,,,
+DEM,,AOTH-PET,,Other, -:- Other,Other Other - Petrol,PJ,,,,
 
 
 sheetname: PROC_COM_AGR
@@ -10351,44 +10350,45 @@ FTE_RESPET_00,PET,RESPET,,,1,100,,,0.92
 
 
 sheetname: RES_techs_coms
-range: B7:O41
+range: B7:M42
 filename: VT_SI_OTH_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-NRG,RESCOA,,,Coal,, -:-  -:- Coal -:- , Residential Coal,PJ,FX,,,
-NRG,RESNGA,,,Natural Gas,, -:-  -:- Natural Gas -:- ,Residential Natural gas,PJ,FX,,,
-NRG,RESLPG,,,LPG,, -:-  -:- LPG -:- ,Residential LPG,PJ,FX,,,
-NRG,RESDSL,,,Diesel,, -:-  -:- Diesel -:- ,Residential Diesel,PJ,FX,,,
-NRG,RESWOD,,,Wood,, -:-  -:- Wood -:- ,Residential Firewood,PJ,FX,,,
-NRG,RESGEO,,,Geothermal,, -:-  -:- Geothermal -:- ,Residential Geothermal,PJ,FX,,,
-NRG,RESSOL,,,Solar,, -:-  -:- Solar -:- ,Residential Solar energy,PJ,FX,,,
-NRG,RESPET,,,Petrol,, -:-  -:- Petrol -:- ,Residential petroleum,PJ,FX,,,
-ENV,RESCO2,,,,, -:-  -:-  -:- ,Residential CO2 emissions,kt,,,,
-DEM,R_DDW-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,"Detached dwellings - Low Temperature Heat (<100 C), Space Heating",PJ,,,,
-DEM,R_DDW-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,"Detached dwellings - Low Temperature Heat (<100 C), Water Heating",PJ,,,,
-DEM,R_DDW-CK,,,,Cooking, -:-  -:-  -:- Cooking,"Detached dwellings - Intermediate Heat (100-300 C), Cooking",PJ,,,,
-DEM,R_DDW-RF,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Detached dwellings - Refrigeration,PJ,,,,
-DEM,R_DDW-CD,,,,Clothes Drying, -:-  -:-  -:- Clothes Drying,"Detached dwellings - Low Temperature Heat (<100 C), Clothes Drying",PJ,,,,
-DEM,R_DDW-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,Detached dwellings - Space Cooling,PJ,,,,
-DEM,R_DDW-CW,,,,Clothes Washing, -:-  -:-  -:- Clothes Washing,"Detached dwellings - Low Temperature Heat (<100 C), Clothes Washing",PJ,,,,
-DEM,R_DDW-DW,,,,Dishwashing, -:-  -:-  -:- Dishwashing,"Detached dwellings - Low Temperature Heat (< 100 C), Dishwashers",PJ,,,,
-DEM,R_DDW-LT,,,,Lighting, -:-  -:-  -:- Lighting,Detached dwellings - Lighting,PJ,,,,
-DEM,R_DDW-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,Detached dwellings - Electronics and Other Electrical Uses,PJ,,,,
-DEM,R_DDW-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Detached dwellings - Motive Power, Stationary",PJ,,,,
-DEM,R_DDW-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Detached dwellings - Motive Power, Mobile",PJ,,,,
-DEM,R_JDW-SH,,,,Space Heating, -:-  -:-  -:- Space Heating,"Joined dwellings - Low Temperature Heat (<100 C), Space Heating",PJ,,,,
-DEM,R_JDW-WH,,,,Water Heating, -:-  -:-  -:- Water Heating,"Joined dwellings - Low Temperature Heat (<100 C), Water Heating",PJ,,,,
-DEM,R_JDW-CK,,,,Cooking, -:-  -:-  -:- Cooking,"Joined dwellings - Intermediate Heat (100-300 C), Cooking",PJ,,,,
-DEM,R_JDW-RF,,,,Refrigeration, -:-  -:-  -:- Refrigeration,Joined dwellings - Refrigeration,PJ,,,,
-DEM,R_JDW-CD,,,,Clothes Drying, -:-  -:-  -:- Clothes Drying,"Joined dwellings - Low Temperature Heat (<100 C), Clothes Drying",PJ,,,,
-DEM,R_JDW-SC,,,,Space Cooling, -:-  -:-  -:- Space Cooling,Joined dwellings - Space Cooling,PJ,,,,
-DEM,R_JDW-CW,,,,Clothes Washing, -:-  -:-  -:- Clothes Washing,"Joined dwellings - Low Temperature Heat (<100 C), Clothes Washing",PJ,,,,
-DEM,R_JDW-DW,,,,Dishwashing, -:-  -:-  -:- Dishwashing,"Joined dwellings - Low Temperature Heat (< 100 C), Dishwashers",PJ,,,,
-DEM,R_JDW-LT,,,,Lighting, -:-  -:-  -:- Lighting,Joined dwellings - Lighting,PJ,,,,
-DEM,R_JDW-OTH,,,,Electronics and Other Appliances, -:-  -:-  -:- Electronics and Other Appliances,Joined dwellings - Electronics and Other Electrical Uses,PJ,,,,
-DEM,R_JDW-MPS,,,,"Motive Power, Stationary"," -:-  -:-  -:- Motive Power, Stationary","Joined dwellings - Motive Power, Stationary",PJ,,,,
-DEM,R_JDW-MPM,,,,"Motive Power, Mobile"," -:-  -:-  -:- Motive Power, Mobile","Joined dwellings - Motive Power, Mobile",PJ,,,,
+types: Csets (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+NRG,RESCOA,Coal,,Coal -:- , Residential Coal,PJ,FX,,,
+NRG,RESNGA,Natural Gas,,Natural Gas -:- ,Residential Natural gas,PJ,FX,,,
+NRG,RESLPG,LPG,,LPG -:- ,Residential LPG,PJ,FX,,,
+NRG,RESDSL,Diesel,,Diesel -:- ,Residential Diesel,PJ,FX,,,
+NRG,RESWOD,Wood,,Wood -:- ,Residential Firewood,PJ,FX,,,
+NRG,RESGEO,Geothermal,,Geothermal -:- ,Residential Geothermal,PJ,FX,,,
+NRG,RESSOL,Solar,,Solar -:- ,Residential Solar energy,PJ,FX,,,
+NRG,RESPET,Petrol,,Petrol -:- ,Residential petroleum,PJ,FX,,,
+ENV,RESCO2,,, -:- ,Residential CO2 emissions,kt,,,,
+DEM,R_DDW-SH,,Space Heating, -:- Space Heating,"Detached dwellings - Low Temperature Heat (<100 C), Space Heating",PJ,,,,
+DEM,R_DDW-WH,,Water Heating, -:- Water Heating,"Detached dwellings - Low Temperature Heat (<100 C), Water Heating",PJ,,,,
+DEM,R_DDW-CK,,Cooking, -:- Cooking,"Detached dwellings - Intermediate Heat (100-300 C), Cooking",PJ,,,,
+DEM,R_DDW-RF,,Refrigeration, -:- Refrigeration,Detached dwellings - Refrigeration,PJ,,,,
+DEM,R_DDW-CD,,Clothes Drying, -:- Clothes Drying,"Detached dwellings - Low Temperature Heat (<100 C), Clothes Drying",PJ,,,,
+DEM,R_DDW-SC,,Space Cooling, -:- Space Cooling,Detached dwellings - Space Cooling,PJ,,,,
+DEM,R_DDW-CW,,Clothes Washing, -:- Clothes Washing,"Detached dwellings - Low Temperature Heat (<100 C), Clothes Washing",PJ,,,,
+DEM,R_DDW-DW,,Dishwashing, -:- Dishwashing,"Detached dwellings - Low Temperature Heat (< 100 C), Dishwashers",PJ,,,,
+DEM,R_DDW-LT,,Lighting, -:- Lighting,Detached dwellings - Lighting,PJ,,,,
+DEM,R_DDW-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,Detached dwellings - Electronics and Other Electrical Uses,PJ,,,,
+DEM,R_DDW-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Detached dwellings - Motive Power, Stationary",PJ,,,,
+DEM,R_DDW-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Detached dwellings - Motive Power, Mobile",PJ,,,,
+DEM,R_JDW-SH,,Space Heating, -:- Space Heating,"Joined dwellings - Low Temperature Heat (<100 C), Space Heating",PJ,,,,
+DEM,R_JDW-WH,,Water Heating, -:- Water Heating,"Joined dwellings - Low Temperature Heat (<100 C), Water Heating",PJ,,,,
+DEM,R_JDW-CK,,Cooking, -:- Cooking,"Joined dwellings - Intermediate Heat (100-300 C), Cooking",PJ,,,,
+DEM,R_JDW-RF,,Refrigeration, -:- Refrigeration,Joined dwellings - Refrigeration,PJ,,,,
+DEM,R_JDW-CD,,Clothes Drying, -:- Clothes Drying,"Joined dwellings - Low Temperature Heat (<100 C), Clothes Drying",PJ,,,,
+DEM,R_JDW-SC,,Space Cooling, -:- Space Cooling,Joined dwellings - Space Cooling,PJ,,,,
+DEM,R_JDW-CW,,Clothes Washing, -:- Clothes Washing,"Joined dwellings - Low Temperature Heat (<100 C), Clothes Washing",PJ,,,,
+DEM,R_JDW-DW,,Dishwashing, -:- Dishwashing,"Joined dwellings - Low Temperature Heat (< 100 C), Dishwashers",PJ,,,,
+DEM,R_JDW-LT,,Lighting, -:- Lighting,Joined dwellings - Lighting,PJ,,,,
+DEM,R_JDW-OTH,,Electronics and Other Appliances, -:- Electronics and Other Appliances,Joined dwellings - Electronics and Other Electrical Uses,PJ,,,,
+DEM,R_JDW-MPS,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Joined dwellings - Motive Power, Stationary",PJ,,,,
+DEM,R_JDW-MPM,,"Motive Power, Mobile"," -:- Motive Power, Mobile","Joined dwellings - Motive Power, Mobile",PJ,,,,
+,,,, -:- ,,,,,,
 
 
 sheetname: RES_techs_coms
@@ -10472,13 +10472,13 @@ REFEOIL00,OIL,LPG,0,1.01282037207396,0
 
 
 sheetname: Con_REF
-range: J3:X6
+range: J3:V6
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-ENV,,REFCO2,,,,, -:-  -:-  -:- ,,,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+ENV,,REFCO2,,, -:- ,,,,,,
 
 
 sheetname: Con_REF
@@ -10547,23 +10547,23 @@ MINWODSUPOSWOD,,INDOSWOD,,5,,,,,,0,0.784279,1.212293,1.563551,1.826826,2.474382,
 
 
 sheetname: Pri_BIO
-range: B5:P18
+range: B5:N18
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,WODWST,,,Forest residues and woody wastes,, -:-  -:- Forest residues and woody wastes -:- ,Forest residues and woody wastes,PJ,FX,,,
-,,AGRWST,,,"Agricultural wastes (straws, stover, vegetable culls)",," -:-  -:- Agricultural wastes (straws, stover, vegetable culls) -:- ","Agricultural wastes (straws, stover, vegetable culls)",PJ,FX,,,
-,,MNCWST,,,Municipal solid waste,, -:-  -:- Municipal solid waste -:- ,Municipal solid waste,PJ,FX,DAYNITE,,
-,,ANMMNR,,,Animal manure,, -:-  -:- Animal manure -:- ,Animal manure,PJ,FX,,,
-,,OILWST,,,Oil wastes,, -:-  -:- Oil wastes -:- ,Oil wastes,PJ,FX,,,
-,,PLT,,,Wood pellet,, -:-  -:- Wood pellet -:- ,Wood pellet,PJ,FX,,,
-,,BDSL,,,Biodiesel,, -:-  -:- Biodiesel -:- ,Biodiesel,PJ,FX,,,
-,,WOD,,,Biomass - wood,, -:-  -:- Biomass - wood -:- ,Biomass - wood,PJ,FX,DAYNITE,,
-,,DID,,,Drop-In Diesel,, -:-  -:- Drop-In Diesel -:- ,Drop-in diesel,PJ,FX,,,
-,,DIJ,,,Drop-In Jet,, -:-  -:- Drop-In Jet -:- ,Drop-in jet,PJ,FX,,,
-,,INDOSWOD,,,Wood,, -:-  -:- Wood -:- ,On Site Wood,PJ,FX,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,WODWST,Forest residues and woody wastes,,Forest residues and woody wastes -:- ,Forest residues and woody wastes,PJ,FX,,,
+,,AGRWST,"Agricultural wastes (straws, stover, vegetable culls)",,"Agricultural wastes (straws, stover, vegetable culls) -:- ","Agricultural wastes (straws, stover, vegetable culls)",PJ,FX,,,
+,,MNCWST,Municipal solid waste,,Municipal solid waste -:- ,Municipal solid waste,PJ,FX,DAYNITE,,
+,,ANMMNR,Animal manure,,Animal manure -:- ,Animal manure,PJ,FX,,,
+,,OILWST,Oil wastes,,Oil wastes -:- ,Oil wastes,PJ,FX,,,
+,,PLT,Wood pellet,,Wood pellet -:- ,Wood pellet,PJ,FX,,,
+,,BDSL,Biodiesel,,Biodiesel -:- ,Biodiesel,PJ,FX,,,
+,,WOD,Biomass - wood,,Biomass - wood -:- ,Biomass - wood,PJ,FX,DAYNITE,,
+,,DID,Drop-In Diesel,,Drop-In Diesel -:- ,Drop-in diesel,PJ,FX,,,
+,,DIJ,Drop-In Jet,,Drop-In Jet -:- ,Drop-in jet,PJ,FX,,,
+,,INDOSWOD,Wood,,Wood -:- ,On Site Wood,PJ,FX,,,
 
 
 sheetname: Pri_BIO
@@ -10623,14 +10623,14 @@ EXPCOL1,COL,,,3,,,,,,,,0
 
 
 sheetname: Pri_COA
-range: B7:P11
+range: B7:N11
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,COA,,,Coal,, -:-  -:- Coal -:- ,Coal - Sub-bituminous coal,PJ,,ANNUAL,,
-NRG,,COL,,,Coal Lignite,, -:-  -:- Coal Lignite -:- ,Coal - Lignite,PJ,,ANNUAL,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,COA,Coal,,Coal -:- ,Coal - Sub-bituminous coal,PJ,,ANNUAL,,
+NRG,,COL,Coal Lignite,,Coal Lignite -:- ,Coal - Lignite,PJ,,ANNUAL,,
 
 
 sheetname: Pri_GAS
@@ -10665,15 +10665,15 @@ EXPNGA1,NGA,,,6.64,8.4,10.4,12.56,13.28,14.08,15.92,16,0,0,5
 
 
 sheetname: Pri_GAS
-range: I3:W8
+range: I3:U8
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,NGA,,,Natural Gas,, -:-  -:- Natural Gas -:- ,,PJ,,,,
-NRG,,LNG,,,LNG,, -:-  -:- LNG -:- ,,PJ,,,,
-ENV,,GASCO2,,,,, -:-  -:-  -:- ,Gas emissions,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,NGA,Natural Gas,,Natural Gas -:- ,,PJ,,,,
+NRG,,LNG,LNG,,LNG -:- ,,PJ,,,,
+ENV,,GASCO2,,, -:- ,Gas emissions,kt,Gas emissions,kt,,
 
 
 sheetname: Pri_OIL
@@ -10710,21 +10710,20 @@ EXP,,EXPOIL1,Primary Fuel Supply,Petroleum,,,,Primary Fuel Supply -:- Petroleum 
 
 
 sheetname: Pri_OIL
-range: I3:W14
+range: I3:U13
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,OILD,,,Crude Oil ,, -:-  -:- Crude Oil  -:- ,Oil products - Crude oil,PJ,,,,
-,,OILI,,,Crude Oil (domestic),, -:-  -:- Crude Oil (domestic) -:- ,,PJ,,,,
-,,LPG,,,Crude Oil (imported),, -:-  -:- Crude Oil (imported) -:- ,Oil products - LPG,PJ,,,,
-,,PET,,,LPG,, -:-  -:- LPG -:- ,Oil products - Petroleum,PJ,,,,
-,,DSL,,,Petrol,, -:-  -:- Petrol -:- ,Oil products - Diesel oil,PJ,,,,
-,,FOL,,,Fuel Oil,, -:-  -:- Fuel Oil -:- ,Oil products - Light fuel oil,PJ,,,,
-,,JET,,,Jet Fuel,, -:-  -:- Jet Fuel -:- ,Oil products - Jet kerosen,PJ,,,,
-,,OTH,,,Aviation Fuel,, -:-  -:- Aviation Fuel -:- ,Oil products - Other fuels from refinery,PJ,,,,
-,,,,,Other fuels from refinery,, -:-  -:- Other fuels from refinery -:- ,,PJ,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,OILD,Crude Oil ,,Crude Oil  -:- ,Oil products - Crude oil,PJ,,,,
+,,OILI,Crude Oil (domestic),,Crude Oil (domestic) -:- ,,PJ,,,,
+,,LPG,Crude Oil (imported),,Crude Oil (imported) -:- ,Oil products - LPG,PJ,,,,
+,,PET,LPG,,LPG -:- ,Oil products - Petroleum,PJ,,,,
+,,DSL,Petrol,,Petrol -:- ,Oil products - Diesel oil,PJ,,,,
+,,FOL,Fuel Oil,,Fuel Oil -:- ,Oil products - Light fuel oil,PJ,,,,
+,,JET,Jet Fuel,,Jet Fuel -:- ,Oil products - Jet kerosen,PJ,,,,
+,,OTH,Other fuels from refinery,,Other fuels from refinery -:- ,Oil products - Other fuels from refinery,PJ,,,,
 
 
 sheetname: Pri_OIL
@@ -10791,20 +10790,20 @@ MINURN1,,URN,6.6550808993064,6.70035414048127,6.73492712778337,6.78674563343641,
 
 
 sheetname: Pri_RNW
-range: H3:V13
+range: H3:T13
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,HYD,,,Hydro,, -:-  -:- Hydro -:- ,Renewables - Hydro,PJ,FX,DAYNITE,,
-,,GEO,,,Geothermal,, -:-  -:- Geothermal -:- ,Renewables - GEO,PJ,FX,DAYNITE,,
-,,SOL,,,Solar,, -:-  -:- Solar -:- ,Renewables - Solar,PJ,FX,DAYNITE,,
-,,WIN,,,Wind,, -:-  -:- Wind -:- ,Renewables - Wind,PJ,FX,DAYNITE,,
-,,BIL,,,Bioliquid,, -:-  -:- Bioliquid -:- ,Biofuels - Bioliquid,PJ,FX,DAYNITE,,
-,,BIG,,,Biogas,, -:-  -:- Biogas -:- ,Biofuels - Biogas,PJ,FX,DAYNITE,,
-,,TID,,,Tidal,, -:-  -:- Tidal -:- ,Renewables - Tidal,PJ,FX,DAYNITE,,
-,,URN,,,Uranium,, -:-  -:- Uranium -:- ,Uranium,PJ,FX,DAYNITE,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,HYD,Hydro,,Hydro -:- ,Renewables - Hydro,PJ,FX,DAYNITE,,
+,,GEO,Geothermal,,Geothermal -:- ,Renewables - GEO,PJ,FX,DAYNITE,,
+,,SOL,Solar,,Solar -:- ,Renewables - Solar,PJ,FX,DAYNITE,,
+,,WIN,Wind,,Wind -:- ,Renewables - Wind,PJ,FX,DAYNITE,,
+,,BIL,Bioliquid,,Bioliquid -:- ,Biofuels - Bioliquid,PJ,FX,DAYNITE,,
+,,BIG,Biogas,,Biogas -:- ,Biofuels - Biogas,PJ,FX,DAYNITE,,
+,,TID,Tidal,,Tidal -:- ,Renewables - Tidal,PJ,FX,DAYNITE,,
+,,URN,Uranium,,Uranium -:- ,Uranium,PJ,FX,DAYNITE,,
 
 
 sheetname: SUP_H2
@@ -10828,24 +10827,24 @@ MIN_DAC_CO2,Direct air capture costs,,DAC_CO2,,,,,,,,,,,,,,,,,,345.68,,,,,,,,,,,
 
 
 sheetname: SUP_H2
-range: C3:Q17
+range: C3:O17
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,H2C,,,Green Hydrogen,, -:-  -:- Green Hydrogen -:- ,centralised hydrogen,PJ,FX,DAYNITE,,
-NRG,,H2D,,,Green Hydrogen,, -:-  -:- Green Hydrogen -:- ,decentralised hydrogen,PJ,FX,DAYNITE,,
-NRG,,H2R,,,Green Hydrogen,, -:-  -:- Green Hydrogen -:- ,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
-NRG,,ELCNGA,,,Natural Gas,Electricity Production, -:-  -:- Natural Gas -:- Electricity Production,Hydrogen and natural gas mix (ELC sector),PJ,FX,DAYNITE,,
-NRG,,DAC_CO2,,,,CO2 from air, -:-  -:-  -:- CO2 from air,CO2 from air,kt,,,,
-NRG,,TRAH2R,,,Green Hydrogen,, -:-  -:- Green Hydrogen -:- ,Hydrogen for transport sector,PJ,FX,DAYNITE,,
-NRG,,INDH2R,,,,Hydrogen , -:-  -:-  -:- Hydrogen ,Hydrogen for industry sector,PJ,FX,DAYNITE,,
-NRG,,ELCH2R,,,,Hydrogen , -:-  -:-  -:- Hydrogen ,Hydrogen for power generation sector,PJ,FX,DAYNITE,,
-NRG,,COMH2R,,,,Hydrogen , -:-  -:-  -:- Hydrogen ,Hydrogen for commercial sector,PJ,FX,DAYNITE,,
-NRG,,RESH2R,,,,Hydrogen , -:-  -:-  -:- Hydrogen ,Hydrogen for residential sector,PJ,FX,DAYNITE,,
-NRG,,AGRH2R,,,,Hydrogen , -:-  -:-  -:- Hydrogen ,Hydrogen for agricultural sector,PJ,FX,DAYNITE,,
-NRG,,COseq,,,,CO2 to CCS, -:-  -:-  -:- CO2 to CCS,CO2 to CCS,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,H2C,Green Hydrogen,,Green Hydrogen -:- ,centralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2D,Green Hydrogen,,Green Hydrogen -:- ,decentralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2R,Green Hydrogen,,Green Hydrogen -:- ,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
+NRG,,ELCNGA,Natural Gas,Electricity Production,Natural Gas -:- Electricity Production,Hydrogen and natural gas mix (ELC sector),PJ,FX,DAYNITE,,
+NRG,,DAC_CO2,,CO2 from air, -:- CO2 from air,CO2 from air,kt,,,,
+NRG,,TRAH2R,Green Hydrogen,,Green Hydrogen -:- ,Hydrogen for transport sector,PJ,FX,DAYNITE,,
+NRG,,INDH2R,,Hydrogen , -:- Hydrogen ,Hydrogen for industry sector,PJ,FX,DAYNITE,,
+NRG,,ELCH2R,,Hydrogen , -:- Hydrogen ,Hydrogen for power generation sector,PJ,FX,DAYNITE,,
+NRG,,COMH2R,,Hydrogen , -:- Hydrogen ,Hydrogen for commercial sector,PJ,FX,DAYNITE,,
+NRG,,RESH2R,,Hydrogen , -:- Hydrogen ,Hydrogen for residential sector,PJ,FX,DAYNITE,,
+NRG,,AGRH2R,,Hydrogen , -:- Hydrogen ,Hydrogen for agricultural sector,PJ,FX,DAYNITE,,
+NRG,,COseq,,CO2 to CCS, -:- CO2 to CCS,CO2 to CCS,kt,,,,
 
 
 sheetname: SUP_H2
@@ -10919,14 +10918,14 @@ PRE,,D-H2_Trailer,Primary Fuel Supply,Hydrogen,,Tube Trailer (NI and SI),,Primar
 
 
 sheetname: TOTCO2
-range: B10:P14
+range: B10:N14
 filename: VT_SI_PRI_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-ENV,,TOTCO2,,,,, -:-  -:-  -:- ,Total CO2,kt,,,,
-ENV,,TRACO2,,,,, -:-  -:-  -:- ,Transport CO2,kt,,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+ENV,,TOTCO2,,, -:- ,Total CO2,kt,,,,
+ENV,,TRACO2,,, -:- ,Transport CO2,kt,,,,
 
 
 sheetname: TOTCO2
@@ -10978,26 +10977,26 @@ T_P_Rail15,TRAELC,T_P_Rail,1,60,0.0144979487179487,,,,,,,,,,,,,
 
 
 sheetname: TRA_Demand-Vehicles
-range: C6:Q22
+range: C6:O22
 filename: VT_SI_TRA_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak MoSItoring,Electricity Indicator
-DEM,SI,T_P_Car,,,,Car/SUV, -:-  -:-  -:- Car/SUV,Passenger transport - cars,BVkm,,,,
-,SI,T_C_Car,,,,Van/Ute, -:-  -:-  -:- Van/Ute,Commercial transport - Van&Ute,BVkm,,,,
-,SI,T_P_Mcy,,,,Motorcycles, -:-  -:-  -:- Motorcycles,Passenger transport motorcycles,BVkm,,,,
-,SI,T_P_Bus,,,,Bus, -:-  -:-  -:- Bus,Passenger transport bus,BVkm,,,,
-,SI,T_F_MTrk,,,,Medium Truck, -:-  -:-  -:- Medium Truck,Freight transport - Medium Trucks,BVkm,,,,
-,SI,T_F_HTrk,,,,Heavy Truck, -:-  -:-  -:- Heavy Truck,Freight transport - Heavy Trucks,BVkm,,,,
-,SI,T_F_VHTrk,,,,Very Heavy Truck, -:-  -:-  -:- Very Heavy Truck,Freight transport - Very Heavy Trucks,BVkm,,,,
-,SI,T_F_Rail,,,,Freight Rail, -:-  -:-  -:- Freight Rail,Freight transport - rail,PJ,,,,
-,SI,T_P_Rail,,,,Passenger Rail, -:-  -:-  -:- Passenger Rail,Passenger transport - rail,PJ,,,,
-,SI,T_F_DSHIP,,,,Domestic Shipping, -:-  -:-  -:- Domestic Shipping,Domestic shipping,PJ,,,,
-,SI,T_F_ISHIP,,,,International Shipping, -:-  -:-  -:- International Shipping,International shipping,PJ,,,,
-,SI,T_O_JET,,,,Domestic Aviation, -:-  -:-  -:- Domestic Aviation,Other transport aviation jet fuel,PJ,,,,
-,SI,T_O_JET_Int,,,,International Aviation, -:-  -:-  -:- International Aviation,Other transport aviation jet fuel - International,PJ,,,,
-NRG,SI,H2R,,,Green Hydrogen,, -:-  -:- Green Hydrogen -:- ,Hydrogen fuel,PJ,FX,,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak MoSItoring,Electricity Indicator
+DEM,SI,T_P_Car,,Car/SUV, -:- Car/SUV,Passenger transport - cars,BVkm,,,,
+,SI,T_C_Car,,Van/Ute, -:- Van/Ute,Commercial transport - Van&Ute,BVkm,,,,
+,SI,T_P_Mcy,,Motorcycles, -:- Motorcycles,Passenger transport motorcycles,BVkm,,,,
+,SI,T_P_Bus,,Bus, -:- Bus,Passenger transport bus,BVkm,,,,
+,SI,T_F_MTrk,,Medium Truck, -:- Medium Truck,Freight transport - Medium Trucks,BVkm,,,,
+,SI,T_F_HTrk,,Heavy Truck, -:- Heavy Truck,Freight transport - Heavy Trucks,BVkm,,,,
+,SI,T_F_VHTrk,,Very Heavy Truck, -:- Very Heavy Truck,Freight transport - Very Heavy Trucks,BVkm,,,,
+,SI,T_F_Rail,,Freight Rail, -:- Freight Rail,Freight transport - rail,PJ,,,,
+,SI,T_P_Rail,,Passenger Rail, -:- Passenger Rail,Passenger transport - rail,PJ,,,,
+,SI,T_F_DSHIP,,Domestic Shipping, -:- Domestic Shipping,Domestic shipping,PJ,,,,
+,SI,T_F_ISHIP,,International Shipping, -:- International Shipping,International shipping,PJ,,,,
+,SI,T_O_JET,,Domestic Aviation, -:- Domestic Aviation,Other transport aviation jet fuel,PJ,,,,
+,SI,T_O_JET_Int,,International Aviation, -:- International Aviation,Other transport aviation jet fuel - International,PJ,,,,
+NRG,SI,H2R,Green Hydrogen,,Green Hydrogen -:- ,Hydrogen fuel,PJ,FX,,,
 
 
 sheetname: TRA_Demand-Vehicles
@@ -11091,22 +11090,22 @@ FTE_TRAFOL,FOL,TRAFOL,,,,,1,60,,,
 
 
 sheetname: TRA_FuelSupply
-range: B6:P18
+range: B6:N18
 filename: VT_SI_TRA_V4.xlsx
 tag: ~FI_Comm
-types: Csets (object), Region (object), CommName (object), * Sector (object), * Subsector (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
-Csets,Region,CommName,* Sector,* Subsector,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
-*Commodity Set Membership,Region Name,Commodity Name,,,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,SI,TRANGA,,,Natural Gas,, -:-  -:- Natural Gas -:- ,Transport Natural Gas,PJ,FX,ANNUAL,,
-NRG,SI,TRABIL,,,Bio Liquids,, -:-  -:- Bio Liquids -:- ,Transport Bio Liquids,PJ,FX,ANNUAL,,
-NRG,SI,TRALPG,,,LPG,, -:-  -:- LPG -:- ,Transport LPG,PJ,FX,ANNUAL,,
-NRG,SI,TRAPET,,,Petrol,, -:-  -:- Petrol -:- ,Transport Petrol,PJ,FX,ANNUAL,,
-NRG,SI,TRADSL,,,Diesel,, -:-  -:- Diesel -:- ,Transport Diesel,PJ,FX,ANNUAL,,
-NRG,SI,TRAJET,,,Jet Fuel,, -:-  -:- Jet Fuel -:- ,Transport Aviation fuel_Kero,PJ,FX,ANNUAL,,
-NRG,SI,TRAH2R,,,Green Hydrogen,, -:-  -:- Green Hydrogen -:- ,Transport jet Hydrogen,PJ,FX,DAYNITE,,
-NRG,SI,TRAELC,,,Electricity,, -:-  -:- Electricity -:- ,Transport electricity ,PJ,FX,DAYNITE,,ELC
-NRG,SI,TRAFOL,,,Fuel Oil,, -:-  -:- Fuel Oil -:- ,Transport LFO,PJ,FX,ANNUAL,,
-ENV,SI,TRACO2,,,,, -:-  -:-  -:- ,Carbon dioxide from transport sector,Kt,,ANNUAL,,
+types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,SI,TRANGA,Natural Gas,,Natural Gas -:- ,Transport Natural Gas,PJ,FX,ANNUAL,,
+NRG,SI,TRABIL,Bio Liquids,,Bio Liquids -:- ,Transport Bio Liquids,PJ,FX,ANNUAL,,
+NRG,SI,TRALPG,LPG,,LPG -:- ,Transport LPG,PJ,FX,ANNUAL,,
+NRG,SI,TRAPET,Petrol,,Petrol -:- ,Transport Petrol,PJ,FX,ANNUAL,,
+NRG,SI,TRADSL,Diesel,,Diesel -:- ,Transport Diesel,PJ,FX,ANNUAL,,
+NRG,SI,TRAJET,Jet Fuel,,Jet Fuel -:- ,Transport Aviation fuel_Kero,PJ,FX,ANNUAL,,
+NRG,SI,TRAH2R,Green Hydrogen,,Green Hydrogen -:- ,Transport jet Hydrogen,PJ,FX,DAYNITE,,
+NRG,SI,TRAELC,Electricity,,Electricity -:- ,Transport electricity ,PJ,FX,DAYNITE,,ELC
+NRG,SI,TRAFOL,Fuel Oil,,Fuel Oil -:- ,Transport LFO,PJ,FX,ANNUAL,,
+ENV,SI,TRACO2,,, -:- ,Carbon dioxide from transport sector,Kt,,ANNUAL,,
 
 
 sheetname: TRA_FuelSupply

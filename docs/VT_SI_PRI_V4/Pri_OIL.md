@@ -4,15 +4,15 @@
 
 ## Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Oil supply commodity and process definitions
 
 #### Table definition: ~FI_Process
 - **Range**: I17:X43
 - **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
 #### Table definition: ~FI_Comm
-- **Range**: I3:W14
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: I3:U13
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_T
 - **Range**: I46:W70

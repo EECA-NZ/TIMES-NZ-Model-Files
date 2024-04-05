@@ -7,8 +7,8 @@
 (TODO: Overview of the sheet. Units used, sources of data, etc.)
 
 #### Table definition: ~FI_Comm
-- **Range**: A11:O15
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: A11:M15
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_T
 - **Range**: A31:AA40

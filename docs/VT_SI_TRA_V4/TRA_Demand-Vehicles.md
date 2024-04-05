@@ -11,8 +11,8 @@ Transport technology process defintions and base year demand
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'EFF\~2018', 'LIFE', 'ACT_BND\~2018', 'ACT_BND\~0', 'Cap2Act', 'NCAP_AFA\~2018', 'INVCOST', 'FIXOM', 'VAROM', 'PRC_resid\~2018', 'PRC_resid\~2040', 'PRC_resid\~2045', 'PRC_resid\~2050', 'Share', 'Share\~0', 'CEFF\~2018'
 
 #### Table definition: ~FI_Comm
-- **Range**: C6:Q22
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: C6:O22
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_T: Demand
 - **Range**: C75:E89

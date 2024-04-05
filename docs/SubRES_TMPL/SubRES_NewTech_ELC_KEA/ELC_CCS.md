@@ -15,8 +15,8 @@ CCS technology parameters
 - **Columns**: 'Sets', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
 #### Table definition: ~FI_Comm
-- **Range**: C37:Q40
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: C37:O40
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_T
 - **Range**: C4:AV14

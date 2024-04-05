@@ -7,8 +7,8 @@
 Base year generation technology information and definitions
 
 #### Table definition: ~FI_Comm
-- **Range**: A11:O15
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: A11:M15
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_T
 - **Range**: A33:AF55

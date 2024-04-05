@@ -4,7 +4,7 @@
 
 ## Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Industrial fuel emissions
 
 #### Table definition: ~COMEMI
 - **Range**: B4:K7

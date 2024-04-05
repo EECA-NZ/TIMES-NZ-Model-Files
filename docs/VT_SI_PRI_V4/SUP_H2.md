@@ -4,15 +4,15 @@
 
 ## Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Hydrogen supply commodity and process defintions
 
 #### Table definition: ~FI_T
 - **Range**: C32:AJ45
 - **Columns**: 'TechName', '*TechDescription', 'Comm-IN', 'Comm-OUT', 'INPUT', 'INPUT\~2050', 'EFF', 'EFF\~2020', 'EFF\~2030', 'EFF\~2040', 'EFF\~2050', 'EFF\~2060', 'EFF\~0', 'INVCOST\~2018', 'INVCOST\~2035', 'INVCOST\~2050', 'INVCOST\~0', 'FIXOM', 'FIXOM\~2035', 'FIXOM\~2050', 'FIXOM\~0', 'VAROM', 'VAROM\~2035', 'VAROM\~2050', 'VAROM\~0', 'AFA', 'LIFE\~2018', 'LIFE\~2030', 'LIFE\~2050', 'LIFE\~0', 'ENV_ACT\~TOTCO2', 'NCAP_DRATE', 'CAP2ACT'
 
 #### Table definition: ~FI_Comm
-- **Range**: C3:Q17
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: C3:O17
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_T
 - **Range**: C59:R68

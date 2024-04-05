@@ -11,8 +11,8 @@
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Share-I\~UP', 'Share-I\~UP\~2021', 'Share-I\~UP\~2060', 'CAP2ACT', 'EFF', 'LIFE', 'FIXOM', 'VAROM', 'FLO_DELIV'
 
 #### Table definition: ~FI_Comm
-- **Range**: B6:P18
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: B6:N18
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_Process
 - **Range**: Q6:AF18

@@ -19,6 +19,6 @@ Fossil gas supply commodity and process definitions
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Start', '*NCAP_BND\~2018', 'INVCOST', 'ACT_BND\~2021', 'ACT_BND\~2060', 'ACT_BND\~0', 'Eff'
 
 #### Table definition: ~FI_Comm
-- **Range**: I3:W8
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: I3:U8
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 

@@ -15,6 +15,6 @@ Coal supply commodity and process definitions
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'CUM', 'COST', 'COST\~2020', 'COST\~2025', 'COST\~2030', 'COST\~2035', 'COST\~2040', 'COST\~2050', 'COST\~2060', 'ACT_BND'
 
 #### Table definition: ~FI_Comm
-- **Range**: B7:P11
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: B7:N11
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 

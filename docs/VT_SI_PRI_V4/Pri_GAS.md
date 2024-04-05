@@ -4,7 +4,7 @@
 
 ## Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Fossil gas supply commodity and process definitions
 
 #### Table definition: ~FI_Process
 - **Range**: I10:X21
@@ -15,6 +15,6 @@
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'CUM', 'COST', 'COST\~2021', 'COST\~2025', 'COST\~2030', 'COST\~2035', 'COST\~2040', 'COST\~2050', 'COST\~2060', 'ACT_BND', 'ACT_BND\~2060', 'ACT_BND\~0'
 
 #### Table definition: ~FI_Comm
-- **Range**: I3:W8
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: I3:U8
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 

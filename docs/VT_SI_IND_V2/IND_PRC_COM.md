@@ -4,11 +4,11 @@
 
 ## Sheet Overview
 
-(TODO: Overview of the sheet. Units used, sources of data, etc.)
+Industrial sector technology and enduse commodity definitions
 
 #### Table definition: ~FI_Comm
-- **Range**: C6:Q80
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: C6:O80
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_Process
 - **Range**: S6:AH116

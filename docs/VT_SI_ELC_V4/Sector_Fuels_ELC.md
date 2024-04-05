@@ -11,8 +11,8 @@ Commodity and process definitions for electricity sector
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Share-I\~UP', 'STOCK', 'EFF', 'LIFE', 'INVCOST', 'FIXOM', 'VAROM'
 
 #### Table definition: ~FI_Comm
-- **Range**: B6:P21
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: B6:N21
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_Process
 - **Range**: Q6:AF21

@@ -15,8 +15,8 @@
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Start', 'COST', 'COST\~2025', 'COST\~2030', 'COST\~2035', 'COST\~2040', 'COST\~0', 'ACT_BND\~UP', 'ACT_BND\~UP\~2025', 'ACT_BND\~UP\~2030', 'ACT_BND\~UP\~2035', 'ACT_BND\~UP\~2040', 'ACT_BND\~UP\~2050', 'ACT_BND\~UP\~0'
 
 #### Table definition: ~FI_Comm
-- **Range**: B5:P18
-- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
+- **Range**: B5:N18
+- **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_T
 - **Range**: B80:AO97
