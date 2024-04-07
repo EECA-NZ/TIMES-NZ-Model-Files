@@ -15,6 +15,6 @@
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'PASTI\~1970', 'PASTI\~2000', 'PASTI\~2005', 'PASTI\~2015', 'NCAP_PASTI\~2018', '*RESID\~2018', '*RESID\~2035', '*RESID\~2050', 'EFF', '*AFA\~2015', 'AFA\~2018', '*ACT_BND\~UP\~2015', 'ACT_BND\~UP\~2018', 'ACT_BND\~0', 'INVCOST', 'FIXOM', 'VAROM', 'LIFE', 'CAP2ACT', 'Peak', 'NCAP_BND\~2015', 'NCAP_BND\~2021', 'NCAP_BND\~0'
 
 #### Table definition: ~FI_Process
-- **Range**: P11:AE20
-- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: P11:AG20
+- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 

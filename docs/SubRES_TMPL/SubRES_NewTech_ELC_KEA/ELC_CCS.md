@@ -11,8 +11,8 @@ CCS technology parameters
 - **Columns**: 'TechName', 'Comm-OUT', 'CUM', 'INVCOST', 'VAROM', 'ACTBND\~UP\~2030', 'ACTBND\~UP\~2060', 'ACTBND\~UP\~0', 'LIFE'
 
 #### Table definition: ~FI_Process
-- **Range**: C28:Q35
-- **Columns**: 'Sets', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: C28:S35
+- **Columns**: 'Sets', 'TechName', '*', '*', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
 #### Table definition: ~FI_Comm
 - **Range**: C37:O40

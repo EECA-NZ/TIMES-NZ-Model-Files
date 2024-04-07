@@ -15,6 +15,6 @@ Base year generation technology information and definitions
 - **Columns**: 'TechName', '*LimType', 'Comm-IN', 'Comm-OUT', 'PASTI\~1970', 'PASTI\~2000', 'PASTI\~2005', 'PASTI\~2015', 'NCAP_PASTI\~2018', '*RESID\~2018', '*RESID\~2016', '*RESID\~2035', '*Share-I', 'Share-I\~2018', 'Share-I\~0', 'EFF\~2018', '*AFA', 'AFA\~2018', '*ACT_BND\~2015', 'ACT_BND\~2018', 'ACT_BND\~FX\~2018', 'ACT_BND\~0', 'FIXOM', 'VAROM', 'LIFE', 'CAP2ACT', 'Peak', 'NCAP_BND', 'NCAP_BND\~2021', 'NCAP_BND\~0', 'ENV_ACT\~ELCCO2'
 
 #### Table definition: ~FI_Process
-- **Range**: P11:AE26
-- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: P11:AG26
+- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 

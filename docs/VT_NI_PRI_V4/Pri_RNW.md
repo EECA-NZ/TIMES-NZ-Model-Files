@@ -7,8 +7,8 @@
 Renewable electricity resource supply commodity and process definitions
 
 #### Table definition: ~FI_Process
-- **Range**: H15:W24
-- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: H15:Y24
+- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
 #### Table definition: ~FI_T
 - **Range**: H28:W37

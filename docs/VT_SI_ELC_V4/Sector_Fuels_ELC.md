@@ -15,6 +15,6 @@ Commodity and process definitions for electricity sector
 - **Columns**: 'Csets', 'Region', 'CommName', '*', '*', 'CommDesc', '*', 'Unit', 'LimType', 'CTSLvl', 'PeakTS', 'Ctype'
 
 #### Table definition: ~FI_Process
-- **Range**: Q6:AF21
-- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: Q6:AH21
+- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
