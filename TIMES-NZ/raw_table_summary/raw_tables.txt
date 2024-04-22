@@ -6791,22 +6791,20 @@ G_ELC_A_00,Existing electricity distribution grid  AGRELC,ELCD,AGRELC,0.38,1,0.1
 
 
 sheetname: Demand and Distribution
-range: B36:N48
+range: B36:N46
 filename: VT_NI_ELC_V4.xlsx
 tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
 Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
 *Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,ELC-HV,,, -:- ,High voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,ELC-MV,,, -:- ,Mid voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,ELCDD,,, -:- ,Low voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,ELCD,,, -:- ,Low voltage input ELC for demand sectors,PJ,FX,DAYNITE,,ELC
-NRG,,RESELC,,, -:- ,Residential ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,INDELC,,, -:- ,Industrial ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,COMELC,,, -:- ,Service ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,AGRELC,,, -:- ,Agricultural ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-,,,,, -:- ,,,,,,
-DEM,,OWNELC,,, -:- ,Electricity for own use,PJ,,DAYNITE,,
+NRG,,ELC-HV,,Electricity Production, -:- Electricity Production,High voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELC-MV,,Electricity Production, -:- Electricity Production,Mid voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELCDD,,Electricity Production, -:- Electricity Production,Low voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELCD,,Electricity Production, -:- Electricity Production,Low voltage input ELC for demand sectors,PJ,FX,DAYNITE,,ELC
+NRG,,RESELC,,Electricity Production, -:- Electricity Production,Residential ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,INDELC,,Electricity Production, -:- Electricity Production,Industrial ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,COMELC,,Electricity Production, -:- Electricity Production,Service ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,AGRELC,,Electricity Production, -:- Electricity Production,Agricultural ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
 
 
 sheetname: Demand and Distribution
@@ -6959,7 +6957,7 @@ Sets,Region,TechName,* Sector,* Subsector,* Enduse,* Technology,* Fuel,* Paramet
 PRE,,FTE_ELCCOA,Electricity,,,,Coal,,,Electricity -:-  -:-  -:-  -:- Coal -:-  -:- ,Sector Fuel Technology Existing Electricity Plants Bituminous & Sub-bitum.,PJ,PJa,,,
 ,,FTE_ELCCOL,Electricity,,,,Coal,,,Electricity -:-  -:-  -:-  -:- Coal -:-  -:- ,Sector Fuel Technology Existing Electricity Plants Lignite,PJ,PJa,,,
 ,,FTE_ELCOIL,Electricity,,,,Oil,,,Electricity -:-  -:-  -:-  -:- Oil -:-  -:- ,Sector Fuel Technology Existing Electricity Plants Oil,PJ,PJa,,,
-,,FTE_ELCNGA,Electricity,,,,Natural Gas,,,Electricity -:-  -:-  -:-  -:- Natural Gas -:-  -:- ,Sector Fuel Technology Existing Electricity Plants Natural Gas,PJ,PJa,,,
+,,FTE_ELCNGA,Electricity,,,,Natural Gas,,,Electricity -:-  -:-  -:-  -:- Natural Gas -:-  -:- ,Sector Fuel Technology Existing Electricity Plants Natural Gas,PJ,PJa,DAYNITE,,
 ,,FTE_ELCHYD,Electricity,,,,Hydro,,,Electricity -:-  -:-  -:-  -:- Hydro -:-  -:- ,Sector Fuel Technology Existing Electricity Plants Hydro,PJ,PJa,,,
 ,,FTE_ELCGEO,Electricity,,,,Geothermal,,,Electricity -:-  -:-  -:-  -:- Geothermal -:-  -:- ,Sector Fuel Technology Existing Electricity Plants Geothermal,PJ,PJa,,,
 ,,FTE_ELCSOL,Electricity,,,,Solar,,,Electricity -:-  -:-  -:-  -:- Solar -:-  -:- ,Sector Fuel Technology Existing Electricity Plants Solar,PJ,PJa,,,
@@ -7218,7 +7216,7 @@ DEM,,METAL-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Metal product
 DEM,,METAL-RFGR,,Refrigeration, -:- Refrigeration,Metal product manufacturing - Refrigeration,PJ,,DAYNITE,,
 DEM,,METAL-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Metal product manufacturing - Process Heat: Direct Heat,PJ,,DAYNITE,,
 DEM,,MTHOL-FDSTCK,,Feedstock, -:- Feedstock,Methanol - Methanol production (feedstock),PJ,,DAYNITE,,
-DEM,,MTHOL-PH_REFRM,,Process Heat Reforming, -:- Process Heat Reforming,Methanol - Process Heat: Reformer,PJ,,DAYNITE,,
+DEM,,MTHOL-PH_REFRM,,Process Heat Reformer, -:- Process Heat Reformer,Methanol - Process Heat: Reformer,PJ,,DAYNITE,,
 DEM,,MNRL-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Mineral - Motive Power, Stationary",PJ,,DAYNITE,,
 DEM,,MNRL-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Mineral - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
 DEM,,MNRL-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Mineral - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
@@ -7242,7 +7240,7 @@ DEM,,REFI-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary",
 DEM,,REFI-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Refining - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
 DEM,,REFI-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Refining - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
 DEM,,UREA-FDSTCK,,Feedstock, -:- Feedstock,Urea - Urea production (feedstock),PJ,,DAYNITE,,
-DEM,,UREA-REFRM,,Process Heat Reforming, -:- Process Heat Reforming,Urea - Urea production reformer,PJ,,DAYNITE,,
+DEM,,UREA-REFRM,,Process Heat Reformer, -:- Process Heat Reformer,Urea - Urea production reformer,PJ,,DAYNITE,,
 DEM,,WOOD-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Wood products - Motive Power, Stationary",PJ,,DAYNITE,,
 DEM,,WOOD-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Wood products - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
 DEM,,WOOD-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Wood products - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
@@ -8626,9 +8624,9 @@ tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
 Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
 *Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,H2C,Green Hydrogen,,Green Hydrogen -:- ,centralised hydrogen,PJ,FX,DAYNITE,,
-NRG,,H2D,Green Hydrogen,,Green Hydrogen -:- ,decentralised hydrogen,PJ,FX,DAYNITE,,
-NRG,,H2R,Green Hydrogen,,Green Hydrogen -:- ,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
+NRG,,H2C,Green Hydrogen,Green Hydrogen Fuel,Green Hydrogen -:- Green Hydrogen Fuel,centralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2D,Green Hydrogen,Green Hydrogen Fuel,Green Hydrogen -:- Green Hydrogen Fuel,decentralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2R,Green Hydrogen,Green Hydrogen Fuel,Green Hydrogen -:- Green Hydrogen Fuel,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
 NRG,,ELCNGA,Natural Gas,Electricity Production,Natural Gas -:- Electricity Production,Hydrogen and natural gas mix (ELC sector),PJ,FX,DAYNITE,,
 NRG,,DAC_CO2,,CO2 from air, -:- CO2 from air,CO2 from air,kt,,,,
 NRG,,TRAH2R,Green Hydrogen,,Green Hydrogen -:- ,Hydrogen for transport sector,PJ,FX,DAYNITE,,
@@ -8811,7 +8809,7 @@ DEM,NI,T_P_Car,,Car/SUV, -:- Car/SUV,Passenger transport - cars,BVkm,,,,
 ,NI,T_F_ISHIP,,International Shipping, -:- International Shipping,International shipping,PJ,,,,
 ,NI,T_O_JET,,Domestic Aviation, -:- Domestic Aviation,Other transport aviation jet fuel,PJ,,,,
 ,NI,T_O_JET_Int,,International Aviation, -:- International Aviation,Other transport aviation jet fuel - International,PJ,,,,
-NRG,NI,H2R,Green Hydrogen,,Green Hydrogen -:- ,Hydrogen fuel,PJ,FX,,,
+NRG,NI,H2R,Green Hydrogen,Green Hydrogen Fuel,Green Hydrogen -:- Green Hydrogen Fuel,Hydrogen fuel,PJ,FX,,,
 
 
 sheetname: TRA_Demand-Vehicles
@@ -8965,14 +8963,14 @@ tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
 Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
 *Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,ELC-HV,,, -:- ,High voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,ELC-MV,,, -:- ,Mid voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,ELCDD,,, -:- ,Low voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,ELCD,,, -:- ,Low voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,RESELC,,, -:- ,Residential ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,INDELC,,, -:- ,Industrial ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,COMELC,,, -:- ,Service ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
-NRG,,AGRELC,,, -:- ,Agricultural ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELC-HV,,Electricity Production, -:- Electricity Production,High voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELC-MV,,Electricity Production, -:- Electricity Production,Mid voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELCDD,,Electricity Production, -:- Electricity Production,Low voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,ELCD,,Electricity Production, -:- Electricity Production,Low voltage ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,RESELC,,Electricity Production, -:- Electricity Production,Residential ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,INDELC,,Electricity Production, -:- Electricity Production,Industrial ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,COMELC,,Electricity Production, -:- Electricity Production,Service ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
+NRG,,AGRELC,,Electricity Production, -:- Electricity Production,Agricultural ELC From Dist. Grid,PJ,FX,DAYNITE,,ELC
 
 
 sheetname: Demand and Distribution
@@ -9359,7 +9357,7 @@ DEM,,METAL-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Metal product
 DEM,,METAL-RFGR,,Refrigeration, -:- Refrigeration,Metal product manufacturing - Refrigeration,PJ,,DAYNITE,,
 DEM,,METAL-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Metal product manufacturing - Process Heat: Direct Heat,PJ,,DAYNITE,,
 DEM,,MTHOL-FDSTCK,,Feedstock, -:- Feedstock,Methanol - Methanol production (feedstock),PJ,,DAYNITE,,
-DEM,,MTHOL-PH_REFRM,,Process Heat Reforming, -:- Process Heat Reforming,Methanol - Process Heat: Reformer,PJ,,DAYNITE,,
+DEM,,MTHOL-PH_REFRM,,Process Heat Reformer, -:- Process Heat Reformer,Methanol - Process Heat: Reformer,PJ,,DAYNITE,,
 DEM,,MNRL-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Mineral - Motive Power, Stationary",PJ,,DAYNITE,,
 DEM,,MNRL-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Mineral - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
 DEM,,MNRL-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Mineral - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
@@ -9383,7 +9381,7 @@ DEM,,REFI-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary",
 DEM,,REFI-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Refining - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
 DEM,,REFI-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Refining - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
 DEM,,UREA-FDSTCK,,Feedstock, -:- Feedstock,Urea - Urea production (feedstock),PJ,,DAYNITE,,
-DEM,,UREA-REFRM,,Process Heat Reforming, -:- Process Heat Reforming,Urea - Urea production reformer,PJ,,DAYNITE,,
+DEM,,UREA-REFRM,,Process Heat Reformer, -:- Process Heat Reformer,Urea - Urea production reformer,PJ,,DAYNITE,,
 DEM,,WOOD-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Wood products - Motive Power, Stationary",PJ,,DAYNITE,,
 DEM,,WOOD-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Wood products - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
 DEM,,WOOD-PH-STM_HW,,Process Heat Steam/Hot Water, -:- Process Heat Steam/Hot Water,Wood products - Process Heat: Steam/Hot Water,PJ,,DAYNITE,,
@@ -9490,7 +9488,7 @@ DMD,,REFI-PH-FURN-NGA-Furn15,Industry,Refining,Process Heat Furnace,Furnace,Natu
 DMD,,REFI-MoTP-Stat-ELC-Mtr15,Industry,Refining,"Motive Power, Stationary",Stationary Motor,Electricity,,1,"Industry -:- Refining -:- Motive Power, Stationary -:- Stationary Motor -:- Electricity -:-  -:- 1",Refining Motive Power Stationary Electric Motor Existing,PJ,GW,DAYNITE,,
 DMD,,REFI-PH-STM_HW-NGA-BLR15,Industry,Refining,Process Heat Steam/Hot Water,Boiler,Natural Gas,,1,Industry -:- Refining -:- Process Heat Steam/Hot Water -:- Boiler -:- Natural Gas -:-  -:- 1,Refining Process Heat Steam/Hot Water Natural Gas Boiler Existing,PJ,GW,DAYNITE,,
 DMD,,UREA-FDSTCK-NGA-FDSTCK15,Industry,Urea Production,Feedstock,Feedstock,Natural Gas,,,Industry -:- Urea Production -:- Feedstock -:- Feedstock -:- Natural Gas -:-  -:- ,Urea Feedstock Natural Gas ,PJ,GW,DAYNITE,,
-DMD,,UREA-REFRM-NGA15,Industry,Urea Production,Process Heat Reforming,Reformer,Natural Gas,,,Industry -:- Urea Production -:- Process Heat Reforming -:- Reformer -:- Natural Gas -:-  -:- ,Urea Reforming Natural Gas Reformer Existing,PJ,GW,DAYNITE,,
+DMD,,UREA-REFRM-NGA15,Industry,Urea Production,Process Heat Reformer,Reformer,Natural Gas,,,Industry -:- Urea Production -:- Process Heat Reformer -:- Reformer -:- Natural Gas -:-  -:- ,Urea Reforming Natural Gas Reformer Existing,PJ,GW,DAYNITE,,
 DMD,,WOOD-PH-STM_HW-COA-BLR15,Industry,Wood Product Manufacturing,Process Heat Steam/Hot Water,Boiler,Coal,,1,Industry -:- Wood Product Manufacturing -:- Process Heat Steam/Hot Water -:- Boiler -:- Coal -:-  -:- 1,Wood Products Process Heat Steam/Hot Water Coal Boiler Existing,PJ,GW,DAYNITE,,
 DMD,,WOOD-PH-STM_HW-DSL-BLR15,Industry,Wood Product Manufacturing,Process Heat Steam/Hot Water,Boiler,Diesel,,1,Industry -:- Wood Product Manufacturing -:- Process Heat Steam/Hot Water -:- Boiler -:- Diesel -:-  -:- 1,Wood Products Process Heat Steam/Hot Water Diesel Boiler Existing,PJ,GW,DAYNITE,,
 DMD,,WOOD-PH-STM_HW-ELC-BLR15,Industry,Wood Product Manufacturing,Process Heat Steam/Hot Water,Boiler,Electricity,,1,Industry -:- Wood Product Manufacturing -:- Process Heat Steam/Hot Water -:- Boiler -:- Electricity -:-  -:- 1,Wood Products Process Heat Steam/Hot Water Electric Boiler Existing,PJ,GW,DAYNITE,,
@@ -10833,9 +10831,9 @@ tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
 Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
 *Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,H2C,Green Hydrogen,,Green Hydrogen -:- ,centralised hydrogen,PJ,FX,DAYNITE,,
-NRG,,H2D,Green Hydrogen,,Green Hydrogen -:- ,decentralised hydrogen,PJ,FX,DAYNITE,,
-NRG,,H2R,Green Hydrogen,,Green Hydrogen -:- ,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
+NRG,,H2C,Green Hydrogen,Green Hydrogen Fuel,Green Hydrogen -:- Green Hydrogen Fuel,centralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2D,Green Hydrogen,Green Hydrogen Fuel,Green Hydrogen -:- Green Hydrogen Fuel,decentralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2R,Green Hydrogen,Green Hydrogen Fuel,Green Hydrogen -:- Green Hydrogen Fuel,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
 NRG,,ELCNGA,Natural Gas,Electricity Production,Natural Gas -:- Electricity Production,Hydrogen and natural gas mix (ELC sector),PJ,FX,DAYNITE,,
 NRG,,DAC_CO2,,CO2 from air, -:- CO2 from air,CO2 from air,kt,,,,
 NRG,,TRAH2R,Green Hydrogen,,Green Hydrogen -:- ,Hydrogen for transport sector,PJ,FX,DAYNITE,,
@@ -10996,7 +10994,7 @@ DEM,SI,T_P_Car,,Car/SUV, -:- Car/SUV,Passenger transport - cars,BVkm,,,,
 ,SI,T_F_ISHIP,,International Shipping, -:- International Shipping,International shipping,PJ,,,,
 ,SI,T_O_JET,,Domestic Aviation, -:- Domestic Aviation,Other transport aviation jet fuel,PJ,,,,
 ,SI,T_O_JET_Int,,International Aviation, -:- International Aviation,Other transport aviation jet fuel - International,PJ,,,,
-NRG,SI,H2R,Green Hydrogen,,Green Hydrogen -:- ,Hydrogen fuel,PJ,FX,,,
+NRG,SI,H2R,Green Hydrogen,Green Hydrogen Fuel,Green Hydrogen -:- Green Hydrogen Fuel,Hydrogen fuel,PJ,FX,,,
 
 
 sheetname: TRA_Demand-Vehicles
