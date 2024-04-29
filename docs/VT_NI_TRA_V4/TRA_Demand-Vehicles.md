@@ -19,6 +19,6 @@ Transport technology process defintions and base year demand
 - **Columns**: 'CommName', '2018'
 
 #### Table definition: ~FI_Process
-- **Range**: S6:AJ36
-- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: S6:AG36
+- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 

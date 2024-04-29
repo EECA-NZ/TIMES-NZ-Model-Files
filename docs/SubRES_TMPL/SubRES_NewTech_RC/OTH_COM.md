@@ -7,8 +7,8 @@
 Commercial sector future technology defintions and parameters
 
 #### Table definition: ~FI_Process
-- **Range**: C285:S553
-- **Columns**: 'Sets', 'TechName', '*', '*', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: C285:P553
+- **Columns**: 'Sets', 'TechName', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
 #### Table definition: ~FI_T
 - **Range**: C4:Y282

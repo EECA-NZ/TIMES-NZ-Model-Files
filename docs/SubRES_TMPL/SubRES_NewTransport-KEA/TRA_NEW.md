@@ -7,8 +7,8 @@
 Technology parameters and definitions
 
 #### Table definition: ~FI_Process
-- **Range**: C53:S85
-- **Columns**: 'Sets', 'TechName', '*', '*', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: C53:P85
+- **Columns**: 'Sets', 'TechName', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
 #### Table definition: ~FI_T
 - **Range**: C7:Y47

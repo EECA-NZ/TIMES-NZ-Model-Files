@@ -7,8 +7,8 @@
 Oil supply commodity and process definitions
 
 #### Table definition: ~FI_Process
-- **Range**: I17:Z43
-- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: I17:W43
+- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
 #### Table definition: ~FI_Comm
 - **Range**: I3:U13

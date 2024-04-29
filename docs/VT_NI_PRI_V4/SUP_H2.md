@@ -23,6 +23,6 @@ Hydrogen supply commodity and process defintions
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'Share-I\~UP', 'Share-I\~UP\~2020', 'Share-I\~UP\~2060', 'EFF', 'LIFE', 'VAROM'
 
 #### Table definition: ~FI_Process
-- **Range**: S3:AJ29
-- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
+- **Range**: S3:AG29
+- **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
