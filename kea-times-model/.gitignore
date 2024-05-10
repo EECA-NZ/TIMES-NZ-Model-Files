@@ -1,0 +1,10 @@
+AppData/
+GAMSSAVE/
+*END_GAMS*
+*.gdx
+*.vd
+*.vde
+*.vds
+*.lst
+*.LOG*
+kea-times-model/xl2times-kea-output/merged_tables.txt
