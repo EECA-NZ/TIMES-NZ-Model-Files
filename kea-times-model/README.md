@@ -35,4 +35,5 @@ This attempts to enter the `xl2times-kea-output` directory and from there to run
 ```Powershell
 GAMS xl2times-kea-output.RUN IDIR=C:\Users\CattonW\Veda2\Veda\GAMS_SrcTIMES.v4.7.6 GDX=C:\Users\cattonw\git\TIMES-NZ-Model-Files\kea-times-model\GAMSSAVE\xl2times-kea-output PS=99999 r=C:\Users\CattonW\Veda2\Veda\GAMS_SrcTIMES.v4.7.6\_times
 ```
-Currently it doesn't work, and throws a large number of "Domain violation for element" errors.
+Currently it doesn't work, and logs that:
+Implied bounds make row 'EQL_FLOMRK('NI',2018,'R_DDW-SH_Burner-WOD00','RESWOD','ANNUAL')' infeasible.
