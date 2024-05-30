@@ -7,7 +7,7 @@
 Residential sector fuel commodity and process definitions
 
 #### Table definition: ~FI_T
-- **Range**: C19:K47
+- **Range**: C19:K46
 - **Columns**: 'CommName', 'Demand\~2018', 'Demand\~2020', 'Demand\~2025', 'Demand\~2030', 'Demand\~2040', 'Demand\~2050', 'Demand\~2060'
 
 #### Table definition: ~FI_T

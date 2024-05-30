@@ -7,7 +7,7 @@
 Commercial sector process data
 
 #### Table definition: ~FI_T
-- **Range**: C131:E173
+- **Range**: C131:E172
 - **Columns**: 'CommName', 'Demand\~2018'
 
 #### Table definition: ~FI_T

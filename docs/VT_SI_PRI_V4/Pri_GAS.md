@@ -7,7 +7,7 @@
 Fossil gas supply commodity and process definitions
 
 #### Table definition: ~FI_Process
-- **Range**: I10:W21
+- **Range**: I10:W22
 - **Columns**: 'Sets', 'Region', 'TechName', '*', '*', '*', '*', 'TechDesc', '*', 'Tact', 'Tcap', 'Tslvl', 'PrimaryCG', 'Vintage'
 
 #### Table definition: ~FI_T

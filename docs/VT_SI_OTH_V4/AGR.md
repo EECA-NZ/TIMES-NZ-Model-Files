@@ -11,6 +11,6 @@ Agriculture process data
 - **Columns**: 'TechName', 'Comm-IN', 'Comm-OUT', 'PRC_RESID', '*Delivered', 'EFF', 'LIFE', 'INVCOST', 'FIXOM', 'CAP2ACT', 'ACT_BND', 'AFA'
 
 #### Table definition: ~FI_T
-- **Range**: C56:E93
+- **Range**: C56:E92
 - **Columns**: 'CommName', 'Demand\~2018'
 
