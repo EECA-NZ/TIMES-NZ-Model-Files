@@ -1,0 +1,3 @@
+[submodule "TIMES-NZ-GAMS/etsap-TIMES"]
+	path = TIMES-NZ-GAMS/etsap-TIMES
+	url = https://github.com/etsap-TIMES/TIMES_model.git
