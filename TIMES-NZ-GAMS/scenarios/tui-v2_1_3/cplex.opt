@@ -1,0 +1,12 @@
+scaind 1
+rerun yes
+iis 1
+lpmethod 4
+baralg 1
+barcrossalg 0
+barorder 3
+THREADS=7
+advind=0
+names no
+* Keep the line empty above this one - it puts a newline where it's needed!
+writelp TIMES_tui-v2_1_3.lp
