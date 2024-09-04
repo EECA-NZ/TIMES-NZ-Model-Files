@@ -12,3 +12,21 @@ TIMES-NZ/AppData/Cases.json
 TIMES-NZ/AppData/Groups.json
 raw_tables.pkl
 TIMES-NZ/Exported_files/
+TIMES-NZ-GAMS/GAMSSAVE/
+
+# Ignore all generated files
+*.lst
+*.gdx
+*.vd
+*.vde
+*.vds
+*.vdt
+*.log
+*_run_log.txt
+*.exe
+
+# Ignore specific directories
+GAMSSAVE/
+
+# Additional ignores
+END_GAMS
