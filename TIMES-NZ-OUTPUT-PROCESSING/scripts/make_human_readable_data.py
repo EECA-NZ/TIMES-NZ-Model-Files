@@ -6,9 +6,10 @@ import os
 import sys
 import logging
 import argparse
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 import numpy as np
 import pandas as pd
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 parser = argparse.ArgumentParser(description='Process VEDA data to create a human-readable schema')
 parser.add_argument('version', type=str, help='The version number')
@@ -18,8 +19,8 @@ os.environ['TIMES_NZ_VERSION'] = args.version
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'library'))
 
 from constants import *
-from rulesets import *
 from helpers import *
+from rulesets import *
 
 
 #### CONSTANTS
@@ -30,51 +31,27 @@ zero_biofuel_emissions = False
 
 group_columns = ['Scenario', 'Sector', 'Subsector', 'Technology', 'Enduse', 'Unit', 'Parameters', 'Fuel', 'Period', 'FuelGroup', 'Technology_Group']
 
-RENEWABLE_FUEL_ALLOCATION_RULES = [
-    ({"FuelSourceProcess": "SUP_BIGNGA", "Commodity": "NGA"}, "inplace", {"Fuel": "Biogas"}),
-    ({"FuelSourceProcess": "SUP_H2NGA", "Commodity": "NGA"}, "inplace", {"Fuel": "Natural Gas From Green Hydrogen"}),
-    ({"FuelSourceProcess": "CT_COILBDS", "Commodity": "BDSL"}, "inplace", {"Fuel": "Biodiesel"}),
-    ({"FuelSourceProcess": "CT_CWODDID", "Commodity": "DID"}, "inplace", {"Fuel": "Drop-In Diesel"}),
-    ({"FuelSourceProcess": "CT_CWODDID", "Commodity": "DIJ"}, "inplace", {"Fuel": "Drop-In Jet"}),
-    ({"FuelSourceProcess": "IMPDIJ", "Commodity": "DIJ"}, "inplace", {"Fuel": "Drop-In Jet"}),
-]
-
-THOUSAND_VEHICLE_RULES = [
-    ({"Sector": "Transport", "Subsector": "Road Transport",# "Technology": "Plug-In Hybrid Vehicle",
-      "Unit": "000 Vehicles"}, "inplace", {"Unit": "Number of Vehicles (Thousands)"}),
-]
-
 SCENARIO_INPUT_FILES = {
     'Kea': f'../../TIMES-NZ-GAMS/scenarios/kea-v{VERSION_STR}/kea-v{VERSION_STR}.vd',
     'Tui': f'../../TIMES-NZ-GAMS/scenarios/tui-v{VERSION_STR}/tui-v{VERSION_STR}.vd'
 }
 
-
 needed_attributes = ['VAR_Cap', 'VAR_FIn', 'VAR_FOut']
+
 non_emission_fuel = ['Electricity', 'Wood', 'Hydrogen', 'Hydro', 'Wind', 'Solar', 'Biogas']
-commodity_map = process_map_from_commodity_groups(ITEMS_LIST_COMMODITY_GROUPS_CSV)
-commodities_by_type = commodities_by_type_from_commodity_groups(ITEMS_LIST_COMMODITY_GROUPS_CSV)
-end_use_commodities = commodities_by_type['DEMO']
-end_use_processes = commodity_map[commodity_map.Commodity.isin(end_use_commodities)].Process.unique()
+
 commodity_units = {x[0]['Commodity']: x[2]['Unit'] for x in commodity_unit_rules}
+
 process_sectors = {x[0]['Process']: x[2]['Sector'] for x in process_rules}
-sector_emission_types = {
-    '': 'TOTCO2',
-    'Industry': 'INDCO2',
-    'Residential' : 'RESCO2',
-    'Agriculture' : 'AGRCO2',
-    'Electricity' : 'ELCCO2',
-    'Transport' : 'TRACO2',
-    'Green Hydrogen': 'TOTCO2',
-    'Primary Fuel Supply': 'TOTCO2',
-    'Commercial': 'COMCO2'
-}
+
 end_use_process_emission_types = {x: sector_emission_types[process_sectors[x]] for x in end_use_processes}
+
+
 
 
 #### FUNCTIONS ####
 
-def generate_schema():
+def generate_schema_and_save_to(output_schema_filepath):
 
     # First approach: VD OUTPUT. This approach will only include technologies selected by TIMES.
     vd_df = read_and_concatenate(INPUT_VD_FILES)
@@ -98,7 +75,7 @@ def generate_schema():
     main_df = pd.concat([vd_df, cg_df]).drop_duplicates()
 
     # Populate the columns and augment with emissions rows according to the rulesets in the specified order
-    for name, ruleset in RULESETS:
+    for name, ruleset in SCHEMA_RULESETS:
         logging.info("Applying ruleset: %s", name)
         main_df = apply_rules(main_df, ruleset)
 
@@ -120,110 +97,13 @@ def generate_schema():
             OUTPUT_SCHEMA_FILEPATH,
         )
         exit()
-    logging.info("The files have been concatenated and saved to %s", OUTPUT_SCHEMA_FILEPATH)
-
-
-def units_consistent(commodity_flow_dict):
-     # Check if all units are the same
-     return len(set([commodity_units[commodity] for commodity in commodity_flow_dict])) == 1
-
-def trace_commodities(process, scenario, period, df, path=None, fraction=1):
-    """
-    Trace the output commodities of a process (e.g. Biodiesel blending) all the way through
-    to end-use commodities (e.g. bus transportation) to determine what fraction of its output
-    (e.g. blended diesel) ends up being used to provide each end-use commodity.
-    """
-    if path is None:
-        path = []
-    if len(path) > 100:
-        logging.error("Path too long, likely a circular reference")
-        logging.error(path)
-        raise ValueError("Path too long, likely a circular reference")
-    # Extend path with the current process
-    current_path = path + [process]
-    # Get output flows from the current process
-    output_flows = process_output_flows(process, scenario, period, df)
-    # This implementation assumes that everything has the same units
-    assert(units_consistent(output_flows))
-    # Calculate fractional flows for each output commodity
-    output_fracs = flow_fractions(output_flows)
-    # Resulting dictionary to keep track of the final fractional attributions
-    result = {}
-    for commodity in output_flows.keys():
-        # Get the input flows for the commodity across different processes
-        input_flows = commodity_input_flows(commodity, scenario, period, df)
-        # If the commodity does not flow into any other processes, it is terminal
-        if not input_flows:
-            # Save the path and fraction up to this point
-            result[tuple(current_path + [commodity])] = fraction * output_fracs[commodity]
-        else:
-            input_fracs = flow_fractions(input_flows)
-            # Recursively trace downstream processes
-            for downstream_process, input_fraction in input_fracs.items():
-                ####    continue
-                # Calculate new fraction as current fraction * fraction of this commodity's output used by the downstream process
-                new_fraction = fraction * output_fracs[commodity] * input_fraction
-                # Merge results from recursion
-                result.update(trace_commodities(downstream_process, scenario, period, df, current_path + [commodity], new_fraction))
-    return result
-
-def end_use_fractions(process, scenario, period, df, filter_to_commodities=None):
-    # Return a dictionary of emissions from end-use processes
-    trace_result = trace_commodities(process, scenario, period, df)
-    # Ensure the sum of all terminal fractions is approximately 1
-    assert(abs(sum(trace_result.values()) - 1) < 1e-5)
-    end_use_fractions = pd.DataFrame(
-         [{'Scenario': scenario,
-         'Attribute': 'VAR_FOut',
-         'Commodity': None,
-         'Process': process,
-         'Period': period,
-         'Value': None} for process in end_use_processes]
-    )
-    # Loop through the trace_result dictionary
-    for key, value in trace_result.items():
-        process_chain = key  # This is the tuple containing the process chain
-        fuel_source_process = process_chain[0] # First entry which is the fuel source process
-        process = process_chain[-2]  # Penultimate entry which is the process
-        commodity = process_chain[1]  # Second entry which is the commodity
-        end_use_fractions.loc[end_use_fractions['Process'] == process, 'Value'] = value
-        end_use_fractions.loc[end_use_fractions['Process'] == process, 'Commodity'] = commodity
-        end_use_fractions.loc[end_use_fractions['Process'] == process, 'FuelSourceProcess'] = fuel_source_process
-    if filter_to_commodities is not None:
-        end_use_fractions = end_use_fractions[(end_use_fractions['Commodity'].isin(filter_to_commodities)) | (end_use_fractions['Commodity'].isna())]
-    end_use_fractions.Value = end_use_fractions.Value / end_use_fractions.Value.sum()
-    return end_use_fractions
-
-def complete_expand_dim(df, expand_dim, fill_value_dict):
-    original_column_order = df.columns
-    # This implementation assumes no NaN values in the starting DataFrame
-    assert not df.isnull().values.any(), "DataFrame contains NaN values"
-    # Get all columns except the one to expand
-    defcols = [expand_dim] + list(fill_value_dict.keys()) # defined columns
-    columns = [x for x in df.columns if x not in defcols] # derived from data
-    # Form a DataFrame with all combinations of the unique values of the other dimensions
-    _df = df.copy().drop(columns=defcols).drop_duplicates()
-    _df['key'] = 1
-    # Get all unique values for the expansion dimension
-    # Create a DataFrame with all expand_dim values and the same key
-    expand_values = df[expand_dim].unique()
-    expand_df = pd.DataFrame({expand_dim: expand_values, 'key': 1})
-    # Combine the unique values of the expand_dim with the original DataFrame using the key
-    # This creates a DataFrame where each row of the original is repeated for each unique value of the expand_dim
-    df_expanded = pd.merge(_df, expand_df, on='key').drop(columns='key')
-    # Merge the expanded DataFrame with the original DataFrame to fill in the missing values
-    df_full = pd.merge(df_expanded, df, on=columns + [expand_dim], how='left')
-    # for each column in fill_value_dict, fill in the missing values with the specified default
-    for (col, fill_value) in fill_value_dict.items():
-        df_full[col] = df_full[col].fillna(fill_value)
-    return df_full[original_column_order]
-
+    logging.info("The files have been concatenated and saved to %s", output_schema_filepath)
 
 #### MAIN ####
 
 os.makedirs('../data/output', exist_ok=True)
 
-generate_schema()
+generate_schema_and_save_to(OUTPUT_SCHEMA_FILEPATH)
 
 raw_df = pd.DataFrame()
 
@@ -241,12 +121,12 @@ for scen, path in SCENARIO_INPUT_FILES.items():
 # Filtering and transformation
 raw_df.rename(columns={'PV': 'Value'}, inplace=True)
 raw_df = raw_df[raw_df['Attribute'].isin(needed_attributes)]
+
 # Aggregate Value over all combinations of Region, Vintage, Timeslice, UserConstraint for the other columns.
 raw_df = raw_df.groupby(['Scenario', 'Attribute', 'Commodity', 'Process', 'Period']).sum(['Value']).reset_index()
 
-
 # Read other necessary files
-schema_all = pd.read_csv(f'../data/output/output_schema_df_v{VERSION_STR}.csv')
+schema_all = pd.read_csv(OUTPUT_SCHEMA_FILEPATH)
 schema_technology = pd.read_csv('../data/input/Schema_Technology.csv')
 schema_technology['Technology'] = schema_technology['Technology'].str.strip()
 
@@ -259,7 +139,6 @@ schema_all = pd.merge(schema_all,
 schema_all = schema_all[schema_all['_merge'] == 'left_only'].drop(columns=['_merge'])
 
 
-
 emissions_rows_to_add = pd.DataFrame()
 emissions_rows_to_drop = pd.DataFrame()
 
@@ -270,9 +149,9 @@ negative_emissions = raw_df[
     (raw_df['Value'] < 0)]
 for index, row in negative_emissions.iterrows():
     # For each negative emission process, follow its outputs through to end uses
-    trace_result = trace_commodities(row['Process'], row['Scenario'], row['Period'], raw_df)
+    trace_result = trace_commodities(row['Process'], row['Scenario'], row['Period'], raw_df, commodity_units)
     # Get the fractional attributions of the process output to end-use processes
-    end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], raw_df)
+    end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], raw_df, commodity_units)
     # Proportionately attribute the 'neg-emissions' to the end-uses, in units of Mt CO₂/yr
     end_use_allocations['Value'] *= row['Value']
     # Label the Fuels used according to the neg-emission process and commodity produced
@@ -284,7 +163,7 @@ for index, row in negative_emissions.iterrows():
     end_use_allocations = add_missing_columns(end_use_allocations, OUT_COLS)
     emissions_rows_to_add = pd.concat([emissions_rows_to_add, end_use_allocations], ignore_index=True)
 # Complete the dataframe using the usual rules, taking care not to overwrite the Fuel
-for name, ruleset in RULESETS + [('process_enduse_rules', process_enduse_rules)]:
+for name, ruleset in SCHEMA_RULESETS + [('process_enduse_rules', process_enduse_rules)]:
     if name in ["commodity_fuel_rules", "process_fuel_rules"]:
         continue
     logging.info("Applying ruleset to 'negative emissions' rows: %s", name)
@@ -305,7 +184,6 @@ emissions_rows_to_drop = pd.concat([emissions_rows_to_drop, negative_emissions])
 assert(0 == len(pd.merge(emissions_rows_to_drop, schema_all, on=['Attribute', 'Process', 'Commodity'], how='inner')))
 
 
-
 biodiesel_rows_to_add = pd.DataFrame()
 # Allocate biodiesel to end-use processes
 biodiesel = raw_df[(
@@ -314,16 +192,16 @@ biodiesel = raw_df[(
     (~raw_df['Process'].apply(is_trade_process))
 ]
 for index, row in biodiesel.iterrows():
-    trace_result = trace_commodities(row['Process'], row['Scenario'], row['Period'], raw_df)
+    trace_result = trace_commodities(row['Process'], row['Scenario'], row['Period'], raw_df, commodity_units)
     trace_result = [x for x in trace_result if x[1]==row['Commodity']]
-    end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], raw_df, filter_to_commodities=['BDSL']).dropna()
+    end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], raw_df, commodity_units, filter_to_commodities=['BDSL']).dropna()
     end_use_allocations['Value'] *= row['Value']
     end_use_allocations['Attribute'] = 'VAR_FIn'
     end_use_allocations['Commodity'] = 'BDSL'
     end_use_allocations = apply_rules(end_use_allocations, RENEWABLE_FUEL_ALLOCATION_RULES)
     end_use_allocations.dropna(inplace=True)
     biodiesel_rows_to_add = pd.concat([biodiesel_rows_to_add, end_use_allocations], ignore_index=True)
-for name, ruleset in RULESETS + [('process_enduse_rules', process_enduse_rules)]:
+for name, ruleset in SCHEMA_RULESETS + [('process_enduse_rules', process_enduse_rules)]:
     if name in ["commodity_fuel_rules", "process_fuel_rules"]:
         continue
     logging.info("Applying ruleset to 'biodiesel' rows: %s", name)
@@ -344,16 +222,16 @@ drop_in_diesel = raw_df[
     (~raw_df['Process'].apply(is_trade_process))
 ]
 for index, row in drop_in_diesel.iterrows():
-    trace_result = trace_commodities(row['Process'], row['Scenario'], row['Period'], raw_df)
+    trace_result = trace_commodities(row['Process'], row['Scenario'], row['Period'], raw_df, commodity_units)
     trace_result = [x for x in trace_result if x[1]==row['Commodity']]
-    end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], raw_df, filter_to_commodities=['DID']).dropna()
+    end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], raw_df, commodity_units, filter_to_commodities=['DID']).dropna()
     end_use_allocations['Value'] *= row['Value']
     end_use_allocations['Attribute'] = 'VAR_FIn'
     end_use_allocations['Commodity'] = 'DID'
     end_use_allocations = apply_rules(end_use_allocations, RENEWABLE_FUEL_ALLOCATION_RULES)
     end_use_allocations.dropna(inplace=True)
     drop_in_diesel_rows_to_add = pd.concat([drop_in_diesel_rows_to_add, end_use_allocations], ignore_index=True)
-for name, ruleset in RULESETS + [('process_enduse_rules', process_enduse_rules)]:
+for name, ruleset in SCHEMA_RULESETS + [('process_enduse_rules', process_enduse_rules)]:
     if name in ["commodity_fuel_rules", "process_fuel_rules"]:
         continue
     logging.info("Applying ruleset to 'drop-in diesel' rows: %s", name)
@@ -365,7 +243,6 @@ diesel_rows_to_add['FuelGroup'] = 'Fossil Fuels'
 drop_in_diesel_rows_to_add = pd.concat([drop_in_diesel_rows_to_add, diesel_rows_to_add])
 
 
-
 drop_in_jet_rows_to_add = pd.DataFrame()
 # Allocate drop-in jet fuel to end-use processes
 drop_in_jet = raw_df[
@@ -374,9 +251,9 @@ drop_in_jet = raw_df[
     (~raw_df['Process'].apply(is_trade_process))
 ]
 for index, row in drop_in_jet.iterrows():
-    trace_result = trace_commodities(row['Process'], row['Scenario'], row['Period'], raw_df)
+    trace_result = trace_commodities(row['Process'], row['Scenario'], row['Period'], raw_df, commodity_units)
     trace_result = [x for x in trace_result if x[1]==row['Commodity']]
-    end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], raw_df, filter_to_commodities=['DIJ'])
+    end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], raw_df, commodity_units, filter_to_commodities=['DIJ'])
     
     ################################
     # Hack to match R
@@ -395,7 +272,7 @@ for index, row in drop_in_jet.iterrows():
     end_use_allocations = apply_rules(end_use_allocations, RENEWABLE_FUEL_ALLOCATION_RULES)
 
     drop_in_jet_rows_to_add = pd.concat([drop_in_jet_rows_to_add, end_use_allocations.dropna()], ignore_index=True)
-for name, ruleset in RULESETS + [('process_enduse_rules', process_enduse_rules)]:
+for name, ruleset in SCHEMA_RULESETS + [('process_enduse_rules', process_enduse_rules)]:
     if name in ["commodity_fuel_rules", "process_fuel_rules"]:
         continue
     logging.info("Applying ruleset to 'drop-in jet' rows: %s", name)
@@ -470,6 +347,7 @@ clean_df.loc[clean_df['Parameters'] == 'Annualised Capital Costs', 'Unit'] = 'Bi
 clean_df = clean_df[(clean_df['Parameters'] != 'Annualised Capital Costs') & (clean_df['Parameters'] != 'Technology Capacity')]
 clean_df = clean_df.groupby(['Attribute', 'Process', 'Commodity'] + group_columns).agg(Value=('Value', 'sum')).reset_index()
 
+
 combined_df = clean_df.copy()
 # Find processes with multiple VAR_FOut rows (excluding emissions commodities) and split the VAR_FIn row across
 # each of the end-uses obtained from the VAR_FOut rows, based on the ratio of VAR_FOut values
@@ -506,16 +384,19 @@ if fix_multiple_fout:
 
 
 # Write the clean data to a CSV file
-output_df = combined_df.groupby(group_columns).agg(Value=('Value', 'sum')).reset_index()
+combined_df = combined_df.groupby(group_columns).agg(Value=('Value', 'sum')).reset_index()
 
 all_periods = np.sort(combined_df['Period'].unique())
 categories = [x for x in group_columns if x != 'Period']
-complete_df = combined_df.groupby(categories).apply(add_missing_periods(all_periods)).reset_index(drop=True)
+combined_df = combined_df.groupby(categories).apply(add_missing_periods(all_periods)).reset_index(drop=True)
 
-complete_df = complete_df.groupby(group_columns).agg(Value=('Value', 'sum')).reset_index()
-complete_df = apply_rules(complete_df, THOUSAND_VEHICLE_RULES)
-complete_df = complete_expand_dim(complete_df, 'Scenario', {'Value': 0})
-complete_df = complete_df.sort_values(by=group_columns)
+#combined_df = combined_df.groupby(group_columns).agg(Value=('Value', 'sum')).reset_index()
+combined_df = apply_rules(combined_df, THOUSAND_VEHICLE_RULES)
+combined_df = complete_expand_dim(combined_df, 'Scenario', {'Value': 0})
+
+combined_df = combined_df.sort_values(by=group_columns)
+combined_df = apply_rules(combined_df, ALWAYS_PRESENT_EMISSIONS_RULES)
+combined_df = combined_df.groupby(group_columns).agg(Value=('Value', 'sum')).reset_index()
 
 # Sanity checks
 grouped_negative_emissions = negative_emissions.groupby(['Scenario', 'Period']).Value.sum()
@@ -523,55 +404,55 @@ for (scenario, period), value in grouped_negative_emissions.items():
     if zero_biofuel_emissions:
         logging.info("skip check")
         break
-    negative_emissions_in_dataframe = complete_df[
-        (complete_df.Scenario==scenario) &
-        (complete_df.Period==period) &
-        (complete_df.Fuel.isin(['Biodiesel', 'Drop-In Jet', 'Drop-In Diesel'])) &
-        (complete_df.Parameters=='Emissions')].Value.sum() * 1000
+    negative_emissions_in_dataframe = combined_df[
+        (combined_df.Scenario==scenario) &
+        (combined_df.Period==period) &
+        (combined_df.Fuel.isin(['Biodiesel', 'Drop-In Jet', 'Drop-In Diesel'])) &
+        (combined_df.Parameters=='Emissions')].Value.sum() * 1000
     assert(abs(negative_emissions_in_dataframe - value) < 1E-6)
     logging.info(f"Check output matches negative emissions for Scenario: {scenario}, Period: {period}, Summed Value: {value:.2f}: OK")
 
 grouped_biodiesel_production = biodiesel.groupby(['Scenario', 'Period']).Value.sum()
 for (scenario, period), value in grouped_biodiesel_production.items():
-    biodiesel_in_dataframe = complete_df[
-        (complete_df.Scenario==scenario) &
-        (complete_df.Period==period) &
-        (complete_df.Fuel=='Biodiesel') &
-        (complete_df.Parameters=='Fuel Consumption')].Value.sum()
+    biodiesel_in_dataframe = combined_df[
+        (combined_df.Scenario==scenario) &
+        (combined_df.Period==period) &
+        (combined_df.Fuel=='Biodiesel') &
+        (combined_df.Parameters=='Fuel Consumption')].Value.sum()
     assert(abs(biodiesel_in_dataframe - value) < 1E-6)
     logging.info(f"Check output matches biodiesel production for Scenario: {scenario}, Period: {period}, Summed Value: {value:.2f}: OK")
 
 grouped_drop_in_diesel_production = drop_in_diesel.groupby(['Scenario', 'Period']).Value.sum()
 for (scenario, period), value in grouped_drop_in_diesel_production.items():
-    drop_in_diesel_in_dataframe = complete_df[
-        (complete_df.Scenario==scenario) &
-        (complete_df.Period==period) &
-        (complete_df.Fuel=='Drop-In Diesel') &
-        (complete_df.Parameters=='Fuel Consumption')].Value.sum()
+    drop_in_diesel_in_dataframe = combined_df[
+        (combined_df.Scenario==scenario) &
+        (combined_df.Period==period) &
+        (combined_df.Fuel=='Drop-In Diesel') &
+        (combined_df.Parameters=='Fuel Consumption')].Value.sum()
     assert(abs(drop_in_diesel_in_dataframe - value) < 1E-6)
     logging.info(f"Check output matches drop-in diesel production for Scenario: {scenario}, Period: {period}, Summed Value: {value:.2f}: OK")
 
 grouped_drop_in_jet_production = drop_in_jet.groupby(['Scenario', 'Period']).Value.sum()
 for (scenario, period), value in grouped_drop_in_jet_production.items():
-    drop_in_jet_in_dataframe = complete_df[
-        (complete_df.Scenario==scenario) &
-        (complete_df.Period==period) &
-        (complete_df.Fuel=='Drop-In Jet') &
-        (complete_df.Parameters=='Fuel Consumption')].Value.sum()
+    drop_in_jet_in_dataframe = combined_df[
+        (combined_df.Scenario==scenario) &
+        (combined_df.Period==period) &
+        (combined_df.Fuel=='Drop-In Jet') &
+        (combined_df.Parameters=='Fuel Consumption')].Value.sum()
     assert(abs(drop_in_jet_in_dataframe - value) < 1E-6)
     logging.info(f"Check output matches drop-in jet production for Scenario: {scenario}, Period: {period}, Summed Value: {value:.2f}: OK")
 
 total_emissions = raw_df[raw_df.Commodity=='TOTCO2'].groupby(['Scenario', 'Period']).Value.sum()
 for (scenario, period), value in total_emissions.items():
-    emissions_in_dataframe = complete_df[
-        (complete_df.Scenario==scenario) &
-        (complete_df.Period==period) &
-        (complete_df.Parameters=='Emissions')].Value.sum() * 1000
+    emissions_in_dataframe = combined_df[
+        (combined_df.Scenario==scenario) &
+        (combined_df.Period==period) &
+        (combined_df.Parameters=='Emissions')].Value.sum() * 1000
     if abs(emissions_in_dataframe - value) > 1E-6 and emissions_in_dataframe < value:
         logging.info(f"WARNING: emissions in output for Scenario: {scenario}, Period: {period} ({emissions_in_dataframe:.2f}) is missing some TOTCO2 emissions in raw TIMES output: ({value:.2f})")
 
 logging.info(raw_df[raw_df.Commodity.str.contains('TOTCO2')].groupby(['Scenario', 'Period']).Value.sum()*2)
 logging.info(raw_df[raw_df.Commodity.str.contains('CO2')].groupby(['Scenario', 'Period']).Value.sum())
 
-save(complete_df, f'../data/output/output_combined_df_v{VERSION_STR}.csv')
+save(combined_df, f'../data/output/output_combined_df_v{VERSION_STR}.csv')
 logging.info(f"The combined DataFrame has been saved to ../data/output/output_combined_df_v{VERSION_STR}.csv")

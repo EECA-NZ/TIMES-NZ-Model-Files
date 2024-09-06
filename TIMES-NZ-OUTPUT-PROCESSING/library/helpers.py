@@ -12,7 +12,6 @@ from constants import *
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-
 def read_vd(filepath):
     """
     Reads a VD file, using column names extracted from the file's header with regex, skipping non-CSV formatted header lines.
@@ -67,40 +66,6 @@ def add_missing_columns(df, missing_columns):
                 None  # Adding the column with a default value of None (will become NaN in the DataFrame)
             )
     return df
-
-
-
-
-#def update_cg_with_enduses(cg_df, commodity_enduse, process_to_enduses):
-#    """
-#    Updates cg_df by labeling VAR_FOut rows with end uses and creating corresponding VAR_FIn rows for each end use.
-#
-#    :param cg_df: DataFrame containing the model's data.
-#    :param commodity_enduse: Dictionary mapping commodities to their end uses.
-#    :param process_to_enduses: Dictionary mapping processes to lists of end uses.
-#    :return: Updated DataFrame.
-#    """
-#    # Create a copy of the DataFrame to avoid modifying the original DataFrame
-#    updated_cg_df = cg_df.copy()
-#
-#    # Label VAR_FOut rows with their corresponding end uses
-#    for idx, row in updated_cg_df[updated_cg_df['Attribute'] == 'VAR_FOut'].iterrows():
-#        if row['Commodity'] in commodity_enduse:
-#            updated_cg_df.at[idx, 'Enduse'] = commodity_enduse[row['Commodity']]
-#
-#    # Create new rows for VAR_FIn based on the number of end uses per process
-#    new_rows = []
-#    for process, enduses in process_to_enduses.items():
-#        fin_rows = updated_cg_df[(updated_cg_df['Process'] == process) & (updated_cg_df['Attribute'] == 'VAR_FIn')]
-#        for _, fin_row in fin_rows.iterrows():
-#            for enduse in enduses:
-#                # Copy the existing row and update the Enduse field
-#                new_row = fin_row.copy()
-#                new_row['Enduse'] = enduse
-#                new_rows.append(new_row)
-#    # Add the new rows to the DataFrame
-#    updated_cg_df = pd.concat([updated_cg_df, pd.DataFrame(new_rows)], ignore_index=True)
-#    return updated_cg_df
 
 
 def df_to_ruleset(df=None, target_column_map=None, parse_column=None, separator=None, schema=None, rule_type=None):
@@ -609,3 +574,115 @@ def matches(pattern):
     return lambda x: bool(pattern.match(x))
 
 is_trade_process = matches(trade_processes)
+
+commodity_map = process_map_from_commodity_groups(ITEMS_LIST_COMMODITY_GROUPS_CSV)
+commodities_by_type = commodities_by_type_from_commodity_groups(ITEMS_LIST_COMMODITY_GROUPS_CSV)
+end_use_commodities = commodities_by_type['DEMO']
+end_use_processes = commodity_map[commodity_map.Commodity.isin(end_use_commodities)].Process.unique()
+sector_emission_types = {
+    '': 'TOTCO2',
+    'Industry': 'INDCO2',
+    'Residential' : 'RESCO2',
+    'Agriculture' : 'AGRCO2',
+    'Electricity' : 'ELCCO2',
+    'Transport' : 'TRACO2',
+    'Green Hydrogen': 'TOTCO2',
+    'Primary Fuel Supply': 'TOTCO2',
+    'Commercial': 'COMCO2'
+}
+
+def units_consistent(commodity_flow_dict, commodity_units):
+     # Check if all units are the same
+     return len(set([commodity_units[commodity] for commodity in commodity_flow_dict])) == 1
+
+def trace_commodities(process, scenario, period, df, commodity_units, path=None, fraction=1):
+    """
+    Trace the output commodities of a process (e.g. Biodiesel blending) all the way through
+    to end-use commodities (e.g. bus transportation) to determine what fraction of its output
+    (e.g. blended diesel) ends up being used to provide each end-use commodity.
+    """
+    if path is None:
+        path = []
+    if len(path) > 100:
+        logging.error("Path too long, likely a circular reference")
+        logging.error(path)
+        raise ValueError("Path too long, likely a circular reference")
+    # Extend path with the current process
+    current_path = path + [process]
+    # Get output flows from the current process
+    output_flows = process_output_flows(process, scenario, period, df)
+    # This implementation assumes that everything has the same units
+    assert(units_consistent(output_flows, commodity_units))
+    # Calculate fractional flows for each output commodity
+    output_fracs = flow_fractions(output_flows)
+    # Resulting dictionary to keep track of the final fractional attributions
+    result = {}
+    for commodity in output_flows.keys():
+        # Get the input flows for the commodity across different processes
+        input_flows = commodity_input_flows(commodity, scenario, period, df)
+        # If the commodity does not flow into any other processes, it is terminal
+        if not input_flows:
+            # Save the path and fraction up to this point
+            result[tuple(current_path + [commodity])] = fraction * output_fracs[commodity]
+        else:
+            input_fracs = flow_fractions(input_flows)
+            # Recursively trace downstream processes
+            for downstream_process, input_fraction in input_fracs.items():
+                ####    continue
+                # Calculate new fraction as current fraction * fraction of this commodity's output used by the downstream process
+                new_fraction = fraction * output_fracs[commodity] * input_fraction
+                # Merge results from recursion
+                result.update(trace_commodities(downstream_process, scenario, period, df, commodity_units, current_path + [commodity], new_fraction))
+    return result
+
+def end_use_fractions(process, scenario, period, df, commodity_units, filter_to_commodities=None):
+    # Return a dictionary of emissions from end-use processes
+    trace_result = trace_commodities(process, scenario, period, df, commodity_units)
+    # Ensure the sum of all terminal fractions is approximately 1
+    assert(abs(sum(trace_result.values()) - 1) < 1e-5)
+    end_use_fractions = pd.DataFrame(
+         [{'Scenario': scenario,
+         'Attribute': 'VAR_FOut',
+         'Commodity': None,
+         'Process': process,
+         'Period': period,
+         'Value': None} for process in end_use_processes]
+    )
+    # Loop through the trace_result dictionary
+    for key, value in trace_result.items():
+        process_chain = key  # This is the tuple containing the process chain
+        fuel_source_process = process_chain[0] # First entry which is the fuel source process
+        process = process_chain[-2]  # Penultimate entry which is the process
+        commodity = process_chain[1]  # Second entry which is the commodity
+        end_use_fractions.loc[end_use_fractions['Process'] == process, 'Value'] = value
+        end_use_fractions.loc[end_use_fractions['Process'] == process, 'Commodity'] = commodity
+        end_use_fractions.loc[end_use_fractions['Process'] == process, 'FuelSourceProcess'] = fuel_source_process
+    if filter_to_commodities is not None:
+        end_use_fractions = end_use_fractions[(end_use_fractions['Commodity'].isin(filter_to_commodities)) | (end_use_fractions['Commodity'].isna())]
+    end_use_fractions.Value = end_use_fractions.Value / end_use_fractions.Value.sum()
+    return end_use_fractions
+
+def complete_expand_dim(df, expand_dim, fill_value_dict):
+    original_column_order = df.columns
+    # This implementation assumes no NaN values in the starting DataFrame
+    assert not df.isnull().values.any(), "DataFrame contains NaN values"
+    # Get all columns except the one to expand
+    defcols = [expand_dim] + list(fill_value_dict.keys()) # defined columns
+    columns = [x for x in df.columns if x not in defcols] # derived from data
+    # Form a DataFrame with all combinations of the unique values of the other dimensions
+    _df = df.copy().drop(columns=defcols).drop_duplicates()
+    _df['key'] = 1
+    # Get all unique values for the expansion dimension
+    # Create a DataFrame with all expand_dim values and the same key
+    expand_values = df[expand_dim].unique()
+    expand_df = pd.DataFrame({expand_dim: expand_values, 'key': 1})
+    # Combine the unique values of the expand_dim with the original DataFrame using the key
+    # This creates a DataFrame where each row of the original is repeated for each unique value of the expand_dim
+    df_expanded = pd.merge(_df, expand_df, on='key').drop(columns='key')
+    # Merge the expanded DataFrame with the original DataFrame to fill in the missing values
+    df_full = pd.merge(df_expanded, df, on=columns + [expand_dim], how='left')
+    # for each column in fill_value_dict, fill in the missing values with the specified default
+    for (col, fill_value) in fill_value_dict.items():
+        df_full[col] = df_full[col].fillna(fill_value)
+    return df_full[original_column_order]
+

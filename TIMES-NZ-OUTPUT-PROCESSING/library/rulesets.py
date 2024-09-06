@@ -22,7 +22,7 @@ from helpers import *
 
 """
 Generate rulesets for 'Set' attributes and descriptions.
-Here the 'Name' column in the CSV is used to match VD rows based 
+Here the 'Name' column in the CSV is used to match VD rows based
 on the 'Commodity' column.
 """
 commodity_set_rules = df_to_ruleset(
@@ -178,6 +178,7 @@ PARAMS_RULES = [
     ({"Attribute": "VAR_FOut", "Unit": "PJ", "Enduse": "Feedstock"}, "drop", {}),
 ]
 
+# Get mappings from fuel commodities to emissions commodities
 emissions_dict = parse_emissions_factors(BASE_DD_FILEPATH)
 emissions_rules = create_emissions_rules(emissions_dict)
 
@@ -188,7 +189,7 @@ SUPPRESS_VAR_FIn_RENEWABLES = [
     ({"Attribute": "VAR_FIn", "Sector": "Electricity", "Subsector": "Geothermal"}, "drop", {}),
 ]
 
-RULESETS = [
+SCHEMA_RULESETS = [
         ("commodity_set_rules", commodity_set_rules),
         ("process_set_rules", process_set_rules),
         ("process_rules", process_rules),
@@ -231,3 +232,31 @@ MISSING_ROWS = pd.DataFrame([
     {'Attribute': 'VAR_FOut', 'Process':        'CT_CWODDID',           'Commodity':   'TOTCO2', 'Sector':   'Transport', 'Subsector':           'Aviation',       'Technology':                      'Plane', 'Fuel':    'Drop-In Jet', 'Enduse':      'Domestic Aviation', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Renewables (direct use)'},
     {'Attribute': 'VAR_FOut', 'Process':        'T_F_ISHIPP15',         'Commodity':   'TRACO2', 'Sector':   'Transport', 'Subsector':           'Shipping',       'Technology':                       'Ship', 'Fuel':       'Fuel Oil', 'Enduse': 'International Shipping', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Fossil Fuels'},
 ])
+
+
+#### The following rulesets are used to tweak the data after the initial processing
+
+ALWAYS_PRESENT_EMISSIONS_RULES = [
+    ({"Parameters": "End Use Demand"}, "newrow", {'Parameters': 'Emissions', 'Unit': 'Mt CO<sub>2</sub>/yr', 'Value': 0}),
+    ({"Parameters": "Fuel Consumption"}, "newrow", {'Parameters': 'Emissions', 'Unit': 'Mt CO<sub>2</sub>/yr', 'Value': 0}),
+    ({'Parameters': 'Feedstock'}, 'newrow', {'Parameters': 'Emissions', 'Unit': 'Mt CO<sub>2</sub>/yr', 'Value': 0}),
+    ({'Parameters': 'Grid Injection (from Storage)'}, 'newrow', {'Parameters': 'Emissions', 'Unit': 'Mt CO<sub>2</sub>/yr', 'Value': 0}),
+    ({'Parameters': 'Gross Electricity Storage'}, 'newrow', {'Parameters': 'Emissions', 'Unit': 'Mt CO<sub>2</sub>/yr', 'Value': 0}),
+    ({'Parameters': 'Electricity Generation'}, 'newrow', {'Parameters': 'Emissions', 'Unit': 'Mt CO<sub>2</sub>/yr', 'Value': 0}),
+    ({'Parameters': 'Distance Travelled'}, 'newrow', {'Parameters': 'Emissions', 'Unit': 'Mt CO<sub>2</sub>/yr', 'Value': 0}),
+    ({'Parameters': 'Number of Vehicles'}, 'newrow', {'Parameters': 'Emissions', 'Unit': 'Mt CO<sub>2</sub>/yr', 'Value': 0})
+]
+
+RENEWABLE_FUEL_ALLOCATION_RULES = [
+    ({"FuelSourceProcess": "SUP_BIGNGA", "Commodity": "NGA"}, "inplace", {"Fuel": "Biogas"}),
+    ({"FuelSourceProcess": "SUP_H2NGA", "Commodity": "NGA"}, "inplace", {"Fuel": "Natural Gas From Green Hydrogen"}),
+    ({"FuelSourceProcess": "CT_COILBDS", "Commodity": "BDSL"}, "inplace", {"Fuel": "Biodiesel"}),
+    ({"FuelSourceProcess": "CT_CWODDID", "Commodity": "DID"}, "inplace", {"Fuel": "Drop-In Diesel"}),
+    ({"FuelSourceProcess": "CT_CWODDID", "Commodity": "DIJ"}, "inplace", {"Fuel": "Drop-In Jet"}),
+    ({"FuelSourceProcess": "IMPDIJ", "Commodity": "DIJ"}, "inplace", {"Fuel": "Drop-In Jet"}),
+]
+
+THOUSAND_VEHICLE_RULES = [
+    ({"Sector": "Transport", "Subsector": "Road Transport",# "Technology": "Plug-In Hybrid Vehicle",
+      "Unit": "000 Vehicles"}, "inplace", {"Unit": "Number of Vehicles (Thousands)"}),
+]
