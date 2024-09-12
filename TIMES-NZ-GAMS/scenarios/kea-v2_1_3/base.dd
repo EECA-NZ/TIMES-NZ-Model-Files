@@ -2862,7 +2862,7 @@ SET COM_UNIT
 'SI'.'PLPPPR-Pump'.'PJ'
 'SI'.'PLPPPR-Refin'.'PJ'
 'SI'.'PLT'.'PJ'
-'SI'.'REFCO2'.'PJ'
+'SI'.'REFCO2'.'kt'
 'SI'.'REFI-MoTP-Stat'.'PJ'
 'SI'.'REFI-PH-FURN'.'PJ'
 'SI'.'REFI-PH-STM_HW'.'PJ'
