@@ -1,0 +1,6 @@
+.RData
+.RHistory
+
+# Renv project files
+renv/library/
+renv/settings.dcf

@@ -1,0 +1,328 @@
+body {
+
+  font-family: Source Sans Pro;
+  
+}
+
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+ 
+  background-color: #41B496;
+
+}
+
+.nav-pills>li>a {
+  
+  border-radius: 5px; 
+  line-height: 7px;
+  /* width: 100px; */
+  /* height: 40px; */
+  padding: 9px;
+  border-style: solid;
+  border-width: thin;
+  border-color: #41B496;
+  color: #41B496; 
+  font-size: 18px;
+}
+
+button.btn.radiobtn.btn-default {
+  
+  border-radius: 50px;
+  
+}
+
+
+.selectize-input {
+  
+  border-radius: 50px;
+  
+}
+
+.well {
+  
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
+  
+  color: white;
+  background-color: #3C4C49;
+  border-radius: 50px;
+  
+}
+
+.navbar-default .navbar-nav>li>a:hover{
+  
+  background-color: transparent;
+  color: #3C4C49;
+  
+}
+  
+.navbar-default .navbar-nav>li>a {
+  
+    color: #3C4C49;
+    border-style: solid;
+    border-color: #3C4C49;
+    border-radius: 50px;
+    
+}
+  
+.navbar-brand {
+  
+  padding-left: 0;
+  
+}
+  
+  
+.navbar-nav li a {
+  font-size: 18px;
+
+  } 
+
+
+[data-value="About"]{ 
+    position: absolute;
+    overflow: hidden;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    border-radius: 10px;
+}  
+  
+    
+    
+.fa.fa-info-circle {
+  
+  font-size: 14px;
+  vertical-align: super;
+  position: absolute;
+  right: 10px;
+  
+}
+
+
+#intro > i {
+
+  position: relative;
+  vertical-align: unset;
+  left: 0;
+
+}
+
+.popover {
+  
+  font-size:12px;
+  font-family: Source Sans Pro;
+  
+}
+
+
+/* ************************** */
+/* Adding CSS switch bottom   */
+/* ******************** */
+
+/* All switch */
+
+/* Changing the switch*/
+.onoffswitch-switch {
+  display: block; width: 30px; height: 24px; margin: 5px;
+  position: absolute; top: 0; bottom: 0;
+  border-radius: 20px;
+  transition: all 0.1s ease-in 0s; 
+  opacity: .99;
+  align-items: left;  
+}
+
+
+.onoffswitch {
+  width: auto;
+  position: relative;
+  font-family: Source Sans Pro 
+}
+
+.onoffswitch-checkbox {
+  display: none;
+}
+
+/* This is designe the switch */
+.onoffswitch-label {
+  display: block; overflow: hidden; cursor: pointer;
+  border: 1px solid #b8b7b7; border-radius: 50px;
+}
+.onoffswitch-inner {
+  display: block; width: 200%; margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+
+.onoffswitch-inner:before{
+  display: block; float: left; width: 50%; height: 33px; padding: 0; line-height: 33px;
+  font-size: 18px; color: white; font-family: Source Sans Pro;
+  box-sizing: border-box; padding-left: 60px;
+}
+
+
+.onoffswitch-inner:after {
+  display: block; float: left; width: 50%; height: 33px; padding: 0; line-height: 33px;
+  font-size: 18px; color: white; font-family: Source Sans Pro;
+  box-sizing: border-box; padding-left: 60px;
+}
+
+/* All switch - default div class */
+.onoffswitch-inner:before {
+  content: " ";
+  padding-left: 10px;
+  /* position: absolute; */
+  /* z-index: -1;
+  top: -8%; 
+  right: -8%; 
+  bottom: -8%; 
+  left: -8%;
+  border-radius: inherit;
+  box-shadow: 
+      inset 0 2px 1px rgba(0,0,0,0.15),
+      0 2px 5px rgba(200,200,200,0.1); */
+}
+
+.onoffswitch-inner:after {
+  content: " ";
+  padding-right: 10px;
+  text-align: right;
+  /* position: absolute; */
+  /* z-index: -1;
+  top: -8%; 
+  right: -8%; 
+  bottom: -8%; 
+  left: -8%;
+  border-radius: inherit;
+  box-shadow: 
+      inset 0 2px 1px rgba(0,0,0,0.15),
+      0 2px 5px rgba(200,200,200,0.1); */
+}
+
+
+
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  right: 0px;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+
+/* Color change */
+/* RedGreen */
+.RedGreen .onoffswitch-inner:before {
+  background-color: #41B496; color: #000000;
+  font-weight: lighter;
+}
+.RedGreen .onoffswitch-inner:after {
+  background-color: #3C4C49; color: #ffffff;
+  font-weight: lighter;
+}
+
+.RedGreen .onoffswitch-switch {
+  background:  #ffffff;
+  border: 2px solid #ffffff
+}
+
+
+/* Text change */
+
+/* Changing the text in the switch*/
+/* True / False */
+.TrueFalse .onoffswitch-inner:before {
+  content: "Plot by Fuels";
+}
+
+.TrueFalse .onoffswitch-inner:after {
+  content: "Plot by Technologies";
+}
+
+
+
+/* Text change */
+/* On / Off */
+.OnOff .onoffswitch-inner:before {
+  content: "Key Insights";
+}
+
+.OnOff .onoffswitch-inner:after {
+  content: "Assumptions";
+}
+
+
+
+/*  Fuel and Technolo */
+/* Yes / No */
+.YesNo .onoffswitch-inner:before {
+  content: "Plot by Fuel";
+  background-color: #41B496; color: #000000;
+  font-weight: lighter;
+}
+
+.YesNo .onoffswitch-inner:after {
+  content: "Plot by Technologies";
+  background-color: #3C4C49; color: #ffffff; 
+  font-weight: lighter;
+}
+
+
+
+
+
+/* Creating wrapper and box  */
+.wrapper {
+  display: grid;
+  width: auto;
+  grid-template-columns: auto auto ;
+  grid-gap: 10px;
+  background-color: #fff;
+}
+
+.box {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  border-radius: 20px;
+  padding: 20px;
+  font-size: 16px;
+}
+
+/* Setting the background colours for the boxes  */
+/* .box.a{
+  background-color: #00af8c;
+}
+
+.box.b{
+  background-color: #164057;
+} */
+
+
+/* Adding iframe style */
+.frame-boader {
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.logo_image {
+  position: relative;
+  top:30px;
+}
+
+@media screen and (min-width: 0px) and (max-width: 650px) {
+  .logo_image { display: none; }
+}
+
+
+
+/* making image responsive */
+/* img[Attributes=Style] {
+  height: 120px;
+  aspect-ratio: auto 660 / 120;
+  width: 660px;
+} */

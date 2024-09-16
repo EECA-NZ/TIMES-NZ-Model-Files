@@ -1,0 +1,126 @@
+Fuel,Colors,Symbol
+Electricity,#0086be,circle
+Petrol,#a7a9ac,triangle
+Diesel,#58595b,diamond
+Green Hydrogen,#00af8c,diamond
+Fuel Oil,#974a21,diamond
+Coal,#35373a,square
+Natural Gas,#f0575b,diamond
+Wood,#53817a,triangle
+Geothermal,#4e2e8e,square
+LPG,#c12025,triangle
+Biodiesel,#3E9B02,square
+Drop-In Diesel,#3D6E1E,diamond
+Biogas,#00435b,square
+Hydro,#49bee5,triangle
+Solar,#ffc808,circle
+Waste Incineration,#6b0d0e,circle
+Wind,#8a73b4,square
+Biofuel,#00435b,square
+Jet Fuel,#f57e20,circle
+Tūī,#164057,square
+Kea,#00af8c,circle
+Fossil Fuels,#414042,square
+Renewables (direct use),#8dd2c0,circle
+Kea renewable,#00af8c,circle
+Tui renewable,#164057,square
+Kea Renewable energy,#00af8c,circle
+Tui Renewable energy,#164057,square
+Kea Electrification,#00af8c,circle
+Tui Electrification,#164057,square
+Drop-In Jet,#90DA61,circle
+Farm Bike,#8C8D91,square
+Heat Recovery System (Cooling),#00ABF5,diamond
+Heat Recovery System (Heating),#0AB6FF,diamond
+Hot Water Cylinder,#33C2FF,diamond
+Irrigator,#7C134B,diamond
+Irrigator with VSD,#A01860,diamond
+Lights (General),#00E0E0,square
+Refrigerator,#5CCEFF,diamond
+Tractor (Agricultural),#A8A9AC,square
+Transfer Pump,#E75FA8,diamond
+Truck (Agricultural),#B0B1B4,square
+Utility Vehicle (Agricultural),#B8B9BC,square
+Vacuum Pump,#E972B1,diamond
+Vacuum Pump with VSD,#EC83BB,diamond
+Fishing Boat (Hybrid),#73D039,square
+Fishing Boat (Non-Hybrid),#98999D,square
+Cable Yarder (Forestry),#88898D,square
+Skidder (Forestry),#A0A1A4,square
+Stationary Motor,#C0C1C4,diamond
+Boiler,#4C4345,diamond
+Direct Heat,#DA3036,diamond
+Heat Pump,#008FCC,diamond
+Other,#D8D4D4,circle
+Biodiesel Production,#084427,circle
+Drop In Bio-Jet Production,#006635,circle
+Drop In Biofuel Production,#008F4A,circle
+Drop In Diesel Production,#00CC69,circle
+Burner,#48706B,diamond
+Electronics and Other Appliances,#009B9B,square
+Instantaneous Water Heater,#E4595D,diamond
+Lights (Fluorescent),#00D6D6,square
+Lights (LED),#47FFFF,square
+Mobile Motor,#9C9DA1,square
+Resistance Heater,#85DAFF,diamond
+Cooking Element,#0072A3,diamond
+Lights (Incandescent),#00F5F5,square
+Oven,#47C8FF,diamond
+PEM Electrolyser,#00af8c,circle
+Furnace,#413A3B,diamond
+Internal Combustion Engine,#78797D,square
+Stationary Motor with VSD,#E23C94,diamond
+Compressor,#008F8F,square
+Fan,#00CCCC,square
+Heat Exchanger,#8C74BE,diamond
+Pump,#C31D76,diamond
+Feedstock,#363031,triangle
+Electrotech,#00B9B9,square
+Heater,#1FBCFF,diamond
+Reformer,#E87377,diamond
+Wood/Pulp and Paper Refiner,#F094C5,diamond
+Large Pumped Storage,#0081B8,triangle
+Lithium Ion Battery,#00ABF5,triangle
+Geothermal (Consented),#47346F,circle
+Geothermal (Existing),#59418B,circle
+Hydro Dam (Existing),#29B3E0,circle
+Hydro Dam (New),#4CBFE6,circle
+Hydro Run of River (Existing),#5EC6E8,circle
+Hydro Run of River (New <30MW),#70CCEB,circle
+Hydro Run of River (New >30MW),#82D2ED,circle
+Solar (Commercial Rooftop),#B89000,circle
+Solar (Existing),#CCA000,circle
+Solar (Grid-scale Tracking Mount),#FFDC5C,circle
+Combined Cycle Gas Turbine (Existing),#7B1417,circle
+Combined Cycle Gas Turbine (New),#95191C,circle
+Combined Heat/Power,#AF1D21,circle
+Open Cycle Gas Turbine (Existing),#C12025,circle
+Steam Boiler,#201D1E,circle
+Wind (Consented),#7A60A9,circle
+Wind (Distributed),#8A73B4,circle
+Wind (Existing),#9B88BF,circle
+Wind (High Capacity Factor),#A695C6,circle
+Wind (Low Capacity Factor),#B1A2CD,circle
+Burner (with Wetback),#53817A,diamond
+Clothes Dryer,#00567A,diamond
+Clothes Washer,#00648F,diamond
+Dishwasher,#0081B8,diamond
+Gas Heater,#E03E43,diamond
+Heat Pump (Multi-Split),#009DE0,diamond
+Open Fire,#6AA097,diamond
+Open Fire (with Wetback),#83AFA9,diamond
+Plane,#f57e20,square
+Train,#ACADB0,square
+Battery Electric Vehicle,#0AFF89,square
+Hybrid Vehicle,#90DA61,square
+Plug-In Hybrid Vehicle,#ADE48B,square
+Ship,#974a21,square
+Geothermal (Other),#7459B1,circle
+Solar (Grid-scale Fixed Mount),#ffc808,circle
+Open Cycle Gas Turbine (New),#D32228,circle
+Mobile Motive Power,#88898D,diamond
+Heating/Cooling,#009DE0,square
+Stationary Motive Power ,#A01860,triangle
+Electronics and Lighting ,#00CCCC,circle
+Fuel Production ,#7459B1,triangle
+Storage,#00567A,circle

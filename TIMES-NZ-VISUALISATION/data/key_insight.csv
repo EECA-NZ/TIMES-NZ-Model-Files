@@ -1,0 +1,17 @@
+Title,Parameter,Scenario,Units,2018,2025,2030,2035,2040,2045,2050,2055,2060
+All energy related cumulative emissions,All Energy Related Cumulative Emissions,Kea,MtCO<sub>2</sub>,29.3659,219.6962,331.0697,422.786,492.0525,539.9352,575.1507,607.90878,642.3544
+All energy related cumulative emissions,All Energy Related Cumulative Emissions,Tūī,MtCO<sub>2</sub>,29.3659,225.9242,356.0807,479.1432,583.5327,665.7602,726.3807,773.6762,818.93662
+All energy related annual emissions,All Energy Related Annual Emissions,Kea,MtCO<sub>2</sub>,29.3659,24.2889,20.9319,16.6175,12.0105,7.9539,6.4359,6.62876,7.0627
+All energy related annual emissions,All Energy Related Annual Emissions,Tūī,MtCO<sub>2</sub>,29.3659,26.3649,25.8089,23.8149,18.9199,14.7959,10.3429,8.8699,9.17354
+Electricity generation from solar,Electricity Generation from Solar,Kea,PJ,0.635,0.832,0.958,0.998,0.574,7.872,19.327,23.927,31.327
+Electricity generation from solar,Electricity Generation from Solar,Tūī,PJ,0.635,0.784,0.868,0.866,1.045,5.896,29.118,47.218,49.518
+Transport emissions,Transport Emissions,Kea,MtCO<sub>2</sub>,15.87723,15.66393,13.693,10.75507,6.751142,3.632,2.181,2.08600196,2.161
+Transport emissions,Transport Emissions,Tūī,MtCO<sub>2</sub>,15.87723,15.82693,15.878,14.51107,10.575142,7.32,4.578,3.174,3.3290374
+Industrial emissions,Industrial Emissions,Kea,MtCO<sub>2</sub>,6.62159,4.55585,4.041198,3.058755,3.009423,2.700229,2.690129,2.871779,3.041489
+Industrial emissions,Industrial Emissions,Tūī,MtCO<sub>2</sub>,6.62159,6.11117,6.138992,5.942333,5.843601,5.220344,3.6111,3.56085,3.58066
+Renewable electricity ,Renewable Electricity ,Kea,Percent,0.839793282,0.952788127,0.963438735,0.965210013,0.956827216,0.943701904,0.944794368,0.938704028,0.932400932
+Renewable electricity ,Renewable Electricity ,Tūī,Percent,0.839793282,0.956000921,0.965460272,0.96683166,0.966590462,0.964111588,0.964824121,0.964240102,0.964308078
+Renewable energy ,Renewable Energy ,Kea,Percent,0.349570571,0.4004381,0.398318667,0.480380318,0.56530663,0.695499288,0.784604675,0.825600892,0.827331764
+Renewable energy ,Renewable Energy ,Tūī,Percent,0.349570524,0.388681438,0.424614046,0.452787949,0.503779664,0.586091631,0.673101528,0.756867415,0.781355654
+Electrification ,Electrification ,Kea,Percent,0.2476914,0.270630683,0.288648393,0.358904811,0.453031002,0.540930632,0.589142448,0.593255279,0.593323499
+Electrification ,Electrification ,Tūī,Percent,0.247693689,0.266883578,0.286965339,0.318463954,0.391937454,0.451521753,0.535157401,0.566309639,0.565377333

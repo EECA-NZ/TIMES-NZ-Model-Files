@@ -1,0 +1,48 @@
+Tab,Subsector,Comment
+Overview,All Sectors,"In both scenarios, emissions decline strongly during the modelled period. Kea declines faster and further and has nearly 25% less accumulated emissions. In sectors with viable low-emission technology options, fossil fuels disappear altogether in both scenarios. Both scenarios make extensive use of energy efficiency in various forms, with end use demand being met by a correspondingly lower fuel consumption."
+Agriculture,All Agriculture Subsectors,Emissions decline by over 80% as mainly off road liquid fuels are displaced. Some diesel still remains from hard to decarbonise areas such as high utilisation tractors and commercial fishing vessels.
+Agriculture,Dairy Cattle Farming,"Dairy farming is not expected to grow much because of land constraints, and  energy productivity improvements (mostly in) irrigation cause reductions in energy demand."
+Agriculture,Fishing,Diesel and fuel oil prolongs in both scenarios as alternative technologies are not yet available. Hybrid boats represent slightly increased efficiency.
+Agriculture,Forestry,Hydrogen allows for the displacement of diesel due to its advantage in heavy duty applications.
+Agriculture,Outdoor Horticulture/Arable Farming,Diesel prolongs in both scenarios because alternative decarbonisation technologies are not economic given the high utilisation of equipment.
+Agriculture,Indoor Cropping,Fossil Fuels get displaced in both scenarios at different rates by high temperature heat pumps. 
+Agriculture,Livestock Farming,"Livestock farming is not expected to grow much because of land constraints, and energy productivity improvements (mostly in) irrigation cause reductions in energy demand."
+Agriculture,Other (Agriculture),The purpose of this subsector is to reconcile energy demand totals with the MBIE Energy Balances.
+Commercial,All Commercial Subsectors,"Emissions decline in both scenarios - but some natural gas remains in water and space heating, having a larger impact in Kea due to the higher GDP growth."
+Commercial,Education,"Schools slowly move away from heating with fossil fuels, with some legacy systems remaining in place until 2050."
+Commercial,Healthcare,"Intermediate heat for sterilisation is gradually taken over by Resistance Heaters, with Biogas operations (such as in Nelson) remaining."
+Commercial,Office Blocks,"Coal and Natural Gas boilers used for space heating are gradually replaced by Heat Pumps, Resistance Heaters and Electrode Boilers."
+Commercial,Other (Commercial),"Direct Heat Geothermal continues to play a major role in water heating for this sub-sector, mostly for business such as hot springs and spas."
+Commercial,Warehouses/Supermarkets/Retail,"Electricity use grows strongly in this sector, particularly in areas such as Mobile Motive Power - vehicles such as LPG forklifts are quickly replaced by their electric counterparts."
+Other,All Other Subsectors,"Large penetrations of renewable electricity help decarbonise electricity generation, but with increasing demand in winter months, there is still dependence on fossil fuels."
+Other,Electricity Storage,"Batteries are used to shift night time generation to the day time, and small amounts of pumped hydro are used to store electricity over summer and  spring for release over winter and autumn. "
+Other,Geothermal,"Geothermal decreases output, mainly due to existing plants reaching end of life and the need for flexible plants rather than baseload generation. "
+Other,Hydro,Hydro remains relatively constant for both scenarios.
+Other,Solar,Large grid scale solar is chosen from 2040. Small scale rooftop solar is chosen in small amounts throughout the time horizon.
+Other,Thermal,Coal and Natural Gas decrease significantly as new wind and hydro generation gets developed. Natural Gas is supplied during winter months due to the limited amount of other economically achievable options.
+Other,Wind,Wind grows faster in Tūī as the Aluminium smelter exit in Kea results in less electricity demand for Kea. 
+Industrial,All Industry Subsectors,Large decarbonisation occurs in the industrial sector with most of the remaining fossil fuels in hard to abate sectors. Note - Only energy related emissions are included in the TIMES-NZ model. Emissions from Feedstock are not expressed.
+Industrial,Aluminium,"In Kea, aluminium smelting reaches zero in 2030, and in Tūī the demand stays as the smelter may continue to run or is replaced by another industry."
+Industrial,Construction,Diesel prolongs in both scenarios as alternative technologies are not yet available. There is 4 PJ of biofuel in Kea further reducing diesel emissions.
+Industrial,Dairy Product Manufacturing,Coal for process heat gets replaced by biomass in both scenarios but at different rates. 
+Industrial,"Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing","Tūī assumes a higher growth rate than in Kea, because Kea tries to move away from emission-heavy manufacturing."
+Industrial,Iron/Steel,"Both scenarios assume a constant energy demand, with natural gas used for process heat being displaced."
+Industrial,Meat Processing,Coal for process heat gets replaced by heat pumps for hot water in both scenarios but at different rates. 
+Industrial,Methanol,Kea assumes methanol production exits at 2032.  In Tūī it exits in 2047. 
+Industrial,Mining,Diesel prolongs in both scenarios as alternative technologies are not yet available. There is 2.3 PJ of biofuel in Kea further reducing diesel emissions.
+Industrial,Non-Metallic Mineral Product Manufacturing,Coal still remains for high temperature applications in both scenarios.  
+Industrial,Other (Industry),This represents all non-listed subsectors in TIMES-NZ 2.0.
+Industrial,Other Food Processing (Non Dairy/Meat Processing),Wood fuels are used for process heat to decarbonise a portion of natural gas. 
+Industrial,"Petroleum, Basic Chemical and Rubber Product Manufacturing",Chemical manufacturing growth rates represent that Kea shows a societal shift away from carbon intensive products. 
+Industrial,Pulp and Paper Manufacturing,Both scenarios assume flat energy demand because of reduction in demand for paper.
+Industrial,Refining,Kea assumes refining is only used to service imported oil from 2045. 
+Industrial,Urea Production,"In Kea, urea production exits in 2030."
+Industrial,Wood Product Manufacturing,Wood fuels are used from some by-products of the wood product manufacturing process. 
+Residential,All Residential Subsectors,"Residential energy consumption depends upon the characteristics of the dwellings. The two dwelling types considered are ""detached"" and ""joined"", with the latter type encompassing medium density housing and apartments."
+Residential,Detached Dwellings,Solid fuels (wood and coal) are only considered in detached dwellings. Natural Gas and Geothermal energy are only considered in the North Island.
+Residential,Joined Dwellings,Joined dwellings comprises medium-density dwellings and apartments. Natural Gas and Geothermal energy are only considered in the North Island.
+Transport,All Transport Subsectors,"A strong drive for electrification reduces emissions significantly. Tūī sees greater use of hybrids in the short term, while Kea pushes hard on EVs."
+Transport,Aviation,"Emissions from international aviation are not constrained in the model. In Kea, fuel consumption for aviation decreases in the period 2045-2060 because this scenario assumes an aspect of flight shame."
+Transport,Rail,Passenger rail in the South Island was disregarded because it represents only a minor amount.
+Transport,Road Transport," In each time period, the share of EVs is larger in Kea than in Tūī because the Kea scenario assumes there is a larger ability to access EVs.  Note - the end use demand for Road Transport is measured as Distance Travelled in the metric dropdown tool."
+Transport,Shipping,Emissions from international shipping are not constrained in the model.
