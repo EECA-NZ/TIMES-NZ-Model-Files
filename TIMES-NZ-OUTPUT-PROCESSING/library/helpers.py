@@ -7,6 +7,7 @@ import csv
 import logging
 import numpy as np
 import pandas as pd
+from functools import reduce
 
 from constants import *
 
@@ -68,7 +69,7 @@ def add_missing_columns(df, missing_columns):
     return df
 
 
-def df_to_ruleset(df=None, target_column_map=None, parse_column=None, separator=None, schema=None, rule_type=None):
+def df_to_ruleset(df=None, target_column_map=None, parse_column=None, separator=None, schema=None, rule_type=None, exclude_filter=None):
     """
     Reads a DataFrame to create rules for updating or appending to another DataFrame based on
     the contents of a specified column and a mapping of source to target columns. This function
@@ -91,6 +92,8 @@ def df_to_ruleset(df=None, target_column_map=None, parse_column=None, separator=
              and a dictionary of attribute updates or values to append.
     """
     assert(df is not None and target_column_map and parse_column and schema and rule_type and separator is not None)
+    if exclude_filter:
+        df = df[~exclude_filter(df)]
     mapping = {}
     for _, row in df.iterrows():
         # Create the key tuple based on the target_column_map
@@ -276,7 +279,7 @@ def create_emissions_rules(emissions_dict):
             'Attribute': 'VAR_FOut',
             'Commodity': emission_commodity,  # Specify the corresponding emission commodity
             'Unit': 'kt CO2',
-            'Parameters': 'Emissions'
+            'Parameters': 'Emissions', # TODO: should we add a zero Value?
         })
         rules.append(rule)
     return rules
@@ -575,6 +578,14 @@ def matches(pattern):
 
 is_trade_process = matches(trade_processes)
 
+is_elc_exchange_process = matches(elc_exchange_processes)
+
+is_elc_grid_processes = matches(elc_grid_processes)
+
+is_import_process = matches(import_processes)
+
+is_export_process = matches(export_processes)
+
 commodity_map = process_map_from_commodity_groups(ITEMS_LIST_COMMODITY_GROUPS_CSV)
 commodities_by_type = commodities_by_type_from_commodity_groups(ITEMS_LIST_COMMODITY_GROUPS_CSV)
 end_use_commodities = commodities_by_type['DEMO']
@@ -686,3 +697,21 @@ def complete_expand_dim(df, expand_dim, fill_value_dict):
         df_full[col] = df_full[col].fillna(fill_value)
     return df_full[original_column_order]
 
+
+def sanity_check(subset, full_df, match_columns, tolerance, factor=1):
+    grouped_subset_values = subset.groupby(['Scenario', 'Period']).Value.sum()
+    for (scenario, period), value in grouped_subset_values.items():
+        conditions = [
+            (full_df.Scenario == scenario),
+            (full_df.Period == period)
+        ]
+        for col, values in match_columns.items():
+            if isinstance(values, list):
+                condition = full_df[col].isin(values)
+            else:
+                condition = (full_df[col] == values)
+            conditions.append(condition)
+        final_condition = reduce(np.logical_and, conditions)
+        rows_in_dataframe = full_df[final_condition]
+        assert abs(rows_in_dataframe.Value.sum() * factor - value) < tolerance, "Value does not match within tolerance"
+        logging.info(f"Check output matches for Scenario: {scenario}, Period: {period}, Summed Value: {value:.2f}: OK")

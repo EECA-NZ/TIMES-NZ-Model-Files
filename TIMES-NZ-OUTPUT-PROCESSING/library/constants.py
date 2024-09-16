@@ -98,3 +98,12 @@ IGNORE_EXPORT_COMMODITIES =[
 ]
 
 trade_processes = re.compile(r'^TU_(PET|LPG|DSL|FOL|DID|DIJ|JET|OTH|COA|COL).*') # these are excluded from consideration when allocating emissions reductions to end-use processes.
+
+elc_exchange_processes = re.compile(r'^TB_ELC.*')
+
+elc_grid_processes = re.compile(r'^G_ELC.*')
+
+import_processes = re.compile(r'^IMP(COA|DSL|FOL|JET|LPG|OIL|OTH|PET|DIJ).*')
+
+export_processes = re.compile(r'^EXP(DSL|FOL|JET|LPG|OIL|OTH|PET).*')
+
