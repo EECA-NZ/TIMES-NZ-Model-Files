@@ -23,6 +23,10 @@ def run_scenario(scenario=None):
         gams_save_dir = original_dir / "GAMSSAVE"
         if (scenario_dir / f"{scenario}.run").exists() and (scenario_dir / "times2veda.vdd").exists():
             os.makedirs(gams_save_dir, exist_ok=True)
+<<<<<<< Updated upstream:TIMES-NZ-GAMS/scripts/run_times_scenario.py
+=======
+            # Run GAMS to solve the scenario, maintaining relative paths for IDIR and r
+>>>>>>> Stashed changes:TIMES-NZ-GAMS/run_times_scenario.py
             gams_command = f"GAMS {scenario}.run IDIR={source_dir_relative} GDX={gams_save_dir / scenario} PS=99999 r={source_dir_relative}\\_times"
             print("Running GAMS with command:", gams_command)
             subprocess.run(gams_command, shell=True)

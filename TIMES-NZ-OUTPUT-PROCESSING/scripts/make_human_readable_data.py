@@ -22,7 +22,6 @@ from constants import *
 from helpers import *
 from rulesets import *
 
-
 #### CONSTANTS
 
 fix_multiple_fout = True
@@ -32,8 +31,8 @@ zero_biofuel_emissions = False
 group_columns = ['Scenario', 'Sector', 'Subsector', 'Technology', 'Enduse', 'Unit', 'Parameters', 'Fuel', 'Period', 'FuelGroup', 'Technology_Group']
 
 SCENARIO_INPUT_FILES = {
-    'Kea': f'../../TIMES-NZ-GAMS/scenarios/kea-v{VERSION_STR}/kea-v{VERSION_STR}.vd',
-    'Tui': f'../../TIMES-NZ-GAMS/scenarios/tui-v{VERSION_STR}/tui-v{VERSION_STR}.vd'
+    'Kea': f'../../TIMES-NZ-GAMS/scenarios/kea-v{VERSION_STR}/kea-v{VERSION_STR}.vd'
+    #'Tui': f'../../TIMES-NZ-GAMS/scenarios/tui-v{VERSION_STR}/tui-v{VERSION_STR}.vd'
 }
 
 needed_attributes = ['VAR_Cap', 'VAR_FIn', 'VAR_FOut']

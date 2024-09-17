@@ -36,7 +36,7 @@ options(scipen=999) # eliminates scientific notation
 
 conflicts_prefer(dplyr::filter)
 
-times_nz_version <- "2.1.3"
+times_nz_version <- "2.1.2"
 times_nz_version_str <- gsub("\\.", "_", times_nz_version)
 
 # Reading in intro Data --------------------------

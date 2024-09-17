@@ -41,8 +41,8 @@ ZERO_BIOFUEL_EMISSIONS = False
 GROUP_COLUMNS = ['Scenario', 'Sector', 'Subsector', 'Technology', 'Enduse', 'Unit', 'Parameters', 'Fuel', 'Period', 'FuelGroup', 'Technology_Group']
 
 SCENARIO_INPUT_FILES = {
-    'Kea': f'../../TIMES-NZ-GAMS/scenarios/kea-v{VERSION_STR}/kea-v{VERSION_STR}.vd',
-    'Tui': f'../../TIMES-NZ-GAMS/scenarios/tui-v{VERSION_STR}/tui-v{VERSION_STR}.vd'
+    'Kea': f'../../TIMES-NZ-GAMS/scenarios/kea-v{VERSION_STR}/kea-v{VERSION_STR}.vd'
+    #'Tui': f'../../TIMES-NZ-GAMS/scenarios/tui-v{VERSION_STR}/tui-v{VERSION_STR}.vd'
 }
 
 NEEDED_ATTRIBUTES = ['VAR_Cap', 'VAR_FIn', 'VAR_FOut']

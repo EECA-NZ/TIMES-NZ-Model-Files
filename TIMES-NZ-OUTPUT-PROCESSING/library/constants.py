@@ -4,7 +4,7 @@ This module contains constants used by the scripts (under development) that aim 
 import re
 import os
 
-TIMES_NZ_VERSION = os.getenv('TIMES_NZ_VERSION', '0.1.0')
+TIMES_NZ_VERSION = os.getenv('TIMES_NZ_VERSION', '2.1.2')
 VERSION_STR = TIMES_NZ_VERSION.replace('.', '_')
 
 def get_project_base_path():
@@ -27,7 +27,7 @@ project_base_path = get_project_base_path()
 # List of VEDA Data (VD) files to be read and processed.
 INPUT_VD_FILES = [
     os.path.join(project_base_path, "../TIMES-NZ-GAMS/scenarios", f"kea-v{VERSION_STR}", f"kea-v{VERSION_STR}.vd"),
-    os.path.join(project_base_path, "../TIMES-NZ-GAMS/scenarios", f"tui-v{VERSION_STR}", f"tui-v{VERSION_STR}.vd"),
+    #os.path.join(project_base_path, "../TIMES-NZ-GAMS/scenarios", f"tui-v{VERSION_STR}", f"tui-v{VERSION_STR}.vd"),
 ]
 
 # Path to a TIMES base.dd file containing commodity to unit mappings.
