@@ -1,8 +1,11 @@
 # Configuring a Windows Development Environment for TIMES-NZ
 
+An internal guide for EECA staff on setting up a Windows development environment for TIMES-NZ.
+
 ## Process Overview
 
 This guide provides instructions for setting up a Windows development environment for TIMES-NZ. You will require admin access to your laptop to work through the process, or you will need to involve a member of ICT. The guide includes the following steps:
+
 1. Install Anaconda
 2. Install Chocolatey
 3. Install Git for Windows and Unix-like Utilities with Chocolatey
@@ -13,7 +16,7 @@ This guide provides instructions for setting up a Windows development environmen
 8. Install Python Extension for Visual Studio Code
 9. Install GAMS
 10. Install VEDA-FE
-11. Clone the TIMES-NZ Repository and associated repositories
+11. Clone the TIMES-NZ Repository
 
 
 #### Step 1: Install Anaconda
@@ -131,15 +134,12 @@ Follow the links to "Download and install prerequisites"
 Follow the link to "download localhost"
 Unzip the files into your home directory (C:\Users\<User>\Veda).
 
-#### Step 11: Clone the TIMES-NZ Repository and associated repositories
+#### Step 11: Clone the TIMES-NZ Repository
 
 Open the Anaconda Powershell Prompt and navigate to the directory where you want to clone the TIMES-NZ repository. Clone the repositories by running the following commands:
 ```powershell
 git clone git@github.com:EECA-NZ/TIMES-NZ-Model-Files
-git clone git@github.com:EECA-NZ/TIMES-NZ-GAMS-Files.git
-git clone git@github.com:EECA-NZ/TIMES-NZ-Visualisation.git
 git clone git@github.com:EECA-NZ/TIMES-NZ-internal-guide-EECA.git
 ```
 
 You should now have a Windows development environment set up for TIMES-NZ.
-
