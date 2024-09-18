@@ -36,21 +36,21 @@ options(scipen=999) # eliminates scientific notation
 
 conflicts_prefer(dplyr::filter)
 
-times_nz_version <- "2.1.3"
+times_nz_version <- "2.1.2"
 times_nz_version_str <- gsub("\\.", "_", times_nz_version)
 
 # Reading in intro Data --------------------------
-intro <- read_delim("..\\data\\intro.csv", delim = ";", col_types = cols())
+intro <- read_delim("data\\intro.csv", delim = ";", col_types = cols())
 
 # Schema inputs read from CSV
 print("schema_colors.csv")
-schema_colors <- read_csv("..\\data\\schema_colors.csv", locale = locale(encoding = "UTF-8"), show_col_types = FALSE)
+schema_colors <- read_csv("data\\schema_colors.csv", locale = locale(encoding = "UTF-8"), show_col_types = FALSE)
 print("caption_table.csv")
-caption_list <- read_csv("..\\data\\caption_table.csv", locale = locale(encoding = "UTF-8"), show_col_types = FALSE)
+caption_list <- read_csv("data\\caption_table.csv", locale = locale(encoding = "UTF-8"), show_col_types = FALSE)
 print("schema_technology.csv")
-schema_technology <- read_csv("..\\data\\schema_technology.csv", locale = locale(encoding = "UTF-8"), show_col_types = FALSE)
+schema_technology <- read_csv("data\\schema_technology.csv", locale = locale(encoding = "UTF-8"), show_col_types = FALSE)
 print("output_combined_df_vA_B_C.csv")
-combined_df <- read_csv(paste0("..\\..\\TIMES-NZ-OUTPUT-PROCESSING\\data\\output\\", "output_combined_df_v", times_nz_version_str, ".csv"), locale = locale(encoding = "UTF-8"), show_col_types = FALSE)
+combined_df <- read_csv(paste0("C:/Users/weerasa/TIMES-NZ-Model-Files/TIMES-NZ-OUTPUT-PROCESSING/data/output/", "output_combined_df_v", times_nz_version_str, ".csv"), locale = locale(encoding = "UTF-8"), show_col_types = FALSE)
 
 # List generation
 hierarchy_list <- combined_df %>%
@@ -62,7 +62,7 @@ sector_list <- distinct(hierarchy_list, Sector) # Sector list
 
 # Reading in assumption data
 print("assumptions.csv")
-assumptions_df <- read_csv("..\\data\\assumptions.csv") %>%
+assumptions_df <- read_csv("data\\assumptions.csv") %>%
   gather(Period, Value, `2022`:`2060`) %>%
   mutate(across(c(tool_tip_pre, tool_tip_trail), ~replace_na(., ""))) %>%
   # Changing total GDP 2022 period to 2018
@@ -72,14 +72,14 @@ assumptions_list <- distinct(assumptions_df, Parameter) %>% pull(Parameter)
 
 # Reading in insight data to extract assumptions for charting
 print("key_insight.csv")
-insight_df <- read_csv("..\\data\\key_insight.csv", locale = locale(encoding = "UTF-8"), show_col_types = FALSE) %>%
+insight_df <- read_csv("data\\key_insight.csv", locale = locale(encoding = "UTF-8"), show_col_types = FALSE) %>%
   gather(Period, Value, `2018`:`2060`)
 
 insight_list <- distinct(insight_df, Parameter) %>% pull(Parameter)
 
 # Reading in assumption key insight comments
 print("assumptions_insight_comments.csv")
-Assumptions_Insight_df <- read_csv("..\\data\\assumptions_insight_comments.csv", locale = locale(encoding = "UTF-8"), show_col_types = FALSE)
+Assumptions_Insight_df <- read_csv("data\\assumptions_insight_comments.csv", locale = locale(encoding = "UTF-8"), show_col_types = FALSE)
 
 # Ordered attributes
 order_attr = c("Emissions","Fuel Consumption", "End Use Demand", "Annualised Capital Costs", 
@@ -100,6 +100,6 @@ save(combined_df, # data for charting
      order_attr, # Ordered attribute
      caption_list, # Add caption list
      intro, # Add introduction tour comments
-     file = "../app/data/data_for_shiny.rda")
+     file = "app/data/data_for_shiny.rda")
 
 print("Data for Shiny app has been saved to data_for_shiny.rda")

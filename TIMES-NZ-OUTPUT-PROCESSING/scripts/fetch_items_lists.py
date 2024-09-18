@@ -17,7 +17,7 @@ import pandas as pd
 from datetime import datetime
 
 MYUSER = os.getlogin().lower()
-SOURCE_DIR = os.path.join(r"C:\Users", MYUSER, r"git\TIMES-NZ-Model-Files\TIMES-NZ\Exported_files")
+SOURCE_DIR = os.path.join(r"C:\Users", MYUSER, r"TIMES-NZ-Model-Files\TIMES-NZ\Exported_files")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TARGET_DIR = os.path.join(SCRIPT_DIR, os.pardir, 'data', 'input')
 

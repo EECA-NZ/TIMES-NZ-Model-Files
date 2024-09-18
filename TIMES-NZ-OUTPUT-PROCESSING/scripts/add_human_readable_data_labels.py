@@ -419,5 +419,8 @@ sanity_check(drop_in_diesel_out, combined_df, {'Fuel': 'Drop-In Diesel', 'Parame
 
 sanity_check(drop_in_jet_out, combined_df, {'Fuel': 'Drop-In Jet', 'Parameters': 'Fuel Consumption'}, TOL)
 
+save(raw_df, f'../data/output/output_raw_df_v{VERSION_STR}.csv')
+logging.info(f"The raw DataFrame has been saved to ../data/output/output_raw_df_v{VERSION_STR}.csv")
+
 save(combined_df, f'../data/output/output_combined_df_v{VERSION_STR}.csv')
 logging.info(f"The combined DataFrame has been saved to ../data/output/output_combined_df_v{VERSION_STR}.csv")
