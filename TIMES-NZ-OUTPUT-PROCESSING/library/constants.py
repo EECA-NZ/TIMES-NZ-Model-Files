@@ -4,7 +4,7 @@ This module contains constants used by the scripts (under development) that aim 
 import re
 import os
 
-TIMES_NZ_VERSION = os.getenv('TIMES_NZ_VERSION', '0.1.0')
+TIMES_NZ_VERSION = os.getenv('TIMES_NZ_VERSION', '2.1.2')
 VERSION_STR = TIMES_NZ_VERSION.replace('.', '_')
 
 def get_project_base_path():

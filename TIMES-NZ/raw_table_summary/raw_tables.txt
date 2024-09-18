@@ -1434,7 +1434,7 @@ DMD,R_JDW-SH_Burner-LPG,Residential,Joined Dwellings,Burner,LPG,Residential -:- 
 
 
 sheetname: IND_NewTechs
-range: N8:AV249
+range: N8:AV250
 filename: SubRES_TMPL/SubRES_NewTechs_Industry.xlsx
 tag: ~FI_T
 types: TechName (object), *TechDesc (object), Comm-IN (object), Comm-OUT (object), Year (object), Start (object), LIFE (object), AFA (object), AFA~LO (object), CAP2ACT (object), EFF (object), EFF~2020 (object), EFF~2025 (object), EFF~2030 (object), EFF~2035 (object), EFF~2040 (object), EFF~2045 (object), EFF~2050 (object), EFF~2055 (object), EFF~2060 (object), INVCOST (object), INVCOST~2020 (object), INVCOST~2025 (object), INVCOST~2030 (object), INVCOST~2035 (object), INVCOST~2040 (object), INVCOST~2045 (object), INVCOST~2050 (object), INVCOST~2055 (object), INVCOST~2060 (object), FLO_MARK (object), FLO_MARK~2050 (object), FLO_MARK~0 (object), FLO_DELIV (object)
@@ -1549,6 +1549,7 @@ METAL-PH-FURN-LPG-Furn,New Metal product manufacturing - Process Heat: Furnace/K
 METAL-RFGR-ELC-Refriger,New Metal product manufacturing - Refrigeration  - Electricity,INDELC,METAL-RFGR,2018,2020,1,1,0.7,31.536,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,,,,
 METAL-PH-DirH-NGA-Burner,New Metal product manufacturing - Process Heat: Direct Heat  - Natural Gas,INDNGA,METAL-PH-DirH,2018,2020,13,0.9,0.63,31.536,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,313,313,313,313,313,313,313,313,313,313,,,,
 METAL-PH-DirH-ELC-Heater,New Metal product manufacturing - Process Heat: Direct Heat  - Electricity,INDELC,METAL-PH-DirH,2018,2020,3,0.9,0.63,31.536,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,80,80,80,80,80,80,80,80,80,80,,,,
+METAL-Refin-NUC-Refinery,New Metal product manufacturing - Refiners - Nuclear,INDNUC,METAL-Refine,2018,2020,3,0.9,0.63,31.536,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,0.999700089973008,80,80,80,80,80,80,80,80,80,80,,,,
 MTHOL-FDSTCK-NGA-FDSTCK,New Methanol - Methanol production (feedstock)  - Natural Gas,NGA,MTHOL-FDSTCK,2018,2020,100,0.9,,31.536,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,,,,
 MTHOL-PH_REFRM-NGA-REFRM,New Methanol - Process Heat: Reformer  - Natural Gas,INDNGA,MTHOL-PH_REFRM,2018,2020,25,0.5,,31.536,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,,,,
 MNRL-MoTP-Stat-ELC-Motor,"New Mineral - Motive Power, Stationary  - Electricity",INDELC,MNRL-MoTP-Stat,2018,2020,10,0.5,0.35,31.536,0.675,0.675,0.675,0.675,0.675,0.675,0.675,0.675,0.675,0.675,280,280,280,280,280,280,280,280,280,280,,,,
@@ -1682,7 +1683,7 @@ PLPPPR-AIR-ELC-CMPR,New Wood pulp and paper - Compressed Air  - Electricity,INDE
 
 
 sheetname: IND_definitions
-range: B9:O249
+range: B9:O250
 filename: SubRES_TMPL/SubRES_NewTechs_Industry.xlsx
 tag: ~FI_Process
 types: Sets (object), TechName (object), * Sector (object), * Subsector (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
@@ -1798,6 +1799,7 @@ DMD,METAL-PH-FURN-LPG-Furn,Industry,"Fabricated Metal Product, Transport Equipme
 DMD,METAL-RFGR-ELC-Refriger,Industry,"Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing",Refrigerator,Electricity,"Industry -:- Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing -:- Refrigerator -:- Electricity",New Metal product manufacturing - Refrigeration  - Electricity,PJ,GW,,,YES
 DMD,METAL-PH-DirH-NGA-Burner,Industry,"Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing",Burner,Natural Gas,"Industry -:- Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing -:- Burner -:- Natural Gas",New Metal product manufacturing - Process Heat: Direct Heat  - Natural Gas,PJ,GW,,,YES
 DMD,METAL-PH-DirH-ELC-Heater,Industry,"Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing",Heater,Electricity,"Industry -:- Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing -:- Heater -:- Electricity",New Metal product manufacturing - Process Heat: Direct Heat  - Electricity,PJ,GW,,,YES
+DMD,METAL-Refin-NUC-Refinery,Industry,"Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing",Refiner,Nuclear,"Industry -:- Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing -:- Refiner -:- Nuclear",New Metal product manufacturing - Refiners - Nuclear,PJ,GW,,,YES
 DMD,MTHOL-FDSTCK-NGA-FDSTCK,Industry,Methanol,Feedstock,Natural Gas,Industry -:- Methanol -:- Feedstock -:- Natural Gas,New Methanol - Methanol production (feedstock)  - Natural Gas,PJ,GW,,,YES
 DMD,MTHOL-PH_REFRM-NGA-REFRM,Industry,Methanol,Reformer,Natural Gas,Industry -:- Methanol -:- Reformer -:- Natural Gas,New Methanol - Process Heat: Reformer  - Natural Gas,PJ,GW,,,YES
 DMD,MNRL-MoTP-Stat-ELC-Motor,Industry,Non-Metallic Mineral Product Manufacturing,Stationary Motor,Electricity,Industry -:- Non-Metallic Mineral Product Manufacturing -:- Stationary Motor -:- Electricity,"New Mineral - Motive Power, Stationary  - Electricity",PJ,GW,,,YES
@@ -3472,7 +3474,7 @@ TimeSlice,Attribute,Cset_CN,*2018,2020,2025,2030,2035,2040,2045,2050,2055,2060
 
 
 sheetname: Dem_IND
-range: E5:S78
+range: E5:S79
 filename: SuppXLS/Scen_Cohesive.xlsx
 tag: ~TFM_INS-TS: Region=NI
 types: TimeSlice (object), Attribute (object), Cset_CN (object), *2015 (object), *2018 (object), 2020 (object), 2025 (object), 2030 (object), 2035 (object), 2040 (object), 2045 (object), 2050 (object), 2055 (object), 2060 (object)
@@ -3508,6 +3510,7 @@ TimeSlice,Attribute,Cset_CN,*2015,*2018,2020,2025,2030,2035,2040,2045,2050,2055,
 ,Demand,METAL-MoTP-Stat,,0.8343,0.804,0.7747,0.7466,0.804,0.8658,0.9461,1.0338,1.1296,1.2344
 ,Demand,METAL-RFGR,,0.2174,0.2095,0.2019,0.1946,0.2095,0.2256,0.2466,0.2694,0.2944,0.3217
 ,Demand,METAL-PH-DirH,,0.0322,0.031,0.0299,0.0288,0.031,0.0334,0.0365,0.0399,0.0436,0.0477
+,Demand,METAL-Refin,,0.0322,0.031,0.0299,0.0288,0.031,0.0334,0.0365,0.0399,0.0436,0.0477
 ,Demand,MTHOL-FDSTCK,,41.0689,41.0689,41.0689,41.0689,0,0,0,0,0,0
 ,Demand,MTHOL-PH_REFRM,,16.4618,16.4618,16.4618,16.4618,0,0,0,0,0,0
 ,Demand,MNRL-PH-FURN,,3.9838,4.1045,4.2289,4.357,4.692,5.0528,5.5213,6.0333,6.5928,7.2041
@@ -3552,7 +3555,7 @@ TimeSlice,Attribute,Cset_CN,*2015,*2018,2020,2025,2030,2035,2040,2045,2050,2055,
 
 
 sheetname: Dem_IND
-range: Y5:AM78
+range: Y5:AM79
 filename: SuppXLS/Scen_Cohesive.xlsx
 tag: ~TFM_INS-TS: Region=SI
 types: TimeSlice (object), Attribute (object), Cset_CN (object), *2015 (object), *2018 (object), 2020 (object), 2025 (object), 2030 (object), 2035 (object), 2040 (object), 2045 (object), 2050 (object), 2055 (object), 2060 (object)
@@ -3588,6 +3591,7 @@ TimeSlice,Attribute,Cset_CN,*2015,*2018,2020,2025,2030,2035,2040,2045,2050,2055,
 ,Demand,METAL-MoTP-Stat,,0.2052,0.1978,0.1906,0.1836,0.1977,0.213,0.2327,0.2543,0.2779,0.3036
 ,Demand,METAL-RFGR,,0.0535,0.0515,0.0497,0.0479,0.0515,0.0555,0.0606,0.0663,0.0724,0.0791
 ,Demand,METAL-PH-DirH,,0,0,0,0,0,0,0,0,0,0
+,Demand,METAL-Refin,,0,0,0,0,0,0,0,0,0,0
 ,Demand,MTHOL-FDSTCK,,0,0,0,0,0,0,0,0,0,0
 ,Demand,MTHOL-PH_REFRM,,0,0,0,0,0,0,0,0,0,0
 ,Demand,MNRL-PH-FURN,,0,0,0,0,0,0,0,0,0,0
@@ -6459,7 +6463,7 @@ PRE,,FTE_ELCCOA,Electricity,,,Coal,Electricity -:-  -:-  -:- Coal,Sector Fuel Te
 
 
 sheetname: Demand
-range: C5:G77
+range: C5:G78
 filename: VT_NI_IND_V2.xlsx
 tag: ~FI_T
 types: CommName (object), *Demand~2015 (object), *Demand~2016 (object), Demand~2018 (object)
@@ -6495,6 +6499,7 @@ METAL-MoTP-Stat,0.83,0.83,0.83
 METAL-PH-FURN,1.63,1.63,1.63
 METAL-RFGR,0.22,0.21,0.21
 METAL-PH-DirH,0.03,0.03,0.03
+METAL-Refin,0.03,0.03,0.03
 MTHOL-FDSTCK,41.07,41.06,41.06
 MTHOL-PH_REFRM,16.46,16.46,16.46
 MNRL-MoTP-Stat,0.52,0.51,0.51
@@ -6538,17 +6543,17 @@ PLPPPR-AIR,0.06,0.06,0.06
 
 
 sheetname: Emi
-range: B4:K7
+range: B4:L7
 filename: VT_NI_IND_V2.xlsx
 tag: ~COMEMI
-types: CommName (object), INDCOA (object), INDPET (object), INDDSL (object), INDLPG (object), INDFOL (object), INDNGA (object), INDGEO (object), INDWOD (object)
-CommName,INDCOA,INDPET,INDDSL,INDLPG,INDFOL,INDNGA,INDGEO,INDWOD
-*Units,kt/PJ,kt/PJ,kt/PJ,,,,,
-INDCO2,92,66.58,69.69,60.43,72.91,53.96,5.25,
+types: CommName (object), INDCOA (object), INDPET (object), INDDSL (object), INDLPG (object), INDFOL (object), INDNGA (object), INDGEO (object), INDWOD (object), INDNUC (object)
+CommName,INDCOA,INDPET,INDDSL,INDLPG,INDFOL,INDNGA,INDGEO,INDWOD,INDNUC
+*Units,kt/PJ,kt/PJ,kt/PJ,,,,,,
+INDCO2,92,66.58,69.69,60.43,72.91,53.96,5.25,,
 
 
 sheetname: IND
-range: C5:AB116
+range: C5:AB117
 filename: VT_NI_IND_V2.xlsx
 tag: ~FI_T
 types: TechName (object), Comm-IN (object), Comm-OUT (object), Share-I~UP (object), Share-I~UP~2021 (object), Share-I~UP~0 (object), *PRC_RESID~2015 (object), PRC_RESID~2018 (object), *NCAP_PASTY (object), EFF (object), LIFE (object), INVCOST (object), VAROM (object), CAP2ACT (object), *ACT_BND~NI~2015 (object), ACT_BND~NI~2018 (object), *ACT_BND~SI~2018 (object), ACT_BND~NI~0 (object), AFA (object), *AFA~LO (object), *FLO_MARK~NI~2018 (object), *FLO_MARK~SI~2018 (object), *FLO_MARK~0 (object), NCAP_BND~2025 (object), NCAP_BND~0 (object)
@@ -6603,6 +6608,7 @@ METAL-PH-FURN-NGA-Furn15,INDNGA,METAL-PH-FURN,,,,0.055,0.055,21,0.8,25,63,,31.53
 METAL-MoTP-Stat-ELC-Mtr15,INDELC,METAL-MoTP-Stat,,,,0.53,0.053,6,0.675,10,280,,31.536,0.83,0.8343,0.2052,5,0.5,0.35,,,,0,5
 METAL-RFGR-ELC-Refriger15,INDELC,METAL-RFGR,,,,0.007,0.007,5,1,5,0,,31.536,0.22,0.2174,0.0535,5,1,0.7,,,,0,5
 METAL-PH-DirH-NGA-Burner15,INDNGA,METAL-PH-DirH,,,,0.002,0.002,9,0.8,13,313,,31.536,0.03,0.0322,0,5,0.9,0.63,1,,5,0,5
+METAL-Refin-NUC-Refinery15,INDNUC,METAL-Refin,,,,0.002,0.002,9,0.8,13,313,,31.536,0.03,0.0322,0,5,0.9,0.63,1,,5,0,5
 MTHOL-FDSTCK-NGA-FDSTCK15,NGA,MTHOL-FDSTCK,,,,1.447,1.447,96,1,100,0,,31.536,41.07,41.0689,0,5,0.9,0.63,1,0.05,5,0,5
 MTHOL-PH_REFRM-NGA-REFRM15,INDNGA,MTHOL-PH_REFRM,,,,1.045,1.045,21,1,25,0,,31.536,16.46,16.4618,0,5,0.5,0.35,1,,5,0,5
 MNRL-PH-FURN-COA-Furn15,INDCOA,MNRL-PH-FURN,,,,0.073,0.073,21,0.7,25,63,,31.536,2.07,2.0654,0,5,0.9,0.63,0.519,0.05,5,0,5
@@ -6666,7 +6672,7 @@ PLPPPR-AIR-ELC-CMPR15,INDELC,PLPPPR-AIR,,,,0.04,0.004,21,1,25,0,,31.536,0.068,0.
 
 
 sheetname: IND_PRC_COM
-range: C6:O80
+range: C6:O81
 filename: VT_NI_IND_V2.xlsx
 tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
@@ -6703,6 +6709,7 @@ DEM,,METAL-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary"
 DEM,,METAL-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Metal product manufacturing - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
 DEM,,METAL-RFGR,,Refrigeration, -:- Refrigeration,Metal product manufacturing - Refrigeration,PJ,,DAYNITE,,
 DEM,,METAL-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Metal product manufacturing - Process Heat: Direct Heat,PJ,,DAYNITE,,
+DEM,,METAL-Refin,,Refining, -:- Refining,Metal product manufacturing - Process Heat: Direct Heat,PJ,,DAYNITE,,
 DEM,,MTHOL-FDSTCK,,Feedstock, -:- Feedstock,Methanol - Methanol production (feedstock),PJ,,DAYNITE,,
 DEM,,MTHOL-PH_REFRM,,Process Heat Reformer, -:- Process Heat Reformer,Methanol - Process Heat: Reformer,PJ,,DAYNITE,,
 DEM,,MNRL-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Mineral - Motive Power, Stationary",PJ,,DAYNITE,,
@@ -6755,7 +6762,7 @@ types:
 
 
 sheetname: Sector_Fuels
-range: B21:P35
+range: B22:P37
 filename: VT_NI_IND_V2.xlsx
 tag: ~FI_T
 types: TechName (object), Comm-IN (object), Comm-OUT (object), Share-I~UP~2015 (object), Share-I~UP~2021 (object), Share-I~UP~0 (object), NCAP_PASTI~2015 (object), EFF (object), LIFE (object), EFF~2021 (object), EFF~2060 (object), EFF~0 (object), VAROM (object), FLO_DELIV (object)
@@ -6773,10 +6780,11 @@ FTE-INDNGA_00,NGA,INDNGA,,,,,1,100,,,,0.746,
 FTE-INDGEO_00,GEO,INDGEO,,,,,1,100,,,,,
 FTE-INDBIG_00,BIG,INDBIG,,,,,1,100,,,,,
 FTE-INDWOD_00,WOD,INDWOD,,,,,1,100,,,,,
+FTE-INDNUC_00,NUC,INDNUC,,,,,1,100,,,,,
 
 
 sheetname: Sector_Fuels
-range: B6:N18
+range: B6:N19
 filename: VT_NI_IND_V2.xlsx
 tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
@@ -6791,11 +6799,12 @@ NRG,,INDNGA,Natural Gas,,Natural Gas -:- ,Industrial Natural gas,PJ,FX,,,
 NRG,,INDGEO,Geothermal,,Geothermal -:- ,Industrial Geothermal,PJ,FX,,,
 NRG,,INDBIG,Biogas,,Biogas -:- ,Industrial Biogas,PJ,FX,,,
 NRG,,INDWOD,Wood,,Wood -:- ,Industrial Wood,PJ,FX,,,
+NRG,,INDNUC,Nuclear,,Nuclear -:- ,Industrial Nuclear,PJ,FX,,,
 ENV,,INDCO2,,, -:- ,Industrial emissions,kt,,,,
 
 
 sheetname: Sector_Fuels
-range: R6:AF18
+range: R6:AF19
 filename: VT_NI_IND_V2.xlsx
 tag: ~FI_Process
 types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
@@ -6811,6 +6820,7 @@ PRE,,FTE-INDNGA_00,Industry,,,Natural Gas,Industry -:-  -:-  -:- Natural Gas,Exi
 PRE,,FTE-INDGEO_00,Industry,,,Geothermal,Industry -:-  -:-  -:- Geothermal,Existing fuel technology Industrial Geothermal,PJ,PJa,,,
 PRE,,FTE-INDBIG_00,Industry,,,Biogas,Industry -:-  -:-  -:- Biogas,Existing fuel technology Industrial Biogas,PJ,PJa,,,
 PRE,,FTE-INDWOD_00,Industry,,,Wood,Industry -:-  -:-  -:- Wood,Existing fuel technology Industrial Wood,PJ,PJa,,,
+PRE,,FTE-INDNUC_00,Industry,,,Nuclear,Industry -:-  -:-  -:- Nuclear,Existing fuel technology Industrial Nuclear,PJ,PJa,,,
 
 
 sheetname: AGR
@@ -8596,7 +8606,7 @@ PRE,,FTE_ELCCOA,Electricity,,,Coal,Electricity -:-  -:-  -:- Coal,Sector Fuel Te
 
 
 sheetname: Demand
-range: C5:G77
+range: C5:G78
 filename: VT_SI_IND_V2.xlsx
 tag: ~FI_T
 types: CommName (object), *Demand~2015 (object), *Demand~2016 (object), Demand~2018 (object)
@@ -8632,6 +8642,7 @@ METAL-MoTP-Stat,0.2,0.2,0.2
 METAL-PH-FURN,0.28,0.27,0.27
 METAL-RFGR,0.05,0.05,0.05
 METAL-PH-DirH,0,0,0
+METAL-Refin,0,0,0
 MTHOL-FDSTCK,0,0,0
 MTHOL-PH_REFRM,0,0,0
 MNRL-MoTP-Stat,0,0,0
@@ -8675,17 +8686,17 @@ PLPPPR-AIR,0,0,0
 
 
 sheetname: Emi
-range: B4:K7
+range: B4:L7
 filename: VT_SI_IND_V2.xlsx
 tag: ~COMEMI
-types: CommName (object), INDCOA (object), INDPET (object), INDDSL (object), INDLPG (object), INDFOL (object), INDNGA (object), INDBIG (object), INDWOD (object)
-CommName,INDCOA,INDPET,INDDSL,INDLPG,INDFOL,INDNGA,INDBIG,INDWOD
-*Units,kt/PJ,kt/PJ,kt/PJ,,,,,
-INDCO2,92,66.58,69.69,60.43,72.91,53.96,,
+types: CommName (object), INDCOA (object), INDPET (object), INDDSL (object), INDLPG (object), INDFOL (object), INDNGA (object), INDBIG (object), INDWOD (object), INDNUC (object)
+CommName,INDCOA,INDPET,INDDSL,INDLPG,INDFOL,INDNGA,INDBIG,INDWOD,INDNUC
+*Units,kt/PJ,kt/PJ,kt/PJ,,,,,,
+INDCO2,92,66.58,69.69,60.43,72.91,53.96,,,
 
 
 sheetname: IND
-range: C5:AC116
+range: C5:AC117
 filename: VT_SI_IND_V2.xlsx
 tag: ~FI_T
 types: TechName (object), Comm-IN (object), Comm-OUT (object), Share-I~UP (object), Share-I~UP~2020 (object), Share-I~UP~0 (object), NCAP_PASTI~SI~2000 (object), PRC_RESID~2018 (object), *PRC_RESID~2015 (object), *NCAP_PASTY (object), EFF (object), LIFE (object), INVCOST (object), VAROM (object), CAP2ACT (object), *ACT_BND~SI~2015 (object), *ACT_BND~NI~2018 (object), ACT_BND~SI~2018 (object), ACT_BND~SI~0 (object), AFA (object), *AFA~LO (object), *FLO_MARK~NI~2018 (object), *FLO_MARK~SI~2018 (object), *FLO_MARK~0 (object), NCAP_BND~2025 (object), NCAP_BND~0 (object)
@@ -8740,6 +8751,7 @@ METAL-PH-FURN-NGA-Furn15,INDNGA,METAL-PH-FURN,,,,,0,0,21,0.8,25,63,,31.536,0,0.0
 METAL-MoTP-Stat-ELC-Mtr15,INDELC,METAL-MoTP-Stat,,,,,0.014,0.014,6,0.675,10,280,,31.536,0.205,0.0088,0.2052,5,0.5,0.35,,,,0,5
 METAL-RFGR-ELC-Refriger15,INDELC,METAL-RFGR,,,,,0.002,0.002,1,1,1,0,,31.536,0.054,0.2588,0.0535,5,1,0.7,,,,0,5
 METAL-PH-DirH-NGA-Burner15,INDNGA,METAL-PH-DirH,,,,,0,0,9,0.8,13,313,,31.536,0,0.0319,0,5,0.9,0.63,1,,5,0,5
+METAL-Refin-NUC-Refinery15,INDNUC,METAL-Refin,,,,,0,0,9,0.8,13,313,,31.536,0,0.0319,0,5,0.9,0.63,1,,5,0,5
 MTHOL-FDSTCK-NGA-FDSTCK15,NGA,MTHOL-FDSTCK,,,,,0,0,96,1,100,0,,31.536,0,0.4431,0,5,0.9,0.63,1,0.05,5,0,5
 MTHOL-PH_REFRM-NGA-REFRM15,INDNGA,MTHOL-PH_REFRM,,,,,0,0,21,1,25,0,,31.536,0,0.1616,0,5,0.5,0.35,1,,5,0,5
 MNRL-PH-FURN-COA-Furn15,INDCOA,MNRL-PH-FURN,,,,,0,0,21,0.7,25,63,,31.536,0,2.2425,0,5,0.9,0.63,0.491,0.05,5,0,5
@@ -8803,7 +8815,7 @@ PLPPPR-AIR-ELC-CMPR15,INDELC,PLPPPR-AIR,,,,,0.001,0.001,21,1,25,0,,31.536,0,0.00
 
 
 sheetname: IND_PRC_COM
-range: C6:O80
+range: C6:O81
 filename: VT_SI_IND_V2.xlsx
 tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
@@ -8840,6 +8852,7 @@ DEM,,METAL-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary"
 DEM,,METAL-PH-FURN,,Process Heat Furnace, -:- Process Heat Furnace,Metal product manufacturing - Process Heat: Furnace/Kiln,PJ,,DAYNITE,,
 DEM,,METAL-RFGR,,Refrigeration, -:- Refrigeration,Metal product manufacturing - Refrigeration,PJ,,DAYNITE,,
 DEM,,METAL-PH-DirH,,Process Heat Direct, -:- Process Heat Direct,Metal product manufacturing - Process Heat: Direct Heat,PJ,,DAYNITE,,
+DEM,,METAL-Refin,,Refining, -:- Refining,Metal product manufacturing - Refiners,PJ,,DAYNITE,,
 DEM,,MTHOL-FDSTCK,,Feedstock, -:- Feedstock,Methanol - Methanol production (feedstock),PJ,,DAYNITE,,
 DEM,,MTHOL-PH_REFRM,,Process Heat Reformer, -:- Process Heat Reformer,Methanol - Process Heat: Reformer,PJ,,DAYNITE,,
 DEM,,MNRL-MoTP-Stat,,"Motive Power, Stationary"," -:- Motive Power, Stationary","Mineral - Motive Power, Stationary",PJ,,DAYNITE,,
@@ -8884,7 +8897,7 @@ DEM,,PLPPPR-AIR,,Compressed Air, -:- Compressed Air,Wood pulp and paper - Compre
 
 
 sheetname: IND_PRC_COM
-range: S6:AG116
+range: S6:AG117
 filename: VT_SI_IND_V2.xlsx
 tag: ~FI_Process
 types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
@@ -8938,6 +8951,7 @@ DMD,,METAL-PH-FURN-NGA-Furn15,Industry,"Fabricated Metal Product, Transport Equi
 DMD,,METAL-MoTP-Stat-ELC-Mtr15,Industry,"Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing",Stationary Motor,Electricity,"Industry -:- Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing -:- Stationary Motor -:- Electricity",Metal Product Manufacturing Motive Power Stationary Electric Motor Existing,PJ,GW,DAYNITE,,
 DMD,,METAL-RFGR-ELC-Refriger15,Industry,"Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing",Refrigerator,Electricity,"Industry -:- Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing -:- Refrigerator -:- Electricity",Metal Product Manufacturing Refrigeration Electric Existing,PJ,GW,DAYNITE,,
 DMD,,METAL-PH-DirH-NGA-Burner15,Industry,"Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing",Burner,Natural Gas,"Industry -:- Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing -:- Burner -:- Natural Gas",Metal Product Manufacturing Process Heat Direct Heat Natural Gas Burner Existing,PJ,GW,DAYNITE,,
+DMD,,METAL-Refin-NUC-Refinery15,Industry,"Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing",Refiner,Nuclear,"Industry -:- Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing -:- Refiner -:- Nuclear",Metal Product Manufacturing Refiners Electric Refiners Existing,PJ,GW,DAYNITE,,
 DMD,,MTHOL-FDSTCK-NGA-FDSTCK15,Industry,Methanol,Feedstock,Natural Gas,Industry -:- Methanol -:- Feedstock -:- Natural Gas,Methanol Methanol Production Feedstock,PJ,GW,DAYNITE,,
 DMD,,MTHOL-PH_REFRM-NGA-REFRM15,Industry,Methanol,Reformer,Natural Gas,Industry -:- Methanol -:- Reformer -:- Natural Gas,Methanol Process Heat Reformer Natural Gas Existing,PJ,GW,DAYNITE,,
 DMD,,MNRL-PH-FURN-COA-Furn15,Industry,Non-Metallic Mineral Product Manufacturing,Furnace,Coal,Industry -:- Non-Metallic Mineral Product Manufacturing -:- Furnace -:- Coal,Mineral Process Heat Furnace Coal Furnace Existing,PJ,GW,DAYNITE,,
@@ -9001,7 +9015,7 @@ DMD,,PLPPPR-AIR-ELC-CMPR15,Industry,Pulp and Paper Manufacturing,Compressor,Elec
 
 
 sheetname: Sector_Fuels
-range: B21:P35
+range: B22:P37
 filename: VT_SI_IND_V2.xlsx
 tag: ~FI_T
 types: TechName (object), Comm-IN (object), Comm-OUT (object), Share-I~UP~2015 (object), Share-I~UP~2021 (object), Share-I~UP~0 (object), NCAP_PASTI~2015 (object), EFF (object), LIFE (object), EFF~2021 (object), EFF~2060 (object), EFF~0 (object), VAROM (object), FLO_DELIV (object)
@@ -9019,10 +9033,11 @@ FTE-INDNGA_00,NGA,INDNGA,,,,,1,100,,,,0.746,
 FTE-INDGEO_00,GEO,INDGEO,,,,,1,100,,,,,
 FTE-INDBIG_00,BIG,INDBIG,,,,,1,100,,,,,
 FTE-INDWOD_00,WOD,INDWOD,,,,,1,100,,,,,
+FTE-INDNUC_00,NUC,INDNUC,,,,,1,100,,,,,
 
 
 sheetname: Sector_Fuels
-range: B6:N18
+range: B6:N19
 filename: VT_SI_IND_V2.xlsx
 tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
@@ -9037,11 +9052,12 @@ NRG,,INDNGA,Natural Gas,,Natural Gas -:- ,Industrial Natural gas,PJ,FX,,,
 NRG,,INDGEO,Geothermal,,Geothermal -:- ,Industrial Geothermal,PJ,FX,,,
 NRG,,INDBIG,Biogas,,Biogas -:- ,Industrial Biogas,PJ,FX,,,
 NRG,,INDWOD,Wood,,Wood -:- ,Industrial Wood,PJ,FX,,,
+NRG,,INDNUC,Nuclear,,Nuclear -:- ,Industrial Nuclear,PJ,FX,,,
 ENV,,INDCO2,,, -:- ,Industrial emissions,kt,,,,
 
 
 sheetname: Sector_Fuels
-range: R6:AF18
+range: R6:AF19
 filename: VT_SI_IND_V2.xlsx
 tag: ~FI_Process
 types: Sets (object), Region (object), TechName (object), * Sector (object), * Subsector (object), * Technology (object), * Fuel (object), TechDesc (object), * OLD TechDesc (object), Tact (object), Tcap (object), Tslvl (object), PrimaryCG (object), Vintage (object)
@@ -9057,6 +9073,7 @@ PRE,,FTE-INDNGA_00,Industry,,,Natural Gas,Industry -:-  -:-  -:- Natural Gas,Exi
 PRE,,FTE-INDGEO_00,Industry,,,Geothermal,Industry -:-  -:-  -:- Geothermal,Existing fuel technology PJ,PJ,PJa,,,
 PRE,,FTE-INDBIG_00,Industry,,,Biogas,Industry -:-  -:-  -:- Biogas,Existing fuel technology PJ,PJ,PJa,,,
 PRE,,FTE-INDWOD_00,Industry,,,Wood,Industry -:-  -:-  -:- Wood,Existing fuel technology PJ,PJ,PJa,,,
+PRE,,FTE-INDNUC_00,Industry,,,Nuclear,Industry -:-  -:-  -:- Nuclear,Existing fuel technology PJ,PJ,PJa,,,
 
 
 sheetname: AGR
@@ -9957,7 +9974,7 @@ tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
 Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
 *Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-ENV,,REFCO2,,, -:- ,,,,,,
+ENV,,REFCO2,,, -:- ,,kt,,,,
 
 
 sheetname: Con_REF

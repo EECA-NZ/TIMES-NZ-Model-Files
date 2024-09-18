@@ -454,5 +454,8 @@ for (scenario, period), value in total_emissions.items():
 logging.info(raw_df[raw_df.Commodity.str.contains('TOTCO2')].groupby(['Scenario', 'Period']).Value.sum()*2)
 logging.info(raw_df[raw_df.Commodity.str.contains('CO2')].groupby(['Scenario', 'Period']).Value.sum())
 
+save(raw_df, f'../data/output/output_raw_df_v{VERSION_STR}.csv')
+logging.info(f"The raw DataFrame has been saved to ../data/output/output_raw_df_v{VERSION_STR}.csv")
+
 save(combined_df, f'../data/output/output_combined_df_v{VERSION_STR}.csv')
 logging.info(f"The combined DataFrame has been saved to ../data/output/output_combined_df_v{VERSION_STR}.csv")
