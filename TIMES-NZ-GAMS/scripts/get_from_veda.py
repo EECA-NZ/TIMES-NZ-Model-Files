@@ -51,7 +51,7 @@ def main(veda_working_dir, scenario):
         scenario = input(f"Enter the scenario name [Available: {scenario_list}]: ")
 
     original_dir = Path.cwd().parent
-    scenarios_dir = original_dir / "scenarios"
+    scenarios_dir = original_dir / "times_scenarios"
     os.makedirs(scenarios_dir, exist_ok=True)
     
     scenario_dir = setup_scenario_directory(scenarios_dir, scenario)

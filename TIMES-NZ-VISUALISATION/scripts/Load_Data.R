@@ -36,8 +36,16 @@ options(scipen=999) # eliminates scientific notation
 
 conflicts_prefer(dplyr::filter)
 
-times_nz_version <- "2.1.3"
-times_nz_version_str <- gsub("\\.", "_", times_nz_version)
+# Retrieve command-line arguments
+args <- commandArgs(trailingOnly = TRUE)
+
+# Check if the version string argument is provided
+if (length(args) == 0) {
+  stop("No version string provided. Usage: Rscript Load_Data_Mine.R <version_string>", call. = FALSE)
+}
+
+# Set the version string from the command-line argument
+times_nz_version_str <- args[1]
 
 # Reading in intro Data --------------------------
 intro <- read_delim("..\\data\\intro.csv", delim = ";", col_types = cols())
@@ -51,6 +59,33 @@ print("schema_technology.csv")
 schema_technology <- read_csv("..\\data\\schema_technology.csv", locale = locale(encoding = "UTF-8"), show_col_types = FALSE)
 print("output_combined_df_vA_B_C.csv")
 combined_df <- read_csv(paste0("..\\..\\TIMES-NZ-OUTPUT-PROCESSING\\data\\output\\", "output_combined_df_v", times_nz_version_str, ".csv"), locale = locale(encoding = "UTF-8"), show_col_types = FALSE)
+
+check_ok <- TRUE
+
+# Check that all Technologies present in the combined_df are present in the schema_technology, displaying the missing ones if not
+if (!all(combined_df$Technology %in% schema_technology$Technology)) {
+  technologies_missing_groups <- setdiff(combined_df$Technology, schema_technology$Technology)
+  print(paste("The following Technologies are present in the combined_df but not in schema_technology.csv:", paste(technologies_missing_groups, collapse = ", ")))
+  check_ok <- FALSE
+}
+
+# Check that all Technologies present in the combined_df have a colour defined for them, displaying the missing ones if not
+if (!all(combined_df$Technology %in% schema_colors$Fuel)) {
+  technologies_missing_colours <- setdiff(combined_df$Technology, schema_colors$Fuel)
+  print(paste("The following Technologies are present in the combined_df but haven't been given a colour in schema_colours.csv:", paste(technologies_missing_colours, collapse = ", ")))
+  check_ok <- FALSE
+}
+
+# Check that all fuel types present in the combined_df are present in the schema_colors, displaying the missing ones if not
+if (!all(combined_df$Fuel %in% schema_colors$Fuel)) {
+  missing_fuels <- setdiff(combined_df$Fuel, schema_colors$Fuel)
+  print(paste("The following Fuel types are present in the combined_df but not in the schema_colors.csv:", paste(missing_fuels, collapse = ", ")))
+  check_ok <- FALSE
+}
+
+if (!check_ok) {
+  stop("Please ensure that all Technologies and Fuel types present in the combined_df are present in the schema_technology and schema_colors files respectively.", call. = FALSE)
+}
 
 # List generation
 hierarchy_list <- combined_df %>%

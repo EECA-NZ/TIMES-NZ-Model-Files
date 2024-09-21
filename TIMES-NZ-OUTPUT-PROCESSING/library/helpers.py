@@ -521,7 +521,7 @@ def process_map_from_commodity_groups(filepath):
     commodity_groups_df = pd.read_csv(filepath)
     # Define suffixes and their implications
     suffix_mappings = {
-        'NRGI': {'Attribute': 'VAR_FIn', 'Parameters': None, 'Unit': None},
+        'NRGI': {'Attribute': 'VAR_FIn', 'Parameters': '', 'Unit': None},
         'NRGO': {'Attribute': 'VAR_FOut', 'Parameters': None, 'Unit': None},
         'ENVO': {'Attribute': 'VAR_FOut', 'Parameters': 'Emissions', 'Unit': 'kt CO2'},
         'DEMO': {'Attribute': 'VAR_FOut', 'Parameters': 'End Use Demand', 'Unit': None},

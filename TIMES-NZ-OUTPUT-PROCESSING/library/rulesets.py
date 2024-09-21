@@ -30,7 +30,7 @@ commodity_set_rules = df_to_ruleset(
     target_column_map={"Name": "Commodity"},
     parse_column="Set",
     separator="N/A", # Set looks like e.g. .NRG., no separator
-    schema=["Set"],
+    schema=["CommoditySet"],
     rule_type="inplace",
 )
 
@@ -39,7 +39,7 @@ process_set_rules = df_to_ruleset(
     target_column_map={"Name": "Process"},
     parse_column="Set",
     separator="N/A", # Set looks like e.g. .NRG., no separator
-    schema=["Set"],
+    schema=["ProcessSet"],
     rule_type="inplace",
 )
 
@@ -161,18 +161,21 @@ SECTOR_CAPACITY_RULES = [
 PARAMS_RULES = [
     # Basic Rules
     ({"Attribute": "VAR_Cap", "Unit": "000 Vehicles"}, "inplace", {"Parameters": "Number of Vehicles"}),
-    ({"Attribute": "VAR_FIn", "Unit": "PJ"}, "inplace", {"Parameters": "Fuel Consumption"}),
+    ({"Attribute": "VAR_FIn", "Unit": "PJ", "ProcessSet": ".DMD."}, "inplace", {"Parameters": "Fuel Consumption"}),
+    ({"Attribute": "VAR_FIn", "Unit": "PJ", "ProcessSet": ".PRE."}, "inplace", {"Parameters": "Fuel Consumption"}),
+    ({"Attribute": "VAR_FIn", "Unit": "PJ", "ProcessSet": ".ELE."}, "inplace", {"Parameters": "Fuel Consumption"}),
     ({"Attribute": "VAR_FOut", "Unit": "Billion Vehicle Kilometres"}, "inplace", {"Parameters": "Distance Travelled"}),
     ({"Attribute": "VAR_Cap", "Unit": "GW"}, "inplace", {"Parameters": "Technology Capacity"}),
     ({"Attribute": "VAR_FOut", "Unit": "kt CO2"}, "inplace", {"Parameters": "Emissions"}),
-    ({"Attribute": "VAR_FOut", "Unit": "PJ"}, "inplace", {"Parameters": "End Use Demand"}),
+    #({"Attribute": "VAR_FOut", "Unit": "PJ", "ProcessSet": ".DMD.", "CommoditySet": ".DEM."}, "inplace", {"Parameters": "End Use Demand"}),
+    #({"Attribute": "VAR_FOut", "Unit": "PJ", "ProcessSet": ".DMD.", "CommoditySet": ".ENV."}, "inplace", {"Parameters": "Emissions"}),
     # Specific Rules - Electricity Storage
-    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "Set": ".ELE.STG."}, "newrow", {"Attribute": "VAR_FIn", "Parameters": "Gross Electricity Storage"}),
-    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "Set": ".ELE.STG."}, "inplace", {"Parameters": "Grid Injection (from Storage)"}),
+    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "ProcessSet": ".ELE.STG."}, "newrow", {"Attribute": "VAR_FIn", "Parameters": "Gross Electricity Storage"}),
+    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "ProcessSet": ".ELE.STG."}, "inplace", {"Parameters": "Grid Injection (from Storage)"}),
     # Specific Rules - Electricity Generation
-    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "Commodity": "ELC", "Set": ".ELE."}, "inplace", {"Parameters": "Electricity Generation"}),
-    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "Commodity": "ELCDD", "Set": ".ELE."}, "inplace", {"Parameters": "Electricity Generation"}),
-    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "Commodity": "ELC-MV", "Set": ".ELE."}, "inplace", {"Parameters": "Electricity Generation"}),
+    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "Commodity": "ELC", "ProcessSet": ".ELE."}, "inplace", {"Parameters": "Electricity Generation"}),
+    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "Commodity": "ELCDD", "ProcessSet": ".ELE."}, "inplace", {"Parameters": "Electricity Generation"}),
+    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "Commodity": "ELC-MV", "ProcessSet": ".ELE."}, "inplace", {"Parameters": "Electricity Generation"}),
     # Specific Rules - Feedstock
     ({"Attribute": "VAR_FIn", "Unit": "PJ", "Enduse": "Feedstock"}, "inplace", {"Parameters": "Feedstock"}),
     ({"Attribute": "VAR_FOut", "Unit": "PJ", "Enduse": "Feedstock"}, "drop", {}),

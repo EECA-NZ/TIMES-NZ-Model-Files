@@ -41,8 +41,8 @@ ZERO_BIOFUEL_EMISSIONS = False
 GROUP_COLUMNS = ['Scenario', 'Sector', 'Subsector', 'Technology', 'Enduse', 'Unit', 'Parameters', 'Fuel', 'Period', 'FuelGroup', 'Technology_Group']
 
 SCENARIO_INPUT_FILES = {
-    'Kea': f'../../TIMES-NZ-GAMS/scenarios/kea-v{VERSION_STR}/kea-v{VERSION_STR}.vd',
-    'Tui': f'../../TIMES-NZ-GAMS/scenarios/tui-v{VERSION_STR}/tui-v{VERSION_STR}.vd'
+    'Kea': f'../../TIMES-NZ-GAMS/times_scenarios/kea-v{VERSION_STR}/kea-v{VERSION_STR}.vd',
+    'Tui': f'../../TIMES-NZ-GAMS/times_scenarios/tui-v{VERSION_STR}/tui-v{VERSION_STR}.vd'
 }
 
 NEEDED_ATTRIBUTES = ['VAR_Cap', 'VAR_FIn', 'VAR_FOut']
@@ -316,6 +316,10 @@ clean_df = pd.concat(
      rows_to_add],
     ignore_index=True
 )
+# Check if all Technologies in clean_df are in schema_technology
+if not set(clean_df['Technology']).issubset(set(schema_technology['Technology'])):
+    missing_tech = set(clean_df['Technology']) - set(schema_technology['Technology'])
+    raise ValueError(f"Unmatched Technologies found: {missing_tech}")
 clean_df = pd.merge(clean_df, schema_technology, on=['Technology'], how='left')
 
 # Setting values based on conditions
@@ -418,6 +422,9 @@ sanity_check(biodiesel_out, combined_df, {'Fuel': 'Biodiesel', 'Parameters': 'Fu
 sanity_check(drop_in_diesel_out, combined_df, {'Fuel': 'Drop-In Diesel', 'Parameters': 'Fuel Consumption'}, TOL)
 
 sanity_check(drop_in_jet_out, combined_df, {'Fuel': 'Drop-In Jet', 'Parameters': 'Fuel Consumption'}, TOL)
+
+save(raw_df, f'../data/output/output_raw_df_v{VERSION_STR}.csv')
+logging.info(f"The raw DataFrame has been saved to ../data/output/output_raw_df_v{VERSION_STR}.csv")
 
 save(combined_df, f'../data/output/output_combined_df_v{VERSION_STR}.csv')
 logging.info(f"The combined DataFrame has been saved to ../data/output/output_combined_df_v{VERSION_STR}.csv")

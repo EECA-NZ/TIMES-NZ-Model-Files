@@ -530,6 +530,7 @@ VAR_Cap,C_WSR-WH_GHP-ELC,-,Commercial,Warehouses/Supermarkets/Retail,Heat Pump,E
 VAR_Cap,C_WSR-WH_INSTANT-ELC,-,Commercial,Warehouses/Supermarkets/Retail,Instantaneous Water Heater,Electricity,Water Heating,GW,Technology Capacity,Electricity
 VAR_Cap,C_WSR-WH_INSTANT-LPG,-,Commercial,Warehouses/Supermarkets/Retail,Instantaneous Water Heater,LPG,Water Heating,GW,Technology Capacity,Fossil Fuels
 VAR_Cap,C_WSR-WH_INSTANT-NGA,-,Commercial,Warehouses/Supermarkets/Retail,Instantaneous Water Heater,Natural Gas,Water Heating,GW,Technology Capacity,Fossil Fuels
+VAR_Cap,D-H2toNGA_blnd,-,Primary Fuel Supply,Hydrogen,Hydrogen Enrichment,Natural Gas,Electricity Production,GW,Technology Capacity,Fossil Fuels
 VAR_Cap,DARY-AIR-ELC-CMPR,-,Industry,Dairy Product Manufacturing,Compressor,Electricity,Compressed Air,GW,Technology Capacity,Electricity
 VAR_Cap,DARY-AIR-ELC-CMPR15,-,Industry,Dairy Product Manufacturing,Compressor,Electricity,Compressed Air,GW,Technology Capacity,Electricity
 VAR_Cap,DARY-MoTP-Stat-DSL-st_ngn,-,Industry,Dairy Product Manufacturing,Stationary Motor,Diesel,"Motive Power, Stationary",GW,Technology Capacity,Fossil Fuels
@@ -1545,9 +1546,8 @@ VAR_FIn,C_WSR-WH_INSTANT-LPG,COMLPG,Commercial,Warehouses/Supermarkets/Retail,In
 VAR_FIn,C_WSR-WH_INSTANT-NGA,COMNGA,Commercial,Warehouses/Supermarkets/Retail,Instantaneous Water Heater,Natural Gas,Water Heating,PJ,Fuel Consumption,Fossil Fuels
 VAR_FIn,D-H2_ELCNGA,H2C,Primary Fuel Supply,Hydrogen,Natural gas T&D to power & heat sectors,Green Hydrogen,Electricity Production,PJ,Fuel Consumption,Electricity
 VAR_FIn,D-H2_ELCNGA,NGA,Primary Fuel Supply,Hydrogen,Natural gas T&D to power & heat sectors,Natural Gas,Electricity Production,PJ,Fuel Consumption,Fossil Fuels
-VAR_FIn,D-H2_Trailer,H2C,Primary Fuel Supply,Hydrogen,Tube Trailer (NI and SI),Green Hydrogen,Green Hydrogen Fuel,PJ,Fuel Consumption,Electricity
-VAR_FIn,D-H2toNGA_blnd,H2C,Primary Fuel Supply,Hydrogen,Blending Hydrogen with Natural gas (only NI),Green Hydrogen,Electricity Production,PJ,Fuel Consumption,Electricity
-VAR_FIn,D-H2toNGA_blnd,NGA,Primary Fuel Supply,Hydrogen,Blending Hydrogen with Natural gas (only NI),Natural Gas,Electricity Production,PJ,Fuel Consumption,Fossil Fuels
+VAR_FIn,D-H2toNGA_blnd,H2C,Primary Fuel Supply,Hydrogen,Hydrogen Enrichment,Green Hydrogen,Electricity Production,PJ,Fuel Consumption,Electricity
+VAR_FIn,D-H2toNGA_blnd,NGA,Primary Fuel Supply,Hydrogen,Hydrogen Enrichment,Natural Gas,Electricity Production,PJ,Fuel Consumption,Fossil Fuels
 VAR_FIn,DARY-AIR-ELC-CMPR,INDELC,Industry,Dairy Product Manufacturing,Compressor,Electricity,Compressed Air,PJ,Fuel Consumption,Electricity
 VAR_FIn,DARY-AIR-ELC-CMPR15,INDELC,Industry,Dairy Product Manufacturing,Compressor,Electricity,Compressed Air,PJ,Fuel Consumption,Electricity
 VAR_FIn,DARY-MoTP-Stat-DSL-st_ngn,INDDSL,Industry,Dairy Product Manufacturing,Stationary Motor,Diesel,"Motive Power, Stationary",PJ,Fuel Consumption,Fossil Fuels
@@ -1608,14 +1608,12 @@ VAR_FIn,DARY-Pump-ELC-Pump,INDELC,Industry,Dairy Product Manufacturing,Pump,Elec
 VAR_FIn,DARY-Pump-ELC-Pump15,INDELC,Industry,Dairy Product Manufacturing,Pump,Electricity,Pumping,PJ,Fuel Consumption,Electricity
 VAR_FIn,DARY-RFGR-ELC-Refriger,INDELC,Industry,Dairy Product Manufacturing,Refrigerator,Electricity,Refrigeration,PJ,Fuel Consumption,Electricity
 VAR_FIn,DARY-RFGR-ELC-Refriger15,INDELC,Industry,Dairy Product Manufacturing,Refrigerator,Electricity,Refrigeration,PJ,Fuel Consumption,Electricity
-VAR_FIn,EBAT-Li-Ion,ELCDD,Electricity,Electricity Storage,Lithium Ion Battery,Electricity,Electricity Production,PJ,Fuel Consumption,Electricity
 VAR_FIn,EBAT-Li-Ion,ELCDD,Electricity,Electricity Storage,Lithium Ion Battery,Electricity,Electricity Production,PJ,Gross Electricity Storage,Electricity
 VAR_FIn,EBATUTIFLOW,ELC,Electricity,Electricity Storage,Flow Battery,Electricity,Electricity Production,PJ,Gross Electricity Storage,Electricity
 VAR_FIn,EBATUTILION,ELC,Electricity,Electricity Storage,Lithium Ion Battery,Electricity,Electricity Production,PJ,Gross Electricity Storage,Electricity
 VAR_FIn,EBIG20,ELCBIG,Electricity,Biogas,Biogas 2018,Biogas,Electricity Production,PJ,Fuel Consumption,Renewables (direct use)
 VAR_FIn,EHCOL_SCPC20,ELCCOL,Electricity,Thermal,Lignite: SCPC - 2018,Coal,Electricity Production,PJ,Fuel Consumption,Fossil Fuels
 VAR_FIn,EHCO_SCPC20,ELCCOA,Electricity,Thermal,Coal: SCPC - 2018,Coal,Electricity Production,PJ,Fuel Consumption,Fossil Fuels
-VAR_FIn,EHYDPUMPSTG_L,ELC,Electricity,Electricity Storage,Large Pumped Storage,Hydro,Electricity Production,PJ,Fuel Consumption,Renewables (direct use)
 VAR_FIn,EHYDPUMPSTG_L,ELC,Electricity,Electricity Storage,Large Pumped Storage,Hydro,Electricity Production,PJ,Gross Electricity Storage,Renewables (direct use)
 VAR_FIn,EHYDPUMPSTG_S,ELC,Electricity,Electricity Storage,Small Pumped Storage,Hydro,Electricity Production,PJ,Gross Electricity Storage,Renewables (direct use)
 VAR_FIn,ELCREBIG00,ELCBIG,Electricity,Thermal,Steam Boiler,Biogas,Electricity Production,PJ,Fuel Consumption,Renewables (direct use)
@@ -1661,15 +1659,6 @@ VAR_FIn,FOOD-RFGR-ELC-Refriger,INDELC,Industry,Other Food Processing (Non Dairy/
 VAR_FIn,FOOD-RFGR-ELC-Refriger15,INDELC,Industry,Other Food Processing (Non Dairy/Meat Processing),Refrigerator,Electricity,Refrigeration,PJ,Fuel Consumption,Electricity
 VAR_FIn,FTE-INDDSL_00,DID,Industry,Construction,Internal Combustion Engine,Drop-In Diesel,"Motive Power, Mobile",PJ,Fuel Consumption,Renewables (direct use)
 VAR_FIn,FTE-INDDSL_00,DID,Industry,Mining,Internal Combustion Engine,Drop-In Diesel,"Motive Power, Mobile",PJ,Fuel Consumption,Renewables (direct use)
-VAR_FIn,FTE_AGRH2D,H2D,Primary Fuel Supply,Hydrogen,Hydrogen supply to agriculture sector (decentralized),Green Hydrogen,Hydrogen,PJ,Fuel Consumption,Electricity
-VAR_FIn,FTE_AGRH2R,H2R,Primary Fuel Supply,Hydrogen,Hydrogen supply to Agriculture sector (centralized),Green Hydrogen,Hydrogen,PJ,Fuel Consumption,Electricity
-VAR_FIn,FTE_COMH2D,H2D,Primary Fuel Supply,Hydrogen,Hydrogen supply to commercial sector (decentralized),Green Hydrogen,Hydrogen,PJ,Fuel Consumption,Electricity
-VAR_FIn,FTE_COMH2R,H2R,Primary Fuel Supply,Hydrogen,Hydrogen supply to commercial sector (centralized),Green Hydrogen,Hydrogen,PJ,Fuel Consumption,Electricity
-VAR_FIn,FTE_ELCH2R,H2R,Primary Fuel Supply,Hydrogen,Hydrogen supply to power sector (centralized),Green Hydrogen,Hydrogen,PJ,Fuel Consumption,Electricity
-VAR_FIn,FTE_INDH2D,H2D,Primary Fuel Supply,Hydrogen,Hydrogen supply to industry sector (decentralized),Green Hydrogen,Hydrogen,PJ,Fuel Consumption,Electricity
-VAR_FIn,FTE_INDH2R,H2R,Primary Fuel Supply,Hydrogen,Hydrogen supply to industry sector (centralized),Green Hydrogen,Hydrogen,PJ,Fuel Consumption,Electricity
-VAR_FIn,FTE_RESH2D,H2D,Primary Fuel Supply,Hydrogen,Hydrogen supply to residential sector (decentralized),Green Hydrogen,Hydrogen,PJ,Fuel Consumption,Electricity
-VAR_FIn,FTE_RESH2R,H2R,Primary Fuel Supply,Hydrogen,Hydrogen supply to residential sector (centralized),Green Hydrogen,Hydrogen,PJ,Fuel Consumption,Electricity
 VAR_FIn,FTE_TRADSL,BDSL,Transport,Rail,Train,Biodiesel,Freight Rail,PJ,Fuel Consumption,Renewables (direct use)
 VAR_FIn,FTE_TRADSL,BDSL,Transport,Rail,Train,Biodiesel,Passenger Rail,PJ,Fuel Consumption,Renewables (direct use)
 VAR_FIn,FTE_TRADSL,BDSL,Transport,Road Transport,Internal Combustion Engine,Biodiesel,Bus,PJ,Fuel Consumption,Renewables (direct use)
@@ -2829,9 +2818,6 @@ VAR_FOut,C_WSR-WH_INSTANT-LPG,COMCO2,Commercial,Warehouses/Supermarkets/Retail,I
 VAR_FOut,C_WSR-WH_INSTANT-LPG,C_WSR-WH,Commercial,Warehouses/Supermarkets/Retail,Instantaneous Water Heater,LPG,Water Heating,PJ,End Use Demand,Fossil Fuels
 VAR_FOut,C_WSR-WH_INSTANT-NGA,COMCO2,Commercial,Warehouses/Supermarkets/Retail,Instantaneous Water Heater,Natural Gas,Water Heating,kt CO2,Emissions,Fossil Fuels
 VAR_FOut,C_WSR-WH_INSTANT-NGA,C_WSR-WH,Commercial,Warehouses/Supermarkets/Retail,Instantaneous Water Heater,Natural Gas,Water Heating,PJ,End Use Demand,Fossil Fuels
-VAR_FOut,D-H2_ELCNGA,ELCNGA,Primary Fuel Supply,Hydrogen,Natural gas T&D to power & heat sectors,Natural Gas,Electricity Production,PJ,End Use Demand,Fossil Fuels
-VAR_FOut,D-H2_Trailer,H2R,Primary Fuel Supply,Hydrogen,Tube Trailer (NI and SI),Green Hydrogen,Green Hydrogen Fuel,PJ,End Use Demand,Electricity
-VAR_FOut,D-H2toNGA_blnd,ELCNGA,Primary Fuel Supply,Hydrogen,Blending Hydrogen with Natural gas (only NI),Natural Gas,Electricity Production,PJ,End Use Demand,Fossil Fuels
 VAR_FOut,DARY-AIR-ELC-CMPR,DARY-AIR,Industry,Dairy Product Manufacturing,Compressor,Electricity,Compressed Air,PJ,End Use Demand,Electricity
 VAR_FOut,DARY-AIR-ELC-CMPR15,DARY-AIR,Industry,Dairy Product Manufacturing,Compressor,Electricity,Compressed Air,PJ,End Use Demand,Electricity
 VAR_FOut,DARY-MoTP-Stat-DSL-st_ngn,DARY-MoTP-Stat,Industry,Dairy Product Manufacturing,Stationary Motor,Diesel,"Motive Power, Stationary",PJ,End Use Demand,Fossil Fuels
@@ -2967,7 +2953,6 @@ VAR_FOut,ENGA_GTCCF20,ELCCO2,Electricity,Thermal,Open Cycle Gas Turbine (New),Na
 VAR_FOut,ESOLPVBCOM20,ELCDD,Electricity,Solar,Solar (Commercial Rooftop),Solar,Electricity Production,PJ,Electricity Generation,Renewables (direct use)
 VAR_FOut,ESOLPVBRES20,ELCDD,Electricity,Solar,Solar (Residential Rooftop),Solar,Electricity Production,PJ,Electricity Generation,Renewables (direct use)
 VAR_FOut,ESOLPVDISTGR20,ELC-MV,Electricity,Solar,Solar (Gound Distributed),Solar,Electricity Production,PJ,Electricity Generation,Renewables (direct use)
-VAR_FOut,ESOLPVIND20,INDELC,Electricity,Solar,Solar (Ground Industrial),Solar,Electricity Production,PJ,End Use Demand,Renewables (direct use)
 VAR_FOut,ESOLPVUTIFIX20,ELC,Electricity,Solar,Solar (Grid-scale Fixed Mount),Solar,Electricity Production,PJ,Electricity Generation,Renewables (direct use)
 VAR_FOut,ESOLPVUTITRAC20,ELC,Electricity,Solar,Solar (Grid-scale Tracking Mount),Solar,Electricity Production,PJ,Electricity Generation,Renewables (direct use)
 VAR_FOut,EWINDCONS20,ELC,Electricity,Wind,Wind (Consented),Wind,Electricity Production,PJ,Electricity Generation,Renewables (direct use)
@@ -3411,8 +3396,6 @@ VAR_FOut,R_JDW-WH_HWC-ELC,R_JDW-WH,Residential,Joined Dwellings,Hot Water Cylind
 VAR_FOut,R_JDW-WH_HWC-ELC00,R_JDW-WH,Residential,Joined Dwellings,Hot Water Cylinder,Electricity,Water Heating,PJ,End Use Demand,Electricity
 VAR_FOut,R_JDW-WH_HWC-SOL,R_JDW-WH,Residential,Joined Dwellings,Hot Water Cylinder,Solar,Water Heating,PJ,End Use Demand,Renewables (direct use)
 VAR_FOut,R_JDW-WH_HWC-SOL00,R_JDW-WH,Residential,Joined Dwellings,Hot Water Cylinder,Solar,Water Heating,PJ,End Use Demand,Renewables (direct use)
-VAR_FOut,SUP_ELC-PEMC-H2,H2C,Green Hydrogen,Green Hydrogen Production,PEM Electrolyser,Green Hydrogen,Green Hydrogen Fuel,PJ,End Use Demand,Electricity
-VAR_FOut,SUP_ELC-PEMD-H2,H2D,Primary Fuel Supply,Hydrogen,H2 production from PEM electrolysis - decentralised,Green Hydrogen,Green Hydrogen Fuel,PJ,End Use Demand,Electricity
 VAR_FOut,T_C_CBEVELC,T_C_Car,Transport,Road Transport,Battery Electric Vehicle,Electricity,Van/Ute,Billion Vehicle Kilometres,Distance Travelled,Electricity
 VAR_FOut,T_C_CBEVNEW15,T_C_Car,Transport,Road Transport,Battery Electric Vehicle,Electricity,Van/Ute,Billion Vehicle Kilometres,Distance Travelled,Electricity
 VAR_FOut,T_C_CHYBDSL,TRACO2,Transport,Road Transport,Hybrid Vehicle,Diesel,Van/Ute,kt CO2,Emissions,Fossil Fuels

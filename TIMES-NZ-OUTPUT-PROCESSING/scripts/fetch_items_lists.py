@@ -17,8 +17,8 @@ import pandas as pd
 from datetime import datetime
 
 MYUSER = os.getlogin().lower()
-SOURCE_DIR = os.path.join(r"C:\Users", MYUSER, r"git\TIMES-NZ-Model-Files\TIMES-NZ\Exported_files")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SOURCE_DIR = os.path.join(SCRIPT_DIR, os.pardir, os.pardir, 'TIMES-NZ', 'Exported_files')
 TARGET_DIR = os.path.join(SCRIPT_DIR, os.pardir, 'data', 'input')
 
 def fetch_and_convert_latest_item_lists(source_directory, target_directory):

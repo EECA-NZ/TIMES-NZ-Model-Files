@@ -26,12 +26,12 @@ project_base_path = get_project_base_path()
 
 # List of VEDA Data (VD) files to be read and processed.
 INPUT_VD_FILES = [
-    os.path.join(project_base_path, "../TIMES-NZ-GAMS/scenarios", f"kea-v{VERSION_STR}", f"kea-v{VERSION_STR}.vd"),
-    os.path.join(project_base_path, "../TIMES-NZ-GAMS/scenarios", f"tui-v{VERSION_STR}", f"tui-v{VERSION_STR}.vd"),
+    os.path.join(project_base_path, "../TIMES-NZ-GAMS/times_scenarios", f"kea-v{VERSION_STR}", f"kea-v{VERSION_STR}.vd"),
+    os.path.join(project_base_path, "../TIMES-NZ-GAMS/times_scenarios", f"tui-v{VERSION_STR}", f"tui-v{VERSION_STR}.vd"),
 ]
 
 # Path to a TIMES base.dd file containing commodity to unit mappings.
-BASE_DD_FILEPATH = os.path.join(project_base_path, f"../TIMES-NZ-GAMS/scenarios/kea-v{VERSION_STR}", "base.dd")
+BASE_DD_FILEPATH = os.path.join(project_base_path, f"../TIMES-NZ-GAMS/times_scenarios/kea-v{VERSION_STR}", "base.dd")
 
 ITEMS_LIST_COMMODITY_CSV = os.path.join(project_base_path, "data/input", "Items-List-Commodity.csv")
 

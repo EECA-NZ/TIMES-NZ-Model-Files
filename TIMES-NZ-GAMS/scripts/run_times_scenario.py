@@ -8,7 +8,7 @@ def get_scenario_names(scenarios_dir):
 
 def run_scenario(scenario=None):
     original_dir = Path.cwd().parent
-    scenarios_dir = original_dir / "scenarios"
+    scenarios_dir = original_dir / "times_scenarios"
     try:
         if scenario is None:
             scenarios = get_scenario_names(scenarios_dir)
