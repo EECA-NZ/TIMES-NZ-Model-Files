@@ -5,7 +5,23 @@ import re
 import os
 
 TIMES_NZ_VERSION = os.getenv('TIMES_NZ_VERSION', '0.1.0')
+
 VERSION_STR = TIMES_NZ_VERSION.replace('.', '_')
+
+TOL = 1E-6
+
+GROUP_COLUMNS = ['Scenario', 'Sector', 'Subsector', 'Technology', 'Enduse', 'Unit', 'Parameters', 'Fuel', 'Period', 'FuelGroup', 'Technology_Group', 'ProcessSet', 'CommoditySet']
+
+SCENARIO_INPUT_FILES = {
+    'Kea': f'../../TIMES-NZ-GAMS/times_scenarios/kea-v{VERSION_STR}/kea-v{VERSION_STR}.vd',
+    'Tui': f'../../TIMES-NZ-GAMS/times_scenarios/tui-v{VERSION_STR}/tui-v{VERSION_STR}.vd'
+}
+
+NEEDED_ATTRIBUTES = ['VAR_Cap', 'VAR_FIn', 'VAR_FOut']
+
+NON_EMISSION_FUEL = ['Electricity', 'Wood', 'Hydrogen', 'Hydro', 'Wind', 'Solar', 'Biogas']
+
+FOSSIL_FROM_RENEWABLE_FUEL_MAP = {'Drop-In Diesel': 'Diesel', 'Drop-In Jet': 'Jet Fuel', 'Biodiesel': 'Diesel'}
 
 def get_project_base_path():
     """
@@ -57,7 +73,8 @@ OUT_COLS = [
     "FuelGroup",
 ]
 SUP_COLS = [
-    "Set",
+    "ProcessSet",
+    "CommoditySet",
     "DisplayCapacity"
 ]
 
@@ -106,4 +123,3 @@ elc_grid_processes = re.compile(r'^G_ELC.*')
 import_processes = re.compile(r'^IMP(COA|DSL|FOL|JET|LPG|OIL|OTH|PET|DIJ).*')
 
 export_processes = re.compile(r'^EXP(DSL|FOL|JET|LPG|OIL|OTH|PET).*')
-

@@ -31,7 +31,7 @@ commodity_set_rules = df_to_ruleset(
     parse_column="Set",
     separator="N/A", # Set looks like e.g. .NRG., no separator
     schema=["CommoditySet"],
-    rule_type="inplace",
+    rule_type="inplace"
 )
 
 process_set_rules = df_to_ruleset(
@@ -41,6 +41,7 @@ process_set_rules = df_to_ruleset(
     separator="N/A", # Set looks like e.g. .NRG., no separator
     schema=["ProcessSet"],
     rule_type="inplace",
+    exclude_filter=lambda df: df['Name'].apply(is_trade_process)
 )
 
 commodity_fuel_rules = df_to_ruleset(
@@ -68,6 +69,9 @@ process_rules = df_to_ruleset(
     separator="-:-",
     schema=["Sector", "Subsector", "Technology", ""],
     rule_type="inplace",
+    exclude_filter = lambda df: df['Name'].apply(
+        lambda name: is_trade_process(name) or is_elc_exchange_process(name)
+    )
 )
 
 process_fuel_rules = df_to_ruleset(
@@ -77,8 +81,10 @@ process_fuel_rules = df_to_ruleset(
     separator="-:-",
     schema=["", "", "", "Fuel"],
     rule_type="inplace",
+    exclude_filter = lambda df: df['Name'].apply(
+        lambda name: is_trade_process(name) or is_elc_exchange_process(name)
+    )
 )
-
 
 # Generate Enduse attributions for Processes based on their first output commodity
 _cg_df = process_map_from_commodity_groups(ITEMS_LIST_COMMODITY_GROUPS_CSV)
@@ -110,11 +116,6 @@ commodity_unit_rules = base_dd_commodity_unit_rules(
     rule_type="inplace",
     )
 
-SUPPRESS_PROCESS_CAPACITY_RULES = [
-    # If a VAR_Cap row has DisplayCapacity not equal to TRUE, remove it by setting Attribute to None
-    ({"Attribute": "VAR_Cap", "DisplayCapacity": "-"}, "drop", {}),
-]
-
 # Predefined rules for mapping fuels to their respective fuel groups
 FUEL_TO_FUELGROUP_RULES = [
     # Each tuple consists of:
@@ -130,6 +131,8 @@ FUEL_TO_FUELGROUP_RULES = [
     ({"Fuel": "LPG"}, "inplace", {"FuelGroup": "Fossil Fuels"}),
     ({"Fuel": "Natural Gas"}, "inplace", {"FuelGroup": "Fossil Fuels"}),
     ({"Fuel": "Petrol"}, "inplace", {"FuelGroup": "Fossil Fuels"}),
+    ({"Fuel": "Crude Oil"}, "inplace", {"FuelGroup": "Fossil Fuels"}),
+    ({"Fuel": "Waste Oil"}, "inplace", {"FuelGroup": "Fossil Fuels"}),
     ({"Fuel": "Waste Incineration"}, "inplace", {"FuelGroup": "Fossil Fuels"}),
     ({"Fuel": "Biodiesel"}, "inplace", {"FuelGroup": "Renewables (direct use)"}),
     ({"Fuel": "Biogas"}, "inplace", {"FuelGroup": "Renewables (direct use)"}),
@@ -140,7 +143,9 @@ FUEL_TO_FUELGROUP_RULES = [
     ({"Fuel": "Solar"}, "inplace", {"FuelGroup": "Renewables (direct use)"}),
     ({"Fuel": "Wind"}, "inplace", {"FuelGroup": "Renewables (direct use)"}),
     ({"Fuel": "Wood"}, "inplace", {"FuelGroup": "Renewables (direct use)"}),
+    ({"Fuel": "Other"}, "inplace", {"FuelGroup": "Other"}),
 ]
+
 
 # Predefined rules for setting the unit of capacity based on the sector
 SECTOR_CAPACITY_RULES = [
@@ -158,20 +163,24 @@ SECTOR_CAPACITY_RULES = [
 ]
 
 # General parameter rules for processing data, including basic and specific categorizations
-PARAMS_RULES = [
+PARAMS_RULES_NEW = [
     # Basic Rules
     ({"Attribute": "VAR_Cap", "Unit": "000 Vehicles"}, "inplace", {"Parameters": "Number of Vehicles"}),
     ({"Attribute": "VAR_FIn", "Unit": "PJ", "ProcessSet": ".DMD."}, "inplace", {"Parameters": "Fuel Consumption"}),
-    ({"Attribute": "VAR_FIn", "Unit": "PJ", "ProcessSet": ".PRE."}, "inplace", {"Parameters": "Fuel Consumption"}),
+    #({"Attribute": "VAR_FIn", "Unit": "PJ", "ProcessSet": ".PRE."}, "inplace", {"Parameters": "Fuel Consumption"}), # Not in the case of Electricity Sector
     ({"Attribute": "VAR_FIn", "Unit": "PJ", "ProcessSet": ".ELE."}, "inplace", {"Parameters": "Fuel Consumption"}),
     ({"Attribute": "VAR_FOut", "Unit": "Billion Vehicle Kilometres"}, "inplace", {"Parameters": "Distance Travelled"}),
     ({"Attribute": "VAR_Cap", "Unit": "GW"}, "inplace", {"Parameters": "Technology Capacity"}),
     ({"Attribute": "VAR_FOut", "Unit": "kt CO2"}, "inplace", {"Parameters": "Emissions"}),
-    #({"Attribute": "VAR_FOut", "Unit": "PJ", "ProcessSet": ".DMD.", "CommoditySet": ".DEM."}, "inplace", {"Parameters": "End Use Demand"}),
-    #({"Attribute": "VAR_FOut", "Unit": "PJ", "ProcessSet": ".DMD.", "CommoditySet": ".ENV."}, "inplace", {"Parameters": "Emissions"}),
+    ({"Attribute": "VAR_FOut", "Unit": "PJ", "ProcessSet": ".DMD.", "CommoditySet": ".DEM."}, "inplace", {"Parameters": "End Use Demand"}),
     # Specific Rules - Electricity Storage
-    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "ProcessSet": ".ELE.STG."}, "newrow", {"Attribute": "VAR_FIn", "Parameters": "Gross Electricity Storage"}),
+    ({"Attribute": "VAR_FIn", "Unit": "PJ", "Sector": "Electricity", "ProcessSet": ".ELE.STG."}, "inplace", {"Parameters": "Gross Electricity Storage"}),
     ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "ProcessSet": ".ELE.STG."}, "inplace", {"Parameters": "Grid Injection (from Storage)"}),
+    # Specific Rules - Hydrogen Production
+    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Green Hydrogen", "Commodity": "H2C", "ProcessSet": ".PRE."}, "inplace", {"Parameters": "Hydrogen Production", "Fuel": "Electricity"}),
+    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Green Hydrogen", "Commodity": "H2D", "ProcessSet": ".PRE."}, "inplace", {"Parameters": "Hydrogen Production", "Fuel": "Electricity"}),
+    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Primary Fuel Supply", "Subsector": "Hydrogen", "Commodity": "H2C", "ProcessSet": ".PRE."}, "inplace", {"Parameters": "Hydrogen Production", "Fuel": "Natural Gas"}),
+    ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Primary Fuel Supply", "Subsector": "Hydrogen","Commodity": "H2D", "ProcessSet": ".PRE."}, "inplace", {"Parameters": "Hydrogen Production", "Fuel": "Natural Gas"}),
     # Specific Rules - Electricity Generation
     ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "Commodity": "ELC", "ProcessSet": ".ELE."}, "inplace", {"Parameters": "Electricity Generation"}),
     ({"Attribute": "VAR_FOut", "Unit": "PJ", "Sector": "Electricity", "Commodity": "ELCDD", "ProcessSet": ".ELE."}, "inplace", {"Parameters": "Electricity Generation"}),
@@ -192,50 +201,27 @@ SUPPRESS_VAR_FIn_RENEWABLES = [
     ({"Attribute": "VAR_FIn", "Sector": "Electricity", "Subsector": "Geothermal"}, "drop", {}),
 ]
 
-SCHEMA_RULESETS = [
+THOUSAND_VEHICLE_RULES = [
+    ({"Sector": "Transport", "Subsector": "Road Transport",# "Technology": "Plug-In Hybrid Vehicle",
+      "Unit": "000 Vehicles"}, "inplace", {"Unit": "Number of Vehicles (Thousands)"}),
+]
+
+DIRECT_RULESETS = [
         ("commodity_set_rules", commodity_set_rules),
         ("process_set_rules", process_set_rules),
         ("process_rules", process_rules),
         ("process_fuel_rules", process_fuel_rules),
+        ("process_enduse_rules", process_enduse_rules), # Need these to label the emissions
         ("process_input_enduse_rules", process_input_enduse_rules),
         ("process_capacity_enduse_rules", process_capacity_enduse_rules),
         ("commodity_enduse_rules", commodity_enduse_rules),
         ("commodity_fuel_rules", commodity_fuel_rules),
         ("commodity_unit_rules", commodity_unit_rules),
-        #("SUPPRESS_PROCESS_CAPACITY_RULES", SUPPRESS_PROCESS_CAPACITY_RULES),
-        ("SUPPRESS_VAR_FIn_RENEWABLES", SUPPRESS_VAR_FIn_RENEWABLES),
         ("FUEL_TO_FUELGROUP_RULES", FUEL_TO_FUELGROUP_RULES),
         ("SECTOR_CAPACITY_RULES", SECTOR_CAPACITY_RULES),
-        ("PARAMS_RULES", PARAMS_RULES),
-        ("EMISSIONS_RULES", emissions_rules),
+        ("PARAMS_RULES", PARAMS_RULES_NEW),
+        ("THOUSAND_VEHICLE_RULES", THOUSAND_VEHICLE_RULES)
     ]
-
-MISSING_ROWS = pd.DataFrame([
-    {'Attribute':  'VAR_FIn', 'Process': 'R_DDW-SH_MSHP-ELC',           'Commodity':   'RESELC', 'Sector': 'Residential', 'Subsector': 'Detached Dwellings',       'Technology':    'Heat Pump (Multi-Split)', 'Fuel':    'Electricity', 'Enduse':          'Space Cooling', 'Unit':     'PJ', 'Parameters': 'Fuel Consumption', 'FuelGroup': 'Electricity'},
-    {'Attribute':  'VAR_FIn', 'Process':     'FTE-INDDSL_00',           'Commodity':      'DID', 'Sector':    'Industry', 'Subsector':             'Mining',       'Technology': 'Internal Combustion Engine', 'Fuel': 'Drop-In Diesel', 'Enduse':   'Motive Power, Mobile', 'Unit':     'PJ', 'Parameters': 'Fuel Consumption', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute':  'VAR_FIn', 'Process':     'FTE-INDDSL_00',           'Commodity':      'DID', 'Sector':    'Industry', 'Subsector':       'Construction',       'Technology': 'Internal Combustion Engine', 'Fuel': 'Drop-In Diesel', 'Enduse':   'Motive Power, Mobile', 'Unit':     'PJ', 'Parameters': 'Fuel Consumption', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute':  'VAR_FIn', 'Process':        'FTE_TRADSL',           'Commodity':     'BDSL', 'Sector':   'Transport', 'Subsector':               'Rail',       'Technology':                      'Train', 'Fuel':      'Biodiesel', 'Enduse':           'Freight Rail', 'Unit':     'PJ', 'Parameters': 'Fuel Consumption', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute':  'VAR_FIn', 'Process':        'FTE_TRADSL',           'Commodity':     'BDSL', 'Sector':   'Transport', 'Subsector':               'Rail',       'Technology':                      'Train', 'Fuel':      'Biodiesel', 'Enduse':         'Passenger Rail', 'Unit':     'PJ', 'Parameters': 'Fuel Consumption', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute':  'VAR_FIn', 'Process':        'FTE_TRADSL',           'Commodity':     'BDSL', 'Sector':   'Transport', 'Subsector':     'Road Transport',       'Technology': 'Internal Combustion Engine', 'Fuel':      'Biodiesel', 'Enduse':                    'Bus', 'Unit':     'PJ', 'Parameters': 'Fuel Consumption', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute':  'VAR_FIn', 'Process':        'FTE_TRADSL',           'Commodity':     'BDSL', 'Sector':   'Transport', 'Subsector':     'Road Transport',       'Technology': 'Internal Combustion Engine', 'Fuel':      'Biodiesel', 'Enduse':                'Car/SUV', 'Unit':     'PJ', 'Parameters': 'Fuel Consumption', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute':  'VAR_FIn', 'Process':        'FTE_TRADSL',           'Commodity':     'BDSL', 'Sector':   'Transport', 'Subsector':     'Road Transport',       'Technology': 'Internal Combustion Engine', 'Fuel':      'Biodiesel', 'Enduse':            'Heavy Truck', 'Unit':     'PJ', 'Parameters': 'Fuel Consumption', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute':  'VAR_FIn', 'Process':        'FTE_TRADSL',           'Commodity':     'BDSL', 'Sector':   'Transport', 'Subsector':     'Road Transport',       'Technology': 'Internal Combustion Engine', 'Fuel':      'Biodiesel', 'Enduse':           'Medium Truck', 'Unit':     'PJ', 'Parameters': 'Fuel Consumption', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute':  'VAR_FIn', 'Process':        'FTE_TRADSL',           'Commodity':     'BDSL', 'Sector':   'Transport', 'Subsector':     'Road Transport',       'Technology': 'Internal Combustion Engine', 'Fuel':      'Biodiesel', 'Enduse':                'Van/Ute', 'Unit':     'PJ', 'Parameters': 'Fuel Consumption', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute':  'VAR_FIn', 'Process':        'FTE_TRAJET',           'Commodity':      'DIJ', 'Sector':   'Transport', 'Subsector':           'Aviation',       'Technology':                      'Plane', 'Fuel':    'Drop-In Jet', 'Enduse':      'Domestic Aviation', 'Unit':     'PJ', 'Parameters': 'Fuel Consumption', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute':  'VAR_FIn', 'Process':        'FTE_TRAJET',           'Commodity':      'DIJ', 'Sector':   'Transport', 'Subsector':           'Aviation',       'Technology':                      'Plane', 'Fuel':    'Drop-In Jet', 'Enduse': 'International Aviation', 'Unit':     'PJ', 'Parameters': 'Fuel Consumption', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute': 'VAR_FOut', 'Process':        'CT_COILBDS',           'Commodity':   'TOTCO2', 'Sector':   'Transport', 'Subsector':               'Rail',       'Technology':                      'Train', 'Fuel':      'Biodiesel', 'Enduse':           'Freight Rail', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute': 'VAR_FOut', 'Process':        'CT_COILBDS',           'Commodity':   'TOTCO2', 'Sector':   'Transport', 'Subsector':               'Rail',       'Technology':                      'Train', 'Fuel':      'Biodiesel', 'Enduse':         'Passenger Rail', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute': 'VAR_FOut', 'Process':        'CT_COILBDS',           'Commodity':   'TOTCO2', 'Sector':   'Transport', 'Subsector':     'Road Transport',       'Technology': 'Internal Combustion Engine', 'Fuel':      'Biodiesel', 'Enduse':                    'Bus', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute': 'VAR_FOut', 'Process':        'CT_COILBDS',           'Commodity':   'TOTCO2', 'Sector':   'Transport', 'Subsector':     'Road Transport',       'Technology': 'Internal Combustion Engine', 'Fuel':      'Biodiesel', 'Enduse':                'Car/SUV', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute': 'VAR_FOut', 'Process':        'CT_COILBDS',           'Commodity':   'TOTCO2', 'Sector':   'Transport', 'Subsector':     'Road Transport',       'Technology': 'Internal Combustion Engine', 'Fuel':      'Biodiesel', 'Enduse':            'Heavy Truck', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute': 'VAR_FOut', 'Process':        'CT_COILBDS',           'Commodity':   'TOTCO2', 'Sector':   'Transport', 'Subsector':     'Road Transport',       'Technology': 'Internal Combustion Engine', 'Fuel':      'Biodiesel', 'Enduse':           'Medium Truck', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute': 'VAR_FOut', 'Process':        'CT_COILBDS',           'Commodity':   'TOTCO2', 'Sector':   'Transport', 'Subsector':     'Road Transport',       'Technology': 'Internal Combustion Engine', 'Fuel':      'Biodiesel', 'Enduse':                'Van/Ute', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute': 'VAR_FOut', 'Process':        'CT_CWODDID',           'Commodity':   'TOTCO2', 'Sector':    'Industry', 'Subsector':       'Construction',       'Technology': 'Internal Combustion Engine', 'Fuel': 'Drop-In Diesel', 'Enduse':   'Motive Power, Mobile', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute': 'VAR_FOut', 'Process':        'CT_CWODDID',           'Commodity':   'TOTCO2', 'Sector':    'Industry', 'Subsector':             'Mining',       'Technology': 'Internal Combustion Engine', 'Fuel': 'Drop-In Diesel', 'Enduse':   'Motive Power, Mobile', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute': 'VAR_FOut', 'Process':        'CT_CWODDID',           'Commodity':   'TOTCO2', 'Sector':   'Transport', 'Subsector':           'Aviation',       'Technology':                      'Plane', 'Fuel':    'Drop-In Jet', 'Enduse':      'Domestic Aviation', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Renewables (direct use)'},
-    {'Attribute': 'VAR_FOut', 'Process':        'T_F_ISHIPP15',         'Commodity':   'TRACO2', 'Sector':   'Transport', 'Subsector':           'Shipping',       'Technology':                       'Ship', 'Fuel':       'Fuel Oil', 'Enduse': 'International Shipping', 'Unit': 'kt CO2', 'Parameters':        'Emissions', 'FuelGroup': 'Fossil Fuels'},
-])
-
 
 #### The following rulesets are used to tweak the data after the initial processing
 
@@ -259,7 +245,68 @@ RENEWABLE_FUEL_ALLOCATION_RULES = [
     ({"FuelSourceProcess": "IMPDIJ", "Commodity": "DIJ"}, "inplace", {"Fuel": "Drop-In Jet"}),
 ]
 
-THOUSAND_VEHICLE_RULES = [
-    ({"Sector": "Transport", "Subsector": "Road Transport",# "Technology": "Plug-In Hybrid Vehicle",
-      "Unit": "000 Vehicles"}, "inplace", {"Unit": "Number of Vehicles (Thousands)"}),
-]
+
+#### Rulesets for use in postprocessing e.g. reallocating fuels and emissions
+
+commodity_units = {x[0]['Commodity']: x[2]['Unit'] for x in commodity_unit_rules}
+
+process_sectors = {x[0]['Process']: x[2]['Sector'] for x in process_rules}
+
+end_use_process_emission_types = {x: sector_emission_types[process_sectors[x]] for x in end_use_processes}
+
+emissions_commodity_rules = [({'Process': key}, 'inplace', {'Commodity': value}) for (key, value)
+                             in end_use_process_emission_types.items()]
+
+var_fout_to_var_fin = [({'Attribute': 'VAR_FOut'}, 'inplace', {'Attribute': 'VAR_FIn'})]
+
+make_biodiesel_rules = [({}, 'inplace', {'Commodity': 'BDSL'}),
+                        ({}, 'inplace', {'Fuel': 'Biodiesel'}),
+                        ({}, 'inplace', {'FuelGroup': 'Renewables (direct use)'}),
+                        ({}, 'inplace', {'Parameters': 'Fuel Consumption'})]
+
+make_did_rules = [({}, 'inplace', {'Commodity': 'DID'}),
+                  ({}, 'inplace', {'Fuel': 'Drop-In Diesel'}),
+                  ({}, 'inplace', {'FuelGroup': 'Renewables (direct use)'}),
+                  ({}, 'inplace', {'Parameters': 'Fuel Consumption'})]
+
+make_dij_rules = [({}, 'inplace', {'Commodity': 'DIJ'}),
+                  ({}, 'inplace', {'Fuel': 'Drop-In Jet'}),
+                  ({}, 'inplace', {'FuelGroup': 'Renewables (direct use)'}),
+                  ({}, 'inplace', {'Parameters': 'Fuel Consumption'})]
+
+make_diesel_rules = [({}, 'inplace', {'Commodity': 'DSL'}),
+                     ({}, 'inplace', {'Fuel': 'Diesel'}),
+                     ({}, 'inplace', {'FuelGroup': 'Fossil Fuels'}),
+                     ({}, 'inplace', {'Parameters': 'Fuel Consumption'})]
+
+make_jet_rules = [({}, 'inplace', {'Commodity': 'JET'}),
+                    ({}, 'inplace', {'Fuel': 'Jet Fuel'}),
+                    ({}, 'inplace', {'FuelGroup': 'Fossil Fuels'}),
+                    ({}, 'inplace', {'Parameters': 'Fuel Consumption'})]
+
+emissions_rulesets = [
+    ("RENEWABLE_FUEL_ALLOCATION_RULES", RENEWABLE_FUEL_ALLOCATION_RULES),
+    ("emissions_commodity_rules", emissions_commodity_rules)
+] + [x for x in DIRECT_RULESETS + [('process_enduse_rules', process_enduse_rules)]
+         if not (x[0] in ["commodity_fuel_rules", "process_fuel_rules"])]
+
+biodiesel_rulesets = [
+    ("var_fout_to_var_fin", var_fout_to_var_fin),
+    ("set_commodity_to_BDSL", make_biodiesel_rules),
+    ("RENEWABLE_FUEL_ALLOCATION_RULES", RENEWABLE_FUEL_ALLOCATION_RULES),
+] + [x for x in DIRECT_RULESETS + [('process_enduse_rules', process_enduse_rules)]
+         if not (x[0] in ["commodity_fuel_rules", "process_fuel_rules"])]
+
+drop_in_diesel_rulesets = [
+    ("var_fout_to_var_fin", var_fout_to_var_fin),
+    ("set_commodity_to_DID", make_did_rules),
+    ("RENEWABLE_FUEL_ALLOCATION_RULES", RENEWABLE_FUEL_ALLOCATION_RULES),
+] + [x for x in DIRECT_RULESETS + [('process_enduse_rules', process_enduse_rules)]
+         if not (x[0] in ["commodity_fuel_rules", "process_fuel_rules"])]
+
+drop_in_jet_rulesets = [
+    ("var_fout_to_var_fin", var_fout_to_var_fin),
+    ("set_commodity_to_JET", make_dij_rules),
+    ("RENEWABLE_FUEL_ALLOCATION_RULES", RENEWABLE_FUEL_ALLOCATION_RULES),
+] + [x for x in DIRECT_RULESETS + [('process_enduse_rules', process_enduse_rules)]
+         if not (x[0] in ["commodity_fuel_rules", "process_fuel_rules"])]

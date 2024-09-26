@@ -18,13 +18,8 @@ def find_veda_working_directory(base_dir=None):
 def setup_scenario_directory(scenarios_dir, scenario):
     scenario_dir = scenarios_dir / scenario
     if scenario_dir.exists():
-        confirm = input(f"Scenario directory already exists: {scenario_dir}. Clear it? [y/n]: ")
-        if confirm.lower() == 'y':
-            print("Clear the directory to avoid any outdated files")
-            shutil.rmtree(scenario_dir)
-        else:
-            print("Aborting.")
-            exit()
+        print(f"Scenario directory already exists: {scenario_dir}. Clearing it.")
+        shutil.rmtree(scenario_dir)
     os.makedirs(scenario_dir, exist_ok=True)
     return scenario_dir
 
@@ -40,7 +35,6 @@ def main(veda_working_dir, scenario):
         if veda_working_dir is None:
             print("VEDA working directory could not be found automatically. Please enter the directory manually.")
             return
-
     if scenario is None:
         try:
             scenarios = [f.name for f in Path(veda_working_dir).iterdir() if f.is_dir()]
@@ -60,6 +54,6 @@ def main(veda_working_dir, scenario):
 
 if __name__ == "__main__":
     os.chdir(Path(__file__).parent)
-    veda_dir = sys.argv[1] if len(sys.argv) > 1 else None
-    scenario_name = sys.argv[2] if len(sys.argv) > 2 else None
+    scenario_name = sys.argv[1] if len(sys.argv) > 1 else None
+    veda_dir = sys.argv[2] if len(sys.argv) > 2 else None
     main(veda_dir, scenario_name)

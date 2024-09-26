@@ -10,9 +10,11 @@ TIMES-NZ/AppData/ResultsFormSettings.json
 TIMES-NZ/AppData/Settings.json
 TIMES-NZ/AppData/Cases.json
 TIMES-NZ/AppData/Groups.json
+TIMES-NZ/AppData/BrowseFormSettings.json
 raw_tables.pkl
 TIMES-NZ/Exported_files/
 TIMES-NZ-GAMS/GAMSSAVE/
+
 
 # Ignore all generated files
 *.lst

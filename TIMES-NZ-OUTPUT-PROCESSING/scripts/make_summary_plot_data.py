@@ -20,114 +20,109 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'library'))
 
 from constants import *
 
-raw_df = pd.read_csv(f'../data/output/output_raw_df_v{VERSION_STR}.csv')
-combined_df = pd.read_csv(f'../data/output/output_combined_df_v{VERSION_STR}.csv')
+INSIGHTCOLS = ['Title', 'Parameter', 'Scenario', 'Units', 2018, 2025, 2030, 2035, 2040, 2045, 2050, 2055, 2060]
 
-kea_emissions_df = raw_df[raw_df.Commodity.str.contains('CO2') & (raw_df.Period==2018) & (raw_df.Commodity != 'TOTCO2') & (raw_df.Scenario=='Kea')]
-tui_emissions_df = raw_df[raw_df.Commodity.str.contains('CO2') & (raw_df.Period==2018) & (raw_df.Commodity != 'TOTCO2') & (raw_df.Scenario=='Tui')]
-combined_df[(combined_df.Parameters=='Emissions') & (combined_df.Period==2018) & (combined_df.Scenario=='Kea')].Value.sum()
+clean_df = pd.read_csv(f'../data/output/output_clean_df_v{VERSION_STR}.csv')
+clean_df['IsEnduse'] = (clean_df.ProcessSet=='.DMD.') | (clean_df.CommoditySet=='.DEM.')
 
+assert clean_df[clean_df.Commodity.str.contains('CO2')].Parameters.unique().tolist() == ['Emissions'], "Emissions found not labelled as 'Emissions'"
+assert clean_df[(clean_df.Parameters == 'Emissions') & (clean_df.Value!=0)].Commodity.str.contains('CO2').all(), "All Emissions rows should be CO2"
 
-# Check emissions units consistent
-emissions_units = combined_df[combined_df.Parameters=='Emissions'].Unit.unique()
-assert(len(emissions_units)==1)
+emissions_summary_rows = clean_df[clean_df.Parameters=='Emissions'].groupby(
+    ['Scenario', 'Period']).Value.sum().reset_index().pivot(
+        index='Scenario', columns='Period', values='Value'
+    ).reset_index().rename_axis(None, axis=1)
+emissions_summary_rows['Title'] = 'All energy related annual emissions'
+emissions_summary_rows['Parameter'] = 'All Energy Related Annual Emissions'
+emissions_summary_rows['Units'] = 'MtCO₂' #'MtCO<sub>2</sub>'
+emissions_summary_rows = emissions_summary_rows[INSIGHTCOLS]
 
+cumulative_emissions_summary_rows = emissions_summary_rows.copy()
+year_columns = [col for col in cumulative_emissions_summary_rows.columns if isinstance(col, int)]
+# Need to account for the fact that we don't have annual data so we need to multiply by the number of years which is 5
+cumulative_emissions_summary_rows[year_columns] = cumulative_emissions_summary_rows[year_columns].cumsum(axis=1) * 5
+cumulative_emissions_summary_rows['Title'] = 'All energy related cumulative emissions'
+cumulative_emissions_summary_rows['Parameter'] = 'All Energy Related Cumulative Emissions'
+cumulative_emissions_summary_rows = cumulative_emissions_summary_rows[INSIGHTCOLS]
 
-# All Energy Related Emissions - Kea: 29.4 MtCO2e-7.06 MtCO2e
-all_energy_related_emissions = {}
-for scenario in combined_df.Scenario.unique():
-    all_energy_related_emissions[scenario] = combined_df[
-        (combined_df.Scenario==scenario) &
-        (combined_df.Parameters=='Emissions')
-    ].groupby(['Scenario', 'Period']).Value.sum().reset_index()
+electricity_generation_from_solar = clean_df[
+    (clean_df.Fuel=='Solar') &
+    (clean_df.Enduse=='Electricity Production') &
+    (clean_df.Attribute=='VAR_FOut') &
+    (clean_df.ProcessSet=='.ELE.')].groupby(
+    ['Scenario', 'Period']).Value.sum().reset_index().pivot(
+        index='Scenario', columns='Period', values='Value'
+    ).reset_index().rename_axis(None, axis=1)
+electricity_generation_from_solar['Title'] = 'Electricity generation from solar'
+electricity_generation_from_solar['Parameter'] = 'Electricity Generation from Solar'
+electricity_generation_from_solar['Units'] = 'PJ'
+electricity_generation_from_solar = electricity_generation_from_solar[INSIGHTCOLS]
 
-# All Energy Related Cumulative Emissions - Kea: 29.4 MtCO2e-642 MtCO2e
-all_energy_related_cumulative_emissions = {}
-for scenario in all_energy_related_emissions:
-    all_energy_related_cumulative_emissions[scenario] = all_energy_related_emissions[scenario].Value.cumsum()
+electricity_consumption = clean_df[(clean_df.Parameters=='Fuel Consumption') & clean_df.IsEnduse & (clean_df.Fuel=='Electricity')].groupby(['Scenario', 'Period']).Value.sum()
+total_energy_consumption = clean_df[(clean_df.Parameters=='Fuel Consumption') & clean_df.IsEnduse].groupby(['Scenario', 'Period']).Value.sum()
+electricity_consumption_percentage = electricity_consumption / total_energy_consumption * 100
+electricity_consumption_percentage = electricity_consumption_percentage.reset_index().pivot(
+    index='Scenario', columns='Period', values='Value'
+).reset_index().rename_axis(None, axis=1)
+electricity_consumption_percentage['Title'] = 'Electrification'
+electricity_consumption_percentage['Parameter'] = 'Electrification'
+electricity_consumption_percentage['Units'] = '%'
+electricity_consumption_percentage = electricity_consumption_percentage[INSIGHTCOLS]
 
-
-# Electricity Generation from Solar - Kea: 0.635 PJ-31.3 MtCO2e (lower at end than tui)
-electricity_generation_from_solar = {}
-for scenario in combined_df.Scenario.unique():
-    electricity_generation_from_solar[scenario] = combined_df[
-        (combined_df.Scenario==scenario) &
-        (combined_df.Fuel=='Solar') &
-        (combined_df.Enduse=='Electricity Production')
-    ].groupby(['Scenario', 'Period']).Value.sum().reset_index()
-
-
-# Electrification (Percent) - Kea: 24.8%-59.3%
-electrification_percentage = {}
-total_energy_use = {}
-total_electricity_use = {}
-for scenario in combined_df.Scenario.unique():
-    total_energy_use[scenario] = combined_df[
-        (combined_df.Scenario==scenario)
-    ].groupby(['Scenario', 'Period']).Value.sum().reset_index()
-    total_electricity_use[scenario] = combined_df[
-        (combined_df.Scenario==scenario) &
-        (combined_df.Fuel == 'Electricity')
-    ].groupby(['Scenario', 'Period']).Value.sum().reset_index()
-    electrification_percentage[scenario] = 100 * \
-        total_electricity_use[scenario].Value / \
-    (total_energy_use[scenario].Value + total_electricity_use[scenario].Value)
-
-# Industrial Emissions (MtCO2e) - Kea: 6.62 MtCO2e - 3.04 MtCO2e
-industrial_emissions = {}
-for scenario in combined_df.Scenario.unique():
-    industrial_emissions[scenario] = combined_df[
-        (combined_df.Scenario==scenario) &
-        (combined_df.Parameters=='Emissions') &
-        (combined_df.Sector=='Industry')
-    ].groupby(['Scenario', 'Period']).Value.sum().reset_index()
+industry_emissions_summary_rows = clean_df[(clean_df.Parameters=='Emissions') & (clean_df.Sector=='Industry')].groupby(
+    ['Scenario', 'Period']).Value.sum().reset_index().pivot(
+        index='Scenario', columns='Period', values='Value'
+    ).reset_index().rename_axis(None, axis=1)
+industry_emissions_summary_rows['Title'] = 'Industrial Emissions'
+industry_emissions_summary_rows['Parameter'] = 'Industrial Emissions'
+industry_emissions_summary_rows['Units'] = 'MtCO₂'
+industry_emissions_summary_rows = industry_emissions_summary_rows[INSIGHTCOLS]
 
 
-# Renewable Electricity (Percent) - Kea: 84%-93.2% (lower at end than tui)
-renewable_electricity_percentage = {}
-renewable_electricity = {}
-total_electricity = {}
-for scenario in combined_df.Scenario.unique():
-    renewable_electricity[scenario] = combined_df[
-        (combined_df.Scenario==scenario) &
-        (combined_df.Parameters=='Electricity Generation') &
-        (combined_df.Fuel.isin(['Electricity', 'Hydro', 'Geothermal', 'Solar', 'Wind']))
-    ].groupby(['Scenario', 'Period']).Value.sum()
-    total_electricity[scenario] = combined_df[
-        (combined_df.Scenario==scenario) &
-        (combined_df.Parameters=='Electricity Generation')
-    ].groupby(['Scenario', 'Period']).Value.sum()
-    renewable_electricity_percentage[scenario] = 100 * renewable_electricity[scenario] / total_electricity[scenario]
+assert clean_df[clean_df.Parameters=='Electricity Generation'].FuelGroup.unique().tolist() == ['Renewables (direct use)', 'Fossil Fuels'], 'Electricity Generation found outside of expected FuelGroups'
+renewable_electricity_generation = clean_df[(clean_df.Parameters=='Electricity Generation') & (clean_df.FuelGroup=='Renewables (direct use)')].groupby(['Scenario', 'Period']).Value.sum()
+total_electricity_generation = clean_df[(clean_df.Parameters=='Electricity Generation')].groupby(['Scenario', 'Period']).Value.sum()
+renewable_electricity_percentage = renewable_electricity_generation / total_electricity_generation * 100
+renewable_electricity_percentage = renewable_electricity_percentage.reset_index().pivot(
+    index='Scenario', columns='Period', values='Value'
+).reset_index().rename_axis(None, axis=1)
+renewable_electricity_percentage['Title'] = 'Renewable Electricity'
+renewable_electricity_percentage['Parameter'] = 'Renewable Electricity'
+renewable_electricity_percentage['Units'] = '%'
+renewable_electricity_percentage = renewable_electricity_percentage[INSIGHTCOLS]
 
+direct_renewable_enduse = clean_df[(clean_df.Parameters=='Fuel Consumption') & clean_df.IsEnduse & (clean_df.FuelGroup=='Renewables (direct use)')].groupby(['Scenario', 'Period']).Value.sum()
+electricity_enduse = clean_df[(clean_df.Parameters=='Fuel Consumption') & clean_df.IsEnduse & (clean_df.Fuel=='Electricity')].groupby(['Scenario', 'Period']).Value.sum()
+renewable_electricity_enduse = electricity_enduse * renewable_electricity_generation / total_electricity_generation
+total_enduse = clean_df[(clean_df.Parameters=='Fuel Consumption') & clean_df.IsEnduse].groupby(['Scenario', 'Period']).Value.sum()
+renewable_energy_enduse_percentage = (direct_renewable_enduse + renewable_electricity_enduse) / total_enduse * 100
+renewable_energy_enduse_percentage = renewable_energy_enduse_percentage.reset_index().pivot(
+    index='Scenario', columns='Period', values='Value'
+).reset_index().rename_axis(None, axis=1)
+renewable_energy_enduse_percentage['Title'] = 'Renewable Energy'
+renewable_energy_enduse_percentage['Parameter'] = 'Renewable Energy'
+renewable_energy_enduse_percentage['Units'] = '%'
+renewable_energy_enduse_percentage = renewable_energy_enduse_percentage[INSIGHTCOLS]
 
-# Renewable Energy (Percent) - Kea: 35%-82.7%
-renewable_energy_percentage = {}
-renewable_energy = {}
-total_energy = {}
-for scenario in combined_df.Scenario.unique():
-    renewable_energy[scenario] = combined_df[
-        (combined_df.Scenario==scenario) &
-        (combined_df.Parameters.isin(['Electricity Generation', 'Fuel Consumption'])) &
-        (combined_df.Fuel.isin(['Wood', 'Geothermal', 'Biogas', 'Drop-In Diesel', 'Hydro', 'Solar', 'Waste Incineration', 'Wind', 'Drop-In Jet', 'Biodiesel']))
-    ]
-    total_energy[scenario] = combined_df[
-        (combined_df.Scenario==scenario) &
-        (combined_df.Parameters.isin(['Electricity Generation', 'Fuel Consumption'])) &
-        ~(combined_df.Fuel.isin(['Green Hydrogen', 'Electricity']))
-    ]
-    renewable_energy_percentage[scenario] = 100 * \
-        renewable_energy[scenario].groupby(['Scenario', 'Period']).Value.sum() / \
-        total_energy[scenario].groupby(['Scenario', 'Period']).Value.sum()
+transport_emissions_summary_rows = clean_df[(clean_df.Parameters=='Emissions') & (clean_df.Sector=='Transport')].groupby(
+    ['Scenario', 'Period']).Value.sum().reset_index().pivot(
+        index='Scenario', columns='Period', values='Value'
+    ).reset_index().rename_axis(None, axis=1)
+transport_emissions_summary_rows['Title'] = 'Transport Emissions'
+transport_emissions_summary_rows['Parameter'] = 'Transport Emissions'
+transport_emissions_summary_rows['Units'] = 'MtCO₂'
+transport_emissions_summary_rows = transport_emissions_summary_rows[INSIGHTCOLS]
 
-# Transport Emissions - Kea: 15.9%-2.16%
+summary = pd.concat(
+    [emissions_summary_rows,
+     cumulative_emissions_summary_rows,
+     electricity_generation_from_solar,
+     transport_emissions_summary_rows,
+     industry_emissions_summary_rows,
+     renewable_electricity_percentage,
+     renewable_energy_enduse_percentage,
+     electricity_consumption_percentage], ignore_index=True).replace('Tui', 'Tūī')
 
+print(summary)
 
-
-def base_year_energy_use(fuel):
-    return total_energy[scenario][total_energy[scenario].Fuel==fuel].groupby('Period').Value.sum().loc[2018]
-
-base_year_energy_use('LPG')
-fuels = total_energy[scenario].Fuel.unique()
-print(fuels)
-for fuel in fuels:
-    print(fuel, " : ", base_year_energy_use(fuel))
+summary.to_csv(f'..\..\TIMES-NZ-VISUALISATION\data\key_insight.csv', index=False)

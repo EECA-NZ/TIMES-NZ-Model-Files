@@ -194,22 +194,26 @@ def apply_rules(schema, rules):
     sorted_rules = sort_rules_by_specificity(rules)
     new_rows = []
     rows_to_drop = []
-    for condition, rule_type, actions in sorted_rules:
-        query_conditions_parts, local_vars = [], {}
-        for i, (key, value) in enumerate(condition.items()):
-            if pd.notna(value) and value != "":
-                query_placeholder = f"@value_{i}"
-                query_conditions_parts.append(f"`{key}` == {query_placeholder}")
-                local_vars[f"value_{i}"] = value
-        query_conditions = " & ".join(query_conditions_parts)
+    for condition, rule_type, updates in sorted_rules:
+        if condition:
+            query_conditions_parts, local_vars = [], {}
+            for i, (key, value) in enumerate(condition.items()):
+                if pd.notna(value) and value != "":
+                    query_placeholder = f"@value_{i}"
+                    query_conditions_parts.append(f"`{key}` == {query_placeholder}")
+                    local_vars[f"value_{i}"] = value
+            query_conditions = " & ".join(query_conditions_parts)
+        else:
+            query_conditions = ""
         if rule_type == "inplace":
             if not query_conditions:
-                continue
-            # Filter schema DataFrame based on the query derived from the rule's conditions
-            # Pass local_vars to query() to make external variables available
-            filtered_indices = schema.query(query_conditions, local_dict=local_vars).index
-            # Apply actions for filtered rows, ensuring we ignore empty updates
-            for column, value_to_set in actions.items():
+                filtered_indices = schema.index
+            else:
+                # Filter schema DataFrame based on the query derived from the rule's conditions
+                # Pass local_vars to query() to make external variables available
+                filtered_indices = schema.query(query_conditions, local_dict=local_vars).index
+            # Apply updates for filtered rows, ensuring we ignore empty updates
+            for column, value_to_set in updates.items():
                 if pd.notna(value_to_set) and value_to_set != "":
                     schema.loc[filtered_indices, column] = value_to_set
         elif rule_type == "newrow":
@@ -217,13 +221,13 @@ def apply_rules(schema, rules):
             for _, row in schema.iterrows():
                 if all(row.get(key, None) == value for key, value in condition.items()):
                     new_row = row.to_dict()
-                    new_row.update(actions)
+                    new_row.update(updates)
                     new_rows.append(new_row)
         elif rule_type == "drop":
             # Collect indices of rows to drop based on the condition
             if not query_conditions:
                 continue
-            rows_to_drop.extend(schema.fillna('-').query(query_conditions, local_dict=local_vars).index.tolist())    
+            rows_to_drop.extend(schema.fillna('-').query(query_conditions, local_dict=local_vars).index.tolist())
     # Drop rows collected for dropping
     schema = schema.drop(rows_to_drop).reset_index(drop=True)
     if new_rows:
@@ -431,8 +435,18 @@ def save(df, path):
     _df = df.copy()
     _df['Period'] = _df['Period'].astype(int)
     _df['Value'] = _df['Value'].apply(lambda x: f"{x:.6f}")
-    _df.to_csv(path, index=False, quoting=csv.QUOTE_ALL)
-
+    try:
+        _df.to_csv(path, index=False, quoting=csv.QUOTE_ALL)
+        logging.info(f"Data saved to {path}")
+    # If the workbook is open, the file cannot be saved. Warn the user they need to close it.
+    except PermissionError:
+        logging.warning(f"Permission denied when saving data to {path}. Close it and try again.")
+        input("Press Enter to continue...")
+        save(df, path)
+        return
+    except Exception as e:
+        logging.error(f"Error saving data to {path}: {e}")
+        raise e
 
 # Function to find missing periods and create the necessary rows (curried for convenience)
 def add_missing_periods(all_periods):
@@ -587,9 +601,13 @@ is_import_process = matches(import_processes)
 is_export_process = matches(export_processes)
 
 commodity_map = process_map_from_commodity_groups(ITEMS_LIST_COMMODITY_GROUPS_CSV)
+
 commodities_by_type = commodities_by_type_from_commodity_groups(ITEMS_LIST_COMMODITY_GROUPS_CSV)
+
 end_use_commodities = commodities_by_type['DEMO']
+
 end_use_processes = commodity_map[commodity_map.Commodity.isin(end_use_commodities)].Process.unique()
+
 sector_emission_types = {
     '': 'TOTCO2',
     'Industry': 'INDCO2',
@@ -602,9 +620,11 @@ sector_emission_types = {
     'Commercial': 'COMCO2'
 }
 
+
 def units_consistent(commodity_flow_dict, commodity_units):
      # Check if all units are the same
      return len(set([commodity_units[commodity] for commodity in commodity_flow_dict])) == 1
+
 
 def trace_commodities(process, scenario, period, df, commodity_units, path=None, fraction=1):
     """
@@ -646,6 +666,7 @@ def trace_commodities(process, scenario, period, df, commodity_units, path=None,
                 result.update(trace_commodities(downstream_process, scenario, period, df, commodity_units, current_path + [commodity], new_fraction))
     return result
 
+
 def end_use_fractions(process, scenario, period, df, commodity_units, filter_to_commodities=None):
     # Return a dictionary of emissions from end-use processes
     trace_result = trace_commodities(process, scenario, period, df, commodity_units)
@@ -673,6 +694,78 @@ def end_use_fractions(process, scenario, period, df, commodity_units, filter_to_
     end_use_fractions.Value = end_use_fractions.Value / end_use_fractions.Value.sum()
     return end_use_fractions
 
+
+def fix_multiple_fout(df):
+    filtered_df = df[(df['Attribute'] == 'VAR_FOut') & (~df['Commodity'].str.contains('CO2'))]
+    multi_fout = filtered_df.groupby(['Scenario', 'Process', 'Period']).filter(lambda x: len(x) > 1)
+    unique_scenario_process_periods = multi_fout[['Scenario', 'Process', 'Period']].drop_duplicates()
+    for _, row in unique_scenario_process_periods.iterrows():
+        scen = row['Scenario']
+        process = row['Process']
+        period = row['Period']
+        logging.info(f"Processing Scenario: {scen}, Process: {process}, Period: {period}")
+        # Filter relevant rows for the current process and period
+        relevant_rows = df[(df['Scenario'] == scen) & (df['Process'] == process) & (df['Period'] == period)]
+        fin_row = relevant_rows[relevant_rows['Attribute'] == 'VAR_FIn']
+        assert(len(fin_row) == 1)  # There should only be one VAR_FIn row - currently not handling multiple VAR_FIn rows
+        fout_rows = relevant_rows[relevant_rows['Attribute'] == 'VAR_FOut']
+        if not fin_row.empty:
+            total_output = fout_rows['Value'].sum()
+            ratios = fout_rows['Value'] / total_output
+            # Create new VAR_FIn rows by multiplying the original Value with each ratio
+            new_fin_rows = fin_row.copy().loc[fin_row.index.repeat(len(fout_rows))].reset_index(drop=True)
+            new_fin_rows['Value'] = fin_row['Value'].values[0] * ratios.values
+            new_fin_rows['Enduse'] = fout_rows['Enduse'].values
+            # Replace the original VAR_FIn row with the new rows in the DataFrame
+            df = df.drop(fin_row.index)  # Remove original VAR_FIn row
+            df = pd.concat([df, new_fin_rows], ignore_index=True)
+    return df
+
+
+def apply_rulesets(df, rulesets, subset_name=None):
+    # Complete the dataframe using the usual rules, taking care not to overwrite the Fuel
+    for name, ruleset in rulesets:
+        logging.info(f"Applying ruleset to '{subset_name}' rows: %s", name)
+        df = apply_rules(df, ruleset)
+    return df
+
+
+def allocate_to_enduse_processes(rows_to_reallocate, main_df, commodity_units, filter_to_commodities=None):
+    rows_to_add = pd.DataFrame()
+    for _, row in rows_to_reallocate.iterrows():
+        # For each negative emission process, follow its outputs through to end uses;
+        # get the fractional attributions of the process output to end-use processes
+        if filter_to_commodities is not None:
+            end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], main_df, commodity_units, filter_to_commodities=filter_to_commodities)
+        else:
+            end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], main_df, commodity_units)
+        # Proportionately attribute the 'neg-emissions' to the end-uses, in units of Mt CO₂/yr
+        end_use_allocations['Value'] *= row['Value']
+        # Tidy up and add the new rows to emissions_rows_to_add
+        end_use_allocations = end_use_allocations[~end_use_allocations['Value'].isna()]
+        #end_use_allocations = add_missing_columns(end_use_allocations, OUT_COLS)
+        rows_to_add = pd.concat([rows_to_add, end_use_allocations], ignore_index=True)
+    return rows_to_add
+
+
+def fixup_emissions_attributed_to_emitting_fuels(df):
+    processes_to_fix = df[(df['Fuel'].isin(NON_EMISSION_FUEL)) & (df['Parameters'] == 'Emissions')].Process.unique()
+    for process in processes_to_fix:
+        process_clean_fuel = df.loc[
+            (df['Fuel'].isin(NON_EMISSION_FUEL)) &
+            (df['Parameters'] == 'Emissions') &
+            (df['Process'] == process), 'Fuel'].unique()[0]
+        process_all_fuels = df.loc[df['Process'] == process, 'Fuel'].unique()
+        assert any(fuel not in NON_EMISSION_FUEL for fuel in process_all_fuels), "No emitting fuel found in the process."
+        process_emitting_fuel = next((fuel for fuel in process_all_fuels if fuel not in NON_EMISSION_FUEL), None)
+        indices_to_update = (df['Fuel'] == process_clean_fuel) & \
+                            (df['Parameters'] == 'Emissions') & \
+                            (df['Process'] == process)
+        df.loc[indices_to_update, 'Fuel'] = process_emitting_fuel
+        df.loc[indices_to_update, 'FuelGroup'] = 'Fossil Fuels'
+    return df
+
+
 def complete_expand_dim(df, expand_dim, fill_value_dict):
     original_column_order = df.columns
     # This implementation assumes no NaN values in the starting DataFrame
@@ -698,7 +791,7 @@ def complete_expand_dim(df, expand_dim, fill_value_dict):
     return df_full[original_column_order]
 
 
-def sanity_check(subset, full_df, match_columns, tolerance, factor=1):
+def sanity_check(subset, full_df, match_columns, tolerance, factor=1, name=""):
     grouped_subset_values = subset.groupby(['Scenario', 'Period']).Value.sum()
     for (scenario, period), value in grouped_subset_values.items():
         conditions = [
@@ -714,4 +807,71 @@ def sanity_check(subset, full_df, match_columns, tolerance, factor=1):
         final_condition = reduce(np.logical_and, conditions)
         rows_in_dataframe = full_df[final_condition]
         assert abs(rows_in_dataframe.Value.sum() * factor - value) < tolerance, "Value does not match within tolerance"
-        logging.info(f"Check output matches for Scenario: {scenario}, Period: {period}, Summed Value: {value:.2f}: OK")
+        logging.info(f"Check {name} output matches for Scenario: {scenario}, Period: {period}, Summed Value: {value:.2f}: OK")
+
+
+def check_enduse_rows(df):
+    enduse_df = df.loc[(df.ProcessSet == '.DMD.') | (df.CommoditySet == '.DEM.')]
+    nan_tech = enduse_df.loc[enduse_df.Technology.isna()]
+    nan_enduse = enduse_df.loc[enduse_df.Enduse.isna()]
+    nan_fuel = enduse_df.loc[enduse_df.Fuel.isna()]
+    nan_fuelgroup = enduse_df.loc[enduse_df.FuelGroup.isna()]
+    nan_technology_group = enduse_df.loc[enduse_df.Technology_Group.isna()]
+    nan_process_set = enduse_df.loc[enduse_df.ProcessSet.isna()]
+    nan_commodity_set = enduse_df.loc[enduse_df.CommoditySet.isna()]
+    nan_value = enduse_df.loc[enduse_df.Value.isna()]
+    assert nan_tech.empty, f"Missing Technology: {nan_tech}"
+    assert nan_enduse.empty, f"Missing Enduse: {nan_enduse}"
+    assert nan_fuel.empty, f"Missing Fuel {nan_fuel}"
+    assert nan_fuelgroup.empty, f"Missing FuelGroup {nan_fuelgroup}"
+    assert nan_technology_group.empty, f"Missing Technology_Group {nan_technology_group}"
+    assert nan_process_set.empty, f"Missing ProcessSet {nan_process_set}"
+    assert nan_commodity_set.empty, f"Missing CommoditySet {nan_commodity_set}"
+    assert nan_value.empty, f"Missing Value {nan_value}"
+
+
+def check_missing_tech(df, schema_technology):
+    enduse_df = df.loc[(df.ProcessSet == '.DMD.') | (df.CommoditySet == '.DEM.')]
+    elegen_df = df.loc[(df.Sector == 'Electricity') & (df.ProcessSet == '.ELE.')]
+    elefue_df = df.loc[(df.Sector == 'Other') & (df.Parameters == 'Fuel Consumption')]
+    missing_tech = enduse_df.loc[~enduse_df.Technology.isin(schema_technology['Technology'])]
+    if not missing_tech.empty:
+        raise ValueError(f"Missing Technologies found: {missing_tech.Technology.unique()}")
+    missing_tech = elegen_df.loc[~elegen_df.Technology.isin(schema_technology['Technology'])]
+    if not missing_tech.empty:
+        raise ValueError(f"Missing Technologies found: {missing_tech.Technology.unique()}")
+    missing_tech = elefue_df.loc[~elefue_df.Technology.isin(schema_technology['Technology'])]
+    if not missing_tech.empty:
+        raise ValueError(f"Missing Technologies found: {missing_tech.Technology.unique()}")
+
+
+def check_electricity_fuel_consumption(df):
+    electricity_rows = df[(df['Sector'] == 'Other')]
+    electricity_fuel_consumption = electricity_rows[(electricity_rows['Parameters'] == 'Fuel Consumption')]
+    assert electricity_fuel_consumption.loc[electricity_fuel_consumption.Attribute=='VAR_FIn'].ProcessSet.unique().tolist() == ['.ELE.'], "Electricity fuel consumption not just from Electricity generation processes"
+
+
+def negated_rows(df, rules):
+    neg_df = df.copy()
+    neg_df['Value'] = -neg_df['Value']
+    neg_df = apply_rules(neg_df, rules)
+    return neg_df
+
+
+def spread_to_all_aviation(drop_in_jet_domestic_rows_to_add, main_df):
+    # Inherited from earlier data processing - create a copy to share DIJ consumption between domestic and international jet travel
+    # Split the drop-in-jet between domestic and international jet travel pro-rata by scenario and period.
+    # A better approach might be to implement this within TIMES instead of post-processing.
+    drop_in_jet_international_rows_to_add = drop_in_jet_domestic_rows_to_add.copy()
+    drop_in_jet_international_rows_to_add['Value'] = 0
+    drop_in_jet_international_rows_to_add['Enduse'] = 'International Aviation'
+    drop_in_jet_international_rows_to_add['Process'] = 'T_O_FuelJet_Int'
+    for index, row in drop_in_jet_domestic_rows_to_add.iterrows():
+        domestic_jet_travel = process_output_flows('T_O_FuelJet', row['Scenario'], row['Period'], main_df)['T_O_JET']
+        internat_jet_travel = process_output_flows('T_O_FuelJet_Int', row['Scenario'], row['Period'], main_df)['T_O_JET_Int']
+        domestic_jet_value = row['Value'] * domestic_jet_travel / (internat_jet_travel + domestic_jet_travel)
+        internat_jet_value = row['Value'] * internat_jet_travel / (internat_jet_travel + domestic_jet_travel)
+        drop_in_jet_domestic_rows_to_add.loc[index, 'Value'] = domestic_jet_value
+        drop_in_jet_international_rows_to_add.loc[index, 'Value'] = internat_jet_value
+    drop_in_jet_rows_to_add = pd.concat([drop_in_jet_domestic_rows_to_add, drop_in_jet_international_rows_to_add], ignore_index=True)
+    return drop_in_jet_rows_to_add

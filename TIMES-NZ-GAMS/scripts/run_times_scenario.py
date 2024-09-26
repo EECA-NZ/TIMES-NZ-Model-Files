@@ -7,7 +7,7 @@ def get_scenario_names(scenarios_dir):
     return [d.name for d in scenarios_dir.iterdir() if d.is_dir() and any(d.glob('*.dd'))]
 
 def run_scenario(scenario=None):
-    original_dir = Path.cwd().parent
+    original_dir = Path(__file__).resolve().parents[1]
     scenarios_dir = original_dir / "times_scenarios"
     try:
         if scenario is None:
@@ -37,6 +37,5 @@ def run_scenario(scenario=None):
         os.chdir(original_dir)
 
 if __name__ == "__main__":
-    os.chdir(Path(__file__).parent)
     scenario_name = sys.argv[1] if len(sys.argv) > 1 else None
     run_scenario(scenario_name)

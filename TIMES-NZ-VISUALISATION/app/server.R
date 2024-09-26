@@ -23,8 +23,14 @@
 # History (reverse order): 
 # 17 May 2021 KG v1 - Wrote the deliverable source code 
 #
-#
+# ================================================================================================ #
 
+
+# Define the list of combustible fuels - if filtered to, these are the ones that
+# appear in the 'Other' tab, reflecting fuels burned to generate electricity.
+# Currently we are not filtering to these fuels, so e.g. we see a large amount of
+# Geothermal 'fuel' going to electricity generation.
+combustible_fuels <- c("Natural Gas", "Coal", "Wood")
 
 server <- function(input, output, session){
 
@@ -33,7 +39,6 @@ server <- function(input, output, session){
   
   # Filter data based on dropdowns
   filtered_data <- reactive({
-    
 
     # This condition is used to add "Select Metric" to the "unit/parameters" drop-downs
     if (input$unit == "Select Metric"){
@@ -45,7 +50,7 @@ server <- function(input, output, session){
       unit_selected = input$unit
       
     }
-    
+
     # This is the logic for the drilldown data
     combined_df %>%
       purrr::when(
@@ -86,17 +91,47 @@ server <- function(input, output, session){
         input$tabs != "Overview" ~
           
           filter(
-            ., Sector == input$tabs, 
+            ., Sector == input$tabs
           ),
         
         ~ .
         
       ) %>% 
+      purrr::when(
+
+        input$tabs != "Other" ~
+
+          filter(
+            ., (str_detect(ProcessSet, ".DMD.") | str_detect(CommoditySet, ".DEM.") | !str_detect(Parameters, "Fuel Consumption")) # Show fuel consumption from end-use demand processes only
+          ),
+
+        ~ .
+
+      ) %>%
+#      purrr::when(
+#
+#        input$tabs == "Other" ~
+#
+#          filter(
+#            ., (!str_detect(Parameters, "Fuel Consumption") | Fuel %in% combustible_fuels)
+#          ),
+#
+#        ~ .
+#
+#      ) %>%
+      purrr::when(
+
+        input$tabs == "Other" ~
+
+          filter(
+            ., (str_detect(ProcessSet, ".ELE.") | !str_detect(Parameters, "Fuel Consumption")) # Show fuel consumption from electricity generation .ELE. processes only
+          ),
+
+        ~ .
+
+      ) %>%
       filter(Parameters == unit_selected)
   })
-  
-  
-
   
   
   # A reactive object based on the hierarchy dataset. 
@@ -685,6 +720,7 @@ server <- function(input, output, session){
     
     req(input$subsector, group_by_val())
     
+    # For Fuel Consumption, only show End-use rows
     plot_data_kea <- filtered_data() %>% filter(Scenario == "Kea")
     
     generic_charts(

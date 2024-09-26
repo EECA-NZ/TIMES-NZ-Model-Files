@@ -125,5 +125,8 @@ Electronics and Lighting ,#00CCCC,circle
 Fuel Production ,#7459B1,triangle
 Storage,#00567A,circle
 Heat Pump Dryer,#00648G,diamond
-Tube Trailer (NI and SI),#00af8h,diamond
 Biogas 2018,#00435b,square
+Waste Oil,#3E9B02,square
+Crude Oil,#974a21,diamond
+Unassigned,#D8D4D4,circle
+Coal Lignite,#35373a,square
