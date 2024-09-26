@@ -174,7 +174,6 @@ clean_df = fix_multiple_fout(clean_df)
 all_periods = np.sort(clean_df['Period'].unique())
 categories = [x for x in GROUP_COLUMNS if x != 'Period']
 clean_df = clean_df.groupby(categories).apply(add_missing_periods(all_periods)).reset_index(drop=True)
-clean_df = apply_rules(clean_df, THOUSAND_VEHICLE_RULES)
 clean_df = complete_expand_dim(clean_df, 'Scenario', {'Value': 0})
 clean_df = clean_df.sort_values(by=GROUP_COLUMNS)
 clean_df = apply_rules(clean_df, ALWAYS_PRESENT_EMISSIONS_RULES)
