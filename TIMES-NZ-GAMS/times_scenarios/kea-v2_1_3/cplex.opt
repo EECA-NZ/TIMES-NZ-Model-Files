@@ -1,0 +1,14 @@
+scaind 1
+rerun yes
+iis 1
+lpmethod 4
+baralg 1
+barcrossalg 0
+barorder 0
+THREADS=7
+aggind 3
+Names no
+advind=0
+
+* Keep the line empty above this one - it puts a newline where it's needed!
+writelp TIMES_kea-v2_1_3.lp

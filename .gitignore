@@ -2,10 +2,34 @@ utils/*.pkl
 .venv/
 *.pyc
 __pycache__/
-TIMES-NZ\ParScen_BackUp
-TIMES-NZ\SuppXLS\ParScenFiles
+TIMES-NZ/ParScen_BackUp
+TIMES-NZ/SuppXLS/ParScenFiles
 TIMES-NZ/AppData/ExResLayout.json
 TIMES-NZ/AppData/MasterFormFormSettings.json
 TIMES-NZ/AppData/ResultsFormSettings.json
 TIMES-NZ/AppData/Settings.json
+TIMES-NZ/AppData/Cases.json
+TIMES-NZ/AppData/Groups.json
+TIMES-NZ/AppData/BrowseFormSettings.json
 raw_tables.pkl
+TIMES-NZ/Exported_files/
+TIMES-NZ-GAMS/GAMSSAVE/
+
+
+# Ignore all generated files
+*.lst
+*.gdx
+*.vd
+*.vde
+*.vds
+*.vdt
+*.log
+*_run_log.txt
+*.exe
+
+# Ignore specific directories
+GAMSSAVE/
+
+# Additional ignores
+END_GAMS
+.Rproj.user
