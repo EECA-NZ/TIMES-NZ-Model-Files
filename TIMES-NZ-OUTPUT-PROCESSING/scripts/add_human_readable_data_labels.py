@@ -160,7 +160,7 @@ clean_df = clean_df.fillna('Other')
 
 # Convert emissions to Mt CO2/yr
 clean_df.loc[clean_df['Parameters'] == 'Emissions', 'Value'] /= 1000
-clean_df.loc[clean_df['Parameters'] == 'Emissions', 'Unit'] = 'Mt CO<sub>2</sub>/yr' #'Mt CO₂/yr'
+clean_df.loc[clean_df['Parameters'] == 'Emissions', 'Unit'] = 'Mt CO<sub>2</sub>/yr'
 
 # Remove unwanted rows and group data
 clean_df = clean_df[(clean_df['Parameters'] != 'Annualised Capital Costs') & (clean_df['Parameters'] != 'Technology Capacity')]

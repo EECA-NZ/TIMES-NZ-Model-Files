@@ -12,6 +12,7 @@ def run_commands(version):
     commands = [
         f"python {os.path.join(base_dir, 'TIMES-NZ-OUTPUT-PROCESSING', 'scripts', 'fetch_items_lists.py')}",
         f"python {os.path.join(base_dir, 'TIMES-NZ-OUTPUT-PROCESSING', 'scripts', 'add_human_readable_data_labels.py')} {version}",
+        f"python {os.path.join(base_dir, 'TIMES-NZ-OUTPUT-PROCESSING', 'scripts', 'make_summary_plot_data.py')} {version}",
         f"Rscript.exe {os.path.join(base_dir, 'TIMES-NZ-VISUALISATION', 'scripts', 'loadData.R')} {version}",
         f"Rscript.exe {os.path.join(base_dir, 'TIMES-NZ-VISUALISATION', 'scripts', 'runApp.R')}"
     ]

@@ -183,7 +183,33 @@ def sort_rules_by_specificity(rules):
     return sorted_rules_rebuilt
 
 
-def apply_rules(schema, rules):
+def apply_rules_fast(schema, rules):
+    schema = schema.copy()
+    conditions_list = []
+    all_updates = {}
+    sorted_rules = sort_rules_by_specificity(rules)
+    for condition, rule_type, updates in sorted_rules:
+        condition_df = pd.DataFrame([condition])
+        for col, update in updates.items():
+            condition_df[col + '_update'] = update
+            all_updates[col] = update
+        condition_df['rule_type'] = rule_type
+        conditions_list.append(condition_df)
+    mapping_df = pd.concat(conditions_list, ignore_index=True)
+    join_columns = list(set().union(*[condition.keys() for condition, _, _ in rules]))
+    schema = schema.merge(mapping_df, on=join_columns, how='left', suffixes=('', '_update'))
+    for col in all_updates:
+        update_col = col + '_update'
+        if update_col in schema.columns:
+            is_not_empty = schema[update_col].notna() & (schema[update_col] != '')
+            condition = (schema['rule_type'] == 'inplace') & is_not_empty
+            schema.loc[condition, col] = schema[update_col]
+    schema = schema[schema['rule_type'] != 'drop'].copy()
+    schema.drop(columns=[col for col in schema.columns if '_update' in col or col == 'rule_type'], inplace=True)
+    return schema
+
+
+def apply_rules_slow(schema, rules):
     """
     Apply rules, optimized by minimizing row-wise operations.
 
@@ -234,6 +260,20 @@ def apply_rules(schema, rules):
         new_rows_df = pd.DataFrame(new_rows)
         schema = pd.concat([schema, new_rows_df], ignore_index=True)
     return schema
+
+
+def appropriate_to_use_apply_rules_fast(rules):
+    return bool(rules) and \
+        all(rule[1] == 'inplace' for rule in rules) and \
+        all(len(rule[0]) > 0 for rule in rules) and \
+        all(set(rule[0].keys()) == set(rules[0][0].keys()) for rule in rules) and \
+        all(set(rule[2].keys()) == set(rules[0][2].keys()) for rule in rules)
+
+
+def apply_rules(schema, rules):
+    if appropriate_to_use_apply_rules_fast(rules):
+        return apply_rules_fast(schema, rules)
+    return apply_rules_slow(schema, rules)
 
 
 def parse_emissions_factors(filename):
@@ -314,122 +354,6 @@ def compare_rows(df1, df2, df1_label="df1", df2_label="df2"):
         '_merge != "both"'
     )
     return comparison_df
-
-
-def compare_tables(output_filepath, reference_filepath, columns=None):
-    """
-    Assemble DataFrames from the output and reference CSV files and compare them.
-    Report differences in columns and rows.
-
-    :param output_filepath: Path to the output CSV file.
-    :param reference_filepath: Path to the reference CSV file.
-
-    :return: A tuple containing the comparison message, DataFrames, and comparison results.
-    """
-    output_df = pd.read_csv(output_filepath, low_memory=False).drop_duplicates()
-    reference_df = pd.read_csv(reference_filepath, low_memory=False).drop_duplicates()
-    if columns is not None:
-        output_df = output_df[columns]
-        reference_df = reference_df[columns]
-
-    # Convert all columns to string for comparison purposes to ensure compatibility
-    output_df = stringify_and_strip(output_df)
-    reference_df = stringify_and_strip(reference_df)
-
-    # Compare columns
-    missing_columns = set(reference_df.columns) - set(output_df.columns)
-    extra_columns = set(output_df.columns) - set(reference_df.columns)
-
-    # Initial message parts
-    differences = []
-    if missing_columns:
-        differences.append(f"Missing columns: {', '.join(missing_columns)}")
-    if extra_columns:
-        differences.append(f"Extra columns: {', '.join(extra_columns)}")
-
-    # Merge DataFrames to compare rows
-    comparison_df = pd.merge(output_df, reference_df, indicator=True, how="outer")
-
-    # Identify correct, missing, and extra rows
-    correct_rows = comparison_df[comparison_df["_merge"] == "both"].sort_values(
-        by=list(output_df.columns)
-    )
-    missing_rows = comparison_df[comparison_df["_merge"] == "right_only"].sort_values(
-        by=list(output_df.columns)
-    )
-    extra_rows = comparison_df[comparison_df["_merge"] == "left_only"].sort_values(
-        by=list(output_df.columns)
-    )
-
-    # Report counts
-    differences.append(f"\nNumber of correct rows: {len(correct_rows)}")
-    differences.append(f"Number of missing rows: {len(missing_rows)}")
-    differences.append(f"Number of extra rows: {len(extra_rows)}")
-
-    with pd.option_context('display.max_rows', None):
-        differences.append(f"\nMissing rows:\n {missing_rows.to_string(index=False)}")
-        # differences.append(f"\nExtra rows:\n {extra_rows.to_string(index=False)}")
-
-    # Final output
-    if differences:
-        return (
-            "\n".join(differences),
-            output_df,
-            reference_df,
-            correct_rows,
-            missing_rows,
-            extra_rows,
-        )
-    return "All good", output_df, reference_df, correct_rows, missing_rows, extra_rows
-
-
-def compare_rows_to_df(row_extra, row_missing, columns):
-    """
-    Compares the first rows in extra_rows and missing_rows DataFrames and reports differences
-    in a DataFrame format.
-
-    :param row_extra: The first row from extra_rows DataFrame.
-    :param row_missing: The first row from missing_rows DataFrame.
-    :param columns: List of columns to compare.
-    :return: A DataFrame showing differences between the rows.
-    """
-    # Initialize lists to hold comparison data
-    comparison_data = {"Column": [], "Correct Value": [], "Current Value": []}
-
-    # Check if the DataFrames are empty and handle accordingly
-    if row_extra.empty or row_missing.empty:
-        return pd.DataFrame(
-            comparison_data
-        )  # Return an empty DataFrame if either row is missing
-
-    for col in columns:
-        extra_val = row_extra[col].values[0]
-        missing_val = row_missing[col].values[0]
-        if extra_val != missing_val:
-            comparison_data["Column"].append(col)
-            comparison_data["Correct Value"].append(missing_val)
-            comparison_data["Current Value"].append(extra_val)
-
-    # Create a DataFrame from the collected comparison data
-    comparison_df = pd.DataFrame(comparison_data)
-    transposed_df = comparison_df.set_index("Column").T.reset_index()
-    return transposed_df
-
-
-def show_subset(df, column_value_dict):
-    """
-    Show a subset of the DataFrame where the specified columns match the specified values.
-
-    :param df: The DataFrame to filter.
-    :param column_value_dict: A dictionary of column names and values to match.
-    :return: The subset of the DataFrame where the specified columns match the specified values.
-    """
-    query_parts = []
-    for column, value in column_value_dict.items():
-        query_parts.append(f"{column} == '{value}'")
-    query = " & ".join(query_parts)
-    return df.query(query)
-
 
 def save(df, path):
     _df = df.copy()
@@ -512,6 +436,7 @@ def flow_fractions(flow_dict):
      # Return a dictionary of fractions for each flow
      total = sum(flow_dict.values())
      return {k: v / total for k, v in flow_dict.items()}
+
 
 def sum_by_key(dicts):
     # Sum values for each key across multiple dictionaries

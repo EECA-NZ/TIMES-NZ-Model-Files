@@ -7,7 +7,10 @@ import sys
 import logging
 import argparse
 import pandas as pd
+from pathlib import Path
 
+current_dir = Path(__file__).resolve().parent
+os.chdir(current_dir)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 parser = argparse.ArgumentParser(description='Process VEDA data to create a human-readable schema')
