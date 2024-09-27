@@ -545,7 +545,6 @@ sector_emission_types = {
     'Commercial': 'COMCO2'
 }
 
-
 def units_consistent(commodity_flow_dict, commodity_units):
      # Check if all units are the same
      return len(set([commodity_units[commodity] for commodity in commodity_flow_dict])) == 1
@@ -661,7 +660,8 @@ def allocate_to_enduse_processes(rows_to_reallocate, main_df, commodity_units, f
         # For each negative emission process, follow its outputs through to end uses;
         # get the fractional attributions of the process output to end-use processes
         if filter_to_commodities is not None:
-            end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], main_df, commodity_units, filter_to_commodities=filter_to_commodities)
+            end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], main_df, commodity_units,
+                                                    filter_to_commodities=filter_to_commodities)
         else:
             end_use_allocations = end_use_fractions(row['Process'], row['Scenario'], row['Period'], main_df, commodity_units)
         # Proportionately attribute the 'neg-emissions' to the end-uses, in units of Mt CO₂/yr
@@ -773,7 +773,8 @@ def check_missing_tech(df, schema_technology):
 def check_electricity_fuel_consumption(df):
     electricity_rows = df[(df['Sector'] == 'Other')]
     electricity_fuel_consumption = electricity_rows[(electricity_rows['Parameters'] == 'Fuel Consumption')]
-    assert electricity_fuel_consumption.loc[electricity_fuel_consumption.Attribute=='VAR_FIn'].ProcessSet.unique().tolist() == ['.ELE.'], "Electricity fuel consumption not just from Electricity generation processes"
+    assert electricity_fuel_consumption.loc[electricity_fuel_consumption.Attribute=='VAR_FIn'].ProcessSet.unique().tolist() == ['.ELE.'], \
+        "Electricity fuel consumption not just from Electricity generation processes"
 
 
 def negated_rows(df, rules):

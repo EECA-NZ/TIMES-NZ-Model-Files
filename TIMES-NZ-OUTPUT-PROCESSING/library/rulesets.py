@@ -167,7 +167,6 @@ PARAMS_RULES_NEW = [
     # Basic Rules
     ({"Attribute": "VAR_Cap", "Unit": "000 Vehicles"}, "inplace", {"Parameters": "Number of Vehicles"}),
     ({"Attribute": "VAR_FIn", "Unit": "PJ", "ProcessSet": ".DMD."}, "inplace", {"Parameters": "Fuel Consumption"}),
-    #({"Attribute": "VAR_FIn", "Unit": "PJ", "ProcessSet": ".PRE."}, "inplace", {"Parameters": "Fuel Consumption"}), # Not in the case of Electricity Sector
     ({"Attribute": "VAR_FIn", "Unit": "PJ", "ProcessSet": ".ELE."}, "inplace", {"Parameters": "Fuel Consumption"}),
     ({"Attribute": "VAR_FOut", "Unit": "Billion Vehicle Kilometres"}, "inplace", {"Parameters": "Distance Travelled"}),
     ({"Attribute": "VAR_Cap", "Unit": "GW"}, "inplace", {"Parameters": "Technology Capacity"}),
