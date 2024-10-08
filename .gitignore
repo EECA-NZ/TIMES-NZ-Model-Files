@@ -1,3 +1,4 @@
+.env
 utils/*.pkl
 .venv/
 *.pyc
@@ -34,3 +35,6 @@ GAMSSAVE/
 END_GAMS
 .Rproj.user
 .pylintrc
+
+# R deployment artifacts
+rsconnect
