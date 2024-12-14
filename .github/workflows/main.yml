@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
 
 jobs:
@@ -10,42 +10,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          path: head
+    - uses: actions/checkout@v4
+      with:
+        path: head
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
 
-      - name: Install xl2times
-        run: |
-          pip install -U pip
-          pip install xl2times==0.1.0
+    - name: Install xl2times
+      run: |
+        pip install -U pip
+        pip install xl2times==0.1.0
 
-      - name: Run raw_table_summary on TIMES-NZ-Model-Files
-        run: |
-          xl2times head/TIMES-NZ/ --output_dir head/TIMES-NZ/raw_table_summary/ --only_read
+    - name: Run raw_table_summary on TIMES-NZ-Model-Files
+      run: |
+        xl2times head/TIMES-NZ/ --output_dir head/TIMES-NZ/raw_table_summary/ --only_read
 
-      - name: Check if raw_table_summary is updated
-        id: raw_table_updated
-        run: |
-          cd head/TIMES-NZ/raw_table_summary
-          if ! git diff --quiet; then \
-            echo "ERROR: raw_table_summary is not up-to-date."; \
-            echo "The uploaded artifact contains the raw_table_summary for your branch, commit that to pass this check."; \
-            echo "See README for more details."; \
-            exit 1; fi
+    - name: Check if raw_table_summary is updated
+      id: raw_table_updated
+      run: |
+        cd head/TIMES-NZ/raw_table_summary
+        if ! git diff --quiet; then \
+          echo "ERROR: raw_table_summary is not up-to-date."; \
+          echo "The uploaded artifact contains the raw_table_summary for your branch, commit that to pass this check."; \
+          echo "See README for more details."; \
+          exit 1; fi
 
-      - name: Upload raw_tables.txt
-        uses: actions/upload-artifact@v3
-        if: ${{ failure() && steps.raw_table_updated.outcome == 'failure' }}
-        with:
-          name: raw_tables
-          path: head/TIMES-NZ/raw_table_summary/raw_tables.txt
+    - name: Upload raw_tables.txt
+      uses: actions/upload-artifact@v3
+      if: ${{ failure() && steps.raw_table_updated.outcome == 'failure' }}
+      with:
+        name: raw_tables
+        path: head/TIMES-NZ/raw_table_summary/raw_tables.txt
 
-      - name: Run times-excel-reader on TIMES-NZ-Model-Files
-        run: |
-          echo "Temporarily disabled. See https://github.com/EECA-NZ/TIMES-NZ-Model-Files/issue/10"
-          # times-excel-reader ../model # CURRENTLY BROKEN
+    - name: Run times-excel-reader on TIMES-NZ-Model-Files
+      run: |
+        echo "Temporarily disabled. See https://github.com/EECA-NZ/TIMES-NZ-Model-Files/issue/10"
+        # times-excel-reader ../model # CURRENTLY BROKEN
