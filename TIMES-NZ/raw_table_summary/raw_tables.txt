@@ -1,3 +1,27 @@
+sheetname: BY_Trans
+range: B6:Q7
+filename: BY_Trans.xlsx
+tag: ~TFM_INS
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), AllRegions (object), REG1 (object), REG2 (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,AllRegions,REG1,REG2,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
+
+
+sheetname: FILL Table
+range: B3:O4
+filename: BY_Trans.xlsx
+tag: ~TFM_FILL
+types: Operation_Sum_Avg_Count (object), Scenario Name (object), TimeSlice (object), LimType (object), Attribute (object), Year (object), Other_Indexes (object), Tech_Comm_Info (object), AllRegions (object), REG1 (object), REG2 (object), Pset_Set (object), Pset_PN (object)
+Operation_Sum_Avg_Count,Scenario Name,TimeSlice,LimType,Attribute,Year,Other_Indexes,Tech_Comm_Info,AllRegions,REG1,REG2,Pset_Set,Pset_PN
+
+
+sheetname: NCAP_BND
+range: B6:Q7
+filename: BY_Trans.xlsx
+tag: ~TFM_INS
+types: TimeSlice (object), LimType (object), Attribute (object), Year (object), AllRegions (object), REG1 (object), REG2 (object), Pset_Set (object), Pset_PN (object), Pset_PD (object), Pset_CI (object), Pset_CO (object), Cset_Set (object), Cset_CN (object), Cset_CD (object)
+TimeSlice,LimType,Attribute,Year,AllRegions,REG1,REG2,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
+
+
 sheetname: OTH_AGR
 range: B4:AB77
 filename: SubRES_TMPL/SubRES_NewTech_AGR_KEA.xlsx
@@ -3088,6 +3112,21 @@ UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_
 COAL_PP_BND,ELE,"EH*CO*,-*ccs*",2025,UP,1,0,0,3,New coal power plants ban
 NGA_PP_BND,ELE,"ENGA*,-*CCS*",2025,UP,1,2,0,4,New gas power plants bound (new 2 GW allowed until 2025)
 NUC_BAN,,E*NUC*,2025,UP,1,0,0,3,Nuclear plants ban (not allowed for whole time horizon)
+
+
+sheetname: Carbon budget
+range: C5:N12
+filename: SuppXLS/Scen_Carbon_Budgets.xlsx
+uc_sets: {'R_S': 'AllRegions', 'T_S': ''}
+tag: ~UC_T
+types: UC_N (object), Pset: PN (object), PSet: CI (object), Cset: CN (object), PSet: CO (object), Year (object), LimType (object), UC_COMNET (object), UC_RHSTS (object), UC_RHSTS~0 (object), UC_Desc (object)
+UC_N,Pset: PN,PSet: CI,Cset: CN,PSet: CO,Year,LimType,UC_COMNET,UC_RHSTS,UC_RHSTS~0,UC_Desc
+UC_TOTCO2CAP,,,TOTCO2,,2025,UP,1,29443.6,5,CCC Climate Budgets
+,,,TOTCO2,,2030,UP,1,24951.46,,
+,,,TOTCO2,,2035,UP,1,18884.91,,
+,,,TOTCO2,,2040,UP,1,12911.14,,
+,,,TOTCO2,,2045,UP,1,8366.587,,
+,,,TOTCO2,,2050,UP,1,5276.346,,
 
 
 sheetname: BEV_PHEV-share
