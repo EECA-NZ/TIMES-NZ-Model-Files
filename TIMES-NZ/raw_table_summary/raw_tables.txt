@@ -6340,8 +6340,8 @@ sheetname: Existing_techs_NI
 range: A33:AF55
 filename: VT_NI_ELC_V4.xlsx
 tag: ~FI_T
-types: TechName (object), *LimType (object), Comm-IN (object), Comm-OUT (object), PASTI~1970 (object), PASTI~2000 (object), PASTI~2005 (object), PASTI~2015 (object), NCAP_PASTI~2018 (object), *RESID~2018 (object), *RESID~2016 (object), *RESID~2035 (object), *Share-I (object), Share-I~2018 (object), Share-I~0 (object), EFF~2018 (object), *AFA (object), AFA~2018 (object), *ACT_BND~2015 (object), ACT_BND~2018 (object), ACT_BND~FX~2018 (object), ACT_BND~0 (object), FIXOM (object), VAROM (object), LIFE (object), CAP2ACT (object), Peak (object), NCAP_BND (object), NCAP_BND~2021 (object), NCAP_BND~0 (object), ENV_ACT~ELCCO2 (object)
-TechName,*LimType,Comm-IN,Comm-OUT,PASTI~1970,PASTI~2000,PASTI~2005,PASTI~2015,NCAP_PASTI~2018,*RESID~2018,*RESID~2016,*RESID~2035,*Share-I,Share-I~2018,Share-I~0,EFF~2018,*AFA,AFA~2018,*ACT_BND~2015,ACT_BND~2018,ACT_BND~FX~2018,ACT_BND~0,FIXOM,VAROM,LIFE,CAP2ACT,Peak,NCAP_BND,NCAP_BND~2021,NCAP_BND~0,ENV_ACT~ELCCO2
+types: TechName (object), LimType (object), Comm-IN (object), Comm-OUT (object), PASTI~1970 (object), PASTI~2000 (object), PASTI~2005 (object), PASTI~2015 (object), NCAP_PASTI~2018 (object), *RESID~2018 (object), *RESID~2016 (object), *RESID~2035 (object), *Share-I (object), Share-I~2018 (object), Share-I~0 (object), EFF~2018 (object), *AFA (object), AFA~2018 (object), *ACT_BND~2015 (object), ACT_BND~2018 (object), ACT_BND~FX~2018 (object), ACT_BND~0 (object), FIXOM (object), VAROM (object), LIFE (object), CAP2ACT (object), Peak (object), NCAP_BND (object), NCAP_BND~2021 (object), NCAP_BND~0 (object), ENV_ACT~ELCCO2 (object)
+TechName,LimType,Comm-IN,Comm-OUT,PASTI~1970,PASTI~2000,PASTI~2005,PASTI~2015,NCAP_PASTI~2018,*RESID~2018,*RESID~2016,*RESID~2035,*Share-I,Share-I~2018,Share-I~0,EFF~2018,*AFA,AFA~2018,*ACT_BND~2015,ACT_BND~2018,ACT_BND~FX~2018,ACT_BND~0,FIXOM,VAROM,LIFE,CAP2ACT,Peak,NCAP_BND,NCAP_BND~2021,NCAP_BND~0,ENV_ACT~ELCCO2
 *Technology Name,,Input Commodity,Output Commodity,Past Investment Capacity,Past Investment Capacity,Past Investment Capacity,Past Investment Capacity,Past Investment Capacity,Existing Installed Capacity,Existing Installed Capacity,Retirement Capacity,Fuel input coef,Fuel input coef,Fuel input coef,Efficiency,Utilisation Factor,Utilisation Factor,"Generation, stat","Generation, stat",,Interpolation/extrapolation for future years,Fixed O&M Cost,Variable O&M Cost,Lifetime,Capacity to Activity Factor,% contribution to PEAK,,,,
 *Units,,,,GW,GW,GW,GW,GW,GW,,GW,%,%,%,%,%,%,PJ,PJ,,´-1 no extrapolation,Milion NZD (2015)/GW,Milion NZD (2015)/PJ,Years,PJ/GW,,,,,
 ELCREHYDRRInflex00,,ELCHYD,ELC,0.2064,,,,,0.2064,0,,,,,1,,,2.41765619798025,3.38284695214823,,1,6.54,0.244444444444444,100,31.536,0.722,0,0,5,
@@ -6352,7 +6352,7 @@ ELCTENGACHP00,,ELCNGA,ELC,0.064,0.2906,,,,0.3546,0,,0.760507631196738,0.74660574
 \I:,,ELCGEO,,,,,,,,,,0,0,5,,,,,,,,,,,,,,,,
 \I:,,ELCBIG,,,,,,,,,,0,0,5,,,,,,,,,,,,,,,,
 ELCTECOA00,,ELCCOA,ELC,,0.5,,,,0.5,0,,,,,0.331683659882697,0.428082191780822,0.371004566210046,6.75,,,1,72,2.77777777777778,30,31.536,0.97,0,0,5,
-\I:,LO,ELCCOA,ELC,,,,,,,,,,,,,,,,5.325,,,,,,,,,,,
+ELCTECOA00,LO,ELCCOA,ELC,,,,,,,,,,,,,,,,5.325,,,,,,,,,,,
 ELCTENGACCGT00,,ELCNGA,ELC,,0.385,0.403,,,0.788,0,,,,,0.51,0.648043294998387,0.648043294998387,16.1041143606425,,,,36,1.11111111111111,25,31.536,0.97,0,0,5,
 \I:,LO,ELCNGA,ELC,,,,,,,,,,,,,,,,13.6116182686435,,,,,,,,,,,
 ELCTENGAOCGT00,,ELCNGA,ELC,,,0.051,0.302,,0.353,0,,,,,0.400920711381386,0.340982277671917,0.340982277671917,3.79588563935753,,,1,25.2,1.11111111111111,25,31.536,0.97,0,0,5,
@@ -7819,14 +7819,14 @@ tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
 Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
 *Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,WODWST,Forest residues and woody wastes,,Forest residues and woody wastes -:- ,Forest residues and woody wastes,PJ,FX,,,
+NRG,,WODWST,Wood,,Wood -:- ,Forest residues and woody wastes,PJ,FX,,,
 ,,AGRWST,"Agricultural wastes (straws, stover, vegetable culls)",,"Agricultural wastes (straws, stover, vegetable culls) -:- ","Agricultural wastes (straws, stover, vegetable culls)",PJ,FX,,,
 ,,MNCWST,Waste Incineration,,Waste Incineration -:- ,Municipal solid waste,PJ,FX,,,
 ,,ANMMNR,Animal manure,,Animal manure -:- ,Animal manure,PJ,FX,,,
 ,,OILWST,Oil wastes,,Oil wastes -:- ,Oil wastes,PJ,FX,,,
-,,PLT,Wood pellet,,Wood pellet -:- ,Wood pellet,PJ,FX,,,
+,,PLT,Wood,,Wood -:- ,Wood pellet,PJ,FX,,,
 ,,BDSL,Biodiesel,,Biodiesel -:- ,Biodiesel,PJ,FX,,,
-,,WOD,Biomass - wood,,Biomass - wood -:- ,Biomass - wood,PJ,FX,,,
+,,WOD,Wood,,Wood -:- ,Biomass - wood,PJ,FX,,,
 ,,DID,Drop-In Diesel,,Drop-In Diesel -:- ,Drop-in diesel,PJ,FX,,,
 ,,DIJ,Drop-In Jet,,Drop-In Jet -:- ,Drop-in jet,PJ,FX,,,
 ,,INDOSWOD,Wood,,Wood -:- ,On Site Wood,PJ,FX,,,
@@ -7996,11 +7996,11 @@ tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
 Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
 *Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,OILD,Crude Oil ,,Crude Oil  -:- ,Oil products - Crude oil (domestic - for export),PJ,,,,
-,,OILI,Crude Oil (domestic),,Crude Oil (domestic) -:- ,Oil products - Crude oil imported (for refinery),PJ,,,,
-,,LPG,Crude Oil (imported),,Crude Oil (imported) -:- ,Oil products - LPG,PJ,,,,
-,,PET,LPG,,LPG -:- ,Oil products - Petroleum,PJ,,,,
-,,DSL,Petrol,,Petrol -:- ,Oil products - Diesel oil,PJ,,,,
+NRG,,OILD,Crude Oil (domestic),,Crude Oil (domestic) -:- ,Oil products - Crude oil (domestic - for export),PJ,,,,
+,,OILI,Crude Oil (imported),,Crude Oil (imported) -:- ,Oil products - Crude oil imported (for refinery),PJ,,,,
+,,LPG,LPG,,LPG -:- ,Oil products - LPG,PJ,,,,
+,,PET,Petrol,,Petrol -:- ,Oil products - Petroleum,PJ,,,,
+,,DSL,Diesel,,Diesel -:- ,Oil products - Diesel oil,PJ,,,,
 ,,FOL,Fuel Oil,,Fuel Oil -:- ,Oil products - Light fuel oil,PJ,,,,
 ,,JET,Jet Fuel,,Jet Fuel -:- ,Oil products - Jet kerosen,PJ,,,,
 ,,OTH,Other fuels from refinery,,Other fuels from refinery -:- ,Oil products - Other fuels from refinery,PJ,,,,
@@ -10032,14 +10032,14 @@ tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
 Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
 *Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,WODWST,Forest residues and woody wastes,,Forest residues and woody wastes -:- ,Forest residues and woody wastes,PJ,FX,,,
+NRG,,WODWST,Wood,,Wood -:- ,Forest residues and woody wastes,PJ,FX,,,
 ,,AGRWST,"Agricultural wastes (straws, stover, vegetable culls)",,"Agricultural wastes (straws, stover, vegetable culls) -:- ","Agricultural wastes (straws, stover, vegetable culls)",PJ,FX,,,
 ,,MNCWST,Waste Incineration,,Waste Incineration -:- ,Municipal solid waste,PJ,FX,DAYNITE,,
 ,,ANMMNR,Animal manure,,Animal manure -:- ,Animal manure,PJ,FX,,,
 ,,OILWST,Oil wastes,,Oil wastes -:- ,Oil wastes,PJ,FX,,,
-,,PLT,Wood pellet,,Wood pellet -:- ,Wood pellet,PJ,FX,,,
+,,PLT,Wood,,Wood -:- ,Wood pellet,PJ,FX,,,
 ,,BDSL,Biodiesel,,Biodiesel -:- ,Biodiesel,PJ,FX,,,
-,,WOD,Biomass - wood,,Biomass - wood -:- ,Biomass - wood,PJ,FX,DAYNITE,,
+,,WOD,Wood,,Wood -:- ,Biomass - wood,PJ,FX,DAYNITE,,
 ,,DID,Drop-In Diesel,,Drop-In Diesel -:- ,Drop-in diesel,PJ,FX,,,
 ,,DIJ,Drop-In Jet,,Drop-In Jet -:- ,Drop-in jet,PJ,FX,,,
 ,,INDOSWOD,Wood,,Wood -:- ,On Site Wood,PJ,FX,,,
@@ -10196,11 +10196,11 @@ tag: ~FI_Comm
 types: Csets (object), Region (object), CommName (object), * Fuel (object), * Enduse (object), CommDesc (object), * OLD CommDesc (object), Unit (object), LimType (object), CTSLvl (object), PeakTS (object), Ctype (object)
 Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
 *Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
-NRG,,OILD,Crude Oil ,,Crude Oil  -:- ,Oil products - Crude oil,PJ,,,,
-,,OILI,Crude Oil (domestic),,Crude Oil (domestic) -:- ,Oil products - Crude oil imported (for refinery),PJ,,,,
-,,LPG,Crude Oil (imported),,Crude Oil (imported) -:- ,Oil products - LPG,PJ,,,,
-,,PET,LPG,,LPG -:- ,Oil products - Petroleum,PJ,,,,
-,,DSL,Petrol,,Petrol -:- ,Oil products - Diesel oil,PJ,,,,
+NRG,,OILD,Crude Oil (domestic),,Crude Oil (domestic) -:- ,Oil products - Crude oil,PJ,,,,
+,,OILI,Crude Oil (imported),,Crude Oil (imported) -:- ,Oil products - Crude oil imported (for refinery),PJ,,,,
+,,LPG,LPG,,LPG -:- ,Oil products - LPG,PJ,,,,
+,,PET,Petrol,,Petrol -:- ,Oil products - Petroleum,PJ,,,,
+,,DSL,Diesel,,Diesel -:- ,Oil products - Diesel oil,PJ,,,,
 ,,FOL,Fuel Oil,,Fuel Oil -:- ,Oil products - Light fuel oil,PJ,,,,
 ,,JET,Jet Fuel,,Jet Fuel -:- ,Oil products - Jet kerosen,PJ,,,,
 ,,OTH,Other fuels from refinery,,Other fuels from refinery -:- ,Oil products - Other fuels from refinery,PJ,,,,

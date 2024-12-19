@@ -4,11 +4,7 @@ iis 1
 lpmethod 4
 baralg 1
 barcrossalg 0
-barorder 0
+barorder 3
 THREADS=7
-aggind 3
-Names no
 advind=0
-
-* Keep the line empty above this one - it puts a newline where it's needed!
-writelp TIMES_tui-v2_1_3.lp
+names no
