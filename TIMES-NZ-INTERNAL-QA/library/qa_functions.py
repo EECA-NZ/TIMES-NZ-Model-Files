@@ -13,7 +13,31 @@ from config import qa_runs
 from qa_data_retrieval import get_veda_data, get_veda_data_no_concordance, add_concordance_to_vd
 
 
-
+def check_scenario_differences(df, run_a, run_b):
+    """
+    Check if there are any differences between scenarios in the dataset.
+    
+    Args:
+        df (pandas.DataFrame): The input dataframe containing scenario data
+        run_a (str): Name of first scenario
+        run_b (str): Name of second scenario
+        
+    Returns:
+        bool: True if differences exist, False if scenarios are identical
+    """
+    # Group by all columns except 'Scenario' and 'PV'
+    grouping_cols = [col for col in df.columns if col not in ['Scenario', 'PV']]
+    
+    # Compare values between scenarios
+    comparison = df.pivot_table(
+        index=grouping_cols,
+        columns='Scenario',
+        values='PV',
+        aggfunc='first'
+    ).reset_index()
+    
+    # Check if any values differ between scenarios
+    return not (comparison[run_a] == comparison[run_b]).all()
 
 def get_data_structure(attribute):
     # the point of this is to return the dataframe with no numbers in it so we can test structure changes     
