@@ -11,11 +11,8 @@ TIMES-NZ/AppData/ExResLayout.json
 TIMES-NZ/AppData/MasterFormFormSettings.json
 TIMES-NZ/AppData/ResultsFormSettings.json
 TIMES-NZ/AppData/Settings.json
-TIMES-NZ/AppData/Cases.json
-TIMES-NZ/AppData/Groups.json
-TIMES-NZ/AppData/BrowseFormSettings.json
-TIMES-NZ/AppData/Cases.json
-TIMES-NZ/AppData/Groups.json
+# TIMES-NZ/AppData/Cases.json
+# TIMES-NZ/AppData/Groups.json
 TIMES-NZ/AppData/BrowseFormSettings.json
 raw_tables.pkl
 TIMES-NZ/Exported_files/
@@ -25,13 +22,18 @@ TIMES-NZ-GAMS/GAMSSAVE/
 # Ignore all generated files
 *.lst
 *.gdx
-*.vd
+# Keeping the vd data for the delta app to use 
+# *.vd
 *.vde
 *.vds
 *.vdt
 *.log
 *_run_log.txt
 *.exe
+
+# Ignoring local development notebooks
+*.ipynb
+
 
 # Ignore specific directories
 GAMSSAVE/
