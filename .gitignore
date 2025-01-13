@@ -40,6 +40,8 @@ GAMSSAVE/
 END_GAMS
 .Rproj.user
 .pylintrc
+.vscode/
+.ipynb
 
 # R deployment artifacts
 rsconnect
