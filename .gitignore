@@ -35,7 +35,6 @@ TIMES-NZ-GAMS/GAMSSAVE/
 *.ipynb
 
 
-
 # Ignore specific directories
 GAMSSAVE/
 
