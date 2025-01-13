@@ -7,17 +7,82 @@ from plotly.subplots import make_subplots
 import pandas as pd
 
 
-from qa_functions import get_delta_data, check_category_mismatch
+from qa_functions import get_delta_data, check_category_mismatch, check_scenario_differences
+from qa_data_retrieval import get_veda_data
 from config import qa_runs
 
+
+# Decide whether to even bother running the app - needs some differences 
 
 
 def run_delta_app(attribute):
 
-    # get data 
-    df = get_delta_data(attribute)
     run_a = qa_runs[0]
     run_b = qa_runs[1]
+
+    # Check if data matches 
+    original_df = get_veda_data(attribute)
+    has_differences = check_scenario_differences(original_df, run_a, run_b)
+
+
+    if has_differences:
+        app = run_delta_app_with_differences(attribute)
+    else: 
+        app = run_delta_app_no_differences(attribute)
+    
+    return app
+
+
+
+
+
+# If no differences, we don't do anything and instead just run this lightweight version 
+def run_delta_app_no_differences(attribute): 
+
+    run_a = qa_runs[0]
+    run_b = qa_runs[1]
+    app = dash.Dash(__name__)
+
+
+    app.layout = html.Div([
+            html.H1('TIMES QA - Scenario differences',
+                   style={'textAlign': 'left', 'marginBottom': '20px'}),
+            html.Div([
+                html.H2('No differences found',
+                       style={'textAlign': 'center', 'color': '#666'}),
+                html.P(
+                    f"The scenarios '{run_a}' and '{run_b}' are identical for the attribute '{attribute}'.",
+                    style={'textAlign': 'center', 'fontSize': '16px', 'marginTop': '20px'}
+                ),
+                html.P(
+                    "Please select a different attribute or scenario combination to compare.",
+                    style={'textAlign': 'center', 'fontSize': '16px', 'marginTop': '10px'}
+                )
+            ], style={
+                'backgroundColor': '#f8f9fa',
+                'padding': '40px',
+                'borderRadius': '8px',
+                'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
+                'marginTop': '50px'
+            })
+        ], style={'fontFamily': 'Calibri'})
+    
+    return app
+
+
+# This is the main app which shows more detailed stuff 
+
+
+# App if differences exist 
+def run_delta_app_with_differences(attribute):    
+
+    # Setup    
+    run_a = qa_runs[0]
+    run_b = qa_runs[1]
+
+
+
+    df = get_delta_data(attribute)
 
     # find parameter list
     parameter_options = df["Parameters"].unique()
@@ -37,10 +102,6 @@ def run_delta_app(attribute):
         assets_folder='assets'  
     )
 
-    # store data as app properties so available to callbacks in portable version       
-    app.df = df  
-    app.run_a = run_a
-    app.run_b = run_b
 
     # Initialize the layout with a store component
     app.layout = html.Div([
@@ -340,7 +401,7 @@ def run_delta_app(attribute):
     )
     def update_graph(selected_parameter, view_state):
         # Start with parameter filter
-        filtered_df = app.df[app.df['Parameters'] == selected_parameter]
+        filtered_df = df[df['Parameters'] == selected_parameter]
 
         # Apply all accumulated filters
         for field, value in view_state['selections'].items():
