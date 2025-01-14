@@ -5,6 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import pandas as pd
+import dash_draggable
 
 
 from qa_functions import get_delta_data, check_category_mismatch, check_scenario_differences
@@ -79,11 +80,7 @@ def run_delta_app_with_differences(attribute):
     # Setup    
     run_a = qa_runs[0]
     run_b = qa_runs[1]
-
-
-
     df = get_delta_data(attribute)
-
     # find parameter list
     parameter_options = df["Parameters"].unique()
 
@@ -94,14 +91,7 @@ def run_delta_app_with_differences(attribute):
     color_map = {run_a: 'green', run_b: 'blue'}
 
     # Initialize the Dash app
-    app = dash.Dash(
-        __name__,
-        meta_tags=[
-            {"name": "viewport", "content": "width=device-width, initial-scale=1"}
-        ],
-        assets_folder='assets'  
-    )
-
+    app = dash.Dash(__name__, suppress_callback_exceptions=True)
 
     # Initialize the layout with a store component
     app.layout = html.Div([
@@ -112,7 +102,6 @@ def run_delta_app_with_differences(attribute):
         }),
 
         # Title and help button
-
         html.Div([
             html.H1('TIMES QA - Scenario differences', 
                    style={'textAlign': 'left', 'marginBottom': '20px', 'display': 'inline-block'}),
@@ -131,8 +120,10 @@ def run_delta_app_with_differences(attribute):
             ),
         ], style={'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'center'}),
 
-        # Help section (called by button in callback below)
 
+
+        
+        # Help section (called by button in callback below)
         html.Div(
             [html.Div([
                     html.H3('How it works', style={'marginBottom': '15px'}),
@@ -167,19 +158,43 @@ def run_delta_app_with_differences(attribute):
                         html.P([
                             "Note that currently, TimeSlice is excluded from the delta checking. ",
                             "This means that if a category only differs by distribution across Timeslices, it will not be included. ",
-                            "Again, this behaviour can be changed by adding TimeSlice to `constant_variables`. ",
-                            html.Br(), 
+                            "Again, this behaviour can be changed by adding TimeSlice to `constant_variables`. ",                            
                             html.Br()                            
                             ],
-                            style={'marginBottom': '10px'}),        
+                            style={'marginBottom': '10px'}),   
+                        # How to use 
                         html.H3('How to use', style={'marginBottom': '15px'}),
                         html.Ol([                            
                             html.Li('Select the initial parameter from the dropdown list.'),
+                            html.Li('Re-arrange the categories as desired by clicking and dragging these from left to right. This will change the order that the app drills down.'),
                             html.Li('Click on any blue category title to drill down into more detailed views.'),
                             html.Li('Use the "Back" button to return to previous levels.'),
-                            html.Li('The current filters are always displayed at the top of the page.'),
-                            html.Li('Each chart shows a comparison between the two scenarios using grouped bars.')
-                        ], style={'marginLeft': '20px', 'marginTop': '10px'}),                        
+                            html.Li('The current filters will be displayed at the top of the page.'),
+                            
+                        ], style={'marginLeft': '20px', 'marginTop': '10px'}),   
+                        # Mismatching categories           
+                        html.H3('Mismatching categories', style={'marginBottom': '15px'}),
+                        html.P([
+                            "While the app only considers categories with differences between the two scenarios, ",
+                            "there may be some categories that cannot be compared because they only exist in one scenario or the other. "
+                            "These are listed in the 'Category Mismatches' section, which can be accessed in the button to the lower right of this help section.",
+                            html.Br()                            
+                            ],
+                            style={'marginBottom': '10px'}),           
+                        # Matching data 
+                        html.H3('Matching data', style={'marginBottom': '15px'}),
+                        html.P([
+                            "If the data for these scenarios matches perfectly, then the app will not load and instead take you to a different page.",                            
+                            html.Br()                            
+                            ],
+                            style={'marginBottom': '10px'}),  
+                        # Known issues
+                        html.H3('Known issues', style={'marginBottom': '15px'}),
+                        html.P([
+                            "Sometimes the buttons to click down further don't work. A refresh usually fixes this. Alternatively, you can select a different category, drilling down the wrong way, then clicking 'Back' and trying your original category again.",
+                            html.Br()                            
+                            ],
+                            style={'marginBottom': '10px'}),          
                     ])
                 ], style={
                     'backgroundColor': 'white',
@@ -251,6 +266,45 @@ def run_delta_app_with_differences(attribute):
 
             # Header area for list of current filters
             html.Div(id='current-filters', style={'marginBottom': '20px', 'padding': '10px', 'backgroundColor': '#f8f9fa'}),
+            # Hierarchy Manager
+            html.Div([
+                html.P("Arrange drill-down categories:", style={"margin-bottom": "0px"}),   
+                dash_draggable.GridLayout(
+                    id='hierarchy-grid',
+                    children=[
+                        html.Div(
+                            name,
+                            style={
+                                'padding': '0px',
+                                'margin': '0px',                              
+                                'backgroundColor': '#f0f0f0',
+                                'border': '1px solid #ddd',
+                                'borderRadius': '4px',
+                                'text-align': 'centre',
+                                'cursor': 'move',
+                                'userSelect': 'none'
+                            },
+                            id=f'hierarchy-item-{name}',
+                            key=name,
+                            className="draggable-container"                         
+                        )
+                        for name in HIERARCHY
+                    ],
+                    layout=[
+                        {'i': f'hierarchy-item-{name}', 'x': i, 'y': 0, 'w': 1, 'h': 1}
+                        for i, name in enumerate(HIERARCHY)
+                    ],
+                    gridCols=7,
+                    height=45,
+                    width=900,
+                    preventCollision=False,
+                    isDraggable=True,                    
+                    isDroppable=True,
+                    compactType="horizontal",
+                    isResizable=False,
+                    nrows=1
+                )               
+            ]),
 
             # Back button (initially hidden)
             html.Button(
@@ -262,11 +316,21 @@ def run_delta_app_with_differences(attribute):
             # Current view title
             html.H2(id='view-title', style={'textAlign': 'center', 'marginBottom': '20px'}),
         ], style={'marginBottom': '20px'}),
+                # Hierarchy manager 
+        
+        
 
         # Main graph
         html.Div([
-            dcc.Graph(id='faceted-chart', style={'height': '800px'}),
-        ])
+            dcc.Graph(
+                id='faceted-chart',
+                style={'height': 'auto', 'min-height': '500px'},
+                config={'scrollZoom': False}
+            ),
+        ], style={
+            'overflow-y': 'auto',
+            'overflow-x': 'hidden',
+        })
     ], style={'fontFamily': 'Calibri'})
 
 
@@ -306,91 +370,177 @@ def run_delta_app_with_differences(attribute):
 
     # Callback to handle clicks and view state
     @app.callback(
-        [Output('view-state', 'data'),
-         Output('back-button', 'style'),
-         Output('param-dropdown-container', 'style'),
-         Output('current-filters', 'children'),
-         Output('view-title', 'children')],
-        [Input('faceted-chart', 'clickAnnotationData'),
-         Input('back-button', 'n_clicks')],
-        [State('view-state', 'data'),
-         State('parameter-dropdown', 'value')]
-    )
-    def update_view_state(annotation_click, back_clicks, current_state, selected_parameter):
+    [Output('view-state', 'data'),
+     Output('back-button', 'style'),
+     Output('param-dropdown-container', 'style'),
+     Output('current-filters', 'children'),
+     Output('view-title', 'children')],
+    [Input('faceted-chart', 'clickAnnotationData'),
+     Input('back-button', 'n_clicks'),
+     Input('hierarchy-grid', 'layout'),
+     Input('parameter-dropdown', 'value')],
+    [State('view-state', 'data')]
+)
+    def update_view_state(annotation_click, back_clicks, hierarchy_layout, selected_parameter,current_state):
+        """
+        Main callback for handling view state updates and hierarchy management.
+        Returns exactly 5 outputs for all code paths.
+        """
         ctx = dash.callback_context
+        
+        # Initialize default values for all outputs
+        view_state = current_state
+        back_button_style = {'display': 'none'}
+        dropdown_style = {'width': '30%', 'display': 'inline-block'}
+        filter_display = []
+        view_title = f"Select {HIERARCHY[current_state['level']]}"
+    
+        # Handle initial load
         if not ctx.triggered:
-            # Generate initial filter display
-            filter_display = []
-            view_title = "Select " + HIERARCHY[current_state['level']]
-
-            return current_state, {'display': 'none'}, {'width': '30%', 'display': 'inline-block'}, filter_display, view_title
-
+            return (
+                view_state,
+                back_button_style,
+                dropdown_style,
+                filter_display,
+                view_title
+            )
+    
+        # Determine which input triggered the callback
         trigger = ctx.triggered[0]['prop_id'].split('.')[0]
 
-        if trigger == 'back-button':
-            # Go back one level
+        # Hierarchy updates     
+        if trigger == 'hierarchy-grid' and hierarchy_layout:
+            try:
+                # Extract the hierarchy names from the layout data
+                sorted_items = sorted(hierarchy_layout, key=lambda x: (x['y'], x['x']))
+                new_hierarchy = []
+                for item in sorted_items:
+                    name = item['i']
+                    if name.startswith('hierarchy-item-'):
+                        name = name.replace('hierarchy-item-', '')
+                    new_hierarchy.append(name)
+
+                if new_hierarchy:  # Only update if we got valid data
+                    HIERARCHY[:] = new_hierarchy
+
+                # Reset view state when hierarchy changes
+                view_state = {
+                    'level': 0,
+                    'selections': {}
+                }
+                return (
+                    view_state,
+                    {'display': 'none'},
+                    {'width': '30%', 'display': 'inline-block'},
+                    [],
+                    f"Select {HIERARCHY[0]}"
+                )
+            except Exception as e:
+                print(f"Error updating hierarchy: {e}")
+    
+        # Handle back button clicks
+        elif trigger == 'back-button':
+            # Calculate new level and selections
             new_level = max(0, current_state['level'] - 1)
             new_selections = dict(list(current_state['selections'].items())[:new_level])
-
-            # Show dropdown only at top level
+    
+            # Update view state
+            view_state = {
+                'level': new_level,
+                'selections': new_selections
+            }
+    
+            # Update styles based on level
+            back_button_style = {'display': 'none'} if new_level == 0 else {'display': 'inline-block', 'marginLeft': '20px'}
             dropdown_style = {'width': '30%', 'display': 'inline-block'} if new_level == 0 else {'display': 'none'}
-            # Show back button except at top level
-            button_style = {'display': 'none'} if new_level == 0 else {'display': 'inline-block', 'marginLeft': '20px'}
-
+            
+            # Build filter display
             filter_display = []
-            if new_level > 0:  # Only show filters after first level
+            if new_level > 0:
                 filter_display = [
                     html.P(
                         f"Parameter: {selected_parameter}", 
                         style={'fontWeight': 'bold', 'marginBottom': '5px'}
-                        )]
-                # Add each selected filter to the display
+                    )
+                ]
                 for field in HIERARCHY[:new_level]:
                     if field in new_selections:
                         filter_display.append(
                             html.P(
                                 f"{field}: {new_selections[field]}", 
                                 style={'fontWeight': 'bold', 'marginBottom': '5px'}
-                                ))
-
-            # Generate view title
-            view_title = 'Select ' + HIERARCHY[new_level] # could also pluralise but "technologies" is annoying
-
-            return {
-                'level': new_level,
-                'selections': new_selections
-            }, button_style, dropdown_style, filter_display, view_title
-
-        if trigger == 'faceted-chart' and annotation_click:
-            # Clean the selected value (remove arrows and whitespace)
+                            )
+                        )
+    
+            # Update title
+            view_title = f"Select {HIERARCHY[new_level]}"
+    
+            return (
+                view_state,
+                back_button_style,
+                dropdown_style,
+                filter_display,
+                view_title
+            )
+    
+        # Handle chart annotation clicks
+        elif trigger == 'faceted-chart' and annotation_click:
+            # Get selected value from chart click
             selected_value = annotation_click['annotation']['text'].replace('⯆', '').strip()
-
-            # Get the current field we're looking at
             current_field = HIERARCHY[current_state['level']]
-
-            # Update selections with the new value
+    
+            # Update selections with new value
             new_selections = dict(current_state['selections'])
             new_selections[current_field] = selected_value
-
-            # Move to next level if not at end
+    
+            # Calculate new level
             new_level = min(len(HIERARCHY) - 1, current_state['level'] + 1)
-
-            # Generate filter display
-            filter_display = [html.P(f"Parameter: {selected_parameter}", style={'fontWeight': 'bold', 'marginBottom': '5px'})]
-            for field in HIERARCHY[:new_level + 1]:
-                if field in new_selections:
-                    filter_display.append(html.P(f"{field}: {new_selections[field]}", 
-                                              style={'fontWeight': 'bold', 'marginBottom': '5px'}))
-
-            # Generate view title
-            view_title = "Select " + HIERARCHY[new_level]
-
-            return {
+    
+            # Update view state
+            view_state = {
                 'level': new_level,
                 'selections': new_selections
-            }, {'display': 'inline-block', 'marginLeft': '20px'}, {'display': 'none'}, filter_display, view_title
-
-        return current_state, {'display': 'none'}, {'width': '30%', 'display': 'inline-block'}
+            }
+    
+            # Update styles
+            back_button_style = {'display': 'inline-block', 'marginLeft': '20px'}
+            dropdown_style = {'display': 'none'}
+    
+            # Build filter display
+            filter_display = [
+                html.P(
+                    f"Parameter: {selected_parameter}", 
+                    style={'fontWeight': 'bold', 'marginBottom': '5px'}
+                )
+            ]
+            for field in HIERARCHY[:new_level + 1]:
+                if field in new_selections:
+                    filter_display.append(
+                        html.P(
+                            f"{field}: {new_selections[field]}", 
+                            style={'fontWeight': 'bold', 'marginBottom': '5px'}
+                        )
+                    )
+    
+            # Update title
+            view_title = f"Select {HIERARCHY[new_level]}"
+    
+            return (
+                view_state,
+                back_button_style,
+                dropdown_style,
+                filter_display,
+                view_title
+            )
+    
+        # Default return - ensure all 5 outputs are returned
+        return (
+            view_state,
+            back_button_style,
+            dropdown_style,
+            filter_display,
+            view_title
+        )
 
 
     # Callback to update the graph
@@ -447,10 +597,25 @@ def run_delta_app_with_differences(attribute):
         n_cols = min(5, max(1, n_facets))
         n_rows = max(1, (n_facets + n_cols - 1) // n_cols)
 
+        # Define standard sizes
+        SUBPLOT_HEIGHT = 200  # Fixed height for each subplot
+        SPACING_BETWEEN_PLOTS = 100  # Fixed pixel spacing between plots
+        MARGIN_TOP = 50  # Top margin for the figure
+        MARGIN_BOTTOM = 50  # Bottom margin for the figure         
+
+        # Calculate total figure height based on number of rows
+        total_height = (SUBPLOT_HEIGHT * n_rows) + (SPACING_BETWEEN_PLOTS * (n_rows - 1)) + MARGIN_TOP + MARGIN_BOTTOM        
+
+        # Calculate vertical spacing as a proportion of total height
+        # The formula is: spacing = spacing_pixels / (total_height - margins)
+        vertical_spacing = SPACING_BETWEEN_PLOTS / (total_height - MARGIN_TOP - MARGIN_BOTTOM)
+
         # Create subplot figure
         fig = make_subplots(
-            rows=n_rows, cols=n_cols
-            #vertical_spacing=0.3,
+            rows=n_rows, cols=n_cols,
+            vertical_spacing=vertical_spacing,
+            # horizontal_spacing = 0.1,
+            subplot_titles=[''] * (n_rows * n_cols),
             #horizontal_spacing=0.05
         )
 
@@ -520,12 +685,14 @@ def run_delta_app_with_differences(attribute):
                              col=col)
 
               
-
+        chart_height = max(500, 400 * n_rows)  # Minimum height of 500px
         fig.update_layout(
-            height=300 * n_rows,
+            height=total_height,
             # title_text=title_text,
             barmode='group',
+            margin=dict(t=MARGIN_TOP, b=MARGIN_BOTTOM, l=50, r=50),
             showlegend=False,
+            autosize = True,
             # legend=dict(
             #     orientation="h",
             #     yanchor="bottom",
@@ -537,7 +704,8 @@ def run_delta_app_with_differences(attribute):
 
         
         # y axis unit titles
-        fig.update_yaxes(title_text=f"{units_str}")
+        fig.update_yaxes(title_text=f"{units_str}",
+                         title_standoff=0)
 
         return fig
 
