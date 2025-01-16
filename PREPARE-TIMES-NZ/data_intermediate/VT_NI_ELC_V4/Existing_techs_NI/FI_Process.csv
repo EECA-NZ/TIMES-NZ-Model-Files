@@ -1,0 +1,15 @@
+﻿Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,
+ELE,NI,ELCREHYDRRInflex00,Electricity,Hydro,Hydro Run of River (Existing),Hydro,Electricity -:- Hydro -:- Hydro Run of River (Existing) -:- Hydro,Power Plants Existing - Hydro - Inflexible run-of-river,PJ,GW,DAYNITE,,
+ELE,NI,ELCREHYDDAM00,Electricity,Hydro,Hydro Dam (Existing),Hydro,Electricity -:- Hydro -:- Hydro Dam (Existing) -:- Hydro,Power Plants Existing - Controlled Hydro,PJ,GW,DAYNITE,,
+ELE,NI,ELCREHYDRRFlex00,Electricity,Hydro,Hydro Run of River (Existing),Hydro,Electricity -:- Hydro -:- Hydro Run of River (Existing) -:- Hydro,Power Plants Existing - Hydro - Flexible run- of-river,PJ,GW,DAYNITE,,
+ELE,NI,ELCTENGACHP00,Electricity,Thermal,Combined Heat/Power,Natural Gas,Electricity -:- Thermal -:- Combined Heat/Power -:- Natural Gas,Power Plants Existing - Thermal - Cogen,PJ,GW,DAYNITE,NRGO,
+ELE,NI,ELCTECOA00,Electricity,Thermal,Steam Boiler,Coal,Electricity -:- Thermal -:- Steam Boiler -:- Coal,Power Plants Existing - Thermal - Coal,PJ,GW,DAYNITE,,
+ELE,NI,ELCTENGACCGT00,Electricity,Thermal,Combined Cycle Gas Turbine (Existing),Natural Gas,Electricity -:- Thermal -:- Combined Cycle Gas Turbine (Existing) -:- Natural Gas,"Power Plants Existing - Thermal - Gas, open cycle",PJ,GW,DAYNITE,,
+ELE,NI,ELCTENGAOCGT00,Electricity,Thermal,Open Cycle Gas Turbine (Existing),Natural Gas,Electricity -:- Thermal -:- Open Cycle Gas Turbine (Existing) -:- Natural Gas,"Power Plants Existing - Thermal - Gas, combined cycle",PJ,GW,DAYNITE,,
+ELE,NI,ELCTEDSL00,Electricity,Thermal,Steam Boiler,Diesel,Electricity -:- Thermal -:- Steam Boiler -:- Diesel,Power Plants Existing - Thermal - Diesel,PJ,GW,DAYNITE,,
+ELE,NI,ELCREWind00,Electricity,Wind,Wind (Existing),Wind,Electricity -:- Wind -:- Wind (Existing) -:- Wind,Power Plants Existing - Wind,PJ,GW,DAYNITE,,
+ELE,NI,ELCREGEO00,Electricity,Geothermal,Geothermal (Existing),Geothermal,Electricity -:- Geothermal -:- Geothermal (Existing) -:- Geothermal,Power Plants Existing - Geothermal,PJ,GW,DAYNITE,,
+ELE,NI,ELCREBIG00,Electricity,Thermal,Steam Boiler,Biogas,Electricity -:- Thermal -:- Steam Boiler -:- Biogas,Power Plants Existing - Biogas,PJ,GW,DAYNITE,,
+ELE,NI,ELCRESOL00,Electricity,Solar,Solar (Existing),Solar,Electricity -:- Solar -:- Solar (Existing) -:- Solar,Power Plants Existing - Solar,PJ,GW,DAYNITE,,

@@ -6,8 +6,17 @@ from pathlib import Path
 current_dir = Path(__file__).resolve().parent
 sys.path.append(os.path.join(current_dir, "..", "library"))
 from delta_app import run_delta_app
-
+# from config import qa_runs
+# from qa_functions import get_delta_data
 # Main
+
+
+# f = get_delta_data("VAR_FIn", qa_runs)
+
+
+# print(df)
+
+
 
 def run_dashboard():
     app = run_delta_app("VAR_FOut")
