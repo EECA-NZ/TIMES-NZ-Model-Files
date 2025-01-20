@@ -7,10 +7,50 @@ Note that get_data_structure, remove_time_periods, and minus_test_structure are 
 May or may not use these as we build up the tests
 """
 
-
+import os
 import pandas as pd
-from config import qa_runs
-from qa_data_retrieval import get_veda_data, get_veda_data_no_concordance, add_concordance_to_vd
+from config import qa_runs, TIMES_OUTPUTS_RAW
+from qa_data_retrieval import read_vd, get_concordance_file, get_veda_data, get_veda_data_no_concordance, add_concordance_to_vd
+
+
+def check_missing_concordance_entries(qa_runs, attributes = ["VAR_FIn", "VAR_FOut", "VAR_Cap"]): 
+
+    # for each combination of att/proc/comm, we ensure these exist in the concordance
+    # we are first going to read in the df for fin, fout, and cap, and stack these for each run 
+    # then we take each unique instance of scenario/att/proc/com
+    # then we left join merge to concordance with flag and see what fails to merge        
+    key_variables = ["Attribute", "Process", "Commodity"]
+    combination_variables = ["Scenario"] + key_variables
+    # get the full dataset for each run.
+    # we're not using our other functions, but rewriting these a bit just to reduce read calls
+    # This means some code is repeated unfortunately
+    df = pd.DataFrame()    
+    for run in qa_runs:
+        filepath = os.path.join(TIMES_OUTPUTS_RAW, run, f"{run}.vd")
+        vd_df = read_vd(filepath)
+        vd_df = vd_df[vd_df['Attribute'].isin(attributes)]
+        vd_df["Scenario"] = run
+        df = pd.concat([df, vd_df])
+    # just want the existing categories    
+    df = df[combination_variables].drop_duplicates()
+    # merge to concordance file
+    concordance = get_concordance_file()    
+    df = df.merge(concordance,
+                  on=key_variables,
+                  how = 'left',
+                  indicator = True)
+    # only failed joins
+    df = df[df["_merge"] == "left_only"]
+    # just return our combination columns
+    df =  df[combination_variables]   
+
+    # IMPORTANT: we remove the TOTCO2 Commodities. These are not handled by the concordance file so no need to test them. 
+
+    df = df[df["Commodity"] != "TOTCO2"]
+
+    return df
+
+
 
 
 def check_scenario_differences(df, run_a, run_b):

@@ -6,8 +6,8 @@ from pathlib import Path
 current_dir = Path(__file__).resolve().parent
 sys.path.append(os.path.join(current_dir, "..", "library"))
 from delta_app import run_delta_app
-# from config import qa_runs
-# from qa_functions import get_delta_data
+from delta_app_glance import run_glance_app
+
 # Main
 
 
@@ -19,7 +19,8 @@ from delta_app import run_delta_app
 
 
 def run_dashboard():
-    app = run_delta_app("VAR_FOut")
+    app = run_glance_app()
+    # app = run_delta_app("VAR_FOut")
     # Open the browser after a 1-second delay to ensure the server is running
     # Timer(1, open_browser).start()  
     app.run_server(debug=True, port=8050) 

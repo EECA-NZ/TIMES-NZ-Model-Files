@@ -2352,8 +2352,8 @@ VAR_FOut,R_JDW-WH_HWC-ELC,R_JDW-WH,Residential,Joined Dwellings,Hot Water Cylind
 VAR_FOut,R_JDW-WH_HWC-ELC00,R_JDW-WH,Residential,Joined Dwellings,Hot Water Cylinder,Electricity,Water Heating,PJ,End Use Demand,Electricity
 VAR_FOut,R_JDW-WH_HWC-SOL00,R_JDW-WH,Residential,Joined Dwellings,Hot Water Cylinder,Solar,Water Heating,PJ,End Use Demand,Renewables (direct use)
 VAR_FOut,MINSOL1,SOL,Primary Fuel Supply,Renewables,Mining - Solar,Solar,,PJ,,Renewables (direct use)
-VAR_FOut,CT_COILBDS,NEGCO2,Primary Fuel Supply,Biomass/Biofuels,,Waste Oil,,,Emissions,Fossil Fuels
-VAR_FOut,CT_CWODDID,NEGCO2,Primary Fuel Supply,Biomass/Biofuels,,Wood,,,Emissions,Renewables (direct use)
+VAR_FOut,CT_COILBDS,NEGCO2,Primary Fuel Supply,Biomass/Biofuels,,Waste Oil,,kt CO2,Emissions,Fossil Fuels
+VAR_FOut,CT_CWODDID,NEGCO2,Primary Fuel Supply,Biomass/Biofuels,,Wood,,kt CO2,Emissions,Renewables (direct use)
 VAR_FOut,T_C_CHYBPET,TRACO2,Transport,Road Transport,Hybrid Vehicle,Petrol,Van/Ute,kt CO2,Emissions,Fossil Fuels
 VAR_FOut,T_C_CHYBPET15,TRACO2,Transport,Road Transport,Hybrid Vehicle,Petrol,Van/Ute,kt CO2,Emissions,Fossil Fuels
 VAR_FOut,T_C_CICEDSL15,TRACO2,Transport,Road Transport,Internal Combustion Engine,Diesel,Van/Ute,kt CO2,Emissions,Fossil Fuels
@@ -2538,4 +2538,16 @@ VAR_FOut,REFI-PH-FURN-NGA-Furn,REFI-PH-FURN,Industry,Refining,Furnace,Natural Ga
 VAR_FOut,REFI-PH-FURN-WOD-Furn,REFI-PH-FURN,Industry,Refining,Furnace,Wood,Process Heat Furnace,PJ,End Use Demand,Renewables (direct use)
 VAR_FOut,REFI-PH-STM_HW-NGA-Boiler,REFI-PH-STM_HW,Industry,Refining,Boiler,Natural Gas,Process Heat Steam/Hot Water,PJ,End Use Demand,Fossil Fuels
 VAR_FOut,REFI-PH-STM_HW-WOD-Boiler,REFI-PH-STM_HW,Industry,Refining,Boiler,Wood,Process Heat Steam/Hot Water,PJ,End Use Demand,Renewables (direct use)
-VAR_FOut,IMPDIJ,NEGCO2,Primary Fuel Supply,Petroleum,,Waste Oil,,,Emissions,Fossil Fuels
+VAR_FOut,IMPDIJ,NEGCO2,Primary Fuel Supply,Petroleum,,Waste Oil,,kt CO2,Emissions,Fossil Fuels
+VAR_FIn,OTH-FOL-FOL-Tech15,INDFOL,Industry,Other (Industry),Other,Fuel Oil,Other,PJ,Fuel Consumption,Fossil Fuels
+VAR_FOut,OTH-FOL-FOL-Tech15,INDCO2,Industry,Other (Industry),Other,Fuel Oil,Other,kt CO2,Emissions,Fossil Fuels
+VAR_FOut,OTH-FOL-FOL-Tech15,OTH-FOL,Industry,Other (Industry),Other,Fuel Oil,Other,PJ,End Use Demand,Fossil Fuels
+VAR_FOut,MTHOL-FDSTCK-NGA-FDSTCK,MTHOL-FDSTCK,Industry,Methanol,Feedstock,Natural Gas,Feedstock,PJ,End Use Demand,Fossil Fuels
+VAR_FOut,MTHOL-FDSTCK-NGA-FDSTCK15,MTHOL-FDSTCK,Industry,Methanol,Feedstock,Natural Gas,Feedstock,PJ,End Use Demand,Fossil Fuels
+VAR_FOut,UREA-FDSTCK-NGA-FDSTCK,UREA-FDSTCK,Industry,Urea Production,Feedstock,Natural Gas,Feedstock,PJ,End Use Demand,Fossil Fuels
+VAR_FOut,UREA-FDSTCK-NGA-FDSTCK15,UREA-FDSTCK,Industry,Urea Production,Feedstock,Natural Gas,Feedstock,PJ,End Use Demand,Fossil Fuels
+VAR_FIn,C_EDU-MPS_-PET00,COMPET,Commercial,Education,Stationary Motor,Petrol,"Motive Power, Stationary",PJ,Fuel Consumption,Fossil Fuels
+VAR_FOut,C_EDU-MPS_-PET00,COMCO2,Commercial,Education,Stationary Motor,Petrol,"Motive Power, Stationary",kt CO2,Emissions,Fossil Fuels
+VAR_FOut,C_EDU-MPS_-PET00,C_EDU-MPS,Commercial,Education,Stationary Motor,Petrol,"Motive Power, Stationary",PJ,End Use Demand,Fossil Fuels
+VAR_FOut,IIS-FDSTCK-COA-_15,IIS-FDSTCK,Industry,Iron/Steel,Feedstock,Coal,Feedstock,PJ,End Use Demand,Fossil Fuels
+VAR_FOut,IIS-FDSTCK-COA-_,IIS-FDSTCK,Industry,Iron/Steel,Feedstock,Coal,Feedstock,PJ,End Use Demand,Fossil Fuels
