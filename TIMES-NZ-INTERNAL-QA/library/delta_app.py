@@ -1,5 +1,5 @@
 import dash
-from dash import dcc, html
+from dash import dcc, html, dash_table
 from dash.dependencies import Input, Output, State
 import plotly.express as px
 import plotly.graph_objects as go
@@ -8,7 +8,7 @@ import pandas as pd
 import dash_draggable
 
 
-from qa_functions import get_delta_data, check_category_mismatch, check_scenario_differences
+from qa_functions import get_delta_data, check_category_mismatch, check_scenario_differences, check_missing_concordance_entries
 from qa_data_retrieval import get_veda_data
 from config import qa_runs
 
@@ -81,6 +81,9 @@ def run_delta_app_with_differences(attribute):
     run_a = qa_runs[0]
     run_b = qa_runs[1]
     df = get_delta_data(attribute)
+    # we'll just take the concordance mismatches for this attribute, which we make a size-1 list so it all works.
+    # Means we can also remove the attribute column since it is no longer needed.
+    df_no_concordance = check_missing_concordance_entries(qa_runs, [attribute]).drop("Attribute", axis = 1)
     # find parameter list
     parameter_options = df["Parameters"].unique()
 
@@ -248,9 +251,46 @@ def run_delta_app_with_differences(attribute):
             html.P("Commodity", style = {'font-weight': 'bold'}),
             html.P(f"{check_category_mismatch(attribute, "Commodity", run_a, run_b)}",
                    style = {'white-space' : 'pre-wrap'}
-                   )],
+                   ),
+            html.Div([
+                html.H3(f"Missing concordances", style={'display': 'inline'}), 
+                html.P(f"These categories exist in the data for '{attribute}', but not in the concordance file!"),
+                dash_table.DataTable(
+                    id='data-table',
+                    columns=[
+                        {"name": i, "id": i} for i in df_no_concordance.columns
+                    ],
+                    data=df_no_concordance.to_dict('records'),
+                    style_table={'overflowX': 'auto'},
+                    style_cell={
+                        'textAlign': 'left',
+                        'padding': '2px',
+                        'font-family': 'Calibri'
+                    },
+                    style_header={
+                        'backgroundColor': 'rgb(240, 240, 240)',
+                        'fontWeight': 'bold',
+                        'border': '1px solid black'
+                    },
+                    style_data={
+                        'border': '1px solid grey'
+                    },
+                    style_data_conditional=[
+                        {
+                            'if': {'row_index': 'odd'},
+                            'backgroundColor': 'rgb(248, 248, 248)'
+                        }
+                    ],
+                    page_size=10,  # Number of rows per page
+                    filter_action="native",  # Enables filtering
+                    sort_action="native",   # Enables sorting
+                    sort_mode="multi",     # Enable multi-column sorting
+                )
+            ], style={'marginTop': '30px'}),
+        ], 
         id = 'mismatch-content',
         style={'marginBottom': '20px'}),
+        
 
         # Container for filters and navigation
         html.Div([
