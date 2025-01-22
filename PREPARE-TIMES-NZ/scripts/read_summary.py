@@ -1,8 +1,8 @@
 """
 
-so I am going to try reading the raw_data summary, which should match the inputs perfectly. 
+This is a one-off script designed to recreate the raw data as a series of csvs in folders mirroring the original structure
 
-If I can read it then I can just write it out to a bunch of structured csvs 
+There are a few redundant calls but I do not expect this script to make it into any production system so will not refactor.
 
 """
 # libraries 
@@ -16,7 +16,7 @@ import csv
 import ast 
 import string
 
-# get custom libraries
+# get custom libraries/ locations 
 current_dir = Path(__file__).resolve().parent
 sys.path.append(os.path.join(current_dir, "..", "library"))
 from config import TIMES_LOCATION, PREP_LOCATION
@@ -24,7 +24,7 @@ from config import TIMES_LOCATION, PREP_LOCATION
 # file locations 
 table_location = os.path.join(TIMES_LOCATION, "TIMES-NZ", "raw_table_summary")
 file_location = f"{table_location}/raw_tables.txt"
-output_location = f"{PREP_LOCATION}/data_raw/data_scraping"
+output_location = f"{PREP_LOCATION}/data_intermediate/data_scraping"
 
 # Read the data from the summary tables
 def parse_data_blocks(filepath, debug = False):
@@ -122,25 +122,6 @@ def parse_data_blocks(filepath, debug = False):
     
     return parsed_blocks
 
-def main():
-    
-    blocks = parse_data_blocks(file_location)
-    
-    for i, block in enumerate(blocks, 1):
-        print(f"\nBlock {i}:")
-        print("Sheet Name:", block['sheetname'])
-        print("File Name:", block['filename'])
-        print("Range:", block['range'])
-        print("Tag:", block['tag'])
-        if 'data' in block:
-            print("\nData Shape:", block['data'].shape)
-            print("\nSample of rows with non-null values:")
-            print(block['data'].dropna(how='all').head())
-        print("-" * 50)
-
-
-
-
 
 # get all data 
 blocks = parse_data_blocks(file_location)
@@ -174,6 +155,7 @@ def get_tag_counter(block):
 
     df = df[df['folder_name'] == block['filename'].removesuffix(".xlsx")]
     df = df[df['sheet_name'] == block['sheetname']]
+    # we have to do this because we are making folders out of tags, some tags have colons, and windows hates colons
     df = df[df['tag_name'] == block['tag'].replace("~", "").replace(":", "·")]
     df = df[df['range'] == block['range']]
 
@@ -185,11 +167,7 @@ def get_tag_counter(block):
     return counter
 
 
-write_data = True
-
-test = block_descriptions[block_descriptions["tag_name"].str.contains(":")]
-#print(test)
-
+# write the descriptions data to a metadata file 
 block_descriptions.to_csv(f"{output_location}/metadata.csv", index = False, encoding='utf-8-sig') # awkward encoding, hacky for colons 
 
 
@@ -210,7 +188,7 @@ def write_block_data_to_csv(block):
     tag_name = tag_name.replace(":", "·")
 
     output_folder = os.path.join(output_location, folder_name, sheet_name, tag_name)   
-    # get the counter so we can add a suffix to the data if needed
+    # get the counter so we can add a different suffix to the data if needed for unique names within tag directory
     counter = get_tag_counter(block)
     csv_name = f"data_{counter}"
 

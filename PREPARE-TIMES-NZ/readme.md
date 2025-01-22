@@ -20,6 +20,22 @@ All existing excel input Veda files are kept in the repo (specifically the `TIME
 
 In the future, the input csvs will need to properly sourced and documented. 
 
+### Current Gaps
+
+Currently, the script is set to overwrite all files with equivalent files in manual_file_backups. This means we have some control over what we are overwriting.
+
+These backup files must be labelled with a MANUAL_ prefix, or the xl2TIMES reader tries to read them and then breaks. 
+
+While all current excel files can be generated, only the Base Year and SysSettings Files have been appropriately tested, so not all files have been given backups or fully automated. 
+
+Further, the manual files MUST remain in the repository until we are satisfied that all the underlying logic or documentation has been extracted into scripts or config files. This is true even for files we know are "working". 
+
+This means the current workflow is to take an existing manual excel file and add it to the backup folder, then generate the automatic file using the `write_workbook()` function, then test and ensure that this has made no changes from v2_1_3. Also, the current script to identify backup files will need adjusting when we used nested files in folders. 
+
+
+
+## General Future State
+
 ```mermaid
 flowchart LR
     CSV[("CSV/TOML Files")]
