@@ -227,8 +227,7 @@ def get_delta_data(attribute, runs = qa_runs):
     run_a = runs[0]
     run_b = runs[1]
 
-    constant_variables = ["Attribute", "Commodity", "Process", "Period", "Region"]
-
+    constant_variables = ["Attribute", "Commodity", "Process", "Period", "Region"]    
     # get data 
     df = get_veda_data(attribute)
 
@@ -260,7 +259,7 @@ def get_delta_data(attribute, runs = qa_runs):
     # add concordance back. This is now a table where there has been some change between scenarios in the matching data 
     delta_test = add_concordance_to_vd(delta_test)
 
-    changed_grain = delta_test.groupby(["Attribute", "Process", "Commodity"]).size().reset_index(name = "Count").drop("Count", axis = 1 )
+    changed_grain = delta_test.groupby(["Attribute","Process", "Commodity"]).size().reset_index(name = "Count").drop("Count", axis = 1 )
 
 
     # Now, the data we want is just the full (original) dataset,

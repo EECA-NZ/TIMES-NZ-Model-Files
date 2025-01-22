@@ -12,7 +12,7 @@ from pathlib import Path
 #### QA RUNS
 # these might go somewhere else but need to be surfaced here so anyone can use them? 
 
-qa_runs = ["tui-v2_1_2", "tui-v2_1_3"]
+qa_runs = ["tui-v2_1_3", "tui-v2_1_3_iat_imprecise"]
 
 # main directories
 QA_LIBRARY_LOCATION = Path(__file__).resolve().parent 

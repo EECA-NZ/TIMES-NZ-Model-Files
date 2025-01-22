@@ -60,7 +60,7 @@ def get_attribute_df_single_run(attribute, run_name):
 
 def get_concordance_file():
     concordance_filepath = os.path.join(TIMES_LOCATION,
-                                        "TIMES-NZ-OUTPUT-PROCESSING/data/input/concordance/",
+                                        "TIMES-NZ-INTERNAL-QA/data/concordance/",
                                         "attribute_process_commodity_concordance.csv")    
     df = pd.read_csv(concordance_filepath)
     return df
