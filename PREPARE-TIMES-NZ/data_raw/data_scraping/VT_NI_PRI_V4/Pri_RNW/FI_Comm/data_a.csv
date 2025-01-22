@@ -1,0 +1,10 @@
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,HYD,Hydro,,Hydro -:-,Renewables - Hydro,PJ,FX,DAYNITE,,
+,,GEO,Geothermal,,Geothermal -:-,Renewables - GEO,PJ,FX,DAYNITE,,
+,,SOL,Solar,,Solar -:-,Renewables - Solar,PJ,FX,DAYNITE,,
+,,WIN,Wind,,Wind -:-,Renewables - Wind,PJ,FX,DAYNITE,,
+,,BIL,Bioliquid,,Bioliquid -:-,Biofuels - Bioliquid,PJ,FX,DAYNITE,,
+,,BIG,Biogas,,Biogas -:-,Biofuels - Biogas,PJ,FX,DAYNITE,,
+,,TID,Tidal,,Tidal -:-,Renewables - Tidal,PJ,FX,DAYNITE,,
+,,URN,Uranium,,Uranium -:-,Uranium,PJ,FX,DAYNITE,,

@@ -1,0 +1,14 @@
+TechName,*TechDesc,Comm-IN,Comm-OUT,INPUT,OUTPUT,SHARE-I~UP~2010,INVCOST,FIXOM,VAROM,EFF,AFA,LIFE,NCAP_DRATE,CAP2ACT,SHARE-I~UP~0,FLO_COST
+*Technology Name,Technology Description,Input Commodity,Output Commodity,commodity consumption,,Share of a commodity in a user-specified group,Investment Cost NZD/kW,Fixed O&M Cost NZD/kW,Variable  O&M Cost NZD/GJ,Efficiency,Annual Availability Factor,Lifetime in years,Technology-specific discount rate,Capacity to Activity,Share of a commodity in a user-specified group,Fuel delivery costs
+\I: blending H2 with natural gas in to electricity and heat sector,,,,,,,,,,,,,,,,
+D-H2_ELCNGA,Natural gas T&D to power & heat sectors,NGA,ELCNGA,,,1,156.89,3.16,1.26,0.99,0.9,20,0.025,31.536,3,
+,,H2C,,,,0.01,,,,,,,,,,
+\I:D-H2_NPIP,New Pipeline (NI and SI),H2C,H2R,,,,15381.29,153.8129,,0.97,1,100,,175.872,,
+D-H2toNGA_blnd,Blending Hydrogen with Natural gas (only NI),,ELCNGA,,,,1691.41052734243,169.141052734243,,0.99,1,100,,31.536,,0.75
+,,,INDNGA,,,,,,,,,,,,,0.75
+,,,AGRNGA,,,,,,,,,,,,,2.81
+,,,COMNGA,,,,,,,,,,,,,9.35
+,,,RESNGA,,,,,,,,,,,,,25
+,,NGA,,0.8,,,,,,,,,,,,
+,,H2C,,0.2,,,,,,,,,,,,
+D-H2_Trailer,Tube Trailer (NI and SI),H2C,H2R,,,,1.93,,24.95,0.99,0.5,20,,0.06846246,,

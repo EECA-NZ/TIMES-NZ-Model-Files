@@ -1,0 +1,14 @@
+TechName,Comm-IN,Comm-OUT,Share-I~UP,STOCK,EFF,LIFE,INVCOST,FIXOM,VAROM
+*Technology Name,Input Commodity,Output Commodity,Input Share,Existing Installed Capacity,Efficiency,Lifetime,Capital costs,Fixed  O&M,Variable O&M
+*Units,,,,PJa,,Years,MNZD/Pja,MNZD/Pja,MNZD/PJ
+FTE_COMCOA_00,COA,COMCOA,1,,1,100,,,
+,COL,,0.1,,,,,,
+FTE_COMNGA_00,NGA,COMNGA,,,1,100,,,9.35
+FTE_COMLPG_00,LPG,COMLPG,,,1,100,,,
+FTE_COMDSL_00,DSL,COMDSL,,,1,100,,,0.92
+FTE_COMBIG_00,BIG,COMBIG,,,1,100,,,
+FTE_COMGEO_00,GEO,COMGEO,,,1,100,,,
+FTE_COMFOL_00,FOL,COMFOL,,,1,100,,,0.92
+FTE_COMPET_00,PET,COMPET,,,1,100,,,0.92
+FTE_COMWOD_00,WOD,COMWOD,,,1,100,,,
+FTE_COMPLT_00,PLT,COMPLT,,,1,100,,,

@@ -1,0 +1,10 @@
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,AGRCOA,Coal,,Coal -:-,Agriculture Coal,PJ,FX,ANNUAL,,
+NRG,,AGRDSL,Diesel,,Diesel -:-,Agriculture diesel oil,PJ,FX,ANNUAL,,
+NRG,,AGRPET,Petrol,,Petrol -:-,Agriculture petroleum,PJ,FX,ANNUAL,,
+NRG,,AGRFOL,Fuel Oil,,Fuel Oil -:-,Agriculture fuel oil,PJ,FX,ANNUAL,,
+NRG,,AGRLPG,LPG,,LPG -:-,Agriculture LPG,PJ,FX,ANNUAL,,
+NRG,,AGRWOD,Wood,,Wood -:-,Agriculture wood,PJ,FX,ANNUAL,,
+NRG,,AGRPLT,Pellet,,Pellet -:-,Agriculture pellet,PJ,FX,ANNUAL,,
+ENV,,AGRCO2,,,-:-,Agriculture emissions,kt,,,,

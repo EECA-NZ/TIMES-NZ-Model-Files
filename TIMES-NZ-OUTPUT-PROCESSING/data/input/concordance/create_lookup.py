@@ -1,5 +1,6 @@
 import csv
 import json
+import os 
 
 def create_html_with_data(csv_file, output_file):
     # Read CSV and convert to JSON
@@ -21,5 +22,10 @@ def create_html_with_data(csv_file, output_file):
     with open(output_file, 'w') as f:
         f.write(html_with_data)
 
+
+
 if __name__ == "__main__":
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(script_dir)
     create_html_with_data('attribute_process_commodity_concordance.csv', 'times_concordance_lookup.html')
+

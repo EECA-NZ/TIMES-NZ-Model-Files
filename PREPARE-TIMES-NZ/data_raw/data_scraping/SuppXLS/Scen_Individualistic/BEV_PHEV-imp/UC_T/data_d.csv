@@ -1,0 +1,3 @@
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_NCAP~2055,UC_RHST,UC_RHST~0,UC_Desc
+MAX_PHEV_UPTAKE_commercial,,T_C_C*PhEV*,2025,LO,-0.99,-0.98,-0.96,-0.83,0,5,Max number of PHEV commercial cars per year
+,,"T_C_C*,-T_C_C*PHEV*",,,0.01,0.02,0.04,0.17,,,

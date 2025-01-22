@@ -1,0 +1,43 @@
+Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+\I: Process Set Membership,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,Timeslice Operational Level,Operational Commodity Group,Vintage Tracking
+ELE,EHYD-DAM-New20,Electricity,Hydro,Hydro Dam (New),Hydro,Electricity -:- Hydro -:- Hydro Dam (New) -:- Hydro,New dam hydro,PJ,GW,DAYNITE,,YES
+ELE,EHCO_SCPC20,Electricity,Thermal,Coal: SCPC - 2018,Coal,Electricity -:- Thermal -:- Coal: SCPC - 2018 -:- Coal,Coal: SCPC - 2018,PJ,GW,DAYNITE,,YES
+ELE,EHCOL_SCPC20,Electricity,Thermal,Lignite: SCPC - 2018,Lignite,Electricity -:- Thermal -:- Lignite: SCPC - 2018 -:- Lignite,Lignite: SCPC - 2018,PJ,GW,DAYNITE,,YES
+ELE,ENGA_GTCC20,Electricity,Thermal,Combined Cycle Gas Turbine (New),Natural Gas,Electricity -:- Thermal -:- Combined Cycle Gas Turbine (New) -:- Natural Gas,Natural Gas: GTCC - 2018,PJ,GW,DAYNITE,,YES
+ELE,ENGA_GTCCF20,Electricity,Thermal,Open Cycle Gas Turbine (New),Natural Gas,Electricity -:- Thermal -:- Open Cycle Gas Turbine (New) -:- Natural Gas,Natural Gas: OCGT,PJ,GW,DAYNITE,,YES
+ELE,ESOLPVUTIFIX20,Electricity,Solar,Solar (Grid-scale Fixed Mount),Solar,Electricity -:- Solar -:- Solar (Grid-scale Fixed Mount) -:- Solar,Solar PV: ground-utility 2018 - fixed,PJ,GW,DAYNITE,,YES
+ELE,ESOLPVUTITRAC20,Electricity,Solar,Solar (Grid-scale Tracking Mount),Solar,Electricity -:- Solar -:- Solar (Grid-scale Tracking Mount) -:- Solar,Solar PV: ground-utility 2018 - tracking,PJ,GW,DAYNITE,,YES
+ELE,ESOLPVDISTGR20,Electricity,Solar,Solar (Gound Distributed),Solar,Electricity -:- Solar -:- Solar (Gound Distributed) -:- Solar,Solar PV: ground 2018 - Distributed,PJ,GW,DAYNITE,,YES
+ELE,ESOLPVIND20,Electricity,Solar,Solar (Ground Industrial),Solar,Electricity -:- Solar -:- Solar (Ground Industrial) -:- Solar,"Solar PV: ground, industrial, on-site",PJ,GW,DAYNITE,,YES
+ELE,ESOLPVBCOM20,Electricity,Solar,Solar (Commercial Rooftop),Solar,Electricity -:- Solar -:- Solar (Commercial Rooftop) -:- Solar,Solar PV: commercial building 2018,PJ,GW,DAYNITE,,YES
+ELE,ESOLPVBRES20,Electricity,Solar,Solar (Residential Rooftop),Solar,Electricity -:- Solar -:- Solar (Residential Rooftop) -:- Solar,Solar PV: residential building 2018,PJ,GW,DAYNITE,,YES
+ELE,EWINDDIST20,Electricity,Wind,Wind (Distributed),Wind,Electricity -:- Wind -:- Wind (Distributed) -:- Wind,Wind: Wind-onshore-small distributed - 2018,PJ,GW,DAYNITE,,YES
+ELE,EWINDCONS20,Electricity,Wind,Wind (Consented),Wind,Electricity -:- Wind -:- Wind (Consented) -:- Wind,Wind: Wind-onshore - 2018 - (includes all consented),PJ,GW,DAYNITE,,YES
+ELE,EWINDHIGHCF20,Electricity,Wind,Wind (High Capacity Factor),Wind,Electricity -:- Wind -:- Wind (High Capacity Factor) -:- Wind,Wind: Wind-onshore - 2018 - High CF,PJ,GW,DAYNITE,,YES
+ELE,EWINDLOWCF20,Electricity,Wind,Wind (Low Capacity Factor),Wind,Electricity -:- Wind -:- Wind (Low Capacity Factor) -:- Wind,Wind: Wind-onshore - 2018 - Low CF,PJ,GW,DAYNITE,,YES
+ELE,EWINDOFFSFIX20,Electricity,Wind,Wind (Fixed),Wind,Electricity -:- Wind -:- Wind (Fixed) -:- Wind,Wind: Wind-offshore-fixed - 2018,PJ,GW,DAYNITE,,YES
+ELE,EWINDOFFSFLOA20,Electricity,Wind,Wind (Floating),Wind,Electricity -:- Wind -:- Wind (Floating) -:- Wind,Wind: Wind-offshore-floating- 2018,PJ,GW,DAYNITE,,YES
+ELE,EGEOCONSFLSH20,Electricity,Geothermal,Geothermal (Consented),Geothermal,Electricity -:- Geothermal -:- Geothermal (Consented) -:- Geothermal,"Geothermal Consented, Large Flash",PJ,GW,DAYNITE,,YES
+\I:,\I:EGEOCONSLBIN20,,,,,,"Geothermal Consented, Large Binary",PJ,GW,DAYNITE,,YES
+ELE,EGEOCONSBIN20,Electricity,Geothermal,Geothermal (Consented),Geothermal,Electricity -:- Geothermal -:- Geothermal (Consented) -:- Geothermal,"Geothermal Consented, Binary",PJ,GW,DAYNITE,,YES
+ELE,EGEOBIN20,Electricity,Geothermal,Geothermal (Other),Geothermal,Electricity -:- Geothermal -:- Geothermal (Other) -:- Geothermal,Geothermal Binary,PJ,GW,DAYNITE,,YES
+ELE,EGEOFLSH20,Electricity,Geothermal,Geothermal (Other),Geothermal,Electricity -:- Geothermal -:- Geothermal (Other) -:- Geothermal,Geothermal Flash,PJ,GW,DAYNITE,,YES
+ELE,ETIDE20,Electricity,Tidal,Tidal Power 2018,Tidal,Electricity -:- Tidal -:- Tidal Power 2018 -:- Tidal,Tidal Power 2018,PJ,GW,DAYNITE,,YES
+\I:,\I: ESOLCSP20,,,,,,Concentrated Solar power 2018,PJ,GW,DAYNITE,,YES
+ELE,EBIG20,Electricity,Biogas,Biogas 2018,Biogas,Electricity -:- Biogas -:- Biogas 2018 -:- Biogas,Biogas 2018,PJ,GW,DAYNITE,,YES
+ELE,EOIL20,Electricity,Thermal,Oil Plants 2018,Oil,Electricity -:- Thermal -:- Oil Plants 2018 -:- Oil,Oil Plants 2018,PJ,GW,DAYNITE,,YES
+ELE,EWOD20,Electricity,Wood,New Wood Power 2018,Wood,Electricity -:- Wood -:- New Wood Power 2018 -:- Wood,New Wood Power 2018,PJ,GW,DAYNITE,,YES
+ELE,EBIL20,Electricity,Bioliquid,Bioliquid Power 2018,Bioliquid,Electricity -:- Bioliquid -:- Bioliquid Power 2018 -:- Bioliquid,Bioliquid Power 2018,PJ,GW,DAYNITE,,YES
+ELE,ENUC_LWR20,Electricity,Nuclear,Nuclear: Gen2 (LWR) - 2018,Nuclear,Electricity -:- Nuclear -:- Nuclear: Gen2 (LWR) - 2018 -:- Nuclear,Nuclear: Gen2 (LWR) - 2018,PJ,GW,DAYNITE,,YES
+ELE,ENUC_EPR30,Electricity,Nuclear,Nuclear: Gen3 (EPR) - 2030,Nuclear,Electricity -:- Nuclear -:- Nuclear: Gen3 (EPR) - 2030 -:- Nuclear,Nuclear: Gen3 (EPR) - 2030,PJ,GW,DAYNITE,,YES
+ELE,ENUC_FBR50,Electricity,Nuclear,Nuclear: Gen4 (FBR) - 2050,Nuclear,Electricity -:- Nuclear -:- Nuclear: Gen4 (FBR) - 2050 -:- Nuclear,Nuclear: Gen4 (FBR) - 2050,PJ,GW,DAYNITE,,YES
+ELE,EWSTINC20,Electricity,Thermal,Steam Boiler,Waste Incineration,Electricity -:- Thermal -:- Steam Boiler -:- Waste Incineration,Waste incenerator 2018,PJ,GW,DAYNITE,,YES
+ELE,EHYD-RR-New20,Electricity,Hydro,Hydro Run of River (New >30MW),Hydro,Electricity -:- Hydro -:- Hydro Run of River (New >30MW) -:- Hydro,New run of river hydro >30 MW,PJ,GW,DAYNITE,,YES
+ELE,EHYD-RR-NSmall20,Electricity,Hydro,Hydro Run of River (New <30MW),Hydro,Electricity -:- Hydro -:- Hydro Run of River (New <30MW) -:- Hydro,New run of river hydro <30 MW,PJ,GW,DAYNITE,,YES
+"ELE,STG",EBAT-Li-Ion,Electricity,Electricity Storage,Lithium Ion Battery,Electricity,Electricity -:- Electricity Storage -:- Lithium Ion Battery  -:- Electricity,Battery storage (Li-Ion),PJ,GW,DAYNITE,,YES
+\I:,\I: EBAT-LA,,,,,,Battery storage (Lead-Acid),PJ,GW,DAYNITE,,YES
+"ELE,STG",EHYDPUMPSTG_L,Electricity,Electricity Storage,Large Pumped Storage,Hydro,Electricity -:- Electricity Storage -:- Large Pumped Storage -:- Hydro,Hydro pumped storage - Large - representing Lake onslow scheme,PJ,GW,Season,,YES
+"ELE,STG",EHYDPUMPSTG_S,Electricity,Electricity Storage,Small Pumped Storage,Hydro,Electricity -:- Electricity Storage -:- Small Pumped Storage -:- Hydro,hydro pumped storage generic - small,PJ,GW,DAYNITE,,YES
+"ELE,STG",EBATUTILION,Electricity,Electricity Storage,Lithium Ion Battery,Electricity,Electricity -:- Electricity Storage -:- Lithium Ion Battery  -:- Electricity,Battery Storage - utility scale (Li-ion Batteries),PJ,GW,DAYNITE,,YES
+"ELE,STG",EBATUTIFLOW,Electricity,Electricity Storage,Flow Battery,Electricity,Electricity -:- Electricity Storage -:- Flow Battery -:- Electricity,Battery Storage - utility scale (Flow Batteries),PJ,GW,DAYNITE,,YES
+\I:,\I: EFCH2PEAK,,,,,,Hydrogen peaker,PJ,GW,DAYNITE,,YES

@@ -1,0 +1,13 @@
+Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,WODWST,Wood,,Wood -:-,Forest residues and woody wastes,PJ,FX,,,
+,,AGRWST,"Agricultural wastes (straws, stover, vegetable culls)",,"Agricultural wastes (straws, stover, vegetable culls) -:-","Agricultural wastes (straws, stover, vegetable culls)",PJ,FX,,,
+,,MNCWST,Waste Incineration,,Waste Incineration -:-,Municipal solid waste,PJ,FX,DAYNITE,,
+,,ANMMNR,Animal manure,,Animal manure -:-,Animal manure,PJ,FX,,,
+,,OILWST,Oil wastes,,Oil wastes -:-,Oil wastes,PJ,FX,,,
+,,PLT,Wood,,Wood -:-,Wood pellet,PJ,FX,,,
+,,BDSL,Biodiesel,,Biodiesel -:-,Biodiesel,PJ,FX,,,
+,,WOD,Wood,,Wood -:-,Biomass - wood,PJ,FX,DAYNITE,,
+,,DID,Drop-In Diesel,,Drop-In Diesel -:-,Drop-in diesel,PJ,FX,,,
+,,DIJ,Drop-In Jet,,Drop-In Jet -:-,Drop-in jet,PJ,FX,,,
+,,INDOSWOD,Wood,,Wood -:-,On Site Wood,PJ,FX,,,

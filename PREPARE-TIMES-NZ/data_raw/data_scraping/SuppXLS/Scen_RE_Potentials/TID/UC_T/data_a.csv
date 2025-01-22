@@ -1,0 +1,4 @@
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRTS~NI,UC_RHSRTS~SI,UC_RHSRTS~0,UC_Desc
+TID_CAP_BND,,ETID*,2025,UP,1,0.2,0,5,TIDAl potential 2025
+,,ETID*,2030,UP,1,0.2,0,5,TIDAl potential 2030
+,,ETID*,2050,UP,1,0.2,0,5,TIDAl potential 2050

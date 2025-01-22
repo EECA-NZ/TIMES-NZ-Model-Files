@@ -1,0 +1,12 @@
+Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,
+MIN,,MINNGA1,Primary Fuel Supply,Natural Gas,Mining - Natural Gas Tranche 1,Natural Gas,Primary Fuel Supply -:- Natural Gas -:- Mining - Natural Gas Tranche 1 -:- Natural Gas,Gas production - step 1,PJ,PJa,,,
+MIN,,MINNGA2,Primary Fuel Supply,Natural Gas,Mining - Natural Gas Tranche 2,Natural Gas,Primary Fuel Supply -:- Natural Gas -:- Mining - Natural Gas Tranche 2 -:- Natural Gas,Gas production - step 2,PJ,PJa,,,
+MIN,,MINNGA3,Primary Fuel Supply,Natural Gas,Mining - Natural Gas Tranche 3,Natural Gas,Primary Fuel Supply -:- Natural Gas -:- Mining - Natural Gas Tranche 3 -:- Natural Gas,Gas production - step 3,PJ,PJa,,,
+MIN,,MINNGA4,Primary Fuel Supply,Natural Gas,Mining - Natural Gas Tranche 4,Natural Gas,Primary Fuel Supply -:- Natural Gas -:- Mining - Natural Gas Tranche 4 -:- Natural Gas,Gas production - step 4,PJ,PJa,,,
+IMP,,IMPLNG1,Primary Fuel Supply,Natural Gas,Import - LNG,Natural Gas,Primary Fuel Supply -:- Natural Gas -:- Import - LNG -:- Natural Gas,,PJ,PJa,,,
+EXP,,EXPNGA1,Primary Fuel Supply,Natural Gas,Export - Natural Gas,Natural Gas,Primary Fuel Supply -:- Natural Gas -:- Export - Natural Gas -:- Natural Gas,,PJ,PJa,,,
+EXP,,Non_NRG_OTH,Primary Fuel Supply,Natural Gas,Non Energy Use of Natural Gas,Natural Gas,Primary Fuel Supply -:- Natural Gas -:- Non Energy Use of Natural Gas -:- Natural Gas,,PJ,PJa,,,
+PRE,,LNGport2021,Primary Fuel Supply,Natural Gas,LNG Port,Natural Gas,Primary Fuel Supply -:- Natural Gas -:- LNG Port -:- Natural Gas,LNG port for natural gas imports,PJ,PJa,,,
+IMP,,IMPNGA1,Primary Fuel Supply,Natural Gas,Import - Natural Gas,Natural Gas,Primary Fuel Supply -:- Natural Gas -:- Import - Natural Gas -:- Natural Gas,,PJ,PJa,,,

@@ -1,0 +1,4 @@
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
+UC_GEO_Ngawha2021,ELE,EGEOCONSBIN20,2040,UP,1,0.05,0,4,Ngawha - consented binary type geothermal plant 2021-2040
+UC_GEO_Ngawha2040,ELE,EGEOCONSBIN20,2050,UP,1,0.075,0,4,Ngawha - consented binary type geothermal plant till 2050
+UC_GEO_Ngawha2050,ELE,EGEOCONSBIN20,2060,UP,1,0.1,0,3,"Ngawha - consented binary type geothermal plant, total"
