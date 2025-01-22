@@ -3,13 +3,11 @@
 
 ### Instructions
 
- - Navigate to `TIMES-NZ-INTERNAL-QA/library/config.py` and adjust the specific scenario names you want to compare within this script. 
- - Navigate to `TIMES-NZ-INTERNAL-QA/library/config.py` and adjust the specific scenario names you want to compare within this script. 
+ - Navigate to `TIMES-NZ-INTERNAL-QA/library/config.py` and adjust the specific scenario names you want to compare within this script.  
  - Navigate to `TIMES-NZ-INTERNAL-QA/scripts` 
  - Run `run_glance_app.py` or `run_delta_app.py`, depending on which app you want to view
  - Open your browser at `http://127.0.0.1:8050/` 
- - Run `run_glance_app.py` or `run_delta_app.py`, depending on which app you want to view
- - Open your browser at `http://127.0.0.1:8050/` 
+ 
 
 
 ### How it works
