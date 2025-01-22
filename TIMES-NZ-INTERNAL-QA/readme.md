@@ -13,7 +13,7 @@
 
 This script uses the `.vd` files generated in `TIMES-NZ-GAMS/times_scenarios` for data, and generates a dash app to compare differences in a detailed way. To choose which scenarios to compare, you must have run the model and generated these .vd files for each scenario. These must then be pulled from your Veda directory to this TIMES repo, which is done executing either `run_all_processes.py` in `/scripts`, or simply `preprocessing.py` in `TIMES-NZ-INTERNAL-QA/scripts/` (which requires you to define the run you want to ingest within that script).
 
-Then, choose two scenarios (which will correspond to the directory names in `TIMES-NZ-GAMS/times_scenarios`) by setting the variable in `library/config.py` and running either app. Note that these apps also uses the new concordance file which is stored in `TIMES-NZ-INTERNAL-QA/dataconcordance/`.
+Then, choose two scenarios (which will correspond to the directory names in `TIMES-NZ-GAMS/times_scenarios`) by setting the variable in `library/config.py` and running either app. Note that these apps also uses the new concordance file which is stored in `TIMES-NZ-INTERNAL-QA/data/concordance/`.
 
 Currently the delta app only looks at "VAR_FOut" from the .vd files, and this attribute is hardcoded. Other TIMES Attributes can be chosen by adjusting this in `run_delta_app.py`. Currently only VAR_CAP, VAR_FIn, or VAR_FOut are supported.
 
