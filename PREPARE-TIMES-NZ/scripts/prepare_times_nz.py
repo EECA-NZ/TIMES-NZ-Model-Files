@@ -24,23 +24,6 @@ backup_files = [s.removeprefix('MANUAL_') for s in backup_files ]
 for file in backup_files:    
     # this currently writes to the autogen folder, will not overwrite actual TIMES files 
     # set output location in library/config
-    print(file)
-    # write_workbook(file)
+    # print(file)
+    write_workbook(file)
 
-
-directory = OUTPUT_LOCATION
-prefix = "MANUAL_"
-
-dry_run = False
-for filename in os.listdir(directory):
-    if filename.startswith(prefix):
-        new_filename = filename.removeprefix(prefix)
-        
-        if dry_run:
-            print(f"Would rename '{filename}' to '{new_filename}'")
-        else:
-            old_path = os.path.join(directory, filename)
-            new_path = os.path.join(directory, new_filename)
-            os.rename(old_path, new_path)
-            print(f"Renamed '{filename}' to '{new_filename}'")
-# print(OUTPUT_LOCATION)
