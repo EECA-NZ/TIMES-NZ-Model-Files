@@ -25,8 +25,10 @@ from pathlib import Path
 # niche libraries (might not need these later!)
 # from openpyxl.utils import get_column_letter
 from openpyxl import Workbook
+from ast import literal_eval
 
 import pandas as pd 
+import string
 
 # get custom libraries
 current_dir = Path(__file__).resolve().parent
@@ -51,6 +53,9 @@ def strip_headers_from_tiny_df(df):
     df.columns = [df.iloc[0][0]]  # Set the column name to the value
     df = df.iloc[0:0]  # Remove all rows 
     return df
+
+
+
 
 
 def return_csvs_in_folder(folder_name):
@@ -78,6 +83,49 @@ def get_tags_for_sheet(book_name, sheet_name):
     return tags 
     
 
+# Get uc_sets 
+# should return the uc sets for the file 
+
+
+
+# these are stored in the metadata for now, but this is not appropriate long-term. They should be kept within the configuration files
+#for user constraints once these are developed
+
+
+def get_metadata_df():
+    file_location = f"{INPUT_LOCATION}/metadata.csv"
+    df = pd.read_csv(file_location)
+    # reverse engineering this, but not good practise doing the same thing in diff directions like this.
+    # better to just do stuff once - but i expect this to be very temporary! (famous last words)    
+    df['csv_name'] = df['tag_counter'].apply(lambda x: string.ascii_lowercase[x-1])
+    df['csv_name'] = df['csv_name'].apply(lambda x: f"data_{x}")
+    return df
+
+# will require a range formula here to handle cases of a sheet having multiple tags with different uc_sets 
+
+def get_uc_sets(book_name, sheet_name, tag, csv_name):
+    metadata = get_metadata_df()
+
+    metadata = metadata[
+    (metadata['folder_name'] == book_name) & 
+    (metadata['sheet_name'] == sheet_name) & 
+    (metadata['tag_name'] == tag) &
+    (metadata['csv_name'] == csv_name) 
+]
+    if len(metadata) > 1:
+        print(f"Warning: metadata filter returned multiple entries. Please review")
+    # first row uc_sets (should only be one row)    
+    uc_set = metadata.iloc[0]['uc_sets']   
+    
+    if pd.isna(uc_set):
+        print(f"uc_set is nan")
+        uc_set = {}
+    else:        
+        print(f"attempting uc_eval")
+        uc_set = literal_eval(uc_set)
+
+    return uc_set
+    
 
 def create_empty_workbook(book_name, sheets, suffix = "_test_automate"):
     # we want to create the full workbook with empty sheets first. 
@@ -100,7 +148,7 @@ def create_empty_workbook(book_name, sheets, suffix = "_test_automate"):
     # save 
     wb.save(book_location)
 
-def write_data(df, book_name, sheet_name, tag, startrow = 0):    
+def write_data(df, book_name, sheet_name, tag, uc_set, startrow = 0):    
     # this requires the workbook to exist already with all the sheets in it! 
     # TO DO: add handling for data with uc_sets, which will require moving the table down a bit and writing the uc_sets above
     # in these cases the uc_sets will go in A, and the tag will go in B
@@ -112,11 +160,24 @@ def write_data(df, book_name, sheet_name, tag, startrow = 0):
     tag = f"~{tag}"
     tag = tag.replace( "·", ":")
 
+    # get uc_set length
+
+    uc_set_length = len(uc_set)
+    # if we have any sets 
+    if uc_set_length > 0:
+        # first we move this table down if necessary. 
+        # the first uc_set is free, but any additional sets mean we need to shift it down a bit
+        startrow += uc_set_length-1
+
+
+
 
     
     with pd.ExcelWriter(new_workbook, 
                         mode = 'a',
                         if_sheet_exists = "overlay") as writer:
+        
+        # first we handle the uc_sets if necessary, starting these 
     # Write DataFrame starting from row 1 (which is the second row - Excel is 0-based)
         df.to_excel(writer, 
                     sheet_name=sheet_name,
@@ -127,31 +188,33 @@ def write_data(df, book_name, sheet_name, tag, startrow = 0):
         # Add header string so Veda picks up the correct tag 
         # Find the sheet in writer:        
         worksheet = writer.sheets[sheet_name]
-        # Write the header string in cell A1.
-        # first convert our index to an excel format so the worksheet knows what we mean (A1, D1, etc)
-        tag_row = startrow + 1
+        # Write the header string in cell A1.        
+        tag_row = startrow + 1 
         # then just write the tag we fixed up earlier 
         worksheet[f"A{tag_row}"] = tag
+
+        # now add the uc_set tags if needed 
+        if uc_set_length > 0: 
+            for n in range(uc_set_length):
+                # 1-indexed                
+                uc_set_tag_row = startrow - n + 1 # additional 1 for 0 indexing
+                key = list(uc_set.keys())[n]                
+                value = uc_set[key]
+                # add to worksheet b, moving up as needed
+                worksheet[f"B{uc_set_tag_row}"] = f"~UC_Sets: {key}: {value}"
         
-
-
-
 def write_all_tags_to_sheet(book_name, sheet_name):
 
 
     # The sheets with multiple tags need to be stacked up.
-    # Each table we write will need to have its col number saved in here so we can move the others to the right
-
-    # for each sheet, there will be folders for each tag
-
-    # we want to get each tag in the folder, and then each file in the tag 
-    # most tags have only one file but we need to be able to write multiple tags with the same name to a sheet sometimes 
+    # Each table we write will need to have its row number saved in here so we can move other tables down 
+    # we also need to add the uc sets to the tables, and these need to be stored somewhere more sensible
     
     
     tag_list = get_tags_for_sheet(book_name, sheet_name)
     sheet_folder = f"{INPUT_LOCATION}/{book_name}/{sheet_name}"
 
-    # we start from the first row and will just move down I guess     
+    # we start from the first row and will move down as needed
     startrow = 0
 
     for tag_name in tag_list:
@@ -160,6 +223,8 @@ def write_all_tags_to_sheet(book_name, sheet_name):
         for csv_name in csv_files:
             # read the data 
             df = get_csv_data(book_name, sheet_name, tag_name, csv_name)
+            # include the uc_set if needed (this comes up null otherwise)
+            uc_set = get_uc_sets(book_name, sheet_name, tag_name, csv_name)
 
             # we put our patch for annoying files here
             # we might be able to build better checks for these! but for now only apply to the 2 specific cases we have found 
@@ -170,13 +235,12 @@ def write_all_tags_to_sheet(book_name, sheet_name):
                 df = strip_headers_from_tiny_df(df)
 
             # create the tag, replacing back the colons where necessary
-            write_data(df, book_name, sheet_name, tag_name, startrow = startrow)
-            # measure the length (row count)
-            df_row_count= len(df)
+            write_data(df, book_name, sheet_name, tag_name, uc_set, startrow = startrow)
+            # measure the length (row count), adding extra space for additional uc_sets if needed, so the next table has space
+            df_row_count= len(df) + len(uc_set)
             # add the dataframe rows to our start row index so we can keep going without overwriting
-            # we add an extra three lines to make a big old gap 
-            startrow += df_row_count + 3        
-        
+            # we add an extra three lines to ensure a gap (this should ensure 2 lines between every table)
+            startrow += df_row_count + 3     
         
 def write_workbook(book_name):
     print(f"Creating {book_name}.xlsx:")
@@ -191,4 +255,26 @@ def write_workbook(book_name):
         # the workbook exists now we write each tag set to each sheet 
         write_all_tags_to_sheet(book_name, sheet_name = sheet)
 
+
+
+# test = get_metadata_df()
+
+test = get_csv_data("SuppXLS/Scen_Base_constraints", "TRA_Policy", "UC_T", "data_a")
+test2 = get_csv_data("SuppXLS/Scen_Base_constraints", "Thermal_gencap", "UC_T", "data_a")
+print(test2)
+
+"""
+# test2 = get_uc_sets("SuppXLS/Scen_Base_constraints", "Cars", "UC_T", "data_b")
+test2 = get_uc_sets("SuppXLS/Scen_AF_Renewable", "RES_SOL", "TFM_INS", "data_a")
+# test2 = get_metadata_df()
+
+kps = len(test2)
+# kp = dict([list(test2.items())[0]])
+
+
+print(test2)
+
+print(f"kps: {kps}")
+# print(f"kp: {kp}")
+"""
 

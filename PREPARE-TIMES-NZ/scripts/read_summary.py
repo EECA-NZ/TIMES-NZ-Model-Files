@@ -45,18 +45,19 @@ def parse_data_blocks(filepath, debug = False):
             if debug: 
                 print(f"Warning: Block {block_num} - Skipping probably empty block with fewer than 6 lines:")
             for line in lines: 
-                print(f"        - {line}")
+                if debug: 
+                    print(f"        - {line}")
             continue
             
         block_data = {}
         
-        # Find the line with headers (it will be the first line containing a comma)
+        # Find the line with headers (it will be the first line after types)
         header_line_idx = None
         for i, line in enumerate(lines):
-            if ': ' not in line:
-                header_line_idx = i
+            if line.startswith('types:'):
+                header_line_idx = i + 1
                 break
-        
+
         if header_line_idx is None:
             if debug:
                 print(f"Warning: Block {block_num} - No header line found for {lines[0]}")
@@ -82,6 +83,8 @@ def parse_data_blocks(filepath, debug = False):
         
         # Get headers
         headers = [h.strip() for h in lines[header_line_idx].split(',')]
+
+        block_data['headers'] = headers
         
         # Parse data rows using csv module
         data_rows = []
@@ -168,7 +171,7 @@ def get_tag_counter(block):
 
 
 # write the descriptions data to a metadata file 
-block_descriptions.to_csv(f"{output_location}/metadata.csv", index = False, encoding='utf-8-sig') # awkward encoding, hacky for colons 
+# block_descriptions.to_csv(f"{output_location}/metadata.csv", index = False, encoding='utf-8-sig') # awkward encoding, hacky for colons 
 
 
 def write_block_data_to_csv(block):
@@ -202,6 +205,20 @@ def write_block_data_to_csv(block):
     print(f"Writing BY data to {write_location}")
     df.to_csv(write_location, index = False)
 
+"""
+for block in blocks:
+   # write_block_data_to_csv(block)
+    if block['sheetname'] == "Power_sector" and block['tag'] == "~TFM_INS":
+        print(f"Correctly working headers on the TFM_INS in Power Sector:")
+        print(block['headers'])
+        print("this is the block")
+        print(block)
+    if block['sheetname'] == "TRA_Policy":
+       print(f"Incorrect headers on the UC_SETs in Transport Policy:")
+       print(block['headers'])
+       print("this is the block")
+       print(block)
+"""
 for block in blocks:
    write_block_data_to_csv(block)
 

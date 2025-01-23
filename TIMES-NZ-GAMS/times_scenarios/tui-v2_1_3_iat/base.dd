@@ -10484,8 +10484,6 @@ SET UC_N
 'MAX_WND_CAP-2025' 'Upper bound for wind generation capacity in near term'
 'MSW_USE' 'Minimum level of waste incineration activity'
 'Max_BEVMTruck_uptake_number' 'Max number of BE medium trucks can be deployed per first year and next years'
-'Max_DieselCars' 'Max share of diesel passenger cars'
-'Max_DieselVans' 'Max share of diesel commercial vans and ute'
 'Min_ICE_Bus_Uptake' 'Minimum Bus uptakes'
 'Min_ICE_LCV_Uptake' 'Minimum LCV uptakes'
 'Min_ICE_LCV_Uptake_ADCF' 'Minimum LCV uptakes in DCF'

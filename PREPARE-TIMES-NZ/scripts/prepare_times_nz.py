@@ -24,6 +24,8 @@ backup_files = [s.removeprefix('MANUAL_') for s in backup_files ]
 for file in backup_files:    
     # this currently writes to the autogen folder, will not overwrite actual TIMES files 
     # set output location in library/config
-    # print(file)
-    write_workbook(file)
+    print(file)
+    # write_workbook(file)
+
+write_workbook("SuppXLS/Scen_Base_constraints")
 
