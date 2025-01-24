@@ -1,4 +1,4 @@
-TechName,*TechDesc,Comm-IN,Comm-OUT,*Delivered energy,EFF,*Share~UP~2018,Life,INVCOST,FIXOM,AFA,CAP2ACT,PRC_RESID,*ACT_BND~Total,*NI Split,ACT_BND
+﻿TechName,*TechDesc,Comm-IN,Comm-OUT,*Delivered energy,EFF,*Share~UP~2018,Life,INVCOST,FIXOM,AFA,CAP2ACT,PRC_RESID,*ACT_BND~Total,*NI Split,ACT_BND
 *Technology Name,Technology Description,Input Commodity,Output Commodity,Energy consumption 2018,Efficiency,,Lifetime of Process,Investment Cost,O&M Cost,Capacity Factor,Capacity to activity,Existing Installed Capacity in Pja,Bound on activity of a process,Consumption of North Island,Bound on activity of a process
 C_EDU-OTH_ELEC-ELC00,Education Electronics ELC,COMELC,C_EDU-OTH,0.113127629,0.9,,4,5000,0,0.22,31.536,0.00318450284000104,0.1018148661,0.783,0.0220938259437
 C_EDU-LT_INC-ELC00,Education Lighting Incandescent ELC,COMELC,C_EDU-LT,0.00607109956,0.015,0.01,1,22,0,0.22,31.536,2.84832184109935e-06,9.10664934e-05,0.783,1.97614290678e-05

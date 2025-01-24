@@ -1,4 +1,4 @@
-TechName,*TechDesc,Comm-IN,Comm-OUT,EFF,AFA,AFA~LO,NCAP_LIFE,CAP2ACT,NCAP_PASTI,*NCAP_PASTI,ACT_BND,INVCOST,FIXOM,NCAP_BND,NCAP_BND~0,FLO_MARK,FLO_MARK~2030,FLO_MARK~2050,FLO_MARK~0
+﻿TechName,*TechDesc,Comm-IN,Comm-OUT,EFF,AFA,AFA~LO,NCAP_LIFE,CAP2ACT,NCAP_PASTI,*NCAP_PASTI,ACT_BND,INVCOST,FIXOM,NCAP_BND,NCAP_BND~0,FLO_MARK,FLO_MARK~2030,FLO_MARK~2050,FLO_MARK~0
 \I: Technology Name,Technology Description,Input Commodity,Output Commodity,Efficiency,Annual Availability Factor,Annual Availability Factor,Lifetime of Process,Capacity to Activity Factor,Existing Installed Capacity in Pja,,Bound on activity of a process,Investment cost,O&M costs,Limit on new capacity,"Limit on new capacity, interpolation",,,,
 R_DDW-SH_Burner-WOD00,Detached dwellings - Heat/Cooling Devices - Burner (Direct Heat),RESWOD,R_DDW-SH,0.6,0.0821,0.061575,20,31.536,1.02822376286729,,2.66217990249277,373,,,,0.15,,,5
 R_DDW-SH_Burner-NGA00,Detached dwellings - Heat/Cooling Devices - Burner (Direct Heat),RESNGA,R_DDW-SH,0.8,0.0821,0.061575,20,31.536,0.537841879631641,,1.39252942246881,1260,150,,,,,,

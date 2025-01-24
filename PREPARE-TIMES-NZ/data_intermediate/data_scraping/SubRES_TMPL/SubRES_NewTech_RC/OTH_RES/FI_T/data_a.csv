@@ -1,4 +1,4 @@
-TechName,*TechDesc,Comm-IN,Comm-OUT,EFF,AFA,AFA~LO,Life,CAP2ACT,INVCOST,FIXOM,Start,Flo_mark,CEFF,*Share-O,*Share-O~0,*FLO_MARK,*FLO_MARK~2030,*FLO_MARK~2050,*FLO_MARK~0
+﻿TechName,*TechDesc,Comm-IN,Comm-OUT,EFF,AFA,AFA~LO,Life,CAP2ACT,INVCOST,FIXOM,Start,Flo_mark,CEFF,*Share-O,*Share-O~0,*FLO_MARK,*FLO_MARK~2030,*FLO_MARK~2050,*FLO_MARK~0
 \I: Technology Name,Technology Description,Input Commodity,Output Commodity,Efficiency,Annual Availability Factor,Annual Availability Factor,Lifetime of Process,Capacity to Activity Factor,Investment cost,O&M costs,First available year,,Efficiency,,,,,,
 \I:    R_DDW-SH_HP-ELC,Detached dwellings - Heat/Cooling Devices - Heat Pump (for Heating),RESELC,R_DDW-SH,3.75,0.082,0.062,12,31.536,558,,2020,,,,,,,,
 \I:    R_DDW-SC_HP-ELC,Detached dwellings - Heat/Cooling Devices - Heat Pump (for Cooling),RESELC,R_DDW-SC,3.45,0.0114,0.009,12,31.536,685,,2020,,,,,,,,

@@ -1,4 +1,4 @@
-Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+﻿Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 \I: Process Set Membership,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,Timeslice Operational Level,Operational Commodity Group,Vintage Tracking
 DMD,R_DDW-SH_HP-ELC,Residential,Detached Dwellings,Heat Pump,Electricity,Residential -:- Detached Dwellings -:- Heat Pump -:- Electricity,Detached dwellings - Heat/Cooling Devices - Heat Pump (for Heating),PJ,GW,,,
 \I:,R_DDW-SC_HP-ELC,Residential,Detached Dwellings,Heat Pump,Electricity,Residential -:- Detached Dwellings -:- Heat Pump -:- Electricity,Detached dwellings - Heat/Cooling Devices - Heat Pump (for Cooling),PJ,GW,,,

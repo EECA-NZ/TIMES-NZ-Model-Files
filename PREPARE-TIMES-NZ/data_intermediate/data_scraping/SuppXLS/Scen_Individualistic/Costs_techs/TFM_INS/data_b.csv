@@ -1,4 +1,4 @@
-TimeSlice,LimType,Attribute,Cset_CN,Pset_PN,Cset_CD,Year,AllRegions
+﻿TimeSlice,LimType,Attribute,Cset_CN,Pset_PN,Cset_CD,Year,AllRegions
 ,,COST,COA,EXPCOA1,,2020,3.71
 ,,COST,COA,EXPCOA1,,2025,4.1
 ,,COST,COA,EXPCOA1,,2030,4.35

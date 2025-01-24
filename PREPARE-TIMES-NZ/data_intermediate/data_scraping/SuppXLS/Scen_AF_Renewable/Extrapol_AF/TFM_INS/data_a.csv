@@ -1,3 +1,3 @@
-TimeSlice,LimType,Attribute,Year,NI,SI,Pset_Set,Pset_PN
+﻿TimeSlice,LimType,Attribute,Year,NI,SI,Pset_Set,Pset_PN
 *,"UP,LO,FX",NCAP_AF,0,3,3,,"E*WIN*,E*HYD,E*SOL"
 *,"UP,LO,FX",NCAP_AFS,0,3,3,,"E*WIN*,E*HYD,E*SOL"

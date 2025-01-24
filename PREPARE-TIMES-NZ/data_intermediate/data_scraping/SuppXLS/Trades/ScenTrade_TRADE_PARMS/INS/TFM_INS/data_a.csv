@@ -1,4 +1,4 @@
-TimeSlice,LimType,Attribute,Year,Attrib_Cond,AllRegions,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
+﻿TimeSlice,LimType,Attribute,Year,Attrib_Cond,AllRegions,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
 ,,ACT_COST,,,0.00248362891109477,,TU_PET*,,,,,,
 ,,ACT_COST,,,0.00538337115666179,,TU_LPG*,,,,,,
 ,,ACT_COST,,,0.00252841765861999,,TU_DSL*,,,,,,

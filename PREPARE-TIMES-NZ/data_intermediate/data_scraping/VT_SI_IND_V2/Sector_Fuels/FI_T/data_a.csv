@@ -1,4 +1,4 @@
-TechName,Comm-IN,Comm-OUT,Share-I~UP~2015,Share-I~UP~2021,Share-I~UP~0,NCAP_PASTI~2015,EFF,LIFE,EFF~2021,EFF~2060,EFF~0,VAROM,FLO_DELIV
+﻿TechName,Comm-IN,Comm-OUT,Share-I~UP~2015,Share-I~UP~2021,Share-I~UP~0,NCAP_PASTI~2015,EFF,LIFE,EFF~2021,EFF~2060,EFF~0,VAROM,FLO_DELIV
 *Technology Name,Input Commodity,Output Commodity,Input Share,Input Share,Input Share,Existing Installed Capacity,Efficiency,Lifetime,Efficiency,Efficiency,,Fuel delivery costs,
 *Units,,,,,,,,Years,,,,MNZD/PJ,
 FTE-INDCOA_00,COA,INDCOA,0.89754996807823,1,,,1,100,,,,,

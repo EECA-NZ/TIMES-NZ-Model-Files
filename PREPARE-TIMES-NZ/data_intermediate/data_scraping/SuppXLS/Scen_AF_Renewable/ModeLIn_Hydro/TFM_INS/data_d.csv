@@ -1,4 +1,4 @@
-TimeSlice,LimType,Attribute,Year,NI,SI,Pset_Set,Pset_PN
+﻿TimeSlice,LimType,Attribute,Year,NI,SI,Pset_Set,Pset_PN
 SUM-,UP,NCAP_AFS,,,0.577,,EHYD*DAM*
 FAL-,UP,NCAP_AFS,,,0.577,,EHYD*DAM*
 WIN-,UP,NCAP_AFS,,,0.572,,EHYD*DAM*

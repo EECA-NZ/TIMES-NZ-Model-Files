@@ -1,4 +1,4 @@
-Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+﻿Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
 *Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
 NRG,,WODWST,Wood,,Wood -:-,Forest residues and woody wastes,PJ,FX,,,
 ,,AGRWST,"Agricultural wastes (straws, stover, vegetable culls)",,"Agricultural wastes (straws, stover, vegetable culls) -:-","Agricultural wastes (straws, stover, vegetable culls)",PJ,FX,,,

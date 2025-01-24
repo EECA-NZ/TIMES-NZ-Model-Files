@@ -1,4 +1,4 @@
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSR~NI,UC_RHSR~SI,UC_RHSRT~0,UC_Desc
+﻿UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSR~NI,UC_RHSR~SI,UC_RHSRT~0,UC_Desc
 UC_WIND_OFFSHORE,ELE,EWIN*OFF*FIX*,2021,UP,1,2.978,4.07,5,Fixed offshore wind potential
 ,,,2030,,,2.978,4.07,,
 ,,,2040,,,2.978,4.07,,

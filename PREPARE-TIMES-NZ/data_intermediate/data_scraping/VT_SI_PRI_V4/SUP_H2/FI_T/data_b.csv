@@ -1,4 +1,4 @@
-TechName,*TechDesc,Comm-IN,Comm-OUT,INPUT,SHARE-I~UP~2010,INVCOST,FIXOM,VAROM,EFF,AFA,LIFE,NCAP_DRATE,CAP2ACT,SHARE-I~UP~0
+﻿TechName,*TechDesc,Comm-IN,Comm-OUT,INPUT,SHARE-I~UP~2010,INVCOST,FIXOM,VAROM,EFF,AFA,LIFE,NCAP_DRATE,CAP2ACT,SHARE-I~UP~0
 *Technology Name,Technology Description,Input Commodity,Output Commodity,Aux commodity consumption,Share of a commodity in a user-specified group,Investment Cost NZD/kW,Fixed O&M Cost NZD/kW,Variable  O&M Cost NZD/GJ,Efficiency,Annual Availability Factor,Lifetime in years,Technology-specific discount rate,Capacity to Activity,Share of a commodity in a user-specified group
 \I: blending H2 with natural gas in to electricity and heat sector,,,,,,,,,,,,,,
 \I: D-H2_ELCNGA,Natural gas T&D to power & heat sectors,NGA,ELCNGA,,1,156.89,3.16,1.26,0.99,0.9,20,0.025,31.536,3

@@ -1,4 +1,4 @@
-Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+﻿Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 \I: Process Set Membership,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,Timeslice Operational Level,Operational Commodity Group,Vintage Tracking
 DMD,ALU-PH-FURN-ELC-Furn,Industry,Aluminium,Furnace,Electricity,Industry -:- Aluminium -:- Furnace -:- Electricity,New Aluminium - Process Heat: Furnace/Kiln  - Electricity,PJ,GW,,,YES
 DMD,CNST-MoTP-Mob-DSL-ICE_ofrd,Industry,Construction,Internal Combustion Engine,Diesel,Industry -:- Construction -:- Internal Combustion Engine -:- Diesel,"New Construction - Motive Power, Mobile  - Diesel",PJ,GW,,,YES

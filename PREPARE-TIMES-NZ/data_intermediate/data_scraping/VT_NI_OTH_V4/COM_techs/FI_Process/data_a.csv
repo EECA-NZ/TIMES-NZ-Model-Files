@@ -1,4 +1,4 @@
-Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+﻿Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 PRE,FTE_COMCOA_00,Commercial,,,Coal,Commercial -:-  -:-  -:- Coal,Distribution network for  Commercial Coal,PJ,PJ_a,,,
 PRE,FTE_COMNGA_00,Commercial,,,Natural Gas,Commercial -:-  -:-  -:- Natural Gas,Distribution network for Commercial Natural gas,PJ,PJ_a,,,
 PRE,FTE_COMLPG_00,Commercial,,,LPG,Commercial -:-  -:-  -:- LPG,Distribution network for Commercial LPG,PJ,PJ_a,,,

@@ -1,4 +1,4 @@
-Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+﻿Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 *Process Set Membership,Region Name,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
 *,,,,,,,,,,,,,
 DISTR,NI,FTE_TRANGA,Transport,,,Natural Gas,Transport -:-  -:-  -:- Natural Gas,Distribution of Transport Natural Gas,PJ,PJa,,,

@@ -1,4 +1,4 @@
-Csets,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+﻿Csets,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
 NRG,COMCOA,Coal,,Coal -:-,Commercial Coal,PJ,FX,,,
 NRG,COMNGA,Natural Gas,,Natural Gas -:-,Commercial Natural gas,PJ,FX,,,
 NRG,COMLPG,LPG,,LPG -:-,Commercial LPG,PJ,FX,,,

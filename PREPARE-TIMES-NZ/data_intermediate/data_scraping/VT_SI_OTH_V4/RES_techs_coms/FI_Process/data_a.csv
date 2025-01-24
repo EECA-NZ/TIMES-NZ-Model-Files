@@ -1,4 +1,4 @@
-Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+﻿Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 PRE,FTE_RESCOA_00,Residential,,,Coal,Residential -:-  -:-  -:- Coal,Distribution network for  Residential Coal,PJ,PJ_a,,,
 PRE,FTE_RESNGA_00,Residential,,,Natural Gas,Residential -:-  -:-  -:- Natural Gas,Distribution network for Residential Natural gas,PJ,PJ_a,,,
 PRE,FTE_RESLPG_00,Residential,,,LPG,Residential -:-  -:-  -:- LPG,Distribution network for Residential LPG,PJ,PJ_a,,,

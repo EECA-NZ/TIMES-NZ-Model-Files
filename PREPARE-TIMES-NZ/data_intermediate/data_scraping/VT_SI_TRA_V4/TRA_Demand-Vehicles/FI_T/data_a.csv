@@ -1,4 +1,4 @@
-TechName,Comm-IN,Comm-OUT,EFF~2018,LIFE,ACT_BND~2018,ACT_BND~0,Cap2Act,NCAP_AFA~2018,INVCOST,FIXOM,VAROM,PRC_resid~2018,PRC_resid~2040,PRC_resid~2045,PRC_resid~2050,Share,Share~0,CEFF~2018
+﻿TechName,Comm-IN,Comm-OUT,EFF~2018,LIFE,ACT_BND~2018,ACT_BND~0,Cap2Act,NCAP_AFA~2018,INVCOST,FIXOM,VAROM,PRC_resid~2018,PRC_resid~2040,PRC_resid~2045,PRC_resid~2050,Share,Share~0,CEFF~2018
 *Technology Name,Input Commodity,Output Commodity,Fuel efficiency,Lifetime,SI BVKM,Interpolation rule for ACT_BND,Vehicle max annual travel distance,Annual utilisation rate,Invesment cost of technology,Fixed O&M costs,Variable O&M costs,Total vehicle stock,SI vehicle stock,New SI vehicle stock 2018,SI vehicle stock,Mode or fuel share,Mode or fuel share interpolation rule,Commodity based efficiency
 *Units,,,Bvkm/PJ,Years,2018,,000km,%,000NZD/vehicle,000NZD/vehicle,000NZD/vehicle,000vehicles,000vehicles,000vehicles,000vehicles,%,,%
 T_P_CICEPET15,TRAPET,T_P_Car,0.308459183327481,18.893708933,8.19439196561122,-1,0.08,0.133079127596572,33.8572530637795,1.38367610709503,,769.691697113131,0,,,,,

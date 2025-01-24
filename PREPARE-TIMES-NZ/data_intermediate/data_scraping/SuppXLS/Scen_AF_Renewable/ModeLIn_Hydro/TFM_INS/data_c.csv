@@ -1,4 +1,4 @@
-TimeSlice,LimType,Attribute,Year,NI,SI,Pset_Set,Pset_PN
+﻿TimeSlice,LimType,Attribute,Year,NI,SI,Pset_Set,Pset_PN
 SUM-WK-,UP,NCAP_AFS,,0.558,0.386462625266169,,ELCRE*RR*flex*
 SUM-WE-,UP,NCAP_AFS,,0.532,0.368962430914493,,ELCRE*RR*flex*
 FAL-WK-,UP,NCAP_AFS,,0.534,0.581881462193213,,ELCRE*RR*flex*

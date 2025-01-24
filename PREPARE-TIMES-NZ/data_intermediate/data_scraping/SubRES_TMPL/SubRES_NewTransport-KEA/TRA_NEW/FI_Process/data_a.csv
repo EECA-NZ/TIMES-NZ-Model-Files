@@ -1,4 +1,4 @@
-Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+﻿Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 \I: Process Set Membership,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,Timeslice Operational Level,Operational Commodity Group,Vintage Tracking
 DMD,T_P_CICEPET,Transport,Road Transport,Internal Combustion Engine,Petrol,Transport -:- Road Transport -:- Internal Combustion Engine -:- Petrol,light passenger vehicles - Petrol ICE - Car/SUV - New,BVkm,000Vehicles,,,YES
 DMD,T_P_CICEDSL,Transport,Road Transport,Internal Combustion Engine,Diesel,Transport -:- Road Transport -:- Internal Combustion Engine -:- Diesel,light passenger vehicles - Diesel ICE - Car/SUV - New,BVkm,000Vehicles,,,YES

@@ -1,4 +1,4 @@
-TechName,Comm-IN,Comm-OUT,Share-I~UP,Share-I~UP~2020,Share-I~UP~2060,CAP2ACT,EFF,LIFE,FIXOM,VAROM,FLO_DELIV
+﻿TechName,Comm-IN,Comm-OUT,Share-I~UP,Share-I~UP~2020,Share-I~UP~2060,CAP2ACT,EFF,LIFE,FIXOM,VAROM,FLO_DELIV
 *Technology Name,Input Commodity,Output Commodity,,,,,Efficiency,Lifetime,Fixed O&M,Variable O&M,
 *Units,,,,,,,,Years,MNZD/GW,MNZD/PJ,
 FTE_TRANGA,NGA,TRANGA,,,,,1,60,,4.946,

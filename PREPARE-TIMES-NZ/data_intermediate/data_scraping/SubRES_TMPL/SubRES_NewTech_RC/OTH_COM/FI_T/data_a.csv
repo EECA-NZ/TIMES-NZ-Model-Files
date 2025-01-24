@@ -1,4 +1,4 @@
-TechName,*TechDesc,Comm-IN,Comm-OUT,START,EFF,EFF~2030,EFF~2050,CEFF,CEFF~2030,CEFF~2050,*Share-O~UP,*Share~UP~2050,Life,INVCOST,INVCOST~2030,INVCOST~2050,FIXOM,AFA,FLO_MARK~2030,FLO_MARK~2050,FLO_MARK~0
+﻿TechName,*TechDesc,Comm-IN,Comm-OUT,START,EFF,EFF~2030,EFF~2050,CEFF,CEFF~2030,CEFF~2050,*Share-O~UP,*Share~UP~2050,Life,INVCOST,INVCOST~2030,INVCOST~2050,FIXOM,AFA,FLO_MARK~2030,FLO_MARK~2050,FLO_MARK~0
 *Technology Name,Technology Description,Input Commodity,,,Efficiency,,,,,,,,Lifetime of Process,Investment Cost,Investment Cost 2030,Investment Cost 2050,O&M Cost,Capacity Factor,,,
 C_EDU-OTH_ELEC-ELC,Education Electronics ELC,COMELC,C_EDU-OTH,2020,0.9,0.95,0.96,,,,,,4,5555.556,,,0,0.216895,,,
 C_EDU-LT_INC-ELC,Education Lighting Incandescent ELC,COMELC,C_EDU-LT,2020,0.015,,,,,,,,1,1466.667,,,0,0.216895,,,

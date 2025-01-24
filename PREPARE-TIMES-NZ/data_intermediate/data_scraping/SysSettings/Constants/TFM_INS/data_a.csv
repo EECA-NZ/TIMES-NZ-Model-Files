@@ -1,4 +1,4 @@
-TimeSlice,LimType,Attribute,AllRegions,NI,SI,Cset_CN
+﻿TimeSlice,LimType,Attribute,AllRegions,NI,SI,Cset_CN
 ,,G_DYEAR,2015,,,
 ,,Discount,0.05,,,
 SUM-WK-D,,YRFR,0.081,,,

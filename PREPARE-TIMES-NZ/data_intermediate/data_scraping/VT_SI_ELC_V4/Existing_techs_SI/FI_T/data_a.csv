@@ -1,4 +1,4 @@
-TechName,Comm-IN,Comm-OUT,PASTI~1970,PASTI~2000,PASTI~2005,PASTI~2015,NCAP_PASTI~2018,*RESID~2018,*RESID~2035,*RESID~2050,EFF,*AFA~2015,AFA~2018,*ACT_BND~UP~2015,ACT_BND~UP~2018,ACT_BND~0,INVCOST,FIXOM,VAROM,LIFE,CAP2ACT,Peak,NCAP_BND~2015,NCAP_BND~2021,NCAP_BND~0
+﻿TechName,Comm-IN,Comm-OUT,PASTI~1970,PASTI~2000,PASTI~2005,PASTI~2015,NCAP_PASTI~2018,*RESID~2018,*RESID~2035,*RESID~2050,EFF,*AFA~2015,AFA~2018,*ACT_BND~UP~2015,ACT_BND~UP~2018,ACT_BND~0,INVCOST,FIXOM,VAROM,LIFE,CAP2ACT,Peak,NCAP_BND~2015,NCAP_BND~2021,NCAP_BND~0
 *Technology Name,Input Commodity,Output Commodity,Past Investment Capacity,Past Investment Capacity,Past Investment Capacity,Past Investment Capacity,Past Investment Capacity,Existing Installed Capacity,Retirement Capacity,Retirement Capacity,Efficiency,Utilisation Factor,Utilisation Factor,,,,Invesctment Cost,Fixed O&M Cost,Variable O&M Cost,Lifetime,Capacity to Activity Factor,% contribution to PEAK,2015,,
 *Units,,,GW,GW,GW,GW,GW,GW,GW,GW,,,,,,,Milion NZD (2015)/GW,Milion NZD (2015)/GW,Milion NZD (2015)/PJ,Years,PJ/GW,,,,
 ELCREHYDRRInflex00,ELCHYD,ELC,0.04405,,0.0045,,,0.04855,0,,1,,,0.43,0.59,1,,6.54,0.24,100,31.536,0.722,0,0,5

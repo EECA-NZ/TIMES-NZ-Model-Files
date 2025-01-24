@@ -1,4 +1,4 @@
-TimeSlice,LimType,Attribute,Year,NI,SI,Pset_Set,Pset_PN,Cset_CN
+﻿TimeSlice,LimType,Attribute,Year,NI,SI,Pset_Set,Pset_PN,Cset_CN
 SUM-,UP,NCAP_AFC,,0.125,0.125,,"R_DDW*SOL*,-*00",RESSOL
 FAL-,UP,NCAP_AFC,,0.114,0.104,,"R_DDW*SOL*,-*00",RESSOL
 WIN-,UP,NCAP_AFC,,0.096,0.073,,"R_DDW*SOL*,-*00",RESSOL

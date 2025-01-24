@@ -1,4 +1,4 @@
-TimeSlice,LimType,Attribute,Cset_Set,Cset_CN,Cset_CD,Year,AllRegions
+﻿TimeSlice,LimType,Attribute,Cset_Set,Cset_CN,Cset_CD,Year,AllRegions
 ,,COM_TAXNET,,TOTCO2,,2020,0.04
 ,,COM_TAXNET,,TOTCO2,,2025,0.06
 ,,COM_TAXNET,,TOTCO2,,2030,0.105

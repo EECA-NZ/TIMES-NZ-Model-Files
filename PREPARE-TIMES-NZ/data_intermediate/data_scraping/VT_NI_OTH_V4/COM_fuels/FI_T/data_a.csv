@@ -1,4 +1,4 @@
-TechName,Comm-IN,Comm-OUT,Share-I~UP,STOCK,EFF,LIFE,INVCOST,FIXOM,VAROM
+﻿TechName,Comm-IN,Comm-OUT,Share-I~UP,STOCK,EFF,LIFE,INVCOST,FIXOM,VAROM
 *Technology Name,Input Commodity,Output Commodity,Input Share,Existing Installed Capacity,Efficiency,Lifetime,Capital costs,Fixed  O&M,Variable O&M
 *Units,,,,PJa,,Years,MNZD/Pja,MNZD/Pja,MNZD/PJ
 FTE_COMCOA_00,COA,COMCOA,1,,1,100,,,

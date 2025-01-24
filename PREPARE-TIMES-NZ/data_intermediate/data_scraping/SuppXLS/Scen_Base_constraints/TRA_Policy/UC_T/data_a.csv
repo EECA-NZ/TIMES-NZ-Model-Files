@@ -1,4 +1,4 @@
-UC_N,Pset: PN,PSet: CI,Cset: CN,PSet: CO,LimType,Year,UC_ACT,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
+﻿UC_N,Pset: PN,PSet: CI,Cset: CN,PSet: CO,LimType,Year,UC_ACT,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
 Max_DieselCars,T_P_C*DSL*,,,T_P_Car,LO,2020,-0.895,0,0,5,Max share of diesel passenger cars
 ,"T_P_C*, -T_P_C*DSL*",,,T_P_Car,,,0.105,,,,
 Max_DieselVans,T_C_C*DSL*,*DSL,,T_C_Car,LO,2020,-0.171,0,0,5,Max share of diesel commercial vans and ute

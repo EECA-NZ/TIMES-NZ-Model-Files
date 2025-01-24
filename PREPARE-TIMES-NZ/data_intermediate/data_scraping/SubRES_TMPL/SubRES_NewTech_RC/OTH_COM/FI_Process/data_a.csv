@@ -1,4 +1,4 @@
-Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+﻿Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 \I: Process Set Membership,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,Timeslice Operational Level,Operational Commodity Group,Vintage Tracking
 DMD,C_EDU-OTH_ELEC-ELC,Commercial,Education,Electronics and Other Appliances,Electricity,Commercial -:- Education -:- Electronics and Other Appliances -:- Electricity,Education Electronics ELC,PJ,GW,,,
 DMD,C_EDU-LT_INC-ELC,Commercial,Education,Lights (Incandescent),Electricity,Commercial -:- Education -:- Lights (Incandescent) -:- Electricity,Education Lighting Incandescent ELC,PJ,GW,,,

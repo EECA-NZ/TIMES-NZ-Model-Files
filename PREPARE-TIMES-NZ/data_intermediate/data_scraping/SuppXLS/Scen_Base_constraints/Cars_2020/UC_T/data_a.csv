@@ -1,4 +1,4 @@
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_RHST,UC_RHST~0,UC_Desc
+﻿UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2020,UC_NCAP~2025,UC_NCAP~2030,UC_NCAP~2035,UC_RHST,UC_RHST~0,UC_Desc
 Min_ICE_LPV_Uptake,,T_P_CICE*,2020,LO,0.29,1,1,1,0,5,Minimum LPV uptakes
 ,,"T_P_C*,-T_P_CICE*",,,-0.71,0,0,0,,,
 Min_ICE_LCV_Uptake,,T_C_CICE*,2020,LO,0.01,0.24,1,1,0,5,Minimum LCV uptakes

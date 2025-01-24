@@ -1,4 +1,4 @@
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
+﻿UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
 COAL_PP_BND,ELE,"EH*CO*,-*ccs*",2025,UP,1,0,0,3,New coal power plants ban
 NGA_PP_BND,ELE,"ENGA*,-*CCS*",2025,UP,1,2,0,4,New gas power plants bound (new 2 GW allowed until 2025)
 NUC_BAN,,E*NUC*,2025,UP,1,0,0,3,Nuclear plants ban (not allowed for whole time horizon)

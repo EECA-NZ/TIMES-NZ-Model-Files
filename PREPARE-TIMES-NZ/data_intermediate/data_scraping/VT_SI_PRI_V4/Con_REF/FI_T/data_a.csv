@@ -1,4 +1,4 @@
-TechName,Comm-IN,Comm-OUT,Share-O~UP,EFF,ACT_BND
+﻿TechName,Comm-IN,Comm-OUT,Share-O~UP,EFF,ACT_BND
 *Technology Name,Input Commodity,Output Commodity,Output Share,Efficiency,Activity Bound
 *Units,,,Pja,,
 REFEOIL00,OIL,LPG,0,1.01282037207396,0

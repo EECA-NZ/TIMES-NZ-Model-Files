@@ -1,4 +1,4 @@
-Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+﻿Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 *Process Set Membership,Region Name,Technology Name,,,,,,Technology Description,Activity USIt,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
 *,,,,,,,,,,,,,
 DMD,SI,T_P_CICEPET15,Transport,Road Transport,Internal Combustion Engine,Petrol,Transport -:- Road Transport -:- Internal Combustion Engine -:- Petrol,Light Vehicles -Passenger-Car/SUV-ICE-Petrol-Existing,BVKm,000cars,,,

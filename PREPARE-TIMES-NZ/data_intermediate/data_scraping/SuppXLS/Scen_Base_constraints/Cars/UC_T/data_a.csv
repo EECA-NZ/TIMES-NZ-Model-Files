@@ -1,2 +1,2 @@
-UC_N,Pset_Set,Pset_PN,Pset_CI,Pset_CO,Cset_CN,UC_ATTR,Year,LimType,UC_CAP,UC_CAP~RHS,UC_RHST,UC_RHST~0,UC_Desc
+﻿UC_N,Pset_Set,Pset_PN,Pset_CI,Pset_CO,Cset_CN,UC_ATTR,Year,LimType,UC_CAP,UC_CAP~RHS,UC_RHST,UC_RHST~0,UC_Desc
 Max_BEVMTruck_uptake_number,,T_F_MT*BEV*,,,,"CAP,GROWTH",2020,LO,1.15,1,-17.5,5,Max number of BE medium trucks can be deployed per first year and next years

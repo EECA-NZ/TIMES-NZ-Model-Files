@@ -1,4 +1,4 @@
-TechName,Comm-IN,Comm-OUT,PRC_RESID,*Delivered energy 2018,EFF,LIFE,INVCOST,FIXOM,CAP2ACT,ACT_BND,AFA
+﻿TechName,Comm-IN,Comm-OUT,PRC_RESID,*Delivered energy 2018,EFF,LIFE,INVCOST,FIXOM,CAP2ACT,ACT_BND,AFA
 *Technology Name,Input Commodity,Output Commodity,Existing Installed Capacity,*Energy from EEUD,Efficiency,Lifetime,CAPEX,FIXED O&M,Capacity to activity factor,Actual end-use in 2018,Annual utilisation factor
 *Units,,,GW,*PJ,%,Years,NZD/kW,NZD/kW/yr,,End-use PJ,%
 ADCF-MoTP-Stat-VacP_ELC00,AGRELC,ADCF-MoTP-Stat,0.032999423702659,0.279985354035092,0.84,25,410.6135299,14.4455571730976,31.536,0.235187697389477,0.225996460682432

@@ -1,4 +1,4 @@
-Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+﻿Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 \I: Process Set Membership,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,Timeslice Operational Level,Operational Commodity Group,Vintage Tracking
 ELE,EHYD-DAM-New20,Electricity,Hydro,Hydro Dam (New),Hydro,Electricity -:- Hydro -:- Hydro Dam (New) -:- Hydro,New dam hydro,PJ,GW,DAYNITE,,YES
 ELE,EHCO_SCPC20,Electricity,Thermal,Coal: SCPC - 2018,Coal,Electricity -:- Thermal -:- Coal: SCPC - 2018 -:- Coal,Coal: SCPC - 2018,PJ,GW,DAYNITE,,YES

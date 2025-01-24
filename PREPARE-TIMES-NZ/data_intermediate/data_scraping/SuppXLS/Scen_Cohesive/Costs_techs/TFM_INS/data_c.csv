@@ -1,4 +1,4 @@
-TimeSlice,LimType,Attribute,Pset_PN,Pset_Set,Pset_CI,Year,AllRegions
+﻿TimeSlice,LimType,Attribute,Pset_PN,Pset_Set,Pset_CI,Year,AllRegions
 ,,NCAP_DRATE,"R*,C*,T_*BEV*,T_*H2*",DMD,,,0.025
 \I:,,NCAP_DRATE,E*SOL*,ELE,,2016,0.2
 \I:,,NCAP_DRATE,E*SOL*,ELE,,2040,0.05

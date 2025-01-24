@@ -1,4 +1,4 @@
-TechName,*TechDesc,Comm-IN,Comm-OUT,NCAP_PASTI~2015,AF,INVCOST,FIXOM,VAROM,Life,CAP2ACT,EFF~2015,EFF~2021,EFF~2035,EFF~2060,EFF~0
+﻿TechName,*TechDesc,Comm-IN,Comm-OUT,NCAP_PASTI~2015,AF,INVCOST,FIXOM,VAROM,Life,CAP2ACT,EFF~2015,EFF~2021,EFF~2035,EFF~2060,EFF~0
 G_ELC_HV-00,Existing electricity distribution grid  - 220V voltage,ELC,ELC-HV,5,1,500,2.5,0.44,80,31.536,0.9711,0.9711,0.9711,0.9711,5
 G_ELC_MV-00,Existing electricity distribution grid  - 65/50V voltage,ELC-HV,ELC-MV,5,1,1500,7.5,0.44,80,31.536,0.98,0.98,0.98,0.98,5
 G_ELC_LV-00,Existing electricity distribution grid  - Low voltage,ELC-MV,ELCDD,5,1,1700,8.5,0.44,80,31.536,0.98,0.98,0.98,0.98,5

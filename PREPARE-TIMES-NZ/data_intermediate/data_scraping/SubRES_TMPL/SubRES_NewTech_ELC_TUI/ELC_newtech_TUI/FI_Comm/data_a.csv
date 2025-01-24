@@ -1,2 +1,2 @@
-Csets,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+﻿Csets,CommName,CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
 \I: Commodity Set Membership,Commodity Name,Commodity Description,Unit,Balance Equ Type Override,Timeslice Tracking Level,Peak Monitoring,Electricity Indicator

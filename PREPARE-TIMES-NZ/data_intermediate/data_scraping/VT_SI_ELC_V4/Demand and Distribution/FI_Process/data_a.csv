@@ -1,4 +1,4 @@
-Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+﻿Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 *Process Set Membership,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
 PRE,G_ELC_HV-00,,,,,-:-  -:-  -:-,Existing electricity distribution grid  - 220V voltage,PJ,GW,DAYNITE,,
 PRE,G_ELC_MV-00,,,,,-:-  -:-  -:-,Existing electricity distribution grid  - 65/50V voltage,PJ,GW,DAYNITE,,

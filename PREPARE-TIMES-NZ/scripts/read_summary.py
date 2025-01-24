@@ -4,6 +4,8 @@ This is a one-off script designed to recreate the raw data as a series of csvs i
 
 There are a few redundant calls but I do not expect this script to make it into any production system so will not refactor.
 
+encoding issue in RES_techs_coms FI_Comm
+
 """
 # libraries 
 import os 
@@ -28,7 +30,7 @@ output_location = f"{PREP_LOCATION}/data_intermediate/data_scraping"
 
 # Read the data from the summary tables
 def parse_data_blocks(filepath, debug = True):
-    with open(filepath, 'r') as file:
+    with open(filepath, 'r', encoding='utf-8') as file:
         content = file.read()
     
     blocks = content.strip().split('\n\n')
@@ -129,15 +131,11 @@ def parse_data_blocks(filepath, debug = True):
         parsed_blocks.append(block_data)
     
     return parsed_blocks
-
-
 # get all data 
 blocks = parse_data_blocks(file_location)
 
-
 # get counts for each combination of file name, sheet, and tag 
 # best to put these in a table? maybe this is smart generally 
-
 rows = []
 for block in blocks:
     row_data = {
@@ -152,7 +150,6 @@ for block in blocks:
 block_descriptions = pd.DataFrame(rows)
 
 # just gonna sort these for fun 
-
 block_descriptions = block_descriptions.sort_values(["folder_name", "sheet_name", "tag_name", "range"])
 # add a counter within the tags 
 groups = block_descriptions. groupby(["folder_name", "sheet_name", "tag_name"])
@@ -174,9 +171,7 @@ def get_tag_counter(block):
 
     return counter
 
-
 # write the descriptions data to a metadata file 
-# block_descriptions.to_csv(f"{output_location}/metadata.csv", index = False, encoding='utf-8-sig') # awkward encoding, hacky for colons 
 
 
 def write_block_data_to_csv(block):
@@ -208,8 +203,12 @@ def write_block_data_to_csv(block):
     Path(output_folder).mkdir(parents=True, exist_ok=True)
     write_location = f"{output_folder}/{csv_name}.csv"
     print(f"Writing data to {write_location}")
-    df.to_csv(write_location, index = False)
+    df.to_csv(write_location, index = False, encoding='utf-8-sig') # must encode against BOM
 
+# Write data 
+
+# Metadata table first 
+block_descriptions.to_csv(f"{output_location}/metadata.csv", index = False, encoding='utf-8-sig') # must encode against BOM 
 """
 for block in blocks:
    # write_block_data_to_csv(block)
@@ -226,5 +225,3 @@ for block in blocks:
 """
 for block in blocks:
    write_block_data_to_csv(block)
-
-

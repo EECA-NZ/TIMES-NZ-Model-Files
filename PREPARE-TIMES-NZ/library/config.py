@@ -17,7 +17,7 @@ TIMES_LOCATION = os.path.dirname(PREP_LOCATION)
 
 
 # data location
-OUTPUT_LOCATION = os.path.join(TIMES_LOCATION, "TIMES-NZ")
+OUTPUT_LOCATION = os.path.join(PREP_LOCATION, "autogen_file_output")
 
 INPUT_LOCATION = os.path.join(PREP_LOCATION, "data_intermediate", "data_scraping")
 
