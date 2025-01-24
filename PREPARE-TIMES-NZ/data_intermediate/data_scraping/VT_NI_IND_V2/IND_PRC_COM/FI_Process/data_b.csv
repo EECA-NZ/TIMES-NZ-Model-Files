@@ -1,4 +1,4 @@
-﻿Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
 *Process Set Membership,Region Name,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
 DMD,,ALU-PH-FURN-ELC-Furn15,Industry,Aluminium,Furnace,Electricity,Industry -:- Aluminium -:- Furnace -:- Electricity,Aluminium - Process Heat: Furnace/Kiln Existing,PJ,GW,DAYNITE,,
 DMD,,CNST-MoTP-Mob-DSL-ICE_Off15,Industry,Construction,Internal Combustion Engine,Diesel,Industry -:- Construction -:- Internal Combustion Engine -:- Diesel,"Construction - Motive Power, Mobile, Diesel ICE Existing",PJ,GW,DAYNITE,,
@@ -81,7 +81,7 @@ DMD,,CHMCL-PH-FURN-NGA-Furn15,Industry,"Petroleum, Basic Chemical and Rubber Pro
 DMD,,REFI-PH-FURN-NGA-Furn15,Industry,Refining,Furnace,Natural Gas,Industry -:- Refining -:- Furnace -:- Natural Gas,Refining Process Heat Furnace Natural Gas Furnace Existing,PJ,GW,DAYNITE,,
 DMD,,REFI-MoTP-Stat-ELC-Mtr15,Industry,Refining,Stationary Motor,Electricity,Industry -:- Refining -:- Stationary Motor -:- Electricity,Refining Motive Power Stationary Electric Motor Existing,PJ,GW,DAYNITE,,
 DMD,,REFI-PH-STM_HW-NGA-BLR15,Industry,Refining,Boiler,Natural Gas,Industry -:- Refining -:- Boiler -:- Natural Gas,Refining Process Heat Steam/Hot Water Natural Gas Boiler Existing,PJ,GW,DAYNITE,,
-DMD,,UREA-FDSTCK-NGA-FDSTCK15,Industry,Urea Production,Feedstock,Natural Gas,Industry -:- Urea Production -:- Feedstock -:- Natural Gas,Urea Feedstock Natural Gas ,PJ,GW,DAYNITE,,
+DMD,,UREA-FDSTCK-NGA-FDSTCK15,Industry,Urea Production,Feedstock,Natural Gas,Industry -:- Urea Production -:- Feedstock -:- Natural Gas,Urea Feedstock Natural Gas,PJ,GW,DAYNITE,,
 DMD,,UREA-REFRM-NGA15,Industry,Urea Production,Reformer,Natural Gas,Industry -:- Urea Production -:- Reformer -:- Natural Gas,Urea Reforming Natural Gas Reformer Existing,PJ,GW,DAYNITE,,
 DMD,,WOOD-PH-STM_HW-COA-BLR15,Industry,Wood Product Manufacturing,Boiler,Coal,Industry -:- Wood Product Manufacturing -:- Boiler -:- Coal,Wood Products Process Heat Steam/Hot Water Coal Boiler Existing,PJ,GW,DAYNITE,,
 DMD,,WOOD-PH-STM_HW-DSL-BLR15,Industry,Wood Product Manufacturing,Boiler,Diesel,Industry -:- Wood Product Manufacturing -:- Boiler -:- Diesel,Wood Products Process Heat Steam/Hot Water Diesel Boiler Existing,PJ,GW,DAYNITE,,

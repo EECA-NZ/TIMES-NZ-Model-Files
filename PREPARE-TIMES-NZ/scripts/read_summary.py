@@ -27,7 +27,7 @@ file_location = f"{table_location}/raw_tables.txt"
 output_location = f"{PREP_LOCATION}/data_intermediate/data_scraping"
 
 # Read the data from the summary tables
-def parse_data_blocks(filepath, debug = False):
+def parse_data_blocks(filepath, debug = True):
     with open(filepath, 'r') as file:
         content = file.read()
     
@@ -61,6 +61,11 @@ def parse_data_blocks(filepath, debug = False):
         if header_line_idx is None:
             if debug:
                 print(f"Warning: Block {block_num} - No header line found for {lines[0]}")
+            continue
+
+        if header_line_idx is None or header_line_idx >= len(lines):
+            if debug:
+                print(f"Warning: Block {block_num} - Invalid header line index")
             continue
         
         # Parse all metadata lines before the header
@@ -202,7 +207,7 @@ def write_block_data_to_csv(block):
     # write blocks: 
     Path(output_folder).mkdir(parents=True, exist_ok=True)
     write_location = f"{output_folder}/{csv_name}.csv"
-    print(f"Writing BY data to {write_location}")
+    print(f"Writing data to {write_location}")
     df.to_csv(write_location, index = False)
 
 """

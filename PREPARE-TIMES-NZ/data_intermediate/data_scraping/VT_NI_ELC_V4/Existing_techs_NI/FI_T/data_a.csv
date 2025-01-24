@@ -1,6 +1,6 @@
 TechName,LimType,Comm-IN,Comm-OUT,PASTI~1970,PASTI~2000,PASTI~2005,PASTI~2015,NCAP_PASTI~2018,*RESID~2018,*RESID~2016,*RESID~2035,*Share-I,Share-I~2018,Share-I~0,EFF~2018,*AFA,AFA~2018,*ACT_BND~2015,ACT_BND~2018,ACT_BND~FX~2018,ACT_BND~0,FIXOM,VAROM,LIFE,CAP2ACT,Peak,NCAP_BND,NCAP_BND~2021,NCAP_BND~0,ENV_ACT~ELCCO2
 *Technology Name,,Input Commodity,Output Commodity,Past Investment Capacity,Past Investment Capacity,Past Investment Capacity,Past Investment Capacity,Past Investment Capacity,Existing Installed Capacity,Existing Installed Capacity,Retirement Capacity,Fuel input coef,Fuel input coef,Fuel input coef,Efficiency,Utilisation Factor,Utilisation Factor,"Generation, stat","Generation, stat",,Interpolation/extrapolation for future years,Fixed O&M Cost,Variable O&M Cost,Lifetime,Capacity to Activity Factor,% contribution to PEAK,,,,
-*Units,,,,GW,GW,GW,GW,GW,GW,,GW,%,%,%,%,%,%,PJ,PJ,,Â´-1 no extrapolation,Milion NZD (2015)/GW,Milion NZD (2015)/PJ,Years,PJ/GW,,,,,
+*Units,,,,GW,GW,GW,GW,GW,GW,,GW,%,%,%,%,%,%,PJ,PJ,,Ã‚Â´-1 no extrapolation,Milion NZD (2015)/GW,Milion NZD (2015)/PJ,Years,PJ/GW,,,,,
 ELCREHYDRRInflex00,,ELCHYD,ELC,0.2064,,,,,0.2064,0,,,,,1,,,2.41765619798025,3.38284695214823,,1,6.54,0.244444444444444,100,31.536,0.722,0,0,5,
 ELCREHYDDAM00,,ELCHYD,ELC,1.5469,,,,,1.5469,0,,,,,1,,,20.080767950283,23.7264589466538,,1,6.54,0.244444444444444,100,31.536,0.98,0,0,5,
 ELCREHYDRRFlex00,,ELCHYD,ELC,0.2064,,,,,0.2064,0,,,,,1,,,0.801575851736766,1.70219227875917,,1,6.54,0.244444444444444,100,31.536,0.83,0,0,5,
