@@ -17,6 +17,7 @@ TIMES-NZ/AppData/BrowseFormSettings.json
 raw_tables.pkl
 TIMES-NZ/Exported_files/
 TIMES-NZ-GAMS/GAMSSAVE/
+TIMES-NZ/SyncLogs/
 
 
 # Ignore all generated files
