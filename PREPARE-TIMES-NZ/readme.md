@@ -48,7 +48,7 @@ flowchart LR
     
     INTERNAL_QA["Internal QA Tools"]    
 
-    subgraph PainPoints["XL2Times (later)"]
+    subgraph XL2TIMES["XL2Times"]
         EXCEL["Excel Processing"]
         VEDA["VEDA Analysis"]
     end
