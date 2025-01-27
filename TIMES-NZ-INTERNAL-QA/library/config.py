@@ -7,7 +7,7 @@ The structure will need to change if this file is moved, as it uses the current 
 TIMES-NZ-INTERNAL-QA/library
 """
 import os 
-from pathlib import Path
+
 
 #### QA RUNS
 # these might go somewhere else but need to be surfaced here so anyone can use them? 
@@ -15,7 +15,7 @@ from pathlib import Path
 qa_runs = ["tui-v2_1_3", "tui-v2_1_2"]
 
 # main directories
-QA_LIBRARY_LOCATION = Path(__file__).resolve().parent 
+QA_LIBRARY_LOCATION = os.path.dirname(os.path.abspath(__file__))
 QA_LOCATION = os.path.dirname(QA_LIBRARY_LOCATION)
 TIMES_LOCATION = os.path.dirname(QA_LOCATION)
 
