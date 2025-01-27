@@ -7,17 +7,15 @@ The structure will need to change if this file is moved, as it uses the current 
 PREPARE-TIMES-NZ/library
 """
 import os 
-from pathlib import Path
-
 
 # main directories
-PREP_LIBRARY_LOCATION = Path(__file__).resolve().parent 
+PREP_LIBRARY_LOCATION = os.path.dirname(os.path.abspath(__file__))
 PREP_LOCATION = os.path.dirname(PREP_LIBRARY_LOCATION)
 TIMES_LOCATION = os.path.dirname(PREP_LOCATION)
 
 
 # data location
-OUTPUT_LOCATION = os.path.join(PREP_LOCATION, "autogen_file_output")
+OUTPUT_LOCATION = os.path.join(PREP_LOCATION, "output")
 
 INPUT_LOCATION = os.path.join(PREP_LOCATION, "data_intermediate", "data_scraping")
 

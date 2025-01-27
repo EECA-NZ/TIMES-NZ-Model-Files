@@ -4663,35 +4663,10 @@ SPR-WE-N,COM_FR,T_P_B*,DEM,2020,0.0477058064516129,0.0477058064516129
 SPR-WE-P,COM_FR,T_P_B*,DEM,2020,0.00385316129032258,0.00385316129032258
 
 
-sheetname: Solar
-range: B13:K19
+sheetname: Solar_re
+range: B16:L20
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
-tag: ~UC_T
-types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0,UC_Desc
-UC_SOLARPV_UTILITY,ELE,ESO*UTI*,2020,UP,1,0.58,5,Ground based solar (tracking and fixed)
-,,,2025,,,5.99,,
-,,,2030,,,8.15,,
-,,,2040,,,9.68,,
-,,,2060,,,9.9,,
-
-
-sheetname: Solar
-range: B24:K27
-filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
-tag: ~UC_T
-types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
-UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0,UC_Desc
-UC_SOLARPV_GRDIST,ELE,ESO*DIST*,2025,UP,1,0.33,3,Ground based solar (fixed - distributed)
-,,,2030,,,1.68,,
-
-
-sheetname: Solar
-range: B33:L37
-filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
+uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -4700,10 +4675,10 @@ UC_SOLARPV_RES,ELE,ESOL*RES*,2020,UP,1,0.4,0.2,3,SOLAR residential rooftop poten
 ,,,2050,,,4.1,1.4,,
 
 
-sheetname: Solar
-range: B40:L44
+sheetname: Solar_re
+range: B23:L27
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
+uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRTS~NI (object), UC_RHSRTS~SI (object), UC_RHSRTS~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRTS~NI,UC_RHSRTS~SI,UC_RHSRTS~0,UC_Desc
@@ -4712,10 +4687,10 @@ UC_SOLARPV_COM,ELE,ESOL*COM*,2020,UP,1,0.2,0.1,3,SOLAR commercial rooftop potent
 ,,,2050,,,5.1,1.7,,
 
 
-sheetname: Solar
-range: B51:L57
+sheetname: Solar_re
+range: B34:L40
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
+uc_sets: {'R_E': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHSRT~NI (object), UC_RHSRT~SI (object), UC_RHSRT~0 (object), UC_Desc (object)
 UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
@@ -4726,10 +4701,35 @@ UC_SOLARPV_IND,ELE,ESOL*IND*,2020,UP,1,0,0,3,Solar for industry
 ,,,2050,,,0,0,,
 
 
-sheetname: Solar
-range: B63:K65
+sheetname: Solar_rs
+range: B13:K19
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}
+uc_sets: {'R_S': 'AllRegions', 'T_E': ''}
+tag: ~UC_T
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0,UC_Desc
+UC_SOLARPV_UTILITY,ELE,ESO*UTI*,2020,UP,1,0.58,5,Ground based solar (tracking and fixed)
+,,,2025,,,5.99,,
+,,,2030,,,8.15,,
+,,,2040,,,9.68,,
+,,,2060,,,9.9,,
+
+
+sheetname: Solar_rs
+range: B24:K27
+filename: SuppXLS/Scen_Individualistic.xlsx
+uc_sets: {'R_S': 'AllRegions', 'T_E': ''}
+tag: ~UC_T
+types: UC_N (object), Pset_Set (object), Pset_PN (object), Year (object), LimType (object), UC_CAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
+UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0,UC_Desc
+UC_SOLARPV_GRDIST,ELE,ESO*DIST*,2025,UP,1,0.33,3,Ground based solar (fixed - distributed)
+,,,2030,,,1.68,,
+
+
+sheetname: Solar_rs
+range: B36:K38
+filename: SuppXLS/Scen_Individualistic.xlsx
+uc_sets: {'R_S': 'AllRegions', 'T_E': ''}
 tag: ~UC_T
 types: UC_N (object), Pset_CI (object), Pset_CO (object), Year (object), LimType (object), UC_NCAP (object), UC_RHST (object), UC_RHST~0 (object), UC_Desc (object)
 UC_N,Pset_CI,Pset_CO,Year,LimType,UC_NCAP,UC_RHST,UC_RHST~0,UC_Desc
