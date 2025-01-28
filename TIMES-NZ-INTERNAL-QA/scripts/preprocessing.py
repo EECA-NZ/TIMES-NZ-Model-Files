@@ -3,16 +3,13 @@ import subprocess
 
 run_to_process = "tui-v2_1_3_iat"
 
+
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 gams_script_dir = os.path.join(base_dir, "TIMES-NZ-GAMS", "scripts")
 
-
 commands = [
-
-
         f"python {os.path.join(gams_script_dir, 'get_from_veda.py')} {run_to_process}",
-        f"python {os.path.join(gams_script_dir, 'run_times_scenario.py')} {run_to_process}",
-        
+        f"python {os.path.join(gams_script_dir, 'run_times_scenario.py')} {run_to_process}",        
     ]
 
     # Run each command in sequence

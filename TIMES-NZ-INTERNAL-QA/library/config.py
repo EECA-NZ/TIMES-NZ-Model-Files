@@ -11,7 +11,6 @@ import os
 
 #### QA RUNS
 # these might go somewhere else but need to be surfaced here so anyone can use them? 
-
 qa_runs = ["tui-v2_1_3", "tui-v2_1_3_iat"]
 
 # main directories

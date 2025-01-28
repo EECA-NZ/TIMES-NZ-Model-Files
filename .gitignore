@@ -24,17 +24,18 @@ TIMES-NZ/SyncLogs/
 # Note: keeping the Veda data foreasier checking
 # *.lst
 *.gdx
+
 # *.vd
 # *.vde
 # *.vds
 # *.vdt
 # *.log
+
 *_run_log.txt
 *.exe
 
 # Ignoring local development notebooks
 *.ipynb
-
 
 # Ignore specific directories
 GAMSSAVE/
@@ -44,7 +45,6 @@ END_GAMS
 .Rproj.user
 .pylintrc
 .vscode/
-.ipynb
 
 # R deployment artifacts
 rsconnect
