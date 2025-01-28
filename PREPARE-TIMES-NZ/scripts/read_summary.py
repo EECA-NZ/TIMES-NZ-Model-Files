@@ -196,7 +196,7 @@ def write_block_data_to_csv(block):
     # get the data 
     df = block['data']    
     # write blocks: 
-    os.makedirs(os.path.abspath(output_folder), exist_ok=True)
+    os.makedirs(output_folder, exist_ok=True)
     write_location = f"{output_folder}/{csv_name}.csv"
     logging.info(f"Writing data to {write_location}")
     df.to_csv(write_location, index = False, encoding='utf-8-sig') # must encode against BOM

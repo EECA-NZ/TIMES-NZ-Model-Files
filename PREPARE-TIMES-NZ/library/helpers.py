@@ -97,9 +97,10 @@ def create_empty_workbook(book_name, sheets, suffix = "_test_automate"):
     # This function creates the workbook with empty sheets
     # Later, data is appended to these sheets by overlay.        
     book_location = f"{OUTPUT_LOCATION}/{book_name}{suffix}.xlsx"
+    book_directory = os.path.dirname(book_location)
 
     # create the folder if needed
-    os.makedirs(os.path.dirname(book_location), exist_ok=True)
+    os.makedirs(book_directory, exist_ok=True)
 
     # create workbook:
     wb = Workbook()
