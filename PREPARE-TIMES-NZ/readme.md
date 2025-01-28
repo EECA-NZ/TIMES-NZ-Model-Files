@@ -12,7 +12,7 @@ python prepare_times_nz.py
 
 This script will handle the necessary steps to preprocess the data and ensure it is ready for further analysis and modeling.
 
-Currently, a one-off script (`scripts/prepare_times_nz.py`) was used to produce the csv layout mirroring the existing structure (using the XL2TIMES `raw_tables.txt` as source data).
+Currently, a one-off script (`scripts/read_summary.py`) was used to produce the csv layout mirroring the existing structure (using the XL2TIMES `raw_tables.txt` as source data).
 
 Then, `scripts/prepare_times_nz.py` uses these files to generate the smaller excel files, which Veda can use to produce TIMES runs. 
 
