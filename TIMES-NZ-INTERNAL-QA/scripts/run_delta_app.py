@@ -3,7 +3,7 @@ import os
 import sys
 
 # get custom libraries
-current_dir = Path(__file__).resolve().parent
+current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "..", "library"))
 from delta_app import run_delta_app
 
