@@ -6,6 +6,9 @@ from openpyxl import Workbook, load_workbook
 from ast import literal_eval
 import pandas as pd 
 import string
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 # get custom locations
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -79,17 +82,14 @@ def get_uc_sets(book_name, sheet_name, tag, csv_name):
     (metadata['csv_name'] == csv_name) 
 ]
     if len(metadata) > 1:
-        print(f"Warning: metadata filter returned multiple entries. Please review")
+        logging.warning(f"Warning: metadata filter returned multiple entries. Please review")
     # first row uc_sets (should only be one row)    
     uc_set = metadata.iloc[0]['uc_sets']   
     
-    if pd.isna(uc_set):
-        # print(f"uc_set is nan")
+    if pd.isna(uc_set):        
         uc_set = {}
-    else:        
-        # print(f"attempting uc_eval")
-        uc_set = literal_eval(uc_set)
-
+    else:
+        uc_set = literal_eval(uc_set)        
     return uc_set
     
 
@@ -193,14 +193,14 @@ def write_all_tags_to_sheet(book_name, sheet_name):
             startrow += df_row_count + 3     
         
 def write_workbook(book_name):
-    print(f"Creating {book_name}.xlsx:")
+    logging.info(f"Creating {book_name}.xlsx:")
     sheets = get_sheets_for_book(book_name)
     # create structure, overwriting everything already there
     create_empty_workbook(book_name, sheets, suffix = "")
 
     for sheet in sheets: 
         # Verbose printing
-        print(f"     - Sheet: '{sheet}'")
+        logging.info(f"     - Sheet: '{sheet}'")
         # the workbook exists now we write each tag set to each sheet 
         write_all_tags_to_sheet(book_name, sheet_name = sheet)
 

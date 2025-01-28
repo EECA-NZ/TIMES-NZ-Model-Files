@@ -14,6 +14,7 @@ from io import StringIO
 import csv
 import ast 
 import string
+import logging
 
 # get custom libraries/ locations 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -42,10 +43,10 @@ def parse_data_blocks(filepath, debug = True):
         
         if len(lines) < 6:
             if debug: 
-                print(f"Warning: Block {block_num} - Skipping probably empty block with fewer than 6 lines:")
+                logging.warning(f"Warning: Block {block_num} - Skipping probably empty block with fewer than 6 lines:")
             for line in lines: 
                 if debug: 
-                    print(f"        - {line}")
+                    logging.warning(f"        - {line}")
             continue
             
         block_data = {}
@@ -59,12 +60,12 @@ def parse_data_blocks(filepath, debug = True):
 
         if header_line_idx is None:
             if debug:
-                print(f"Warning: Block {block_num} - No header line found for {lines[0]}")
+                logging.warning(f"Warning: Block {block_num} - No header line found for {lines[0]}")
             continue
 
         if header_line_idx is None or header_line_idx >= len(lines):
             if debug:
-                print(f"Warning: Block {block_num} - Invalid header line index")
+                logging.warning(f"Warning: Block {block_num} - Invalid header line index")
             continue
         
         # Parse all metadata lines before the header
@@ -80,7 +81,7 @@ def parse_data_blocks(filepath, debug = True):
                         value = ast.literal_eval(value)  # Safely evaluate string representation of dict
                     except:
                         if debug:
-                            print(f"Warning: Block {block_num} - Could not parse uc_sets dictionary")
+                            logging.warning(f"Warning: Block {block_num} - Could not parse uc_sets dictionary")
                         value = {}
                 
                 block_data[key] = value
@@ -101,15 +102,15 @@ def parse_data_blocks(filepath, debug = True):
             num_cols = len(row)
             if num_cols != len(headers):
                 if debug:
-                    print(f"\nWarning: Block {block_num} Line {line_num} - Column mismatch:")
-                    print(f"Expected {len(headers)} columns, found {num_cols}")
+                    logging.warning(f"\nWarning: Block {block_num} Line {line_num} - Column mismatch:")
+                    logging.warning(f"Expected {len(headers)} columns, found {num_cols}")
                 
                 # Pad or truncate as needed
                 if num_cols < len(headers):
                     row.extend([np.nan] * (len(headers) - num_cols))
                 else:
                     if debug:
-                        print("Truncating row to match header count")
+                        logging.warning("Truncating row to match header count")
                     row = row[:len(headers)]
             
             # Convert empty strings to NaN
@@ -120,8 +121,7 @@ def parse_data_blocks(filepath, debug = True):
             block_data['data'] = pd.DataFrame(data_rows, columns=headers)
         except Exception as e:
             if debug:
-                print(f"\nError creating DataFrame for block {block_num}:")
-                print(f"Error: {str(e)}")
+                logging.error(f"\nError creating DataFrame for block {block_num}. Error: {str(e)}")                
             continue
         
         parsed_blocks.append(block_data)
@@ -198,7 +198,7 @@ def write_block_data_to_csv(block):
     # write blocks: 
     os.makedirs(os.path.abspath(output_folder), exist_ok=True)
     write_location = f"{output_folder}/{csv_name}.csv"
-    print(f"Writing data to {write_location}")
+    logging.info(f"Writing data to {write_location}")
     df.to_csv(write_location, index = False, encoding='utf-8-sig') # must encode against BOM
 
 # Write data 
