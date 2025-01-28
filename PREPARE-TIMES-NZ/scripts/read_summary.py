@@ -16,6 +16,8 @@ import ast
 import string
 import logging
 
+logging.basicConfig(level=logging.INFO)
+
 # get custom libraries/ locations 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "..", "library"))
@@ -27,7 +29,7 @@ file_location = f"{table_location}/raw_tables.txt"
 output_location = f"{PREP_LOCATION}/data_intermediate/data_scraping"
 
 # Read the data from the summary tables
-def parse_data_blocks(filepath, debug = True):
+def parse_data_blocks(filepath):
     with open(filepath, 'r', encoding='utf-8') as file:
         content = file.read()
     
@@ -42,11 +44,9 @@ def parse_data_blocks(filepath, debug = True):
             continue
         
         if len(lines) < 6:
-            if debug: 
-                logging.warning(f"Warning: Block {block_num} - Skipping probably empty block with fewer than 6 lines:")
-            for line in lines: 
-                if debug: 
-                    logging.warning(f"        - {line}")
+            logging.debug(f"Warning: Block {block_num} - Skipping probably empty block with fewer than 6 lines:")
+            for line in lines:                 
+                logging.debug(f"        - {line}")
             continue
             
         block_data = {}
@@ -59,13 +59,11 @@ def parse_data_blocks(filepath, debug = True):
                 break
 
         if header_line_idx is None:
-            if debug:
-                logging.warning(f"Warning: Block {block_num} - No header line found for {lines[0]}")
+            logging.debug(f"Warning: Block {block_num} - No header line found for {lines[0]}")
             continue
 
         if header_line_idx is None or header_line_idx >= len(lines):
-            if debug:
-                logging.warning(f"Warning: Block {block_num} - Invalid header line index")
+            logging.debug(f"Warning: Block {block_num} - Invalid header line index")
             continue
         
         # Parse all metadata lines before the header
@@ -80,8 +78,7 @@ def parse_data_blocks(filepath, debug = True):
                     try:
                         value = ast.literal_eval(value)  # Safely evaluate string representation of dict
                     except:
-                        if debug:
-                            logging.warning(f"Warning: Block {block_num} - Could not parse uc_sets dictionary")
+                        logging.debug(f"Warning: Block {block_num} - Could not parse uc_sets dictionary")
                         value = {}
                 
                 block_data[key] = value
@@ -101,16 +98,14 @@ def parse_data_blocks(filepath, debug = True):
             
             num_cols = len(row)
             if num_cols != len(headers):
-                if debug:
-                    logging.warning(f"\nWarning: Block {block_num} Line {line_num} - Column mismatch:")
-                    logging.warning(f"Expected {len(headers)} columns, found {num_cols}")
+                logging.debug(f"\nWarning: Block {block_num} Line {line_num} - Column mismatch:")
+                logging.debug(f"Expected {len(headers)} columns, found {num_cols}")
                 
                 # Pad or truncate as needed
                 if num_cols < len(headers):
                     row.extend([np.nan] * (len(headers) - num_cols))
                 else:
-                    if debug:
-                        logging.warning("Truncating row to match header count")
+                    logging.debug("Truncating row to match header count")
                     row = row[:len(headers)]
             
             # Convert empty strings to NaN
@@ -120,8 +115,7 @@ def parse_data_blocks(filepath, debug = True):
         try:
             block_data['data'] = pd.DataFrame(data_rows, columns=headers)
         except Exception as e:
-            if debug:
-                logging.error(f"\nError creating DataFrame for block {block_num}. Error: {str(e)}")                
+            logging.debug(f"\nError creating DataFrame for block {block_num}. Error: {str(e)}")                
             continue
         
         parsed_blocks.append(block_data)
