@@ -1,0 +1,5 @@
+﻿TimeSlice,LimType,Attribute,Pset_PN,Pset_CI,Cset_CN,Pset_set,Year,AllRegions
+,,INVCOST,SUP*PEMC*,,,,2035,574.75
+,,INVCOST,SUP*PEMC*,,,,2050,503.5
+,,INVCOST,SUP*PEMD*,,,,2035,804.65
+,,INVCOST,SUP*PEMD*,,,,2050,704.9

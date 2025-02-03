@@ -1,0 +1,14 @@
+﻿Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,H2C,Green Hydrogen,Green Hydrogen Fuel,Green Hydrogen -:- Green Hydrogen Fuel,centralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2D,Green Hydrogen,Green Hydrogen Fuel,Green Hydrogen -:- Green Hydrogen Fuel,decentralised hydrogen,PJ,FX,DAYNITE,,
+NRG,,H2R,Green Hydrogen,Green Hydrogen Fuel,Green Hydrogen -:- Green Hydrogen Fuel,renewable hydrogen (end-use hydrogen),PJ,FX,DAYNITE,,
+NRG,,ELCNGA,Natural Gas,Electricity Production,Natural Gas -:- Electricity Production,Hydrogen and natural gas mix (ELC sector),PJ,FX,DAYNITE,,
+NRG,,DAC_CO2,,CO2 from air,-:- CO2 from air,CO2 from air,kt,,,,
+NRG,,TRAH2R,Green Hydrogen,,Green Hydrogen -:-,Hydrogen for transport sector,PJ,FX,DAYNITE,,
+NRG,,INDH2R,,Hydrogen,-:- Hydrogen,Hydrogen for industry sector,PJ,FX,DAYNITE,,
+NRG,,ELCH2R,,Hydrogen,-:- Hydrogen,Hydrogen for power generation sector,PJ,FX,DAYNITE,,
+NRG,,COMH2R,,Hydrogen,-:- Hydrogen,Hydrogen for commercial sector,PJ,FX,DAYNITE,,
+NRG,,RESH2R,,Hydrogen,-:- Hydrogen,Hydrogen for residential sector,PJ,FX,DAYNITE,,
+NRG,,AGRH2R,,Hydrogen,-:- Hydrogen,Hydrogen for agricultural sector,PJ,FX,DAYNITE,,
+NRG,,COseq,,CO2 to CCS,-:- CO2 to CCS,CO2 to CCS,kt,,,,

@@ -1,0 +1,3 @@
+﻿TechName,Comm-IN,Comm-OUT,Start,*NCAP_BND~2018,INVCOST,ACT_BND~2021,ACT_BND~2060,ACT_BND~0,Eff
+*Technology Name,Input Commodity,Output Commodity,Reserves Cumulative Value,Installed capacity,Cost,Annual Production Bound,Annual Production Bound,Annual Production Bound,Efficiency
+LNGport2021,LNG,NGA,2025,0,7.94938178304,170,170,5,1

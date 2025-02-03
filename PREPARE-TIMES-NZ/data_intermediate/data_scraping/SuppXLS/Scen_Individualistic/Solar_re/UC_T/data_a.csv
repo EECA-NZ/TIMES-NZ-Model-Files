@@ -1,0 +1,4 @@
+﻿UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
+UC_SOLARPV_RES,ELE,ESOL*RES*,2020,UP,1,0.4,0.2,3,SOLAR residential rooftop potential
+,,,2030,,,1.4,0.5,,
+,,,2050,,,4.1,1.4,,

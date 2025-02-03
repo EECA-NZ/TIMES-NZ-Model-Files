@@ -1,0 +1,6 @@
+﻿UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0,UC_Desc
+UC_SOLARPV_UTILITY,ELE,ESO*UTI*,2020,UP,1,0.583,5,Ground based solar (tracking and fixed)
+,,,2025,,,5.986,,
+,,,2030,,,8.145,,
+,,,2040,,,9.683,,
+,,,2060,,,9.901,,

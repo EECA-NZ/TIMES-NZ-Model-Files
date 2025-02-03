@@ -1,0 +1,9 @@
+﻿Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+ENV,,TOTCO2,,,-:-,Total CO2,kt,,,,
+,,ELCCO2,,Electricity Production,-:- Electricity Production,,kt,,,,
+,,TRACO2,,,-:-,,kt,,,,
+,,INDCO2,,,-:-,,kt,,,,
+,,AGRCO2,,,-:-,,kt,,,,
+,,COMCO2,,,-:-,,kt,,,,
+,,RESCO2,,,-:-,,kt,,,,

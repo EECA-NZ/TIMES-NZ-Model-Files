@@ -1,0 +1,12 @@
+﻿Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,
+PRE,,FTE-INDCOA_00,Industry,,,Coal,Industry -:-  -:-  -:- Coal,Existing fuel technology PJ,PJ,PJa,,,
+PRE,,FTE-INDPET_00,Industry,,,Petrol,Industry -:-  -:-  -:- Petrol,Existing fuel technology PJ,PJ,PJa,,,
+PRE,,FTE-INDDSL_00,Industry,,,Diesel,Industry -:-  -:-  -:- Diesel,Existing fuel technology PJ,PJ,PJa,,,
+PRE,,FTE-INDLPG_00,Industry,,,LPG,Industry -:-  -:-  -:- LPG,Existing fuel technology PJ,PJ,PJa,,,
+PRE,,FTE-INDFOL_00,Industry,,,Fuel Oil,Industry -:-  -:-  -:- Fuel Oil,Existing fuel technology PJ,PJ,PJa,,,
+PRE,,FTE-INDNGA_00,Industry,,,Natural Gas,Industry -:-  -:-  -:- Natural Gas,Existing fuel technology PJ,PJ,PJa,,,
+PRE,,FTE-INDGEO_00,Industry,,,Geothermal,Industry -:-  -:-  -:- Geothermal,Existing fuel technology PJ,PJ,PJa,,,
+PRE,,FTE-INDBIG_00,Industry,,,Biogas,Industry -:-  -:-  -:- Biogas,Existing fuel technology PJ,PJ,PJa,,,
+PRE,,FTE-INDWOD_00,Industry,,,Wood,Industry -:-  -:-  -:- Wood,Existing fuel technology PJ,PJ,PJa,,,

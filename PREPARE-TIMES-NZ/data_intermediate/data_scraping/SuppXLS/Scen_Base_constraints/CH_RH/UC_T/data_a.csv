@@ -1,0 +1,3 @@
+﻿UC_N,Pset_Set,Pset_PN,Pset_CI,Pset_CO,Cset_CN,Attribute,Year,LimType,UC_ACT~2020,UC_ACT~2060,UC_RHST,UC_RHST~0,UC_Desc
+MAX-ELE-CK-SHARE,,"C*WSR*CK*Elements*,C*WSR*CK*Induction*",,C_WSR-CK,,,2020,LO,-0.85,-0.85,0,5,Max share of cooking elements in WSR cooking
+,,"C*WSR*CK*,-C*WSR*CK*Elements*,-C*WSR*CK*Induction*",,C_WSR-CK,,,,,0.15,0.15,,,

@@ -1,0 +1,3 @@
+﻿UC_N,Pset_Set,Pset_PN,Year,LimType,UC_NCAP~2035,UC_NCAP~2040,UC_RHST,UC_RHST~0,UC_Desc
+HYB_Car_ban,,T_P_C*HYB*,2035,LO,-0.975,-0.99999,0,5,Hybrid cars number limit and futher ban
+,,"T_P_C*,-T_P_C*HYB*",,,0.025,1e-05,,,

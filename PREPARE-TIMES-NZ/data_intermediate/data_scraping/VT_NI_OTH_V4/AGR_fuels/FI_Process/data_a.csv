@@ -1,0 +1,12 @@
+﻿Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,
+PRE,,FTE_AGRCOA,Agriculture,,,Coal,Agriculture -:-  -:-  -:- Coal,Sector Fuel Technology Existing Coal,PJ,PJa,ANNUAL,,
+PRE,,FTE_AGRDSL,Agriculture,,,Diesel,Agriculture -:-  -:-  -:- Diesel,Sector Fuel Supply - Agriculture diesel oil,PJ,PJa,ANNUAL,,
+PRE,,FTE_AGRPET,Agriculture,,,Petrol,Agriculture -:-  -:-  -:- Petrol,Sector Fuel Supply - Agriculture petroleum,PJ,PJa,ANNUAL,,
+PRE,,FTE_AGRFOL,Agriculture,,,Fuel Oil,Agriculture -:-  -:-  -:- Fuel Oil,Sector Fuel Supply - Agriculture fuel oil,PJ,PJa,ANNUAL,,
+PRE,,FTE_AGRLPG,Agriculture,,,LPG,Agriculture -:-  -:-  -:- LPG,Sector Fuel Supply - Agriculture LPG,PJ,PJa,ANNUAL,,
+PRE,,FTE_AGRNGA,Agriculture,,,Natural Gas,Agriculture -:-  -:-  -:- Natural Gas,Sector Fuel Supply - Agriculture natural gas,PJ,PJa,ANNUAL,,
+PRE,,FTE_AGRGEO,Agriculture,,,Geothermal,Agriculture -:-  -:-  -:- Geothermal,Sector Fuel Supply - Agriculture geothermal,PJ,PJa,ANNUAL,,
+PRE,,FTE_AGRWOD,Agriculture,,,Wood,Agriculture -:-  -:-  -:- Wood,Sector Fuel Supply - Agriculture wood,PJ,PJa,ANNUAL,,
+PRE,,FTE_AGRPLT,Agriculture,,,Pellet,Agriculture -:-  -:-  -:- Pellet,Sector Fuel Supply - Agriculture pellet,PJ,PJa,ANNUAL,,

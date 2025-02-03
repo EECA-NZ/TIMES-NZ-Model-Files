@@ -1,0 +1,4 @@
+﻿Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,
+PRE,,REFEOIL00,Primary Fuel Supply,Refinery,Oil production,Crude Oil,Primary Fuel Supply -:- Refinery -:- Oil production -:- Crude Oil,,PJ,PJa,,NRGI,

@@ -1,0 +1,12 @@
+﻿Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+NRG,,INDCOA,Coal,,Coal -:-,Industrial Coal,PJ,FX,,,
+NRG,,INDPET,Petrol,,Petrol -:-,Industrial Petroleum,PJ,FX,,,
+NRG,,INDDSL,Diesel,,Diesel -:-,Industrial Diesel,PJ,FX,,,
+NRG,,INDLPG,LPG,,LPG -:-,Industrial LPG,PJ,FX,,,
+NRG,,INDFOL,Fuel Oil,,Fuel Oil -:-,Industrial Fuel oil,PJ,FX,,,
+NRG,,INDNGA,Natural Gas,,Natural Gas -:-,Industrial Natural gas,PJ,FX,,,
+NRG,,INDGEO,Geothermal,,Geothermal -:-,Industrial Geothermal,PJ,FX,,,
+NRG,,INDBIG,Biogas,,Biogas -:-,Industrial Biogas,PJ,FX,,,
+NRG,,INDWOD,Wood,,Wood -:-,Industrial Wood,PJ,FX,,,
+ENV,,INDCO2,,,-:-,Industrial emissions,kt,,,,

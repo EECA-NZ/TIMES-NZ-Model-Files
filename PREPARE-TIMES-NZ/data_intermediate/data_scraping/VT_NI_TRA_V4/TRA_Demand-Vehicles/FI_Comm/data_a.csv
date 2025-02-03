@@ -1,0 +1,16 @@
+﻿Csets,Region,CommName,* Fuel,* Enduse,CommDesc,* OLD CommDesc,Unit,LimType,CTSLvl,PeakTS,Ctype
+*Commodity Set Membership,Region Name,Commodity Name,,,,Commodity Description,Unit,Sense of the Balance EQN.,Timeslice Level,Peak Monitoring,Electricity Indicator
+DEM,NI,T_P_Car,,Car/SUV,-:- Car/SUV,Passenger transport - cars,BVkm,,,,
+,NI,T_C_Car,,Van/Ute,-:- Van/Ute,Commercial transport - Van&Ute,BVkm,,,,
+,NI,T_P_Mcy,,Motorcycles,-:- Motorcycles,Passenger transport motorcycles,BVkm,,,,
+,NI,T_P_Bus,,Bus,-:- Bus,Passenger transport bus,BVkm,,,,
+,NI,T_F_MTrk,,Medium Truck,-:- Medium Truck,Freight transport - Medium Trucks,BVkm,,,,
+,NI,T_F_HTrk,,Heavy Truck,-:- Heavy Truck,Freight transport - Heavy Trucks,BVkm,,,,
+,NI,T_F_VHTrk,,Very Heavy Truck,-:- Very Heavy Truck,Freight transport - Very Heavy Trucks,BVkm,,,,
+,NI,T_F_Rail,,Freight Rail,-:- Freight Rail,Freight transport - rail,PJ,,,,
+,NI,T_P_Rail,,Passenger Rail,-:- Passenger Rail,Passenger transport - rail,PJ,,,,
+,NI,T_F_DSHIP,,Domestic Shipping,-:- Domestic Shipping,Domestic shipping,PJ,,,,
+,NI,T_F_ISHIP,,International Shipping,-:- International Shipping,International shipping,PJ,,,,
+,NI,T_O_JET,,Domestic Aviation,-:- Domestic Aviation,Other transport aviation jet fuel,PJ,,,,
+,NI,T_O_JET_Int,,International Aviation,-:- International Aviation,Other transport aviation jet fuel - International,PJ,,,,
+NRG,NI,H2R,Green Hydrogen,Green Hydrogen Fuel,Green Hydrogen -:- Green Hydrogen Fuel,Hydrogen fuel,PJ,FX,,,

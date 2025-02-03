@@ -1,0 +1,3 @@
+﻿UC_N,Pset_Set,Pset_PN,Cset_CN,Year,LimType,UC_FLO,UC_RHST~2025,UC_RHST~2060,UC_RHST~0,UC_Desc
+CO2_for_H2-prod,ELE,*CCS*,COseq,2025,lo,1,0,0,5,Limitting methanation of hydrogen to CCS power plant operation
+,,SUP_H2NGA_CCS,H2R,2025,,-45.8,,,,

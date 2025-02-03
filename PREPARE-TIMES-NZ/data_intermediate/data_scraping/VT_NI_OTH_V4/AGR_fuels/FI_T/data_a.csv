@@ -1,0 +1,14 @@
+﻿TechName,Comm-IN,Comm-OUT,Share-I~UP,Share-I~UP~2025,*Share-I~UP~2060,Share-I~UP~0,EFF,LIFE,EFF~2021,EFF~2025,EFF~2040,EFF~2060,EFF~0,INVCOST,FIXOM,VAROM,FLO_DELIV
+*Technology Name,Input Commodity,Output Commodity,Input Share,Input Share,Input Share,Input Share,Efficiency,Lifetime,,,,,,Capital costs,Fixed  O&M,Variable O&M,
+*Units,,,,,,,,Years,,,,,,MNZD/Pja,MNZD/Pja,MNZD/PJ,
+FTE_AGRCOA,COA,AGRCOA,1,1,,5,1,100,,,,,,,,,
+,COL,,0.1,0.1,,,,,,,,,,,,,
+FTE_AGRDSL,DSL,AGRDSL,1,1,,,1,100,,,,,,,,0.92,
+,DID,,1,1,,,,,,,,,,,,,2.4
+FTE_AGRPET,PET,AGRPET,,,,,1,100,,,,,,,,0.92,
+FTE_AGRFOL,FOL,AGRFOL,,,,,1,100,,,,,,,,,
+FTE_AGRLPG,LPG,AGRLPG,,,,,1,100,,,,,,,,,
+FTE_AGRNGA,NGA,AGRNGA,,,,,1,100,,,,,,,,2.81,
+FTE_AGRGEO,GEO,AGRGEO,,,,,1,100,,,,,,,,,
+FTE_AGRWOD,WOD,AGRWOD,,,,,1,100,,,,,,,,,
+FTE_AGRPLT,PLT,AGRPLT,,,,,1,100,,,,,,,,,

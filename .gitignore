@@ -21,20 +21,21 @@ TIMES-NZ/SyncLogs/
 
 
 # Ignore all generated files
-*.lst
+# Note: keeping the Veda data foreasier checking
+# *.lst
 *.gdx
-# Keeping the vd data for the delta app to use 
+
 # *.vd
-*.vde
-*.vds
-*.vdt
-*.log
+# *.vde
+# *.vds
+# *.vdt
+# *.log
+
 *_run_log.txt
 *.exe
 
 # Ignoring local development notebooks
 *.ipynb
-
 
 # Ignore specific directories
 GAMSSAVE/

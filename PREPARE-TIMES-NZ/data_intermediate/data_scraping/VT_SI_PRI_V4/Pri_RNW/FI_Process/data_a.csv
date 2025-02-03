@@ -1,0 +1,9 @@
+﻿Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
+*Process Set Membership,Region Name,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
+*,,,,,,,,,,,,,
+MIN,,MINHYD1,Primary Fuel Supply,Renewables,Mining - Hydro,,Primary Fuel Supply -:- Renewables -:- Mining - Hydro -:-,,PJ,PJa,DAYNITE,,
+,,MINGEO1,Primary Fuel Supply,Renewables,Mining - Geothermal,,Primary Fuel Supply -:- Renewables -:- Mining - Geothermal -:-,,PJ,PJa,DAYNITE,,
+,,MINSOL1,Primary Fuel Supply,Renewables,Mining - Solar,,Primary Fuel Supply -:- Renewables -:- Mining - Solar -:-,,PJ,PJa,DAYNITE,,
+,,MINWIN1,Primary Fuel Supply,Renewables,Mining - Wind,,Primary Fuel Supply -:- Renewables -:- Mining - Wind -:-,,PJ,PJa,DAYNITE,,
+,,MINTID1,Primary Fuel Supply,Renewables,Mining - Tidal,,Primary Fuel Supply -:- Renewables -:- Mining - Tidal -:-,,PJ,PJa,DAYNITE,,
+,,MINURN1,Primary Fuel Supply,,Mining - Uranium,,Primary Fuel Supply -:-  -:- Mining - Uranium -:-,,PJ,PJa,DAYNITE,,
