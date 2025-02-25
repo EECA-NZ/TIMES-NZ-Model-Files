@@ -88,6 +88,15 @@ ele_use_df["PV"] = ele_use_df["PV"] * 277.777778
 ele_use_df["Unit"] = "GWh"
 
 
+# Electricity Generation Capacity 
+
+ele_gen_processes = df[df["Parameters"] == 'Electricity Generation']["Process"].unique()
+ele_cap_df = df[df["Process"].isin(ele_gen_processes)]
+ele_cap_df = ele_cap_df[ele_cap_df["Parameters"] == "Technology Capacity"]
+
+
+
+
 chart_configs = {
         'emissions': {
             'title_prefix': 'Emissions',
@@ -108,7 +117,13 @@ chart_configs = {
             'title_prefix': 'Electricity Consumption',
             'hierarchy': ['Sector', 'Technology'],
             'df': ele_use_df  
-        }
+        },
+        'ele_cap': {
+            'title_prefix': 'Electricity Capacity',
+            'hierarchy': ['Fuel', 'Technology'],
+            'df': ele_cap_df  
+        },
+
     }
 
 # App building: 
