@@ -683,41 +683,44 @@ def create_obj_cb(app):
 
 # Define Layout
 
+    # Update the sidebar to also be fixed and not overlap with the fixed header
 def create_sidebar_layout(chart_configs):
     return html.Div([
         html.H3("Contents", style={'marginBottom': '20px'}),
-        html.Ul([
-            html.Li([
-                html.A(
-                    config['title_prefix'],
-                    href=f'#{chart_id}',
-                    id=f'link-{chart_id}',
-                    style={
-                        'color': '#0066cc',
-                        'textDecoration': 'none',
-                        'cursor': 'pointer'
-                    }
-                )
-            ]) for chart_id, config in chart_configs.items()
-        ], style={'listStyleType': 'none', 'padding': 0})
-    ], style={
-        'position': 'fixed',
-        'top': '20px',
-        'left': '20px',
-        'width': '160px',
-        'backgroundColor': 'white',
-        'padding': '20px',
-        'borderRadius': '8px',
-        'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
-        'zIndex': 1000
-    })
-
+            html.Ul([
+                html.Li([
+                    html.A(
+                        config['title_prefix'],
+                        href=f'#{chart_id}',
+                        id=f'link-{chart_id}',
+                        style={
+                            'color': '#0066cc',
+                            'textDecoration': 'none',
+                            'cursor': 'pointer'
+                        }
+                    )
+                ]) for chart_id, config in chart_configs.items()
+            ], style={'listStyleType': 'none', 'padding': 0})
+        ], style={
+            'position': 'fixed',
+            'top': '130px',  # Positioned below the fixed header
+            'left': '20px',
+            'width': '160px',
+            'backgroundColor': 'white',
+            'padding': '20px',
+            'borderRadius': '8px',
+            'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
+            'zIndex': 999,
+            'maxHeight': 'calc(100vh - 150px)',  # Allow scrolling if many items
+            'overflowY': 'auto'
+        })
+    
 def create_header_layout():
     return html.Div([
         #Title and buttons
         html.Div([
             html.H1('TIMES at a glance', 
-                   style={'textAlign': 'left', 'marginBottom': '20px'}),
+                   style={'textAlign': 'left', 'marginBottom': '10px'}),
             # Buttons
             html.Div([
                 html.Button('Show missing concordances ▼',
@@ -731,7 +734,6 @@ def create_header_layout():
                                'marginBottom': '5px',                               
                                'text-align': 'left',
                                'minWidth': 'fit-content'
-
                              }),
                 html.Button('Show objective functions ▼',
                             id='objective-function-button',
@@ -748,7 +750,7 @@ def create_header_layout():
 
                 ], style={'position': 'absolute',
                           'right' : '20px',
-                          'top' : '40px',                                                    
+                          'top' : '20px',                                                    
                           'display': 'flex', 
                           'flexDirection': 'column',  
                           'width': '220px',
@@ -756,7 +758,7 @@ def create_header_layout():
                           'zIndex': 1
                     })
             
-        ]),
+        ], style={'marginBottom': '10px'}),
         # Subtitle
         html.Div([
             html.H3(f"Comparisons between ", 
@@ -764,12 +766,21 @@ def create_header_layout():
                 html.Span(run_a, style={'backgroundColor': color_map[run_a], 'color': 'white', 'padding': '5px 10px', 'borderRadius': '3px'}),
                 html.H3(" and ", style={'display': 'inline'}),
                 html.Span(run_b, style={'backgroundColor': color_map[run_b], 'color': 'white', 'padding': '5px 10px', 'borderRadius': '3px'}),
-        ]),
+        ], style={'marginBottom': '10px'}),
         # Missing concordances (hidden div)
         create_concordance_div(),
         create_obj_div()
         
-        ])
+    ], id='fixed-header', style={
+        'position': 'sticky',
+        'top': '0',
+        'backgroundColor': 'white',
+        'zIndex': '1000',
+        'padding': '10px 0',
+        'borderBottom': '1px solid #ddd',
+        'width': '100%'
+    })
+
 
 def create_chart_layouts(chart_configs):
     
@@ -798,15 +809,19 @@ def run_glance_app():
             # Main content
             html.Div([
                 create_header_layout(),
-                create_chart_layouts(chart_configs)
+                # Add padding at the top to prevent content from being hidden under fixed header
+                html.Div([
+                    create_chart_layouts(chart_configs)
+                ], style={'paddingTop': '10px'})
             ], style={
                 'marginLeft': '240px',  # Leave space for sidebar
                 'width': 'calc(100% - 240px)',  # Take remaining width
-                'paddingTop': '20px'
             })
         ]),
     ], style={'fontFamily': 'Calibri'})
 
+
+    # Rest of the function remains the same
     app.index_string = '''
         <!DOCTYPE html>
         <html>
@@ -827,7 +842,15 @@ def run_glance_app():
                                             const targetId = href.substring(1);
                                             const element = document.getElementById(targetId);
                                             if (element) {
-                                                element.scrollIntoView({ behavior: 'smooth' });
+                                                // Adjust scrolling to account for fixed header height
+                                                const headerHeight = document.getElementById('fixed-header').offsetHeight;
+                                                const elementPosition = element.getBoundingClientRect().top;
+                                                const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 10;
+                                                
+                                                window.scrollTo({
+                                                    top: offsetPosition,
+                                                    behavior: 'smooth'
+                                                });
                                             }
                                         }
                                     }
