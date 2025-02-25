@@ -66,8 +66,8 @@ SuppXLS/Scen_AF_Renewable,RES_SOL,TFM_INS,C12:L17,,1
 SuppXLS/Scen_AF_Renewable,RES_SOL,TFM_INS,C5:L10,,2
 SuppXLS/Scen_Base_constraints,CCS+h2,UC_T,C8:N11,"{'R_S': 'AllRegions', 'T_S': ''}",1
 SuppXLS/Scen_Base_constraints,CH_RH,UC_T,B52:P55,"{'R_S': 'AllRegions', 'T_E': ''}",1
-SuppXLS/Scen_Base_constraints,Cars,UC_T,C17:Q19,"{'R_S': 'AllRegions', 'T_SUC': '', 'Ts_S': ''}",1
-SuppXLS/Scen_Base_constraints,Cars,UC_T,C34:P36,"{'R_S': 'AllRegions', 'T_SUC': '', 'Ts_S': ''}",2
+SuppXLS/Scen_Base_constraints,Cars,UC_T,C17:Q19,"{'R_S': 'AllRegions', 'T_SUC': ''}",1
+SuppXLS/Scen_Base_constraints,Cars,UC_T,C34:P36,"{'R_S': 'AllRegions', 'T_SUC': ''}",2
 SuppXLS/Scen_Base_constraints,Cars_2020,UC_T,C24:O45,"{'R_S': 'AllRegions', 'T_S': ''}",1
 SuppXLS/Scen_Base_constraints,IND_fuels,UC_T,C43:R102,"{'R_S': 'AllRegions', 'T_E': ''}",1
 SuppXLS/Scen_Base_constraints,Power_sector,TFM_INS,D23:U28,"{'R_S': 'AllRegions', 'T_S': ''}",1
@@ -98,12 +98,12 @@ SuppXLS/Scen_Cohesive,Dem_RES,TFM_INS-TS· Region=SI,R5:AE30,,1
 SuppXLS/Scen_Cohesive,H2_costs,TFM_UPD,C4:L9,,1
 SuppXLS/Scen_Cohesive,Load_Curves,TFM_INS,E3:L28,,1
 SuppXLS/Scen_Cohesive,Ref_Close,TFM_INS,C4:L7,,1
-SuppXLS/Scen_Cohesive,Solar,UC_T,B15:K21,"{'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}",1
-SuppXLS/Scen_Cohesive,Solar,UC_T,B26:K29,"{'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}",2
-SuppXLS/Scen_Cohesive,Solar,UC_T,B35:L39,"{'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}",3
-SuppXLS/Scen_Cohesive,Solar,UC_T,B42:L46,"{'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}",4
-SuppXLS/Scen_Cohesive,Solar,UC_T,B53:L57,"{'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}",5
-SuppXLS/Scen_Cohesive,Solar,UC_T,B63:K65,"{'R_S': 'AllRegions', 'T_E': '', 'R_E': 'AllRegions'}",6
+SuppXLS/Scen_Cohesive,Solar,UC_T,B15:K21,"{'R_S': 'AllRegions', 'T_E': ''}",1
+SuppXLS/Scen_Cohesive,Solar,UC_T,B26:K29,"{'R_S': 'AllRegions', 'T_E': ''}",2
+SuppXLS/Scen_Cohesive,Solar,UC_T,B35:L39,"{'R_E': 'AllRegions', 'T_E': ''}",3
+SuppXLS/Scen_Cohesive,Solar,UC_T,B42:L46,"{'R_E': 'AllRegions', 'T_E': ''}",4
+SuppXLS/Scen_Cohesive,Solar,UC_T,B53:L57,"{'R_E': 'AllRegions', 'T_E': ''}",5
+SuppXLS/Scen_Cohesive,Solar,UC_T,B63:K65,"{'R_S': 'AllRegions', 'T_E': ''}",6
 SuppXLS/Scen_Cohesive,TRA_costs_and_ban,TFM_UPD,D37:M39,"{'R_S': 'AllRegions', 'T_S': ''}",1
 SuppXLS/Scen_Cohesive,TRA_costs_and_ban,UC_T,D17:M20,"{'R_S': 'AllRegions', 'T_S': ''}",1
 SuppXLS/Scen_Cohesive,TRA_costs_and_ban,UC_T,D23:N26,"{'R_S': 'AllRegions', 'T_S': ''}",2
@@ -130,12 +130,12 @@ SuppXLS/Scen_Individualistic,Dem_RES,TFM_INS-TS· Region=SI,P5:AC30,,1
 SuppXLS/Scen_Individualistic,ICE_CAR_ban,UC_T,G18:R21,"{'R_S': 'AllRegions', 'T_S': ''}",1
 SuppXLS/Scen_Individualistic,ICE_CAR_ban,UC_T,G24:S27,"{'R_S': 'AllRegions', 'T_S': ''}",2
 SuppXLS/Scen_Individualistic,Load_Curves,TFM_INS,E5:L102,,1
-SuppXLS/Scen_Individualistic,Solar_re,UC_T,B16:L20,"{'R_E': 'AllRegions', 'T_E': ''}",1
-SuppXLS/Scen_Individualistic,Solar_re,UC_T,B23:L27,"{'R_E': 'AllRegions', 'T_E': ''}",2
-SuppXLS/Scen_Individualistic,Solar_re,UC_T,B34:L40,"{'R_E': 'AllRegions', 'T_E': ''}",3
-SuppXLS/Scen_Individualistic,Solar_rs,UC_T,B13:K19,"{'R_S': 'AllRegions', 'T_E': ''}",1
-SuppXLS/Scen_Individualistic,Solar_rs,UC_T,B24:K27,"{'R_S': 'AllRegions', 'T_E': ''}",2
-SuppXLS/Scen_Individualistic,Solar_rs,UC_T,B36:K38,"{'R_S': 'AllRegions', 'T_E': ''}",3
+SuppXLS/Scen_Individualistic,Solar,UC_T,B13:K19,"{'R_S': 'AllRegions', 'T_E': ''}",1
+SuppXLS/Scen_Individualistic,Solar,UC_T,B24:K27,"{'R_S': 'AllRegions', 'T_E': ''}",2
+SuppXLS/Scen_Individualistic,Solar,UC_T,B36:K38,"{'R_S': 'AllRegions', 'T_E': ''}",3
+SuppXLS/Scen_Individualistic,Solar,UC_T,B45:L49,"{'R_E': 'AllRegions', 'T_E': ''}",4
+SuppXLS/Scen_Individualistic,Solar,UC_T,B52:L56,"{'R_E': 'AllRegions', 'T_E': ''}",5
+SuppXLS/Scen_Individualistic,Solar,UC_T,B63:L69,"{'R_E': 'AllRegions', 'T_E': ''}",6
 SuppXLS/Scen_Individualistic,Trucks,TFM_INS,C4:T9,,1
 SuppXLS/Scen_LoadCurve_COM-FR,AGR,TFM_INS,C35:J40,,1
 SuppXLS/Scen_LoadCurve_COM-FR,AGR,TFM_INS,C43:J68,,2
