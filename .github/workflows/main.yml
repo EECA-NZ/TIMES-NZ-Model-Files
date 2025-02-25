@@ -39,7 +39,7 @@ jobs:
           exit 1; fi
 
     - name: Upload raw_tables.txt
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: ${{ failure() && steps.raw_table_updated.outcome == 'failure' }}
       with:
         name: raw_tables
