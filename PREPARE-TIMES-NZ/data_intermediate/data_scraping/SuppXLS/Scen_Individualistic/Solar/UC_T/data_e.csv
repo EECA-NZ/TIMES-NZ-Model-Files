@@ -1,4 +1,6 @@
-﻿UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRTS~NI,UC_RHSRTS~SI,UC_RHSRTS~0,UC_Desc
-UC_SOLARPV_COM,ELE,ESOL*COM*,2020,UP,1,0.2,0.1,3,SOLAR commercial rooftop potential
-,,,2030,,,2.5,0.8,,
-,,,2050,,,5.1,1.7,,
+﻿UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHST,UC_RHST~0,UC_Desc
+UC_SOLARPV_UTILITY,ELE,ESO*UTI*,2020,UP,1,0.58,5,Ground based solar (tracking and fixed)
+,,,2025,,,5.99,,
+,,,2030,,,8.15,,
+,,,2040,,,9.68,,
+,,,2060,,,9.9,,

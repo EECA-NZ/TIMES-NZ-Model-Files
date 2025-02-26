@@ -1,6 +1,5 @@
 ﻿UC_N,Pset_Set,Pset_PN,Year,LimType,UC_CAP,UC_RHSRT~NI,UC_RHSRT~SI,UC_RHSRT~0,UC_Desc
-UC_HYDRO_RoRsm,ELE,EHYD*RR*Sma*,2021,UP,1,0.02,0.016,3,New Hydro - Small RoR
-,,,2025,,,0.02,0.076,,
-,,,2030,,,0.02,0.196,,
-,,,2035,,,0.064,0.196,,
-,,,2040,,,0.064,0.226,,
+UC_HYDRO_RoR_lrg,ELE,EHYD*RR*new*,2021,UP,1,0,0.33,3,New Hydro - Large RoR
+,,,2030,,,0,0.4,,
+,,,2035,,,0,1.025,,
+,,,2040,,,0,1.215,,
