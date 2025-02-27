@@ -13,7 +13,10 @@ logging.basicConfig(level=logging.INFO)
 # get custom locations
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "..", "library"))
-from config import INPUT_LOCATION, OUTPUT_LOCATION
+from config import DATA_INTERMEDIATE, OUTPUT_LOCATION
+
+
+INPUT_LOCATION = DATA_INTERMEDIATE
 
 
 def get_csv_data(book_name, sheet_name, tag_name, csv_name):   

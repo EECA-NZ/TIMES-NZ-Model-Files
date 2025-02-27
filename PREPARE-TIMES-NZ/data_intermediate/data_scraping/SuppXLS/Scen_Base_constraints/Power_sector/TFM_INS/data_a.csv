@@ -1,5 +1,0 @@
-﻿TimeSlice,LimType,Attribute,Year,Attrib_Cond,Val_Cond,AllRegions,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
-,LO,NCAP_AFA,2020,,,0.15,,,ELE,"E*NGA*,E*CO*,-e*COM*",,,,,,
-,LO,NCAP_AFA,2060,,,0.15,,,ELE,"E*NGA*,E*CO*,-e*COM*",,,,,,
-,LO,NCAP_AFA,2020,,,0.9,,,ELE,E*GEO*,,,,,,
-,LO,NCAP_AFA,0,,,5,,,ELE,"E*NGA*,E*CO*,-e*COM*,E*GEO*",,,,,,

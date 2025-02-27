@@ -1,9 +1,0 @@
-﻿TechName,*TechDesc,Comm-IN,Comm-OUT,NCAP_PASTI~2015,AF,INVCOST,FIXOM,VAROM,Life,CAP2ACT,EFF,EFF~2020,EFF~2035,EFF~2050,EFF~0
-G_ELC_HV-00,Existing electricity distribution grid  - 220V voltage,ELC,ELC-HV,2.5,1,500,2.5,0.44,100,31.536,0.971,0.971,0.971,0.971,5
-G_ELC_MV-00,Existing electricity distribution grid  - 65/50V voltage,ELC-HV,ELC-MV,2.5,1,1500,7.5,0.44,100,31.536,0.98,0.98,0.98,0.98,5
-G_ELC_LV-00,Existing electricity distribution grid  - Low voltage,ELC-MV,ELCDD,2.5,1,1700,8.5,0.44,100,31.536,0.98,0.98,0.98,0.98,5
-G_ELC2ELCD,Virtual process for collecting ELCDD from grid and RES,ELCDD,ELCD,,,,,,100,31.536,1,1,1,1,5
-G_ELC_R_00,Existing electricity distribution grid  RESELC,ELCD,RESELC,1.2,1,0,,,100,31.536,1,1,1,1,5
-G_ELC_I_00,Existing electricity distribution grid  INDELC,ELCD,INDELC,0.5,1,0,,,100,31.536,1,1,1,1,5
-G_ELC_S_00,Existing electricity distribution grid  COMELC,ELCD,COMELC,0.5,1,0,,,100,31.536,1,1,1,1,5
-G_ELC_A_00,Existing electricity distribution grid  AGRELC,ELCD,AGRELC,0.3,1,0,,,100,31.536,1,1,1,1,5

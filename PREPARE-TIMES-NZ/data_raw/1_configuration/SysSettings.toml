@@ -1,0 +1,52 @@
+
+
+###############################################################################
+# TIMESLICES 
+
+
+# TIMES understands Season, Weekly, and DayNite variables of TimeSlice. 
+# Each can be added to the model. TIMES will then combine all TimeSlices together. 
+
+# So, in the case below, it will automatically create SUM-WK-D, FAL-WK-D, and all other combinations. 
+# With three seasons, two week types, and three DayNite variables, we get a combined 24 (4*2*3) slices. 
+
+# The order of the categories matter, but are fixed. TIMES will be automatically consider "parent timeslices" in several equations. 
+# (eg Season is parent to Weekly) 
+# The order of the variables WITHIN the categories also matter. TIMES can consider subsequent/previous timeslices in several equations also. 
+# (eg Spring comes after winter)
+
+# The Season/Weekly/DayNite names are set within TIMES. However, the names of the internal variables (eg D/N/P) can be anything you want. 
+# There can be any number of categories within a timeslice category - the only limit is computational performance. 
+
+# We can assign meaning to them through other variables in the model structure: 
+
+#  - - - the YRFR (year fraction) variables (ie what percentage of the year do these represent) 
+#  - - - the COM_FR (commodity fraction) variables (ie what percentage of a commodity's demand falls within this timeslice)
+#  - - - and a few others 
+
+
+# Finally, it is also possible to have an asymmetric timslice structure (eg more children slices in one parent slice)
+# but this method will not be explained here. 
+
+###############################################################################
+
+
+[TimeSlices]
+Season = ["SUM-", "FAL-", "WIN-", "SPR-"]
+Weekly = ["WK-", "WE-"]
+DayNite = ["D", "N", "P"]
+
+
+
+###############################################################################
+# BOOKREGION NAMES
+
+#This setting simply links the baseyear file booknames to regions. 
+
+# Base year booknames must follow the following format: 
+
+# VT_[BOOKNAME]_[SECTORNAME]_[VERSIONNUMBER].xlsx 
+
+# A common (but not compulsory) convention is to make a new workbook per region. 
+
+###############################################################################

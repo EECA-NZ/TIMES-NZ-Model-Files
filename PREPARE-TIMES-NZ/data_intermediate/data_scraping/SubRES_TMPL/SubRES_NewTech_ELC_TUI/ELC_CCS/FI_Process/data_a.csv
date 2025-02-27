@@ -1,7 +1,0 @@
-﻿Sets,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-ELE,EHCO_CCS30,,,,,-:-  -:-  -:-,Coal: SCPC-post CCS - 2030,PJ,GW,DAYNITE,,YES
-ELE,EHCOL_CCS30,,,,,-:-  -:-  -:-,Lignite: SCPC-post CCS - 2030,PJ,GW,DAYNITE,,YES
-ELE,ENGA_CCS30,,,,,-:-  -:-  -:-,Natural Gas: GTCC-post CCS - 2030,PJ,GW,DAYNITE,,YES
-MIN,CCS_Store1,,,,,-:-  -:-  -:-,CO2 Storage,kt,kta,,,
-MIN,CCS_Store2,,,,,-:-  -:-  -:-,CO2 Storage,kt,kta,,,

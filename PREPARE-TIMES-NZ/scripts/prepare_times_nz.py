@@ -1,75 +1,52 @@
-""" TODO: implement an automated TIMES configuration script """
+"""
+This script acts as a control file for processing TIMES-NZ files and creating the excel outputs
 
+"""
 # libraries 
 import os 
 import sys
-import time
+import shutil
 
-# get custom libraries
+
+
+# get custom libraries/ locations 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "..", "library"))
-from helpers import write_workbook
+from config import PREP_LOCATION, DATA_INTERMEDIATE, OUTPUT_LOCATION
 
-# Defining files to write
+# NOTE: here `INPUT_LOCATION` refers to the intermediate files that will be created in data_intermediate
 
-base_year_files = [
-    "BY_Trans",
-    "VT_NI_ELC_V4",
-    "VT_NI_IND_V2",
-    "VT_NI_OTH_V4",
-    "VT_NI_PRI_V4",
-    "VT_NI_TRA_V4",
-    "VT_SI_ELC_V4",
-    "VT_SI_IND_V2",
-    "VT_SI_OTH_V4",
-    "VT_SI_PRI_V4",
-    "VT_SI_TRA_V4",
-]
-settings_files = [
-    "SysSettings"
-]
-
-subres_files = [
-    "SubRES_TMPL/SubRES_NewTech_AGR_KEA",
-    "SubRES_TMPL/SubRES_NewTech_AGR_KEA_Trans",
-    "SubRES_TMPL/SubRES_NewTech_AGR_TUI",
-    "SubRES_TMPL/SubRES_NewTech_AGR_TUI_Trans",
-    "SubRES_TMPL/SubRES_NewTech_ELC_KEA",
-    "SubRES_TMPL/SubRES_NewTech_ELC_TUI",
-    "SubRES_TMPL/SubRES_NewTech_RC",
-    "SubRES_TMPL/SubRES_NewTechs_Industry",
-    "SubRES_TMPL/SubRES_NewTechs_Industry_Trans",
-    "SubRES_TMPL/SubRES_NewTransport-KEA",
-    "SubRES_TMPL/SubRES_NewTransport-TUI",
-]
-
-supp_files = [
-    "SuppXLS/Scen_AF_Renewable",
-    "SuppXLS/Scen_Base_constraints",
-    "SuppXLS/Scen_Carbon_Budgets",
-    "SuppXLS/Scen_Cohesive",
-    "SuppXLS/Scen_Individualistic",
-    "SuppXLS/Scen_LoadCurve_COM-FR",
-    "SuppXLS/Scen_RE_Potentials",
-    "SuppXLS/Scen_WEM_WCM",
-    "SuppXLS/Trades/ScenTrade_TRADE_PARMS",
-    "SuppXLS/Trades/ScenTrade__Trade_Links",
-]
-
-all_times_nz_files = base_year_files + settings_files + supp_files + subres_files
-
-def write_files():    
-    files_to_write = all_times_nz_files
-    for file in files_to_write:    
-        write_workbook(file)
-
-start_time = time.time()
-write_files()
-end_time = time.time()
-execution_time = end_time - start_time
-print(f"Writing these workbooks took {execution_time:.4f} seconds")
+# file locations 
+table_location = os.path.join(PREP_LOCATION, "data_raw", "archive") # archived summary table, won't update with new loads  
+file_location = f"{table_location}/raw_tables.txt"
 
 
+# Clear out DATA_INTERMEDIATE for fresh start 
 
+if os.path.exists(DATA_INTERMEDIATE):
+    print(f"DATA_INTERMEDIATE = {DATA_INTERMEDIATE}")
+    shutil.rmtree(DATA_INTERMEDIATE)
+# and make fresh 
+os.makedirs(DATA_INTERMEDIATE)
+
+
+# Set method 
+
+# method options are 'times_2' (recreates times 2 based on the summary table)
+# or 'times_3' (builds the new times model from source files) (not yet implemented)
+
+method = "times_3" 
+
+
+# Execute 
+
+if method == "times_2":
+    print(f"Reading the archived summary data")
+    os.system(f"python {PREP_LOCATION}/scripts/times_2_methods/read_archive_summary.py")
+    print(f"Creating TIMES excel files in {OUTPUT_LOCATION}")
+    os.system(f"python {PREP_LOCATION}/scripts/times_2_methods/prepare_times_nz_from_archive.py")
+    
+    
+    
 
 

@@ -48,3 +48,8 @@ END_GAMS
 
 # R deployment artifacts
 rsconnect
+
+
+# Some spare processing locations 
+
+PREPARE-TIMES-NZ/data_intermediate/

@@ -14,8 +14,7 @@ PREP_LOCATION = os.path.dirname(PREP_LIBRARY_LOCATION)
 TIMES_LOCATION = os.path.dirname(PREP_LOCATION)
 
 
-# data location
+# data locations
 OUTPUT_LOCATION = os.path.join(PREP_LOCATION, "output")
-
-INPUT_LOCATION = os.path.join(PREP_LOCATION, "data_intermediate", "data_scraping")
+DATA_INTERMEDIATE = os.path.join(PREP_LOCATION, "data_intermediate")
 
