@@ -1,0 +1,143 @@
+
+# TOML RULES - FIRST PASS 
+
+# every tag gets its own block header like [StartYear]
+
+# if you need to specify a tag, like FI_T, then you can use TagName = <whatever>. Don't need to add the tilde. 
+# This means we can give each tag a sensible descriptive name which makes things a bit clearer.
+# If you specify data directly in the toml, that will be read in by variable and assigned to "Data". See "TimeSlices" for an example of this. 
+# You can alternatively do this explicitly by assigning [NAME].Data (See "TimePeriods" for an example of this). 
+# Otherwise, you can specify a data location to read in. 
+#
+
+# You will need to specify a SheetName for this toml. All data from one toml goes onto a single sheet 
+# The distinction can be pretty arbitrary. It doesn't really matter what goes on what sheet. 
+
+# To do: Sheet name should inherit book name if not specified.
+
+BookName = "SysSettings"
+
+###############################################################################
+# TimePeriods
+###############################################################################
+
+
+
+# Set Base Year - this will be used throughout the model
+
+[StartYear]
+StartYear = [2023]
+
+# Under default settings, the timeperiods modelled will include the first year as a single year,
+# then jump to milestone years every 5 years.
+
+# so, if we start to 2018, the periods will be 2018, 2020, 2025, etc
+# TIMES will include all the relevant years within that milestone year, which is the middle year of the period, 
+# but they will all be modelled the same as the milestone year
+
+# To do: automate this process by setting just a start, end, and increment value
+
+# NOTE: You must currently also ensure the ActivePDef and final year are set how you want them in Veda when doing model runs.
+[ActivePDef]
+ActivePDef = ["5Year_increments"]
+
+[TimePeriods]
+TagName = "TimePeriods"
+
+[TimePeriods.Data]
+5Year_increments = [1,2,5,5,5,5,5,5,5]
+1Year_increments = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+
+
+
+
+
+
+###############################################################################
+# TIMESLICES 
+
+
+# TIMES understands Season, Weekly, and DayNite variables of TimeSlice. 
+# Each can be added to the model. TIMES will then combine all TimeSlices together. 
+
+# So, in the case below, it will automatically create SUM-WK-D, FAL-WK-D, and all other combinations. 
+# With three seasons, two week types, and three DayNite variables, we get a combined 24 (4*2*3) slices. 
+
+# The order of the categories matter, but are fixed. TIMES will be automatically consider "parent timeslices" in several equations. 
+# (eg Season is parent to Weekly) 
+# The order of the variables WITHIN the categories also matter. TIMES can consider subsequent/previous timeslices in several equations also. 
+# (eg Spring comes after winter)
+
+# The Season/Weekly/DayNite names are set within TIMES. However, the names of the internal variables (eg D/N/P) can be anything you want. 
+# There can be any number of categories within a timeslice category - the only limit is computational performance. 
+
+# We can assign meaning to them through other variables in the model structure: 
+
+#  - - - the YRFR (year fraction) variables (ie what percentage of the year do these represent) 
+#  - - - the COM_FR (commodity fraction) variables (ie what percentage of a commodity's demand falls within this timeslice)
+#  - - - and a few others 
+
+
+# Finally, it is also possible to have an asymmetric timslice structure (eg more children slices in one parent slice)
+# but this method will not be explained here. 
+
+###############################################################################
+[TimeSlices]
+
+SheetName = "TimeSlices"
+
+
+Season = ["SUM-", "FAL-", "WIN-", "SPR-"]
+Weekly = ["WK-", "WE-"]
+DayNite = ["D", "N", "P"]
+
+
+
+###############################################################################
+# BOOKREGION NAMES
+
+#This setting simply links the baseyear file booknames to regions. 
+
+# Base year booknames must follow the following format: 
+
+# VT_[BOOKNAME]_[SECTORNAME]_[VERSIONNUMBER].xlsx 
+
+# A common (but not compulsory) convention is to make a new workbook per region. We won't be doing that. 
+
+###############################################################################
+
+[BookRegions_Map]
+
+BookName = ["TIMES_NZ"]
+Region = ["NI", "SI"]
+
+
+
+
+###############################################################################
+# Defaults
+# We're not setting default units here, will set throughout the model on processes etc I think 
+###############################################################################
+
+[Currencies]
+
+Currency = "MioNZDollar"
+
+
+
+
+
+###############################################################################
+# YearFractions 
+
+###############################################################################
+
+[YearFractions]
+# a more standard example of a likely tag method 
+# includes external data, an optional sheetname and tagname location 
+# no uc_sets needed. Not sure if we make those null in the parsing method or in the metadata.
+# I think metadata generation, save us wasting space on saving extra stuff in the normalised tomls 
+
+SheetName = "YearFractions"
+TagName = "YRFR"
+DataLocation = "data_raw/stage_0_config/year_fractions.csv"

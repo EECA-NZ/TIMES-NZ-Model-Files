@@ -17,4 +17,8 @@ TIMES_LOCATION = os.path.dirname(PREP_LOCATION)
 # data locations
 OUTPUT_LOCATION = os.path.join(PREP_LOCATION, "output")
 DATA_INTERMEDIATE = os.path.join(PREP_LOCATION, "data_intermediate")
+DATA_RAW = os.path.join(PREP_LOCATION, "data_raw")
+
+
+
 

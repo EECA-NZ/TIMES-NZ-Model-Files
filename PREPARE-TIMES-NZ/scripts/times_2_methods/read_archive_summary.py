@@ -21,7 +21,7 @@ logging.basicConfig(level=logging.INFO)
 # get custom libraries/ locations 
 current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(current_dir, "..", "library"))
-from config import PREP_LOCATION, DATA_INTERMEDIATE
+from filepaths import PREP_LOCATION, DATA_INTERMEDIATE
 
 # file locations 
 table_location = os.path.join(PREP_LOCATION, "data_raw", "archive") # archived summary table, won't update with new loads  

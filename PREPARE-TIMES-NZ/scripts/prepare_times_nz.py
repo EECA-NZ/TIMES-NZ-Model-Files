@@ -12,7 +12,7 @@ import shutil
 # get custom libraries/ locations 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "..", "library"))
-from config import PREP_LOCATION, DATA_INTERMEDIATE, OUTPUT_LOCATION
+from filepaths import PREP_LOCATION, DATA_INTERMEDIATE, OUTPUT_LOCATION
 
 # NOTE: here `INPUT_LOCATION` refers to the intermediate files that will be created in data_intermediate
 
@@ -47,6 +47,7 @@ if method == "times_2":
     os.system(f"python {PREP_LOCATION}/scripts/times_2_methods/prepare_times_nz_from_archive.py")
     
     
-    
+
+
 
 
