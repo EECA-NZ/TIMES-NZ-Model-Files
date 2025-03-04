@@ -17,20 +17,14 @@ from filepaths import DATA_RAW, DATA_INTERMEDIATE
 from helpers import clear_data_intermediate
 from toml_readers import normalize_toml_data, parse_toml_file
 
-
-# we will output only a metadata file 
-# there is an argument to also save all the normalised toml files, which we can do if we decide we need these 
-# actually honestly yeah might do that too
-
 # clear data_intermediate - this will need removing later because this toml parse method will probably come quite late? or maybe it's the first thing. Not sure 
 # Definitely don't want to delete all the processed data in any case. 
-
 
 clear_data_intermediate()
 
 
 # Define locations for this file, and spin up the folder if needed 
-raw_data_location = f"{DATA_RAW}/stage_0_config"
+raw_data_location = f"{DATA_RAW}/0_config"
 output_location = f"{DATA_INTERMEDIATE}/stage_0_config"
 os.makedirs(f"{output_location}", exist_ok = True)
 
@@ -75,9 +69,9 @@ for toml_name in toml_list:
         tomli_w.dump(toml_normalised, f)
 
     # extract the book name to use through the rest of this approach 
-    book_name = toml_normalised["BookName"]
+    book_name = toml_normalised["WorkBookName"]
     # don't need this anymore 
-    del toml_normalised["BookName"]
+    del toml_normalised["WorkBookName"]
 
     # Now we go through the dictionary for this toml file and write the key items to the metadata dataframe     
 
@@ -96,7 +90,7 @@ for toml_name in toml_list:
 
 
         df = pd.DataFrame({
-            "BookName": [book_name],
+            "WorkBookName": [book_name],
             "TableName": [name], 
             "SheetName": [item["SheetName"]], 
             "VedaTag": [f"~{item['TagName']}"],

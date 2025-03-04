@@ -42,11 +42,49 @@ This module should also contain the main methodology documentation, which descri
 
 `output` stores the outputs which are the excel files to be read by Veda (and later XL2TIMES, hopefully). 
 
+## TOML Structure Rules
 
 
-## CURRENT PLAN 
+`data_raw/0_config` contains all the toml files which outline the structure of the excel files that will be produced for TIMES/VEDA. 
 
-All subject areas get their own input folder and scripts. These can be tied to 
+These are effectively metadata describing what data should go into the sheets, and how it should go in these. 
+
+Any TIMES-NZ user wishing to work with the model will need to work with these files. They are designed to be as simple as possible and not add too much abstraction on top of the VEDA language. 
+
+Each toml configuration file should contain: 
+
+### 1: A workbook name (internally referred to as `BookName`). 
+
+All tags designated in a particular toml will be added to the workbook specified at the top of the file. It is possible to have multiple tomls insert data into the same workbook, but if you want a different workbook, you'll need to make a new toml. Note: : THis should probably be renamed, because TIMES also uses BookName as a different variable entirely, which doesn't break anything but is slightly confusing. This will name the workbook you're creating, so it needs to a) follow Veda rules for these, and b) if it's intended to be a baseyear workbook (VT_NAME_SECTOR_VERSION) then it also needs to be mapped the same way in the TIMES BookRegion_Map variable. THis is not currently automated.
+
+### 2: A list of tables specified by `[TableName]`.
+
+`[TableName]` is not actually used by TIMES or Veda, so it can be whatever you want. Come up with a descriptive name for whatever the table is, or match the Veda name (like "TimePeriods" or something). The table names must be unique. The table names must be unique for each table and workbook, as BookName/TableName are used as a lookup key for these. 
+
+### 3: `TableName` metadata rules:
+
+
+TableName can contain anything you want, but some variables will be explicitly treated: 
+
+  - `SheetName`: will name the sheet this table is added to. If missing, it will default to creating a sheet that matches BookName
+  - `TagName`: will set the tag for this table (eg "FI_T", etc). Tilde not needed. If missing, it will default to the TableName (this will almost always mean Veda doesn't know what you're talking about, except for some SysSettings tags)
+  - `UCSets`: the uc_sets designation. If missing, will not be used. This is just for the user constraint tables and will often not be necessary.
+  - `Description`: Enter a short description of the purpose of this table. Not used by TIMES/VEDA, so can be anything you want. Will be read into the config metadata table, so can be helpful for reviewing the final structure later. 
+
+  - `DataLocation`: the file path for the data this table is expected to contain. If missing, it will instead look for `Data`.
+  - `Data`: a dictionary for the data contained in this TableName. Allows you to specify the data directly in the config file rather than an external file, which can be useful for smaller, simpler tables.
+
+
+  Note: If both `Data` and `DataLocation` are not included within TableName, then the module will take all variables not listed above and assume these are intended to be a dictionary of data. This means it will insert these into the final excel file. 
+
+  This means we can represent a whole table in a config file as simply as follows:   
+
+
+  ```toml
+  [StartYear]
+  StartYear = 2023
+  ```
+
 
 
 

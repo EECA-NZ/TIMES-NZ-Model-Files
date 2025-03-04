@@ -47,14 +47,14 @@ clear_output()
 
 # are we saying each toml is its own book? that might be the structure we need to follow but we will see 
 
-workbooks_to_make = metadata["BookName"].unique()
+workbooks_to_make = metadata["WorkBookName"].unique()
 
 
 # for each workbook we find in the metadata table: 
 for workbook in workbooks_to_make: 
 
     # we find all the sheets 
-    workbook_metadata = metadata[metadata["BookName"] == workbook]
+    workbook_metadata = metadata[metadata["WorkBookName"] == workbook]
     worksheets = workbook_metadata["SheetName"].unique()
 
     # and feed the book name and the sheetname into the creation function to give us the templates we need 
@@ -70,7 +70,7 @@ for workbook in workbooks_to_make:
 
         # we'll convert each row to a tuple and process from there 
         for x in worksheet_metadata.itertuples():
-            print(f"BookName = {x.BookName}, Location = {x.DataLocation}, Tag = {x.VedaTag}")
+            print(f"WorkBookName = {x.WorkBookName}, Location = {x.DataLocation}, Tag = {x.VedaTag}")
 
             data_location = x.DataLocation
             table_name = x.TableName
@@ -143,51 +143,4 @@ for workbook in workbooks_to_make:
             # and additional rows for a healthy gap.            
             startrow += df_row_count + 3     
             
-
-
-
-
-
-
-            
-    
-            
-
-
-
-
-
-        # now we're
-
-        # now we go through each sheet and write everything from the metadata to the sheet 
-
-        # the way we're going to do this is to treat every row in metadata as a new tag to write 
-        # there can be double ups or all sorts - we're keeping some flexibility there 
-        # if someone adds a new entry in a toml, it makes a new tag, no drama no ifs no buts
-
-
-        # but we will work in aggregate groups of workbook/sheet     
-        # because we need to just hit each sheet once then go down and add each tag 
-
-
-        # so the structure goes like: for every combination of workbook/worksheet
-
-        # we go through every row in the metadata and: 
-            # a) find the df location (toml/csv)
-                # - either read the toml and make the dict a df
-                # - or read the csv 
-            # b) add the tiny df logic to the two annoying tables 
-            # c) read the tags and uc_sets if necessary 
-            # d) write the table with the tags and iterate downwards 
-
-            # I think this is actually pretty easy huh 
-
-
-
-
-
-
-    
-
-    
 

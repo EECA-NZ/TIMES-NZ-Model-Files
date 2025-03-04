@@ -24,7 +24,7 @@ def normalize_toml_data(toml_data):
     normalized_data = copy.deepcopy(toml_data)
 
     # get the bookname here 
-    book_name = normalized_data["BookName"]
+    book_name = normalized_data["WorkBookName"]
     
     for table_name, table_content in normalized_data.items():
 
@@ -42,7 +42,7 @@ def normalize_toml_data(toml_data):
         ]
 
         # Ignore the bookname parameter - our items inherit this 
-        if(table_name == "BookName"):
+        if(table_name == "WorkBookName"):
             continue 
 
 
@@ -85,7 +85,7 @@ def normalize_toml_data(toml_data):
 
         else:              
             # This means there were no references to data tables or locations, 
-            # so we assume the data is in the toml and just take all the other variables and make them a dictionary         
+            # so we assume the data is in the toml and just take all the other variables and make them a dictionary       
 
             # Create a Data subtable
             data_subtable = {}           
@@ -105,12 +105,6 @@ def normalize_toml_data(toml_data):
             # Add the Data subtable
             table_content['Data'] = data_subtable
 
-
-        
-
-
-
-        
 
     
     return normalized_data
@@ -135,21 +129,6 @@ def parse_toml_file(file_path):
     return normalize_toml_data(toml_data)
 
 
-# toml_test = parse_toml_file(syssettings_toml)
-
-
-# we want to use this to write a workbook now . 
-
-
-
-
-
-# def normalise_all_tomls(config_location): 
-
-    # config_location should be data_raw/stage_0_config/*toml 
-
-
-
 
 
 def get_toml_files(folder_path):
@@ -160,41 +139,3 @@ def get_toml_files(folder_path):
     
     return [f for f in os.listdir(folder_path) if f.endswith('.toml')]
 
-# print(toml_test)
-
-
-
-
-
-# df = dict_to_dataframe(test_data["Data"])
-# tag = test_data["TagName"]
-
-
-# create_empty_workbook("SysSettings", ["SysSettings"])
- #write_data(df, "SysSettings_test_automate", "SysSettings", tag = tag, uc_set = [], startrow = 6)
-
-# want to extract all the sheets in the toml 
-
-
-# couple extra categories for the toml::::: 
-
-
-
-# BookName should be removed from the list of key value pairs 
-# SheetName can be included within any given tag
-# UCSets can be included within any given tag 
-# DataLocation can be used to specify a csv to read instead of containing data within the toml itself 
-# Description can be be used to add a note to the table which will be read into the config table 
-
-# From here, we should be able to read in every toml in our config folder (raw_data/stage_0_config/*.toml)
-# normalise these, and create data_intermediate/stage_0_config/toml_configs 
-# which is effectively just a table listing all the tags we'll create - it WON'T create data but it will make labels for either the data location 
-# or a note if the data itself is in the toml (like startyear or whatever - we can probably make user constraints in tomls too or something )
-
-
-# WE USE THE INTERMEDIATE TABLE TO CREATE THE WORKBOOKS so don't worry about these yet. 
-
-# raw_data/stage_0_config/*.toml
-# raw_data/stage_0_config/concordances?????????
-# raw_data/stage_1_macro_drivers
-# raw_data/stage_2_energy

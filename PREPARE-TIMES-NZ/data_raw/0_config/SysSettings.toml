@@ -15,7 +15,7 @@
 
 # To do: Sheet name should inherit book name if not specified.
 
-BookName = "SysSettings"
+WorkBookName = "SysSettings"
 
 ###############################################################################
 # TimePeriods
@@ -140,4 +140,4 @@ Currency = "MioNZDollar"
 
 SheetName = "YearFractions"
 TagName = "YRFR"
-DataLocation = "data_raw/stage_0_config/year_fractions.csv"
+DataLocation = "data_raw/0_config/year_fractions.csv"
