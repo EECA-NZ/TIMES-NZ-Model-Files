@@ -2,6 +2,7 @@ import tomli
 import sys 
 import os 
 import pandas as pd 
+import numpy as np
 import logging
 
 # set log level for message outputs 
@@ -13,7 +14,7 @@ from filepaths import PREP_LOCATION, DATA_INTERMEDIATE
 
 from helpers import clear_output
 
-from excel_writers import create_empty_workbook, dict_to_dataframe
+from excel_writers import create_empty_workbook, dict_to_dataframe, strip_headers_from_tiny_df, write_data
 
 
 
@@ -65,25 +66,40 @@ for workbook in workbooks_to_make:
 
         worksheet_metadata = workbook_metadata[workbook_metadata["SheetName"] == worksheet]
 
+        startrow = 0
+
         # we'll convert each row to a tuple and process from there 
         for x in worksheet_metadata.itertuples():
             print(f"BookName = {x.BookName}, Location = {x.DataLocation}, Tag = {x.VedaTag}")
 
             data_location = x.DataLocation
             table_name = x.TableName
+            tag_name = x.VedaTag
+            uc_sets = x.UC_Sets
+
+
+
 
             # we will need to make a rule that each table name in a toml must be distinct, I think
             # not the tag name of course, but the user-specified table names. These are not used by Veda but are for preprocessing IDs 
 
-            print(f"Data can be found at {data_location}, and the table name is {table_name}")
+            print(f"Data details: ")
+            print(f"Data location: {data_location}")
+            print(f"Table Name: {table_name}")
+            print(f"Veda Taf: {tag_name}")
+            print(f"UC Sets: {uc_sets}")
+
+
+            if np.isnan(uc_sets):
+                uc_sets = []
+
+            
 
             # first, find the data 
 
             # we can also just load this once from the normalised toml file 
 
-            # open the toml file 
-
-            
+            # open the toml file             
 
             if data_location.endswith(".toml"): 
                 # do toml things 
@@ -102,6 +118,33 @@ for workbook in workbooks_to_make:
                 df = pd.read_csv(csv_location, dtype = str)
             else: 
                 logging.warning("I don't know how to interpret the data located at {data_location}")
+
+            # do the tiny dfs - these are the only 2 I believe! 
+
+            if (workbook == "SysSettings"                    
+                    and table_name in ["StartYear", "ActivePDef"]):
+                df = strip_headers_from_tiny_df(df)
+
+            # we still need to set the row counts to make this work urgh 
+
+
+            # write the table and iterate the start row 
+
+            write_data(df,
+                       book_name = workbook,
+                       sheet_name = worksheet,
+                       tag = tag_name, 
+                       uc_set = uc_sets, 
+                       startrow = startrow)
+            
+
+            df_row_count= len(df) + len(uc_sets)
+            # add the dataframe rows to our start row index so we can keep going without overwriting
+            # and additional rows for a healthy gap.            
+            startrow += df_row_count + 3     
+            
+
+
 
 
 

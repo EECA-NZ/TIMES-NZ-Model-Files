@@ -4,6 +4,7 @@ import os
 from openpyxl import Workbook, load_workbook
 from ast import literal_eval
 import pandas as pd 
+import numpy as np
 import string
 import logging
 
@@ -104,21 +105,27 @@ def create_empty_workbook(book_name, sheets):
     wb.save(book_location)
 
 
-def write_data(df, book_name, sheet_name, tag, uc_set, startrow=0):    
-    new_workbook = f"{OUTPUT_LOCATION}/{book_name}.xlsx"
+def write_data(df, book_name, sheet_name, tag, uc_set, startrow=0):        
     
-    # Fix up the tag to match Veda expectations
-    tag = f"~{tag}"
-    tag = tag.replace("·", ":")
-    
-    # Get uc_set length
-    uc_set_length = len(uc_set)
-    if uc_set_length > 0:
-        startrow += uc_set_length-1
+
         
     # Load existing workbook
-    book = load_workbook(new_workbook)
+    book_location = f"{OUTPUT_LOCATION}/{book_name}.xlsx"
+    book = load_workbook(book_location)
     sheet = book[sheet_name]
+
+    
+
+
+    # Get uc_set length and adjust startrow if needed
+
+
+    uc_set_length = len(uc_set)
+    if uc_set_length > 0:
+        print("uc_sets detected")
+        startrow += uc_set_length-1
+    else: 
+        print("no uc_sets detected ")
     
     # Write the header row
     for col_idx, column_name in enumerate(df.columns, 1):
@@ -142,7 +149,10 @@ def write_data(df, book_name, sheet_name, tag, uc_set, startrow=0):
             sheet.cell(row=uc_set_tag_row, column=2, value=f"~UC_Sets: {key}: {value}")
     
     # Save the workbook
-    book.save(new_workbook)
+    book.save(book_location)
+
+
+# probably won't use the below two functions but will keep these to farm for parts and delete when finished 
         
 def write_all_tags_to_sheet(book_name, sheet_name):
 
