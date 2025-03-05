@@ -102,7 +102,7 @@ DayNite = ["D", "N", "P"]
 
 # VT_[BOOKNAME]_[SECTORNAME]_[VERSIONNUMBER].xlsx 
 
-# A common (but not compulsory) convention is to make a new workbook per region. We won't be doing that. 
+# A common (but not compulsory) convention is to make a new workbook per region. We won't be doing that, so the below maps a single BookName to both Regions
 
 ###############################################################################
 
@@ -139,5 +139,5 @@ Currency = "MioNZDollar"
 # I think metadata generation, save us wasting space on saving extra stuff in the normalised tomls 
 
 SheetName = "YearFractions"
-TagName = "YRFR"
+TagName = "TFM_INS"
 DataLocation = "data_raw/0_config/year_fractions.csv"
