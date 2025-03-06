@@ -33,7 +33,7 @@ os.makedirs(DATA_INTERMEDIATE)
 # Set method 
 
 # method options are 'times_2' (recreates times 2 based on the summary table)
-# or 'times_3' (builds the new times model from source files) (not yet implemented)
+# or 'times_3' (builds the new times model from source files) (currently very barebones implementation)
 
 method = "times_3" 
 
@@ -48,6 +48,10 @@ if method == "times_2":
     
     
 
-
-
+if method == "times_3":
+    print(f"Building TIMES excel files based on .toml configuration files...")
+    os.system(f"python {PREP_LOCATION}/scripts/stage_0_settings/read_archive_summary.py")    
+    os.system(f"python {PREP_LOCATION}/scripts/stage_4_veda_format/write_excel.py")    
+    print(f"Job complete")
+    
 

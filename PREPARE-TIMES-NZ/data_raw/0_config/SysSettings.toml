@@ -28,6 +28,8 @@ WorkBookName = "SysSettings"
 [StartYear]
 StartYear = [2023]
 
+Description = "The model base year. Used by several scripts for downstream processing."
+
 # Under default settings, the timeperiods modelled will include the first year as a single year,
 # then jump to milestone years every 5 years.
 
@@ -86,6 +88,8 @@ TagName = "TimePeriods"
 
 SheetName = "TimeSlices"
 
+Description = "Timeslice categories"
+
 
 Season = ["SUM-", "FAL-", "WIN-", "SPR-"]
 Weekly = ["WK-", "WE-"]
@@ -107,6 +111,8 @@ DayNite = ["D", "N", "P"]
 ###############################################################################
 
 [BookRegions_Map]
+
+Description = "Map books to regions. In the current version, all region information is contained within a single book."
 
 BookName = ["TIMES_NZ"]
 Region = ["NI", "SI"]
