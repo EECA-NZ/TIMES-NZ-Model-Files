@@ -1,0 +1,62 @@
+﻿Plant,Substation,Tech,TechName,Capacity (MW)
+Te Ahi O Maui (KA22),KAW,Geo,Geothermal,25.0
+Kawerau,KAW,Geo,Geothermal,103.0
+Mōkai,WKM,Geo,Geothermal,113.0
+Ngā Awa Pūrua,WRK,Geo,Geothermal,140.0
+Ngātamariki,OKI,Geo,Geothermal,85.0
+Ngāwhā Stage 1 & 2,KOE,Geo,Geothermal,28.0
+Ngāwhā Stage 3 (OEC4),KOE,Geo,Geothermal,32.0
+Ōhaaki,OKI,Geo,Geothermal,50.0
+Poihipi Road,PPI,Geo,Geothermal,50.0
+Rotokawa,WRK,Geo,Geothermal,34.0
+Kawerau (TOPP1),KAW,Geo,Geothermal,21.5
+Te Huka (Binary),WRK,Geo,Geothermal,28.0
+Te Mihi,WRK,Geo,Geothermal,166.0
+Wairākei Binary,WRK,Geo,Geothermal,14.4
+Wairākei A & B,WRK,Geo,Geothermal,117.0
+Bay of Plenty hydro schemes,TGA,HydSC,"Hydro, schedulable",147.6
+Bunnythorpe hydro scheme,TKU,HydSC,"Hydro, schedulable",360.0
+Coleridge,COL,HydSC,"Hydro, schedulable",39.5
+Clyde and Roxburgh hydro scheme,ROX,HydSC,"Hydro, schedulable",752.0
+Bay of Plenty hydro scheme (embedded),TGA,HydSC,"Hydro, schedulable",25.3
+Christchurch hydro scheme (embedded),CUL,HydSC,"Hydro, schedulable",26.8
+Manapōuri,MAN,HydSC,"Hydro, schedulable",800.0
+Waikaremoana hydro scheme,TUI,HydSC,"Hydro, schedulable",138.0
+Cobb,STK,HydSC,"Hydro, schedulable",32.0
+Patea,NPL,HydSC,"Hydro, schedulable",33.0
+Waikato River hydro scheme,WKM,HydSC,"Hydro, schedulable",1095.5
+Waipori power scheme,BWK,HydSC,"Hydro, schedulable",87.0
+Mangahao,MHO,HydSC,"Hydro, schedulable",39.0
+Waitaki hydro scheme,WTK,HydSC,"Hydro, schedulable",1743.0
+Lodestone Kohira solar farm,KTA,Solar,Solar,32.0
+Lodestone Rangitaiki solar farm,EDG,Solar,Solar,32.0
+Bream Bay Peaker,BRB,DslPkr,"Peaker, diesel-fired OCGT",9.0
+Glenbrook cogeneration power plant,GLN,OthCog,"Cogeneration, other",0.0
+Whareroa cogeneration plant,HWA,GasCog,"Cogeneration, gas-fired",70.0
+Huntly Unit 1 (Coal),HLY,Coal,Coal,200.0
+Huntly Unit 1 (Gas),HLY,OCGT,Open cycle gas turbine,50.0
+Huntly Unit 2 (Coal),HLY,Coal,Coal,200.0
+Huntly Unit 2 (Gas),HLY,OCGT,Open cycle gas turbine,50.0
+Huntly Unit 5 (e3p),HLY,CCGT,Combined cycle gas turbine,403.0
+Huntly Unit 6 (P40),HLY,OCGT,Open cycle gas turbine,50.8
+Junction Road power plant,NPL,GasPkr,"Peaker, gas-fired OCGT",100.0
+Kapuni cogeneration plant,KPA,GasCog,"Cogeneration, gas-fired",25.0
+Kinleith cogeneration plant,KIN,OthCog,"Cogeneration, other",39.6
+Mangahewa Power Station,SFD,OCGT,Open cycle gas turbine,9.6
+Stratford Peaker,SFD,GasPkr,"Peaker, gas-fired OCGT",210.0
+Taranaki Combined Cycle (TCC),SFD,CCGT,Combined cycle gas turbine,380.0
+McKee power plant,SFD,GasPkr,"Peaker, gas-fired OCGT",100.0
+Whirinaki peaker plant,WHI,DslPkr,"Peaker, diesel-fired OCGT",155.0
+Kaiwera Downs wind (Stage 1),GOR,Wind,Wind,43.0
+Mahinerangi 1,HWB,Wind,Wind,36.0
+Mill Creek,WIL,Wind,Wind,60.0
+Tararua Stage 1 & 2,LTN,Wind,Wind,68.0
+Tararua Stage 3,WDV,Wind,Wind,93.0
+Te Āpiti,WDV,Wind,Wind,90.75
+Te Rere Hau,LTN,Wind,Wind,45.5
+Te Uku,HAM,Wind,Wind,64.4
+Turitea North,LTN,Wind,Wind,118.8
+Turitea South,LTN,Wind,Wind,102.6
+Waipipi,WVY,Wind,Wind,133.0
+West Wind,WIL,Wind,Wind,142.6
+White Hill,TWI,Wind,Wind,58.0

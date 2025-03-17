@@ -1,4 +1,12 @@
-# the purpose of this script is to first read in the ssyssettings toml 
+# this script:
+# 1) reads in all the config toml files, 
+# 2) normalises them (which makes the default settings explicit),
+# 3) saves these,
+# 4) and also writes a descriptive metadata file for them 
+
+# It writes everything into data_intermediate, which is designed to be wiped on runs and reruns and not tracked by git. 
+
+
 
 import tomli_w
 import sys 
@@ -7,7 +15,7 @@ import pandas as pd
 import logging
 
 # set log level for message outputs 
-logging.basicConfig(level=logging.INFO) # are we even using this? Because we probably should 
+logging.basicConfig(level=logging.INFO) 
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))

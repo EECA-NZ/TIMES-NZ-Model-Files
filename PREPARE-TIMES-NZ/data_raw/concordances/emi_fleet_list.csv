@@ -1,0 +1,90 @@
+﻿PlantName,TechnologyDescription,FuelDescription,DateCommissioned
+Ātiamuri,Hydro,Hydro,1/01/1962
+Aniwhenua,Hydro,Hydro,1/01/1981
+Ōhaaki,Geothermal,Geothermal,1/01/1992
+Ōhakuri,Hydro,Hydro,1/01/1962
+Ōhau A,Hydro,Hydro,1/01/1980
+Ōhau B,Hydro,Hydro,1/01/1984
+Ōhau C,Hydro,Hydro,1/01/1985
+Arapuni,Hydro,Hydro,1/01/1929
+Aratiatia,Hydro,Hydro,1/01/1964
+Aviemore,Hydro,Hydro,1/01/1968
+Benmore,Hydro,Hydro,1/01/1965
+Benmore,Hydro,Hydro,
+Branch River (Arnold),Hydro,Hydro,1/01/1983
+Carter Holt Harvey Energy Ltd CoGen,Geothermal,Geothermal,1/01/1966
+Clyde,Hydro,Hydro,1/01/1992
+Cobb,Hydro,Hydro,1/01/1944
+Coleridge,Hydro,Hydro,1/01/1914
+Deep Stream (Waipori A),Hydro,Hydro,1/01/2008
+Fonterra Dairy - Whareroa,Co-generation,Gas,1/01/1966
+Glenbrook Steel,Co-generation,Gas,1/01/1987
+Highbank,Hydro,Hydro,1/01/1945
+Huntly 5,Combined cycle gas turbine,Gas,1/01/2007
+Huntly 6,Open cycle gas turbine,Gas,1/01/2004
+Huntly Rankine 1,Pulverised coal,Coal/Gas,1/01/1983
+Huntly Rankine 2,Pulverised coal,Coal/Gas,1/01/1983
+Huntly Rankine 4,Pulverised coal,Coal/Gas,1/01/1983
+Junction Road,Open cycle gas turbine,Gas,1/01/2020
+Kūmara,Hydro,Hydro,1/01/1928
+Kaimai 5,Hydro,Hydro,1/01/1972
+Kaitawa,Hydro,Hydro,1/01/1948
+Kapuni,Co-generation,Gas,1/01/1998
+Karāpiro,Hydro,Hydro,1/01/1948
+Kawerau,Geothermal,Geothermal,1/01/2018
+Kawerau,Geothermal,Geothermal,1/01/2008
+Kinleith,Co-generation,Gas,1/01/1998
+Mahinerangi (Waipori B),Wind,Wind,1/01/2011
+Manapōuri,Hydro,Hydro,1/01/1972
+Mangahao,Hydro,Hydro,1/01/1924
+Maraetai,Hydro,Hydro,1/01/1971
+Matahina,Hydro,Hydro,1/01/1967
+McKee,Open cycle gas turbine,Gas,1/01/2013
+Mill Creek,Wind,Wind,1/01/2014
+Mokai,Geothermal,Geothermal,1/01/2000
+New Plymouth,,Gas,1/01/1974
+Nga Awa Pūrua,Geothermal,Geothermal,1/01/2010
+Ngā Tamariki,Geothermal,Geothermal,1/01/2013
+Ngāwhā B,Geothermal,Geothermal,1/01/2020
+Paerau Gorge,Hydro,Hydro,1/01/1984
+Patea unit 1,Hydro,Hydro,1/01/1984
+Patea unit 2,Hydro,Hydro,1/01/1984
+Patea unit 3,Hydro,Hydro,1/01/1984
+Pirirpaua,Hydro,Hydro,1/01/1943
+Poihipi,Geothermal,Geothermal,1/01/1997
+Rangipo,Hydro,Hydro,1/01/1983
+Roaring Meg,Hydro,Hydro,1/01/1936
+Rotokawa,Geothermal,Geothermal,1/01/1997
+Roxburgh,Hydro,Hydro,1/01/1956
+Southdown 5,Combined cycle gas turbine,Gas,1/01/2007
+Southdown Battery,Chemical battery,Electricity,1/01/2017
+Stratford Peaker 1,Open cycle gas turbine,Gas,1/01/2011
+Stratford Peaker 2,Open cycle gas turbine,Gas,1/01/2011
+Takapō A,Hydro,Hydro,1/01/1951
+Takapō B,Hydro,Hydro,1/01/1977
+Taranaki Combined Cycle,Open cycle gas turbine,Gas,1/01/1998
+Tararua stage I,Wind,Wind,1/01/1999
+Tararua stage II,Wind,Wind,1/01/2004
+Tararua Wind Farm 3,Wind,Wind,1/01/2007
+Te Āpiti,Wind,Wind,1/01/2004
+Te Mihi 1,Geothermal,Geothermal,1/01/2014
+Te Mihi 2,Geothermal,Geothermal,1/01/2014
+Te Rapa,Co-generation,Gas,1/01/1999
+Te Rere Hau,Wind,Wind,1/01/2011
+Te Uku,Wind,Wind,1/01/2011
+Teviot,Hydro,Hydro,1/01/1924
+Tokaanu,Hydro,Hydro,1/01/1973
+Tuai,Hydro,Hydro,1/01/1929
+Turitea Wind Farm,Wind,Wind,1/01/2021
+Waipāpa,Hydro,Hydro,1/01/1961
+Waipipi,Wind,Wind,1/01/2020
+Waipori (2A/3/4),Hydro,Hydro,1/01/1902
+Wairakei,Geothermal,Geothermal,1/01/2010
+Wairakei,Geothermal,Geothermal,1/01/1958
+Waitaki,Hydro,Hydro,1/01/1935
+West Wind 1,Wind,Wind,1/01/2009
+West Wind 2,Wind,Wind,1/01/2009
+Whakamaru,Hydro,Hydro,1/01/1956
+Wheao and Flaxy,Hydro,Hydro,1/01/1982
+Whirinaki,Open cycle gas turbine,Diesel,1/01/2004
+White Hill,Wind,Wind,1/01/2007

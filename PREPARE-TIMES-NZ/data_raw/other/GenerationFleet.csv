@@ -1,0 +1,84 @@
+﻿PlantName,POC,HydroScheme,MBIE_Name,EMI_Name,TechnologyCode,FuelType,YearCommissioned,CapacityMW,MBIE_CapacityMW,GenerationMethod,FactFile
+Aniwhenua,MAT,Rangitaiki River,Bay of Plenty hydro schemes,aniwhenua,HYD,Hydro,1981,25,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1346/aniwhenua
+Arapuni,ARI,Waikato,Waikato River hydro scheme,arapuni,HYD,Hydro,1929,198,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1093/arapuni
+Aratiatia,ARA,Waikato,Waikato River hydro scheme,aratiatia,HYD,Hydro,1964,90,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1091/aratiatia
+Ātiamuri,ATI,Waikato,Waikato River hydro scheme,atiamuri,HYD,Hydro,1962,84,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1087/atiamuri
+Aviemore,AVI,Waitaki,Waitaki hydro scheme,aviemore,HYD,Hydro,1968,220,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1088/aviemore
+Benmore,BEN,Waitaki,Waitaki hydro scheme,benmore,HYD,Hydro,1965,570,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1085/benmore
+Branch River (Argyle + Wairau),ARG,Branch River,,,HYDRR,Hydro,1983,11,,Capacity Factor,https://www.energynews.co.nz/resource/hydro-scheme/1086/branch-river-hydro-scheme
+Bream Bay,BRB,,Bream Bay Peaker,,OCGT,Diesel,2011,9,9,Exclude,https://www.energynews.co.nz/resource/diesel-fired-thermal-power-station/6749/bream-bay-peaker
+Clyde,CYD,Clutha,Clyde and Roxburgh hydro scheme,clyde,HYD,Hydro,1992,432,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1084/clyde
+Cobb,STK,Cobb,Cobb,cobb,HYD,Hydro,1944,32,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1082/cobb
+Coleridge,COL,Coleridge,Coleridge,coleridge,HYD,Hydro,1914,39,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1083/coleridge
+Deep Stream,HWB,Mahinerangi,,,HYD,Hydro,2008,6,,TBD,https://www.energynews.co.nz/resource/hydro-power-station/1096/deep-stream
+Fonterra Dairy - Whareroa,HWA,,,whareroa,COG,Gas,1966,70,,Capacity Factor,https://www.energynews.co.nz/energy-resource/cogeneration/1689/whareroa
+Glenbrook Steel,GLN,,,glenbrook_kilns,COG,Gas,1987,112,,Capacity Factor,https://www.energynews.co.nz/energy-resource/cogeneration/1126/glenbrook
+Highbank,ASB,Rangitata River,Christchurch hydro scheme (embedded),highbank,HYD,Hydro,1945,28,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1076/highbank-and-montalto
+Huntly Unit 5 (E3P),HLY,,Huntly Unit 5 (e3p),huntly_e3p,CCGT,Gas,2007,403,403,EMI,https://www.energynews.co.nz/energy-resource/combined-cycle-gas-turbine/1128/huntly-unit-5-e3p
+Huntly Unit 6 (P40),HLY,,Huntly Unit 6 (P40),huntly_p40,OCGT,Gas,2004,50,50.8,EMI,https://www.energynews.co.nz/energy-resource/open-cycle-gas-turbine/1129/huntly-unit-6
+Huntly Units 1-4,HLY,,Various,huntly_1_4,RNK,Gas/Coal,1983,500,500,Custom,"Excluding mothballed Rankine. Estimate 70% of GWh output is gas, 30% coal. https://www.energynews.co.nz/resource/coal-fired-power-station/1123/huntly-rankines"
+Junction Road,JRD,,Junction Road power plant,junctionroad,OCGT,Gas,2020,100,100,EMI,https://www.energynews.co.nz/energy-resource/open-cycle-gas-turbine/9222/junction-road-peaking-plant
+Kaimai Hydro Scheme,TGA,Kaimai ,Bay of Plenty hydro schemes,kaimai,HYD,Hydro,1915,42,,EMI,https://www.energynews.co.nz/resource/hydro-scheme/1074/kaimai-hydro-scheme
+Kaitawa,TUI,Waikaremoana,Waikaremoana hydro scheme,waikaremoana,HYD,Hydro,1948,36,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1073/kaitawa
+Kaiwera Downs Stage 1,GOR,,Kaiwera Downs wind (Stage 1),KaiweraDowns,WIN,Wind,2023,43,43,EMI,https://www.energynews.co.nz/resource/wind-farm/1155/kaiwera-downs
+Kapuni,KPA,,,kapuni,COG,Gas,1998,20,,Cogen,https://www.energynews.co.nz/energy-resource/cogeneration/1350/kapuni-power-station
+Karāpiro,KPO,Waikato,Waikato River hydro scheme,karapiro,HYD,Hydro,1948,112.5,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1071/karapiro
+Kawerau,KAW,,Kawerau,kawerau,GEO,Geothermal,2008,106,103,Capacity Factor,https://www.energynews.co.nz/resource/geothermal-power-station/1026/kawerau
+Kinleith,KIN,,,kinleith,COG,Wood,1998,40,,Capacity Factor,https://www.energynews.co.nz/energy-resource/cogeneration/1125/kinleith
+Kūmara,KUM,Dillmans/Duffers/Kumara ,,,HYD,Hydro,1928,11,,TBD,https://www.energynews.co.nz/resource/hydro-power-station/1080/dillmansdufferskumara
+Mahinerangi (Waipori B),HWB,,Mahinerangi 1,,WIN,Wind,2011,36,36,TBD,https://www.energynews.co.nz/resource/wind-farm/1154/mahinerangi
+Manapōuri,MAN,Manapōuri,Manapōuri,manapouri,HYD,Hydro,1972,802,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1067/manapouri
+Mangahao,MHO,Mangahao,Mangahao,mangahao,HYD,Hydro,1924,39,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1095/mangahao
+Mangahewa Power Station,SFD,,Mangahewa Power Station,,OCGT,Gas,2009,9,9.6,Exclude,https://www.energynews.co.nz/energy-resource/open-cycle-gas-turbine/1757/mangahewa-power-station
+Maraetai,MTI,Waikato,Waikato River hydro scheme,maraetai,HYD,Hydro,1971,360,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1064/maraetai-1-2
+Matahina,MAT,Matahina,Bay of Plenty hydro schemes,,HYD,Hydro,1967,80,,Capacity Factor,https://www.energynews.co.nz/resource/hydro-power-station/1066/matahina
+McKee,SFD,,McKee power plant,McKee,OCGT,Gas,2013,100,100,EMI,https://www.energynews.co.nz/energy-resource/open-cycle-gas-turbine/6454/mckee-peaking-plant
+Mill Creek,WIL,,Mill Creek,mill_creek,WIN,Wind,2014,60,60,EMI,https://www.energynews.co.nz/energy-resource/wind-farm/1153/mill-creek
+Mokai,WKM,,Mōkai,mokai,GEO,Geothermal,2000,112,113,EMI,https://www.energynews.co.nz/resource/geothermal-power-station/1023/mokai
+Nga Awa Pūrua,NAP,,Ngā Awa Pūrua,nap,GEO,Geothermal,2010,140,140,Capacity Factor,https://www.energynews.co.nz/resource/geothermal-power-station/1022/nga-awa-purua
+Ngā Tamariki,NAP,,Ngātamariki,Ngatamariki,GEO,Geothermal,2013,85,85,EMI,https://www.energynews.co.nz/resource/geothermal-power-station/1020/ngatamariki
+Ngāwhā (OEC1-3),KOE,,Ngāwhā Stage 1 & 2,ngawha,GEO,Geothermal,2008,28,28,EMI,https://www.energynews.co.nz/energy-resource/geothermal-power-station/1021/ngawha
+Ngāwhā (OEC4),KOE,,Ngāwhā Stage 3 (OEC4),ngawha,GEO,Geothermal,2020,31.5,32,EMI,https://www.energynews.co.nz/energy-resource/geothermal-power-station/1021/ngawha
+Ōhaaki,OKI,,Ōhaaki,ohaaki,GEO,Geothermal,1992,50,50,EMI,https://www.energynews.co.nz/energy-resource/geothermal-power-station/1019/ohaaki
+Ōhakuri,OHK,Waikato,Waikato River hydro scheme,ohakuri,HYD,Hydro,1962,112,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1058/ohakuri
+Ōhau A,OHA,Waitaki,Waitaki hydro scheme,ohau_a,HYD,Hydro,1980,264,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1059/ohau
+Ōhau B,OHB,Waitaki,Waitaki hydro scheme,ohau_b,HYD,Hydro,1984,212,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1056/ohau-b
+Ōhau C,OHC,Waitaki,Waitaki hydro scheme,ohau_c,HYD,Hydro,1985,212,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1057/ohau-c
+Paerau Gorge,NSY,Paerau Gorge,,paerau,HYD,Hydro,1984,12.5,,EMI,https://www.energynews.co.nz/resource/hydro-scheme/1246/paerau-gorge-hydro-scheme
+Patea,HWA,Patea,Patea,patea,HYD,Hydro,1984,33.6,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1055/patea
+Piripaua,TUI,Waikaremoana,Waikaremoana hydro scheme,waikaremoana,HYD,Hydro,1943,42,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1052/piripaua
+Poihipi,PPI,,Poihipi Road,poihipi,GEO,Geothermal,1997,55,50,EMI,https://www.energynews.co.nz/energy-resource/geothermal-power-station/1018/poihipi-road
+Rangipo,RPO,Tongariro ,Bunnythorpe hydro scheme,rangipo,HYD,Hydro,1983,120,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1051/rangipo
+Roaring Meg,CML,Roaring Meg,,,HYD,Hydro,1936,4.2,,Capacity Factor,https://www.energynews.co.nz/resource/hydro-power-station/1050/roaring-meg
+Rotokawa,WRK,,Rotokawa,rotokawa,GEO,Geothermal,1997,38,34,EMI,https://www.energynews.co.nz/resource/geothermal-power-station/1016/rotokawa
+Roxburgh,ROX,Clutha River,Clyde and Roxburgh hydro scheme,roxburgh,HYD,Hydro,1956,320,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1049/roxburgh
+Stratford Peaker,SFD,,Stratford Peaker,stratford,OCGT,Gas,2011,210,210,EMI,https://www.energynews.co.nz/energy-resource/open-cycle-gas-turbine/1430/stratford
+Takapō A,TKA,Waitaki,Waitaki hydro scheme,tekapo_a,HYD,Hydro,1951,30,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1046/tekapo-and-b
+Takapō B,TKB,Waitaki,Waitaki hydro scheme,tekapo_b,HYD,Hydro,1977,160,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1046/tekapo-and-b
+Taranaki Combined Cycle,SFD,,Taranaki Combined Cycle (TCC),stratford,CCGT,Gas,1998,380,380,EMI,https://www.energynews.co.nz/energy-resource/combined-cycle-gas-turbine/1009/taranaki-combined-cycle
+Tararua Stage 1 & 2,LTN,,Tararua Stage 1 & 2,twf_12,WIN,Wind,1999,73,68,EMI,https://www.energynews.co.nz/resource/wind-farm/1146/tararua
+Tararua Stage 3,TWC,,Tararua Stage 3,twf_3,WIN,Wind,2007,93,93,EMI,https://www.energynews.co.nz/resource/wind-farm/1146/tararua
+Te Ahi O Maui,KAW,,Te Ahi O Maui (KA22),kawerau_new,GEO,Geothermal,2018,27,25,Capacity Factor,https://www.energynews.co.nz/resource/geothermal-power-station/7312/te-ahi-o-maui
+Te Āpiti,WDV,,Te Āpiti,te_apiti,WIN,Wind,2004,90,90.75,EMI,https://www.energynews.co.nz/energy-resource/wind-farm/1143/te-apiti
+Te Huka Binary,WRK,,Te Huka (Binary),tehuka,GEO,Geothermal,2010,28,28,EMI,https://www.energynews.co.nz/energy-resource/geothermal-power-station/1015/tauhara-stage-one-te-huka-power-station
+Te Mihi,THI,,Te Mihi,te_mihi,GEO,Geothermal,2014,166,166,EMI,https://www.energynews.co.nz/energy-resource/geothermal-power-station/1014/te-mihi
+Te Rapa,TWH,,,te_rapa,COG,Gas,1999,42,,Capacity Factor,https://www.energynews.co.nz/energy-resource/cogeneration/1011/te-rapa
+Te Rere Hau,TWC,,Te Rere Hau,te_rere_hau,WIN,Wind,2011,48.5,45.5,EMI,https://www.energynews.co.nz/energy-resource/wind-farm/1140/te-rere-hau
+Te Uku,TWH,,Te Uku,te_uku,WIN,Wind,2011,64.4,64.4,EMI,https://www.energynews.co.nz/energy-resource/wind-farm/1138/te-uku
+Teviot,CYD,Teviot River,,teviot,HYD,Hydro,1924,17.7,,EMI,https://www.energynews.co.nz/resource/hydro-scheme/1045/teviot-river-hydro-scheme
+Tokaanu/Mangaio,TKU,Tongariro ,Bunnythorpe hydro scheme,,HYD,Hydro,1973,242,,Capacity Factor,"https://www.energynews.co.nz/energy-resource/hydro-power-station/1044/tokaanu, https://www.energynews.co.nz/energy-resource/hydro-power-station/4240/mangaio"
+TOPP1,KAW,,Kawerau (TOPP1),,GEO,Geothermal,2013,21.5,21.5,Capacity Factor,https://www.energynews.co.nz/resource/geothermal-power-station/31732/topp1
+Tuai,TUI,Waikaremoana,Waikaremoana hydro scheme,waikaremoana,HYD,Hydro,1929,60,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1098/tuai
+Turitea North,LTN,,Turitea North,turitea,WIN,Wind,2020,119,118.8,EMI,https://www.energynews.co.nz/resource/wind-farm/1136/turitea
+Turitea South,LTN,,Turitea South,turitea,WIN,Wind,2021,103,102.6,EMI,https://www.energynews.co.nz/resource/wind-farm/1136/turitea
+Waipāpa,WPA,Waikato,Waikato River hydro scheme,waipapa,HYD,Hydro,1961,51,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1039/waipapa
+Waipipi,WVY,,Waipipi,waipipi,WIN,Wind,2020,133,133,EMI,https://www.energynews.co.nz/resource/wind-farm/1134/waipipi
+Waipori,BWK,Lake Mahinerangi,Waipori power scheme,waipori,HYD,Hydro,1902,86,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1037/waipori
+Wairakei,WRK,,Wairākei A & B,wairakei,GEO,Geothermal,1958,117,117,EMI,https://www.energynews.co.nz/energy-resource/geothermal-power-station/1013/wairakei
+Wairakei Binary,WRK,,Wairākei Binary,wairakei,GEO,Geothermal,2010,14.4,14.4,EMI,https://www.energynews.co.nz/energy-resource/geothermal-power-station/1013/wairakei
+Waitaki,WTK,Waitaki,Waitaki hydro scheme,waitaki,HYD,Hydro,1935,105,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1033/waitaki-power-station
+West Wind,WWD,,West Wind,west_wind,WIN,Wind,2009,142.6,142.6,EMI,https://www.energynews.co.nz/resource/wind-farm/1133/west-wind
+Whakamaru,WKM,Waikato,Waikato River hydro scheme,whakamaru,HYD,Hydro,1956,124,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1032/whakamaru
+Wheao and Flaxy,ROT,Wheao and Flaxy(?),,wheao_flaxy,HYD,Hydro,1982,26,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1031/wheao-and-flaxy
+Whirinaki,WHI,,Whirinaki peaker plant,whirinaki,OCGT,Diesel,2004,155,155,EMI,https://www.energynews.co.nz/energy-resource/diesel-fired-thermal-power-station/1122/whirinaki-contact
+White Hill,NMA,,White Hill,white_hill,WIN,Wind,2007,58,58,EMI,https://www.energynews.co.nz/energy-resource/wind-farm/1132/white-hill
