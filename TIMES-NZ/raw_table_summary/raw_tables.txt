@@ -2853,7 +2853,6 @@ SPR-,UP,NCAP_AFC,,0.125,0.125,,"R_DDW*SOL*,-*00",RESSOL
 sheetname: CCS+h2
 range: B2
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -2863,7 +2862,6 @@ VALUE
 sheetname: CH_RH
 range: B2
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'T_E': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -2871,9 +2869,8 @@ VALUE
 
 
 sheetname: Cars
-range: B10
+range: B2
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'Ts_S': '', 'T_SUC': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -2881,9 +2878,8 @@ VALUE
 
 
 sheetname: Cars
-range: B3
+range: B8
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'Ts_S': '', 'T_SUC': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -2893,7 +2889,6 @@ VALUE
 sheetname: Cars_2020
 range: B2
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -2903,7 +2898,6 @@ VALUE
 sheetname: IND_fuels
 range: B2
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'T_E': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -2913,7 +2907,6 @@ VALUE
 sheetname: Power_sector
 range: B11
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~TFM_UPD
 types: VALUE (object)
 VALUE
@@ -2923,7 +2916,6 @@ VALUE
 sheetname: Power_sector
 range: B18
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -2933,7 +2925,6 @@ VALUE
 sheetname: Power_sector
 range: B2
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~TFM_INS
 types: VALUE (object)
 VALUE
@@ -2943,7 +2934,6 @@ VALUE
 sheetname: TRA_Policy
 range: B2
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -2953,7 +2943,6 @@ VALUE
 sheetname: Thermal_gencap
 range: B2
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -2963,7 +2952,6 @@ VALUE
 sheetname: Thermal_gencap
 range: B8
 filename: SuppXLS/Scen_Base_constraints.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -2973,7 +2961,6 @@ VALUE
 sheetname: Carbon budget
 range: B2
 filename: SuppXLS/Scen_Carbon_Budgets.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -2983,7 +2970,6 @@ VALUE
 sheetname: BEV_PHEV-share
 range: B16
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -2993,7 +2979,6 @@ VALUE
 sheetname: BEV_PHEV-share
 range: B2
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3003,7 +2988,6 @@ VALUE
 sheetname: BEV_PHEV-share
 range: B23
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3013,7 +2997,6 @@ VALUE
 sheetname: BEV_PHEV-share
 range: B30
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3023,7 +3006,6 @@ VALUE
 sheetname: BEV_PHEV-share
 range: B9
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3637,9 +3619,8 @@ TimeSlice,LimType,Attribute,Pset_PN,Pset_CI,Cset_CN,Pset_set,Year,AllRegions
 
 
 sheetname: Solar
-range: B14
+range: B12
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3647,9 +3628,17 @@ VALUE
 
 
 sheetname: Solar
-range: B22
+range: B19
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': '', 'R_S': 'AllRegions'}
+tag: ~UC_T
+types: VALUE (object)
+VALUE
+~UC_Sets: R_E: AllRegions
+
+
+sheetname: Solar
+range: B2
+filename: SuppXLS/Scen_Cohesive.xlsx
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3657,39 +3646,26 @@ VALUE
 
 
 sheetname: Solar
-range: B3
+range: B27
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
-~UC_Sets: R_S: AllRegions
+~UC_Sets: R_E: AllRegions
 
 
 sheetname: Solar
-range: B31
+range: B35
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
-~UC_Sets: R_S: AllRegions
+~UC_Sets: R_E: AllRegions
 
 
 sheetname: Solar
-range: B40
+range: B43
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': '', 'R_S': 'AllRegions'}
-tag: ~UC_T
-types: VALUE (object)
-VALUE
-~UC_Sets: R_S: AllRegions
-
-
-sheetname: Solar
-range: B49
-filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'R_E': 'AllRegions', 'T_E': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3699,7 +3675,6 @@ VALUE
 sheetname: TRA_costs_and_ban
 range: B15
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3709,7 +3684,6 @@ VALUE
 sheetname: TRA_costs_and_ban
 range: B2
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~TFM_UPD
 types: VALUE (object)
 VALUE
@@ -3719,7 +3693,6 @@ VALUE
 sheetname: TRA_costs_and_ban
 range: B8
 filename: SuppXLS/Scen_Cohesive.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3741,7 +3714,6 @@ TimeSlice,LimType,Attribute,Year,Attrib_Cond,Val_Cond,AllRegions,NI,SI,Pset_Set,
 sheetname: BEV_PHEV-imp
 range: B16
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3751,7 +3723,6 @@ VALUE
 sheetname: BEV_PHEV-imp
 range: B2
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3761,7 +3732,6 @@ VALUE
 sheetname: BEV_PHEV-imp
 range: B23
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3771,7 +3741,6 @@ VALUE
 sheetname: BEV_PHEV-imp
 range: B30
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -3781,7 +3750,6 @@ VALUE
 sheetname: BEV_PHEV-imp
 range: B9
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -4352,7 +4320,6 @@ TimeSlice,Attribute,Cset_CN,*2018,2020,2025,2030,2035,2040,2045,2050,2055,2060
 sheetname: ICE_CAR_ban
 range: B2
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -4362,7 +4329,6 @@ VALUE
 sheetname: ICE_CAR_ban
 range: B9
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_S': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -4473,64 +4439,58 @@ SPR-WE-N,COM_FR,T_P_B*,DEM,2020,0.0477058064516129,0.0477058064516129
 SPR-WE-P,COM_FR,T_P_B*,DEM,2020,0.00385316129032258,0.00385316129032258
 
 
-sheetname: Solar_re
-range: B10
-filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
-tag: ~UC_T
-types: VALUE (object)
-VALUE
-~UC_Sets: R_E: AllRegions
-
-
-sheetname: Solar_re
-range: B18
-filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
-tag: ~UC_T
-types: VALUE (object)
-VALUE
-~UC_Sets: R_E: AllRegions
-
-
-sheetname: Solar_re
-range: B2
-filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
-tag: ~UC_T
-types: VALUE (object)
-VALUE
-~UC_Sets: R_E: AllRegions
-
-
-sheetname: Solar_rs
+sheetname: Solar
 range: B12
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_E': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
 ~UC_Sets: R_S: AllRegions
 
 
-sheetname: Solar_rs
+sheetname: Solar
 range: B19
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_E': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
 ~UC_Sets: R_S: AllRegions
 
 
-sheetname: Solar_rs
+sheetname: Solar
 range: B2
 filename: SuppXLS/Scen_Individualistic.xlsx
-uc_sets: {'T_E': '', 'R_S': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
 ~UC_Sets: R_S: AllRegions
+
+
+sheetname: Solar
+range: B25
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_T
+types: VALUE (object)
+VALUE
+~UC_Sets: R_E: AllRegions
+
+
+sheetname: Solar
+range: B33
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_T
+types: VALUE (object)
+VALUE
+~UC_Sets: R_E: AllRegions
+
+
+sheetname: Solar
+range: B41
+filename: SuppXLS/Scen_Individualistic.xlsx
+tag: ~UC_T
+types: VALUE (object)
+VALUE
+~UC_Sets: R_E: AllRegions
 
 
 sheetname: Trucks
@@ -5512,7 +5472,6 @@ SPR-WE-P,C_WSR*,0.00244406368663151,0.00244406368663151,COM_FR,DEM,2020
 sheetname: Geo
 range: B16
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5522,7 +5481,6 @@ VALUE
 sheetname: Geo
 range: B2
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5532,7 +5490,6 @@ VALUE
 sheetname: Geo
 range: B25
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5542,7 +5499,6 @@ VALUE
 sheetname: Geo
 range: B34
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5552,7 +5508,6 @@ VALUE
 sheetname: Geo
 range: B45
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5562,7 +5517,6 @@ VALUE
 sheetname: Geo
 range: B9
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5572,7 +5526,6 @@ VALUE
 sheetname: Hydro
 range: B11
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5582,7 +5535,6 @@ VALUE
 sheetname: Hydro
 range: B18
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5592,7 +5544,6 @@ VALUE
 sheetname: Hydro
 range: B2
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5602,7 +5553,6 @@ VALUE
 sheetname: Hydro
 range: B24
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5612,7 +5562,6 @@ VALUE
 sheetname: Hydro
 range: B30
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5622,7 +5571,6 @@ VALUE
 sheetname: TID
 range: B2
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5632,7 +5580,6 @@ VALUE
 sheetname: Wind
 range: B11
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5642,7 +5589,6 @@ VALUE
 sheetname: Wind
 range: B2
 filename: SuppXLS/Scen_RE_Potentials.xlsx
-uc_sets: {'T_E': '', 'R_E': 'AllRegions'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5652,7 +5598,6 @@ VALUE
 sheetname: UC_WEM
 range: B1
 filename: SuppXLS/Scen_WEM_WCM.xlsx
-uc_sets: {'R_S': 'NI,SI'}
 tag: ~UC_T
 types: VALUE (object)
 VALUE
@@ -5662,7 +5607,6 @@ VALUE
 sheetname: UC_WEM_SI
 range: B1
 filename: SuppXLS/Scen_WEM_WCM.xlsx
-uc_sets: {'R_E': 'SI'}
 tag: ~UC_T: SI
 types: VALUE (object)
 VALUE

@@ -28,6 +28,9 @@ table_location = os.path.join(TIMES_LOCATION, "TIMES-NZ", "raw_table_summary")
 file_location = f"{table_location}/raw_tables.txt"
 output_location = f"{PREP_LOCATION}/data_intermediate/data_scraping"
 
+if not os.path.exists(output_location):
+    os.mkdir(output_location)
+
 # Read the data from the summary tables
 def parse_data_blocks(filepath):
     with open(filepath, 'r', encoding='utf-8') as file:

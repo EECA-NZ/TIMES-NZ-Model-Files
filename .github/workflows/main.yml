@@ -22,7 +22,7 @@ jobs:
     - name: Install xl2times
       run: |
         pip install -U pip
-        pip install xl2times==0.1.0
+        pip install xl2times==0.2.1
 
     - name: Run raw_table_summary on TIMES-NZ-Model-Files
       run: |
