@@ -1,6 +1,0 @@
-﻿TimeSlice,LimType,Attribute,Year,Attrib_Cond,Val_Cond,AllRegions,NI,SI,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
-,,COM_PEAK,,,,1,,,,,,,,,ELC,
-,,COM_PKRSV,2018,,,,0.15,,,,,,,,ELC,
-,,COM_PKRSV,2020,,,,0.15,,,,,,,,ELC,
-,,COM_PKRSV,2060,,,,0.15,,,,,,,,ELC,
-,,COM_PKRSV,0,,,5,,,,,,,,,ELC,

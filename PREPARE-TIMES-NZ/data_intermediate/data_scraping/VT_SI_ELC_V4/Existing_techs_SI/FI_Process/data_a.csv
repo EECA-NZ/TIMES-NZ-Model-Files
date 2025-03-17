@@ -1,9 +1,0 @@
-﻿Sets,Region,TechName,* Sector,* Subsector,* Technology,* Fuel,TechDesc,* OLD TechDesc,Tact,Tcap,Tslvl,PrimaryCG,Vintage
-*Process Set Membership,Region Name,Technology Name,,,,,,Technology Description,Activity Unit,Capacity Unit,TimeSlice level of Process Activity,Primary Commodity Group,Vintage Tracking
-*,,,,,,,,,,,,,
-ELE,SI,ELCREHYDRRInflex00,Electricity,Hydro,Hydro Run of River (Existing),Hydro,Electricity -:- Hydro -:- Hydro Run of River (Existing) -:- Hydro,Power Plants Existing - Hydro - Inflexible run-of-river,PJ,GW,DAYNITE,,
-ELE,SI,ELCREHYDDAM00,Electricity,Hydro,Hydro Dam (Existing),Hydro,Electricity -:- Hydro -:- Hydro Dam (Existing) -:- Hydro,Power Plants Existing - Controlled Hydro,PJ,GW,DAYNITE,,
-ELE,SI,ELCREHYDRRFlex00,Electricity,Hydro,Hydro Run of River (Existing),Hydro,Electricity -:- Hydro -:- Hydro Run of River (Existing) -:- Hydro,Power Plants Existing - Hydro - Flexible run- of-river,PJ,GW,DAYNITE,,
-ELE,SI,ELCREWind00,Electricity,Wind,Wind (Existing),Wind,Electricity -:- Wind -:- Wind (Existing) -:- Wind,Power Plants Existing - Wind,PJ,GW,DAYNITE,,
-ELE,SI,ELCREWindMV00,Electricity,Wind,Wind (Existing),Wind,Electricity -:- Wind -:- Wind (Existing) -:- Wind,Power Plants Existing - Wind - medium voltage connection,PJ,GW,DAYNITE,,
-ELE,SI,ELCRESOL00,Electricity,Solar,Solar (Existing),Solar,Electricity -:- Solar -:- Solar (Existing) -:- Solar,Power Plants Existing - Solar plant,PJ,GW,DAYNITE,,

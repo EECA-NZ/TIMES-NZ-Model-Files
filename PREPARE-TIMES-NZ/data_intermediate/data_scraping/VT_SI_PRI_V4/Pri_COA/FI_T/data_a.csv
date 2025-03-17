@@ -1,9 +1,0 @@
-﻿TechName,Comm-IN,Comm-OUT,CUM,COST,COST~2021,COST~2025,COST~2030,COST~2035,COST~2040,COST~2050,COST~2060,ACT_BND
-*Technology Name,Input Commodity,Output Commodity,Reserves Cumulative Value,Cost,Cost,Cost,Cost,Cost,Cost,Cost,Cost,Annual Production Bound
-*Units,,,PJ,Milion NZD (2015)/PJ,,,,,,,,PJ
-MINCOA1,,COA,,7.39,,,,,,,,48.5725017697
-MINCOL1,,COL,,7.39,,,,,,,,5.5
-IMPCOA1,,COA,,7.39,,,,,,,,0
-IMPCOL1,,COL,,7.39,,,,,,,,0
-EXPCOA1,COA,,,3.2,,,,,,,,38.5725017697
-EXPCOL1,COL,,,3,,,,,,,,0
