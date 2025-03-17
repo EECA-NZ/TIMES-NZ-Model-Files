@@ -28,8 +28,8 @@ table_location = os.path.join(PREP_LOCATION, "data_raw", "archive") # archived s
 file_location = f"{table_location}/raw_tables.txt"
 output_location = DATA_INTERMEDIATE
 
-
-
+if not os.path.exists(output_location):
+    os.mkdir(output_location)
 
 # Read the data from the summary tables
 def parse_data_blocks(filepath):

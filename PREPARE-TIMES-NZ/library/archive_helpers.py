@@ -150,11 +150,13 @@ def write_data(df, book_name, sheet_name, tag, uc_set, startrow=0):
     
     # Add UC_Set tags if needed
     if uc_set_length > 0:
+        # first move the table tag to B 
+        sheet.cell(row=tag_row, column=2, value=tag)
         for n in range(uc_set_length):
             uc_set_tag_row = startrow - n + 1
             key = list(uc_set.keys())[n]
             value = uc_set[key]
-            sheet.cell(row=uc_set_tag_row, column=2, value=f"~UC_Sets: {key}: {value}")
+            sheet.cell(row=uc_set_tag_row, column=1, value=f"~UC_Sets: {key}: {value}")
     
     # Save the workbook
     book.save(new_workbook)
