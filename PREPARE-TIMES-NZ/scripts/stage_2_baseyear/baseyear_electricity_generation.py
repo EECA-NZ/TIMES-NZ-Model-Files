@@ -35,17 +35,22 @@ from filepaths import DATA_RAW, DATA_INTERMEDIATE
 CUSTOM_ELE_ASSUMPTIONS = f"{DATA_RAW}/other"
 CONCORDANCES = f"{DATA_RAW}/concordances"
 
+# define and create intermediate location for base year data 
+output_location = f"{DATA_INTERMEDIATE}/stage_2_baseyear"
+os.makedirs(output_location, exist_ok = True)
+
 # set parameters 
 pd.set_option('display.float_format', '{:.6f}'.format)
 # later can read this in from the toml file to ensure easy updates 
 base_year = 2023
 
 #endregion
-
 #############################################################################
 #region HELPERFUNCTIONS 
 #############################################################################
 
+# we have one lonely function here.
+# to do: refactor and functionalise more of this script? 
 def assign_cogen(value):
     if value == "COG":
         return "CHP"
@@ -53,21 +58,15 @@ def assign_cogen(value):
         return "ELE"
     
 #endregion
-
 #############################################################################
 #region IMPORT load all data
 #############################################################################
-
-# temp: rewrite the fleet data ensuring correct encoding
-# fleet_data = pd.read_csv(f"{DATA_RAW}/other/GenerationFleet.csv")
-# fleet_data.to_csv(f"{DATA_RAW}/other/GenerationFleet.csv", index = False, encoding = "utf-8-sig")
 
 official_generation = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/mbie_ele_generation_gwh.csv")
 official_generation_no_cogen = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/mbie_ele_only_generation.csv")
 official_capacity = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/mbie_generation_capacity.csv")
 emi_md = pd.read_parquet(f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_authority/emi_md.parquet", engine = "pyarrow")
 emi_solar = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_authority/emi_distributed_solar.csv")
-
 
 # custom data (including some assumptions)
 eeca_fleet_data = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/GenerationFleet.csv")
@@ -80,8 +79,6 @@ region_island_concordance = pd.read_csv(f"{CONCORDANCES}/region_island_concordan
 nsp_table = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_authority/emi_nsp_concordances.csv")
 
 #endregion
-
-
 #############################################################################
 #region EMI process EMI_MD data
 #############################################################################
@@ -114,8 +111,6 @@ print(f"Total MD Generation = {round(total_md_gen,2)}GWh")
 
 
 #endregion 
-
-
 #############################################################################
 #region OFFICIAL_GENERATION Create summary official generation data 
 #############################################################################
@@ -162,20 +157,29 @@ generation_summary = generation_summary.melt(
 )
 
 generation_summary = generation_summary.rename(columns = {"Fuel":"FuelType"})
-#endregion
 
+#endregion
 #############################################################################
 #region BASEGENERATION Create base list 
 #############################################################################
 
 # read our main data
-base_year_gen = eeca_fleet_data[["PlantName", "EMI_Name","TechnologyCode", "FuelType", "CapacityMW","YearCommissioned","GenerationMethod"]]
+base_year_gen = eeca_fleet_data.copy()
+base_year_gen = base_year_gen[["PlantName", "EMI_Name","TechnologyCode", "FuelType", "POC", "CapacityMW","YearCommissioned","GenerationMethod"]]
 # add the generation type
 base_year_gen["GenerationType"] = base_year_gen["TechnologyCode"].apply(assign_cogen)
 
 
-#endregion
+# add the regions based on island 
+# we will need to adjust this method if not using islands for regions 
+poc_island_concordance = nsp_table.copy()
+poc_island_concordance = poc_island_concordance [["POC", "Island"]]
+base_year_gen = base_year_gen.merge(poc_island_concordance, how = "left", on = "POC")
+base_year_gen.rename(columns = {"Island":"Region"}, inplace = True)
 
+
+
+#endregion
 #############################################################################
 #region ADD_EMI add EMI MD generation to main list 
 #############################################################################
@@ -197,23 +201,16 @@ base_year_gen_emi["EMI_Value"] = base_year_gen_emi["EMI_Value"] * base_year_gen_
 
 
 
-
-# TODO: tidy variable selection to align with other methods 
+#  TODO: tidy variable selection to align with other methods 
 base_year_gen_emi = base_year_gen_emi.rename(columns={"EMI_Value":"EECA_Value"})
 base_year_gen_emi = base_year_gen_emi.drop("CapacityShare", axis = 1 )
 
 
 
-# 
-# to do: add regions 
 
 # need the NSP table against the nodes I guess? 
 
 #endregion
-
-
-
-
 #############################################################################
 #region ADD_CF_Defaults estimate generation for some plants 
 # assumed capac
@@ -247,14 +244,12 @@ base_year_gen_custom = base_year_gen_custom.merge(custom_gen_data, how = "left",
 base_year_gen_custom = base_year_gen_custom.drop("Source", axis = 1)
 
 #endregion 
-
-
 #############################################################################
 #region ADD_SOLAR create generic distributed solar by island and sector 
 #############################################################################
 
 # start with the loaded emi_solar data 
-df = emi_solar 
+df = emi_solar.copy()
 
 # adjust date data and create a year variable.
 df["Month"] = pd.to_datetime(df["Month"])
@@ -321,9 +316,10 @@ base_year_gen = pd.concat([base_year_gen_emi,
                            base_year_gen_cfs,
                            base_year_gen_dist_solar], axis = 0)
 
-#endregion
 
-#################################################################
+
+#endregion
+#############################################################################
 #region CALIBRATE_GEN calibrate generation 
 # this is BEFORE adding generic plants
 #################################################################
@@ -354,7 +350,6 @@ base_year_gen["CapacityFactor"] = base_year_gen["EECA_Value"]/(base_year_gen["Ca
 
 
 #endregion
-
 #############################################################################
 #region ADD_GENERIC use calibrated data to create generic plants and fill gaps
 # note: this will be based on the category settings found in GenericCurrentPlants.csv,
@@ -393,8 +388,6 @@ base_year_gen = pd.concat([base_year_gen,generic_generation])
 
 
 #endregion
-
-
 #############################################################################
 #region RECALIBRATE_GEN testing new calibration
 #############################################################################
@@ -416,8 +409,6 @@ gen_comparison = gen_comparison.sort_values(by = ["FuelType", "GenerationType"])
 
 
 #endregion
-
-
 #############################################################################
 #region CALIBRATE_CAP test capacity
 #############################################################################
@@ -481,34 +472,39 @@ cap_comparison = pd.merge(mbie_capacity,
 cap_comparison["EECA_Value"] = cap_comparison["EECA_Value"].fillna(0)
 cap_comparison["Delta"] = (cap_comparison["EECA_Value"]/cap_comparison["MBIE_Value"]-1)*100
 
+
+
 #endregion 
+#############################################################################
+#region OUTPUT # finalise the variables we want and add to data_intermediate 
+#############################################################################
 
-###########################################
+base_year_gen = base_year_gen[[
+    "PlantName",
+    "FuelType",
+    "Region",
+    "YearCommissioned",
+    "GenerationType",
+    "CapacityMW",
+    "EECA_Value",
+    
+    ]]
+
+
+output_name = "base_year_electricity_supply.csv"
+
+print(f"Saving {output_name} to data_intermediate")
+
+base_year_gen.to_csv(f"{output_location}/{output_name}", index = False, encoding = "utf-8-sig")
+
+#endregion 
+#############################################################################
 #region CHECKS 
-###########################################
+#############################################################################
 
 
-# just take eoy figures 
-
-
-
-# we will use this to distribute the generation in base year 
-# variable needed reference 
-
-# PlantName 
-# CapacityMW 
-# GenerationType 
-# EECA_Value
-# CapacityFactor 
-
-
-print(base_year_gen_dist_solar)
-
-
-
-
-# print(region_island_concordance)
-
-# print(emi_solar)
+# print(gen_comparison)
+# print(cap_comparison)
+# print(base_year_gen)
 
 #endregion
