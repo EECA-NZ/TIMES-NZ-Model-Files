@@ -49,8 +49,7 @@ if method == "times_2":
     
 
 if method == "times_3":
-    print(f"Building TIMES excel files based on .toml configuration files...")
-    os.system(f"python {PREP_LOCATION}/scripts/stage_0_settings/read_archive_summary.py")    
+    print(f"Building TIMES excel files based on .toml configuration files...")    
     os.system(f"python {PREP_LOCATION}/scripts/stage_4_veda_format/write_excel.py")    
     print(f"Job complete")
     

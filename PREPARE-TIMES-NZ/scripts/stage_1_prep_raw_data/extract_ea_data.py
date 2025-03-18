@@ -12,7 +12,10 @@ import glob
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
 from filepaths import DATA_RAW, DATA_INTERMEDIATE
+from helpers import clear_data_intermediate
 
+
+#clear_data_intermediate()
 #endregion
 
 #region FILEPATHS
@@ -20,10 +23,11 @@ input_location = f"{DATA_RAW}/external_data/electricity_authority"
 output_location = f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_authority"
 os.makedirs(output_location, exist_ok = True)
 
+# all file locations: 
 
-emi_md_folder = f"{input_location}/emi_md" # we'll take everything in this file 
+emi_md_folder = f"{input_location}/emi_md" # we'll take everything in this directory
 emi_fleet_file = f"{input_location}/emi_fleet_data/20230601_DispatchedGenerationPlant.csv"
-
+emi_nsp_table = f"{input_location}/emi_nsp_table/20250308_NetworkSupplyPointsTable.csv"
 emi_distributed_solar_directory = f"{input_location}/emi_distributed_solar"
 
 #endregion
@@ -82,7 +86,7 @@ def read_solar_file(sector):
 solar_df = pd.concat([
     read_solar_file("Residential"),
     read_solar_file("Commercial"),
-    read_solar_file("Residential"),
+    read_solar_file("Industrial"),
 
 ])
 
@@ -94,19 +98,44 @@ solar_df = solar_df.rename(columns = {
     "Avg. capacity installed (kW)" : "avg_cap_kw",
     "Avg. capacity - new installations (kW)" : "avg_cap_new_kw",
     "ICP count - new installations" : "icp_count_new",
-    "ICP uptake rate (%)" : "icp_uptake",
+    "ICP uptake rate (%)" : "icp_uptake_proportion",
     "Total capacity installed (MW)" : "capacity_installed_mw",    
     "ICP count" : "icp_count",
+
+    "Region name" : "Region",
+    "Month end" : "Month",
+
     })
 
 # make percentage clearer 
+solar_df["icp_uptake_proportion"] = solar_df["icp_uptake_proportion"]/100
+# wonder if this date object will save correctly in csv form 
+solar_df["Month"] = pd.to_datetime(solar_df["Month"], dayfirst = True)
 
-solar_df
-
-
-print(solar_df)
-
-
-
+# save
+solar_df.to_csv(f"{output_location}/emi_distributed_solar.csv", index = False)
 
 #endregion
+
+
+#region NSP_CONCORDANCE
+
+df = pd.read_csv(emi_nsp_table)
+
+
+df = df[df["Current flag"] == 1]
+# create a simple POC code using first three letters 
+df["POC"] = df["POC code"].str[:3]
+
+# take just the different area concordances and remove dupes
+df = df[["POC",
+         "Network reporting region",
+         "Zone",
+         "Island",
+         ]].drop_duplicates()
+# save 
+nsp_data = df
+nsp_data.to_csv(f"{output_location}/emi_nsp_concordances.csv", index = False)
+
+
+#endregion 
