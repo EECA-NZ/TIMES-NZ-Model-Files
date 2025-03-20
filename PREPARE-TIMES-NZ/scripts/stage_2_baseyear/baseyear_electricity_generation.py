@@ -368,8 +368,41 @@ generic_generation = generic_generation.merge(capacity_factors, on = ["FuelType"
 # rearrange columns 
 generic_generation = generic_generation[["PlantName", "FuelType","GenerationType", "Delta", "CapacityFactor"]]
 
-# the missing generation (Delta) becomes our new value for these plants 
+
 generic_generation = generic_generation.rename(columns = {"Delta":"EECA_Value"})
+# in some cases, we will overcount generation (not ideal) - in these cases, we obviously don't to add negative plants 
+# so we remove all rows with negative deltas 
+# this also means we will correctly represent categories where we have overcounted somehow, which might mean we need to review our 
+# methods/assumptions for some areas 
+
+# the missing generation (Delta) becomes our new value for these plants 
+generic_generation = generic_generation[generic_generation["EECA_Value"] > 0]
+
+
+# before we generate capacities, we need to distribute the generation by region (so each region gets a certain capacity/gen)
+
+# we do this by using the same region distributions as the non-generic plants we have already found 
+
+region_gen = base_year_gen.copy()
+# aggregate capacities
+region_gen = region_gen.groupby(["Region","GenerationType", "FuelType"])["CapacityMW"].sum().reset_index()
+region_gen["Total"] = region_gen.groupby(["FuelType", "GenerationType"])["CapacityMW"].transform("sum")
+region_gen["Share"] = region_gen["CapacityMW"]/region_gen["Total"]
+
+
+region_gen = region_gen[["FuelType", "GenerationType", "Region", "Share"]]
+
+generic_generation = generic_generation.merge(region_gen, how = "left", on = ["GenerationType", "FuelType"])
+
+# if missing regions, we replace share with 1
+generic_generation["Share"] = generic_generation["Share"].fillna(1)
+# and region with NI 
+generic_generation["Region"] = generic_generation["Region"].fillna("NI")
+# can now adjust the values as needed 
+generic_generation["EECA_Value"] = generic_generation["EECA_Value"] * generic_generation["Share"]
+# and drop the shares 
+generic_generation.drop("Share", axis = 1, inplace = True)
+
 
 # use the generation and capacityfactor to reverse engineer an assumed capacity 
 
@@ -378,11 +411,7 @@ generic_generation["CapacityMW"] = (generic_generation["EECA_Value"]*1000/8760)/
 generic_generation["GenerationMethod"] = "Generic"
 
 # add these plants to the main table 
-
-
 base_year_gen = pd.concat([base_year_gen,generic_generation])
-
-
 
 
 
@@ -487,6 +516,8 @@ base_year_gen = base_year_gen[[
     "GenerationType",
     "CapacityMW",
     "EECA_Value",
+    "GenerationMethod",
+    "CapacityFactor"
     
     ]]
 
@@ -502,9 +533,21 @@ base_year_gen.to_csv(f"{output_location}/{output_name}", index = False, encoding
 #region CHECKS 
 #############################################################################
 
-
-# print(gen_comparison)
-# print(cap_comparison)
+print("GENERATION CHECKS:")
+print(gen_comparison)
+print("CAPACITY CHECKS:")
+print(cap_comparison)
+print("GENERIC PLANTS GENERATED:")
+print(generic_generation)
 # print(base_year_gen)
+
+
+# too much gas CHP
+
+
+
+gas_test = base_year_gen[base_year_gen["FuelType"] == "Gas"]
+print("GAS PLANT ZOOMIN")
+print(gas_test)
 
 #endregion

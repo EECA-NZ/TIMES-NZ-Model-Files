@@ -5,6 +5,6 @@ Geothermal,CHP,0.8
 Geothermal,ELE,0.95
 Hydro,ELE,0.5
 Wind,ELE,0.75
-Coal,CHP,0.6
-Gas,CHP,0.45
-Wood,CHP,0.5
+Coal,CHP,0.55
+Gas,CHP,0.55
+Wood,CHP,0.55

@@ -12,7 +12,7 @@ Cobb,STK,Cobb,Cobb,cobb,HYD,Hydro,1944,32,,EMI,https://www.energynews.co.nz/reso
 Coleridge,COL,Coleridge,Coleridge,coleridge,HYD,Hydro,1914,39,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1083/coleridge
 Deep Stream,HWB,Mahinerangi,,,HYD,Hydro,2008,6,,TBD,https://www.energynews.co.nz/resource/hydro-power-station/1096/deep-stream
 Fonterra Dairy - Whareroa,HWA,,,whareroa,COG,Gas,1966,70,,Capacity Factor,https://www.energynews.co.nz/energy-resource/cogeneration/1689/whareroa
-Glenbrook Steel,GLN,,,glenbrook_kilns,COG,Gas,1987,112,,Capacity Factor,https://www.energynews.co.nz/energy-resource/cogeneration/1126/glenbrook
+Glenbrook Steel,GLN,,,glenbrook_kilns,COG,Coal,1987,112,,Capacity Factor,https://www.energynews.co.nz/energy-resource/cogeneration/1126/glenbrook
 Highbank,ASB,Rangitata River,Christchurch hydro scheme (embedded),highbank,HYD,Hydro,1945,28,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1076/highbank-and-montalto
 Huntly Unit 5 (E3P),HLY,,Huntly Unit 5 (e3p),huntly_e3p,CCGT,Gas,2007,403,403,EMI,https://www.energynews.co.nz/energy-resource/combined-cycle-gas-turbine/1128/huntly-unit-5-e3p
 Huntly Unit 6 (P40),HLY,,Huntly Unit 6 (P40),huntly_p40,OCGT,Gas,2004,50,50.8,EMI,https://www.energynews.co.nz/energy-resource/open-cycle-gas-turbine/1129/huntly-unit-6
@@ -21,7 +21,7 @@ Junction Road,JRD,,Junction Road power plant,junctionroad,OCGT,Gas,2020,100,100,
 Kaimai Hydro Scheme,TGA,Kaimai ,Bay of Plenty hydro schemes,kaimai,HYD,Hydro,1915,42,,EMI,https://www.energynews.co.nz/resource/hydro-scheme/1074/kaimai-hydro-scheme
 Kaitawa,TUI,Waikaremoana,Waikaremoana hydro scheme,waikaremoana,HYD,Hydro,1948,36,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1073/kaitawa
 Kaiwera Downs Stage 1,GOR,,Kaiwera Downs wind (Stage 1),KaiweraDowns,WIN,Wind,2023,43,43,EMI,https://www.energynews.co.nz/resource/wind-farm/1155/kaiwera-downs
-Kapuni,KPA,,,kapuni,COG,Gas,1998,20,,Cogen,https://www.energynews.co.nz/energy-resource/cogeneration/1350/kapuni-power-station
+Kapuni,KPA,,,kapuni,COG,Gas,1998,20,,Capacity Factor,https://www.energynews.co.nz/energy-resource/cogeneration/1350/kapuni-power-station
 Karāpiro,KPO,Waikato,Waikato River hydro scheme,karapiro,HYD,Hydro,1948,112.5,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1071/karapiro
 Kawerau,KAW,,Kawerau,kawerau,GEO,Geothermal,2008,106,103,Capacity Factor,https://www.energynews.co.nz/resource/geothermal-power-station/1026/kawerau
 Kinleith,KIN,,,kinleith,COG,Wood,1998,40,,Capacity Factor,https://www.energynews.co.nz/energy-resource/cogeneration/1125/kinleith
