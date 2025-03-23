@@ -3,8 +3,9 @@ Biogas,CHP,0.75
 Biogas,ELE,0.75
 Geothermal,CHP,0.8
 Geothermal,ELE,0.95
-Hydro,ELE,0.5
+Hydro,ELE,0.56
 Wind,ELE,0.75
 Coal,CHP,0.55
 Gas,CHP,0.55
 Wood,CHP,0.55
+Diesel,ELE,0.02

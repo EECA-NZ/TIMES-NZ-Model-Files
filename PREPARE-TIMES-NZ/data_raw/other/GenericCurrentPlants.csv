@@ -1,10 +1,11 @@
-﻿PlantName,FuelType,GenerationType,NorthIslandShare
-Generic biogas generation,Biogas,ELE,1
-Generic biogas cogeneration,Biogas,CHP,1
-Generic geothermal cogeneration,Geothermal,CHP,1
-Generic coal cogeneration,Coal,CHP,1
-Generic gas cogeneration,Gas,CHP,1
-Generic wood cogeneration,Wood,CHP,1
-Generic hydro generation,Hydro,ELE,0.4
-Generic geothermal generation,Geothermal,ELE,1
-Generic wind generation,Wind,ELE,0.5
+﻿PlantName,FuelType,GenerationType
+Generic biogas generation,Biogas,ELE
+Generic biogas cogeneration,Biogas,CHP
+Generic geothermal cogeneration,Geothermal,CHP
+Generic coal cogeneration,Coal,CHP
+Generic gas cogeneration,Gas,CHP
+Generic wood cogeneration,Wood,CHP
+Generic hydro generation,Hydro,ELE
+Generic geothermal generation,Geothermal,ELE
+Generic wind generation,Wind,ELE
+Generic diesel generation,Diesel,ELE

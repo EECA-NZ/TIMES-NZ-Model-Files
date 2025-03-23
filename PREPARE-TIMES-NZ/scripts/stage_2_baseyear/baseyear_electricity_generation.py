@@ -157,6 +157,9 @@ generation_summary = generation_summary.melt(
 )
 
 generation_summary = generation_summary.rename(columns = {"Fuel":"FuelType"})
+# assuming all MBEI oil gen is diesel (we have no fuel oil generators anymore, nobody burns crude for ele gen, petrol out too I assume?)
+generation_summary.loc[generation_summary["FuelType"] == "Oil", "FuelType"] = "Diesel"
+
 
 #endregion
 #############################################################################
@@ -328,8 +331,8 @@ base_year_gen = pd.concat([base_year_gen_emi,
 
 base_year_summary = base_year_gen.groupby(["FuelType", "GenerationType"])["EECA_Value"].sum().reset_index()
 base_year_summary = base_year_summary.rename(columns = {"Fuel":"FuelType"})
-# rename Diesel to Oil to match MBIE 
-base_year_summary.loc[base_year_summary["FuelType"] == "Diesel", "FuelType"] = "Oil"
+
+
 
 
 
@@ -424,11 +427,6 @@ base_year_gen = pd.concat([base_year_gen,generic_generation])
 
 base_year_summary = base_year_gen.groupby(["FuelType", "GenerationType"])["EECA_Value"].sum().reset_index()
 
-# rename Diesel to Oil to match MBIE 
-base_year_summary.loc[base_year_summary["FuelType"] == "Diesel", "FuelType"] = "Oil"
-
-
-
 
 gen_comparison = generation_summary.merge(base_year_summary, how = "left")
 gen_comparison["EECA_Value"] = gen_comparison["EECA_Value"].fillna(0)
@@ -499,7 +497,7 @@ cap_comparison = pd.merge(mbie_capacity,
 
 
 cap_comparison["EECA_Value"] = cap_comparison["EECA_Value"].fillna(0)
-cap_comparison["Delta"] = (cap_comparison["EECA_Value"]/cap_comparison["MBIE_Value"]-1)*100
+cap_comparison["Delta"] = (cap_comparison["EECA_Value"]-cap_comparison["MBIE_Value"])
 
 
 
@@ -539,11 +537,11 @@ print("CAPACITY CHECKS:")
 print(cap_comparison)
 print("GENERIC PLANTS GENERATED:")
 print(generic_generation)
-# print(base_year_gen)
 
 
-# too much gas CHP
-
+gen_comparison.to_csv(f"{output_location}/test_gen_comparison.csv", index = False)
+cap_comparison.to_csv(f"{output_location}/test_cap_comparison.csv", index = False)
+generic_generation.to_csv(f"{output_location}/test_generic_generation.csv", index = False)
 
 
 gas_test = base_year_gen[base_year_gen["FuelType"] == "Gas"]
