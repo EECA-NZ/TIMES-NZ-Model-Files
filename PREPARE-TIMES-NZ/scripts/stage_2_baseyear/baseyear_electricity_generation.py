@@ -32,12 +32,17 @@ logging.basicConfig(level=logging.INFO)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
 from filepaths import DATA_RAW, DATA_INTERMEDIATE
-CUSTOM_ELE_ASSUMPTIONS = f"{DATA_RAW}/other"
+CUSTOM_ELE_ASSUMPTIONS = f"{DATA_RAW}/coded_assumptions/electricity_generation"
 CONCORDANCES = f"{DATA_RAW}/concordances"
 
 # define and create intermediate location for base year data 
 output_location = f"{DATA_INTERMEDIATE}/stage_2_baseyear"
 os.makedirs(output_location, exist_ok = True)
+
+# and for any testing outputs we might want to browse
+check_location = f"{output_location}/checks"
+os.makedirs(check_location, exist_ok = True)
+
 
 # set parameters 
 pd.set_option('display.float_format', '{:.6f}'.format)
@@ -539,9 +544,9 @@ print("GENERIC PLANTS GENERATED:")
 print(generic_generation)
 
 
-gen_comparison.to_csv(f"{output_location}/test_gen_comparison.csv", index = False)
-cap_comparison.to_csv(f"{output_location}/test_cap_comparison.csv", index = False)
-generic_generation.to_csv(f"{output_location}/test_generic_generation.csv", index = False)
+gen_comparison.to_csv(f"{check_location}/check_ele_gen_calibration.csv", index = False)
+cap_comparison.to_csv(f"{check_location}/check_base_year_ele_cap_calibration.csv", index = False)
+generic_generation.to_csv(f"{check_location}/check_ele_gen_generated_generics.csv", index = False)
 
 
 gas_test = base_year_gen[base_year_gen["FuelType"] == "Gas"]
