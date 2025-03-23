@@ -6,17 +6,25 @@ We want to make sure everything is replicable and scalable while minimising comp
 2) Steps are broken down into clear stages. This means it is clear for future modellers exactly what should be happening and when. 
 3) It should be really easy to add new data/methods/models/scenarios to future iterations TIMES-NZ. 
 
-## Stages
+## scripts
 
-The module is broken down into the following stages: 
+The scripts for this module are broken down into the following stages: 
 
 (THIS LIST A WIP - MAY ADJUST AS WE GO DEPENDING ON WHAT MAKES SENSE)
 
-0) System settings. Read configuration files and make any key parameters (such as base year) available for all future steps. 
-1) Prepare raw data, transforming and tidying where necessary (ie applying tidy data principles to excel files)
-2) Processing - prepare base year data files. Combinations, transformations, apply assumptions, etc.
-3) Processing - prepare scenario files. Combinations, transformations, apply assumptions, etc.
-4) Format the prepared data into files for Veda, using structures defined by the configuration settings and reading base year/scenario data as needed.
+0) `stage_0_settings`: System settings. Read configuration files and make any key parameters (such as base year) available for all future steps. 
+1) `stage_1_prep_raw_data`: Prepare raw data, transforming and tidying where necessary (ie applying tidy data principles to excel files)
+2) `stage_2_baseyear`: Prepare base year files. Combinations, transformations, apply assumptions, etc.
+3) `stage_3_scenarios`: Prepare scenario files. Combinations, transformations, apply assumptions, etc.
+4) `stage_4_veda_format`: Format the prepared data into files for Veda, using structures defined by the configuration settings and reading base year/scenario data as needed. Generate excel files. 
+
+Additionally, scripts designed to fully recreates TIMES 2.1.3 from scratch using generated excel files are available in `scripts/times_2_methods`. These remain as a proof of concept. 
+
+## libraries
+
+This file contains helper functions in various scripts. Currently there is no further organisation within here, but this might change in future as more are added. 
+
+It also contains `filepaths.py`. All scripts should import this file when using filepaths to access other scripts or data. This means an update to locations or structures in this file will propogate to all other scripts. 
 
 ## data_raw
 
@@ -37,20 +45,12 @@ All raw data is stored in this directory. It remains untouched from how it was d
 
 ## data_intermediate
 
+This directory contains staging data - either tidied raw data or processed files.
+The output files, produced in Stage 4, will use generated data that is stored in here. 
 This directory is ignored by git and will not be tracked. To populate it, you will need to clone the repo and execute the module. 
-
 The files in this module, depending on the stage, are either tidied raw data or tables used for other modules.
+The structure for this directory has not yet been defined. In future development work, as more data and methods are added to the module, this will be revisited. 
 
-The structure of this has not yet been properly defined. It should most likely follow the same stages as the scripts ie 
-
-0) settings
-1) raw_data
-2) base year 
-3) scenarios 
-
-and within these stages, be broken further down by subject area as needed (eg `residential_demand` etc)
-
-NOTE: these stages are not currently structured as above and need a bit of tidying.
 
 ## output
 
@@ -58,7 +58,7 @@ Similar to `data_intermediate`, this directory is not tracked by git and is full
 
 It contains all output files in Veda format for use by the TIMES model generator. 
 
-When this system is fully mature, we will retire this directory and instead output all excel files for Veda directly to the `TIMES-NZ` module, allowing the model to run. 
+When this system is fully mature, we will retire this directory and instead output all excel files for Veda directly to the `TIMES-NZ` module, allowing the model to run without requiring us to copy-paste excel files into `TIMES-NZ`. 
 
 
 
