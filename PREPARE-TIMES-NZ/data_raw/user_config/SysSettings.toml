@@ -146,4 +146,5 @@ Currency = "MioNZDollar"
 
 SheetName = "YearFractions"
 TagName = "TFM_INS"
-DataLocation = "data_raw/0_config/year_fractions.csv"
+# this is not a good place for this 
+DataLocation = "data_raw/user_config/year_fractions.csv"

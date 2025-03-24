@@ -98,8 +98,6 @@ Calibrating the base year figures against official generation stats gives the fo
 ![Generation calibration](assets/generation_calibration.png)
 
 
-
-
 This method results in mostly perfect calibration with MBIE generation data. Some estimates are slightly higher in the original Electricity Authority data, particularly for gas generation. We currently assign coal cogeneration to Glenbrook. We exclude MBIE’s waste heat in the base model, as we don’t have enough information about this to include it in TIMES. 
 
 Overall, this means our base model will generate an extra 55GWh in 2023 compared to official data. This is a 0.13% difference – well within statistical difference in official reporting.

@@ -32,7 +32,7 @@ clear_data_intermediate()
 
 
 # Define locations for this file, and spin up the folder if needed 
-raw_data_location = f"{DATA_RAW}/0_config"
+raw_data_location = f"{DATA_RAW}/user_config"
 output_location = f"{DATA_INTERMEDIATE}/stage_0_config"
 os.makedirs(f"{output_location}", exist_ok = True)
 
