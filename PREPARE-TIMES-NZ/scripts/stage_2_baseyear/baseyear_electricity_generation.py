@@ -25,6 +25,7 @@ import sys
 import os 
 import pandas as pd 
 import logging
+import unicodedata
 
 # set log level for message outputs 
 logging.basicConfig(level=logging.INFO) 
@@ -78,6 +79,7 @@ eeca_fleet_data = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/GenerationFleet.csv")
 custom_gen_data = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/CustomFleetGeneration.csv")
 generic_plant_settings = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/GenericCurrentPlants.csv")
 capacity_factors = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/CapacityFactors.csv")
+technology_assumptions = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/TechnologyAssumptions.csv")
 
 # concordances
 region_island_concordance = pd.read_csv(f"{CONCORDANCES}/region_island_concordance.csv")
@@ -181,7 +183,7 @@ base_year_gen["GenerationType"] = base_year_gen["TechnologyCode"].apply(assign_c
 # add the regions based on island 
 # we will need to adjust this method if not using islands for regions 
 poc_island_concordance = nsp_table.copy()
-poc_island_concordance = poc_island_concordance [["POC", "Island"]]
+poc_island_concordance = poc_island_concordance[["POC", "Island"]].drop_duplicates()
 base_year_gen = base_year_gen.merge(poc_island_concordance, how = "left", on = "POC")
 base_year_gen.rename(columns = {"Island":"Region"}, inplace = True)
 
@@ -268,7 +270,7 @@ df["Year"] = df["Month"].dt.year
 # add island concordances
 df = df.merge(region_island_concordance, how = "left", on = "Region")
 # generate distinct plant names for TIMES 
-df["PlantName"] = "DistributedSolar"+ df["Island"] + df["Sector"]
+df["PlantName"] = "DistributedSolar"+ df["Sector"]
 
 # aggregate across new region definitions 
 df = df.groupby(["Year", "PlantName", "Island", "Sector"])["capacity_installed_mw"].sum().reset_index()
@@ -308,6 +310,8 @@ df = df[["PlantName", "CapacityMW", "EECA_Value", "Region", "CapacityFactor"]]
 
 # and a few new columns for the main table 
 df["GenerationType"] = "ELE"
+df["GenerationMethod"] = "Solar data from MBIE"
+df["TechnologyCode"] = "SOL"
 df["FuelType"] = "Solar"
 base_year_gen_dist_solar = df
 
@@ -374,7 +378,7 @@ generic_generation = gen_comparison.merge(generic_plant_settings, on = ["FuelTyp
 # add capacity factors 
 generic_generation = generic_generation.merge(capacity_factors, on = ["FuelType", "GenerationType"], how = "left")
 # rearrange columns 
-generic_generation = generic_generation[["PlantName", "FuelType","GenerationType", "Delta", "CapacityFactor"]]
+generic_generation = generic_generation[["PlantName", "FuelType","GenerationType","TechnologyCode", "Delta", "CapacityFactor"]]
 
 
 generic_generation = generic_generation.rename(columns = {"Delta":"EECA_Value"})
@@ -504,16 +508,73 @@ cap_comparison = pd.merge(mbie_capacity,
 cap_comparison["EECA_Value"] = cap_comparison["EECA_Value"].fillna(0)
 cap_comparison["Delta"] = (cap_comparison["EECA_Value"]-cap_comparison["MBIE_Value"])
 
+#endregion 
+#############################################################################
+#region ADD_EXTRAS # extra assumptions for the final table 
+#############################################################################
+
+# assumptions by technology (peak cont, plant life)
+base_year_gen = base_year_gen.merge(technology_assumptions, how = "left", on = "TechnologyCode")
+
+# add the output techs (ELC for everything but solar I guess)
+def add_output_commodity(df):
+    if df["TechnologyCode"] == "SOL":
+        return "ELCDD"
+    else: 
+        return "ELC"
+    
+def to_pascal_case(s):
+    return ''.join(word.capitalize() for word in s.split())
 
 
+def remove_diacritics(input_str):
+    # Normalize the string to decompose characters into base characters and diacritical marks
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    # Filter out all combining characters (diacritical marks)
+    return ''.join(char for char in nfkd_form if not unicodedata.combining(char))
+
+
+def clean_generic_process_names(df):
+    # If the name is generic, then we don't want the extra bits currerntly added to "PlantName"
+    if df["GenerationMethod"] == "Generic":
+        return "Generic"
+    else:
+        return df["Process"]
+
+
+
+
+
+    
+# we adjust the solar output commodities a
+
+base_year_gen["OutputCommodity"] = base_year_gen.apply(add_output_commodity, axis = 1)
+
+
+
+# generate names for each process. First just capitalise the main name 
+base_year_gen["Process"] = base_year_gen["PlantName"].apply(to_pascal_case)
+# going to remove macrons because these will probably cause trouble when applied to GAMS code 
+base_year_gen["Process"] = base_year_gen["Process"].apply(remove_diacritics)
+# in cases where we made generic names, we just remove the extra bits 
+base_year_gen["Process"] = base_year_gen.apply(clean_generic_process_names, axis = 1)
+
+
+
+
+# now add some useful features to the process name and ensure distinct
+
+base_year_gen["Process"] = "ELC_" + base_year_gen["FuelType"] + "_" + base_year_gen["TechnologyCode"] + "_" + base_year_gen["Process"]
+# 
 #endregion 
 #############################################################################
 #region OUTPUT # finalise the variables we want and add to data_intermediate 
 #############################################################################
-
+"""
 base_year_gen = base_year_gen[[
     "PlantName",
     "FuelType",
+    "TechnologyCode",
     "Region",
     "YearCommissioned",
     "GenerationType",
@@ -524,7 +585,7 @@ base_year_gen = base_year_gen[[
     
     ]]
 
-
+"""
 output_name = "base_year_electricity_supply.csv"
 
 print(f"Saving {output_name} to data_intermediate")
@@ -535,6 +596,7 @@ base_year_gen.to_csv(f"{output_location}/{output_name}", index = False, encoding
 #############################################################################
 #region CHECKS 
 #############################################################################
+
 
 print("GENERATION CHECKS:")
 print(gen_comparison)
