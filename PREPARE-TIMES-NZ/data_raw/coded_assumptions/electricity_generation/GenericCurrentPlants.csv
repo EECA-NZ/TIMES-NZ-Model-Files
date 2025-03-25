@@ -1,11 +1,11 @@
-﻿PlantName,FuelType,GenerationType
-Generic biogas generation,Biogas,ELE
-Generic biogas cogeneration,Biogas,CHP
-Generic geothermal cogeneration,Geothermal,CHP
-Generic coal cogeneration,Coal,CHP
-Generic gas cogeneration,Gas,CHP
-Generic wood cogeneration,Wood,CHP
-Generic hydro generation,Hydro,ELE
-Generic geothermal generation,Geothermal,ELE
-Generic wind generation,Wind,ELE
-Generic diesel generation,Diesel,ELE
+﻿PlantName,FuelType,GenerationType,TechnologyCode
+Generic biogas generation,Biogas,ELE,BIG
+Generic biogas cogeneration,Biogas,CHP,COG
+Generic geothermal cogeneration,Geothermal,CHP,COG
+Generic coal cogeneration,Coal,CHP,COG
+Generic gas cogeneration,Gas,CHP,COG
+Generic wood cogeneration,Wood,CHP,COG
+Generic hydro generation,Hydro,ELE,HYD
+Generic geothermal generation,Geothermal,ELE,GEO
+Generic wind generation,Wind,ELE,WIN
+Generic diesel generation,Diesel,ELE,DIE
