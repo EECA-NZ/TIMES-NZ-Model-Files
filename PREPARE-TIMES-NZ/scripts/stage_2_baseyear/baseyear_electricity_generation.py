@@ -26,6 +26,7 @@ import os
 import pandas as pd 
 import logging
 import unicodedata
+import numpy as np
 
 # set log level for message outputs 
 logging.basicConfig(level=logging.INFO) 
@@ -47,6 +48,7 @@ os.makedirs(check_location, exist_ok = True)
 
 # set parameters 
 pd.set_option('display.float_format', '{:.6f}'.format)
+show_checks = False
 # later can read this in from the toml file to ensure easy updates 
 base_year = 2023
 
@@ -68,13 +70,17 @@ def assign_cogen(value):
 #region IMPORT load all data
 #############################################################################
 
+#MBIE
 official_generation = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/mbie_ele_generation_gwh.csv")
 official_generation_no_cogen = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/mbie_ele_only_generation.csv")
 official_capacity = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/mbie_generation_capacity.csv")
+genstack = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/gen_stack.csv")
+
+#EMI 
 emi_md = pd.read_parquet(f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_authority/emi_md.parquet", engine = "pyarrow")
 emi_solar = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_authority/emi_distributed_solar.csv")
 
-# custom data (including some assumptions)
+# custom assumptions
 eeca_fleet_data = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/GenerationFleet.csv")
 custom_gen_data = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/CustomFleetGeneration.csv")
 generic_plant_settings = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/GenericCurrentPlants.csv")
@@ -244,14 +250,12 @@ base_year_gen_cfs["EECA_Value"] = (base_year_gen_cfs["CapacityMW"] * 8.76)*base_
 
 base_year_gen_custom = base_year_gen[base_year_gen["GenerationMethod"] == "Custom"]
 
-# adjust to remove the FuelType and EMI_Name (not needed for this)
-base_year_gen_custom = base_year_gen_custom.drop(["FuelType", "TechnologyCode"], axis = 1 )
-
-base_year_gen_custom = base_year_gen_custom.merge(custom_gen_data, how = "left", on = "PlantName")
+base_year_gen_custom = base_year_gen_custom.merge(custom_gen_data, how = "left", on = ["PlantName", "FuelType", "TechnologyCode"])
 
 # tidy variables
 
 base_year_gen_custom = base_year_gen_custom.drop("Source", axis = 1)
+
 
 #endregion 
 #############################################################################
@@ -327,6 +331,8 @@ base_year_gen = pd.concat([base_year_gen_emi,
                            base_year_gen_custom,
                            base_year_gen_cfs,
                            base_year_gen_dist_solar], axis = 0)
+
+
 
 
 
@@ -540,14 +546,8 @@ def clean_generic_process_names(df):
         return "Generic"
     else:
         return df["Process"]
-
-
-
-
-
     
-# we adjust the solar output commodities a
-
+# we adjust the solar output commodities to ELCDD rather than ELC
 base_year_gen["OutputCommodity"] = base_year_gen.apply(add_output_commodity, axis = 1)
 
 
@@ -566,6 +566,155 @@ base_year_gen["Process"] = base_year_gen.apply(clean_generic_process_names, axis
 
 base_year_gen["Process"] = "ELC_" + base_year_gen["FuelType"] + "_" + base_year_gen["TechnologyCode"] + "_" + base_year_gen["Process"]
 # 
+
+
+#endregion 
+#############################################################################
+#region ADD_COSTS # pulling in the varom, fixom, and delivery costs for each plant. 
+
+# these will be mostly based on the genstack but might need extra bits here and there (especially solar) 
+
+
+
+# first, we'll extract a mapping of eeca plant names to MBIE plant names from our original manual file 
+eeca_mbie_plantname_concordance = eeca_fleet_data[["PlantName", "FuelType", "MBIE_Name"]]
+# we need to distinguish some of these by fueltype or huntly gets double counted 
+base_year_gen = base_year_gen.merge(eeca_mbie_plantname_concordance, how = "left", on = ["PlantName", "FuelType"])
+
+# now we can get all the additional cost parameters we want from the mbie genstack data by joining on the mbie name 
+# additional parameters 
+reference_genstack = genstack[genstack ["Scenario"] == "Reference"]
+current_genstack = reference_genstack[reference_genstack["Status"] == "Current"]
+
+# First, we apply specific values to specific plants where possible, by extracting these for each plant and joining 
+# this is all we want from the main 
+specific_parameters = current_genstack[[
+    "Plant",
+    "Heat Rate (GJ/GWh)",
+    "Variable operating costs (NZD/MWh)",
+    "Fixed operating costs (NZD/kW/year)",
+    "Fuel delivery costs (NZD/GJ)",
+    ]]
+
+
+
+# rename plant for joining on 
+specific_parameters = specific_parameters.rename(columns = {
+    "Plant" : "MBIE_Name",
+    "Heat Rate (GJ/GWh)": "specific_heatrate_gj_gwh",
+    "Variable operating costs (NZD/MWh)": "specific_varom_nzd_mwh",
+    "Fixed operating costs (NZD/kW/year)": "specific_fixom_nzd_kw_year",
+    "Fuel delivery costs (NZD/GJ)": 'specific_fuel_delivery_costs_nzd_gj',
+})
+
+
+# add these 
+
+base_year_gen = base_year_gen.merge(specific_parameters, how = "left", on = "MBIE_Name")
+
+
+# we now make some generic additions for our missing plants 
+
+# We'll pull these from the full reference list for better coverage
+
+genstack_avg_parameters = reference_genstack.groupby(["TechName"])[[
+    "Heat Rate (GJ/GWh)",    
+    "Variable operating costs (NZD/MWh)",
+    "Fixed operating costs (NZD/kW/year)",
+    "Fuel delivery costs (NZD/GJ)",
+    ]].mean().reset_index()
+
+
+
+genstack_avg_parameters = genstack_avg_parameters.rename(columns = {
+    "Heat Rate (GJ/GWh)": "generic_heatrate_gj_gwh",
+    "Variable operating costs (NZD/MWh)": "generic_varom_nzd_mwh",
+    "Fixed operating costs (NZD/kW/year)": "generic_fixom_nzd_kw_year",
+    "Fuel delivery costs (NZD/GJ)": 'generic_fuel_delivery_costs_nzd_gj',
+})
+
+
+print(genstack_avg_parameters)
+
+# here we're going to map the MBIE technames to our fuel/tech combos
+
+# this should be moved to an assumptions input tbh but we'll do it here first. 
+
+techs_to_fuels = np.array([
+
+    # Rankines - not sure why we both making generic costs when we do these already. But we do. 
+    ["Coal", "RNK", "Coal"],
+    ["Gas", "RNK", "Gas"],
+    # Cogen plants - natural gas 
+    ["Cogeneration, gas-fired", "COG", "Gas"],
+    # We apply "other" cogen to all the diff generic cogen plants we have 
+    ["Cogeneration, other", "COG", "Wood"],
+    ["Cogeneration, other", "COG", "Coal"],
+    ["Cogeneration, other", "COG", "Biogas"],
+    # we'll use geothermal for both ele and cogen geo
+    ["Geothermal", "GEO", "Geothermal"],
+    ["Geothermal", "COG", "Geothermal"],    
+    # Using assumptions on maint costs for unadjusted future plants for the current biogas generation 
+    ["Reciprocating Biogas engine", "BIG", "Biogas"],    
+    # Gas turbines
+    ["Combined cycle gas turbine", "CCGT", "Gas"],
+    ["Open cycle gas turbine", "OCGT", "Gas"],
+    ["Peaker, gas-fired OCGT", "", ""], #not currently used 
+    # Diesel - we'll apply to our main and generic diesel plants: 
+    ["Peaker, diesel-fired OCGT", "OCGT", "Diesel"],
+    ["Peaker, diesel-fired OCGT", "DIE", "Diesel"],
+    # Wind/solar/hydro - quite straightfowrad. we use the future RR OM costs for existing RR OM costs
+    ["Solar", "SOL", "Solar"],
+    ["Wind", "WIN", "Wind"],  
+    ["Hydro, schedulable", "HYD", "Hydro"],
+    ["Hydro, run of river", "HYDRR", "Hydro"],
+    ])
+techs_to_fuels = pd.DataFrame(techs_to_fuels, columns=['TechName', 'TechnologyCode', 'FuelType'])
+
+
+# we can add these to our main table to get mbie_concordance values for generic costs 
+base_year_gen = base_year_gen.merge(techs_to_fuels, how = "left", on = ["FuelType", "TechnologyCode"])
+# now we can use these codes to add the generic parameters 
+base_year_gen = base_year_gen.merge(genstack_avg_parameters, how = "left", on = "TechName")
+
+# finally, we select either specific or generic factors for each plant, depending on what is available. 
+base_year_gen["HeatRate"] = base_year_gen["specific_heatrate_gj_gwh"].fillna(base_year_gen["generic_heatrate_gj_gwh"])
+base_year_gen["VarOM"] = base_year_gen["specific_varom_nzd_mwh"].fillna(base_year_gen["generic_varom_nzd_mwh"])
+base_year_gen["FixOM"] = base_year_gen["specific_fixom_nzd_kw_year"].fillna(base_year_gen["generic_fixom_nzd_kw_year"])
+base_year_gen["FuelDelivCost"] = base_year_gen["specific_fuel_delivery_costs_nzd_gj"].fillna(base_year_gen["generic_fuel_delivery_costs_nzd_gj"])
+
+
+# remove all the unnecessary variables now 
+base_year_gen = base_year_gen.drop([
+    # intermediate variables 
+    "generic_heatrate_gj_gwh",
+    "generic_varom_nzd_mwh",
+    "generic_fixom_nzd_kw_year",
+    "generic_fuel_delivery_costs_nzd_gj",
+    "specific_heatrate_gj_gwh",
+    "specific_varom_nzd_mwh",
+    "specific_fixom_nzd_kw_year",
+    "specific_fuel_delivery_costs_nzd_gj",
+
+    # linking name 
+    "TechName"
+
+], axis = 1)
+
+# we now create the parameters based on coalescing the two different approaches 
+#current_genstack.to_csv(f"{check_location}/current_genstack.csv", index = False)
+
+
+# solar will need capex as well I guess to build more of the same stock (these will be by assumption)
+
+
+# we will create efficiency as a function of heat rate 
+
+# heat rate is the ratio between GJ and GWH out - we'll simply normalise the units to find percentage efficiency:
+
+base_year_gen["FuelEfficiency"] = 3600/base_year_gen["HeatRate"]
+
+
 #endregion 
 #############################################################################
 #region OUTPUT # finalise the variables we want and add to data_intermediate 
@@ -597,13 +746,18 @@ base_year_gen.to_csv(f"{output_location}/{output_name}", index = False, encoding
 #region CHECKS 
 #############################################################################
 
+if(show_checks):
+    print("GENERATION CHECKS:")
+    print(gen_comparison)
+    print("CAPACITY CHECKS:")
+    print(cap_comparison)
+    print("GENERIC PLANTS GENERATED:")
+    print(generic_generation)
+    # extra gas checks 
+    gas_test = base_year_gen[base_year_gen["FuelType"] == "Gas"]
+    print("Extra gas checks: ")
+    print(gas_test)
 
-print("GENERATION CHECKS:")
-print(gen_comparison)
-print("CAPACITY CHECKS:")
-print(cap_comparison)
-print("GENERIC PLANTS GENERATED:")
-print(generic_generation)
 
 
 gen_comparison.to_csv(f"{check_location}/check_ele_gen_calibration.csv", index = False)
@@ -611,8 +765,5 @@ cap_comparison.to_csv(f"{check_location}/check_base_year_ele_cap_calibration.csv
 generic_generation.to_csv(f"{check_location}/check_ele_gen_generated_generics.csv", index = False)
 
 
-gas_test = base_year_gen[base_year_gen["FuelType"] == "Gas"]
-print("GAS PLANT ZOOMIN")
-print(gas_test)
 
 #endregion
