@@ -2,7 +2,6 @@
 """
 
 Base Year Electricity Generation
-base_year_generation.py
 
 This script's purpose is to build a base year electricity generation stock using various data sources.
 The final output will go to data intermediate, and will be reformatted for Veda further down the pipeline. 
@@ -14,11 +13,14 @@ The final figures (and some assumptions) are calibrated to MBIE data.
 The script can make use of the vscode extention "Outline Map" to make the script more navigable by different regions. 
 The code is broken down by #region/#endregion tags, which include a title and optional description
 
+
+You can read full information about this script at `PREPARE-TIMES-NZ/docs/model_methodology/base_year_electricity.md`
+
 """
 
 
 #############################################################################
-#region libraries
+#region SETUP
 #############################################################################
 # Here we are going to combine all the plants that will make up our base year 
 import sys 
@@ -95,8 +97,6 @@ nsp_table = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_
 #############################################################################
 #region EMI process EMI_MD data
 #############################################################################
-
-
 
 # EMI_MD processing 
 # we just want annual base year generation values for each plant, and some metadata to help us ensure we can match concordances properly.
@@ -332,10 +332,6 @@ base_year_gen = pd.concat([base_year_gen_emi,
                            base_year_gen_cfs,
                            base_year_gen_dist_solar], axis = 0)
 
-
-
-
-
 #endregion
 #############################################################################
 #region CALIBRATE_GEN calibrate generation 
@@ -374,18 +370,13 @@ base_year_gen["CapacityFactor"] = base_year_gen["EECA_Value"]/(base_year_gen["Ca
 # so you can adjust those there
 #############################################################################
 
-
-
 # find deltas based on the generic plant settings by inner join on the calibrated data 
-
-
 
 generic_generation = gen_comparison.merge(generic_plant_settings, on = ["FuelType", "GenerationType"], how = "inner")
 # add capacity factors 
 generic_generation = generic_generation.merge(capacity_factors, on = ["FuelType", "GenerationType"], how = "left")
 # rearrange columns 
 generic_generation = generic_generation[["PlantName", "FuelType","GenerationType","TechnologyCode", "Delta", "CapacityFactor"]]
-
 
 generic_generation = generic_generation.rename(columns = {"Delta":"EECA_Value"})
 # in some cases, we will overcount generation (not ideal) - in these cases, we obviously don't to add negative plants 
@@ -396,9 +387,7 @@ generic_generation = generic_generation.rename(columns = {"Delta":"EECA_Value"})
 # the missing generation (Delta) becomes our new value for these plants 
 generic_generation = generic_generation[generic_generation["EECA_Value"] > 0]
 
-
 # before we generate capacities, we need to distribute the generation by region (so each region gets a certain capacity/gen)
-
 # we do this by using the same region distributions as the non-generic plants we have already found 
 
 region_gen = base_year_gen.copy()
@@ -474,16 +463,12 @@ mbie_capacity.loc[mbie_capacity["Technology"] == "Solar PV", "Technology"] = "So
 mbie_capacity.loc[mbie_capacity["Technology"] == "Coal/Gas", "Technology"] = "Coal" # Rankine treatment might need to change but whatever
 
 # trim columns and rename
-
 mbie_capacity = mbie_capacity[["Technology", "GenerationType", "Value"]]
 
 mbie_capacity = mbie_capacity.rename(columns = {
     "Value" : "MBIE_Value",
     "Technology" : "FuelType",
     })
-    
-
-# todo 
 
 # remove the gas rankine to avoid double counting it (we just call it coal, whatever)
 base_year_summary_cap = base_year_gen[~((base_year_gen["TechnologyCode"] == "RNK") & (base_year_gen["FuelType"] == "Gas"))]
@@ -491,26 +476,16 @@ base_year_summary_cap = base_year_gen[~((base_year_gen["TechnologyCode"] == "RNK
 # convert wood CHP to other (not quite accurate but works here) 
 base_year_summary_cap.loc[(base_year_summary_cap["GenerationType"] == "CHP") & (base_year_summary_cap["FuelType"] != "Gas"),
                           "FuelType"] = "Other"
-
 # can aggregate now 
 base_year_summary_cap = base_year_summary_cap.groupby(["FuelType", "GenerationType"])["CapacityMW"].sum().reset_index()
-
 # rename 
 base_year_summary_cap.rename(columns = {"CapacityMW":"EECA_Value"}, inplace=True)
-
-
-
-
-
 
 cap_comparison = pd.merge(mbie_capacity,
                           base_year_summary_cap, 
                           how = "left",
                           on = ["FuelType", "GenerationType"])
-
-# cap_comparison["EECA_Value"
-
-
+# assess differences
 cap_comparison["EECA_Value"] = cap_comparison["EECA_Value"].fillna(0)
 cap_comparison["Delta"] = (cap_comparison["EECA_Value"]-cap_comparison["MBIE_Value"])
 
@@ -582,16 +557,12 @@ genstack_avg_parameters = genstack_avg_parameters.rename(columns = {
     "Fuel delivery costs (NZD/GJ)": 'generic_fuel_delivery_costs_nzd_gj',
 })
 
-
-print(genstack_avg_parameters)
-
 # here we're going to map the MBIE technames to our fuel/tech combos
-
-# this should be moved to an assumptions input tbh but we'll do it here first. 
+# this mapping should possibly be moved to an assumptions input tbh but we'll do it here first. 
 
 techs_to_fuels = np.array([
 
-    # Rankines - not sure why we both making generic costs when we do these already. But we do. 
+    # Rankines - not sure why we bother making generic costs when we do these already. But we do. 
     ["Coal", "RNK", "Coal"],
     ["Gas", "RNK", "Gas"],
     # Cogen plants - natural gas 
@@ -618,8 +589,8 @@ techs_to_fuels = np.array([
     ["Hydro, schedulable", "HYD", "Hydro"],
     ["Hydro, run of river", "HYDRR", "Hydro"],
     ])
-techs_to_fuels = pd.DataFrame(techs_to_fuels, columns=['TechName', 'TechnologyCode', 'FuelType'])
 
+techs_to_fuels = pd.DataFrame(techs_to_fuels, columns=['TechName', 'TechnologyCode', 'FuelType'])
 
 # we can add these to our main table to get mbie_concordance values for generic costs 
 base_year_gen = base_year_gen.merge(techs_to_fuels, how = "left", on = ["FuelType", "TechnologyCode"])
@@ -693,9 +664,6 @@ def clean_generic_process_names(df):
         return "Generic"
     else:
         return df["Process"]
-    
-
-
 
 # generate names for each process. First just capitalise the main name 
 base_year_gen["Process"] = base_year_gen["PlantName"].apply(to_pascal_case)
@@ -703,13 +671,14 @@ base_year_gen["Process"] = base_year_gen["PlantName"].apply(to_pascal_case)
 base_year_gen["Process"] = base_year_gen["Process"].apply(remove_diacritics)
 # in cases where we made generic names, we just remove the extra bits 
 base_year_gen["Process"] = base_year_gen.apply(clean_generic_process_names, axis = 1)
-
-
-
-
 # now add some useful features to the process name and ensure distinct
-
 base_year_gen["Process"] = "ELC_" + base_year_gen["FuelType"] + "_" + base_year_gen["TechnologyCode"] + "_" + base_year_gen["Process"]
+
+
+
+# Some final renaming 
+
+base_year_gen = base_year_gen.rename(columns = {"EECA_Value":"Generation_GWh"})
 # 
 
 #endregion 
