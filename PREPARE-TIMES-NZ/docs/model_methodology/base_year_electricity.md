@@ -20,6 +20,7 @@ Note that this does mean updating the base year will currently require a manual 
 - MBIE official electricity statistics
 - Electricity Authority fleet list
 - Electricity Authority MD generation data
+- specific assumptions found at: `data_raw/coded_assumptions/electricity_generation`
 
 
 # Detailed method
@@ -69,7 +70,6 @@ A note on biomass: In February 2023, Genesis completed a biomass trial at the Ra
 
 ## 5 Adding distributed solar generation
 
-
 EMI does not provide figures on rooftop solar generation. We therefore create generic plant stocks intended to represent different levels of rooftop solar generation (residential, commercial, and industrial), and distribute MBIE’s official solar generation statistics according to region and island based on EMI distributed solar capacity data. 
 A stock model is applied to the existing stock of distributed solar generation to estimate the rate at which panels are retired from rooftops across the model horizon.
 
@@ -83,11 +83,7 @@ After adding either Electricity Authority generation data or plant generation es
 
 We therefore add a few parameters for potential “generic” existing plants, and these have their capacities and generation figures for the base year generated automatically based on the missing generation data and capacity factor assumptions. In cases where they may be on either island (such as wind or hydro), they are distributed according to the known regional distribution of similar plants. In other cases (such as geothermal or natural gas plants) they are distributed only across the North Island. 
 
-## 7 Final results 
-
-This allows us to produce a list of plants by region, with ages, capacities, cogeneration status, base year generation. This can be found at (ADD LINK). For distributed solar, we can distribute the capacity further by region and sector that it services (residential, commercial, or industrial). 
-
-## 8 Checks against official statistics 
+## 7 Checks against official statistics 
 
 ### Calibration to official generation 
 
@@ -109,12 +105,54 @@ Overall, this means our base model will generate an extra 55GWh in 2023 compared
 Capacity figures are slightly less well-aligned, but we are forced to assume capacity factors for some plant types, which might not align with specific plants actual capacity factors in 2023. Maintenance or unusual rainfall or a host of other factors could lead to different actual capacity outputs. This leads to minor miscalibrations, particularly for Hydro, but the overall levels are within 4 MW of MBIE values, or 0.035%.
 
 
+## 8 Adding technical parameters
+### Technical parameters: by assumption
+
+Now that our base year plants are properly calibrated, we add the remaining technical parameters. Some of these come by assumption, and others from MBIE data. 
+
+We then read in technical parameter assumptions by technology. These are hardcoded assumptions found in (found in `data_raw/coded_assumptions/electricity_generation/TechnologyAssumptions.csv`). 
+
+These currently include plant lifetime and peak contribution rates by technology, which are applied to every plant. These assumptions have been extracted from TIMES 2.0.
+
+We further ensure that the distributed solar outputs into the distributed network (ELCDD) as opposed to the grid (ELC)
+
+
+
+
+### Technical parameters: MBIE data
+
+We then extract all the remaining technical parameters for each plant. 
+
+We're looking to include: 
+
+1) Heatrate (or fuel efficiency)
+2) Variable opex (NZD/MWh)
+3) Fixed opex (NZD/kw/year)
+4) Fuel delivery costs (NZD/GJ)
+
+Each of the plants in our original list includes an `MBIE_Name` variable, which was added after manual review. These variables are now used to merge in the technical parameters from the genstack.
+
+In cases where plants in the TIMES base year do not have direct equivalents, we take the mean of these parameters for similar plants and apply those instead. We generate mean values for each of these parameters for each technology in MBIE's Reference scenario, then map these to our plants by `TechnologyCode` and `FuelType`. 
+
+Currently, decommissioning costs are not included. This was also true in TIMES 2.0. We instead assume that plants always retire at the end of their technical lifetime. 
+We assume hydro plants are maintained indefinitely (by their null lifetime assumption), and the cost of turbine replacements are spread across their operating and maintenance costs. 
+
+## 9 Adding TIMES features
+
+We finally add a few extra features required by Veda/TIMES. These are currently: 
+
+1) Include output commodity (ELC for everything except distributed solar, which is ELCDD)
+2) Generate unique process names for every plant (these are a function of the plant name label, and also include the fuel and tech codes for easy lookups and wildcards later)
+
+
+## 10 output and save 
+
+A single file is produced by this process containing all necessary information for the base year electricity generation: 
+
+`data_intermediate/base_year_electricity_supply.csv`
+
+
 
 # TO-DO: 
 
-
-
-1.	Add concordance table for plant life by tech – this already exists so a matter of adding to the repo.  
-2.	Add concordance for peak contribution rates per tech. As above.
-3.	Add concordance for for TIMES use (In, Out, Cap). This will require a TIMES name generation method of some kind to avoid a lot of manual work.
-4.	Format for TIMES: create existing plant table with VAROM, FIXOM, CAP, LIFE, Peak cont, CAP, ACT_BND_FX, perhaps ACT_BND_FX for 2024 as well since we have that data.
+4.	Format for TIMES (different script): create existing plant table with VAROM, FIXOM, CAP, LIFE, Peak cont, CAP, ACT_BND_FX, perhaps ACT_BND_FX for 2024 as well since we have that data.

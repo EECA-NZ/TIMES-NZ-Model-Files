@@ -516,65 +516,16 @@ cap_comparison["Delta"] = (cap_comparison["EECA_Value"]-cap_comparison["MBIE_Val
 
 #endregion 
 #############################################################################
-#region ADD_EXTRAS # extra assumptions for the final table 
+#region TECHNICAL PARAMETERS # remaining technical parameters 
 #############################################################################
 
 # assumptions by technology (peak cont, plant life)
 base_year_gen = base_year_gen.merge(technology_assumptions, how = "left", on = "TechnologyCode")
 
-# add the output techs (ELC for everything but solar I guess)
-def add_output_commodity(df):
-    if df["TechnologyCode"] == "SOL":
-        return "ELCDD"
-    else: 
-        return "ELC"
-    
-def to_pascal_case(s):
-    return ''.join(word.capitalize() for word in s.split())
 
 
-def remove_diacritics(input_str):
-    # Normalize the string to decompose characters into base characters and diacritical marks
-    nfkd_form = unicodedata.normalize('NFKD', input_str)
-    # Filter out all combining characters (diacritical marks)
-    return ''.join(char for char in nfkd_form if not unicodedata.combining(char))
-
-
-def clean_generic_process_names(df):
-    # If the name is generic, then we don't want the extra bits currerntly added to "PlantName"
-    if df["GenerationMethod"] == "Generic":
-        return "Generic"
-    else:
-        return df["Process"]
-    
-# we adjust the solar output commodities to ELCDD rather than ELC
-base_year_gen["OutputCommodity"] = base_year_gen.apply(add_output_commodity, axis = 1)
-
-
-
-# generate names for each process. First just capitalise the main name 
-base_year_gen["Process"] = base_year_gen["PlantName"].apply(to_pascal_case)
-# going to remove macrons because these will probably cause trouble when applied to GAMS code 
-base_year_gen["Process"] = base_year_gen["Process"].apply(remove_diacritics)
-# in cases where we made generic names, we just remove the extra bits 
-base_year_gen["Process"] = base_year_gen.apply(clean_generic_process_names, axis = 1)
-
-
-
-
-# now add some useful features to the process name and ensure distinct
-
-base_year_gen["Process"] = "ELC_" + base_year_gen["FuelType"] + "_" + base_year_gen["TechnologyCode"] + "_" + base_year_gen["Process"]
-# 
-
-
-#endregion 
-#############################################################################
-#region ADD_COSTS # pulling in the varom, fixom, and delivery costs for each plant. 
-
-# these will be mostly based on the genstack but might need extra bits here and there (especially solar) 
-
-
+# The rest of the parameters come from MBIE's genstack.
+#  This section is ripe for refactor, as a lot of manual coding and mapping happens to tie everything togehter
 
 # first, we'll extract a mapping of eeca plant names to MBIE plant names from our original manual file 
 eeca_mbie_plantname_concordance = eeca_fleet_data[["PlantName", "FuelType", "MBIE_Name"]]
@@ -595,8 +546,6 @@ specific_parameters = current_genstack[[
     "Fixed operating costs (NZD/kW/year)",
     "Fuel delivery costs (NZD/GJ)",
     ]]
-
-
 
 # rename plant for joining on 
 specific_parameters = specific_parameters.rename(columns = {
@@ -701,40 +650,73 @@ base_year_gen = base_year_gen.drop([
 
 ], axis = 1)
 
-# we now create the parameters based on coalescing the two different approaches 
-#current_genstack.to_csv(f"{check_location}/current_genstack.csv", index = False)
-
-
-# solar will need capex as well I guess to build more of the same stock (these will be by assumption)
-
-
 # we will create efficiency as a function of heat rate 
-
-# heat rate is the ratio between GJ and GWH out - we'll simply normalise the units to find percentage efficiency:
-
+# heat rate is the ratio between GJ in and GWH out - we'll simply normalise the units to find percentage efficiency:
 base_year_gen["FuelEfficiency"] = 3600/base_year_gen["HeatRate"]
 
+
+
+
+#endregion 
+#############################################################################
+#region TIMES_FEATURES # adding additional information for TIMES variables 
+#############################################################################
+
+# add the output techs (ELC for everything but solar I guess)
+def add_output_commodity(df):
+    if df["TechnologyCode"] == "SOL":
+        return "ELCDD"
+    else: 
+        return "ELC"
+    
+
+# we adjust the solar output commodities to ELCDD rather than ELC
+base_year_gen["OutputCommodity"] = base_year_gen.apply(add_output_commodity, axis = 1)
+
+
+# Generate Process Name for each asset  
+    
+def to_pascal_case(s):
+    return ''.join(word.capitalize() for word in s.split())
+
+
+def remove_diacritics(input_str):
+    # Normalize the string to decompose characters into base characters and diacritical marks
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    # Filter out all combining characters (diacritical marks)
+    return ''.join(char for char in nfkd_form if not unicodedata.combining(char))
+
+
+def clean_generic_process_names(df):
+    # If the name is generic, then we don't want the extra bits currerntly added to "PlantName"
+    if df["GenerationMethod"] == "Generic":
+        return "Generic"
+    else:
+        return df["Process"]
+    
+
+
+
+# generate names for each process. First just capitalise the main name 
+base_year_gen["Process"] = base_year_gen["PlantName"].apply(to_pascal_case)
+# going to remove macrons because these will probably cause trouble when applied to GAMS code 
+base_year_gen["Process"] = base_year_gen["Process"].apply(remove_diacritics)
+# in cases where we made generic names, we just remove the extra bits 
+base_year_gen["Process"] = base_year_gen.apply(clean_generic_process_names, axis = 1)
+
+
+
+
+# now add some useful features to the process name and ensure distinct
+
+base_year_gen["Process"] = "ELC_" + base_year_gen["FuelType"] + "_" + base_year_gen["TechnologyCode"] + "_" + base_year_gen["Process"]
+# 
 
 #endregion 
 #############################################################################
 #region OUTPUT # finalise the variables we want and add to data_intermediate 
 #############################################################################
-"""
-base_year_gen = base_year_gen[[
-    "PlantName",
-    "FuelType",
-    "TechnologyCode",
-    "Region",
-    "YearCommissioned",
-    "GenerationType",
-    "CapacityMW",
-    "EECA_Value",
-    "GenerationMethod",
-    "CapacityFactor"
-    
-    ]]
 
-"""
 output_name = "base_year_electricity_supply.csv"
 
 print(f"Saving {output_name} to data_intermediate")
