@@ -35,7 +35,7 @@ os.makedirs(DATA_INTERMEDIATE)
 # method options are 'times_2' (recreates times 2 based on the summary table)
 # or 'times_3' (builds the new times model from source files) (currently very barebones implementation)
 
-method = "times_2" 
+method = "times_3" 
 
 
 # Execute 
