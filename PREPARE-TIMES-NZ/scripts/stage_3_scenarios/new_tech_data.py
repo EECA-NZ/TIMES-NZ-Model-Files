@@ -17,33 +17,30 @@ import numpy as np
 import os 
 import logging
 import matplotlib.pyplot as plt
-from functions_new_tech import *
+
 
 # set log level for message outputs 
 logging.basicConfig(level=logging.INFO) 
-
+#Getting Custom Libraries
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
 from filepaths import DATA_RAW, DATA_INTERMEDIATE
-MBIE = f"{DATA_RAW}/external_data/mbie"
-NREL = f"{DATA_RAW}/external_data/NREL"
+from dataprep import *
 
 
-#Loading the MBIE genstack data
-GenStack = pd.read_csv("MBIE_GenStack.csv")
-#loading the CAPEX data
-NREL_CAPEX = pd.read_csv(f"{NREL}/CAPEX_Tech.csv")
-#Loading the FOM data from the NREL database
-NREL_FOM = pd.read_csv("FOM_Tech.csv")
+#Loading the relevant csvs
+genstack_file = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/gen_stack.csv")
+NREL_CAPEX = pd.read_csv(f"{DATA_RAW}/external_data/NREL/CAPEX_Tech.csv")
+NREL_FOM = pd.read_csv(f"{DATA_RAW}/external_data/NREL/FOM_Tech.csv")
 
-
+# Setting the output loaction
 output_location = f"{DATA_INTERMEDIATE}/stage_3_scenarios"
 os.makedirs(output_location, exist_ok = True)
 
 
 
 # this splits out the reference scenario as the other MBIE scenarios as these are just scaled from the reference
-Reference_Genstack = filter_csv_by_one_column(GenStack, "Scenario", "Reference", output_filtered_file=None)
+Reference_Genstack = filter_csv_by_one_column(genstack_file, "Scenario", "Reference", output_filtered_file=None)
 
 Reference_Genstack = remove_rows_by_column_value(Reference_Genstack, "Status", "Current")
 
