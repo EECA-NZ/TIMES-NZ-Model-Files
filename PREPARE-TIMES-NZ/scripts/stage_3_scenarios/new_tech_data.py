@@ -78,191 +78,191 @@ fixed_cost = merge_specific_group(fixed_cost, "Tech", "Plant", "Generic OCGT pea
 #Then we want to apply the NREL learning curves to the according varied cost spots
 
 
-#In TIMES2.0 they used the moderate data from NREL to model the Tui scenario
-filters_Tui = {
+#In TIMES2.0 they used the moderate data from NREL to model the Moderate scenario
+filters_Moderate = {
     "Technology": ["Land-Based Wind - Class 2 - Technology 1",
                   "Utility PV - Class 1", "Geothermal - Hydro / Flash"],  
     "Scenario": "Moderate" 
 }
 
-Tui_NREL_CAPEX, excluded_Tui_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_Tui, output_filtered_file=None, output_excluded_file=None)
+Moderate_NREL_CAPEX, excluded_Moderate_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_Moderate, output_filtered_file=None, output_excluded_file=None)
 
 
-#For Kea they used the conservative scenario (slower decrease in costs over time)
-filters_Kea = {
+#For Conservative they used the conservative scenario (slower decrease in costs over time)
+filters_Conservative = {
     "Technology": ["Land-Based Wind - Class 2 - Technology 1",
                   "Utility PV - Class 1", "Geothermal - Hydro / Flash"],  
     "Scenario": "Conservative" 
 }
 
-Kea_NREL_CAPEX, excluded_Kea_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_Kea, output_filtered_file=None, output_excluded_file=None)
+Conservative_NREL_CAPEX, excluded_Conservative_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_Conservative, output_filtered_file=None, output_excluded_file=None)
 
 
 # removing the scenario and 2022 columns as these are not needed in calcs (want a base year of 2023 to match MBIE data) :)
 columns_to_remove = ["Scenario", "2022"]
-Tui_NREL_CAPEX = remove_columns(Tui_NREL_CAPEX, columns_to_remove)
+Moderate_NREL_CAPEX = remove_columns(Moderate_NREL_CAPEX, columns_to_remove)
 
-Kea_NREL_CAPEX = remove_columns(Kea_NREL_CAPEX, columns_to_remove)
+Conservative_NREL_CAPEX = remove_columns(Conservative_NREL_CAPEX, columns_to_remove)
 
 
 # Calculate the percentage indices
 
-Tui_idx = divide_from_specific_column(Tui_NREL_CAPEX, base_column = "2023", row_conditions = {})
+Moderate_idx = divide_from_specific_column(Moderate_NREL_CAPEX, base_column = "2023", row_conditions = {})
 
-Kea_idx = divide_from_specific_column(Kea_NREL_CAPEX, base_column = "2023", row_conditions = {})
+Conservative_idx = divide_from_specific_column(Conservative_NREL_CAPEX, base_column = "2023", row_conditions = {})
 
 
-Tui_idx = Tui_idx.rename(columns={'Technology': 'Tech'})
-Kea_idx = Kea_idx.rename(columns={'Technology': 'Tech'})
+Moderate_idx = Moderate_idx.rename(columns={'Technology': 'Tech'})
+Conservative_idx = Conservative_idx.rename(columns={'Technology': 'Tech'})
 
 
 # gives you the indices of the rows that we want used for the mapping_dict 
-solar_Tui = Tui_idx[Tui_idx["Tech"] == "Utility PV - Class 1"].index[0]
-wind_Tui = Tui_idx[Tui_idx["Tech"] == "Land-Based Wind - Class 2 - Technology 1"].index[0]
-geo_Tui = Tui_idx[Tui_idx["Tech"] == "Geothermal - Hydro / Flash"].index[0]
+solar_Moderate = Moderate_idx[Moderate_idx["Tech"] == "Utility PV - Class 1"].index[0]
+wind_Moderate = Moderate_idx[Moderate_idx["Tech"] == "Land-Based Wind - Class 2 - Technology 1"].index[0]
+geo_Moderate = Moderate_idx[Moderate_idx["Tech"] == "Geothermal - Hydro / Flash"].index[0]
 #set up to combine and multiply the two dataframes
 selected_columns = ["Plant", "TechName", "Substation", "Region", "Status", "Type","Commissioning Year"]
 multiply_column = "Capital cost (NZD/kW)"
 option_column = "Tech"
-mapping_dict_Tui = {
-    "Solar" : solar_Tui,
-    "Wind" : wind_Tui,
-    "Geo" : geo_Tui
+mapping_dict_Moderate = {
+    "Solar" : solar_Moderate,
+    "Wind" : wind_Moderate,
+    "Geo" : geo_Moderate
 }
 
-label_from_df2 = Tui_idx.columns.tolist()
+label_from_df2 = Moderate_idx.columns.tolist()
 constant_col1 = "Connection cost (NZD $m)"
 constant_col2 = "Capacity (MW)"
 
-Tui_idx = Tui_idx.apply(pd.to_numeric, errors="coerce")
+Moderate_idx = Moderate_idx.apply(pd.to_numeric, errors="coerce")
 
 
 
-Tui_CAPEX = combine_and_multiply_by_row(varied_cost, Tui_idx, selected_columns, multiply_column, option_column, mapping_dict_Tui, label_from_df2, constant_col1, constant_col2)
-Tui_CAPEX = remove_columns(Tui_CAPEX, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
+Moderate_CAPEX = combine_and_multiply_by_row(varied_cost, Moderate_idx, selected_columns, multiply_column, option_column, mapping_dict_Moderate, label_from_df2, constant_col1, constant_col2)
+Moderate_CAPEX = remove_columns(Moderate_CAPEX, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
 
 
 
 # first just finding the indices of the rows we want to use
-solar_Kea = Kea_idx[Kea_idx["Tech"] == "Utility PV - Class 1"].index[0]
-wind_Kea = Kea_idx[Kea_idx["Tech"] == "Land-Based Wind - Class 2 - Technology 1"].index[0]
-geo_Kea = Kea_idx[Kea_idx["Tech"] == "Geothermal - Hydro / Flash"].index[0]
-mapping_dict_Kea = {
-    "Solar" : solar_Kea,
-    "Wind" : wind_Kea,
-    "Geo" : geo_Kea
+solar_Conservative = Conservative_idx[Conservative_idx["Tech"] == "Utility PV - Class 1"].index[0]
+wind_Conservative = Conservative_idx[Conservative_idx["Tech"] == "Land-Based Wind - Class 2 - Technology 1"].index[0]
+geo_Conservative = Conservative_idx[Conservative_idx["Tech"] == "Geothermal - Hydro / Flash"].index[0]
+mapping_dict_Conservative = {
+    "Solar" : solar_Conservative,
+    "Wind" : wind_Conservative,
+    "Geo" : geo_Conservative
 }
 
-Kea_idx = Kea_idx.apply(pd.to_numeric, errors="coerce")
-Kea_CAPEX = combine_and_multiply_by_row(varied_cost, Kea_idx, selected_columns, multiply_column, option_column, mapping_dict_Kea, label_from_df2, constant_col1, constant_col2)
-Kea_CAPEX = remove_columns(Kea_CAPEX, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
+Conservative_idx = Conservative_idx.apply(pd.to_numeric, errors="coerce")
+Conservative_CAPEX = combine_and_multiply_by_row(varied_cost, Conservative_idx, selected_columns, multiply_column, option_column, mapping_dict_Conservative, label_from_df2, constant_col1, constant_col2)
+Conservative_CAPEX = remove_columns(Conservative_CAPEX, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
 
 
 ### FOM time 
 
 
 #Moving the wanted FOM data to it's own dataframe
-Tui_NREL_FOM, ex_FOM_Tui_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_Tui, output_filtered_file=None, output_excluded_file=None)
+Moderate_NREL_FOM, ex_FOM_Moderate_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_Moderate, output_filtered_file=None, output_excluded_file=None)
 
 
-Kea_NREL_FOM, ex_FOM_Kea_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_Kea, output_filtered_file=None, output_excluded_file=None)
+Conservative_NREL_FOM, ex_FOM_Conservative_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_Conservative, output_filtered_file=None, output_excluded_file=None)
 
 
 
 # removing the scenario and 2022 columns as these are not needed in calcs :)
 
-Tui_NREL_FOM = remove_columns(Tui_NREL_FOM, columns_to_remove)
+Moderate_NREL_FOM = remove_columns(Moderate_NREL_FOM, columns_to_remove)
 
-Kea_NREL_FOM = remove_columns(Kea_NREL_FOM, columns_to_remove)
+Conservative_NREL_FOM = remove_columns(Conservative_NREL_FOM, columns_to_remove)
 
 #Creating the percentage indices for FOMs
-Tui_FOM_idx = divide_from_specific_column(Tui_NREL_FOM, base_column = "2023", row_conditions = {})
+Moderate_FOM_idx = divide_from_specific_column(Moderate_NREL_FOM, base_column = "2023", row_conditions = {})
 
-Kea_FOM_idx = divide_from_specific_column(Kea_NREL_FOM, base_column = "2023", row_conditions = {})
+Conservative_FOM_idx = divide_from_specific_column(Conservative_NREL_FOM, base_column = "2023", row_conditions = {})
 
 #Prepping for combining and multiplying the NREL and MBIE dataframes
-Tui_FOM_idx = Tui_FOM_idx.rename(columns={'Technology': 'Tech'})
-Kea_FOM_idx = Kea_FOM_idx.rename(columns={'Technology': 'Tech'})
+Moderate_FOM_idx = Moderate_FOM_idx.rename(columns={'Technology': 'Tech'})
+Conservative_FOM_idx = Conservative_FOM_idx.rename(columns={'Technology': 'Tech'})
 
 multiply_column_FOM = "Fixed operating costs (NZD/kW/year)"
 
-Tui_FOM_idx = Tui_FOM_idx.apply(pd.to_numeric, errors="coerce")
+Moderate_FOM_idx = Moderate_FOM_idx.apply(pd.to_numeric, errors="coerce")
 
-Tui_FOM = combine_and_multiply_FOM(varied_cost, Tui_FOM_idx, selected_columns, multiply_column_FOM, option_column, mapping_dict_Tui, label_from_df2, transform_func=None)
-Tui_FOM = remove_columns(Tui_FOM, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
+Moderate_FOM = combine_and_multiply_FOM(varied_cost, Moderate_FOM_idx, selected_columns, multiply_column_FOM, option_column, mapping_dict_Moderate, label_from_df2, transform_func=None)
+Moderate_FOM = remove_columns(Moderate_FOM, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
 
-Kea_FOM_idx = Kea_FOM_idx.apply(pd.to_numeric, errors="coerce")
+Conservative_FOM_idx = Conservative_FOM_idx.apply(pd.to_numeric, errors="coerce")
 
-Kea_FOM = combine_and_multiply_FOM(varied_cost, Kea_FOM_idx, selected_columns, multiply_column_FOM, option_column, mapping_dict_Kea, label_from_df2, transform_func=None)
-Kea_FOM = remove_columns(Kea_FOM, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
+Conservative_FOM = combine_and_multiply_FOM(varied_cost, Conservative_FOM_idx, selected_columns, multiply_column_FOM, option_column, mapping_dict_Conservative, label_from_df2, transform_func=None)
+Conservative_FOM = remove_columns(Conservative_FOM, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
 
 ###############     Offshore wind (fixed and floating) additions to table 
 # First getting the data from the NREL csvs for CAPEX
-filters_offshore_Tui = {
+filters_offshore_Moderate = {
     "Technology": ["Offshore Wind - Class 1", "Offshore Wind - Class 8"],  
     "Scenario": "Moderate" 
 }
 
-Tui_offshore_CAPEX, excluded_Tui_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_offshore_Tui, output_filtered_file=None, output_excluded_file=None)
+Moderate_offshore_CAPEX, excluded_Moderate_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_offshore_Moderate, output_filtered_file=None, output_excluded_file=None)
 
-filters_offshore_Kea = {
+filters_offshore_Conservative = {
     "Technology": ["Offshore Wind - Class 1", "Offshore Wind - Class 8"],  
     "Scenario": "Conservative" 
 }
 
-Kea_offshore_CAPEX, excluded_Kea_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_offshore_Kea, output_filtered_file=None, output_excluded_file=None)
+Conservative_offshore_CAPEX, excluded_Conservative_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_offshore_Conservative, output_filtered_file=None, output_excluded_file=None)
 
 
 #removing unwanted columns from the dataframes (columns_to_remove was defined earlier in the script)
-Tui_offshore_CAPEX = remove_columns(Tui_offshore_CAPEX, columns_to_remove)
-Kea_offshore_CAPEX = remove_columns(Kea_offshore_CAPEX, columns_to_remove)
+Moderate_offshore_CAPEX = remove_columns(Moderate_offshore_CAPEX, columns_to_remove)
+Conservative_offshore_CAPEX = remove_columns(Conservative_offshore_CAPEX, columns_to_remove)
 
 CPI = 1.05 # 5% CPI
 cost_conversion = 0.62 #USD to NZD
-Tui_converted_CAPEX = clean_and_multiply(Tui_offshore_CAPEX, CPI, cost_conversion)
+Moderate_converted_CAPEX = clean_and_multiply(Moderate_offshore_CAPEX, CPI, cost_conversion)
 
-Kea_converted_CAPEX = clean_and_multiply(Kea_offshore_CAPEX, CPI, cost_conversion)
+Conservative_converted_CAPEX = clean_and_multiply(Conservative_offshore_CAPEX, CPI, cost_conversion)
 
 #Now to find the offshore FOMs
-Tui_offshore_FOM, excluded_Tui_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_offshore_Tui, output_filtered_file=None, output_excluded_file=None)
-Kea_offshore_FOM, excluded_Tui_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_offshore_Kea, output_filtered_file=None, output_excluded_file=None)
+Moderate_offshore_FOM, excluded_Moderate_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_offshore_Moderate, output_filtered_file=None, output_excluded_file=None)
+Conservative_offshore_FOM, excluded_Moderate_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_offshore_Conservative, output_filtered_file=None, output_excluded_file=None)
 
 #removing unwanted columns from the dataframes (columns_to_remove was defined earlier in the script)
-Tui_offshore_FOM = remove_columns(Tui_offshore_FOM, columns_to_remove)
-Kea_offshore_FOM = remove_columns(Kea_offshore_FOM, columns_to_remove)
+Moderate_offshore_FOM = remove_columns(Moderate_offshore_FOM, columns_to_remove)
+Conservative_offshore_FOM = remove_columns(Conservative_offshore_FOM, columns_to_remove)
 
 #Final conversion from USD to NZD including CPI
-Tui_converted_FOM = clean_and_multiply(Tui_offshore_FOM, CPI, cost_conversion)
-Kea_converted_FOM = clean_and_multiply(Kea_offshore_FOM, CPI, cost_conversion)
+Moderate_converted_FOM = clean_and_multiply(Moderate_offshore_FOM, CPI, cost_conversion)
+Conservative_converted_FOM = clean_and_multiply(Conservative_offshore_FOM, CPI, cost_conversion)
 
 #Want to add columns so that the data is easy to append into the main dataframe
 
 status_offshore = ["Generic", "Generic"]
 techname_offshore = ["Fixed Offshore Wind", "Floating Offshore Wind"]
 
-Tui_converted_CAPEX.insert(1, "Status", status_offshore)
-Tui_converted_CAPEX.insert(2,"TechName", techname_offshore)
+Moderate_converted_CAPEX.insert(1, "Status", status_offshore)
+Moderate_converted_CAPEX.insert(2,"TechName", techname_offshore)
 
-Kea_converted_CAPEX.insert(1, "Status", status_offshore)
-Kea_converted_CAPEX.insert(2,"TechName", techname_offshore)
+Conservative_converted_CAPEX.insert(1, "Status", status_offshore)
+Conservative_converted_CAPEX.insert(2,"TechName", techname_offshore)
 
-Tui_converted_FOM.insert(1, "Status", status_offshore)
-Tui_converted_FOM.insert(2,"TechName", techname_offshore)
+Moderate_converted_FOM.insert(1, "Status", status_offshore)
+Moderate_converted_FOM.insert(2,"TechName", techname_offshore)
 
-Kea_converted_FOM.insert(1, "Status", status_offshore)
-Kea_converted_FOM.insert(2,"TechName", techname_offshore)
+Conservative_converted_FOM.insert(1, "Status", status_offshore)
+Conservative_converted_FOM.insert(2,"TechName", techname_offshore)
 
 #Just relabeling to match the main Data Frames
-Tui_converted_CAPEX = Tui_converted_CAPEX.rename(columns={'Technology': 'Plant'})
-Kea_converted_CAPEX = Kea_converted_CAPEX.rename(columns={'Technology': 'Plant'})
-Tui_converted_FOM = Tui_converted_FOM.rename(columns={'Technology': 'Plant'})
-Kea_converted_FOM = Kea_converted_FOM.rename(columns={'Technology': 'Plant'})
+Moderate_converted_CAPEX = Moderate_converted_CAPEX.rename(columns={'Technology': 'Plant'})
+Conservative_converted_CAPEX = Conservative_converted_CAPEX.rename(columns={'Technology': 'Plant'})
+Moderate_converted_FOM = Moderate_converted_FOM.rename(columns={'Technology': 'Plant'})
+Conservative_converted_FOM = Conservative_converted_FOM.rename(columns={'Technology': 'Plant'})
 
 
 labels = ['Taranaki', 'Waikato', 'Southland']
 
 # List of original DataFrames
-original_dfs = [Tui_converted_CAPEX, Kea_converted_CAPEX, Tui_converted_FOM, Kea_converted_FOM]
+original_dfs = [Moderate_converted_CAPEX, Conservative_converted_CAPEX, Moderate_converted_FOM, Conservative_converted_FOM]
 
 new_columns = {
     'Type': 'Earliest Year',
@@ -288,19 +288,19 @@ for i, df in enumerate(original_dfs):
 
 #appending these frames into the main ones
 
-Tui_CAPEX = pd.concat([Tui_CAPEX, merged_copies[0]], ignore_index = True)
-Kea_CAPEX = pd.concat([Kea_CAPEX, merged_copies[1]], ignore_index = True)
-Tui_FOM = pd.concat([Tui_FOM, merged_copies[2]], ignore_index = True)
-Kea_FOM = pd.concat([Kea_FOM, merged_copies[3]], ignore_index = True)
+Moderate_CAPEX = pd.concat([Moderate_CAPEX, merged_copies[0]], ignore_index = True)
+Conservative_CAPEX = pd.concat([Conservative_CAPEX, merged_copies[1]], ignore_index = True)
+Moderate_FOM = pd.concat([Moderate_FOM, merged_copies[2]], ignore_index = True)
+Conservative_FOM = pd.concat([Conservative_FOM, merged_copies[3]], ignore_index = True)
 
 #Adding in needed info for the final data frame
-Tui_CAPEX[["Scenario", "Variable", "Unit"]] = ["Tui", "CAPEX", "$/kW"]
-Kea_CAPEX[["Scenario", "Variable", "Unit"]] = ["Kea", "CAPEX", "$/kW"]
-Tui_FOM[["Scenario", "Variable", "Unit"]] = ["Tui", "FOM", "$/kW"]
-Kea_FOM[["Scenario", "Variable", "Unit"]] = ["Kea", "FOM", "$/kW"]
+Moderate_CAPEX[["Scenario", "Variable", "Unit"]] = ["Moderate", "CAPEX", "$/kW"]
+Conservative_CAPEX[["Scenario", "Variable", "Unit"]] = ["Conservative", "CAPEX", "$/kW"]
+Moderate_FOM[["Scenario", "Variable", "Unit"]] = ["Moderate", "FOM", "$/kW"]
+Conservative_FOM[["Scenario", "Variable", "Unit"]] = ["Conservative", "FOM", "$/kW"]
 
 #merging all of the variable data
-merged_df = pd.concat([Tui_CAPEX, Kea_CAPEX, Tui_FOM, Kea_FOM], ignore_index = True)
+merged_df = pd.concat([Moderate_CAPEX, Conservative_CAPEX, Moderate_FOM, Conservative_FOM], ignore_index = True)
 
 #moving some of the columns
 moves = [("Scenario", 0), ("Variable", 8),("Unit", 9)]
@@ -320,12 +320,12 @@ long_df = pd.melt(merged_df,
 fixed_cost["CAPEX"] = fixed_cost["Total Capital costs (NZD $m)"]/fixed_cost["Capacity (MW)"]*1000
 fixed_cost = fixed_cost.drop(['Total Capital costs (NZD $m)', 'Scenario'], axis=1)
 
-#putting in Tui/Kea scenarios
-Tui_fixed_cost = fixed_cost.copy()
-Kea_fixed_cost = fixed_cost.copy()
-Tui_fixed_cost['Scenario'] = "Tui"
-Kea_fixed_cost['Scenario'] = 'Kea'
-new_fixed_cost = pd.concat([Tui_fixed_cost, Kea_fixed_cost], ignore_index = True)
+#putting in Moderate/Conservative scenarios
+Moderate_fixed_cost = fixed_cost.copy()
+Conservative_fixed_cost = fixed_cost.copy()
+Moderate_fixed_cost['Scenario'] = "Moderate"
+Conservative_fixed_cost['Scenario'] = 'Conservative'
+new_fixed_cost = pd.concat([Moderate_fixed_cost, Conservative_fixed_cost], ignore_index = True)
 
 new_fixed_cost = new_fixed_cost.rename(columns={
     'Capacity (MW)': 'Capacity',
@@ -371,11 +371,11 @@ varied_cost_capacity['Year'] = varied_cost_capacity['Commissioning Year']
 varied_cost_capacity['Year'] = varied_cost_capacity['Year'].replace(0,2023)
 
 #Adding in the scenario names
-Tui_varied_cap = varied_cost_capacity.copy()
-Kea_varied_cap = varied_cost_capacity.copy()
-Tui_varied_cap['Scenario'] = "Tui"
-Kea_varied_cap['Scenario'] = 'Kea'
-new_varied_cap = pd.concat([Tui_varied_cap, Kea_varied_cap], ignore_index = True)
+Moderate_varied_cap = varied_cost_capacity.copy()
+Conservative_varied_cap = varied_cost_capacity.copy()
+Moderate_varied_cap['Scenario'] = "Moderate"
+Conservative_varied_cap['Scenario'] = 'Conservative'
+new_varied_cap = pd.concat([Moderate_varied_cap, Conservative_varied_cap], ignore_index = True)
 new_varied_cap['Variable'] = 'Capacity'
 
 #reordering the columns to match other frames
