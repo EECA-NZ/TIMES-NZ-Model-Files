@@ -497,6 +497,29 @@ cap_comparison["Delta"] = (cap_comparison["EECA_Value"]-cap_comparison["MBIE_Val
 # assumptions by technology (peak cont, plant life)
 base_year_gen = base_year_gen.merge(technology_assumptions, how = "left", on = "TechnologyCode")
 
+# capacity factors. Some of these are by assumption (either generic or capacityfactor settings), the rest are implied by capacity and output for the base year. 
+# we don't want to limit AFA to base year implied cfs, so we will shuffle these away and add assumed capacity factors instead 
+
+base_year_gen.rename(columns = {"CapacityFactor": "ImpliedCapacityFactor"}, inplace = True)
+# now we can rejoin on the assumed CFs, as these will make our upper limits on availablity for TIMES 
+base_year_gen = base_year_gen.merge(capacity_factors, how = "left", on = ["FuelType", "GenerationType"])
+
+# some probably missing! to review! 
+
+# hey you know what would be fun 
+
+# base_year_gen_cf_check = base_year_gen[base_year_gen["CapacityFactor"].isna()] 
+
+base_year_gen_cf_check =base_year_gen[["FuelType", "GenerationType", "TechnologyCode",]].drop_duplicates()
+
+
+base_year_gen_cf_check = base_year_gen_cf_check.sort_values(["FuelType", "GenerationType", "TechnologyCode",])
+
+
+print("NULL CFS")
+
+print(base_year_gen_cf_check)
+
 
 
 # The rest of the parameters come from MBIE's genstack.
