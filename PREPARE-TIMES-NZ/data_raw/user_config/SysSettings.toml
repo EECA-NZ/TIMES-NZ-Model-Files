@@ -108,13 +108,15 @@ DayNite = ["D", "N", "P"]
 
 # A common (but not compulsory) convention is to make a new workbook per region. We won't be doing that, so the below maps a single BookName to both Regions
 
+# This means our booknames for base year files will be VT_TIMESNZ_[SECTORNAME].xlsx
+
 ###############################################################################
 
 [BookRegions_Map]
 
 Description = "Map books to regions. In the current version, all region information is contained within a single book."
 
-BookName = ["TIMES_NZ"]
+BookName = ["TIMESNZ"]
 Region = ["NI", "SI"]
 
 

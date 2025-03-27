@@ -640,9 +640,32 @@ def add_output_commodity(df):
     else: 
         return "ELC"
     
+# input techs 
 
-# we adjust the solar output commodities to ELCDD rather than ELC
-base_year_gen["OutputCommodity"] = base_year_gen.apply(add_output_commodity, axis = 1)
+def add_input_commodity(df):
+    tech_based = ["SOL", "WIN", "HYD", "GEO"]
+    
+    if df["TechnologyCode"] in tech_based:
+        in_com = df["TechnologyCode"]
+    else:
+        fuel_to_com = {
+            "Wood": "WOD",
+            "Gas": "NGA",
+            "Coal": "COA",
+            "Diesel": "OIL",
+            "Biogas": "BIG",
+            "Geothermal": "GEO",
+            "Hydro": "HYD",
+        }
+        in_com = fuel_to_com.get(df["FuelType"], "UNDEFINED")
+
+    return f"ELC{in_com}"
+
+# for output commodities, we just adjust the solar output commodities to ELCDD rather than ELC
+base_year_gen["Comm-OUT"] = base_year_gen.apply(add_output_commodity, axis = 1)
+
+# for the rest, we align with TIMES 2.0 input commodity definitions
+base_year_gen["Comm-IN"] = base_year_gen.apply(add_input_commodity, axis = 1)
 
 
 # Generate Process Name for each asset  
@@ -675,11 +698,57 @@ base_year_gen["Process"] = base_year_gen.apply(clean_generic_process_names, axis
 base_year_gen["Process"] = "ELC_" + base_year_gen["FuelType"] + "_" + base_year_gen["TechnologyCode"] + "_" + base_year_gen["Process"]
 
 
+# this doesn't work for Huntly - creates multiple processes which is not what we want
+# Will manually change this for now but might want a better process for dual fuel processes 
+# We don't actually have the information in the file for which plants take multifuel (as separate processes) and which don't (and are single processes with multiple inputs)
+# need to think about a better approach for this maybe 
 
-# Some final renaming 
+base_year_gen.loc[base_year_gen["TechnologyCode"] == "RNK", "Process"] = "ELC_RNK_HuntlyUnits1-4"
 
-base_year_gen = base_year_gen.rename(columns = {"EECA_Value":"Generation_GWh"})
-# 
+
+
+
+#endregion 
+#############################################################################
+#region TIDYDATA # tidy data principles on output, including long form and unit documentation
+#############################################################################
+
+base_year_gen = base_year_gen.rename(
+    columns = {"EECA_Value":"Generation",
+               "CapacityMW":"Capacity",
+               })
+
+
+# For our technical/cost variables, we pivot longer and and assign units
+variable_unit_map = {
+    'Capacity': 'MW',
+    'Generation': 'GWh',
+    'CapacityFactor': '%',
+    'VarOM': '2023 NZD/MWh',
+    'FixOM': '2023 NZD/kw',
+    "FuelDelivCost" : '2023 NZD/GJ',
+    'PlantLife': 'Years',
+    'PeakContribution': '%',
+    "FuelEfficiency": '%',
+
+}
+
+#extract the variable names - we pivot all these 
+value_vars = list(variable_unit_map.keys())
+
+# id variables is everything else that can remain in the table
+id_vars = [col for col in base_year_gen.columns if col not in value_vars]
+
+# pivot (or 'melt')
+base_year_gen = base_year_gen.melt(id_vars = id_vars, 
+                                   value_vars = value_vars, 
+                                   var_name = "Variable",
+                                   value_name = "Value")
+
+# assign units 
+base_year_gen["Unit"] = base_year_gen["Variable"].map(variable_unit_map)
+
+ 
 
 #endregion 
 #############################################################################
