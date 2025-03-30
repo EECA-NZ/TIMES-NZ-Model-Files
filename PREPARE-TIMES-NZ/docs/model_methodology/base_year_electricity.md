@@ -62,6 +62,8 @@ In some cases, using generation data from the Electricity Authority is either in
 
 In these cases, we instead set some plants to have generation estimated by capacity factor. Capacity factor assumptions for different technologies are provided to the model already, so we can use these assumptions to assume generation for given plants. 
 
+Capacity factor assumptions can be found in `data_raw/coded_assumptions/electricity_generation/CapacityFactors.csv`. These are used for calibrating the base year and also providing upper limits to future generation for these plant types. Note that intermittent plants (wind/solar/potentially hydro) have more detailed availability per timeslice provided elsewhere. (LINK TO THIS DOCUMENTATION WHEN AVAILABLE)
+
 ## 4 Custom Treatment: Huntly Rankine Units
 
 EMI data for the Huntly Rankine Units does not distinguish the proportions of coal or gas used for generation. We therefore assume the generation from coal is equivalent to MBIE figures on total coal electricity generation (i.e. excluding cogeneration), and the remaining share is from natural gas. This section is scripted separately. 
@@ -102,7 +104,9 @@ Overall, this means our base model will generate an extra 55GWh in 2023 compared
 ![Capacity calibration](assets/capacity_calibration.png)
 
 
-Capacity figures are slightly less well-aligned, but we are forced to assume capacity factors for some plant types, which might not align with specific plants actual capacity factors in 2023. Maintenance or unusual rainfall or a host of other factors could lead to different actual capacity outputs. This leads to minor miscalibrations, particularly for Hydro, but the overall levels are within 4 MW of MBIE values, or 0.035%.
+Capacity figures are slightly less well-aligned. This is because we are using assumed capacity factors to estimate capacity for some plant types, which might not align with specific plant's actual capacity factors in 2023. Maintenance or unusual rainfall or a host of other factors could lead to different actual capacity outputs. This leads to minor miscalibrations, particularly for Hydro, but the overall levels are within 0.09% of MBIE values for the year. 
+
+
 
 
 ## 8 Adding technical parameters

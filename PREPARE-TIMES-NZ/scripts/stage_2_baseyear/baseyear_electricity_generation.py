@@ -50,7 +50,7 @@ os.makedirs(check_location, exist_ok = True)
 
 # set parameters 
 pd.set_option('display.float_format', '{:.6f}'.format)
-show_checks = False
+show_checks = True
 # later can read this in from the toml file to ensure easy updates 
 base_year = 2023
 
@@ -235,7 +235,7 @@ base_year_gen_emi = base_year_gen_emi.drop("CapacityShare", axis = 1 )
 # only apply to plants with Capacity Factor generation method settings
 base_year_gen_cfs = base_year_gen[base_year_gen["GenerationMethod"] == "Capacity Factor"]
 
-base_year_gen_cfs = base_year_gen_cfs.merge(capacity_factors, on = ["FuelType", "GenerationType"])
+base_year_gen_cfs = base_year_gen_cfs.merge(capacity_factors, on = ["FuelType", "GenerationType", "TechnologyCode"])
 
 
 
@@ -374,7 +374,10 @@ base_year_gen["CapacityFactor"] = base_year_gen["EECA_Value"]/(base_year_gen["Ca
 
 generic_generation = gen_comparison.merge(generic_plant_settings, on = ["FuelType", "GenerationType"], how = "inner")
 # add capacity factors 
-generic_generation = generic_generation.merge(capacity_factors, on = ["FuelType", "GenerationType"], how = "left")
+
+
+generic_generation = generic_generation.merge(capacity_factors, on = ["FuelType", "GenerationType", "TechnologyCode"], how = "left")
+
 # rearrange columns 
 generic_generation = generic_generation[["PlantName", "FuelType","GenerationType","TechnologyCode", "Delta", "CapacityFactor"]]
 
@@ -491,7 +494,7 @@ cap_comparison["Delta"] = (cap_comparison["EECA_Value"]-cap_comparison["MBIE_Val
 
 #endregion 
 #############################################################################
-#region TECHNICAL PARAMETERS # remaining technical parameters 
+#region TECHNICAL_PARAMETERS # remaining technical parameters 
 #############################################################################
 
 # assumptions by technology (peak cont, plant life)
@@ -502,24 +505,7 @@ base_year_gen = base_year_gen.merge(technology_assumptions, how = "left", on = "
 
 base_year_gen.rename(columns = {"CapacityFactor": "ImpliedCapacityFactor"}, inplace = True)
 # now we can rejoin on the assumed CFs, as these will make our upper limits on availablity for TIMES 
-base_year_gen = base_year_gen.merge(capacity_factors, how = "left", on = ["FuelType", "GenerationType"])
-
-# some probably missing! to review! 
-
-# hey you know what would be fun 
-
-# base_year_gen_cf_check = base_year_gen[base_year_gen["CapacityFactor"].isna()] 
-
-base_year_gen_cf_check =base_year_gen[["FuelType", "GenerationType", "TechnologyCode",]].drop_duplicates()
-
-
-base_year_gen_cf_check = base_year_gen_cf_check.sort_values(["FuelType", "GenerationType", "TechnologyCode",])
-
-
-print("NULL CFS")
-
-print(base_year_gen_cf_check)
-
+base_year_gen = base_year_gen.merge(capacity_factors, how = "left", on = ["FuelType", "GenerationType", "TechnologyCode"])
 
 
 # The rest of the parameters come from MBIE's genstack.
@@ -798,8 +784,8 @@ if(show_checks):
     print(generic_generation)
     # extra gas checks 
     gas_test = base_year_gen[base_year_gen["FuelType"] == "Gas"]
-    print("Extra gas checks: ")
-    print(gas_test)
+    # print("Extra gas checks:")
+    # print(gas_test)
 
 
 
