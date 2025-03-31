@@ -1,6 +1,0 @@
-﻿TimeSlice,LimType,Attribute,Pset_PN,Pset_Set,Pset_CI,Year,AllRegions
-,,NCAP_DRATE,"R*,C*,T_*BEV*,T_*H2*",DMD,,,0.05
-\I:,,NCAP_DRATE,E*SOL*,ELE,,2020,0.2
-\I:,,NCAP_DRATE,E*SOL*,ELE,,2040,0.1
-\I:,,NCAP_DRATE,E*SOL*,ELE,,0,5
-,,FIXOM,E*SOL*,ELE,,2040,10

@@ -1,0 +1,3 @@
+﻿PlantName,TechnologyCode,FuelType,EECA_Value,Source
+Huntly Units 1-4,RNK,Gas,1059.127292,EMI Rankine figures minus the coal generation. Closely aligns with Genesis quarterly reporting.
+Huntly Units 1-4,RNK,Coal,504.653522,"MBIE Coal electricity generation figures (for non-CHP generation, assume this is only the Rankines)"

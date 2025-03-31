@@ -1,75 +1,80 @@
-""" TODO: implement an automated TIMES configuration script """
+"""
+This script acts as a control file for processing TIMES-NZ files and creating the excel outputs
 
+"""
 # libraries 
 import os 
 import sys
-import time
+import shutil
 
-# get custom libraries
+
+
+# get custom libraries/ locations 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "..", "library"))
-from helpers import write_workbook
+from filepaths import PREP_LOCATION, DATA_INTERMEDIATE, OUTPUT_LOCATION
 
-# Defining files to write
+STAGE_0_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_0_settings/"
+STAGE_1_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_1_prep_raw_data/"
+STAGE_2_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_2_baseyear/"
+# STAGE 3 SCRIPTS dont exist yet 
+STAGE_4_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_4_veda_format/"
 
-base_year_files = [
-    "BY_Trans",
-    "VT_NI_ELC_V4",
-    "VT_NI_IND_V2",
-    "VT_NI_OTH_V4",
-    "VT_NI_PRI_V4",
-    "VT_NI_TRA_V4",
-    "VT_SI_ELC_V4",
-    "VT_SI_IND_V2",
-    "VT_SI_OTH_V4",
-    "VT_SI_PRI_V4",
-    "VT_SI_TRA_V4",
-]
-settings_files = [
-    "SysSettings"
-]
+# NOTE: here `INPUT_LOCATION` refers to the intermediate files that will be created in data_intermediate
 
-subres_files = [
-    "SubRES_TMPL/SubRES_NewTech_AGR_KEA",
-    "SubRES_TMPL/SubRES_NewTech_AGR_KEA_Trans",
-    "SubRES_TMPL/SubRES_NewTech_AGR_TUI",
-    "SubRES_TMPL/SubRES_NewTech_AGR_TUI_Trans",
-    "SubRES_TMPL/SubRES_NewTech_ELC_KEA",
-    "SubRES_TMPL/SubRES_NewTech_ELC_TUI",
-    "SubRES_TMPL/SubRES_NewTech_RC",
-    "SubRES_TMPL/SubRES_NewTechs_Industry",
-    "SubRES_TMPL/SubRES_NewTechs_Industry_Trans",
-    "SubRES_TMPL/SubRES_NewTransport-KEA",
-    "SubRES_TMPL/SubRES_NewTransport-TUI",
-]
-
-supp_files = [
-    "SuppXLS/Scen_AF_Renewable",
-    "SuppXLS/Scen_Base_constraints",
-    "SuppXLS/Scen_Carbon_Budgets",
-    "SuppXLS/Scen_Cohesive",
-    "SuppXLS/Scen_Individualistic",
-    "SuppXLS/Scen_LoadCurve_COM-FR",
-    "SuppXLS/Scen_RE_Potentials",
-    "SuppXLS/Scen_WEM_WCM",
-    "SuppXLS/Trades/ScenTrade_TRADE_PARMS",
-    "SuppXLS/Trades/ScenTrade__Trade_Links",
-]
-
-all_times_nz_files = base_year_files + settings_files + supp_files + subres_files
-
-def write_files():    
-    files_to_write = all_times_nz_files
-    for file in files_to_write:    
-        write_workbook(file)
-
-start_time = time.time()
-write_files()
-end_time = time.time()
-execution_time = end_time - start_time
-print(f"Writing these workbooks took {execution_time:.4f} seconds")
+# file locations 
+table_location = os.path.join(PREP_LOCATION, "data_raw", "archive") # archived summary table, won't update with new loads  
+file_location = f"{table_location}/raw_tables.txt"
 
 
+# Clear out DATA_INTERMEDIATE for fresh start 
+
+if os.path.exists(DATA_INTERMEDIATE):
+    print(f"DATA_INTERMEDIATE = {DATA_INTERMEDIATE}")
+    shutil.rmtree(DATA_INTERMEDIATE)
+# and make fresh 
+os.makedirs(DATA_INTERMEDIATE)
 
 
+# Set method 
+
+# method options are 'times_2' (recreates times 2 based on the summary table)
+# or 'times_3' (builds the new times model from source files) (currently very barebones implementation)
+
+method = "times_3" 
+
+
+# Execute TIMES 2
+
+if method == "times_2":
+    print(f"Reading the archived summary data")
+    os.system(f"python {PREP_LOCATION}/scripts/times_2_methods/read_archive_summary.py")
+    print(f"Creating TIMES excel files in {OUTPUT_LOCATION}")
+    os.system(f"python {PREP_LOCATION}/scripts/times_2_methods/prepare_times_nz_from_archive.py")       
+
+# Execute TIMES 3
+
+if method == "times_3":
+
+    # Stage 0: Settings 
+    print(f"Reading settings files...")    
+    os.system(f"python {STAGE_0_SCRIPTS}/parse_tomls.py")    
+
+    # Stage 1: Prep raw data 
+    print(f"Preparing raw data...")    
+    os.system(f"python {STAGE_1_SCRIPTS}/extract_ea_data.py")    
+    os.system(f"python {STAGE_1_SCRIPTS}/extract_mbie_data.py")    
+
+    # Stage 2: Base Year 
+    print(f"Compiling base year files...")    
+    os.system(f"python {STAGE_2_SCRIPTS}/baseyear_electricity_generation.py")    
+
+    # Stage 3: Scenarios:
+    # no scripts exist yet. 
+
+    #Stage 4: Create excel files 
+    print(f"Building TIMES excel files based on .toml configuration files...")    
+    os.system(f"python {STAGE_4_SCRIPTS}/write_excel.py")    
+    print(f"Job complete")
+    
 
