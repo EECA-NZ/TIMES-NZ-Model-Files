@@ -364,7 +364,7 @@ long_fixed_cost = move_columns(long_fixed_cost, [('Unit', 9), ("Year", 10)])
 varied_cost_capacity = varied_cost[['Plant', 'Status', 'TechName',
        'Substation', 'Region', 'Capacity (MW)', 'Type', 'Commissioning Year']].copy()
 
-varied_cost_capacity =varied_cost_capacity.rename(columns = {'Capacity (MW)': 'Value'})
+varied_cost_capacity = varied_cost_capacity.rename(columns = {'Capacity (MW)': 'Value'})
 varied_cost_capacity['Unit'] = 'MW'
 varied_cost_capacity['Year'] = varied_cost_capacity['Commissioning Year']
 #Replaces all 0 values with 2023 as a default year
@@ -394,6 +394,16 @@ final_data = conditional_row_filter(final_data, 'Type', 'Earliest Year', 'Commis
 final_data = duplicate_and_modify_rows_two_conditions(final_data,'TechName', ['Floating Offshore Wind', 'Fixed Offshore Wind'],
                                                     'Variable', 'CAPEX', 'Variable', 'Capacity', 'Unit', 'MW', 'Value')
 
+#These values are from NIR NZ offshore wind
+value_map_fixed = {'Taranaki': 3800, 'Waikato': 3000, 'Southland': 1000}
+final_data = assign_value_with_multiple_conditions(final_data, 'TechName', 'Fixed Offshore Wind', 'Variable', 'Capacity',
+                                                    'Region', 'Value', value_map_fixed)
+
+value_map_floating = {'Taranaki': 1900, 'Waikato': 1000}
+final_data = assign_value_with_multiple_conditions(final_data, 'TechName', 'Floating Offshore Wind', 'Variable', 'Capacity',
+                                                    'Region', 'Value', value_map_floating)
+#As we assume no floating offshore wind in Southland we want to remove those rows
+final_data = final_data[~((final_data['TechName'] == 'Floating Offshore Wind') & (final_data['Region'] == 'Southland'))]
 
 output_name = "new_tech_data.csv"
 
