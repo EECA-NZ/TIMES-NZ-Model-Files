@@ -507,3 +507,15 @@ def duplicate_and_modify_rows_two_conditions(
         df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
 
     return df
+
+
+def assign_value_with_multiple_conditions(df, condition1_col, condition1_val,
+                                          condition2_col, condition2_val,
+                                          check_col, target_col, value_map):
+    def logic(row):
+        if (row[condition1_col] == condition1_val) and (row[condition2_col] == condition2_val):
+            return value_map.get(row[check_col], row.get(target_col))
+        return row.get(target_col)
+
+    df[target_col] = df.apply(logic, axis=1)
+    return df
