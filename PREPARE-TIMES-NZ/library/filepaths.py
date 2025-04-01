@@ -15,7 +15,10 @@ TIMES_LOCATION = os.path.dirname(PREP_LOCATION)
 
 
 # data locations
-OUTPUT_LOCATION = os.path.join(PREP_LOCATION, "output")
+# NOTE: OUTPUT_LOCATION is the directory for the final excel files. 
+# It is regularly wiped and replaced with new files, so do not adjust this to the TIMES-NZ module without being careful
+OUTPUT_LOCATION = os.path.join(PREP_LOCATION, "output") 
+# DATA_INTERMEDIATE is gitignored and regularly wiped. It acts as a staging area but nothing should be stored here permanently.
 DATA_INTERMEDIATE = os.path.join(PREP_LOCATION, "data_intermediate")
 DATA_RAW = os.path.join(PREP_LOCATION, "data_raw")
 
