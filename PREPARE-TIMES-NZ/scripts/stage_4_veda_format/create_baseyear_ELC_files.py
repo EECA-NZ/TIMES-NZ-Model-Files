@@ -9,8 +9,8 @@ logging.basicConfig(level=logging.INFO) # are we even using this? Because we pro
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
-from filepaths import PREP_LOCATION, DATA_INTERMEDIATE
-
+from filepaths import DATA_INTERMEDIATE, DATA_RAW 
+from helpers import test_table_grain, select_and_rename
 
 
 
@@ -25,10 +25,17 @@ os.makedirs(output_location, exist_ok=True)
 base_year = 2023 
 cap2act_pjgw = 31.536
 
-# load data. Only using one file 
+############################################################################################
+# Load Data 
+############################################################################################
+
+# Existing generation technologies 
 existing_techs_df = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_2_baseyear/base_year_electricity_supply.csv")
 # should have done this before 
 existing_techs_df.rename(columns = {"Process":"TechName"}, inplace = True)
+
+# Distribution technologies (much simpler file) 
+distribution_df = pd.read_csv(f"{DATA_RAW}/coded_assumptions/electricity_generation/DistributionAssumptions.csv")
 
 ############################################################################################
 # PROCESS DEFINITION TABLE 
@@ -60,10 +67,6 @@ existing_techs_process_df = existing_techs_process_df[
 # NOTE: Original version set the PrimaryCG to NRGO for the CHP plants. I am not sure if we need to do this so I won't for now but always an option 
 
 existing_techs_process_df.to_csv(f"{output_location}/existing_tech_process_definitions.csv", index = False)
-
-
-# pd.read_csv(base_year_elec
-
 
 ############################################################################################
 # BASE YEAR DATA FILE
@@ -181,15 +184,82 @@ existing_techs_parameters["ACT_BND~0"] = 1
 existing_techs_parameters.to_csv(f"{output_location}/existing_tech_parameters.csv", index = False)
 
 
+############################################################################################
+# Distribution 
+############################################################################################
+
+
+# we will define the map of columns we want from the distribution assumptions, and what each of these should be called, here: 
+fi_comm_map = {
+    #variable name in current data: desired variable nam
+    "CommoditySets": "CSets",
+    "Comm-OUT": "CommName",
+    "ActivityUnit": "Unit",
+    "CommodityTimeSlice": "CTSLvl",
+    "CommodityType": "CType"
+}
+
+fi_process_map = {
+    #variable name in current data: desired variable nam
+    "Sets": "Sets",
+    "TechName": "TechName",
+    "ActivityUnit": "Tact",
+    "CapacityUnit": "Tcap",
+    "TimeSlice": "TSlvl"
+}
+
+distribution_parameters_map = {
+    
+    "TechName": "TechName",
+    "Comm-IN": "Comm-IN",
+    "Comm-OUT": "Comm-OUT",
+    "Region": "Region",
+    
+    "NCAP_PASTI~2015": "NCAP_PASTI~2015",
+    "AF" : "AF", # why put this in if it's just 1? That's the default? 
+    "CAP2ACT": "CAP2ACT", # can also replace this with the cap2act_pjgw variable but this is fine 
+
+    "INVCOST": "INVCOST",
+    "VAROM": "VAROM",
+    "FIXOM": "FIXOM",
+
+    "Efficiency": "EFF",     
+    "Life": "Life"
+    }
+
+
+# create tables 
+
+# Commodity Definitions 
+
+distribution_commodities = select_and_rename(distribution_df,fi_comm_map)
+# there will be multiple entries per region but we only need to define once 
+distribution_commodities = distribution_commodities.drop_duplicates()
+
+
+# Process Definitions 
+distribution_processes = select_and_rename(distribution_df,fi_process_map)
+# there will be multiple entries per region but we only need to define once 
+distribution_processes = distribution_processes.drop_duplicates()
+
+# Process technical parameters 
+distribution_parameters = select_and_rename(distribution_df, distribution_parameters_map)
+
+# carry forward efficiency (not sure if this is needed, should carry forward by default )
+distribution_parameters["EFF~0"] = 0 
+
+
+test_table_grain(distribution_commodities, ["CommName"])
+test_table_grain(distribution_processes, ["TechName"])
+test_table_grain(distribution_parameters, ["TechName", "Region"])
 
 
 
+# Save all these as stage 4 files ready for direct Veda ingestion 
 
-
-
-
-
-
+distribution_commodities.to_csv(f"{output_location}/distribution_commodities.csv", index = False, encoding = "utf-8-sig")     
+distribution_processes.to_csv(f"{output_location}/distribution_processes.csv", index = False, encoding = "utf-8-sig")
+distribution_parameters.to_csv(f"{output_location}/distribution_parameters.csv", index = False, encoding = "utf-8-sig")
 
 
 

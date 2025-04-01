@@ -105,13 +105,35 @@ DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/existing_tec
 
 
 ###############################################################################
-# Demand and Distribution
+# Distribution
 
 # This sheet: 
 
-# 1: Defines the ELC commodity 
-# 2: Defines all existing technologies capable of generating electricity 
-# 3: For each of these, adds detailed technical parameters  
-# 4: Adds age distributions for each plant or plant type (either NCAP_PASTI when lifetime is known, or PRC_RESID otherwise) 
+# 1: Defines all existing technologies capable of generating electricity 
+# 2: For each of these, adds detailed technical parameters  
+# 3: Adds age distributions for each plant or plant type (either NCAP_PASTI when lifetime is known, or PRC_RESID otherwise) 
+
+# Note: this sheet used to be called "Demand and Distribution". It contained a crude representation of own use which had been disabled from TIMES 2.0.
+# Since we use net generation this own use representation is not actually needed, so now the sheet is just called "Distribution".
 ###############################################################################
+
+
+[DistributionProcessDefinitions]
+SheetName = "Distribution"
+TagName = "FI_Process"
+Description = "Defines all distribution processes"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_processes.csv"
+
+[DitributionCommodityDefinitions]
+SheetName = "Distribution"  
+TagName = "FI_Comm"
+Description = "Defines different ELC related to various stages of the transmission/distribution system"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_commodities.csv"
+
+
+[DistributionProcessParameters]
+SheetName = "Distribution"  
+TagName = "FI_T"
+Description = "Technical parameters for distribution processes" 
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_parameters.csv"
 

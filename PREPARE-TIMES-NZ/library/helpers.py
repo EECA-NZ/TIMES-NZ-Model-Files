@@ -14,9 +14,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "..", "library"))
 from filepaths import DATA_INTERMEDIATE, OUTPUT_LOCATION
 
-# helper data for these functions
 
-cpi_df = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/statsnz/cpi.csv") # this is the deflator data
 
 
 def clear_data_intermediate():
@@ -39,33 +37,67 @@ def clear_output():
 
 # Some data manipulation functions 
 
-def deflate_data(current_year, base_year, current_value):
+
+
+
+def select_and_rename(df, name_map):
     """
-    Deflate the current value to the base year using the CPI index.
+    Selects and renames columns in a DataFrame based on a provided mapping.
     
     Parameters:
-    - current_year: The year of the current value.
-    - base_year: The year to deflate to.    
-    - current_value: The value to deflate 
+    - df: The input DataFrame.
+    - name_map: A dictionary where keys are the original column names and values are the new column names.
     
     Returns:
-    - deflated_value: The deflated value.
+    - A DataFrame with selected and renamed columns.
+    """
+    # Select columns based on the mapping
+    selected_df = df[list(name_map.keys())].copy()
+    
+    # Rename columns
+    selected_df.rename(columns=name_map, inplace=True)
+    
+    return selected_df
 
-    This function relies on cpi_df, which should be loaded in the script. It contains the CPI index for each year.
+
+
+
+# Some tests 
+
+
+def check_table_grain(df, grain_list):
+    """
+    Check the grain of a DataFrame against a list of expected grains.
+    
+    Parameters:
+    - df: The input DataFrame.
+    - grain_list: A list of column names that should uniquely identify the rows in the Dataframe.
+    
+    Returns:
+    - A boolean indicating whether the provided column names uniquely identify rows in the DataFrame.
+    """
+    return df.duplicated(subset=grain_list).sum() == 0
+
+
+def test_table_grain(df, grain_list):
+
+    """
+    A wrapper and logging output for check_table_grain
+
+    Parameters:
+    - df: The input DataFrame.
+    - grain_list: A list of column names that should uniquely identify the rows in the Dataframe.
+
+    Outputs: logging information regarding the results of the test.
+    
     """
 
-    if current_year == base_year:
-        return current_value
-    
+    if(check_table_grain(df, grain_list)):
+        logging.info(f"Success: rows are uniquely identified using the following variables:") 
+        for var in grain_list:
+            logging.info(f" - {var}")
+
     else: 
-        # Get the CPI index for the current year and base year
-        cpi_current = cpi_df.loc[cpi_df['Year'] == current_year, 'CPI_Index'].values[0]
-        cpi_base = cpi_df.loc[cpi_df['Year'] == base_year, 'CPI_Index'].values[0]
-
-        # Calculate the deflated value
-        deflated_value = current_value * (cpi_base / cpi_current)
-                
-        return deflated_value
-
-
-
+        logging.warning(f"Rows are NOT uniquely identified using the following variables - please review!") 
+        for var in grain_list:
+            logging.info(f" - {var}")

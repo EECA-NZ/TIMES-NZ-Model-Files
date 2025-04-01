@@ -39,6 +39,7 @@ os.system(f"python {STAGE_0_SCRIPTS}/parse_tomls.py")
 print(f"Preparing raw data...")    
 os.system(f"python {STAGE_1_SCRIPTS}/extract_ea_data.py")    
 os.system(f"python {STAGE_1_SCRIPTS}/extract_mbie_data.py")    
+os.system(f"python {STAGE_1_SCRIPTS}/extract_snz_data.py")    
 # Stage 2: Base Year 
 print(f"Compiling base year files...")    
 os.system(f"python {STAGE_2_SCRIPTS}/baseyear_electricity_generation.py")    
