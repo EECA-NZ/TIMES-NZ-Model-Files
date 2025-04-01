@@ -59,7 +59,7 @@ existing_techs_process_df = existing_techs_process_df[
 
 # NOTE: Original version set the PrimaryCG to NRGO for the CHP plants. I am not sure if we need to do this so I won't for now but always an option 
 
-existing_techs_process_df.to_csv(f"{output_location}/existing_techs_process_definitions.csv", index = False)
+existing_techs_process_df.to_csv(f"{output_location}/existing_tech_process_definitions.csv", index = False)
 
 
 # pd.read_csv(base_year_elec

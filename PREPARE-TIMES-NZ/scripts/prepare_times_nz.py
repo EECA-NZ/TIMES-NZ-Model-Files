@@ -3,13 +3,13 @@ This script acts as a control file for processing TIMES-NZ files and creating th
 
 It wipes the data_intermediate and output folders, and then runs the scripts according to the stage order. 
 
-
+Note that the true configuration of the final outputs is defined by the toml files in the data_raw/user_config folder.
 """
+
 # libraries 
 import os 
 import sys
 import time
-
 
 # get custom libraries/ locations 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -18,7 +18,6 @@ from filepaths import PREP_LOCATION
 from helpers import clear_data_intermediate, clear_output
 
 #start timer 
-
 start_time = time.time()
 
 # clear out the data_intermediate folder and output folder
@@ -26,8 +25,6 @@ clear_data_intermediate()
 clear_output()
 
 # Identify script locations 
-
-
 STAGE_0_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_0_settings/"
 STAGE_1_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_1_prep_raw_data/"
 STAGE_2_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_2_baseyear/"
@@ -35,8 +32,6 @@ STAGE_2_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_2_baseyear/"
 STAGE_4_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_4_veda_format/"
 
 # Execute TIMES excel file build from raw data
-
-
 # Stage 0: Settings 
 print(f"Reading settings files...")    
 os.system(f"python {STAGE_0_SCRIPTS}/parse_tomls.py")    
@@ -50,6 +45,8 @@ os.system(f"python {STAGE_2_SCRIPTS}/baseyear_electricity_generation.py")
 # Stage 3: Scenarios:
 # no scripts exist yet. 
 #Stage 4: Create excel files 
+print(f"Reshaping data to match Veda formatting...")    
+os.system(f"python {STAGE_4_SCRIPTS}/create_baseyear_ELC_files.py")    
 print(f"Building TIMES excel files based on .toml configuration files...")    
 os.system(f"python {STAGE_4_SCRIPTS}/write_excel.py")    
     
