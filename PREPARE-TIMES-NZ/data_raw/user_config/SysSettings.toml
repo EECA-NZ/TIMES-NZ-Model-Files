@@ -148,5 +148,6 @@ Currency = "MioNZDollar"
 
 SheetName = "YearFractions"
 TagName = "TFM_INS"
-# this is not a good place for this 
-DataLocation = "data_raw/user_config/year_fractions.csv"
+Description = "Currently hardcoded year fractions for the model. This should be replaced with a more dynamic method of calculating year fractions."
+# This should be processed based on hour definitions and recreated in data_intermediate. For now it's a hardcoded assumption
+DataLocation = "data_raw/coded_assumptions/settings/year_fractions.csv"
