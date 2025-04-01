@@ -519,3 +519,19 @@ def assign_value_with_multiple_conditions(df, condition1_col, condition1_val,
 
     df[target_col] = df.apply(logic, axis=1)
     return df
+
+def duplicate_rows_with_new_column(df, new_column_name, values_list):
+    """
+    Duplicates each row in the dataframe for each value in the values_list
+    and adds a new column with those values.
+
+    Parameters:
+        df (pd.DataFrame): Original DataFrame
+        new_column_name (str): Name of the new column to add
+        values_list (list): List of values to insert into the new column for duplication
+
+    Returns:
+        pd.DataFrame: Expanded DataFrame with duplicated rows and new column
+    """
+    repeated_df = pd.concat([df.assign(**{new_column_name: value}) for value in values_list], ignore_index=True)
+    return repeated_df

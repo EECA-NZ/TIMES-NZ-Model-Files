@@ -27,17 +27,17 @@ sys.path.append(os.path.join(current_dir, "../..", "library"))
 from filepaths import DATA_RAW, DATA_INTERMEDIATE
 from dataprep import *
 
-
 #Loading the relevant csvs
 genstack_file = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/gen_stack.csv")
 NREL_CAPEX = pd.read_csv(f"{DATA_RAW}/external_data/NREL/CAPEX_Tech.csv")
 NREL_FOM = pd.read_csv(f"{DATA_RAW}/external_data/NREL/FOM_Tech.csv")
+statsNZ_file = pd.read_csv(f"{DATA_RAW}/external_data/StatsNZ/Census_Total_dwelling_count_and_change_by_region_20132023.csv")
+region_to_island = pd.read_csv(f"{DATA_RAW}/concordances/region_island_concordance.csv")
+region_list = region_to_island['Region'].tolist()
 
 # Setting the output loaction
 output_location = f"{DATA_INTERMEDIATE}/stage_3_scenarios"
 os.makedirs(output_location, exist_ok = True)
-
-
 
 # this splits out the reference scenario as the other MBIE scenarios as these are just scaled from the reference
 Reference_Genstack = filter_csv_by_one_column(genstack_file, "Scenario", "Reference", output_filtered_file=None)
@@ -51,7 +51,6 @@ Reference_Genstack['Commissioning Year'] = Reference_Genstack['Fixed Commissioni
 cols_to_drop = ['Fixed Commissioning Year', 'Earliest Commissioning Year']
 Reference_Genstack = Reference_Genstack.drop(columns=[col for col in cols_to_drop if col in Reference_Genstack.columns])
 
-
 #Separating the plants we want at a fixed cost and those we dont, (filters is the ones at fixed cost)
 filters = {
     "Status" : ["Fully consented", "Under construction"],
@@ -60,23 +59,14 @@ filters = {
 
 fixed_cost, varied_cost = filter_csv_by_multiple_columns(Reference_Genstack, filters, output_filtered_file=None, output_excluded_file=None)
 
-
 #Here we are filtering so that we have only the tech with commisioning years later than 2030 or with no commisioning year in the varied costs
 varied_cost, fixed_cost = filter_and_move_rows(varied_cost, fixed_cost, "Commissioning Year", threshold=2030)
-
-
 
 # this filters out all of the things we want to keep in varied costs and moving ones we don't want into fixed costs
 keep_values = ["Solar", "Wind", "Geo"]
 varied_cost, fixed_cost = filter_by_column(varied_cost, "Tech", keep_values, fixed_cost)
 
-#This merges all of th egeneric gas peakers into one entry
-fixed_cost = merge_specific_group(fixed_cost, "Tech", "Plant", "Generic OCGT peaker", "GasPkr")
-
-
-
-#Then we want to apply the NREL learning curves to the according varied cost spots
-
+#Then we want to apply the NREL learning curves to the according varied cost
 
 #In TIMES2.0 they used the moderate data from NREL to model the Moderate scenario
 filters_Moderate = {
@@ -97,13 +87,11 @@ filters_Conservative = {
 
 Conservative_NREL_CAPEX, excluded_Conservative_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_Conservative, output_filtered_file=None, output_excluded_file=None)
 
-
 # removing the scenario and 2022 columns as these are not needed in calcs (want a base year of 2023 to match MBIE data) :)
 columns_to_remove = ["Scenario", "2022"]
 Moderate_NREL_CAPEX = remove_columns(Moderate_NREL_CAPEX, columns_to_remove)
 
 Conservative_NREL_CAPEX = remove_columns(Conservative_NREL_CAPEX, columns_to_remove)
-
 
 # Calculate the percentage indices
 
@@ -111,10 +99,8 @@ Moderate_idx = divide_from_specific_column(Moderate_NREL_CAPEX, base_column = "2
 
 Conservative_idx = divide_from_specific_column(Conservative_NREL_CAPEX, base_column = "2023", row_conditions = {})
 
-
 Moderate_idx = Moderate_idx.rename(columns={'Technology': 'Tech'})
 Conservative_idx = Conservative_idx.rename(columns={'Technology': 'Tech'})
-
 
 # gives you the indices of the rows that we want used for the mapping_dict 
 solar_Moderate = Moderate_idx[Moderate_idx["Tech"] == "Utility PV - Class 1"].index[0]
@@ -136,12 +122,8 @@ constant_col2 = "Capacity (MW)"
 
 Moderate_idx = Moderate_idx.apply(pd.to_numeric, errors="coerce")
 
-
-
 Moderate_CAPEX = combine_and_multiply_by_row(varied_cost, Moderate_idx, selected_columns, multiply_column, option_column, mapping_dict_Moderate, label_from_df2, constant_col1, constant_col2)
 Moderate_CAPEX = remove_columns(Moderate_CAPEX, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
-
-
 
 # first just finding the indices of the rows we want to use
 solar_Conservative = Conservative_idx[Conservative_idx["Tech"] == "Utility PV - Class 1"].index[0]
@@ -159,8 +141,6 @@ Conservative_CAPEX = remove_columns(Conservative_CAPEX, "Tech") # for some reaso
 
 
 ### FOM time 
-
-
 #Moving the wanted FOM data to it's own dataframe
 Moderate_NREL_FOM, ex_FOM_Moderate_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_Moderate, output_filtered_file=None, output_excluded_file=None)
 
@@ -217,8 +197,7 @@ Conservative_offshore_CAPEX, excluded_Conservative_curves = filter_csv_by_multip
 Moderate_offshore_CAPEX = remove_columns(Moderate_offshore_CAPEX, columns_to_remove)
 Conservative_offshore_CAPEX = remove_columns(Conservative_offshore_CAPEX, columns_to_remove)
 
-CPI = 1.05 # 5% CPI
-cost_conversion = 0.62 #USD to NZD
+CPI, cost_conversion = 1.05, 0.62 # 5% CPI, USD to NZD
 Moderate_converted_CAPEX = clean_and_multiply(Moderate_offshore_CAPEX, CPI, cost_conversion)
 
 Conservative_converted_CAPEX = clean_and_multiply(Conservative_offshore_CAPEX, CPI, cost_conversion)
@@ -306,11 +285,12 @@ merged_df = pd.concat([Moderate_CAPEX, Conservative_CAPEX, Moderate_FOM, Conserv
 moves = [("Scenario", 0), ("Variable", 8),("Unit", 9)]
 merged_df = move_columns(merged_df, moves)
 
+years_used = ['2023', '2024','2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033','2034', '2035', '2036', '2037',
+                                 '2038', '2039', '2040', '2041', '2042','2043', '2044', '2045', '2046', '2047', '2048', '2049', '2050']
 #Melting so that there is 1 data point per row
 long_df = pd.melt(merged_df,
                   id_vars = ["Scenario", "Plant", "TechName", "Substation", "Region", "Status", "Type", "Commissioning Year", "Variable", "Unit"],
-                  value_vars = ['2023', '2024','2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033','2034', '2035', '2036', '2037',
-                                 '2038', '2039', '2040', '2041', '2042','2043', '2044', '2045', '2046', '2047', '2048', '2049', '2050'],
+                  value_vars = years_used,
                                  var_name = "Year",
                                  value_name= "Value")
 
@@ -351,7 +331,7 @@ label_map = {
     'VOC' : '$/MWh',
     'FOM' : '$/kW',
     'FDC' : '$/GJ',
-    'CAPEX' : '$'
+    'CAPEX' : '$/kW'
 }
 long_fixed_cost['Unit'] = long_fixed_cost['Variable'].map(label_map).fillna('Other')
 
@@ -360,7 +340,7 @@ long_fixed_cost['Year'] = long_fixed_cost['Commissioning Year']
 long_fixed_cost['Year'] = long_fixed_cost['Year'].replace(0,2023)
 long_fixed_cost = move_columns(long_fixed_cost, [('Unit', 9), ("Year", 10)])
 
-# Adding in the Capacities of each of the 
+# Adding in the Capacities of each of the varied cost plants
 varied_cost_capacity = varied_cost[['Plant', 'Status', 'TechName',
        'Substation', 'Region', 'Capacity (MW)', 'Type', 'Commissioning Year']].copy()
 
@@ -371,18 +351,83 @@ varied_cost_capacity['Year'] = varied_cost_capacity['Commissioning Year']
 varied_cost_capacity['Year'] = varied_cost_capacity['Year'].replace(0,2023)
 
 #Adding in the scenario names
-Moderate_varied_cap = varied_cost_capacity.copy()
-Conservative_varied_cap = varied_cost_capacity.copy()
-Moderate_varied_cap['Scenario'] = "Moderate"
-Conservative_varied_cap['Scenario'] = 'Conservative'
-new_varied_cap = pd.concat([Moderate_varied_cap, Conservative_varied_cap], ignore_index = True)
+scenarios = ['Moderate', 'Conservative']
+new_varied_cap = duplicate_rows_with_new_column(varied_cost_capacity, 'Scenario', scenarios)
 new_varied_cap['Variable'] = 'Capacity'
 
 #reordering the columns to match other frames
 new_varied_cap = new_varied_cap[['Scenario', 'Plant', 'TechName', 'Substation', 'Region', 'Status',
                                    'Type', 'Commissioning Year', 'Variable', 'Unit', 'Year', 'Value']]
 
-final_data = pd.concat([long_df, new_varied_cap, long_fixed_cost], ignore_index = True)
+#Adding in rooftop solar costs/capacities
+#first for Capacities we have the statsNZ data fro the number of households per region and we assume that about 80% are suitable for rooftop solar and 
+#we also assume a capacity of 9kW per roof. First we need to filter the csv for only 2023 and only the regions in nz.
+Dwelling_number = statsNZ_file[statsNZ_file['Census year'] == '2023']
+Dwelling_number = Dwelling_number[~Dwelling_number['Region'].isin(['North Island', 'South Island', 'Chatham Islands', 'New Zealand'])]
+
+#removing columns that are not needed
+Res_Solar_Cap = Dwelling_number[['Region', 'Value']].copy()
+# Want to then multiply the number of houses by 0.8 (80%) and by 9kW to find regional capacities and divide by 1000kW/MW
+Res_Solar_Cap['Value'] =  Res_Solar_Cap['Value'] * 0.8 * 9/1000
+Res_Solar_Cap[['Variable', 'Year', 'Plant']] = ['Capacity', 2023, 'Generic Residential Distributed Solar']
+Res_Solar_Cap = duplicate_rows_with_new_column(Res_Solar_Cap, 'Scenario', scenarios)
+
+# Now we want to bring in the cost curves for CAPEX and FOMs, First CAPEX.
+sol_CAPEX, sol_FOM = 2200, 30
+
+NREL_ResSol_CAPEX = NREL_CAPEX[(NREL_CAPEX['Technology'] == 'Residential PV - Class 1') & (NREL_CAPEX['Scenario'].isin(['Moderate', 'Conservative']))]
+NREL_ResSol_CAPEX =NREL_ResSol_CAPEX.drop(columns = ['2022'])
+ResSol_CAPEX_PI = divide_from_specific_column(NREL_ResSol_CAPEX, base_column = "2023", row_conditions = {})
+
+
+ResSol_CAPEX = ResSol_CAPEX_PI.copy()
+#making sure all number columns are numeric to do calcs
+for col in ResSol_CAPEX.columns:
+    try:
+        ResSol_CAPEX[col] = pd.to_numeric(ResSol_CAPEX[col])
+    except ValueError:
+        pass # Skip columns that can't be converted
+numeric_cols = ResSol_CAPEX.select_dtypes(include='number').columns
+#applying curve
+ResSol_CAPEX[numeric_cols] = ResSol_CAPEX[numeric_cols] * sol_CAPEX
+ResSol_CAPEX['Variable'] = 'CAPEX'
+
+#Same thing but for FOMs
+NREL_ResSol_FOM = NREL_FOM[(NREL_FOM['Technology'] == 'Residential PV - Class 1') & (NREL_FOM['Scenario'].isin(['Moderate', 'Conservative']))]
+NREL_ResSol_FOM =NREL_ResSol_FOM.drop(columns = ['2022'])
+ResSol_FOM_PI = divide_from_specific_column(NREL_ResSol_CAPEX, base_column = "2023", row_conditions = {})
+
+ResSol_FOM = ResSol_FOM_PI.copy()
+#making sure all number columns are numeric to do calcs
+for col in ResSol_FOM.columns:
+    try:
+        ResSol_FOM[col] = pd.to_numeric(ResSol_FOM[col])
+    except ValueError:
+        pass # Skip columns that can't be converted
+numeric_cols = ResSol_FOM.select_dtypes(include='number').columns
+#applying curve
+ResSol_FOM[numeric_cols] = ResSol_FOM[numeric_cols] * sol_FOM
+ResSol_FOM['Variable'] = 'FOM'
+
+ResSol_costs = pd.concat([ResSol_CAPEX, ResSol_FOM], ignore_index = True)
+
+ResSol_costs = pd.melt(ResSol_costs.copy(),
+                       id_vars = ['Scenario', 'Technology', 'Variable'],
+                       value_vars = years_used,
+                       var_name = 'Year',
+                       value_name = 'Value')
+
+ResSol_costs.rename(columns={'Technology': 'Plant'}, inplace=True)
+ResSol_costs['Plant'] = 'Generic Residential Distributed Solar'
+
+
+ResSol_costs = duplicate_rows_with_new_column(ResSol_costs, 'Region', region_list)
+
+ResSol_data = pd.concat([ResSol_costs, Res_Solar_Cap], ignore_index = True)
+ResSol_data['Unit'] = ResSol_data['Variable'].map(label_map).fillna('Other')
+ResSol_data[['TechName', 'Type', 'Commissioning Year', 'Substation', 'Status']] = ['Residential Distributed Solar', 'Any Year', np.nan, np.nan, 'Generic']
+print(ResSol_data.columns)
+final_data = pd.concat([long_df, new_varied_cap, long_fixed_cost, ResSol_data], ignore_index = True)
 
 #replacing 0's with NaN
 final_data = final_data.replace(0, np.nan)
