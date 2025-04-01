@@ -426,7 +426,7 @@ ResSol_costs = duplicate_rows_with_new_column(ResSol_costs, 'Region', region_lis
 ResSol_data = pd.concat([ResSol_costs, Res_Solar_Cap], ignore_index = True)
 ResSol_data['Unit'] = ResSol_data['Variable'].map(label_map).fillna('Other')
 ResSol_data[['TechName', 'Type', 'Commissioning Year', 'Substation', 'Status']] = ['Residential Distributed Solar', 'Any Year', np.nan, np.nan, 'Generic']
-print(ResSol_data.columns)
+
 final_data = pd.concat([long_df, new_varied_cap, long_fixed_cost, ResSol_data], ignore_index = True)
 
 #replacing 0's with NaN
@@ -449,6 +449,9 @@ final_data = assign_value_with_multiple_conditions(final_data, 'TechName', 'Floa
                                                     'Region', 'Value', value_map_floating)
 #As we assume no floating offshore wind in Southland we want to remove those rows
 final_data = final_data[~((final_data['TechName'] == 'Floating Offshore Wind') & (final_data['Region'] == 'Southland'))]
+
+island_mapping = dict(zip(region_to_island['Region'], region_to_island['Island']))
+final_data.insert(4, 'Island', final_data['Region'].map(island_mapping).fillna('Other'))
 
 output_name = "new_tech_data.csv"
 
