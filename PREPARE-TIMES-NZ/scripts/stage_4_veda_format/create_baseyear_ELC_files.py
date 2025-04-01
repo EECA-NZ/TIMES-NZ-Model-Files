@@ -11,6 +11,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
 from filepaths import DATA_INTERMEDIATE, DATA_RAW 
 from helpers import test_table_grain, select_and_rename
+from deflator import deflate_data
 
 
 
@@ -188,8 +189,14 @@ existing_techs_parameters.to_csv(f"{output_location}/existing_tech_parameters.cs
 # Distribution 
 ############################################################################################
 
+# First, inflate the costs to 2023 NZD.
 
-# we will define the map of columns we want from the distribution assumptions, and what each of these should be called, here: 
+# costs are in 2015 NZD (according to the input assumption) so we need to deflate these to 2023 NZD.
+# we can use the deflator function in the library for this
+
+distribution_df = deflate_data(distribution_df, base_year, ["INVCOST", "VAROM", "FIXOM"])
+
+# Now we can define the map of columns we want from the distribution assumptions, and what each of these should be called, here: 
 fi_comm_map = {
     #variable name in current data: desired variable nam
     "CommoditySets": "CSets",
@@ -247,6 +254,13 @@ distribution_parameters = select_and_rename(distribution_df, distribution_parame
 
 # carry forward efficiency (not sure if this is needed, should carry forward by default )
 distribution_parameters["EFF~0"] = 0 
+
+
+
+
+
+
+print(distribution_parameters)
 
 
 test_table_grain(distribution_commodities, ["CommName"])

@@ -14,7 +14,7 @@ from filepaths import DATA_INTERMEDIATE
 
 cpi_df = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/statsnz/cpi.csv") # this is the deflator data
 
-def deflate_data(current_year, base_year, current_value):
+def deflate_value(current_year, base_year, current_value):
     """
     Deflate the current value to the base year using the CPI index.
     
@@ -43,3 +43,38 @@ def deflate_data(current_year, base_year, current_value):
 
         return deflated_value
     
+
+
+def deflate_data(df, base_year, variables_to_deflate):
+    """
+    Deflate the specified variables in the DataFrame to the base year using the deflator function.
+
+    Parameters:
+    - df: The input DataFrame. MUST include PriceBaseYear and the variables to deflate.
+    - base_year: The year to deflate to.
+    - variables_to_deflate: A list of variable names to deflate.    
+
+    Returns:
+    - df: The DataFrame with deflated variables and adjusted PriceBaseYear.
+    """
+
+    # Check if the DataFrame has the required columns
+    for variable in variables_to_deflate:
+        if variable not in df.columns:
+            raise ValueError(f"Variable '{variable}' not found in DataFrame - please review")
+        
+    # Check if the base year is in the DataFrame
+    if "PriceBaseYear" not in df.columns:
+        raise ValueError(f"The variable 'PriceBaseYear' not found in DataFrame - aborting")
+    
+
+    # Apply the deflator function to each variable in the DataFrame
+    for variable in variables_to_deflate:
+        df[variable] = df.apply(
+            lambda row: deflate_value(row['PriceBaseYear'], base_year, row[variable]), axis=1
+        )
+
+    # With prices rebased, we can redefine the PriceBaseYear to be the base year
+    df["PriceBaseYear"] = base_year    
+
+    return df
