@@ -137,3 +137,59 @@ TagName = "FI_T"
 Description = "Technical parameters for distribution processes" 
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_parameters.csv"
 
+
+
+
+
+###############################################################################
+# Emission Factors 
+
+# This sheet applies emission factors to each electricity commodity. 
+# There is only one table needed and we can just define these assumptions here, as these are currently very simple.
+# In the future we might want to add more detail/sophistication, in which case this should be scripted instead.
+
+# The emissions factors are applied to the ELC commodity, and then the ELCCO2 commodity is defined as a function of ELC.
+
+# EFS are from https://environment.govt.nz/publications/measuring-emissions-a-guide-for-organisations-2023-emission-factors-summary/
+
+# Possible improvements: 
+
+#1: convert these all to co2e (this would be preferable) - would need to get CH4 and N2O factors, and convert via AR5
+#2: add geothermal EFs per field, and allow these to decrease over time if we want to integrate better future carbon capture.
+
+# Either of these approaches would require some scripting and input data, rather than hardcoding numbers in this config file.
+
+###############################################################################
+
+# Source: MEG 
+
+[ElectricityEmissionFactors]
+SheetName = "Emission Factors"  
+TagName = "COMEMI"
+Description = "Defines emission factors for electricity generation. Sources and references listed in config file. Excludes CH4 and N2O."
+
+
+[ElectricityEmissionFactors.Data]
+# THESE ARE ALL CO2, NOT C02e! (exclude CH4 and N20)
+CommName = "ELCCO2" # all the following pairs will make a column name and a value, so this defines the attribute.
+
+
+# all values are kg/GJ, which are equal to kt/PJ (our model units)
+ELCCOA = 92.20 # GCV basis - need to be careful that all our PJs are in gross terms (so use the gross balances)
+# Note: Coal use for electricity generation from: 
+# https://environment.govt.nz/assets/publications/climate-change/New-Zealands-Greenhouse-Gas-Inventory-1990-2021-Annexes.pdf
+# Table A4.2 page 142
+# This assumes all sub-bit coal. We don't distinguish between sub-bit and bit coal in the model, so this is a reasonable assumption.
+
+# Natural gas
+ELCNGA = 53.61
+# Diesel (we just call oil but it's all diesel) (assumes 10ppt sulphur)
+ELCOIL = 69.45 
+
+# all co2 is biogenic and doesn't count, so these become zero. We may need to update this. 
+ELCBIG = 0
+ELCWOD = 0
+
+# Geothermal - CURRENTLY ONLY ONE GENERAL EF 
+# This figure is from TIMES 2.0. It needs updating. It won't be CO2, either - fugitive methane? 
+ELCGEO = 23.89
