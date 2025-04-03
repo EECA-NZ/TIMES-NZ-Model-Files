@@ -16,7 +16,8 @@ Glenbrook Steel,GLN,,,glenbrook_kilns,COG,Coal,1987,112,,Capacity Factor,https:/
 Highbank,ASB,Rangitata River,Christchurch hydro scheme (embedded),highbank,HYD,Hydro,1945,28,,EMI,https://www.energynews.co.nz/resource/hydro-power-station/1076/highbank-and-montalto
 Huntly Unit 5 (E3P),HLY,,Huntly Unit 5 (e3p),huntly_e3p,CCGT,Gas,2007,403,403,EMI,https://www.energynews.co.nz/energy-resource/combined-cycle-gas-turbine/1128/huntly-unit-5-e3p
 Huntly Unit 6 (P40),HLY,,Huntly Unit 6 (P40),huntly_p40,OCGT,Gas,2004,50,50.8,EMI,https://www.energynews.co.nz/energy-resource/open-cycle-gas-turbine/1129/huntly-unit-6
-Huntly Units 1-4,HLY,,Various,huntly_1_4,RNK,Gas/Coal,1983,500,500,Custom,"Excluding mothballed Rankine. Estimate 70% of GWh output is gas, 30% coal. https://www.energynews.co.nz/resource/coal-fired-power-station/1123/huntly-rankines"
+Huntly Units 1-4,HLY,,Huntly Unit 1 (Gas),huntly_1_4,RNK,Gas,1983,500,500,Custom,"Excluding mothballed Rankine. Estimate 70% of GWh output is gas, 30% coal. https://www.energynews.co.nz/resource/coal-fired-power-station/1123/huntly-rankines. We ensure capacity is not double counted."
+Huntly Units 1-4,HLY,,Huntly Unit 1 (Coal),huntly_1_4,RNK,Coal,1983,500,500,Custom,"Excluding mothballed Rankine. Estimate 70% of GWh output is gas, 30% coal. https://www.energynews.co.nz/resource/coal-fired-power-station/1123/huntly-rankines. We ensure capacity is not double counted."
 Junction Road,JRD,,Junction Road power plant,junctionroad,OCGT,Gas,2020,100,100,EMI,https://www.energynews.co.nz/energy-resource/open-cycle-gas-turbine/9222/junction-road-peaking-plant
 Kaimai Hydro Scheme,TGA,Kaimai ,Bay of Plenty hydro schemes,kaimai,HYD,Hydro,1915,42,,EMI,https://www.energynews.co.nz/resource/hydro-scheme/1074/kaimai-hydro-scheme
 Kaitawa,TUI,Waikaremoana,Waikaremoana hydro scheme,waikaremoana,HYD,Hydro,1948,36,,EMI,https://www.energynews.co.nz/energy-resource/hydro-power-station/1073/kaitawa
