@@ -191,6 +191,10 @@ We assume hydro plants are maintained indefinitely (by their null lifetime assum
 
 ## 9 Transmission and distribution 
 
+Transmission and distribution processes are created to represent how electricity flows from High voltage lines to distributed networks, including associated losses and operating costs. Capacity is also represented (differently per island).
+
+Assumptions on current transmission capacity, costs, and losses, have been extracted from TIMES 2.0 and not updated for 2023. Costs have been adjusted to 2023 dollars using the CPI index, and assuming that the original costs were in 2015 dollars.
+
 ## 10 Emissions factors
 
 Emissions factors are defined for each commodity in the user config file stage_0_config/VT_TIMESNZ_ELC.toml.
