@@ -10,6 +10,7 @@ Note that the true configuration of the final outputs is defined by the toml fil
 import os 
 import sys
 import time
+import subprocess
 
 # get custom libraries/ locations 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -31,25 +32,29 @@ STAGE_2_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_2_baseyear/"
 # STAGE 3 SCRIPTS don't exist yet 
 STAGE_4_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_4_veda_format/"
 
+def run_script(script_path):
+    """Run a script and print the output."""
+    subprocess.run(["python", script_path], check=True)    
+
 # Execute TIMES excel file build from raw data
 # Stage 0: Settings 
 print(f"Reading settings files...")    
-os.system(f"python {STAGE_0_SCRIPTS}/parse_tomls.py")    
+run_script(f"{STAGE_0_SCRIPTS}/parse_tomls.py")    
 # Stage 1: Prep raw data 
 print(f"Preparing raw data...")    
-os.system(f"python {STAGE_1_SCRIPTS}/extract_ea_data.py")    
-os.system(f"python {STAGE_1_SCRIPTS}/extract_mbie_data.py")    
-os.system(f"python {STAGE_1_SCRIPTS}/extract_snz_data.py")    
+run_script(f"{STAGE_1_SCRIPTS}/extract_ea_data.py")    
+run_script(f"{STAGE_1_SCRIPTS}/extract_mbie_data.py")    
+run_script(f"{STAGE_1_SCRIPTS}/extract_snz_data.py")    
 # Stage 2: Base Year 
 print(f"Compiling base year files...")    
-os.system(f"python {STAGE_2_SCRIPTS}/baseyear_electricity_generation.py")    
+run_script(f"{STAGE_2_SCRIPTS}/baseyear_electricity_generation.py")    
 # Stage 3: Scenarios:
 # no scripts exist yet. 
 #Stage 4: Create excel files 
 print(f"Reshaping data to match Veda formatting...")    
-os.system(f"python {STAGE_4_SCRIPTS}/create_baseyear_ELC_files.py")    
+run_script(f"{STAGE_4_SCRIPTS}/create_baseyear_ELC_files.py")    
 print(f"Building TIMES excel files based on .toml configuration files...")    
-os.system(f"python {STAGE_4_SCRIPTS}/write_excel.py")    
+run_script(f"{STAGE_4_SCRIPTS}/write_excel.py")    
     
 
 end_time = time.time()
