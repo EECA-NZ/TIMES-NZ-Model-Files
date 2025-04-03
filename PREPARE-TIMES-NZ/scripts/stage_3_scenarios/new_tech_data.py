@@ -446,6 +446,13 @@ final_data = final_data[~((final_data['TechName'] == 'Floating Offshore Wind') &
 island_mapping = dict(zip(region_to_island['Region'], region_to_island['Island']))
 final_data.insert(4, 'Island', final_data['Region'].map(island_mapping).fillna('Other'))
 
+#Tracked solar
+tracked_solar_farms = ['Argyle Solar Farm - Northern Area', 'Argyle solar farm', 'Lauriston solar farm', 'Maungaturoto solar farm',
+                       'Naseby solar farm', 'Ongaonga solar farm (Sky Solar)', 'Ongaonga solar (Helios)', 'Rangitāiki solar (Stage 1)',
+                       'Rangitāiki solar (Stage 2)', 'Rangitāiki solar (Stage 3)', 'The Point solar farm']
+
+final_data.loc[final_data['Plant'].isin(tracked_solar_farms), 'TechName'] = 'Tracked Solar'
+
 output_name = "new_tech_data.csv"
 
 print(f"Saving {output_name} to data_intermediate")
