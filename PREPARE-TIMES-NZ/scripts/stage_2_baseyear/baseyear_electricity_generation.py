@@ -84,8 +84,8 @@ emi_solar = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_
 
 # custom assumptions
 eeca_fleet_data = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/GenerationFleet.csv")
-custom_gen_data = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/CustomFleetGeneration.csv")
-generic_plant_settings = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/GenericCurrentPlants.csv")
+custom_gen_data = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/CurrentPlantsCustom.csv")
+generic_plant_settings = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/CurrentPlantsGeneric.csv")
 capacity_factors = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/CapacityFactors.csv")
 technology_assumptions = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/TechnologyAssumptions.csv")
 
