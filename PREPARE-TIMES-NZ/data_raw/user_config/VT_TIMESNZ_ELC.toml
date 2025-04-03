@@ -25,27 +25,21 @@ WorkBookName = "VT_TIMESNZ_ELC"
 SheetName = "Sector_Fuels_ELC"
 TagName = "FI_Comm"
 Description = "Defines commodities that can be used for electricity generation (eg ELCNGA)"
-# NEED TO ADD THESE 
-# DataLocation = "TBD"
-PlaceHolderData = ":)"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/elc_input_commodity_definitions.csv"
 
 [ElectricityFuelProcessDefinitions]
 
 SheetName = "Sector_Fuels_ELC"
 TagName = "FI_Process"
 Description = "Defines the processes that can convert other TIMES Commodities into these fuels (eg NGA -> ELCNGA)"
-# NEED TO ADD THESE 
-# DataLocation = "TBD"
-PlaceHolderData = ":)"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/elc_dummy_fuel_process_definitions.csv"
 
 [ElectricityFuelProcessParameters]
 
 SheetName = "Sector_Fuels_ELC"
 TagName = "FI_T"
 Description = "Defines technical parameters for dummy electricity fuel processes (barely used)"
-# NEED TO ADD THESE 
-# DataLocation = "TBD"
-PlaceHolderData = ":)"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/elc_dummy_fuel_process_parameters.csv"
 
 ###############################################################################
 # Existing Technologies

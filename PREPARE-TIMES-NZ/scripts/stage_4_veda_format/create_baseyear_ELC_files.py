@@ -5,7 +5,7 @@ import numpy as np
 import logging
 
 # set log level for message outputs 
-logging.basicConfig(level=logging.INFO) # are we even using this? Because we probably should 
+logging.basicConfig(level=logging.INFO)
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
@@ -27,7 +27,7 @@ base_year = 2023
 cap2act_pjgw = 31.536
 
 ############################################################################################
-# Load Data 
+#region LOAD_DATA 
 ############################################################################################
 
 # Existing generation technologies 
@@ -38,8 +38,73 @@ existing_techs_df.rename(columns = {"Process":"TechName"}, inplace = True)
 # Distribution technologies (much simpler file) 
 distribution_df = pd.read_csv(f"{DATA_RAW}/coded_assumptions/electricity_generation/DistributionAssumptions.csv")
 
+
+#endregion
 ############################################################################################
-# PROCESS DEFINITION TABLE 
+#region COMMODITY_DEFINITIONS
+############################################################################################
+
+# This section creates the tables for SECTOR_FUELS_ELC
+# we have already defined ELC and ELCC02, and all the output commodities (like ELCDD etc) 
+# so these are just the dummy commodites and processes for electricity input fuels. 
+# we will basically just extract them all from the input commodities, so this list updates automatically.
+
+# Commodity definitions -----------------------------------------------------
+
+elc_input_commoditylist = existing_techs_df["Comm-IN"].unique()
+
+elc_input_commodity_definitions = pd.DataFrame()
+elc_input_commodity_definitions["CommName"] = elc_input_commoditylist 
+elc_input_commodity_definitions["Csets"] = "NRG"
+elc_input_commodity_definitions["Unit"] = "PJ"
+elc_input_commodity_definitions["LimType"] = "FX"
+
+# Dummy process parameters -----------------------------------------------------
+# We also define the dummy processes that turn the regular commodity into the elc version 
+# We'll start with the parameters (just in/out/100% efficiency)
+
+elc_dummy_fuel_process_parameters = pd.DataFrame()
+# take all the output commodities we need (inputs from the elc generation processes)
+elc_dummy_fuel_process_parameters["Comm-Out"] = elc_input_commoditylist
+# use these to create the inputs and the dummy process names 
+elc_dummy_fuel_process_parameters["Comm-In"] = elc_dummy_fuel_process_parameters["Comm-Out"].str.removeprefix("ELC")
+elc_dummy_fuel_process_parameters["TechName"] = "FTE_" + elc_dummy_fuel_process_parameters["Comm-Out"]
+
+# The next steps are just making sure the columns roughly match the TIMES 2.0 version, but they might actually all be unnecessary.
+
+# reorder these columns (not sure if this is needed)
+elc_dummy_fuel_process_parameters = elc_dummy_fuel_process_parameters[["TechName","Comm-In", "Comm-Out"]]
+# add a few more specs 
+elc_dummy_fuel_process_parameters["EFF"] = 1 # 100% efficiency (could we just leave this blank?)
+elc_dummy_fuel_process_parameters["Life"] = "100" # forever (could we just leave this blank?)
+
+# NOTE: we are not using these for fuel delivery costs anymore, as these are done on a per-plant basis in the generation processes.
+
+# Dummy process definitions -----------------------------------------------------
+# Now we just provide the definitions for these processes in a separate table 
+
+elc_dummy_fuel_process_definitions = pd.DataFrame()
+elc_dummy_fuel_process_definitions["TechName"] = elc_dummy_fuel_process_parameters["TechName"]
+elc_dummy_fuel_process_definitions["Sets"] = "PRE" # miscellaneous set
+elc_dummy_fuel_process_definitions["Tact"] = "PJ" # activity unit (same as commodity)
+elc_dummy_fuel_process_definitions["Tcap"] = "GW" # capacity unit (same as generation) (doesn't actually matter)
+
+# Timeslice level for these was set to Daynite for FTE_ELCNGA - not sure why but we will keep this in place.
+
+elc_dummy_fuel_process_definitions['Tslvl'] = np.where(
+    elc_dummy_fuel_process_definitions['TechName'] == 'FTE_ELCNGA',
+    'DAYNITE',
+    None)
+# Save --------------------------------------------------------
+
+elc_input_commodity_definitions.to_csv(f"{output_location}/elc_input_commodity_definitions.csv", index = False, encoding = "utf-8-sig")  
+elc_dummy_fuel_process_definitions.to_csv(f"{output_location}/elc_dummy_fuel_process_definitions.csv", index = False, encoding = "utf-8-sig")  
+elc_dummy_fuel_process_parameters.to_csv(f"{output_location}/elc_dummy_fuel_process_parameters.csv", index = False, encoding = "utf-8-sig")  
+
+
+#endregion
+############################################################################################
+#region PROCESS_DEFINITIONS
 ############################################################################################
 
 # need to create the process definitions 
@@ -69,8 +134,10 @@ existing_techs_process_df = existing_techs_process_df[
 
 existing_techs_process_df.to_csv(f"{output_location}/existing_tech_process_definitions.csv", index = False)
 
+
+#endregion
 ############################################################################################
-# BASE YEAR DATA FILE
+#region BASE_YEAR_DATA 
 ############################################################################################
 
 
@@ -104,11 +171,7 @@ existing_techs_df = convert_units(existing_techs_df, generation_unit_map)
 
 
 existing_techs_capacity = existing_techs_df.copy()
-
-
 existing_techs_capacity = existing_techs_capacity[existing_techs_capacity["Variable"] == "Capacity"]
-
-
 
 # Define Attribute (NCAP_PASTI if we know the year, otherwise PRC_RESID)
 def get_capacity_method_variable(df):
@@ -131,12 +194,8 @@ existing_techs_capacity.to_csv(f"{output_location}/existing_tech_capacity.csv", 
 
 
 # pivot and rename ----------------------------------------------------------------------
-
-
 # as a rule, we'll use the main names, not aliases (eg NCAP_PKCNT rather than Peak)
-
 # define index variables - these define our table grain (as well as 'Variable')
-
 # we also include the capacity data in the index, as this is treated separately. 
 index_variables =  ["TechName",
                     "Comm-IN",
@@ -175,46 +234,57 @@ existing_techs_parameters.rename(columns = {
 
 # no new build 
 existing_techs_parameters["NCAP_BND"] = 0 
-# no new build extrapolate forever 
+# no new build extrapolate forever (NOTE this means no new generics or dist solar - will need to tweak with new plants)
 existing_techs_parameters["NCAP_BND~0"] = 5 
 # cap2act required 
 existing_techs_parameters["CAP2ACT"] = cap2act_pjgw
-# loosen activity bound for future years 
+# loosen activity bound for future years (no extrapolation)
 existing_techs_parameters["ACT_BND~0"] = 1
 # save 
 existing_techs_parameters.to_csv(f"{output_location}/existing_tech_parameters.csv", index = False)
 
-
+#endregion
 ############################################################################################
-# Distribution 
+#region DISTRIBUTION
 ############################################################################################
 
 # First, inflate the costs to 2023 NZD.
 
 # costs are in 2015 NZD (according to the input assumption) so we need to deflate these to 2023 NZD.
 # we can use the deflator function in the library for this
-
 distribution_df = deflate_data(distribution_df, base_year, ["INVCOST", "VAROM", "FIXOM"])
 
-# Now we can define the map of columns we want from the distribution assumptions, and what each of these should be called, here: 
+
+# We then create the needed tables by mapping existing columns to the required columns in Veda.
+
+# Commodity Definitions ----------------------------
 fi_comm_map = {
-    #variable name in current data: desired variable nam
+    #variable name in current data: desired variable name
     "CommoditySets": "CSets",
     "Comm-OUT": "CommName",
     "ActivityUnit": "Unit",
     "CommodityTimeSlice": "CTSLvl",
     "CommodityType": "CType"
 }
+distribution_commodities = select_and_rename(distribution_df,fi_comm_map)
+# there will be multiple entries per region but we only need to define once 
+distribution_commodities = distribution_commodities.drop_duplicates()
 
+
+# Process Definitions ----------------------------
 fi_process_map = {
-    #variable name in current data: desired variable nam
+    #variable name in current data: desired variable name
     "Sets": "Sets",
     "TechName": "TechName",
     "ActivityUnit": "Tact",
     "CapacityUnit": "Tcap",
     "TimeSlice": "TSlvl"
 }
+distribution_processes = select_and_rename(distribution_df,fi_process_map)
+# there will be multiple entries per region but we only need to define once 
+distribution_processes = distribution_processes.drop_duplicates()
 
+# Process technical parameters ----------------------------
 distribution_parameters_map = {
     
     "TechName": "TechName",
@@ -224,7 +294,7 @@ distribution_parameters_map = {
     
     "NCAP_PASTI~2015": "NCAP_PASTI~2015",
     "AF" : "AF", # why put this in if it's just 1? That's the default? 
-    "CAP2ACT": "CAP2ACT", # can also replace this with the cap2act_pjgw variable but this is fine 
+    "CAP2ACT": "CAP2ACT", # can also replace this with the cap2act_pjgw variable but this is fine (stored in raw data)
 
     "INVCOST": "INVCOST",
     "VAROM": "VAROM",
@@ -234,47 +304,22 @@ distribution_parameters_map = {
     "Life": "Life"
     }
 
-
-# create tables 
-
-# Commodity Definitions 
-
-distribution_commodities = select_and_rename(distribution_df,fi_comm_map)
-# there will be multiple entries per region but we only need to define once 
-distribution_commodities = distribution_commodities.drop_duplicates()
-
-
-# Process Definitions 
-distribution_processes = select_and_rename(distribution_df,fi_process_map)
-# there will be multiple entries per region but we only need to define once 
-distribution_processes = distribution_processes.drop_duplicates()
-
-# Process technical parameters 
 distribution_parameters = select_and_rename(distribution_df, distribution_parameters_map)
 
-# carry forward efficiency (not sure if this is needed, should carry forward by default )
+# carry forward efficiency (not sure if this is needed, should carry forward by default in Veda)
 distribution_parameters["EFF~0"] = 0 
 
 
-
-
-
-
-print(distribution_parameters)
-
-
+# Test tables for duplicates ----------------------------
 test_table_grain(distribution_commodities, ["CommName"])
 test_table_grain(distribution_processes, ["TechName"])
 test_table_grain(distribution_parameters, ["TechName", "Region"])
 
-
-
-# Save all these as stage 4 files ready for direct Veda ingestion 
-
+# Save -------
 distribution_commodities.to_csv(f"{output_location}/distribution_commodities.csv", index = False, encoding = "utf-8-sig")     
 distribution_processes.to_csv(f"{output_location}/distribution_processes.csv", index = False, encoding = "utf-8-sig")
 distribution_parameters.to_csv(f"{output_location}/distribution_parameters.csv", index = False, encoding = "utf-8-sig")
 
 
-
+#endregion
 
