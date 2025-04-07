@@ -14,7 +14,7 @@ The reshaping script, which generates subtables used to generate the final excel
 The base year generation data is intended to reflect the distribution of 2023 generation across all generating New Zealand assets. 
 These should be available to the model to meet future demand, but with enough information (region, technology, remaining life, etc) that the model will retire plants at appropriate points and can make least-cost dispatch and peak decisions. 
 
-We have improved on TIMES 2.0 by building a bottom-up, asset-based model of the existing generation fleet. This gives us much greater detail in how the model utilises the existing generation fleet, will allow us to make very precise changes as needed. 
+We have improved on TIMES 2.0 by building a bottom-up, asset-based model of the existing generation fleet. This gives us much greater detail in how the model utilises the existing generation fleet, and will allow us to make very precise changes as needed. 
 
 Note that this does mean updating the base year will currently require a manual review of this existing asset list.
 
@@ -77,19 +77,17 @@ These include:
 
 # Detailed method
 
-## 1 Existing Asset List
+## 1 Existing asset List
 
-EECA has prepared a list of current plants for the base year generating stock. This is closely based on the EA dispatch generation fleet list (found here), and includes mapping to the current plants from MBIE’s EDGS Generation Stack (ADD LINK). Where possible, we have included mapping to plant names found in the Electricity Authority’s generation data by plant (ADD LINK).
+EECA has prepared a list of current plants for the base year generating stock. It is closely based on the EA dispatch generation fleet list (found here) and includes mapping to the current plants from MBIE’s EDGS Generation Stack (ADD LINK). Where possible, we have included mapping to plant names found in the Electricity Authority’s generation data by plant (ADD LINK). The list has been reviewed and updated based on developer statements and Energy News resource files for each plant. In some cases, capacities were updated, or names were adjusted slightly. 
 
-The list has been reviewed and updated based on developer statements and Energy News factfiles for each plant. Several offgrid cogeneration plants are not included in either the EA or MBIE data, as well as some offgird. In some cases, capacities were updated or names were adjusted slightly. 
+This list is not intended to capture all distributed or cogeneration facilities, which are instead represented by generic plants (see below).
 
-This list is not intended to capture all distributed or cogeneration facilities, which are instead represented by generic plants (see below). However, it should capture all plants that solely inject into the grid at the end of the base year 2023. 
-
-In general, plant status has been set to align with MBIE categories for 2023. For example, Kaiwera Downs Stage 1 is considered for the base year, but the rest of the build is considered a future technology. (Kaiwera Downs was only partially operational by the end of 2023).
+In general, plant status has been set to align with MBIE’s EDGS generation stack categories for 2023. This allows us to also use the MBIE generation stack for potential future technologies without double-counting. For example, Kaiwera Downs Stage 1 is considered for the base year, but the rest of the build is considered a future technology. This is because Kaiwera Downs was only partially operational by the end of 2023.
 
 ## 2 Distributing base year generation using Electricity Authority data
 
-We use the Electricity Authority’s Generation by Plant (ADD LINK)  (“Generation_MD”) data to find estimates of generation for the current plant lists. This bottom-up approach means we can assign known generation to regions and technologies. 
+We use the Electricity Authority’s “Generation_MD” data to find estimates of generation for the current plant list. This bottom-up approach means we can assign known generation to plants, regions, and technologies. 
 
 This data covers 93%* of total generation for 2023. For the remaining generation, we make some assumptions on the location and technology of distributed generation (cogeneration or otherwise) to calibrate final figures with the MBIE data. 
 
@@ -101,7 +99,7 @@ There are minor limitations in using this dataset. First, it covers only metered
 “This data series will be replaced by one that is more reliable… at some point in the future”.
 ```
 
-To alleviate these minor issues, we will calibrate our final base year generation figures against MBIE official statistics, which include all generation and cogeneration, not just that injecting into the grid. 
+To alleviate these minor issues, we will calibrate our final base year generation figures against MBIE official statistics, which include all generation and cogeneration.
 
 
 *40,597 GWh in the EA’s dataset is 93% of the 43,494 GWh reported by MBIE for 2023. 
