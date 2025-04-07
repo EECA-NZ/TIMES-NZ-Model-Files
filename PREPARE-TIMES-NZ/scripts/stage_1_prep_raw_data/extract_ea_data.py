@@ -29,6 +29,7 @@ emi_md_folder = f"{input_location}/emi_md" # we'll take everything in this direc
 emi_fleet_file = f"{input_location}/emi_fleet_data/20230601_DispatchedGenerationPlant.csv"
 emi_nsp_table = f"{input_location}/emi_nsp_table/20250308_NetworkSupplyPointsTable.csv"
 emi_distributed_solar_directory = f"{input_location}/emi_distributed_solar"
+emi_ge_folder = f"{input_location}/emi_grid_export"
 
 #endregion
 
@@ -139,3 +140,29 @@ nsp_data.to_csv(f"{output_location}/emi_nsp_concordances.csv", index = False)
 
 
 #endregion 
+
+#region GRID_EXPORT
+
+emi_ge_files = glob.glob(os.path.join(emi_ge_folder, "*.csv"))
+
+ge_dfframes = []
+for file in emi_ge_files:
+    print(f"Reading from {file}")
+    df = pd.read_csv(file)
+    ge_dfframes.append(df)
+    
+ge_df  = pd.concat(ge_dfframes, ignore_index=True)
+
+trading_period_vars = [col for col in ge_df.columns if col.startswith("TP")]
+
+ge_df = pd.melt(
+    ge_df, 
+    id_vars = ge_df.columns.difference(trading_period_vars),
+    value_vars = trading_period_vars,
+    var_name = "Trading_Period",
+    value_name = "Value"
+)
+# saving as parquet because these files are huge 
+ge_df.to_parquet(f"{output_location}/emi_grid_export.parquet", engine = "pyarrow")
+
+#endregion
