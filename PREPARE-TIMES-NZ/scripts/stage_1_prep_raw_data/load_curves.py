@@ -11,6 +11,7 @@ import sys
 import os 
 import pandas as pd 
 import numpy as np
+import matplotlib.pyplot as plt
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
@@ -47,7 +48,7 @@ load_data_per_island = input_gxp_data.groupby(['Island', 'Trading_Date', 'Tradin
 
 #determining if the Trading_Date is a weekday or weekend
 load_data_per_island['Trading_Date'] = pd.to_datetime(load_data_per_island['Trading_Date'])
-load_data_per_island['Day_Type'] = load_data_per_island['Trading_Date'].dt.weekday.map(lambda x: 'Weekend' if x >= 5 else 'Weekday')
+load_data_per_island['Day_Type'] = load_data_per_island['Trading_Date'].dt.weekday.map(lambda x: 'WE' if x >= 5 else 'WD')
 
 
 
@@ -69,6 +70,8 @@ load_season_day = load_data_per_island.groupby(['Island', 'Season', 'Day_Type','
 #Removing rows with a TP of 49 or 50 (IDK why EA has those since they don't exist)
 load_season_day = load_season_day[~load_season_day['Trading_Period'].isin(['TP49', 'TP50'])]
 
+national_load = load_season_day.copy() #Making a copy so can find the average load per season/day for all of NZ
+load_curve_plots = load_season_day.copy()
 group_cols = ['Island', 'Season', 'Day_Type']
 
 # Get top 2 Value rows per group
@@ -79,5 +82,47 @@ load_season_day['rank'] = load_season_day.groupby(group_cols)['Value'].rank(meth
 Peak = load_season_day[load_season_day['rank'] <= 2].drop(columns='rank').reset_index(drop=True)
 #peaks in csv
 Peak.to_csv(f"{Timeslice_output_location}/peakperiods.csv", index = False)
+
+national_load = national_load.groupby(['Season', 'Day_Type', 'Trading_Period'])['Value'].mean().reset_index()
+
+nat_group_cols = ['Season', 'Day_Type']
+national_load['rank'] = national_load.groupby(nat_group_cols)['Value'].rank(method='first', ascending=False)
+
+# Filter top 2 ranked rows per group
+National_Peak = national_load[national_load['rank'] <= 2].drop(columns='rank').reset_index(drop=True)
+
+National_Peak.to_csv(f"{Timeslice_output_location}/national_peakperiods.csv", index = False)
+#endregion
+
+#region PLOTS
+#not necessary for the actual code but does show the trends 
+# #making some plots
+# load_curve_plots['slot'] = load_curve_plots['Trading_Period'].str.extract(r'(\d+)$').astype(int)
+
+# # Create integer-keyed map: 1–48 → half-hour times
+# half_hour_map = {
+#     i: f"{(i - 1) // 2:02}:{'00' if i % 2 == 1 else '30'}"
+#     for i in range(1, 49)
+# }
+
+# load_curve_plots['Time'] = load_curve_plots['slot'].map(half_hour_map)
+# #Gonna try to plot all of the categories on top of each other
+# load_curve_plots = load_curve_plots.sort_values(by = 'slot')
+# load_curve_plots['Group'] = load_curve_plots[['Island', 'Season', 'Day_Type']].agg('-'.join, axis = 1)
+
+# plt.figure()
+# for label, group in load_curve_plots.groupby('Group'):
+#     plt.plot(group['Time'], group['Value'], label=label)
+
+# plt.legend()
+# plt.xlabel('Time')
+# plt.ylabel('Value')
+# plt.title('Plot of all of the average load curves')
+# plt.show()
+
+# #plotting just NI winter weekday
+# NI_load_curve_plots = load_curve_plots[(load_curve_plots["Island"] == 'NI') & (load_curve_plots['Day_Type'] == 'WD') & (load_curve_plots['Season'] == 'Winter')]
+# NI_load_curve_plots.plot(x= 'Time', y = 'Value')
+# plt.show()
 
 #endregion
