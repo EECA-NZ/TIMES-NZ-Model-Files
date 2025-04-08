@@ -17,7 +17,7 @@ from filepaths import PREP_LOCATION, DATA_INTERMEDIATE, OUTPUT_LOCATION
 STAGE_0_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_0_settings/"
 STAGE_1_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_1_prep_raw_data/"
 STAGE_2_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_2_baseyear/"
-# STAGE 3 SCRIPTS dont exist yet 
+STAGE_3_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_3_scenarios/"
 STAGE_4_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_4_veda_format/"
 
 # NOTE: here `INPUT_LOCATION` refers to the intermediate files that will be created in data_intermediate
@@ -70,7 +70,7 @@ if method == "times_3":
     os.system(f"python {STAGE_2_SCRIPTS}/baseyear_electricity_generation.py")    
 
     # Stage 3: Scenarios:
-    # no scripts exist yet. 
+    print(f"Compiling base year files...")  
 
     #Stage 4: Create excel files 
     print(f"Building TIMES excel files based on .toml configuration files...")    

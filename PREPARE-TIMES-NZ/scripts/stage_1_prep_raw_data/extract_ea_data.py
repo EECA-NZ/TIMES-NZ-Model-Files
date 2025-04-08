@@ -142,8 +142,9 @@ nsp_data.to_csv(f"{output_location}/emi_nsp_concordances.csv", index = False)
 #endregion 
 
 #region GRID_EXPORT
+base_year = 2023
 
-emi_ge_files = glob.glob(os.path.join(emi_ge_folder, "*.csv"))
+emi_ge_files = glob.glob(os.path.join(emi_ge_folder, f"{base_year}*.csv"))
 
 ge_dfframes = []
 for file in emi_ge_files:
