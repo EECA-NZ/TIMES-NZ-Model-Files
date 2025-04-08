@@ -69,8 +69,6 @@ load_season_day = load_data_per_island.groupby(['Island', 'Season', 'Day_Type','
 #Removing rows with a TP of 49 or 50 (IDK why EA has those since they don't exist)
 load_season_day = load_season_day[~load_season_day['Trading_Period'].isin(['TP49', 'TP50'])]
 
-load_season_day.to_csv(f"{Timeslice_output_location}/seasonal_load.csv", index = False)
-
 group_cols = ['Island', 'Season', 'Day_Type']
 
 # Get top 2 Value rows per group
