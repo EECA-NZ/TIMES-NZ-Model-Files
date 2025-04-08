@@ -2,12 +2,16 @@
 
 For the learning curves of each of the different generators, projection data from NREL was used. The data was from 2024 and projected costs from 2022 up to 2050. As this data was for the US we wanted to use these projected curves on data that we could obtain from New Zealand. The data provides three scenarios: advanced, moderate, and conservative. In TIMES 2.0 the projections of the moderate curve were used in the Kea scenario and the conservative curve was used for the Tui scenario. 
 
-Below show some of the curves from the NREL database which are seen [here][NREL-database](The parameter can be changed to CAPEX and FOM to get these graphs). The FOM graph below shows that the changes in cost over time are minimal.  The CAPEX costs do change quite a bit.
-![FOM](NREL_FOM.png)
+Below show some of the curves from the NREL database which are seen [here][NREL-database]. (The parameter can be changed to CAPEX and FOM to get these graphs). 
 
-![CAPEX](NREL_CAPEX.png)
+The FOM graph below shows that the changes in cost over time are minimal.  The CAPEX costs show greater change over time, particularly for offshore wind.
 
-We wanted to apply these curves to future technologies (mainly solar and wind).  From the NREL ATB 2024 workbook we can easily take the data that was produced and use this to create learning curves for utility solar, wind, and geothermal.  As the NREL data has different classes for the tech with different curves for each there was some choice as to which curve would be used. 
+
+![FOM](assets/NREL_FOM.png)
+
+![CAPEX](assets/NREL_CAPEX.png)
+
+We applied these curves to future technologies (solar, wind, and geothermal).  From the NREL ATB 2024 workbook we can easily take the data that was produced and use this to create learning curves for utility solar, wind, and geothermal.  As the NREL data has different classes for the tech with different curves for each there was some choice as to which curve would be used. 
 
 The MBIE data did not specify whether the future solar farms would be tracking or fixed, but this could be easily looked up. To make this quick, farms with a higher capital cost per kW were investigated as the tracking solar is much more likely to be more expensive than fixed solar. The NREL data only had curves for tracking solar for the utility scale and so the curves for this were used in both the tracked and fixed cases. The Utility PV- Class 1 curve was used in these cases. The TechName of the tracking solar farms were changed to Tracked Solar to distinguish from the fixed solar farms.
 
