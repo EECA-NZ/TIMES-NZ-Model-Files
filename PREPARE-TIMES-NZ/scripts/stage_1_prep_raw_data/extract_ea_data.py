@@ -165,5 +165,4 @@ ge_df = pd.melt(
 )
 # saving as parquet because these files are huge 
 ge_df.to_parquet(f"{output_location}/emi_grid_export.parquet", engine = "pyarrow")
-
 #endregion

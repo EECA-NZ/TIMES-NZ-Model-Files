@@ -64,6 +64,7 @@ if method == "times_3":
     print(f"Preparing raw data...")    
     os.system(f"python {STAGE_1_SCRIPTS}/extract_ea_data.py")    
     os.system(f"python {STAGE_1_SCRIPTS}/extract_mbie_data.py")    
+    os.system(f"python {STAGE_1_SCRIPTS}/load_curves.py") 
 
     # Stage 2: Base Year 
     print(f"Compiling base year files...")    
