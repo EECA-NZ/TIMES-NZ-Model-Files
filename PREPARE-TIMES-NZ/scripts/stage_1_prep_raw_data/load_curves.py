@@ -77,7 +77,7 @@ load_season_day['rank'] = load_season_day.groupby(group_cols)['Value'].rank(meth
 
 # Filter top 2 ranked rows per group
 Peak = load_season_day[load_season_day['rank'] <= 2].drop(columns='rank').reset_index(drop=True)
-
+#peaks in csv
 Peak.to_csv(f"{Timeslice_output_location}/peakperiods.csv", index = False)
 
 #endregion
