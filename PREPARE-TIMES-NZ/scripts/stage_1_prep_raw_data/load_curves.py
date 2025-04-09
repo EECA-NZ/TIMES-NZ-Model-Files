@@ -79,7 +79,7 @@ group_cols = ['Island', 'Season', 'Day_Type']
 load_season_day['rank'] = load_season_day.groupby(group_cols)['Value'].rank(method='first', ascending=False)
 
 # Filter top 2 ranked rows per group
-Peak = load_season_day[load_season_day['rank'] <= 2].drop(columns='rank').reset_index(drop=True)
+Peak = load_season_day[load_season_day['rank'] <= 3].drop(columns='rank').reset_index(drop=True)
 #peaks in csv
 Peak.to_csv(f"{Timeslice_output_location}/peakperiods.csv", index = False)
 
@@ -89,13 +89,13 @@ nat_group_cols = ['Season', 'Day_Type']
 national_load['rank'] = national_load.groupby(nat_group_cols)['Value'].rank(method='first', ascending=False)
 
 # Filter top 2 ranked rows per group
-National_Peak = national_load[national_load['rank'] <= 2].drop(columns='rank').reset_index(drop=True)
+National_Peak = national_load[national_load['rank'] <= 6].drop(columns='rank').reset_index(drop=True)
 
 National_Peak.to_csv(f"{Timeslice_output_location}/national_peakperiods.csv", index = False)
 #endregion
 
 #region PLOTS
-#not necessary for the actual code but does show the trends 
+# #not necessary for the actual code but does show the trends 
 # #making some plots
 # load_curve_plots['slot'] = load_curve_plots['Trading_Period'].str.extract(r'(\d+)$').astype(int)
 
@@ -124,5 +124,13 @@ National_Peak.to_csv(f"{Timeslice_output_location}/national_peakperiods.csv", in
 # NI_load_curve_plots = load_curve_plots[(load_curve_plots["Island"] == 'NI') & (load_curve_plots['Day_Type'] == 'WD') & (load_curve_plots['Season'] == 'Winter')]
 # NI_load_curve_plots.plot(x= 'Time', y = 'Value')
 # plt.show()
+
+#endregion
+
+#region RESIDENTIAL DEMAND
+# Want to work out COM_FR demand shares for the residential sector using the res baseline study
+
+
+
 
 #endregion

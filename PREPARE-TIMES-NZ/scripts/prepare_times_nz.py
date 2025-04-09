@@ -63,7 +63,8 @@ if method == "times_3":
     # Stage 1: Prep raw data 
     print(f"Preparing raw data...")    
     os.system(f"python {STAGE_1_SCRIPTS}/extract_ea_data.py")    
-    os.system(f"python {STAGE_1_SCRIPTS}/extract_mbie_data.py")    
+    os.system(f"python {STAGE_1_SCRIPTS}/extract_mbie_data.py")  
+    os.system(f"python {STAGE_1_SCRIPTS}/extract_res_baseline_data.py")   
     os.system(f"python {STAGE_1_SCRIPTS}/load_curves.py") 
 
     # Stage 2: Base Year 
