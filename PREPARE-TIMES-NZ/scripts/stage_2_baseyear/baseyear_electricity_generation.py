@@ -591,7 +591,7 @@ techs_to_fuels = np.array([
     ["Peaker, gas-fired OCGT", "", ""], #not currently used 
     # Diesel - we'll apply to our main and generic diesel plants: 
     ["Peaker, diesel-fired OCGT", "OCGT", "Diesel"],
-    ["Peaker, diesel-fired OCGT", "DIE", "Diesel"],
+    ["Peaker, diesel-fired OCGT", "DSL", "Diesel"],
     # Wind/solar/hydro - quite straightfowrad. we use the future RR OM costs for existing RR OM costs
     ["Solar", "SOL", "Solar"],
     ["Wind", "WIN", "Wind"],  

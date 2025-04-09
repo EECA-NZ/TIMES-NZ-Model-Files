@@ -3,7 +3,7 @@ Biogas,CHP,COG,0.75
 Biogas,ELE,BIG,0.75
 Coal,CHP,COG,0.55
 Coal,ELE,RNK,0.37
-Diesel,ELE,DIE,0.02
+Diesel,ELE,DSL,0.02
 Diesel,ELE,OCGT,0.02
 Gas,CHP,COG,0.55
 Gas,ELE,CCGT,0.65

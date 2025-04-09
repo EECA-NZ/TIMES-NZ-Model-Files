@@ -8,4 +8,4 @@ Generic wood cogeneration,Wood,CHP,COG
 Generic hydro generation,Hydro,ELE,HYD
 Generic geothermal generation,Geothermal,ELE,GEO
 Generic wind generation,Wind,ELE,WIN
-Generic diesel generation,Diesel,ELE,DIE
+Generic diesel generation,Diesel,ELE,DSL
