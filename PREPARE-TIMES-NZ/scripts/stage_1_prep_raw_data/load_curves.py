@@ -148,30 +148,54 @@ res_baseline_data = res_baseline_data.merge(timeslices, on=['Season', 'DayType',
 
 
 #choosing year NOTE this will probably be changed later to include all years from 2023-40 but for now just 2023
-res_baseline_2023 = res_baseline_data[res_baseline_data['Year'] == 2023]
+# res_baseline_2023 = res_baseline_data[res_baseline_data['Year'] == 2023]
 
-res_baseline_2023 = res_baseline_2023.groupby(['TimeSlice','End Use Category', 'Year'])['Power'].sum().reset_index()
+# res_baseline_2023 = res_baseline_2023.groupby(['TimeSlice','End Use Category', 'Year'])['Power'].sum().reset_index()
+
+# #dividing by YRFR
+
+# res_baseline_2023 = res_baseline_2023.merge(yrfr[['TimeSlice', 'AllRegions']], on = 'TimeSlice', how = 'left')
+
+# res_baseline_2023['AdjustedPower'] = res_baseline_2023['Power']/ res_baseline_2023['AllRegions']
+
+# #creating a copy so that we can find the total power use for each commodity for 2023
+# total_com_use = res_baseline_2023.copy()
+# total_com_use = total_com_use.groupby(['End Use Category', 'Year'])['AdjustedPower'].sum().reset_index()
+# total_com_use = total_com_use.rename(columns = {'AdjustedPower': 'TotalPower'})
+
+# #Merging so that we can find COM_FRs
+
+# COM_FR_2023 = res_baseline_2023.merge(total_com_use[['End Use Category', 'TotalPower']], on = 'End Use Category', how = 'left')
+
+# COM_FR_2023['COM_FR'] = COM_FR_2023['AdjustedPower'] / COM_FR_2023['TotalPower']
+# COM_FR_2023 = COM_FR_2023[['TimeSlice', 'End Use Category', 'Year', 'COM_FR']].sort_values(by = ['End Use Category', 'TimeSlice'])
+
+
+# COM_FR_2023.to_csv(f'{timeslice_output_location}/COM_FR.csv', index=False)
+
+# Same thing but all the COM_FRs from 2023 to 2040
+res_baseline = res_baseline_data[res_baseline_data['Year'] >= 2023]
+
+res_baseline = res_baseline.groupby(['TimeSlice','End Use Category', 'Year'])['Power'].sum().reset_index()
 
 #dividing by YRFR
 
-res_baseline_2023 = res_baseline_2023.merge(yrfr[['TimeSlice', 'AllRegions']], on = 'TimeSlice', how = 'left')
+res_baseline= res_baseline.merge(yrfr[['TimeSlice', 'AllRegions']], on = 'TimeSlice', how = 'left')
 
-res_baseline_2023['AdjustedPower'] = res_baseline_2023['Power']/ res_baseline_2023['AllRegions']
+res_baseline['AdjustedPower'] = res_baseline['Power']/ res_baseline['AllRegions']
 
 #creating a copy so that we can find the total power use for each commodity for 2023
-total_com_use = res_baseline_2023.copy()
+total_com_use = res_baseline.copy()
 total_com_use = total_com_use.groupby(['End Use Category', 'Year'])['AdjustedPower'].sum().reset_index()
 total_com_use = total_com_use.rename(columns = {'AdjustedPower': 'TotalPower'})
-
 #Merging so that we can find COM_FRs
 
-COM_FR_2023 = res_baseline_2023.merge(total_com_use[['End Use Category', 'TotalPower']], on = 'End Use Category', how = 'left')
+COM_FR = res_baseline.merge(total_com_use[['End Use Category', 'Year','TotalPower']], on = ['End Use Category', 'Year'], how = 'left')
+COM_FR.to_csv(f'{timeslice_output_location}/COM_FR_ALL.csv', index=False)
 
-COM_FR_2023['COM_FR'] = COM_FR_2023['AdjustedPower'] / COM_FR_2023['TotalPower']
-COM_FR_2023 = COM_FR_2023[['TimeSlice', 'End Use Category', 'Year', 'COM_FR']].sort_values(by = ['End Use Category', 'TimeSlice'])
-
-
-COM_FR_2023.to_csv(f'{timeslice_output_location}/COM_FR.csv', index=False)
+COM_FR['COM_FR'] = COM_FR['AdjustedPower'] / COM_FR['TotalPower']
+COM_FR = COM_FR[['TimeSlice', 'End Use Category', 'Year', 'COM_FR']].sort_values(by = ['End Use Category', 'Year','TimeSlice'])
 
 
+COM_FR.to_csv(f'{timeslice_output_location}/COM_FR_ALL.csv', index=False)
 #endregion
