@@ -21,7 +21,7 @@ os.makedirs(output_location, exist_ok=True)
 
 # parameters 
 
-#so ideally we would have a library script that reads sthe data_intermediate config files and returns all the useful parameters, 
+#so ideally we would have a library script that reads the data_intermediate config files and returns all the useful parameters, 
 # including base year, but also whatever else we might need, that any script could load in.
 base_year = 2023 
 cap2act_pjgw = 31.536

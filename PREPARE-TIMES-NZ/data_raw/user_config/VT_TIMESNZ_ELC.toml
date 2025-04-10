@@ -4,62 +4,41 @@ WorkBookName = "VT_TIMESNZ_ELC"
 
 ###############################################################################
 # Sector Fuels 
-
-# This sheet: 
-
-# 1: Defines commodities that can be used for electricity generation (eg ELCNGA)
-# 2: Defines the processes that can convert other TIMES Commodities into these fuels (eg NGA -> ELCNGA)
-# Note that these are effectively dummy processes for modelling, and so should not contain technical parameters. 
-# The processes are defined with 'PRE' settings (meaning 'miscellaneous') 
-
-# 3: Defines technical parameters for these proceses (barely used). 
-
-
-# NOTE: it is possible to add a VAROM to these processes to represent fuel delivery costs.
-#  However, these are now set to each electricity generating process separately 
-# (some plants have higher dlivery costs than others) by setting VAR_FLO costs on the process itself - this is the approach we have used, given the MBIE data on delivery costs.
 ###############################################################################
 
 [ElectricityFuelCommodityDefinitions]
-
+Description = "Defines commodities that can be used for electricity generation (eg ELCNGA)"
 SheetName = "Sector_Fuels_ELC"
 TagName = "FI_Comm"
-Description = "Defines commodities that can be used for electricity generation (eg ELCNGA)"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/elc_input_commodity_definitions.csv"
 
 [ElectricityFuelProcessDefinitions]
-
+Description = "Defines the processes that can convert other TIMES Commodities into these fuels (eg NGA -> ELCNGA)"
+# Note that these are effectively dummy processes for modelling, and so should not contain technical parameters. 
+# The processes are defined with 'PRE' settings (meaning 'miscellaneous') 
 SheetName = "Sector_Fuels_ELC"
 TagName = "FI_Process"
-Description = "Defines the processes that can convert other TIMES Commodities into these fuels (eg NGA -> ELCNGA)"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/elc_dummy_fuel_process_definitions.csv"
 
 [ElectricityFuelProcessParameters]
-
+Description = "Defines technical parameters for dummy electricity fuel processes (barely used)"
+# NOTE: it is possible to add a VAROM to these processes to represent fuel delivery costs.
+#  However, these are now set to each electricity generating process separately 
+# (some plants have higher delivery costs than others)
+# by setting VAR_FLO costs on the process itself - this is the approach we have used, given the MBIE data on delivery costs.
 SheetName = "Sector_Fuels_ELC"
 TagName = "FI_T"
-Description = "Defines technical parameters for dummy electricity fuel processes (barely used)"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/elc_dummy_fuel_process_parameters.csv"
 
 ###############################################################################
 # Existing Technologies
-
-# This sheet: 
-
-# 1: Defines the ELC commodity 
-# 2: Defines all existing technologies capable of generating electricity 
-# 3: For each of these, adds detailed technical parameters  
-# 4: Adds age distributions for each plant or plant type (either NCAP_PASTI when lifetime is known, or PRC_RESID otherwise) 
 ###############################################################################
 
 
-
 [JustDefiningElectricity]
-
+Description = "Defines ELC and ELCCO2 (should these just be added to [ElectricityCommodityDefinitions]?)"
 SheetName = "Existing Technologies"
 TagName = "FI_Comm"
-Description = "Defines ELC and ELCCO2 (should these just be added to [ElectricityCommodityDefinitions]?)"
-
 # We will just put the relevant data in here for now. Copies specs from TIMES 2.0.
 # Alternatively could put a csv in data_raw and read that in to match the original. Not sure what's best. 
 [JustDefiningElectricity.Data]
@@ -74,66 +53,52 @@ Ctype =    ["ELC",  ""]
 
 
 [ElectricityProcessDefinitions]
+Description = "Defines all existing technologies capable of generating electricity"
 SheetName = "Existing Technologies"
 TagName = "FI_Process"
-Description = "Defines all existing technologies capable of generating electricity"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_process_definitions.csv"
 
 
 [ElectricityProcessParameters]
+Description = "Technical parameters for existing electricity generation technologies"
 SheetName = "Existing Technologies"
 TagName = "FI_T"
-Description = "Technical parameters for existing electricity generation technologies"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_parameters.csv"
 
 
 [ElectricityProcessAgeDistributions]
+Description = "Adds age distributions for each plant or plant type (either NCAP_PASTI when lifetime is known, or PRC_RESID to represent a capacity stock of mixed lifetimes otherwise)"
 SheetName = "Existing Technologies"
 TagName = "FI_T"
-Description = "Adds age distributions for each plant or plant type (either NCAP_PASTI when lifetime is known, or PRC_RESID otherwise) "
 # Some floating point errors creeping through into the generated data - need to check this.
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_capacity.csv"
 
-
-
-
-
 ###############################################################################
 # Distribution
-
-# This sheet: 
-
-# 1: Defines all existing technologies capable of generating electricity 
-# 2: For each of these, adds detailed technical parameters  
-# 3: Adds age distributions for each plant or plant type (either NCAP_PASTI when lifetime is known, or PRC_RESID otherwise) 
-
-# Note: this sheet used to be called "Demand and Distribution". It contained a crude representation of own use which had been disabled from TIMES 2.0.
+# Note: this sheet used to be called "Demand and Distribution". 
+# It contained a crude representation of own use which had been disabled from TIMES 2.0.
 # Since we use net generation this own use representation is not actually needed, so now the sheet is just called "Distribution".
 ###############################################################################
 
 
 [DistributionProcessDefinitions]
+Description = "Defines all processes involved in distribution (eg Processes that convert ELCHV to ELCMV)"
 SheetName = "Distribution"
 TagName = "FI_Process"
-Description = "Defines all distribution processes"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_processes.csv"
 
 [DitributionCommodityDefinitions]
+Description = "Defines electricity distribution subprocessses (eg ELCHV, ELCMV, ELCDD)"
 SheetName = "Distribution"  
 TagName = "FI_Comm"
-Description = "Defines different ELC related to various stages of the transmission/distribution system"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_commodities.csv"
 
 
 [DistributionProcessParameters]
+Description = "Sets technical parameters for distribution processes (eg losses, capacity, etc)" 
 SheetName = "Distribution"  
 TagName = "FI_T"
-Description = "Technical parameters for distribution processes" 
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_parameters.csv"
-
-
-
-
 
 ###############################################################################
 # Emission Factors 
@@ -158,9 +123,9 @@ DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution
 # Source: MEG 
 
 [ElectricityEmissionFactors]
+Description = "Defines emission factors for electricity generation. Sources and references listed in config file. Excludes CH4 and N2O."
 SheetName = "Emission Factors"  
 TagName = "COMEMI"
-Description = "Defines emission factors for electricity generation. Sources and references listed in config file. Excludes CH4 and N2O."
 
 
 [ElectricityEmissionFactors.Data]
