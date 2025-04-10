@@ -15,17 +15,22 @@ import matplotlib.pyplot as plt
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
-from filepaths import DATA_INTERMEDIATE
+from filepaths import DATA_RAW, DATA_INTERMEDIATE
 from dataprep import *
 #endregion
 
 #region FILEPATHS
 input_location = f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_authority"
-Timeslice_output_location = f"{DATA_INTERMEDIATE}/stage_1_external_data/TimeSlices"
-os.makedirs(Timeslice_output_location, exist_ok = True)
+timeslice_output_location = f"{DATA_INTERMEDIATE}/stage_1_external_data/TimeSlices"
+time_configs = f"{DATA_RAW}/user_config"
+os.makedirs(timeslice_output_location, exist_ok = True)
 
+peak_periods = pd.read_csv(f"{time_configs}/peak_periods.csv")
+yrfr = pd.read_csv(f"{time_configs}/year_fractions.csv")
+timeslices = pd.read_csv(f"{time_configs}/TimeSlice_map.csv")
 input_gxp_data = pd.read_parquet(f"{input_location}/emi_grid_export.parquet")
 concordances = pd.read_csv(f"{input_location}/emi_nsp_concordances.csv")
+res_baseline_data = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/res_baseline/res_baseline_data.csv")
 #endregion
 
 #region LOAD CURVES
@@ -63,7 +68,7 @@ choices = ['Summer', 'Autumn', 'Winter', 'Spring']
 
 load_data_per_island['Season'] = np.select(conditions, choices, default='Unknown')
 
-load_data_per_island.to_csv(f"{Timeslice_output_location}/load_data.csv", index = False)
+load_data_per_island.to_csv(f"{timeslice_output_location}/load_data.csv", index = False)
 
 #Grouping by season and day type 
 load_season_day = load_data_per_island.groupby(['Island', 'Season', 'Day_Type','Trading_Period', 'Unit_Measure'])['Value'].mean().reset_index()
@@ -81,7 +86,7 @@ load_season_day['rank'] = load_season_day.groupby(group_cols)['Value'].rank(meth
 # Filter top 2 ranked rows per group
 Peak = load_season_day[load_season_day['rank'] <= 3].drop(columns='rank').reset_index(drop=True)
 #peaks in csv
-Peak.to_csv(f"{Timeslice_output_location}/peakperiods.csv", index = False)
+Peak.to_csv(f"{timeslice_output_location}/peakperiods.csv", index = False)
 
 national_load = national_load.groupby(['Season', 'Day_Type', 'Trading_Period'])['Value'].mean().reset_index()
 
@@ -91,7 +96,7 @@ national_load['rank'] = national_load.groupby(nat_group_cols)['Value'].rank(meth
 # Filter top 2 ranked rows per group
 National_Peak = national_load[national_load['rank'] <= 6].drop(columns='rank').reset_index(drop=True)
 
-National_Peak.to_csv(f"{Timeslice_output_location}/national_peakperiods.csv", index = False)
+National_Peak.to_csv(f"{timeslice_output_location}/national_peakperiods.csv", index = False)
 #endregion
 
 #region PLOTS
@@ -129,8 +134,44 @@ National_Peak.to_csv(f"{Timeslice_output_location}/national_peakperiods.csv", in
 
 #region RESIDENTIAL DEMAND
 # Want to work out COM_FR demand shares for the residential sector using the res baseline study
+#extract NZ data
+res_baseline_data = res_baseline_data[res_baseline_data['Region'] == 'NZ']
+
+#merging any data that is duplicate entries
+res_baseline_data = res_baseline_data.groupby(['Season', 'DayType', 'End Use Category', 'Year', 'Hour'])['Power'].sum().reset_index()
+
+#Mapping for peak, day and night (this could be adjusted using the peaks we found from the EA load curve data if wanted)
+peak_map = peak_periods.set_index('Time')['Time_Type'] 
+res_baseline_data.insert(loc = 3, column = 'TimeType', value = res_baseline_data['Hour'].map(peak_map))
+
+res_baseline_data = res_baseline_data.merge(timeslices, on=['Season', 'DayType', 'TimeType'], how='left')
 
 
+#choosing year NOTE this will probably be changed later to include all years from 2023-40 but for now just 2023
+res_baseline_2023 = res_baseline_data[res_baseline_data['Year'] == 2023]
+
+res_baseline_2023 = res_baseline_2023.groupby(['TimeSlice','End Use Category', 'Year'])['Power'].sum().reset_index()
+
+#dividing by YRFR
+
+res_baseline_2023 = res_baseline_2023.merge(yrfr[['TimeSlice', 'AllRegions']], on = 'TimeSlice', how = 'left')
+
+res_baseline_2023['AdjustedPower'] = res_baseline_2023['Power']/ res_baseline_2023['AllRegions']
+
+#creating a copy so that we can find the total power use for each commodity for 2023
+total_com_use = res_baseline_2023.copy()
+total_com_use = total_com_use.groupby(['End Use Category', 'Year'])['AdjustedPower'].sum().reset_index()
+total_com_use = total_com_use.rename(columns = {'AdjustedPower': 'TotalPower'})
+
+#Merging so that we can find COM_FRs
+
+COM_FR_2023 = res_baseline_2023.merge(total_com_use[['End Use Category', 'TotalPower']], on = 'End Use Category', how = 'left')
+
+COM_FR_2023['COM_FR'] = COM_FR_2023['AdjustedPower'] / COM_FR_2023['TotalPower']
+COM_FR_2023 = COM_FR_2023[['TimeSlice', 'End Use Category', 'Year', 'COM_FR']].sort_values(by = ['End Use Category', 'TimeSlice'])
+
+
+COM_FR_2023.to_csv(f'{timeslice_output_location}/COM_FR.csv', index=False)
 
 
 #endregion
