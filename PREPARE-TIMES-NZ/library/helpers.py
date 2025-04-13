@@ -3,6 +3,7 @@ import os
 #from openpyxl import Workbook, load_workbook
 # from ast import literal_eval
 import pandas as pd 
+import polars as pl
 # import string
 import shutil 
 import logging
@@ -42,23 +43,27 @@ def clear_output():
 
 def select_and_rename(df, name_map):
     """
-    Selects and renames columns in a DataFrame based on a provided mapping.
+    Selects and renames columns in a Pandas or Polars DataFrame based on a provided mapping.
     
     Parameters:
-    - df: The input DataFrame.
+    - df: The input DataFrame (pandas.DataFrame or polars.DataFrame).
     - name_map: A dictionary where keys are the original column names and values are the new column names.
     
     Returns:
-    - A DataFrame with selected and renamed columns.
+    - A DataFrame with selected and renamed columns, same type as input.
     """
-    # Select columns based on the mapping
-    selected_df = df[list(name_map.keys())].copy()
-    
-    # Rename columns
-    selected_df.rename(columns=name_map, inplace=True)
-    
-    return selected_df
+    if isinstance(df, pd.DataFrame):
+        selected_df = df[list(name_map.keys())]
+        return selected_df.rename(columns=name_map)
 
+    elif isinstance(df, pl.DataFrame):
+        selected_df = df.select(list(name_map.keys()))
+        for old, new in name_map.items():
+            selected_df = selected_df.rename({old: new})
+        return selected_df
+
+    else:
+        raise TypeError("Input must be a pandas or polars DataFrame")
 
 
 
