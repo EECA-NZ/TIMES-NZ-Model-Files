@@ -68,8 +68,6 @@ choices = ['Summer', 'Autumn', 'Winter', 'Spring']
 
 load_data_per_island['Season'] = np.select(conditions, choices, default='Unknown')
 
-load_data_per_island.to_csv(f"{timeslice_output_location}/load_data.csv", index = False)
-
 #Grouping by season and day type 
 load_season_day = load_data_per_island.groupby(['Island', 'Season', 'Day_Type','Trading_Period', 'Unit_Measure'])['Value'].mean().reset_index()
 #Removing rows with a TP of 49 or 50 (IDK why EA has those since they don't exist)
@@ -175,28 +173,26 @@ res_baseline_data = res_baseline_data.merge(timeslices, on=['Season', 'DayType',
 # Same thing but all the COM_FRs from 2023 to 2040
 res_baseline = res_baseline_data[res_baseline_data['Year'] >= 2023]
 
-res_baseline = res_baseline.groupby(['TimeSlice','End Use Category', 'Year'])['Power'].sum().reset_index()
+res_baseline = res_baseline.groupby(['TimeSlice','End Use Category', 'Year'])['Power'].mean().reset_index()
 
 #dividing by YRFR
 
 res_baseline= res_baseline.merge(yrfr[['TimeSlice', 'AllRegions']], on = 'TimeSlice', how = 'left')
-hours_per_year = 8760
-res_baseline['AdjustedPower'] = res_baseline['Power'] * res_baseline['AllRegions'] * hours_per_year
+
+res_baseline['AdjustedPower'] = res_baseline['Power'] * res_baseline['AllRegions'] # multiplying all of the average powers per hour in each timeslice by the YRFR
 
 #creating a copy so that we can find the total power use for each commodity for 2023
 total_com_use = res_baseline.copy()
 total_com_use = total_com_use.groupby(['End Use Category', 'Year'])['AdjustedPower'].sum().reset_index()
-total_com_use = total_com_use.rename(columns = {'AdjustedPower': 'TotalPower'})
+total_com_use = total_com_use.rename(columns = {'AdjustedPower': 'TotalPower'}) # total of the average power per timeslice for each end use
 
 # Total_power = total_com_use.copy().groupby([''])
 #Merging so that we can find COM_FRs
 
 COM_FR = res_baseline.merge(total_com_use[['End Use Category', 'Year','TotalPower']], on = ['End Use Category', 'Year'], how = 'left')
-COM_FR.to_csv(f'{timeslice_output_location}/COM_FR_ALL.csv', index=False)
 
 COM_FR['COM_FR'] = COM_FR['AdjustedPower'] / COM_FR['TotalPower']
 COM_FR = COM_FR[['TimeSlice', 'End Use Category', 'Year', 'COM_FR']].sort_values(by = ['End Use Category', 'Year','TimeSlice'])
-
 
 COM_FR.to_csv(f'{timeslice_output_location}/COM_FR.csv', index=False)
 #endregion
@@ -211,5 +207,28 @@ COM_FR_2023 = COM_FR_2023.merge(yrfr[['TimeSlice', 'AllRegions']], on = 'TimeSli
 COM_FR_2023['COM_FRvsYRFR'] = COM_FR_2023['COM_FR'] / COM_FR_2023['AllRegions'] 
 
 COM_FR_2023.to_csv(f'{timeslice_output_location}/COM_FRvsYRFR.csv', index=False)
+
+#endregion
+
+#region MAKE PLOTS
+# This can be deleted or commented out when not needed
+def get_color(label):
+    last_char = label[-1].lower()
+    if last_char == 'p':
+        return 'blue'
+    elif last_char == 'n':
+        return 'green'
+    else:
+        return 'red'
+
+for group_name, group_df in COM_FR_2023.groupby('End Use Category'):
+    colours = group_df['TimeSlice'].apply(get_color)
+
+    plt.figure(figsize=(8, 5))
+    plt.barh(group_df['TimeSlice'], group_df['COM_FRvsYRFR'], color=colours)
+    plt.xlabel('COM_FR/YRFR')
+    plt.title(group_name)
+    plt.tight_layout()
+    plt.show()
 
 #endregion
