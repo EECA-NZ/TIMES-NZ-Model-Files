@@ -53,6 +53,7 @@ run_script(f"{STAGE_2_SCRIPTS}/baseyear_electricity_generation.py")
 #Stage 4: Create excel files 
 print(f"Reshaping data to match Veda formatting...")    
 run_script(f"{STAGE_4_SCRIPTS}/create_baseyear_ELC_files.py")    
+run_script(f"{STAGE_4_SCRIPTS}/create_emission_factor_files.py")  
 print(f"Building TIMES excel files based on .toml configuration files...")    
 run_script(f"{STAGE_4_SCRIPTS}/write_excel.py")    
     
