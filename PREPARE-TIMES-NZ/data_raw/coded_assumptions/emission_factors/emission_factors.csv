@@ -24,8 +24,8 @@ Geothermal,kWh,3.6,0.123,Fugitive,Kawerau,2023,"https://www.nzgeothermal.org.nz/
 Geothermal,kWh,3.6,0.052,Fugitive,Mokai,2023,"https://www.nzgeothermal.org.nz/geothermal-in-nz/what-is-geothermal/ (Note: applied to output generation, not input fuel)"
 Geothermal,kWh,3.6,0.063,Fugitive,Nga Awa Pūrua,2023,"https://www.nzgeothermal.org.nz/geothermal-in-nz/what-is-geothermal/ (Note: applied to output generation, not input fuel)"
 Geothermal,kWh,3.6,0.064,Fugitive,Ngā Tamariki,2023,"https://www.nzgeothermal.org.nz/geothermal-in-nz/what-is-geothermal/ (Note: applied to output generation, not input fuel)"
-Geothermal,kWh,3.6,0,Fugitive,Ngāwhā (OEC1-3),2023,"https://www.energyawards.co.nz/article/awards-finalist-ng%C4%81wh%C4%81-generation (Note: applied to output generation, not input fuel) (0 emissions)"
-Geothermal,kWh,3.6,0,Fugitive,Ngāwhā (OEC4),2023,https://www.energyawards.co.nz/article/awards-finalist-ng%C4%81wh%C4%81-generation
+Geothermal,kWh,3.6,0.092,Fugitive,Ngāwhā (OEC1-3),2023,https://www.energyawards.co.nz/article/awards-finalist-ng%C4%81wh%C4%81-generation (Assumption of 30% of original 307g/kWh during CY 2023)
+Geothermal,kWh,3.6,0.092,Fugitive,Ngāwhā (OEC4),2023,https://www.energyawards.co.nz/article/awards-finalist-ng%C4%81wh%C4%81-generation (Assumption of 30% of original 307g/kWh during CY 2023)
 Geothermal,kWh,3.6,0.341,Fugitive,Ōhaaki,2023,"https://www.nzgeothermal.org.nz/geothermal-in-nz/what-is-geothermal/ (Note: applied to output generation, not input fuel)"
 Geothermal,kWh,3.6,0.039,Fugitive,Poihipi,2023,"https://www.nzgeothermal.org.nz/geothermal-in-nz/what-is-geothermal/ (Note: applied to output generation, not input fuel)"
 Geothermal,kWh,3.6,0.084,Fugitive,Rotokawa,2023,"https://www.nzgeothermal.org.nz/geothermal-in-nz/what-is-geothermal/ (Note: applied to output generation, not input fuel)"
