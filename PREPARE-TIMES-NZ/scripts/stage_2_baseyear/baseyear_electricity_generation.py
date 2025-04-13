@@ -50,7 +50,7 @@ os.makedirs(check_location, exist_ok = True)
 
 # set parameters 
 pd.set_option('display.float_format', '{:.6f}'.format)
-show_checks = False
+show_checks = True
 # later can read this in from the toml file to ensure easy updates 
 base_year = 2023
 
@@ -84,8 +84,8 @@ emi_solar = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_
 
 # custom assumptions
 eeca_fleet_data = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/GenerationFleet.csv")
-custom_gen_data = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/CustomFleetGeneration.csv")
-generic_plant_settings = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/GenericCurrentPlants.csv")
+custom_gen_data = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/CurrentPlantsCustom.csv")
+generic_plant_settings = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/CurrentPlantsGeneric.csv")
 capacity_factors = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/CapacityFactors.csv")
 technology_assumptions = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/TechnologyAssumptions.csv")
 
@@ -235,7 +235,7 @@ base_year_gen_emi = base_year_gen_emi.drop("CapacityShare", axis = 1 )
 # only apply to plants with Capacity Factor generation method settings
 base_year_gen_cfs = base_year_gen[base_year_gen["GenerationMethod"] == "Capacity Factor"]
 
-base_year_gen_cfs = base_year_gen_cfs.merge(capacity_factors, on = ["FuelType", "GenerationType"])
+base_year_gen_cfs = base_year_gen_cfs.merge(capacity_factors, on = ["FuelType", "GenerationType", "TechnologyCode"])
 
 
 
@@ -374,7 +374,10 @@ base_year_gen["CapacityFactor"] = base_year_gen["EECA_Value"]/(base_year_gen["Ca
 
 generic_generation = gen_comparison.merge(generic_plant_settings, on = ["FuelType", "GenerationType"], how = "inner")
 # add capacity factors 
-generic_generation = generic_generation.merge(capacity_factors, on = ["FuelType", "GenerationType"], how = "left")
+
+
+generic_generation = generic_generation.merge(capacity_factors, on = ["FuelType", "GenerationType", "TechnologyCode"], how = "left")
+
 # rearrange columns 
 generic_generation = generic_generation[["PlantName", "FuelType","GenerationType","TechnologyCode", "Delta", "CapacityFactor"]]
 
@@ -491,12 +494,18 @@ cap_comparison["Delta"] = (cap_comparison["EECA_Value"]-cap_comparison["MBIE_Val
 
 #endregion 
 #############################################################################
-#region TECHNICAL PARAMETERS # remaining technical parameters 
+#region TECHNICAL_PARAMETERS # remaining technical parameters 
 #############################################################################
 
 # assumptions by technology (peak cont, plant life)
 base_year_gen = base_year_gen.merge(technology_assumptions, how = "left", on = "TechnologyCode")
 
+# capacity factors. Some of these are by assumption (either generic or capacityfactor settings), the rest are implied by capacity and output for the base year. 
+# we don't want to limit AFA to base year implied cfs, so we will shuffle these away and add assumed capacity factors instead 
+
+base_year_gen.rename(columns = {"CapacityFactor": "ImpliedCapacityFactor"}, inplace = True)
+# now we can rejoin on the assumed CFs, as these will make our upper limits on availablity for TIMES 
+base_year_gen = base_year_gen.merge(capacity_factors, how = "left", on = ["FuelType", "GenerationType", "TechnologyCode"])
 
 
 # The rest of the parameters come from MBIE's genstack.
@@ -582,7 +591,7 @@ techs_to_fuels = np.array([
     ["Peaker, gas-fired OCGT", "", ""], #not currently used 
     # Diesel - we'll apply to our main and generic diesel plants: 
     ["Peaker, diesel-fired OCGT", "OCGT", "Diesel"],
-    ["Peaker, diesel-fired OCGT", "DIE", "Diesel"],
+    ["Peaker, diesel-fired OCGT", "DSL", "Diesel"],
     # Wind/solar/hydro - quite straightfowrad. we use the future RR OM costs for existing RR OM costs
     ["Solar", "SOL", "Solar"],
     ["Wind", "WIN", "Wind"],  
@@ -640,9 +649,32 @@ def add_output_commodity(df):
     else: 
         return "ELC"
     
+# input techs 
 
-# we adjust the solar output commodities to ELCDD rather than ELC
-base_year_gen["OutputCommodity"] = base_year_gen.apply(add_output_commodity, axis = 1)
+def add_input_commodity(df):
+    tech_based = ["SOL", "WIN", "HYD", "GEO"]
+    
+    if df["TechnologyCode"] in tech_based:
+        in_com = df["TechnologyCode"]
+    else:
+        fuel_to_com = {
+            "Wood": "WOD",
+            "Gas": "NGA",
+            "Coal": "COA",
+            "Diesel": "OIL",
+            "Biogas": "BIG",
+            "Geothermal": "GEO",
+            "Hydro": "HYD",
+        }
+        in_com = fuel_to_com.get(df["FuelType"], "UNDEFINED")
+
+    return f"ELC{in_com}"
+
+# for output commodities, we just adjust the solar output commodities to ELCDD rather than ELC
+base_year_gen["Comm-OUT"] = base_year_gen.apply(add_output_commodity, axis = 1)
+
+# for the rest, we align with TIMES 2.0 input commodity definitions
+base_year_gen["Comm-IN"] = base_year_gen.apply(add_input_commodity, axis = 1)
 
 
 # Generate Process Name for each asset  
@@ -675,11 +707,57 @@ base_year_gen["Process"] = base_year_gen.apply(clean_generic_process_names, axis
 base_year_gen["Process"] = "ELC_" + base_year_gen["FuelType"] + "_" + base_year_gen["TechnologyCode"] + "_" + base_year_gen["Process"]
 
 
+# this doesn't work for Huntly - creates multiple processes which is not what we want
+# Will manually change this for now but might want a better process for dual fuel processes 
+# We don't actually have the information in the file for which plants take multifuel (as separate processes) and which don't (and are single processes with multiple inputs)
+# need to think about a better approach for this maybe 
 
-# Some final renaming 
+base_year_gen.loc[base_year_gen["TechnologyCode"] == "RNK", "Process"] = "ELC_RNK_HuntlyUnits1-4"
 
-base_year_gen = base_year_gen.rename(columns = {"EECA_Value":"Generation_GWh"})
-# 
+
+
+
+#endregion 
+#############################################################################
+#region TIDYDATA # tidy data principles on output, including long form and unit documentation
+#############################################################################
+
+base_year_gen = base_year_gen.rename(
+    columns = {"EECA_Value":"Generation",
+               "CapacityMW":"Capacity",
+               })
+
+
+# For our technical/cost variables, we pivot longer and and assign units
+variable_unit_map = {
+    'Capacity': 'MW',
+    'Generation': 'GWh',
+    'CapacityFactor': '%',
+    'VarOM': '2023 NZD/MWh',
+    'FixOM': '2023 NZD/kw',
+    "FuelDelivCost" : '2023 NZD/GJ',
+    'PlantLife': 'Years',
+    'PeakContribution': '%',
+    "FuelEfficiency": '%',
+
+}
+
+#extract the variable names - we pivot all these 
+value_vars = list(variable_unit_map.keys())
+
+# id variables is everything else that can remain in the table
+id_vars = [col for col in base_year_gen.columns if col not in value_vars]
+
+# pivot (or 'melt')
+base_year_gen = base_year_gen.melt(id_vars = id_vars, 
+                                   value_vars = value_vars, 
+                                   var_name = "Variable",
+                                   value_name = "Value")
+
+# assign units 
+base_year_gen["Unit"] = base_year_gen["Variable"].map(variable_unit_map)
+
+ 
 
 #endregion 
 #############################################################################
@@ -706,8 +784,8 @@ if(show_checks):
     print(generic_generation)
     # extra gas checks 
     gas_test = base_year_gen[base_year_gen["FuelType"] == "Gas"]
-    print("Extra gas checks: ")
-    print(gas_test)
+    # print("Extra gas checks:")
+    # print(gas_test)
 
 
 

@@ -10,6 +10,13 @@ To prepare the TIMES-NZ model files, we will be implementing pre-processing usin
 prepare_times_nz.py
 ```
 
+this script creates an output folder of excel files ready for Veda processing based on the user config and data for TIMES 3.0.
+
+Alternatively, you can run `prepare_times_nz_from_archive.py` to fully generate the TIMES 2.1.3 excel files from the raw tables summary text. This exists as a proof of concept for the generation methods, as these files create a model that matches TIMES 2.1.3 perfectly.
+
+Note that each script is designed to run locally, and stores all outputs in `output` and intermediate data in `data_intermediate`. These directories are not tracked by git and are fully refreshed on every run. 
+
+
 ## STRUCTURE
 
 See `docs/data_structures.md` for an outline of this module's structure and organisation methods. 
@@ -18,6 +25,13 @@ See `docs/data_structures.md` for an outline of this module's structure and orga
 
 See `docs/configuration_file_guide.md` for a description and examples on how the `.toml` configuration files work. 
 
+## Model methodology and documentation 
+
+`docs/model_methodology/` contains documentation on various methods used for creating TIMES 3.0. 
+
+After executing `prepare_times_nz.py`, a metadata file is also created in `data_intermediate/stage_0_config/config_metadata.csv` This file lists all worksheets and tags generated with helpful descriptions (which have been assigned to Veda tags in the config files.)
+
+Any user creating new methods or submodels should add accompanying method documentation to this folder.
 
 
 ## General Future State

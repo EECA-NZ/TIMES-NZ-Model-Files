@@ -4,42 +4,90 @@
 Calibrating the TIMES NZ base year data for electricity generation 
 ```
 
-This documentation describes the methods used in `scripts/stage_2_baseyear/baseyear_electricity_generation.py`.
 
+This documentation describes the methods used to create electricity base year data.
+
+Electricity base year user config file is found at `data_raw/user_config/VT_TIMESNZ_ELC.toml`.
+The key data processing script is found at `scripts/stage_2_baseyear/baseyear_electricity_generation.py`.
+The reshaping script, which generates subtables used to generate the final excel file, can be found at `scripts/stage_4_veda_format/create_baseyear_ELC_files.py`.
 
 The base year generation data is intended to reflect the distribution of 2023 generation across all generating New Zealand assets. 
 These should be available to the model to meet future demand, but with enough information (region, technology, remaining life, etc) that the model will retire plants at appropriate points and can make least-cost dispatch and peak decisions. 
 
-We have improved on TIMES 2.0 by building a bottom-up, asset-based model of the existing generation fleet. This gives us much greater detail in how the model utilises the existing generation fleet, will allow us to make very precise changes as needed. 
+We have improved on TIMES 2.0 by building a bottom-up, asset-based model of the existing generation fleet. This gives us much greater detail in how the model utilises the existing generation fleet, and will allow us to make very precise changes as needed. 
 
 Note that this does mean updating the base year will currently require a manual review of this existing asset list.
 
 # Raw data used 
 
-- MBIE genstack (current plants)
-- MBIE official electricity statistics
-- Electricity Authority fleet list
-- Electricity Authority MD generation data
-- specific assumptions found at: `data_raw/coded_assumptions/electricity_generation`
+All raw data from external sources is stored in `data_raw/external_data/`
+
+### MBIE 
+
+EDGS generation stack:
+ - `mbie/electricity-demand-generation-scenarios-2024-assumptions.xlsx` | [Webpage](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-modelling/electricity-demand-and-generation-scenarios) | [File](https://www.mbie.govt.nz/assets/Data-Files/Energy/electricity-demand-generation-scenarios-2024-assumptions.xlsx)
+ - Used for manual cross-checking against our existing list. We also use data on operating costs, fuel delivery costs, and fuel efficiency.
+
+ Official electricity data:
+ - `electricity.xlsx` | [Webpage](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/electricity-statistics) | [File](https://www.mbie.govt.nz/assets/Data-Files/Energy/nz-energy-quarterly-and-energy-in-nz/electricity.xlsx)
+ - Used for ensuring that our base year generation and capacity is calibrated to official data 
+
+### Electricity Authority (EMI)
+
+The Electricity Authority data (sourced from [EMI](https://www.emi.ea.govt.nz/)) is stored in subdirectories per topic area.
+
+EMI Current fleet data:
+ - `emi_fleet_data/` | [Webpage](https://www.emi.ea.govt.nz/Wholesale/Datasets/Generation/GenerationFleet/Existing) | [File](https://www.emi.ea.govt.nz/Wholesale/Datasets/Generation/GenerationFleet/Existing/20230601_DispatchedGenerationPlant.csv)
+ - Used for manual cross-checking of our list of current generating assets. Not used computationally but stored as reference.
+
+EMI Network supply table: 
+- `emi_nsp/` | [Webpage](https://www.emi.ea.govt.nz/Wholesale/Datasets/MappingsAndGeospatial/NetworkSupplyPointsTable) | [File](https://www.emi.ea.govt.nz/Wholesale/Datasets/MappingsAndGeospatial/NetworkSupplyPointsTable/20250308_NetworkSupplyPointsTable.csv)
+- A mapping and concordance table used to link regions to POCs, etc.
+
+EMI Modelled generation (Generation_MD):
+ - `emi_md/` | [Webpage](https://www.emi.ea.govt.nz/Wholesale/Datasets/Generation/Generation_MD)
+ - used to estimate generation per plant in historical years, where possible. Multiple files used.
+
+EMI distributed solar installations:
+ - `emi_distributed_solar/` | [Webpage](https://www.emi.ea.govt.nz/Retail/Reports/GUEHMT?DateFrom=20130901&DateTo=20250228&FuelType=solar_all&_rsdr=ALL&RegionType=REG_COUNCIL&_si=v|3)
+ - Used for distributed solar capacity by region and sector in the base year.
+ 
+### Stats NZ 
+
+Consumer Price Index:
+
+ - `cpi/cpi_infoshare.csv` | [Webpage](https://infoshare.stats.govt.nz/QueryUpload.aspx) 
+ - (Load the query stored at `statsnz/infoshare_queries/infoshare_cpi_query.tqx`)
+ - Used for the functions at `library/deflator.py` to deflate price data to different base years as needed.
+
+# Assumptions used
+
+All coded base electricity assumptions are stored in `data_raw/coded_assumptions/electricity_generation/`.
+
+These include: 
+
+ - Custom Plant Settings `CurrentPlantsCustom.csv` - contains generation methods for custom plants (currently just Huntly)
+ - Generic Plant Settings `CurrentPlantsGeneric.csv` - contains plant types we wish to make generic versions of
+ - The Generation Fleet `GenerationFleet.csv` - this is the list of existing generation assets, including capacities, references, lookups, and other parameters. It's manually created. 
+ - Capacity Factors `CapacityFactors.csv` - Capacity factor assumptions, used for some base year estimates and also future availability upper bounds for different technologies.
+ - Distribution parameters `DistributionAssumptions.csv` - these are the assumed distribution and transmission parameters from older versions of TIMES.
+ - Other assumptions per technology `TechnologyAssumptions.csv` - these are other assumptions per technology, including plant technical life and peak contribution rates.
+
 
 
 # Detailed method
 
-## 1 Existing Asset List
+## 1 Existing asset List
 
-EECA has prepared a list of current plants for the base year generating stock. This is closely based on the EA dispatch generation fleet list (found here), and includes mapping to the current plants from MBIE’s EDGS Generation Stack (ADD LINK). Where possible, we have included mapping to plant names found in the Electricity Authority’s generation data by plant (ADD LINK).
+EECA has prepared a list of current plants for the base year generating stock. It is closely based on the EA dispatch generation fleet list (found here) and includes mapping to the current plants from MBIE’s EDGS Generation Stack (ADD LINK). Where possible, we have included mapping to plant names found in the Electricity Authority’s generation data by plant (ADD LINK). The list has been reviewed and updated based on developer statements and Energy News resource files for each plant. In some cases, capacities were updated, or names were adjusted slightly. 
 
-The list has been reviewed and updated based on developer statements and Energy News factfiles for each plant. Several offgrid cogeneration plants are not included in either the EA or MBIE data, as well as some offgird. In some cases, capacities were updated or names were adjusted slightly. 
+This list is not intended to capture all distributed or cogeneration facilities, which are instead represented by generic plants (see below).
 
-This list is not intended to capture all distributed or cogeneration facilities, which are instead represented by generic plants (see below). However, it should capture all plants that solely inject into the grid at the end of the base year 2023. 
-
-In general, plant status has been set to align with MBIE categories for 2023. For example, Kaiwera Downs Stage 1 is considered for the base year, but the rest of the build is considered a future technology. (Kaiwera Downs was only partially operational by the end of 2023).
-
-Note that updating the base year will require a manual review of the plant list for whatever future year we update for. It might be that we could r
+In general, plant status has been set to align with MBIE’s EDGS generation stack categories for 2023. This allows us to also use the MBIE generation stack for potential future technologies without double-counting. For example, Kaiwera Downs Stage 1 is considered for the base year, but the rest of the build is considered a future technology. This is because Kaiwera Downs was only partially operational by the end of 2023.
 
 ## 2 Distributing base year generation using Electricity Authority data
 
-We use the Electricity Authority’s Generation by Plant (ADD LINK)  (“Generation_MD”) data to find estimates of generation for the current plant lists. This bottom-up approach means we can assign known generation to regions and technologies. 
+We use the Electricity Authority’s “Generation_MD” data to find estimates of generation for the current plant list. This bottom-up approach means we can assign known generation to plants, regions, and technologies. 
 
 This data covers 93%* of total generation for 2023. For the remaining generation, we make some assumptions on the location and technology of distributed generation (cogeneration or otherwise) to calibrate final figures with the MBIE data. 
 
@@ -51,7 +99,7 @@ There are minor limitations in using this dataset. First, it covers only metered
 “This data series will be replaced by one that is more reliable… at some point in the future”.
 ```
 
-To alleviate these minor issues, we will calibrate our final base year generation figures against MBIE official statistics, which include all generation and cogeneration, not just that injecting into the grid. 
+To alleviate these minor issues, we will calibrate our final base year generation figures against MBIE official statistics, which include all generation and cogeneration.
 
 
 *40,597 GWh in the EA’s dataset is 93% of the 43,494 GWh reported by MBIE for 2023. 
@@ -61,6 +109,8 @@ To alleviate these minor issues, we will calibrate our final base year generatio
 In some cases, using generation data from the Electricity Authority is either incomplete or results in implied capacity factors outside normal ranges. This is especially true for some cogeneration plants, but can also indicate that the asset mapping to Electricity Authority plant definitions was inaccurate.
 
 In these cases, we instead set some plants to have generation estimated by capacity factor. Capacity factor assumptions for different technologies are provided to the model already, so we can use these assumptions to assume generation for given plants. 
+
+Capacity factor assumptions can be found in `data_raw/coded_assumptions/electricity_generation/CapacityFactors.csv`. These are used for calibrating the base year and also providing upper limits to future generation for these plant types. Note that intermittent plants (wind/solar/potentially hydro) have more detailed availability per timeslice provided elsewhere. (LINK TO THIS DOCUMENTATION WHEN AVAILABLE)
 
 ## 4 Custom Treatment: Huntly Rankine Units
 
@@ -102,7 +152,9 @@ Overall, this means our base model will generate an extra 55GWh in 2023 compared
 ![Capacity calibration](assets/capacity_calibration.png)
 
 
-Capacity figures are slightly less well-aligned, but we are forced to assume capacity factors for some plant types, which might not align with specific plants actual capacity factors in 2023. Maintenance or unusual rainfall or a host of other factors could lead to different actual capacity outputs. This leads to minor miscalibrations, particularly for Hydro, but the overall levels are within 4 MW of MBIE values, or 0.035%.
+Capacity figures are slightly less well-aligned. This is because we are using assumed capacity factors to estimate capacity for some plant types, which might not align with specific plant's actual capacity factors in 2023. Maintenance or unusual rainfall or a host of other factors could lead to different actual capacity outputs. This leads to minor miscalibrations, particularly for Hydro, but the overall levels are within 0.09% of MBIE values for the year. 
+
+
 
 
 ## 8 Adding technical parameters
@@ -114,10 +166,7 @@ We then read in technical parameter assumptions by technology. These are hardcod
 
 These currently include plant lifetime and peak contribution rates by technology, which are applied to every plant. These assumptions have been extracted from TIMES 2.0.
 
-We further ensure that the distributed solar outputs into the distributed network (ELCDD) as opposed to the grid (ELC)
-
-
-
+We further ensure that the distributed solar outputs into the distributed network (ELCDD) as opposed to the grid (ELC). See below on transmission and distribution for further details on these mechanisms.
 
 ### Technical parameters: MBIE data
 
@@ -134,10 +183,26 @@ Each of the plants in our original list includes an `MBIE_Name` variable, which 
 
 In cases where plants in the TIMES base year do not have direct equivalents, we take the mean of these parameters for similar plants and apply those instead. We generate mean values for each of these parameters for each technology in MBIE's Reference scenario, then map these to our plants by `TechnologyCode` and `FuelType`. 
 
-Currently, decommissioning costs are not included. This was also true in TIMES 2.0. We instead assume that plants always retire at the end of their technical lifetime. 
-We assume hydro plants are maintained indefinitely (by their null lifetime assumption), and the cost of turbine replacements are spread across their operating and maintenance costs. 
+Currently, decommissioning costs are not included. This was also true in TIMES 2.0. We instead assume that plants always retire at the end of their technical lifetime without incurring decommissioning costs.
 
-## 9 Adding TIMES features
+We assume hydro plants are maintained indefinitely (by their null lifetime assumption), and the cost of turbine replacements are spread across their operating and maintenance costs each year.
+
+## 9 Transmission and distribution 
+
+Transmission and distribution processes are created to represent how electricity flows from High voltage lines to distributed networks, including associated losses and operating costs. Capacity is also represented (differently per island).
+
+Assumptions on current transmission capacity, costs, and losses, have been extracted from TIMES 2.0 and not updated for 2023. Costs have been adjusted to 2023 dollars using the CPI index, and assuming that the original costs were in 2015 dollars.
+
+## 10 Emissions factors
+
+Emissions factors are defined for each commodity in the user config file stage_0_config/VT_TIMESNZ_ELC.toml.
+
+These are pulled from MFE data on emissions factors for fuels used in the power sector. Note that they include only c02 (not ch4 or n02) and are based on GCV of fuels. We should most likely use Gross Calorific values for other fuel inputs in the model, or at least be consistent in this approach. 
+
+Note that geothermal emission factors are copied from TIMES 2.0. These may need to be updated and sourced better. 
+We may also wish to add more sophistication to the geothermal factors - either adjusting these between plants, or allowing them to fall in the future if we expect greater carbon reinjection at specific sites. Currently there is only one emissions factor for all geothermal plants at all times. 
+
+## 11 Adding TIMES features
 
 We finally add a few extra features required by Veda/TIMES. These are currently: 
 
@@ -145,14 +210,18 @@ We finally add a few extra features required by Veda/TIMES. These are currently:
 2) Generate unique process names for every plant (these are a function of the plant name label, and also include the fuel and tech codes for easy lookups and wildcards later)
 
 
-## 10 output and save 
+## 12 save staging data for existing technologies
 
 A single file is produced by this process containing all necessary information for the base year electricity generation: 
 
 `data_intermediate/base_year_electricity_supply.csv`
 
+## 13 compile base year electricity file 
 
+The stage 4 script at `scripts/stage_4_veda_format/create_baseyear_ELC_files.py` reshapes the data for Veda, and creates the final tables that are referenced in the user config file `VT_TIMESNZ_ELC.toml`.
 
-# TO-DO: 
+This file also adds tertiary data, including emission factors and transmission and distribution parameters:
 
-4.	Format for TIMES (different script): create existing plant table with VAROM, FIXOM, CAP, LIFE, Peak cont, CAP, ACT_BND_FX, perhaps ACT_BND_FX for 2024 as well since we have that data.
+ - Emission factors are quite simple, so are defined and sourced in the user config.
+ - Transmission and distribution parameters are slightly more complicated, so these are produced according to the raw assumptions in `data_raw/coded_assumptions/electricity_generation/DistributionAssumptions.csv`. The relevant costs are based on 2015 assumptions and are indexed to 2023 dollars.
+

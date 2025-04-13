@@ -12,10 +12,7 @@ import glob
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
 from filepaths import DATA_RAW, DATA_INTERMEDIATE
-from helpers import clear_data_intermediate
 
-
-#clear_data_intermediate()
 #endregion
 
 #region FILEPATHS

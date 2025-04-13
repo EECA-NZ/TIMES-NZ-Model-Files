@@ -1,5 +1,5 @@
 
-`data_raw/0_config` contains all the toml files which outline the structure of the excel files that will be produced for TIMES/VEDA. These are effectively metadata describing what data should go into the excel sheets, and how it should be arranged.
+`data_raw/user_config` contains all the toml files which outline the structure of the excel files that will be produced for TIMES/VEDA. These are effectively metadata describing what data should go into the excel sheets, and how it should be arranged.
 
 Each toml configuration file should contain: 
 
@@ -44,11 +44,11 @@ TableName can contain anything you want, but some variables will be explicitly t
   Or store data in `TableName.Data` more directly: 
 
   ```toml
-    [TimePeriods]
-    TagName = "TimePeriods" # not actually needed, as TagName inherits from TableName    
-    [TimePeriods.Data]
-    5Year_increments = [1,2,5,5,5,5,5,5,5]
-    1Year_increments = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+  [TimePeriods]
+  TagName = "TimePeriods" # not actually needed, as TagName inherits from TableName    
+  [TimePeriods.Data]
+  5Year_increments = [1,2,5,5,5,5,5,5,5]
+  1Year_increments = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
   ```
 
   However, most `TableNames` will likely look like this `[YearFractions]` example from `SysSettings`: 
