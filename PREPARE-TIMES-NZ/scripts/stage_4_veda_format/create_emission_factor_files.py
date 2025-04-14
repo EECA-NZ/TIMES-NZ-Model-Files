@@ -8,7 +8,6 @@ EECA's emission factors worksheet is already mostly compiled. We convert these i
 import sys 
 import os 
 import polars as pl
-import pandas as pd
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
