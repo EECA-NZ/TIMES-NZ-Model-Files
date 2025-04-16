@@ -19,11 +19,13 @@ import matplotlib.pyplot as plt
 
 # set log level for message outputs 
 logging.basicConfig(level=logging.INFO) 
+pd.set_option('future.no_silent_downcasting', True)
 #Getting Custom Libraries
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
 from filepaths import DATA_RAW, DATA_INTERMEDIATE
 from dataprep import *
+from new_tech_functions import *
 
 #Loading the relevant csvs
 genstack_file = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/gen_stack.csv")
@@ -49,9 +51,9 @@ scenarios = ['Advanced', 'Moderate', 'Conservative']
 #Sorting the GenStack info into what is set to be a fixed cost and what is set as a varied cost
 
 #This splits out the reference scenario as the other MBIE scenarios (can be changed depending on which scenario is wanted)
-Reference_Genstack = filter_df_by_one_column(genstack_file, "Scenario", "Reference", output_filtered_file=None)
+Reference_Genstack = filter_df_by_one_column(genstack_file, "Scenario", "Reference")
 #removing unwanted columns and assigning the type of commissioning year and merging the commissioning year columns into one
-Reference_Genstack = remove_rows_by_column_value(Reference_Genstack, "Status", "Current")
+Reference_Genstack = Reference_Genstack[Reference_Genstack['Status'] != 'Current']
 Reference_Genstack = assign_type(Reference_Genstack, "Fixed Commissioning Year", "Earliest Commissioning Year")
 Reference_Genstack['Commissioning Year'] = Reference_Genstack['Fixed Commissioning Year'].fillna(0) + Reference_Genstack['Earliest Commissioning Year'].fillna(0)
 
@@ -65,8 +67,7 @@ filters = {
     "Tech" : ["Wind", "Solar", "Geo"]
 }
 
-fixed_cost, varied_cost = filter_df_by_multiple_columns(Reference_Genstack, filters, output_filtered_file=None, output_excluded_file=None)
-
+fixed_cost, varied_cost = filter_df_by_multiple_columns(Reference_Genstack, filters)
 #Filtering so that we have only the tech with commisioning years later than 2030 or with no commisioning year in the varied costs
 varied_cost, fixed_cost = filter_and_move_rows(varied_cost, fixed_cost, "Commissioning Year", threshold=2030)
 
@@ -82,7 +83,7 @@ filters = {
     "Technology": ["Land-Based Wind - Class 2 - Technology 1",
                   "Utility PV - Class 1", "Geothermal - Hydro / Flash"]}
 
-NREL_CAPEX, excluded_NREL_curves = filter_df_by_multiple_columns(NREL_CAPEX, filters, output_filtered_file=None, output_excluded_file=None)
+NREL_CAPEX, excluded_NREL_curves = filter_df_by_multiple_columns(NREL_CAPEX, filters)
 NREL_CAPEX = NREL_CAPEX.reset_index()
 
 #Removing unwanted columns before the calculations mainly just the data for years less than the base year
@@ -116,7 +117,7 @@ merged_NREL_CAPEX['Variable'] = 'CAPEX'
 
 ################ Applying learning curves to the MBIE solar, wind, and geothermal plants (FOMs) ################
 #Moving the wanted NREL FOM Solar, wind, and geothermal data into a separate frame
-NREL_FOM, ex_FOM_curves = filter_df_by_multiple_columns(NREL_FOM, filters, output_filtered_file=None, output_excluded_file=None)
+NREL_FOM, ex_FOM_curves = filter_df_by_multiple_columns(NREL_FOM, filters)
 NREL_FOM = NREL_FOM.reset_index()
 
 NREL_FOM.columns = [convert_label(col) for col in NREL_FOM.columns]
@@ -157,7 +158,7 @@ new_varied_cap['Variable'] = 'Capacity'
 filters_offshore = {
     "Technology": ["Offshore Wind - Class 1", "Offshore Wind - Class 8"]}
 
-NREL_offshore_CAPEX, excluded_NREL_curves = filter_df_by_multiple_columns(excluded_NREL_curves, filters_offshore, output_filtered_file=None, output_excluded_file=None)
+NREL_offshore_CAPEX, excluded_NREL_curves = filter_df_by_multiple_columns(excluded_NREL_curves, filters_offshore)
 
 #removing any data from years before the base year
 NREL_offshore_CAPEX.columns = [convert_label(col) for col in NREL_offshore_CAPEX.columns]
@@ -175,7 +176,7 @@ for col in years_used:
 NREL_offshore_CAPEX['Variable'] = 'CAPEX'
 
 # #Now to find the offshore FOMs, first the NREL data
-NREL_offshore_FOM, filtered_curves = filter_df_by_multiple_columns(NREL_FOM, filters_offshore, output_filtered_file=None, output_excluded_file=None)
+NREL_offshore_FOM, filtered_curves = filter_df_by_multiple_columns(NREL_FOM, filters_offshore)
 
 
 #removing any data from years before the base year
@@ -199,7 +200,7 @@ map_offshore = new_tech[['Plant', 'TechName', 'Status', 'Region', 'Type', 'Commi
 NREL_offshore = pd.merge(NREL_offshore, map_offshore, on = 'Plant', how ='inner')
 
 offshore_capacity_filters = {'Plant': ["Offshore Wind - Class 1", "Offshore Wind - Class 8"]}
-offshore_capacities, excluded = filter_df_by_multiple_columns(new_tech, offshore_capacity_filters, output_filtered_file=None, output_excluded_file=None) 
+offshore_capacities, excluded = filter_df_by_multiple_columns(new_tech, offshore_capacity_filters) 
 
 offshore_capacities = duplicate_rows_with_new_column(offshore_capacities, 'Scenario', scenarios)
 # ################ Merging the varied costs and offshore wind data ################
@@ -315,7 +316,7 @@ ResSol_data[['TechName', 'Type', 'Commissioning Year', 'Substation', 'Status']] 
 final_data = pd.concat([varied_df, melted_fixed_cost, ResSol_data], ignore_index = True)
 
 #replacing 0's with NaN
-final_data = final_data.replace(0, np.nan)
+final_data = final_data.replace(0, np.nan).infer_objects(copy=False)
 
 #Removes all the unwanted data points as these points occur before the earliest commissioning year
 final_data = conditional_row_filter(final_data, 'Type', 'Earliest Year', 'Commissioning Year', 'Year')
