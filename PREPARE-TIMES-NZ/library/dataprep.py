@@ -4,7 +4,7 @@ import pandas as pd
 
 
 
-def filter_csv_by_multiple_columns(df, filters, output_filtered_file=None, output_excluded_file=None):
+def filter_df_by_multiple_columns(df, filters, output_filtered_file=None, output_excluded_file=None):
     """
     Reads a CSV file and filters rows based on values in multiple specified columns.
     
@@ -101,7 +101,7 @@ def divide_from_specific_column(df, base_column, row_conditions):
     return df_copy
 
 
-def filter_csv_by_one_column(df, column_name, filter_values, output_filtered_file=None):
+def filter_df_by_one_column(df, column_name, filter_values, output_filtered_file=None):
     """
     Reads a CSV file and filters rows based on values in a single specified column.
     
@@ -535,3 +535,11 @@ def duplicate_rows_with_new_column(df, new_column_name, values_list):
     """
     repeated_df = pd.concat([df.assign(**{new_column_name: value}) for value in values_list], ignore_index=True)
     return repeated_df
+
+def convert_label(col):
+    try:
+        # Try converting to integer
+        return int(col)
+    except ValueError:
+        # If it fails, leave it as is
+        return col

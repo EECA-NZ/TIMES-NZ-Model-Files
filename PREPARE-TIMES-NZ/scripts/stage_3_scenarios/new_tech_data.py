@@ -32,22 +32,31 @@ NREL_FOM = pd.read_csv(f"{DATA_RAW}/external_data/NREL/FOM_Tech.csv")
 statsNZ_file = pd.read_csv(f"{DATA_RAW}/external_data/StatsNZ/Census_Total_dwelling_count_and_change_by_region_20132023.csv")
 region_to_island = pd.read_csv(f"{DATA_RAW}/concordances/region_island_concordance.csv")
 region_list = region_to_island['Region'].tolist()
+new_tech = pd.read_csv(f"{DATA_RAW}/coded_assumptions/electricity_generation/new_tech.csv")
+tracked_solar = pd.read_csv(f"{DATA_RAW}/coded_assumptions/electricity_generation/Tracked_solar_plants.csv")
 
 # Setting the output loaction
 output_location = f"{DATA_INTERMEDIATE}/stage_3_scenarios"
 os.makedirs(output_location, exist_ok = True)
 
-################ Sorting the GenStack info ################ 
+#Set base year
+base_year = 2023
+years_used = list(range(base_year, 2051))
+
+#scenarios
+scenarios = ['Advanced', 'Moderate', 'Conservative']
+#region GENSTACK SORTING
+#Sorting the GenStack info into what is set to be a fixed cost and what is set as a varied cost
 
 #This splits out the reference scenario as the other MBIE scenarios (can be changed depending on which scenario is wanted)
-Reference_Genstack = filter_csv_by_one_column(genstack_file, "Scenario", "Reference", output_filtered_file=None)
+Reference_Genstack = filter_df_by_one_column(genstack_file, "Scenario", "Reference", output_filtered_file=None)
 #removing unwanted columns and assigning the type of commissioning year and merging the commissioning year columns into one
 Reference_Genstack = remove_rows_by_column_value(Reference_Genstack, "Status", "Current")
 Reference_Genstack = assign_type(Reference_Genstack, "Fixed Commissioning Year", "Earliest Commissioning Year")
 Reference_Genstack['Commissioning Year'] = Reference_Genstack['Fixed Commissioning Year'].fillna(0) + Reference_Genstack['Earliest Commissioning Year'].fillna(0)
 
 #dropping the now unwanted columns
-cols_to_drop = ['Fixed Commissioning Year', 'Earliest Commissioning Year']
+cols_to_drop = ['Scenario', 'Fixed Commissioning Year', 'Earliest Commissioning Year']
 Reference_Genstack = Reference_Genstack.drop(columns=[col for col in cols_to_drop if col in Reference_Genstack.columns])
 
 #Separating the plants we want at a fixed cost and those we dont, filters moves ones that we know should have a fixed cost
@@ -56,7 +65,7 @@ filters = {
     "Tech" : ["Wind", "Solar", "Geo"]
 }
 
-fixed_cost, varied_cost = filter_csv_by_multiple_columns(Reference_Genstack, filters, output_filtered_file=None, output_excluded_file=None)
+fixed_cost, varied_cost = filter_df_by_multiple_columns(Reference_Genstack, filters, output_filtered_file=None, output_excluded_file=None)
 
 #Filtering so that we have only the tech with commisioning years later than 2030 or with no commisioning year in the varied costs
 varied_cost, fixed_cost = filter_and_move_rows(varied_cost, fixed_cost, "Commissioning Year", threshold=2030)
@@ -64,112 +73,71 @@ varied_cost, fixed_cost = filter_and_move_rows(varied_cost, fixed_cost, "Commiss
 # this filters out all of the things we want to keep in varied costs and moving ones we don't want into fixed costs
 keep_values = ["Solar", "Wind", "Geo"]
 varied_cost, fixed_cost = filter_by_column(varied_cost, "Tech", keep_values, fixed_cost)
-
+#endregion
+#region LEARNING CURVES
 ################ Applying learning curves to the MBIE solar, wind, and geothermal plants (CAPEX) ################
 
-#TIMES2.0 used the moderate and conservative scenarios
 #Extracting the NREL CAPEX data for the technologies
-filters_Moderate = {
+filters = {
     "Technology": ["Land-Based Wind - Class 2 - Technology 1",
-                  "Utility PV - Class 1", "Geothermal - Hydro / Flash"],  
-    "Scenario": "Moderate" 
-}
+                  "Utility PV - Class 1", "Geothermal - Hydro / Flash"]}
 
-Moderate_NREL_CAPEX, excluded_Moderate_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_Moderate, output_filtered_file=None, output_excluded_file=None)
+NREL_CAPEX, excluded_NREL_curves = filter_df_by_multiple_columns(NREL_CAPEX, filters, output_filtered_file=None, output_excluded_file=None)
+NREL_CAPEX = NREL_CAPEX.reset_index()
 
-filters_Conservative = {
-    "Technology": ["Land-Based Wind - Class 2 - Technology 1",
-                  "Utility PV - Class 1", "Geothermal - Hydro / Flash"],  
-    "Scenario": "Conservative" 
-}
+#Removing unwanted columns before the calculations mainly just the data for years less than the base year
 
-Conservative_NREL_CAPEX, excluded_Conservative_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_Conservative, output_filtered_file=None, output_excluded_file=None)
+NREL_CAPEX.columns = [convert_label(col) for col in NREL_CAPEX.columns]
+NREL_CAPEX = NREL_CAPEX.loc[:, [
+    col for col in NREL_CAPEX.columns
+    if not isinstance(col, int) or col >= base_year
+]]
 
-#Removing unwanted columns before the calculations (base year of 2023 so 2022 is not needed) 
-columns_to_remove = ["Scenario", "2022"] #( some reason couldn't get it to ignore the scenario so it's removed and put back in but probably just a silly error on my part -Bethany :) )
-Moderate_NREL_CAPEX = remove_columns(Moderate_NREL_CAPEX, columns_to_remove)
 
-Conservative_NREL_CAPEX = remove_columns(Conservative_NREL_CAPEX, columns_to_remove)
-
+NREL_CAPEX_idx = NREL_CAPEX.copy()
 # Calculate the percentage indices for each scenario
-Moderate_idx = divide_from_specific_column(Moderate_NREL_CAPEX, base_column = "2023", row_conditions = {})
-
-Conservative_idx = divide_from_specific_column(Conservative_NREL_CAPEX, base_column = "2023", row_conditions = {})
+NREL_CAPEX_idx = divide_from_specific_column(NREL_CAPEX, base_year, row_conditions = {})
 
 #Renaming the Technology column to Tech to match with the MBIE dataframe
-Moderate_idx = Moderate_idx.rename(columns={'Technology': 'Tech'})
-Conservative_idx = Conservative_idx.rename(columns={'Technology': 'Tech'})
+tech_map = {"Utility PV - Class 1": "Solar",
+            "Land-Based Wind - Class 2 - Technology 1": "Wind",
+            "Geothermal - Hydro / Flash": "Geo"
+            }
+NREL_CAPEX_idx['Tech'] = NREL_CAPEX_idx['Technology'].map(tech_map)
 
-#Gives the indices of the rows that we want used for the moderate scenarios mapping_dict 
-solar_Moderate = Moderate_idx[Moderate_idx["Tech"] == "Utility PV - Class 1"].index[0]
-wind_Moderate = Moderate_idx[Moderate_idx["Tech"] == "Land-Based Wind - Class 2 - Technology 1"].index[0]
-geo_Moderate = Moderate_idx[Moderate_idx["Tech"] == "Geothermal - Hydro / Flash"].index[0]
+merged_NREL_CAPEX = pd.merge(varied_cost,NREL_CAPEX_idx, on = 'Tech', how = 'inner')
+merged_NREL_CAPEX['Connection Cost per kW'] = merged_NREL_CAPEX['Connection cost (NZD $m)'] / merged_NREL_CAPEX['Capacity (MW)']*1000
 
-#set up to combine and multiply the two dataframes
-selected_columns = ["Plant", "TechName", "Substation", "Region", "Status", "Type","Commissioning Year"]
-multiply_column = "Capital cost (NZD/kW)"
-option_column = "Tech"
-mapping_dict_Moderate = {
-    "Solar" : solar_Moderate,
-    "Wind" : wind_Moderate,
-    "Geo" : geo_Moderate
-}
 
-label_from_df2 = Moderate_idx.columns.tolist()
-constant_col1 = "Connection cost (NZD $m)"
-constant_col2 = "Capacity (MW)"
 
-Moderate_idx = Moderate_idx.apply(pd.to_numeric, errors="coerce")
-
-Moderate_CAPEX = combine_and_multiply_by_row(varied_cost, Moderate_idx, selected_columns, multiply_column, option_column, mapping_dict_Moderate, label_from_df2, constant_col1, constant_col2)
-Moderate_CAPEX = remove_columns(Moderate_CAPEX, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
-
-# Same as the Moderate scenario but for the Conservative scenario
-solar_Conservative = Conservative_idx[Conservative_idx["Tech"] == "Utility PV - Class 1"].index[0]
-wind_Conservative = Conservative_idx[Conservative_idx["Tech"] == "Land-Based Wind - Class 2 - Technology 1"].index[0]
-geo_Conservative = Conservative_idx[Conservative_idx["Tech"] == "Geothermal - Hydro / Flash"].index[0]
-mapping_dict_Conservative = {
-    "Solar" : solar_Conservative,
-    "Wind" : wind_Conservative,
-    "Geo" : geo_Conservative
-}
-
-Conservative_idx = Conservative_idx.apply(pd.to_numeric, errors="coerce")
-Conservative_CAPEX = combine_and_multiply_by_row(varied_cost, Conservative_idx, selected_columns, multiply_column, option_column, mapping_dict_Conservative, label_from_df2, constant_col1, constant_col2)
-Conservative_CAPEX = remove_columns(Conservative_CAPEX, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
-
+for col in years_used:
+    merged_NREL_CAPEX[col] = merged_NREL_CAPEX['Capital cost (NZD/kW)'] * merged_NREL_CAPEX[col] + merged_NREL_CAPEX['Connection Cost per kW']
+merged_NREL_CAPEX['Variable'] = 'CAPEX'
 
 ################ Applying learning curves to the MBIE solar, wind, and geothermal plants (FOMs) ################
 #Moving the wanted NREL FOM Solar, wind, and geothermal data into a separate frame
-Moderate_NREL_FOM, ex_FOM_Moderate_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_Moderate, output_filtered_file=None, output_excluded_file=None)
+NREL_FOM, ex_FOM_curves = filter_df_by_multiple_columns(NREL_FOM, filters, output_filtered_file=None, output_excluded_file=None)
+NREL_FOM = NREL_FOM.reset_index()
 
-Conservative_NREL_FOM, ex_FOM_Conservative_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_Conservative, output_filtered_file=None, output_excluded_file=None)
+NREL_FOM.columns = [convert_label(col) for col in NREL_FOM.columns]
+NREL_FOM = NREL_FOM.loc[:, [
+    col for col in NREL_FOM.columns
+    if not isinstance(col, int) or col >= base_year
+]]
 
-#Removing columns that are not important for the calculations
-Moderate_NREL_FOM = remove_columns(Moderate_NREL_FOM, columns_to_remove)
+# Calculate the percentage indices for each scenario
+NREL_FOM_idx = divide_from_specific_column(NREL_FOM, base_year, row_conditions = {})
 
-Conservative_NREL_FOM = remove_columns(Conservative_NREL_FOM, columns_to_remove)
+#Renaming the Technology column to Tech to match with the MBIE dataframe
+NREL_FOM_idx['Tech'] = NREL_FOM_idx['Technology'].map(tech_map)
 
-#Creating the percentage indices for FOMs
-Moderate_FOM_idx = divide_from_specific_column(Moderate_NREL_FOM, base_column = "2023", row_conditions = {})
+merged_NREL_FOM = pd.merge(varied_cost,NREL_FOM_idx, on = 'Tech', how = 'inner')
 
-Conservative_FOM_idx = divide_from_specific_column(Conservative_NREL_FOM, base_column = "2023", row_conditions = {})
+for col in years_used:
+    merged_NREL_FOM[col] = merged_NREL_FOM['Fixed operating costs (NZD/kW/year)'] * merged_NREL_FOM[col]
 
-#Prepping for combining and multiplying the NREL and MBIE dataframes
-Moderate_FOM_idx = Moderate_FOM_idx.rename(columns={'Technology': 'Tech'})
-Conservative_FOM_idx = Conservative_FOM_idx.rename(columns={'Technology': 'Tech'})
-
-multiply_column_FOM = "Fixed operating costs (NZD/kW/year)"
-
-Moderate_FOM_idx = Moderate_FOM_idx.apply(pd.to_numeric, errors="coerce")
-
-Moderate_FOM = combine_and_multiply_FOM(varied_cost, Moderate_FOM_idx, selected_columns, multiply_column_FOM, option_column, mapping_dict_Moderate, label_from_df2, transform_func=None)
-Moderate_FOM = remove_columns(Moderate_FOM, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
-
-Conservative_FOM_idx = Conservative_FOM_idx.apply(pd.to_numeric, errors="coerce")
-
-Conservative_FOM = combine_and_multiply_FOM(varied_cost, Conservative_FOM_idx, selected_columns, multiply_column_FOM, option_column, mapping_dict_Conservative, label_from_df2, transform_func=None)
-Conservative_FOM = remove_columns(Conservative_FOM, "Tech") # for some reason it added an extra tech column that made no sense to me so this just gets rid of it, the calulcationss are correct now tho woooooooooo
+merged_NREL_FOM['Variable'] = 'FOM'
+# #endregion
 
 ################ Varied cost plant capacities ################
 varied_cost_capacity = varied_cost[['Plant', 'Status', 'TechName',
@@ -178,140 +146,93 @@ varied_cost_capacity = varied_cost[['Plant', 'Status', 'TechName',
 varied_cost_capacity = varied_cost_capacity.rename(columns = {'Capacity (MW)': 'Value'})
 varied_cost_capacity['Unit'] = 'MW'
 varied_cost_capacity['Year'] = varied_cost_capacity['Commissioning Year']
-#Replaces all 0 values with 2023 as a default year
-varied_cost_capacity['Year'] = varied_cost_capacity['Year'].replace(0,2023)
 
 #Adding in the scenario names
-scenarios = ['Moderate', 'Conservative']
 new_varied_cap = duplicate_rows_with_new_column(varied_cost_capacity, 'Scenario', scenarios)
 new_varied_cap['Variable'] = 'Capacity'
 
-
+#region OFFSHORE WIND
 ################     Offshore wind (fixed and floating) ################
 # First getting the data from the NREL csvs for CAPEX
-filters_offshore_Moderate = {
-    "Technology": ["Offshore Wind - Class 1", "Offshore Wind - Class 8"],  
-    "Scenario": "Moderate" 
-}
+filters_offshore = {
+    "Technology": ["Offshore Wind - Class 1", "Offshore Wind - Class 8"]}
 
-Moderate_offshore_CAPEX, excluded_Moderate_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_offshore_Moderate, output_filtered_file=None, output_excluded_file=None)
+NREL_offshore_CAPEX, excluded_NREL_curves = filter_df_by_multiple_columns(excluded_NREL_curves, filters_offshore, output_filtered_file=None, output_excluded_file=None)
 
-filters_offshore_Conservative = {
-    "Technology": ["Offshore Wind - Class 1", "Offshore Wind - Class 8"],  
-    "Scenario": "Conservative" 
-}
-
-Conservative_offshore_CAPEX, excluded_Conservative_curves = filter_csv_by_multiple_columns(NREL_CAPEX, filters_offshore_Conservative, output_filtered_file=None, output_excluded_file=None)
-
-#Removing unwanted columns from the dataframes (columns_to_remove was defined earlier in the script)
-Moderate_offshore_CAPEX = remove_columns(Moderate_offshore_CAPEX, columns_to_remove)
-Conservative_offshore_CAPEX = remove_columns(Conservative_offshore_CAPEX, columns_to_remove)
+#removing any data from years before the base year
+NREL_offshore_CAPEX.columns = [convert_label(col) for col in NREL_offshore_CAPEX.columns]
+NREL_offshore_CAPEX = NREL_offshore_CAPEX.loc[:, [
+    col for col in NREL_offshore_CAPEX.columns
+    if not isinstance(col, int) or col >= base_year
+]]
 
 #As we want a base year of 2023 we want to adjust the NREL data which has a base year of 2022 for CPI of about 5% and convert from USD to NZD
 CPI, cost_conversion = 1.05, 0.62 # 5% CPI, USD to NZD
-Moderate_offshore_CAPEX_NZ = clean_and_multiply(Moderate_offshore_CAPEX, CPI, cost_conversion)
-Conservative_offshore_CAPEX_NZ = clean_and_multiply(Conservative_offshore_CAPEX, CPI, cost_conversion)
+for col in years_used:
+        NREL_offshore_CAPEX[col] = NREL_offshore_CAPEX[col].replace(r'[\$,]', '', regex=True).astype(float)
+        NREL_offshore_CAPEX[col] = NREL_offshore_CAPEX[col] * CPI / cost_conversion
 
-#Now to find the offshore FOMs, first the NREL data
-Moderate_offshore_FOM, excluded_Moderate_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_offshore_Moderate, output_filtered_file=None, output_excluded_file=None)
-Conservative_offshore_FOM, excluded_Moderate_curves = filter_csv_by_multiple_columns(NREL_FOM, filters_offshore_Conservative, output_filtered_file=None, output_excluded_file=None)
+NREL_offshore_CAPEX['Variable'] = 'CAPEX'
 
-#removing unwanted columns from the dataframes (columns_to_remove was defined earlier in the script)
-Moderate_offshore_FOM = remove_columns(Moderate_offshore_FOM, columns_to_remove)
-Conservative_offshore_FOM = remove_columns(Conservative_offshore_FOM, columns_to_remove)
+# #Now to find the offshore FOMs, first the NREL data
+NREL_offshore_FOM, filtered_curves = filter_df_by_multiple_columns(NREL_FOM, filters_offshore, output_filtered_file=None, output_excluded_file=None)
 
-#Final conversion from USD to NZD including CPI
-Moderate_offshore_FOM_NZ = clean_and_multiply(Moderate_offshore_FOM, CPI, cost_conversion)
-Conservative_offshore_FOM_NZ = clean_and_multiply(Conservative_offshore_FOM, CPI, cost_conversion)
 
-#Want to add columns so that the data is easy to append into the main dataframe
-status_offshore = ["Generic", "Generic"]
-techname_offshore = ["Fixed Offshore Wind", "Floating Offshore Wind"]
+#removing any data from years before the base year
+NREL_offshore_FOM.columns = [convert_label(col) for col in NREL_offshore_FOM.columns]
+NREL_offshore_FOM = NREL_offshore_FOM.loc[:, [
+    col for col in NREL_offshore_FOM.columns
+    if not isinstance(col, int) or col >= base_year
+]]
 
-Moderate_offshore_CAPEX_NZ.insert(1, "Status", status_offshore)
-Moderate_offshore_CAPEX_NZ.insert(2,"TechName", techname_offshore)
+#As we want a base year of 2023 we want to adjust the NREL data which has a base year of 2022 for CPI of about 5% and convert from USD to NZD
+for col in years_used:
+        NREL_offshore_FOM[col] = NREL_offshore_FOM[col].replace(r'[\$,]', '', regex=True).astype(float)
+        NREL_offshore_FOM[col] = NREL_offshore_FOM[col] * CPI / cost_conversion
+NREL_offshore_FOM['Variable'] = 'FOM'
 
-Conservative_offshore_CAPEX_NZ.insert(1, "Status", status_offshore)
-Conservative_offshore_CAPEX_NZ.insert(2,"TechName", techname_offshore)
+NREL_offshore = pd.concat([NREL_offshore_CAPEX, NREL_offshore_FOM], ignore_index = True)
+NREL_offshore.rename(columns = {'Technology': 'Plant'}, inplace = True)
+#mapping technology to the status, tech, and region
+map_offshore = new_tech[['Plant', 'TechName', 'Status', 'Region', 'Type', 'Commissioning Year']]
 
-Moderate_offshore_FOM_NZ.insert(1, "Status", status_offshore)
-Moderate_offshore_FOM_NZ.insert(2,"TechName", techname_offshore)
+NREL_offshore = pd.merge(NREL_offshore, map_offshore, on = 'Plant', how ='inner')
 
-Conservative_offshore_FOM_NZ.insert(1, "Status", status_offshore)
-Conservative_offshore_FOM_NZ.insert(2,"TechName", techname_offshore)
+offshore_capacity_filters = {'Plant': ["Offshore Wind - Class 1", "Offshore Wind - Class 8"]}
+offshore_capacities, excluded = filter_df_by_multiple_columns(new_tech, offshore_capacity_filters, output_filtered_file=None, output_excluded_file=None) 
 
-#Relabeling to match the main Data Frames
-Moderate_offshore_CAPEX_NZ = Moderate_offshore_CAPEX_NZ.rename(columns={'Technology': 'Plant'})
-Conservative_offshore_CAPEX_NZ = Conservative_offshore_CAPEX_NZ.rename(columns={'Technology': 'Plant'})
-Moderate_offshore_FOM_NZ = Moderate_offshore_FOM_NZ.rename(columns={'Technology': 'Plant'})
-Conservative_offshore_FOM_NZ = Conservative_offshore_FOM_NZ.rename(columns={'Technology': 'Plant'})
-
-#location of each of the offshore plants
-offshore_locations = ['Taranaki', 'Waikato', 'Southland']
-
-# List of original DataFrames
-offshore_dfs = [Moderate_offshore_CAPEX_NZ, Conservative_offshore_CAPEX_NZ, Moderate_offshore_FOM_NZ, Conservative_offshore_FOM_NZ]
-
-new_offshore_columns = {
-    'Type': 'Earliest Year',
-    'Commissioning Year': '2035'
-}
-
-# Add columns to each DataFrame in the list
-for df in offshore_dfs:
-    for col_name, value in new_offshore_columns.items():
-        df[col_name] = value
-
-# Store the result for each original DataFrame
-merged_offshore_copies = []
-
-for i, df in enumerate(offshore_dfs):
-    copies = []
-    for label in offshore_locations:
-        temp = df.copy()
-        temp['Region'] = label
-        copies.append(temp)
-    merged_df = pd.concat(copies, ignore_index=True)
-    merged_offshore_copies.append(merged_df)
-
-################ Merging the varied costs and offshore wind data ################
-
-Moderate_CAPEX = pd.concat([Moderate_CAPEX, merged_offshore_copies[0]], ignore_index = True)
-Conservative_CAPEX = pd.concat([Conservative_CAPEX, merged_offshore_copies[1]], ignore_index = True)
-Moderate_FOM = pd.concat([Moderate_FOM, merged_offshore_copies[2]], ignore_index = True)
-Conservative_FOM = pd.concat([Conservative_FOM, merged_offshore_copies[3]], ignore_index = True)
-
-#Adding in needed info for the final data frame
-Moderate_CAPEX[["Scenario", "Variable", "Unit"]] = ["Moderate", "CAPEX", "$/kW"]
-Conservative_CAPEX[["Scenario", "Variable", "Unit"]] = ["Conservative", "CAPEX", "$/kW"]
-Moderate_FOM[["Scenario", "Variable", "Unit"]] = ["Moderate", "FOM", "$/kW"]
-Conservative_FOM[["Scenario", "Variable", "Unit"]] = ["Conservative", "FOM", "$/kW"]
+offshore_capacities = duplicate_rows_with_new_column(offshore_capacities, 'Scenario', scenarios)
+# ################ Merging the varied costs and offshore wind data ################
 
 #merging all of the variable data
-merged_df = pd.concat([Moderate_CAPEX, Conservative_CAPEX, Moderate_FOM, Conservative_FOM], ignore_index = True)
-
-#moving some of the columns
-moves = [("Scenario", 0), ("Variable", 8),("Unit", 9)]
-merged_df = move_columns(merged_df, moves)
-
-years_used = ['2023', '2024','2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033','2034', '2035', '2036', '2037',
-                                 '2038', '2039', '2040', '2041', '2042','2043', '2044', '2045', '2046', '2047', '2048', '2049', '2050']
+merged_df = pd.concat([merged_NREL_CAPEX, merged_NREL_FOM, NREL_offshore], ignore_index = True)
+unit_map = {
+    'Capacity' : 'MW',
+    'Heat Rate' : 'GJ/GWh',
+    'VOC' : '$/MWh',
+    'FOM' : '$/kW',
+    'FDC' : '$/GJ',
+    'CAPEX' : '$/kW'
+}
+merged_df['Unit'] = merged_df['Variable'].map(unit_map)
 #Melting so that there is 1 data point per row
 long_df = pd.melt(merged_df,
                   id_vars = ["Scenario", "Plant", "TechName", "Substation", "Region", "Status", "Type", "Commissioning Year", "Variable", "Unit"],
                   value_vars = years_used,
                   var_name = "Year",
                   value_name= "Value")
+varied_df = pd.concat([long_df, new_varied_cap, offshore_capacities], ignore_index = True)
 
+#endregion
 
-
-################ Fixed cost data ################
+# ################ Fixed cost data ################
 
 #As the total capital costs include the connection cost we can just divide by the capacity of the plant to find $/kW for CAPEX
 fixed_cost["CAPEX"] = fixed_cost["Total Capital costs (NZD $m)"]/fixed_cost["Capacity (MW)"]*1000
-fixed_cost = fixed_cost.drop(['Total Capital costs (NZD $m)', 'Scenario'], axis=1)
+fixed_cost = fixed_cost.drop(['Total Capital costs (NZD $m)'], axis=1)
 
 #putting in Moderate/Conservative scenarios
+scenarios = ['Advanced', 'Moderate', 'Conservative']
 combined_fixed_cost = duplicate_rows_with_new_column(fixed_cost, 'Scenario',scenarios)
 
 #renaming columns from MBIE data
@@ -332,21 +253,10 @@ melted_fixed_cost = pd.melt(combined_fixed_cost,
                                         var_name = "Variable",
                                         value_name = "Value")
 
-#Unit map so that the units can be easily plugged in if not already there :)
-label_map = {
-    'Capacity' : 'MW',
-    'Heat Rate' : 'GJ/GWh',
-    'VOC' : '$/MWh',
-    'FOM' : '$/kW',
-    'FDC' : '$/GJ',
-    'CAPEX' : '$/kW'
-}
-melted_fixed_cost['Unit'] = melted_fixed_cost['Variable'].map(label_map).fillna('Other')
+
+melted_fixed_cost['Unit'] = melted_fixed_cost['Variable'].map(unit_map).fillna('Other')
 
 melted_fixed_cost['Year'] = melted_fixed_cost['Commissioning Year']
-#Replaces all 0 values with 2023 as base year
-melted_fixed_cost['Year'] = melted_fixed_cost['Year'].replace(0,2023)
-melted_fixed_cost = move_columns(melted_fixed_cost, [('Unit', 9), ("Year", 10)])
 
 ################ Rooftop distributed solar costs and capacities ################
 #First for Capacities we have the statsNZ data fro the number of households per region and we assume that about 80% are suitable for rooftop solar and 
@@ -358,68 +268,51 @@ Dwelling_number = Dwelling_number[~Dwelling_number['Region'].isin(['North Island
 Res_Solar_Cap = Dwelling_number[['Region', 'Value']].copy()
 
 # Want to then multiply the number of useful household roofs of 80% and by 9kW to find regional capacities and divide by 1000kW/MW
-Res_Solar_Cap['Value'] =  Res_Solar_Cap['Value'] * 0.8 * 9/1000
-Res_Solar_Cap[['Variable', 'Year', 'Plant']] = ['Capacity', 2023, 'Generic Residential Distributed Solar']
+suitable_houses = new_tech.loc[(new_tech['TechName'] == 'Residential dist solar') & (new_tech['Variable'] == 'Suitable houses'), 'Value'].iloc[0]/100# percentage of suitable houses
+solar_cap = new_tech.loc[(new_tech['TechName'] == 'Residential dist solar') & (new_tech['Variable'] == 'Capacity'), 'Value'].iloc[0]#solar capacity per house
+
+Res_Solar_Cap['Value'] =  Res_Solar_Cap['Value'] * suitable_houses * solar_cap
+Res_Solar_Cap[['Variable', 'Year', 'Plant']] = ['Capacity', base_year, 'Generic Residential Distributed Solar']
 Res_Solar_Cap = duplicate_rows_with_new_column(Res_Solar_Cap, 'Scenario', scenarios)
 
-# Now we want to bring in the cost curves for CAPEX and FOMs, First CAPEX.
-sol_CAPEX, sol_FOM = 2200, 30
+NREL_ResSol_CAPEX = excluded_NREL_curves[(excluded_NREL_curves['Technology'] == 'Residential PV - Class 1')]
+NREL_ResSol_CAPEX.insert(0, 'Variable', 'CAPEX')
+NREL_ResSol_FOM = ex_FOM_curves[(ex_FOM_curves['Technology'] == 'Residential PV - Class 1')]
+NREL_ResSol_FOM.insert(0, 'Variable', 'FOM')
 
-NREL_ResSol_CAPEX = NREL_CAPEX[(NREL_CAPEX['Technology'] == 'Residential PV - Class 1') & (NREL_CAPEX['Scenario'].isin(['Moderate', 'Conservative']))]
-NREL_ResSol_CAPEX =NREL_ResSol_CAPEX.drop(columns = ['2022'])
-ResSol_CAPEX_PI = divide_from_specific_column(NREL_ResSol_CAPEX, base_column = "2023", row_conditions = {})
+NREL_ResSol = pd.concat([NREL_ResSol_CAPEX, NREL_ResSol_FOM], ignore_index= True)
+NREL_ResSol.columns = [convert_label(col) for col in NREL_ResSol.columns]
+NREL_ResSol = NREL_ResSol.loc[:, [
+    col for col in NREL_ResSol.columns
+    if not isinstance(col, int) or col >= base_year
+]]
 
 
-ResSol_CAPEX = ResSol_CAPEX_PI.copy()
-#making sure all number columns are numeric to do calcs
-for col in ResSol_CAPEX.columns:
-    try:
-        ResSol_CAPEX[col] = pd.to_numeric(ResSol_CAPEX[col])
-    except ValueError:
-        pass # Skip columns that can't be converted
-numeric_cols = ResSol_CAPEX.select_dtypes(include='number').columns
-#applying curve
-ResSol_CAPEX[numeric_cols] = ResSol_CAPEX[numeric_cols] * sol_CAPEX
-ResSol_CAPEX['Variable'] = 'CAPEX'
+NREL_ResSol_idx = divide_from_specific_column(NREL_ResSol, base_year, row_conditions = {})
+NREL_ResSol_idx.rename(columns={'Technology': 'Plant'}, inplace=True)
+ResSol_costs = NREL_ResSol_idx.merge(new_tech, on = ['Plant', 'Variable'], how = 'inner')
 
-#Same thing but for FOMs
-NREL_ResSol_FOM = NREL_FOM[(NREL_FOM['Technology'] == 'Residential PV - Class 1') & (NREL_FOM['Scenario'].isin(['Moderate', 'Conservative']))]
-NREL_ResSol_FOM =NREL_ResSol_FOM.drop(columns = ['2022'])
-ResSol_FOM_PI = divide_from_specific_column(NREL_ResSol_CAPEX, base_column = "2023", row_conditions = {})
-
-ResSol_FOM = ResSol_FOM_PI.copy()
-#making sure all number columns are numeric to do calcs
-for col in ResSol_FOM.columns:
-    try:
-        ResSol_FOM[col] = pd.to_numeric(ResSol_FOM[col])
-    except ValueError:
-        pass # Skip columns that can't be converted
-numeric_cols = ResSol_FOM.select_dtypes(include='number').columns
-#applying curve
-ResSol_FOM[numeric_cols] = ResSol_FOM[numeric_cols] * sol_FOM
-ResSol_FOM['Variable'] = 'FOM'
-
-ResSol_costs = pd.concat([ResSol_CAPEX, ResSol_FOM], ignore_index = True)
+for col in years_used:
+      ResSol_costs[col] = ResSol_costs[col] * ResSol_costs['Value']
+ResSol_costs = ResSol_costs.drop('Value', axis=1)
 
 ResSol_costs = pd.melt(ResSol_costs.copy(),
-                       id_vars = ['Scenario', 'Technology', 'Variable'],
+                       id_vars = ['Plant','Scenario', 'Variable', 'Unit'],
                        value_vars = years_used,
                        var_name = 'Year',
                        value_name = 'Value')
 
-ResSol_costs.rename(columns={'Technology': 'Plant'}, inplace=True)
+
 ResSol_costs['Plant'] = 'Generic Residential Distributed Solar'
-
-
 ResSol_costs = duplicate_rows_with_new_column(ResSol_costs, 'Region', region_list)
 
 ResSol_data = pd.concat([ResSol_costs, Res_Solar_Cap], ignore_index = True)
-ResSol_data['Unit'] = ResSol_data['Variable'].map(label_map).fillna('Other')
+ResSol_data['Unit'] = ResSol_data['Variable'].map(unit_map).fillna('Other')
 ResSol_data[['TechName', 'Type', 'Commissioning Year', 'Substation', 'Status']] = ['Residential Distributed Solar', 'Any Year', np.nan, np.nan, 'Generic']
 
 
 ################ Getting the final dataframe ################
-final_data = pd.concat([long_df, new_varied_cap, melted_fixed_cost, ResSol_data], ignore_index = True)
+final_data = pd.concat([varied_df, melted_fixed_cost, ResSol_data], ignore_index = True)
 
 #replacing 0's with NaN
 final_data = final_data.replace(0, np.nan)
@@ -431,28 +324,15 @@ final_data = conditional_row_filter(final_data, 'Type', 'Earliest Year', 'Commis
 final_data = duplicate_and_modify_rows_two_conditions(final_data,'TechName', ['Floating Offshore Wind', 'Fixed Offshore Wind'],
                                                     'Variable', 'CAPEX', 'Variable', 'Capacity', 'Unit', 'MW', 'Value')
 
-#These values are from NIR NZ offshore wind
-value_map_fixed = {'Taranaki': 3800, 'Waikato': 3000, 'Southland': 1000}
-final_data = assign_value_with_multiple_conditions(final_data, 'TechName', 'Fixed Offshore Wind', 'Variable', 'Capacity',
-                                                    'Region', 'Value', value_map_fixed)
-
-value_map_floating = {'Taranaki': 1900, 'Waikato': 1000}
-final_data = assign_value_with_multiple_conditions(final_data, 'TechName', 'Floating Offshore Wind', 'Variable', 'Capacity',
-                                                    'Region', 'Value', value_map_floating)
-#As we assume no floating offshore wind in Southland we want to remove those rows
-final_data = final_data[~((final_data['TechName'] == 'Floating Offshore Wind') & (final_data['Region'] == 'Southland'))]
-
 #Putting all regions into NI and SI 
 island_mapping = dict(zip(region_to_island['Region'], region_to_island['Island']))
 final_data.insert(4, 'Island', final_data['Region'].map(island_mapping).fillna('Other'))
 
 #Tracked solar
-tracked_solar_farms = ['Argyle Solar Farm - Northern Area', 'Argyle solar farm', 'Lauriston solar farm', 'Maungaturoto solar farm',
-                       'Naseby solar farm', 'Ongaonga solar farm (Sky Solar)', 'Ongaonga solar (Helios)', 'Rangitāiki solar (Stage 1)',
-                       'Rangitāiki solar (Stage 2)', 'Rangitāiki solar (Stage 3)', 'The Point solar farm']
+ 
+final_data.loc[final_data['Plant'].isin(tracked_solar['Plant']), 'TechName'] = 'Tracked Solar'
 
-final_data.loc[final_data['Plant'].isin(tracked_solar_farms), 'TechName'] = 'Tracked Solar'
-
+final_data['Year'] = final_data['Year'].replace(np.nan,base_year)
 output_name = "new_tech_data.csv"
 
 print(f"Saving {output_name} to data_intermediate")

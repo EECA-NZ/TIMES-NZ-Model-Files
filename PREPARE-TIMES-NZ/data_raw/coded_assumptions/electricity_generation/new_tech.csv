@@ -1,0 +1,10 @@
+﻿Plant,TechName,Status,Region,Type,Commissioning Year,Variable,Unit,Value
+Offshore Wind - Class 1,Fixed offshore wind,Generic,Southland,Earliest year,2035,Capacity,MW,1000
+Offshore Wind - Class 1,Fixed offshore wind,Generic,Taranaki,Earliest year,2035,Capacity,MW,3800
+Offshore Wind - Class 1,Fixed offshore wind,Generic,Waikato,Earliest year,2035,Capacity,MW,3000
+Offshore Wind - Class 8,Floating offshore wind,Generic,Taranaki,Earliest year,2035,Capacity,MW,1900
+Offshore Wind - Class 8,Floating offshore wind,Generic,Waikato,Earliest year,2035,Capacity,MW,1000
+Residential PV - Class 1,Residential dist solar,Generic,,,,Capacity,MW,0.005
+Residential PV - Class 1,Residential dist solar,Generic,,,,Suitable houses,%,60
+Residential PV - Class 1,Residential dist solar,Generic,,,,CAPEX,$/kW,2200
+Residential PV - Class 1,Residential dist solar,Generic,,,,FOM,$/kW,30
