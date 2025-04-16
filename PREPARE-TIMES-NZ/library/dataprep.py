@@ -6,15 +6,12 @@ import pandas as pd
 
 def filter_df_by_multiple_columns(df, filters):
     """
-    Reads a CSV file and filters rows based on values in multiple specified columns.
+    Reads a df and filters rows based on values in multiple specified columns.
     
     Parameters:
-    - file_path (str): Path to the input CSV file.
+    - file_path (str): Path to the input df.
     - filters (dict): A dictionary where keys are column names and values are the values to keep.
                       Values can be a string (single value) or a list of values.
-    - output_filtered_file (str, optional): Path to save the filtered-in CSV (default: None).
-    - output_excluded_file (str, optional): Path to save the filtered-out CSV (default: None).
-    
     Returns:
     - tuple: (filtered_df, excluded_df) where:
       - filtered_df (pandas.DataFrame): The DataFrame containing rows that match the filters.
@@ -49,13 +46,12 @@ def filter_df_by_multiple_columns(df, filters):
 
 def filter_df_by_one_column(df, column_name, filter_values):
     """
-    Reads a CSV file and filters rows based on values in a single specified column.
+    Reads a df and filters rows based on values in a single specified column.
     
     Parameters:
-    - file_path (str): Path to the input CSV file.
+    - file_path (str): Path to the input df.
     - column_name (str): The column name to filter by.
     - filter_values (str or list): The values to keep in the filtered DataFrame.
-    - output_filtered_file (str, optional): Path to save the filtered CSV (default: None).
     
     Returns:
     - pandas.DataFrame: The DataFrame containing rows that match the filter.
