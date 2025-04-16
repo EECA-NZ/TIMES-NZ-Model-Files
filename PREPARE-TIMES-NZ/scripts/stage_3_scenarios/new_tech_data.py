@@ -226,6 +226,7 @@ varied_df = pd.concat([long_df, new_varied_cap, offshore_capacities], ignore_ind
 
 #endregion
 
+#region FIXED COSTS
 # ################ Fixed cost data ################
 
 #As the total capital costs include the connection cost we can just divide by the capacity of the plant to find $/kW for CAPEX
@@ -258,7 +259,8 @@ melted_fixed_cost = pd.melt(combined_fixed_cost,
 melted_fixed_cost['Unit'] = melted_fixed_cost['Variable'].map(unit_map).fillna('Other')
 
 melted_fixed_cost['Year'] = melted_fixed_cost['Commissioning Year']
-
+#endregion
+#region DISTRIBUTED SOLAR
 ################ Rooftop distributed solar costs and capacities ################
 #First for Capacities we have the statsNZ data fro the number of households per region and we assume that about 80% are suitable for rooftop solar and 
 #we also assume a capacity of 9kW per roof. First we need to filter the csv for only 2023 and only the regions in nz.
@@ -310,8 +312,8 @@ ResSol_costs = duplicate_rows_with_new_column(ResSol_costs, 'Region', region_lis
 ResSol_data = pd.concat([ResSol_costs, Res_Solar_Cap], ignore_index = True)
 ResSol_data['Unit'] = ResSol_data['Variable'].map(unit_map).fillna('Other')
 ResSol_data[['TechName', 'Type', 'Commissioning Year', 'Substation', 'Status']] = ['Residential Distributed Solar', 'Any Year', np.nan, np.nan, 'Generic']
-
-
+#endregion
+#region FINAL DF
 ################ Getting the final dataframe ################
 final_data = pd.concat([varied_df, melted_fixed_cost, ResSol_data], ignore_index = True)
 
@@ -339,3 +341,4 @@ output_name = "new_tech_data.csv"
 print(f"Saving {output_name} to data_intermediate")
 
 final_data.to_csv(f"{output_location}/{output_name}", index = False, encoding = "utf-8-sig")
+#endregion
