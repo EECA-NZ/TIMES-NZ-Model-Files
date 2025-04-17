@@ -3,7 +3,8 @@ This script is to find the load curves of the NI and SI and whole of NZ from the
 then be used to produce more accurate time slices using what is already defined but changing the peak time to represent
 the actual peak times a bit better than before.
 
-Then want to find the load curves for industrial, commercial, and residential. (This is not happening just yet come back to me in a week)
+Then want to find the load curves for residential and find the COM_FR for the different end uses in this sector.
+This is done using the residential baseline study
 """
 
 #region LIBRARIES
@@ -34,6 +35,7 @@ res_baseline_data = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/res_
 #endregion
 
 #region LOAD CURVES
+base_year = 2023
 concordances = concordances.rename(columns = {'POC' : 'GXP_prefix'})
 #Determining which Island each GXP is on
 input_gxp_data['GXP_prefix'] = input_gxp_data['POC'].str[:3]
@@ -98,20 +100,52 @@ National_Peak.to_csv(f"{timeslice_output_location}/national_peakperiods.csv", in
 #endregion
 
 #region PLOTS
-# #not necessary for the actual code but does show the trends 
-# #making some plots
-# load_curve_plots['slot'] = load_curve_plots['Trading_Period'].str.extract(r'(\d+)$').astype(int)
+#not necessary for the actual code but does show the trends 
+#making some plots
+load_curve_plots['slot'] = load_curve_plots['Trading_Period'].str.extract(r'(\d+)$').astype(int)
 
-# # Create integer-keyed map: 1–48 → half-hour times
-# half_hour_map = {
-#     i: f"{(i - 1) // 2:02}:{'00' if i % 2 == 1 else '30'}"
-#     for i in range(1, 49)
-# }
+# Create integer-keyed map: 1–48 → half-hour times
+half_hour_map = {
+    i: f"{(i - 1) // 2:02}:{'00' if i % 2 == 1 else '30'}"
+    for i in range(1, 49)
+}
 
-# load_curve_plots['Time'] = load_curve_plots['slot'].map(half_hour_map)
-# #Gonna try to plot all of the categories on top of each other
-# load_curve_plots = load_curve_plots.sort_values(by = 'slot')
-# load_curve_plots['Group'] = load_curve_plots[['Island', 'Season', 'Day_Type']].agg('-'.join, axis = 1)
+load_curve_plots['Time'] = load_curve_plots['slot'].map(half_hour_map)
+#Gonna try to plot all of the categories on top of each other
+load_curve_plots = load_curve_plots.sort_values(by = 'slot')
+load_curve_plots['Group'] = load_curve_plots[['Island', 'Season', 'Day_Type']].agg('-'.join, axis = 1)
+
+#### PLOTTING THE SI AND NI SEPARATELY ####
+# load_curve_NI = load_curve_plots[load_curve_plots['Island'] == 'NI']
+# load_curve_SI = load_curve_plots[load_curve_plots['Island'] == 'SI']
+
+# fig, axes = plt.subplots(1, 2, figsize=(14, 6), sharey=True)  # 1 row, 2 columns of plots
+
+# # First DataFrame plot
+# for label, group in load_curve_NI.groupby('Group'):
+#     axes[0].plot(group['Time'], group['Value'], label=label)
+
+# axes[0].set_title('NI load curves')
+# axes[0].set_xlabel('Time')
+# axes[0].set_ylabel('Value')
+# axes[0].legend()
+
+# xticks = load_curve_NI['Time'].unique()
+# axes[0].set_xticks(xticks[::4])
+# # Second DataFrame plot
+# for label, group in load_curve_SI.groupby('Group'):
+#     axes[1].plot(group['Time'], group['Value'], label=label)
+
+# axes[1].set_title('SI Load Curves')
+# axes[1].set_xlabel('Time')
+# axes[1].legend()
+
+# xticks = load_curve_SI['Time'].unique()
+# axes[1].set_xticks(xticks[::4])
+# plt.tight_layout()
+# plt.show()
+
+#### FOR ALL OF THE PLOTS ON TOP OF EACH OTHER ####
 
 # plt.figure()
 # for label, group in load_curve_plots.groupby('Group'):
@@ -123,7 +157,7 @@ National_Peak.to_csv(f"{timeslice_output_location}/national_peakperiods.csv", in
 # plt.title('Plot of all of the average load curves')
 # plt.show()
 
-# #plotting just NI winter weekday
+#plotting just NI winter weekday
 # NI_load_curve_plots = load_curve_plots[(load_curve_plots["Island"] == 'NI') & (load_curve_plots['Day_Type'] == 'WD') & (load_curve_plots['Season'] == 'Winter')]
 # NI_load_curve_plots.plot(x= 'Time', y = 'Value')
 # plt.show()
@@ -144,49 +178,22 @@ res_baseline_data.insert(loc = 3, column = 'TimeType', value = res_baseline_data
 
 res_baseline_data = res_baseline_data.merge(timeslices, on=['Season', 'DayType', 'TimeType'], how='left')
 
-#choosing year NOTE this will probably be changed later to include all years from 2023-40 but for now just 2023
-# res_baseline_2023 = res_baseline_data[res_baseline_data['Year'] == 2023]
-
-# res_baseline_2023 = res_baseline_2023.groupby(['TimeSlice','End Use Category', 'Year'])['Power'].sum().reset_index()
-
-# #dividing by YRFR
-
-# res_baseline_2023 = res_baseline_2023.merge(yrfr[['TimeSlice', 'AllRegions']], on = 'TimeSlice', how = 'left')
-
-# res_baseline_2023['AdjustedPower'] = res_baseline_2023['Power']/ res_baseline_2023['AllRegions']
-
-# #creating a copy so that we can find the total power use for each commodity for 2023
-# total_com_use = res_baseline_2023.copy()
-# total_com_use = total_com_use.groupby(['End Use Category', 'Year'])['AdjustedPower'].sum().reset_index()
-# total_com_use = total_com_use.rename(columns = {'AdjustedPower': 'TotalPower'})
-
-# #Merging so that we can find COM_FRs
-
-# COM_FR_2023 = res_baseline_2023.merge(total_com_use[['End Use Category', 'TotalPower']], on = 'End Use Category', how = 'left')
-
-# COM_FR_2023['COM_FR'] = COM_FR_2023['AdjustedPower'] / COM_FR_2023['TotalPower']
-# COM_FR_2023 = COM_FR_2023[['TimeSlice', 'End Use Category', 'Year', 'COM_FR']].sort_values(by = ['End Use Category', 'TimeSlice'])
-
-
-# COM_FR_2023.to_csv(f'{timeslice_output_location}/COM_FR.csv', index=False)
-
-# Same thing but all the COM_FRs from 2023 to 2040
-res_baseline = res_baseline_data[res_baseline_data['Year'] >= 2023]
+# Same thing but all the COM_FRs from base year to 2040
+res_baseline = res_baseline_data[res_baseline_data['Year'] >= base_year]
 
 res_baseline = res_baseline.groupby(['TimeSlice','End Use Category', 'Year'])['Power'].mean().reset_index()
 
-#dividing by YRFR
+#Finding the COM_FRs
 
 res_baseline= res_baseline.merge(yrfr[['TimeSlice', 'AllRegions']], on = 'TimeSlice', how = 'left')
 
 res_baseline['AdjustedPower'] = res_baseline['Power'] * res_baseline['AllRegions'] # multiplying all of the average powers per hour in each timeslice by the YRFR
 
-#creating a copy so that we can find the total power use for each commodity for 2023
+#creating a copy so that we can find the total power use for each commodity for base year
 total_com_use = res_baseline.copy()
 total_com_use = total_com_use.groupby(['End Use Category', 'Year'])['AdjustedPower'].sum().reset_index()
 total_com_use = total_com_use.rename(columns = {'AdjustedPower': 'TotalPower'}) # total of the average power per timeslice for each end use
 
-# Total_power = total_com_use.copy().groupby([''])
 #Merging so that we can find COM_FRs
 
 COM_FR = res_baseline.merge(total_com_use[['End Use Category', 'Year','TotalPower']], on = ['End Use Category', 'Year'], how = 'left')
@@ -200,35 +207,35 @@ COM_FR.to_csv(f'{timeslice_output_location}/COM_FR.csv', index=False)
 #region COM_FR vs YRFR
 # want to compute COM_FR/YRFR and plot on a bar graph for each of the timeslices. can do for each commodity if needed
 
-COM_FR_2023 = COM_FR[COM_FR['Year']==2023]
+COM_FR_base_year = COM_FR[COM_FR['Year']==base_year]
 
-COM_FR_2023 = COM_FR_2023.merge(yrfr[['TimeSlice', 'AllRegions']], on = 'TimeSlice', how = 'left')
+COM_FR_base_year = COM_FR_base_year.merge(yrfr[['TimeSlice', 'AllRegions']], on = 'TimeSlice', how = 'left')
 
-COM_FR_2023['COM_FRvsYRFR'] = COM_FR_2023['COM_FR'] / COM_FR_2023['AllRegions'] 
+COM_FR_base_year['COM_FRvsYRFR'] = COM_FR_base_year['COM_FR'] / COM_FR_base_year['AllRegions'] 
 
-COM_FR_2023.to_csv(f'{timeslice_output_location}/COM_FRvsYRFR.csv', index=False)
+COM_FR_base_year.to_csv(f'{timeslice_output_location}/COM_FRvsYRFR.csv', index=False)
 
 #endregion
 
 #region MAKE PLOTS
-# This can be deleted or commented out when not needed
-def get_color(label):
-    last_char = label[-1].lower()
-    if last_char == 'p':
-        return 'blue'
-    elif last_char == 'n':
-        return 'green'
-    else:
-        return 'red'
+# # This can be deleted or commented out when not needed
+# def get_color(label):
+#     last_char = label[-1].lower()
+#     if last_char == 'p':
+#         return 'blue'
+#     elif last_char == 'n':
+#         return 'green'
+#     else:
+#         return 'red'
 
-for group_name, group_df in COM_FR_2023.groupby('End Use Category'):
-    colours = group_df['TimeSlice'].apply(get_color)
+# for group_name, group_df in COM_FR_base_year.groupby('End Use Category'):
+#     colours = group_df['TimeSlice'].apply(get_color)
 
-    plt.figure(figsize=(8, 5))
-    plt.barh(group_df['TimeSlice'], group_df['COM_FRvsYRFR'], color=colours)
-    plt.xlabel('COM_FR/YRFR')
-    plt.title(group_name)
-    plt.tight_layout()
-    plt.show()
+#     plt.figure(figsize=(8, 5))
+#     plt.barh(group_df['TimeSlice'], group_df['COM_FRvsYRFR'], color=colours)
+#     plt.xlabel('COM_FR/YRFR')
+#     plt.title(group_name)
+#     plt.tight_layout()
+#     plt.show()
 
 #endregion
