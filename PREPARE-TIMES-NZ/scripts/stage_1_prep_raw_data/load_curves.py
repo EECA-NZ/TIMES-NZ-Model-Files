@@ -218,24 +218,24 @@ COM_FR_base_year.to_csv(f'{timeslice_output_location}/COM_FRvsYRFR.csv', index=F
 #endregion
 
 #region MAKE PLOTS
-# # This can be deleted or commented out when not needed
-# def get_color(label):
-#     last_char = label[-1].lower()
-#     if last_char == 'p':
-#         return 'blue'
-#     elif last_char == 'n':
-#         return 'green'
-#     else:
-#         return 'red'
+# This can be deleted or commented out when not needed
+def get_color(label):
+    last_char = label[-1].lower()
+    if last_char == 'p':
+        return 'blue'
+    elif last_char == 'n':
+        return 'green'
+    else:
+        return 'red'
 
-# for group_name, group_df in COM_FR_base_year.groupby('End Use Category'):
-#     colours = group_df['TimeSlice'].apply(get_color)
+for group_name, group_df in COM_FR_base_year.groupby('End Use Category'):
+    colours = group_df['TimeSlice'].apply(get_color)
 
-#     plt.figure(figsize=(8, 5))
-#     plt.barh(group_df['TimeSlice'], group_df['COM_FRvsYRFR'], color=colours)
-#     plt.xlabel('COM_FR/YRFR')
-#     plt.title(group_name)
-#     plt.tight_layout()
-#     plt.show()
+    plt.figure(figsize=(8, 5))
+    plt.barh(group_df['TimeSlice'], group_df['COM_FRvsYRFR'], color=colours)
+    plt.xlabel('COM_FR/YRFR')
+    plt.title(group_name)
+    plt.tight_layout()
+    plt.show()
 
 #endregion
