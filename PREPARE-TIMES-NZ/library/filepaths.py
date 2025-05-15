@@ -24,4 +24,8 @@ DATA_RAW = os.path.join(PREP_LOCATION, "data_raw")
 
 
 
+# Specific data locations 
+
+CUSTOM_ELE_ASSUMPTIONS = f"{DATA_RAW}/coded_assumptions/electricity_generation"
+
 
