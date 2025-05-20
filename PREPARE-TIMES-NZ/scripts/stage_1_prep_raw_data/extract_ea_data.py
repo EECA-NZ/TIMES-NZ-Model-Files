@@ -8,6 +8,7 @@ import sys
 import os 
 import pandas as pd 
 import glob 
+import logging
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
@@ -37,7 +38,7 @@ emi_md_files = glob.glob(os.path.join(emi_md_folder, "*.csv"))
 
 md_dfframes = []
 for file in emi_md_files:
-    print(f"Reading from {file}")
+    logging.info(f"Reading from {file}")
     df = pd.read_csv(file)
     md_dfframes.append(df)
     
@@ -70,7 +71,7 @@ def read_solar_file(sector):
 
     filename = f"solar_{sector.lower()}.csv"
 
-    print(f"Reading {sector} solar data...")
+    logging.info(f"Reading {sector} solar data...")
 
     df = pd.read_csv(f"{emi_distributed_solar_directory}/{filename}", skiprows = 12)
     df["Sector"] = sector
