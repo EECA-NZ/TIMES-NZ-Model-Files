@@ -20,16 +20,15 @@ import os
 import polars as pl 
 import seaborn as sns
 import matplotlib.pyplot as plt
-
-
+import numpy as np
 import logging 
-
-
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../", "library"))
 from filepaths import DATA_INTERMEDIATE, CUSTOM_ELE_ASSUMPTIONS
 
+output_location = f"{DATA_INTERMEDIATE}/stage_1_extracted_data/wind_af_analysis/"
+os.makedirs(output_location, exist_ok = True)
 
 #endregion
 
@@ -37,7 +36,9 @@ from filepaths import DATA_INTERMEDIATE, CUSTOM_ELE_ASSUMPTIONS
 logging.basicConfig(level=logging.INFO)
 pl.Config.set_tbl_cols(100) 
 pl.Config.set_tbl_rows(100)
+
 #endregion 
+
 #region GET_DATA ------------------------------------------------------------
 
 # our fleet metadata
@@ -52,11 +53,7 @@ times_2_wind_af = pl.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/archive/WindAF_from_TIM
 
 #endregion 
 
-
-
 #region FUNCTIONS ------------------------------------------------------------
-
-
 
 
 def convert_hour_to_timeofday(df: pl.DataFrame, hour_col: str = "Hour") -> pl.DataFrame:
@@ -101,11 +98,6 @@ def convert_date_to_daytype(df: pl.DataFrame, date_col: str = "Trading_Date") ->
     
     return df
 
-
-
-
-
-
 def convert_date_to_season(df: pl.DataFrame, date_col: str = "Trading_Date") -> pl.DataFrame:
 
     """
@@ -131,8 +123,6 @@ def convert_date_to_season(df: pl.DataFrame, date_col: str = "Trading_Date") -> 
 
 
     return df
-
-
 
 def create_timeslices(df: pl.DataFrame, hour_col:str = "Hour", date_col: str = "Trading_Date", tp_col: str = "Trading_Period") -> pl.DataFrame:
     """
@@ -161,11 +151,6 @@ def create_timeslices(df: pl.DataFrame, hour_col:str = "Hour", date_col: str = "
 
     return df
 
-
-
-
-
-
 def check_grain(df: pl.DataFrame, grain_variables) -> pl.DataFrame:
     """
     This function checks the grain of the dataframe to ensure that it is at the correct level for our analysis.
@@ -192,15 +177,11 @@ def check_grain(df: pl.DataFrame, grain_variables) -> pl.DataFrame:
         for var in grain_variables:
             logging.info(var)
 
-
-
 #endregion 
-
 
 #region AGGREGATE_EMI_DATA ------------------------------------------------------------
 
 check_grain(emi_md, ["Trading_Date", "Trading_Period", "Gen_Code", "POC_Code", "Nwk_Code"])
-
 
 # POC_Code and NWK_Code are required to define each row. However, we don't actually care about these so are happy to aggregate across them. 
 
@@ -215,11 +196,7 @@ emi_md = (emi_md
 
 #region CREATE_TIMESLICES ------------------------------------------------------------
 
-
-
 def add_timeslices_to_emi(df: pl.DataFrame, date_col: str = "Trading_Date", tp_col: str = "Trading_Period") -> pl.DataFrame:
-
-
 
     # Step 1: Create dates
     df = df.with_columns([
@@ -250,18 +227,11 @@ def add_timeslices_to_emi(df: pl.DataFrame, date_col: str = "Trading_Date", tp_c
 
 emi_timeslices = add_timeslices_to_emi(emi_md)
 
-
-
-
-# check dates 
-
 #endregion
 
 #region ADD_METADATA ------------------------------------------------------------
 
-
 # left join onto 5m rows? probably fine 
-
 metadata = eeca_fleet_data[[    
     "EMI_Name",
     "TechnologyCode",
@@ -270,9 +240,7 @@ metadata = eeca_fleet_data[[
 ]]
 
 # some plants have multiple names in our data which correspond to only one EMI name. 
-
 # for these we just combine the capacities 
-
 metadata = metadata.group_by(["EMI_Name", "TechnologyCode", "FuelType"]).agg([
     pl.sum("CapacityMW").alias("CapacityMW")
 ])
@@ -282,7 +250,6 @@ emi_timeslices = emi_timeslices.rename({"Gen_Code": "EMI_Name"})
 # join 
 emi_timeslices = emi_timeslices.join(metadata, on = "EMI_Name", how = "left")
 
-
 # check failed joins 
 failed_metadata_joins = emi_timeslices.filter(pl.col("CapacityMW").is_null())
 failed_plants = failed_metadata_joins["EMI_Name"].unique().sort()
@@ -291,28 +258,16 @@ for plant in failed_plants:
     logging.info(plant)
 
 
-
-
 # not too stressed about these so just remove them
 emi_timeslices = emi_timeslices.filter(pl.col("CapacityMW").is_not_null())
 
 #endregion 
 
-
-
-#endregion 
-
-
 #region WIND_CAPACITY_FACTORS------------------------------------------------------------
 
 emi_timeslice_wind = emi_timeslices.filter(pl.col("FuelType") == "Wind")
 
-
 # some aggregation (this should have maybe happened elsewhere but whatever)
-
-
-
-
 emi_timeslice_wind = (emi_timeslice_wind
                       # aggregate by hour 
                       .group_by(["EMI_Name", "TechnologyCode", "Trading_Date", "Hour", "Timeslice", "FuelType"])
@@ -338,9 +293,6 @@ emi_timeslice_wind = (emi_timeslice_wind
 
 #endregion 
 
-
-
-
 #region CHECK_CAPACITY_FACTORS ------------------------------------------------------------
 
 # convert to pandas for plotting 
@@ -359,19 +311,11 @@ if plot_hourly_cfs:
     g.tight_layout()
     plt.show()
 
-
-
-
-
 #endregion
-
-
 
 #region REMOVE_PARTIAL_YEARS ------------------------------------------------------------
 
 # hardcoded partial years - sorry
-# default_years = [2020, 2021, 2022, 2023, 2024]
-
 
 partial_year_dict = {
     "KaiweraDowns": [2024],
@@ -379,7 +323,6 @@ partial_year_dict = {
     "waipipi" : [2022,2023,2024], #very close on 2021 but not quite full generation. 
     "west_wind":[2020, 2021, 2022],
     "white_hill": [2020, 2024] # strange performance dip: maintenance??
-
     }
 
 # generating a filter expression based on the dict
@@ -409,14 +352,11 @@ emi_timeslice_wind_valid = (
 # just testing that this worked (it did)
 # print(emi_timeslice_wind_valid[["EMI_Name", "Year"]].unique().sort(["EMI_Name", "Year"]))
 
-
 #endregion
-
 
 #region CREATE_AGGREGATE_DATASETS ------------------------------------------------------------
 
 # get annual avg cap factors 
-
 emi_avg_cf_by_plant = (emi_timeslice_wind_valid                       
                        .group_by(["EMI_Name"])
                        .agg([pl.max("CapacityMW").alias("CapacityMW"),
@@ -424,8 +364,6 @@ emi_avg_cf_by_plant = (emi_timeslice_wind_valid
                              pl.mean("Value_MWh").alias("Average_MWh"),
                              pl.count("DateTime").alias("Hours")])            
                              ).with_columns([(pl.col("Average_MWh") / pl.col("CapacityMW")).alias("Capacity_Factor")])
-
-
 
 #aggregate by timeslice and plant
 emi_ts_cf_by_plant = (emi_timeslice_wind_valid
@@ -473,16 +411,12 @@ emi_avg_cf_by_island = (emi_timeslice_wind_valid
     .with_columns([(pl.col("Average_MWh") / pl.col("CapacityMW")).alias("Capacity_Factor")])
 )
 
-
-
 # add the average capacity factor for plotting annuals on top of the main bars 
 emi_ts_cf_by_island = (emi_ts_cf_by_island
                        .join(emi_avg_cf_by_island[["Region", "Capacity_Factor"]]
                              .rename({"Capacity_Factor": "Weighted_CF"}),
                              on="Region", how="left"))
                         
-
-
 emi_peak_availability = (emi_timeslice_wind_valid
                          .filter(pl.col("Hour") == 18) # 6pm 
                          .filter(pl.col("Trading_Date").dt.month().is_in([6,7,8])) # winter months 
@@ -493,9 +427,8 @@ emi_peak_availability = (emi_timeslice_wind_valid
                          .with_columns((pl.col("Value_MWh")/pl.col("CapacityMW")).alias("Capacity_Factor"))
 )
 
-
-
 #endregion
+
 #region PLOT_CF_BY_PLANT ------------------------------------------------------------
                                      
 # adding a season colour dict that we can add to the plot 
@@ -507,6 +440,7 @@ season_colors = {
 }
 
 plot_plant_timeslice_cfs = False
+
 if plot_plant_timeslice_cfs:
 
     # add the average capacity factor for plotting annuals on top of the main bars 
@@ -613,10 +547,7 @@ compare_version_wind_afs = pl.concat([
     compare_version_wind_afs.select(comparison_variables),
     times_2_wind_af.select(comparison_variables)
 ])
-
-
-# plot 
-
+# plot (if switch is on)
 
 plot_source_cf_comparison = False
 if plot_source_cf_comparison:
@@ -664,37 +595,48 @@ if plot_source_cf_comparison:
 #region PEAK_AVAILABILITY ---------------------------------------------------
 
 
-
-#endregion
-import numpy as np
 hist_data = emi_peak_availability["Capacity_Factor"].to_numpy()
 
-# Compute histogram
-counts, bins = np.histogram(hist_data, bins=30)
-total = counts.sum()
-percentages = counts / total * 100
+plot_peak_availability = False 
 
-# Midpoints of bins
-bin_centers = (bins[:-1] + bins[1:]) / 2
+if plot_peak_availability:
+    # Compute histogram
+    counts, bins = np.histogram(hist_data, bins=30)
+    total = counts.sum()
+    percentages = counts / total * 100
 
-# Plot histogram
-plt.bar(bin_centers, percentages, width=(bins[1] - bins[0]), edgecolor='black')
-plt.title("6pm winter capacity factors (onshore wind)")
-plt.xlabel("Capacity Factor")
-plt.ylabel("Likelihood (%)")
+    # Midpoints of bins
+    bin_centers = (bins[:-1] + bins[1:]) / 2
 
-# Compute summary statistics
-mean_val = np.mean(hist_data)
-p10 = np.percentile(hist_data, 10)
-p50 = np.percentile(hist_data, 50)
-p90 = np.percentile(hist_data, 90)
+    # Plot histogram
+    plt.bar(bin_centers, percentages, width=(bins[1] - bins[0]), edgecolor='black')
+    plt.title("6pm winter capacity factors (onshore wind)")
+    plt.xlabel("Capacity Factor")
+    plt.ylabel("Likelihood (%)")
 
-# Add vertical lines
-plt.axvline(mean_val, color='black', linestyle='--', linewidth=2, label=f'Mean ({mean_val:.2f})')
-plt.axvline(p10, color='green', linestyle=':', linewidth=2, label=f'10th pct ({p10:.2f})')
-plt.axvline(p50, color='blue', linestyle=':', linewidth=2, label=f'Median ({p50:.2f})')
-plt.axvline(p90, color='red', linestyle=':', linewidth=2, label=f'90th pct ({p90:.2f})')
+    # Compute summary statistics
+    mean_val = np.mean(hist_data)
+    p10 = np.percentile(hist_data, 10)
+    p50 = np.percentile(hist_data, 50)
+    p90 = np.percentile(hist_data, 90)
 
-# Add legend
-plt.legend()
-plt.show()
+    # Add vertical lines
+    plt.axvline(mean_val, color='black', linestyle='--', linewidth=2, label=f'Mean ({mean_val:.2f})')
+    plt.axvline(p10, color='green', linestyle=':', linewidth=2, label=f'10th pct ({p10:.2f})')
+    plt.axvline(p50, color='blue', linestyle=':', linewidth=2, label=f'Median ({p50:.2f})')
+    plt.axvline(p90, color='red', linestyle=':', linewidth=2, label=f'90th pct ({p90:.2f})')
+
+    # Add legend
+    plt.legend()
+    plt.show()
+
+#endregion
+
+#region OUTPUT_RESULTS  --------------------------------------------------------
+emi_ts_cf_by_island = emi_ts_cf_by_island.sort(["Region", "Timeslice"])
+emi_ts_cf_by_island.write_csv(f"{output_location}/emi_ts_cf_by_island.csv")
+
+
+#endregion --------------------------------------------------------
+
+
