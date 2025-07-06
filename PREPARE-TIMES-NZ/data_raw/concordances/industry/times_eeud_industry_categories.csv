@@ -1,0 +1,18 @@
+EEUD,TIMES,Notes
+Construction,Construction,1:1 Match
+Dairy Product Manufacturing,Dairy,1:1 Match
+"Fabricated Metal Product, Transport Equipment, Machinery and Equipment Manufacturing",Other,Miscellaneous bucket - too small to worry about
+"Food and Beverage Product Manufacturing (excluding Dairy, Meat, Seafood)",Food and Beverage,1:1 Match
+Meat and Meat Product Manufacturing and Seafood,Meat,1:1 Match
+Mining,Mining,1:1 Match
+Non-Metallic Mineral Product Manufacturing,Non-Metallic Mineral Product Manufacturing,1:1 Match
+"Electricity, Gas, Water and Waste Services",Other,Miscellaneous bucket
+Furniture and Other Manufacturing,Other,Miscellaneous bucket
+Industrial - Unallocated,Other,Miscellaneous bucket
+NA,Other,This joins to nulls 
+Printing,Other,Miscellaneous bucket
+"Textile, Leather, Clothing and Footwear Manufacturing",Other,Miscellaneous bucket
+Primary Metal and Metal Product Manufacturing,Other,"Anything we don't define as Iron/Steel or Alum before this just goes into ""other'"
+"Petroleum, Basic Chemical and Rubber Product Manufacturing",Chemicals (excl. Urea and Methanol),Excludes Urea and Methanol
+"Pulp, Paper and Converted Paper Product Manufacturing",Pulp and Paper,1:1 Match
+Wood Product Manufacturing,Wood Products,1:1 Match
