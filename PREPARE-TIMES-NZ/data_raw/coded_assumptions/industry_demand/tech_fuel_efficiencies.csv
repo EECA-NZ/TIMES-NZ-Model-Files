@@ -1,0 +1,42 @@
+Technology,Fuel,Efficiency,Notes
+Air Compressors,Electricity,1,Placeholder efficiency
+Boiler Systems,Biogas,0.87,Typical industry value
+Boiler Systems,Coal,0.8,Typical industry value
+Boiler Systems,Diesel,0.85,Typical industry value
+Boiler Systems,Electricity,0.99,Typical industry value
+Boiler Systems,Fuel Oil,0.85,Typical industry value
+Heat Exchangers,Geothermal,0.970124,Using Geo heat exchanger efficiency - typical industry value
+Boiler Systems,LPG,0.87,Typical industry value
+Boiler Systems,Natural Gas,0.87,Typical industry value
+Boiler Systems,Wood,0.85,Typical industry value
+Burner (Direct Heat),Electricity,,TODO
+Burner (Direct Heat),LPG,,TODO
+Burner (Direct Heat),Natural Gas,0.8,Typical industry value
+Electric Furnace,Electricity,0.8,Typical industry value. Is this different to Furnace (electricity)?
+Electric Motor,Electricity,0.9,"Matching with ""Stationary Motor"" https://www.eeca.govt.nz/assets/EECA-Resources/Research-papers-guides/Technology-Scan-of-Electric-Motor-Applications_EECA.pdf"
+Electronics,Electricity,1,Placeholder efficiency
+Fan Systems,Electricity,1,Placeholder efficiency
+Feedstock,Coal,1,Assume 100% efficiency for feedstock
+Feedstock,Natural Gas,1,Assume 100% efficiency for feedstock
+Furnace/Kiln,Coal,0.7,Typical industry value
+Furnace/Kiln,Electricity,0.8,Typical industry value
+Furnace/Kiln,Fuel Oil,0.8,Typical industry value
+Furnace/Kiln,Natural Gas,0.8,Typical industry value
+Heat Pump (for Heating),Electricity,,TODO
+Heat Pump (for Heating),Natural Gas,,TODO
+HVAC,Electricity,1,Placeholder efficiency
+Industrial Ovens,Coal,0.5,Typical industry value
+Industrial Ovens,Electricity,0.76,Energystar https://www.energystar.gov/products/commercial_food_service_equipment/commercial_ovens/key_product_criteria?utm_source=chatgpt.com
+Industrial Ovens,Natural Gas,0.5,Typical industry value
+Internal Combustion Engine (Land Transport),Diesel,0.2,https://www.researchgate.net/publication/343138786_Estimation_of_tank-to-wheel_efficiency_functions_based_on_type_approval_data
+Internal Combustion Engine (Land Transport),Natural Gas,0.12,https://www.researchgate.net/publication/350712005_Comparison_of_the_Overall_Energy_Efficiency_for_Internal_Combustion_Engine_Vehicles_and_Electric_Vehicles
+Internal Combustion Engine (Land Transport),Petrol,0.2,Estimation of tank-to-wheel efficiency functions based on type approval data
+Lights,Electricity,1,Placeholder efficiency
+"Pump Systems (for Fluids, etc.)",Electricity,0.6,From US DoE (https://www.energy.gov/sites/prod/files/2014/05/f16/test_pumping_system__pumping_systemts4.pdf) and EECA Equipment Replacement Scheme (ERS) work https://eecagovtnz-my.sharepoint.com/:x:/r/personal/vincent_smart_eeca_govt_nz/_layouts/15/Doc.aspx?sourcedoc=%7Ba850623a-4756-42f2-8320-da9d287828d8%7D&action=edit&wdorigin=TEAMS-MAGLEV.p2p_ns.rwc.Sharing.ServerTransfer&wdexp=TEAMS-TREATMENT&wdhostclicktime=1747085208907&wdenableroaming=1&wdodb=1&wdlcid=en-US&wdredirectionreason=Force_SingleStepBoot&wdinitialsession=9b87d283-a3e2-caaf-9d42-f7ae4f9e09c8&wdrldsc=2&wdrldc=1&wdrldr=ContinueInExcel
+"Pump Systems (for Fluids, etc.)",Natural Gas,0.25,https://content.ces.ncsu.edu/pumping-plant-performance
+Refiners,Electricity,1,Placeholder efficiency
+Reformer,Natural Gas,1,Placeholder efficiency
+Refrigeration Systems,Electricity,1,Placeholder efficiency
+Resistance Heater,Electricity,0.99970009,Appears accurate
+Stationary Engine,Diesel,0.4,https://www.researchgate.net/publication/283732724_Technologies_for_Waste_Heat_Energy_Recovery_from_Internal_Combustion_Engine_A_Review
+Stationary Engine,Petrol,,There is no stationary motive power for petrol in TIMES 2.0.

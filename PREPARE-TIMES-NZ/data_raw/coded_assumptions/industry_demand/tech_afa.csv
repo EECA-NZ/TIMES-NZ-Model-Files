@@ -1,0 +1,23 @@
+Technology,AFA,Notes
+Air Compressors,0.5,Set to 0.5 as default for now. We might adjust this later
+Boiler Systems,0.5,Set to 0.5 as default for now. We might adjust this later
+Compressors,0.5,Set to 0.5 as default for now. We might adjust this later
+Heat Exchangers,0.5,Set to 0.5 as default for now. We might adjust this later
+Burner (Direct Heat),0.5,Set to 0.5 as default for now. We might adjust this later
+Electric Furnace,0.5,Set to 0.5 as default for now. We might adjust this later
+Electric Motor,0.5,Set to 0.5 as default for now. We might adjust this later
+Electronics,0.5,Set to 0.5 as default for now. We might adjust this later
+Fan Systems,0.5,Set to 0.5 as default for now. We might adjust this later
+Feedstock,0.5,Set to 0.5 as default for now. We might adjust this later
+Furnace/Kiln,0.5,Set to 0.5 as default for now. We might adjust this later
+Heat Pump (for Heating),0.5,Set to 0.5 as default for now. We might adjust this later
+HVAC,0.5,Set to 0.5 as default for now. We might adjust this later
+Industrial Ovens,0.5,Set to 0.5 as default for now. We might adjust this later
+Internal Combustion Engine (Land Transport),0.5,Set to 0.5 as default for now. We might adjust this later
+Lights,0.5,Set to 0.5 as default for now. We might adjust this later
+"Pump Systems (for Fluids, etc.)",0.5,Set to 0.5 as default for now. We might adjust this later
+Refiners,0.5,Set to 0.5 as default for now. We might adjust this later
+Reformer,0.5,Set to 0.5 as default for now. We might adjust this later
+Refrigeration Systems,0.5,Set to 0.5 as default for now. We might adjust this later
+Resistance Heater,0.5,Set to 0.5 as default for now. We might adjust this later
+Stationary Engine,0.5,Set to 0.5 as default for now. We might adjust this later
