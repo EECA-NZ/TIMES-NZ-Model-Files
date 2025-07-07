@@ -35,12 +35,12 @@ logging.basicConfig(level=logging.INFO)
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
-from filepaths import DATA_RAW, DATA_INTERMEDIATE
+from filepaths import DATA_RAW, STAGE_1_DATA, STAGE_2_DATA
 CUSTOM_ELE_ASSUMPTIONS = f"{DATA_RAW}/coded_assumptions/electricity_generation"
 CONCORDANCES = f"{DATA_RAW}/concordances"
 
 # define and create intermediate location for base year data 
-output_location = f"{DATA_INTERMEDIATE}/stage_2_baseyear"
+output_location = f"{STAGE_2_DATA}/stage_2_baseyear"
 os.makedirs(output_location, exist_ok = True)
 
 # and for any testing outputs we might want to browse
@@ -73,14 +73,14 @@ def assign_cogen(value):
 #############################################################################
 
 #MBIE
-official_generation = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/mbie_ele_generation_gwh.csv")
-official_generation_no_cogen = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/mbie_ele_only_generation.csv")
-official_capacity = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/mbie_generation_capacity.csv")
-genstack = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie/gen_stack.csv")
+official_generation = pd.read_csv(f"{STAGE_1_DATA}/mbie/mbie_ele_generation_gwh.csv")
+official_generation_no_cogen = pd.read_csv(f"{STAGE_1_DATA}/mbie/mbie_ele_only_generation.csv")
+official_capacity = pd.read_csv(f"{STAGE_1_DATA}/mbie/mbie_generation_capacity.csv")
+genstack = pd.read_csv(f"{STAGE_1_DATA}/mbie/gen_stack.csv")
 
 #EMI 
-emi_md = pd.read_parquet(f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_authority/emi_md.parquet", engine = "pyarrow")
-emi_solar = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_authority/emi_distributed_solar.csv")
+emi_md = pd.read_parquet(f"{STAGE_1_DATA}/electricity_authority/emi_md.parquet", engine = "pyarrow")
+emi_solar = pd.read_csv(f"{STAGE_1_DATA}/electricity_authority/emi_distributed_solar.csv")
 
 # custom assumptions
 eeca_fleet_data = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/GenerationFleet.csv")
@@ -91,7 +91,7 @@ technology_assumptions = pd.read_csv(f"{CUSTOM_ELE_ASSUMPTIONS}/TechnologyAssump
 
 # concordances
 region_island_concordance = pd.read_csv(f"{CONCORDANCES}/region_island_concordance.csv")
-nsp_table = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/electricity_authority/emi_nsp_concordances.csv")
+nsp_table = pd.read_csv(f"{STAGE_1_DATA}/electricity_authority/emi_nsp_concordances.csv")
 
 #endregion
 #############################################################################

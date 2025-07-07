@@ -35,7 +35,7 @@ print(f"Reading settings files...")
 run_script(f"{STAGE_0_SCRIPTS}/parse_tomls.py")    
 # Stage 1: Prep raw data 
 print(f"Preparing raw data...")    
-run_script(f"{STAGE_1_SCRIPTS}/extract_eeud_data.py")    
+run_script(f"{STAGE_1_SCRIPTS}/extract_eeud.py")    
 run_script(f"{STAGE_1_SCRIPTS}/extract_ea_data.py")    
 run_script(f"{STAGE_1_SCRIPTS}/extract_mbie_data.py")    
 run_script(f"{STAGE_1_SCRIPTS}/extract_snz_data.py")    
