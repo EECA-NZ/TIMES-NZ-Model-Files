@@ -13,29 +13,20 @@ import pandas as pd
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
-from filepaths import DATA_RAW, DATA_INTERMEDIATE
+from filepaths import DATA_RAW, STAGE_1_DATA
 
 # FILEPATHS -------------------------------------------------------------------------
 input_location = f"{DATA_RAW}/external_data/mbie"
-output_location = f"{DATA_INTERMEDIATE}/stage_1_external_data/mbie"
+output_location = f"{STAGE_1_DATA}/mbie"
 os.makedirs(output_location, exist_ok = True)
 
 
-#############################################################################
-#region EDGS
-#############################################################################
+# FUNCTIONS -------------------------------------------------------------------------
 
 def get_edgs_assumptions(SheetName):
     edgs_location = f"{input_location}/electricity-demand-generation-scenarios-2024-assumptions.xlsx"
     df = pd.read_excel(edgs_location, sheet_name=SheetName)
     return df 
-# save
-get_edgs_assumptions("Generation Stack").to_csv(f"{output_location}/gen_stack.csv", index=False)
-#endregion
-
-#############################################################################
-#region ELE GENERATION
-#############################################################################
 
 def get_mbie_electricity(SheetName, rowstart,rowend, category_name, unit, variable_name):
     ele_location = f"{input_location}/electricity.xlsx"
@@ -61,15 +52,119 @@ def get_mbie_electricity(SheetName, rowstart,rowend, category_name, unit, variab
     df = df.rename(columns = {"Fuel":"FuelType"})
     return df 
 
-# Generation (PJ/GWh - sticking with GWh for now but everything in TIMES will be PJ)
+
+def get_mbie_gen_ele_only():
+    ele_only_gen = pd.read_excel(
+        f"{DATA_RAW}/external_data/mbie/electricity.xlsx",
+        sheet_name = "6 - Fuel type (GWh)",
+        usecols = "B:K", skiprows = 5, nrows = 51)
+
+    # ensure year label correct 
+    ele_only_gen = ele_only_gen.rename(columns = {"Unnamed: 1":  "Year"})
+    # remove junk rows 
+    ele_only_gen = ele_only_gen[~ele_only_gen["Year"].isna()]
+    # remove provisional label
+    ele_only_gen = ele_only_gen.drop(["Unnamed: 2"], axis = 1)
+
+    # tidy column names 
+    ele_only_gen = ele_only_gen.rename(
+        columns = {"Oil1": "Oil",
+                   "Geo- thermal": "Geothermal"}
+        )
+    # sensible shape 
+    ele_only_gen = ele_only_gen.melt(
+        id_vars = "Year",
+        var_name = "Fuel",
+        value_name = "Value"
+        )
+    # label 
+    ele_only_gen["Unit"] = "GWh"
+    ele_only_gen["Variable"] = "Electricity generation (no cogen)"
+    ele_only_gen = ele_only_gen.rename(columns = {"Fuel":"FuelType"})
+    # years as integers 
+    ele_only_gen["Year"] = ele_only_gen["Year"].astype(int)
+
+    return ele_only_gen       
+
+def get_official_electricity_capacity():
+    official_capacity = pd.read_excel(
+    f"{DATA_RAW}/external_data/mbie/electricity.xlsx",
+    sheet_name = "7 - Plant type (MW)",
+    usecols = "B:P", skiprows = 5, nrows = 50)
+    # clean up 
+
+    # ensure year label correct 
+    official_capacity = official_capacity.rename(columns = {"Unnamed: 1":  "Year"})
+    # remove junk rows 
+    official_capacity = official_capacity[~official_capacity["Year"].isna()]
+    # remove junk columns (subtotals, totals)
+    official_capacity = official_capacity.drop(["Sub-total", "Sub-total.1", "Unnamed: 15"], axis = 1)
+    # sensible categories
+    official_capacity = official_capacity.rename(
+        columns = {"Gas3": "Gas Cogen",
+                   "Other4": "Other Cogen",
+                   "Other Thermal2": "Other electricity generation"}
+        )
+    # sensible shape 
+    official_capacity = official_capacity.melt(
+        id_vars = "Year",
+        var_name = "Technology",
+        value_name = "Value"
+    )
+    # missing means 0 in this case 
+    official_capacity["Value"] = official_capacity["Value"].fillna(0)
+    # label 
+    official_capacity["Unit"] = "MW"
+    official_capacity["Variable"] = "Electricity generation capacity at end year"
+    # years as integers 
+    official_capacity["Year"] = official_capacity["Year"].astype(int)
+    # save 
+    return official_capacity
+
+
+def get_mbie_gas_pj(rowstart,rowend, category_name, unit, variable_name):
+
+
+    df_location = f"{input_location}/gas.xlsx"
+    df = pd.read_excel(df_location, sheet_name = "Annual_PJ", skiprows = 9)
+
+    # We're only taking stuff from the annual PJ Sheet here, cos that's the only good one!!
+    # to do: refactor this function into a "get mbie" function that can be generalised across all their workbooks?
+
+
+     # each range must come with the years, which are now the column names
+    # we then just supply the row range for whichever specific table we want.     
+    df = df.iloc[rowstart:rowend]        
+    # get rid of whitespace for any variable name that isn't a year 
+    df.columns = [col.strip() if isinstance(col, str) else col for col in df.columns] 
+    # relabel the category year 
+    df = df.rename(columns={"Calendar year": category_name})
+    # remove the footnote numbers from the categories
+    df[category_name] = df[category_name].str.replace(r'\d+$', '', regex=True)
+    # self-documenting table variables
+    df["Unit"] = unit
+    df["Variable"] = variable_name
+    # pivot 
+    df = pd.melt(df, 
+                 id_vars = [category_name, "Unit", "Variable"],
+                 var_name = "Year",
+                 value_name = "Value"
+                 )    
+    # remove null value years (NOTE: ensure this works with other years?? )
+    df = df[~df["Value"].isna()]
+    return df 
+
+
+
+
+# Generation 
+# (PJ/GWh - sticking with GWh for now but everything in TIMES will be PJ)
 df = get_mbie_electricity("2 - Annual GWh", 
                           2,12, # row start/end
                           category_name = "Fuel",
                           unit = "GWh",
                           variable_name = "Annual net electricity generation")
 df.to_csv(f"{output_location}/mbie_ele_generation_gwh.csv", index=False)
-
-
 df = get_mbie_electricity("4 - Annual PJ", 
                           2,12, # row start/end
                           category_name = "Fuel",
@@ -78,107 +173,28 @@ df = get_mbie_electricity("4 - Annual PJ",
 # save
 df.to_csv(f"{output_location}/mbie_ele_generation_pj.csv", index=False)
 
-#endregion
-
-#############################################################################
-#region ELE ONLY
-#############################################################################
-ele_only_gen = pd.read_excel(
-    f"{DATA_RAW}/external_data/mbie/electricity.xlsx",
-    sheet_name = "6 - Fuel type (GWh)",
-    usecols = "B:K", skiprows = 5, nrows = 51)
-
-
-# ensure year label correct 
-ele_only_gen = ele_only_gen.rename(columns = {"Unnamed: 1":  "Year"})
-# remove junk rows 
-ele_only_gen = ele_only_gen[~ele_only_gen["Year"].isna()]
-# remove provisional label
-ele_only_gen = ele_only_gen.drop(["Unnamed: 2"], axis = 1)
-
-# tidy column names 
-ele_only_gen = ele_only_gen.rename(
-    columns = {"Oil1": "Oil",
-               "Geo- thermal": "Geothermal"}
-    )
-# sensible shape 
-ele_only_gen = ele_only_gen.melt(
-    id_vars = "Year",
-    var_name = "Fuel",
-    value_name = "Value"
-    )
-# label 
-ele_only_gen["Unit"] = "GWh"
-ele_only_gen["Variable"] = "Electricity generation (no cogen)"
-ele_only_gen = ele_only_gen.rename(columns = {"Fuel":"FuelType"})
-# years as integers 
-ele_only_gen["Year"] = ele_only_gen["Year"].astype(int)
-
-
-# save
+# ele only (removing cogen)
+ele_only_gen = get_mbie_gen_ele_only()
 ele_only_gen.to_csv(f"{output_location}/mbie_ele_only_generation.csv", index=False)
-#endregion
 
-#############################################################################
-#region ELE CAPACITY
-#############################################################################
-
-
-official_capacity = pd.read_excel(
-    f"{DATA_RAW}/external_data/mbie/electricity.xlsx",
-    sheet_name = "7 - Plant type (MW)",
-    usecols = "B:P", skiprows = 5, nrows = 50)
+# capacity 
+df = get_official_electricity_capacity()
+df.to_csv(f"{output_location}/mbie_generation_capacity.csv", index=False)
 
 
-# clean up 
+#EDGS 
+genstack = get_edgs_assumptions("Generation Stack")
+genstack.to_csv(f"{output_location}/gen_stack.csv", index=False)
 
-# ensure year label correct 
-official_capacity = official_capacity.rename(columns = {"Unnamed: 1":  "Year"})
-# remove junk rows 
-official_capacity = official_capacity[~official_capacity["Year"].isna()]
 
-# remove junk columns (subtotals, totals)
-official_capacity = official_capacity.drop(["Sub-total", "Sub-total.1", "Unnamed: 15"], axis = 1)
-
-# sensible categories
-
-official_capacity = official_capacity.rename(
-    columns = {"Gas3": "Gas Cogen",
-               "Other4": "Other Cogen",
-               "Other Thermal2": "Other electricity generation"}
+gas_non_energy = get_mbie_gas_pj(
+    60,61, # only one row. I would love a better way of flagging which rows different tables are on 
+    category_name = "Balance category",
+    unit = "PJ",
+    variable_name = "Natural gas non-energy use"
     )
 
-# sensible shape 
-
-
-official_capacity = official_capacity.melt(
-    id_vars = "Year",
-    var_name = "Technology",
-    value_name = "Value"
-
-)
-
-# missing means 0 in this case 
-official_capacity["Value"] = official_capacity["Value"].fillna(0)
-# label 
-official_capacity["Unit"] = "MW"
-official_capacity["Variable"] = "Electricity generation capacity at end year"
-# years as integers 
-official_capacity["Year"] = official_capacity["Year"].astype(int)
-# save 
-official_capacity.to_csv(f"{output_location}/mbie_generation_capacity.csv", index=False)
-
-
-#endregion
-
-
-
-
-
-
-
-
-
+gas_non_energy.to_csv(f"{output_location}/mbie_gas_non_energy.csv", index = False)
 
 
 
