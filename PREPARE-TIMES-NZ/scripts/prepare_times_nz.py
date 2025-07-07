@@ -15,7 +15,7 @@ import subprocess
 # get custom libraries/ locations 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "..", "library"))
-from filepaths import PREP_LOCATION
+from filepaths import STAGE_0_SCRIPTS, STAGE_1_SCRIPTS, STAGE_2_SCRIPTS, STAGE_3_SCRIPTS, STAGE_4_SCRIPTS
 from helpers import clear_data_intermediate, clear_output
 
 #start timer 
@@ -24,13 +24,6 @@ start_time = time.time()
 # clear out the data_intermediate folder and output folder
 clear_data_intermediate()
 clear_output()
-
-# Identify script locations 
-STAGE_0_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_0_settings/"
-STAGE_1_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_1_prep_raw_data/"
-STAGE_2_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_2_baseyear/"
-# STAGE 3 SCRIPTS don't exist yet 
-STAGE_4_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_4_veda_format/"
 
 def run_script(script_path):
     """Run a script and print the output."""
@@ -42,14 +35,17 @@ print(f"Reading settings files...")
 run_script(f"{STAGE_0_SCRIPTS}/parse_tomls.py")    
 # Stage 1: Prep raw data 
 print(f"Preparing raw data...")    
+run_script(f"{STAGE_1_SCRIPTS}/extract_eeud_data.py")    
 run_script(f"{STAGE_1_SCRIPTS}/extract_ea_data.py")    
 run_script(f"{STAGE_1_SCRIPTS}/extract_mbie_data.py")    
 run_script(f"{STAGE_1_SCRIPTS}/extract_snz_data.py")    
+run_script(f"{STAGE_1_SCRIPTS}/extract_gic_data.py")    
 # Stage 2: Base Year 
 print(f"Compiling base year files...")    
 run_script(f"{STAGE_2_SCRIPTS}/baseyear_electricity_generation.py")    
+run_script(f"{STAGE_2_SCRIPTS}/baseyear_industry_demand.py")    
 # Stage 3: Scenarios:
-# no scripts exist yet. 
+run_script(f"{STAGE_3_SCRIPTS}/industry/industry_get_demand_growth.py")    
 #Stage 4: Create excel files 
 print(f"Reshaping data to match Veda formatting...")    
 run_script(f"{STAGE_4_SCRIPTS}/create_baseyear_ELC_files.py")    

@@ -38,7 +38,7 @@ STAGE_4_DATA = os.path.join(DATA_INTERMEDIATE, "stage_4_veda_format")
 STAGE_0_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_0_settings"
 STAGE_1_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_1_prep_raw_data"
 STAGE_2_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_2_baseyear"
-# STAGE 3 SCRIPTS don't exist yet 
+STAGE_3_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_3_scenarios"
 STAGE_4_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_4_veda_format"
 
 
