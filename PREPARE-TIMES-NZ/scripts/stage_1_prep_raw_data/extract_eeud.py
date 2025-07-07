@@ -4,8 +4,7 @@
 
 import sys 
 import os 
-import polars as pl # we're trying polars in this script instead of pandas
-# import pandas as pd 
+import pandas as pd 
 
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -14,7 +13,7 @@ from data_cleaning import rename_columns_to_pascal
 from filepaths import DATA_RAW, STAGE_1_DATA
 
 
-# FILEPATHS -------------------------------------------------------------------------
+# Filepaths -------------------------------------------------------------------------
 input_location = f"{DATA_RAW}/eeca_data/eeud"
 output_location = f"{STAGE_1_DATA}/eeud"
 os.makedirs(output_location, exist_ok = True)
@@ -23,23 +22,31 @@ eeud_filename = "Final EEUD Outputs 2017 - 2023 12032025.xlsx"
 
 
 
-# MAKE TABLE -------------------------------------------------------------------------
+# Get data -------------------------------------------------------------------------
 
 # read 
-df = pl.read_excel(f"{input_location}/{eeud_filename}", engine='openpyxl', sheet_name = "Data")
-# clean up the column names
-eeud_df = rename_columns_to_pascal(df)
+df = pd.read_excel(f"{input_location}/{eeud_filename}", engine='openpyxl', sheet_name = "Data")
 
-# process 
+# Process and save ---------------------------------------------------
 
-eeud_df = (eeud_df 
-           .with_columns(pl.col("PeriodEndDate").dt.year().alias("Year"))           
-           # label with unit variable 
-           .with_columns(pl.lit("TJ").alias("Unit"))
-           # value should not be string 
-           .with_columns(pl.col("EnergyValue").cast(pl.Float64, strict = False).alias("Value"))
-           # remove older columns we've transformed 
-           .drop(["EnergyValue", "PeriodEndDate"])
-           )
 
-eeud_df.write_csv(f"{output_location}/eeud.csv")
+def clean_eeud_data(df):
+
+    # standard cases
+    df = rename_columns_to_pascal(df)
+    # add year 
+    df["Year"] = df["PeriodEndDate"].dt.year
+    # create Value - force not string (and replace with nulls if needed)
+    df["Value"] = pd.to_numeric(df["EnergyValue"],errors="coerce")
+     # label with unit variable
+    df["Unit"] = "TJ"
+    # remove old vars
+    df = df.drop(["EnergyValue", "PeriodEndDate"], axis = 1)
+
+    return df 
+
+df = clean_eeud_data(df)
+
+df.to_csv(f"{output_location}/eeud.csv", index = False )
+
+
