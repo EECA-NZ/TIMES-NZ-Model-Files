@@ -1,10 +1,12 @@
 
 """
 
+This script takes the historical demand for each sector and uses the timeseries for demand projections.
 
-It then tidies the variableslong ways after defining the topology, setting units etc.
+This method is mostly a minimal implementation and currently just (optionally) outputs charts for each sector depending on the selected method.
+It does not contribute to the main workflow at this stage
 
-This is the final output for the industrial sector base year, and includes all the categories etc (so we can make concordances out of this too)
+We can expand this for demand projections later when doing industry demand scenarios
 
 """
 import sys 
