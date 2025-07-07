@@ -8,11 +8,11 @@ import shutil
 import logging
 
 
-from filepaths import DATA_INTERMEDIATE
+from filepaths import STAGE_1_DATA
 
 # helper data for these functions
 
-cpi_df = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_1_external_data/statsnz/cpi.csv") # this is the deflator data
+cpi_df = pd.read_csv(f"{STAGE_1_DATA}/statsnz/cpi.csv") # this is the deflator data
 
 def deflate_value(current_year, base_year, current_value):
     """
