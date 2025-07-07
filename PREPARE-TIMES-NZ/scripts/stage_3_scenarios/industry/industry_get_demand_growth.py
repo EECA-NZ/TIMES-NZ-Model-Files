@@ -28,21 +28,34 @@ INDUSTRY_ASSUMPTIONS = f"{ASSUMPTIONS}/industry_demand"
 checks_location = f"{STAGE_2_INDUSTRY_DATA}/checks"
 os.makedirs(checks_location, exist_ok = True)
 
+# Constants --------------------------------------------
 
-# Get data 
+# If print_charts, this script renders several results of different forecast methods
+
+# Currently it does nothing else, but can be expanded to our eventual scenario demand forecasts 
+print_charts = False 
+
+if print_charts: 
+    logger.info("Printing different forecast result charts")
+else: 
+    logger.info("Not currently returning forecast industrial demand - this script is WIP")
+
+# Get data ---------------------------------------------------
 
 
 def get_demand_settings():
 
-    df = pd.read_csv(f"{INDUSTRY_ASSUMPTIONS}/")
-
+    df = pd.read_csv(f"{INDUSTRY_ASSUMPTIONS}/sector_demand_methods.csv")
+    return df
 
 def get_aggregate_data():
-    df = pd.read_csv(f"{STAGE_2_INDUSTRY_DATA}/times_eeud_timeseries.csv")
+    df = pd.read_csv(f"{STAGE_2_INDUSTRY_DATA}/checks/1_sector_alignment/times_eeud_alignment_timeseries.csv")
     df = df.groupby(["Year", "Sector"])["Value"].sum().reset_index()
     return df 
 
-# aggregate 
+# Functions 
+
+#
 
 def make_linear_model(df):
 
@@ -264,13 +277,8 @@ def make_forecast_chart(df, method = "Linear Regression"):
     
 df = get_aggregate_data()
 
-make_forecast_chart(df, method = "Linear Regression")
-make_forecast_chart(df, method = "CAGR")
-make_forecast_chart(df, method = "CAGR (smooth historical)")
+if print_charts:
+    make_forecast_chart(df, method = "Linear Regression")
+    make_forecast_chart(df, method = "CAGR")
+    make_forecast_chart(df, method = "CAGR (smooth historical)")
 
-# print(test)
-
-
-# test = get_cagrs(df)
-
-# print(test)

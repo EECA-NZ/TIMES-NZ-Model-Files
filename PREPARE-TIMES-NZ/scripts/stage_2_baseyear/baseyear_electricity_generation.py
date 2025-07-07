@@ -16,6 +16,9 @@ The code is broken down by #region/#endregion tags, which include a title and op
 
 You can read full information about this script at `PREPARE-TIMES-NZ/docs/model_methodology/base_year_electricity.md`
 
+
+This was the first script I wrote and needs full refactoring sorry.
+
 """
 
 
@@ -40,7 +43,7 @@ CUSTOM_ELE_ASSUMPTIONS = f"{DATA_RAW}/coded_assumptions/electricity_generation"
 CONCORDANCES = f"{DATA_RAW}/concordances"
 
 # define and create intermediate location for base year data 
-output_location = f"{STAGE_2_DATA}/stage_2_baseyear"
+output_location = f"{STAGE_2_DATA}/electricity"
 os.makedirs(output_location, exist_ok = True)
 
 # and for any testing outputs we might want to browse
