@@ -1,5 +1,5 @@
-import sys 
-import os 
+import sys
+import os
 import subprocess
 import pandas as pd
 
@@ -14,15 +14,15 @@ INDUSTRY_SCRIPTS = f"{STAGE_2_SCRIPTS}/industry"
 
 def run_script(script_path):
     """Run a script and print the output."""
-    subprocess.run(["python", script_path], check=True)    
+    subprocess.run([sys.executable, script_path], check=True)
 
-# execute scripts in order 
+# execute scripts in order
 h1("Aligning EEUD and TIMES industrial sector categories")
-run_script(f"{INDUSTRY_SCRIPTS}/industry_align_eeud_sectors.py")    
+run_script(f"{INDUSTRY_SCRIPTS}/industry_align_eeud_sectors.py")
 h1("Calculating regional disaggregations based on input assumptions")
-run_script(f"{INDUSTRY_SCRIPTS}/industry_disaggregate_regions.py")    
+run_script(f"{INDUSTRY_SCRIPTS}/industry_disaggregate_regions.py")
 h1("Adding technical parameters by assumption")
-run_script(f"{INDUSTRY_SCRIPTS}/industry_add_assumptions.py")    
+run_script(f"{INDUSTRY_SCRIPTS}/industry_add_assumptions.py")
 h1("Defining process and commodities")
 run_script(f"{INDUSTRY_SCRIPTS}/industry_define_process_commodities.py")
 

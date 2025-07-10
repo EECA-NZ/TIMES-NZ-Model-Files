@@ -1,8 +1,8 @@
-import tomli  # For Python < 3.11, use the tomli package for reading
+import tomllib
 import copy
-import os 
+import os
 
-import pandas as pd 
+import pandas as pd
 # from filepaths import DATA_RAW, DATA_INTERMEDIATE, OUTPUT_LOCATION
 
 def normalize_toml_data(toml_data):
@@ -10,29 +10,29 @@ def normalize_toml_data(toml_data):
     Normalize TOML data by:
     1. Moving all entries except 'tagname' to a 'Data' subtable if 'Data' doesn't exist
     2. Setting 'tagname' to the table name if it's not specified
-    
+
     Args:
         toml_data (dict): The parsed TOML data
-        toml_filepath: the location of the toml to read 
-        tempted 
-        
+        toml_filepath: the location of the toml to read
+        tempted
+
     Returns:
         dict: Normalized TOML data
-    """   
-    
+    """
+
 
     normalized_data = copy.deepcopy(toml_data)
 
-    # get the bookname here 
+    # get the bookname here
     book_name = normalized_data["WorkBookName"]
-    
+
     for table_name, table_content in normalized_data.items():
 
 
-        # these are all the values with explicit meanings for each item 
+        # these are all the values with explicit meanings for each item
         reserved_keys = [
             "SheetName",
-            "TagName",            
+            "TagName",
             "DataLocation",
             "Data",
             "UCSets",
@@ -41,9 +41,9 @@ def normalize_toml_data(toml_data):
 
         ]
 
-        # Ignore the bookname parameter - our items inherit this 
+        # Ignore the bookname parameter - our items inherit this
         if(table_name == "WorkBookName"):
-            continue 
+            continue
 
 
         # If tagname is not specified, use the table name
@@ -63,50 +63,50 @@ def normalize_toml_data(toml_data):
             table_content['Description'] = ""
 
 
-        # Data processing 
+        # Data processing
 
 
-        # we skip if no dictionary exists i can't remeber why 
-        # is this fully covered by skipping BookName?       
+        # we skip if no dictionary exists i can't remeber why
+        # is this fully covered by skipping BookName?
 
 
-        
+
         # Skip if not a dictionary (table)
         if not isinstance(table_content, dict):
            continue
 
-        if 'DataLocation' in table_content: 
-            # we write the data as just the location of the table provided by DataLocation, so this is already done 
-            continue            
-        
+        if 'DataLocation' in table_content:
+            # we write the data as just the location of the table provided by DataLocation, so this is already done
+            continue
+
         elif "Data" in table_content:
             # we just keep it
-            continue 
+            continue
 
-        else:              
-            # This means there were no references to data tables or locations, 
-            # so we assume the data is in the toml and just take all the other variables and make them a dictionary       
+        else:
+            # This means there were no references to data tables or locations,
+            # so we assume the data is in the toml and just take all the other variables and make them a dictionary
 
             # Create a Data subtable
-            data_subtable = {}           
-            
-            
+            data_subtable = {}
+
+
             # Move all entries except reserved keys to 'Data'
             keys_to_remove = []
             for key, value in table_content.items():
                 if key not in reserved_keys:
                     data_subtable[key] = value
                     keys_to_remove.append(key)
-            
+
             # Remove the moved keys from the original table
             for key in keys_to_remove:
                 del table_content[key]
-            
+
             # Add the Data subtable
             table_content['Data'] = data_subtable
 
 
-    
+
     return normalized_data
 
 
@@ -114,18 +114,18 @@ def parse_toml_file(file_path):
 
     """
     Parse a TOML file and normalize its structure
-    
+
     Args:
         file_path (str or Path): Path to the TOML file
-        
+
     Returns:
         dict: Normalized TOML data
     """
-    
-    
+
+
     with open(file_path, 'rb') as f:
-        toml_data = tomli.load(f)
-    
+        toml_data = tomllib.load(f)
+
     return normalize_toml_data(toml_data)
 
 
@@ -136,6 +136,6 @@ def get_toml_files(folder_path):
     if not os.path.isdir(folder_path):
         print(f"Error: The folder '{folder_path}' does not exist.")
         return []
-    
+
     return [f for f in os.listdir(folder_path) if f.endswith('.toml')]
 

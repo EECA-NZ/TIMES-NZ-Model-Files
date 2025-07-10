@@ -85,6 +85,9 @@ Here's how to get the project installed on your local machine for development:
 ```PowerShell
 git clone git@github.com:EECA-NZ/TIMES-NZ-Model-Files.git
 cd TIMES-NZ-Model-Files
+python -m venv .venv
+.venv/Scripts/activate
+pip install -r requirements.txt
 ```
 
 ## Working with Git & GitHub
@@ -193,7 +196,7 @@ git add [specific changed file or files related to commit]
 # Commit the changes
 git commit -m "Your descriptive commit message"
 ```
-If you have changed the TIMES configuration files, one of the files you commit should be `TIMES-NZ/raw_table_summary/raw_tables.txt`. 
+If you have changed the TIMES configuration files, one of the files you commit should be `TIMES-NZ/raw_table_summary/raw_tables.txt`.
 
 #### 8. Push Your Changes
 
@@ -206,7 +209,7 @@ git push --set-upstream origin <your-branch-name>
 
 #### 9. Create a Pull Request
 
-Finally, you can ask for your changes to be merged into the main branch by creating a "pull request". 
+Finally, you can ask for your changes to be merged into the main branch by creating a "pull request".
 
 Go to the repository on GitHub, and click on the "Pull request" button. Select your branch from the dropdown, write a brief description of your changes, and click "Create pull request".
 
