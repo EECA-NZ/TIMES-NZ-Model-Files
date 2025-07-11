@@ -76,7 +76,7 @@ It is assumed that the developer is working in Windows Powershell or in Ubuntu (
     python -m coverage html
     ```
 
-11. **Running Linters and Formatters Locally:**
+10. **Running Linters and Formatters Locally:**
     *   Black and Isort:
         ```bash
         python -m black $(git ls-files "*.py")
@@ -91,7 +91,7 @@ It is assumed that the developer is working in Windows Powershell or in Ubuntu (
         pip-audit
         ```
 
-12. **Ensure Code Quality Before Pushing:**
+11. **Ensure Code Quality Before Pushing:**
     *   Ensure all tests pass and code adheres to style guidelines.
     *   Fix any reported vulnerabilities found by `pip-audit`.
     *   Run `pre-commit run --all-files` to ensure all existing files conform to the hooks.
