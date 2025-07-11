@@ -1,0 +1,18 @@
+EndUse,EndUse_TIMES,
+Compressed Air,COMP_AIR,8
+Electronics and Other Electrical Uses,ELCTR,5
+Fans,FAN,3
+Feedstock,FDSTK,5
+"High Temperature Heat (>300 C), Process Requirements",PH_HIGH,7
+"Intermediate Heat (100-300 C), Cooking",CH_INT,6
+"Intermediate Heat (100-300 C), Process Requirements",PH_INT,6
+Iron and Steel Manufacturing,ISTEEL,6
+Lighting,LIGHT,5
+"Low Temperature Heat (<100 C), Process Requirements",PH_LOW,6
+"Low Temperature Heat (<100 C), Space Heating",SH_LOW,6
+"Low Temperature Heat (<100 C), Water Heating",WH_LOW,6
+"Motive Power, Mobile",MTV_MOB,7
+"Motive Power, Stationary",MTV_STA,7
+Pumping,PUMP,4
+Refiners,REFIN,5
+Refrigeration,FRIDG,5

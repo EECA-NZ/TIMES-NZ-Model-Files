@@ -9,14 +9,14 @@ logging.basicConfig(level=logging.INFO)
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
-from filepaths import DATA_INTERMEDIATE, DATA_RAW 
+from filepaths import DATA_RAW, STAGE_2_DATA, STAGE_4_DATA
 from helpers import test_table_grain, select_and_rename
 from deflator import deflate_data
 
 
 
 # define outputs for this script 
-output_location = f"{DATA_INTERMEDIATE}/stage_4_veda_format/base_year_elc"
+output_location = f"{STAGE_4_DATA}/base_year_elc"
 os.makedirs(output_location, exist_ok=True)
 
 # parameters 
@@ -31,7 +31,7 @@ cap2act_pjgw = 31.536
 ############################################################################################
 
 # Existing generation technologies 
-existing_techs_df = pd.read_csv(f"{DATA_INTERMEDIATE}/stage_2_baseyear/base_year_electricity_supply.csv")
+existing_techs_df = pd.read_csv(f"{STAGE_2_DATA}/electricity/base_year_electricity_supply.csv")
 # should have done this before 
 existing_techs_df.rename(columns = {"Process":"TechName"}, inplace = True)
 

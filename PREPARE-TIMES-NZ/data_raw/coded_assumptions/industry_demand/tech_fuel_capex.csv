@@ -1,0 +1,31 @@
+Technology,Fuel,CAPEX,PriceBaseYear,Notes,Source
+Boiler Systems,Biogas,490,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Boiler Systems,Coal,1580,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Boiler Systems,Diesel,600,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Boiler Systems,Electricity,430,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Boiler Systems,Fuel Oil,600,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Heat Exchangers,Geothermal,170,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Boiler Systems,LPG,680,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Boiler Systems,Natural Gas,490,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Boiler Systems,Wood,2190,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Burner (Direct Heat),LPG,660,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Burner (Direct Heat),Natural Gas,660,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Electric Furnace,Electricity,130,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Electric Motor,Electricity,,2022,TBC,"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Furnace/Kiln,Coal,1580,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Furnace/Kiln,Electricity,130,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Furnace/Kiln,Fuel Oil,660,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Furnace/Kiln,Natural Gas,660,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Heat Pump (space heating),Electricity,680,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Heat Pump (process heat),Electricity,850,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Industrial Ovens,Coal,300,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Industrial Ovens,Electricity,270,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Industrial Ovens,Natural Gas,250,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Internal Combustion Engine (Land Transport),Diesel,2388,2018,TBC,TIMES 2.0
+Internal Combustion Engine (Land Transport),Natural Gas,2723,2018,TBC,TIMES 2.0
+Internal Combustion Engine (Land Transport),Petrol,2388,2018,TBC - assume the same cost as diesel,TIMES 2.0
+"Pump Systems (for Fluids, etc.)",Electricity,2308,2018,This number looks way too high ,TIMES 2.0
+"Pump Systems (for Fluids, etc.)",Natural Gas,462,2018,TBC,TIMES 2.0
+Resistance Heater,Electricity,135,2022,Bumped by 30% from source (feedback that these are too low),"""Cost Assessment Tool"" at https://www.eeca.govt.nz/regulations/emissions-plan-guidance/"
+Stationary Engine,Diesel,455,2018,TBC,TIMES 2.0
+Stationary Engine,Petrol,455,2018,TBC - assume the same cost as diesel,TIMES 2.0

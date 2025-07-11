@@ -1,0 +1,15 @@
+﻿Sector,NI_Share,Note
+Aluminium,0,Only Tiwai
+Chemicals (excl. Urea and Methanol),1,No chemical processing in SI according to RETA
+Construction,0.74,Based on Regional GDP data YE March 2024
+Dairy,0.58,RETA data
+Food and Beverage,0.75,RETA data
+Iron & Steel,1,Only NZSteel and Pacific Steel
+Meat,0.43,RETA data
+Methanol,1,Only Methanex
+Mining,0.38,"RETA data. Note that this is an estimate as RETA considers only process heat, so might neglect motive power shares."
+Non-Metallic Mineral Product Manufacturing,0.95,RETA data on concrete/lime processing sites
+Other,0.88,RETA data. 
+Pulp and Paper,1,No South Island Pulp/Paper according to RETA
+Urea,1,Only Ballance Kapuni site
+Wood Products,0.75,According to MPI data

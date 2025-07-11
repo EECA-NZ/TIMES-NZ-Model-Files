@@ -1,6 +1,6 @@
 
 """
-This file includes configuration directories and variable settings 
+This file includes configuration directories
 This way any scripts can use these without hardcoding, which maintains a bit more flexibility in separate environments
 The structure will need to change if this file is moved, as it uses the current location:
 
@@ -22,6 +22,24 @@ OUTPUT_LOCATION = os.path.join(PREP_LOCATION, "output")
 DATA_INTERMEDIATE = os.path.join(PREP_LOCATION, "data_intermediate")
 DATA_RAW = os.path.join(PREP_LOCATION, "data_raw")
 
+
+# data raw subfolders
+ASSUMPTIONS = os.path.join(DATA_RAW, "coded_assumptions")
+CONCORDANCES = os.path.join(DATA_RAW, "concordances")
+
+
+# data intermediate stages
+STAGE_1_DATA = os.path.join(DATA_INTERMEDIATE, "stage_1_input_data")
+STAGE_2_DATA = os.path.join(DATA_INTERMEDIATE, "stage_2_baseyear_data")
+STAGE_3_DATA = os.path.join(DATA_INTERMEDIATE, "stage_3_scenario_data")
+STAGE_4_DATA = os.path.join(DATA_INTERMEDIATE, "stage_4_veda_format")
+
+# scripts 
+STAGE_0_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_0_settings"
+STAGE_1_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_1_prep_raw_data"
+STAGE_2_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_2_baseyear"
+STAGE_3_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_3_scenarios"
+STAGE_4_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_4_veda_format"
 
 
 

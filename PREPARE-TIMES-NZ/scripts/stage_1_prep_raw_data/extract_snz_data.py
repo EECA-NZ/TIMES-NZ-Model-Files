@@ -11,14 +11,14 @@ import pandas as pd
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "../..", "library"))
-from filepaths import DATA_RAW, DATA_INTERMEDIATE
+from filepaths import DATA_RAW, STAGE_1_DATA
 
 #endregion
 #######################################################################
 #region FILEPATHS
 #######################################################################
 input_location = f"{DATA_RAW}/external_data/statsnz"
-output_location = f"{DATA_INTERMEDIATE}/stage_1_external_data/statsnz"
+output_location = f"{STAGE_1_DATA}/statsnz"
 os.makedirs(output_location, exist_ok = True)
 
 # all file locations: 
