@@ -1,0 +1,10 @@
+-r requirements.txt
+pytest==8.*
+pylint==3.*
+black==25.*
+isort==6.*
+coverage==7.*
+pre-commit==4.*
+setuptools==80.*
+pip-audit==2.*
+yamllint==1.*
