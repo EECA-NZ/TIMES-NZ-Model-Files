@@ -18,7 +18,7 @@ raw_tables.pkl
 TIMES-NZ/Exported_files/
 TIMES-NZ-GAMS/GAMSSAVE/
 TIMES-NZ/SyncLogs/
-
+.coverage
 
 # Ignore all generated files
 # Note: keeping the Veda data foreasier checking
@@ -43,13 +43,12 @@ GAMSSAVE/
 # Additional ignores
 END_GAMS
 .Rproj.user
-.pylintrc
 .vscode/
 
 # R deployment artifacts
 rsconnect
 
 
-# Some spare processing locations 
+# Some spare processing locations
 PREPARE-TIMES-NZ/data_intermediate/
 PREPARE-TIMES-NZ/output/
