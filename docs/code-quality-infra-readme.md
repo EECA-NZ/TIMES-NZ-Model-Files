@@ -96,6 +96,26 @@ It is assumed that the developer is working in Windows Powershell or in Ubuntu (
     *   Fix any reported vulnerabilities found by `pip-audit`.
     *   Run `pre-commit run --all-files` to ensure all existing files conform to the hooks.
 
+12. **Cross-platform line endings (Windows vs WSL)**
+
+    The repo contains a `.gitattributes` file that enforces **LF** (`\n`) in history while
+    letting Windows developers see **CRLF** in their editors. Most users should need
+    no extra setup.
+
+    If you switch between Windows and WSL, run these one-time commands so
+    Git behaves consistently in both environments:
+
+    ```powershell
+    # Windows / PowerShell
+    git config --global core.autocrlf true
+    ```
+
+    ```bash
+    # WSL / Linux / macOS
+    git config --global core.autocrlf input
+    ```
+
+    These settings, together with `.gitattributes`, should allow us to work seamlessly across platforms.
 
 ## Viewing Coverage Reports on GitHub Pages
 This template repository is configured to generate coverage reports using Coverage.py during GitHub Actions workflows. The reports are automatically pushed to the `gh-pages` branch.
