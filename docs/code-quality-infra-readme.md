@@ -19,19 +19,32 @@ This guide describes the code quality infrastructure for this repository, includ
 ## How to Use
 It is assumed that the developer is working in Windows Powershell or in Ubuntu (within `wsl` on an EECA laptop).
 
-1.  **Use the Template:**
-    *   Click on "Use this template" on the GitHub repository page.
-    *   Create a new repository using this template.
-
-2.  **Clone the Repository:**
+1.  **Clone the Repository:**
     ```bash
-    git clone git@github.com:<gituser>/<new_repo_name>.git
+    git clone git@github.com:EECA-NZ/TIMES-NZ-Model-Files.git
     ```
 
-3.  **Update Project Metadata:**
-    *   Update `pyproject.toml` and, if necessary, add a `setup.py` with your project's details.
+1.  **If necessary, configure cross-platform line endings (Windows vs WSL) and EditorConfig**
 
-4.  **Create and Activate a Virtual Environment:**
+    * The repo contains a `.gitattributes` file that enforces **LF** (`\n`) in history
+      while letting Windows developers see **CRLF** in their editors. Most users should
+      need no extra setup.
+    * If you switch between Windows and WSL, run these one-time commands so Git
+      behaves consistently in both environments:
+        ```powershell
+        # Windows / PowerShell
+        git config --global core.autocrlf true
+        ```
+        ```bash
+        # WSL / Linux / macOS
+        git config --global core.autocrlf input
+        ```
+    * These settings, together with `.gitattributes`, let us work seamlessly
+      across platforms.
+    * We also ship an `.editorconfig` file. Enable EditorConfig support in your
+      IDE (VS Code, PyCharm, etc.) to apply these rules automatically.
+
+1.  **Create and Activate a Virtual Environment:**
     In Ubuntu or WSL:
     ```bash
     python -m venv .venv
@@ -44,13 +57,13 @@ It is assumed that the developer is working in Windows Powershell or in Ubuntu (
     ```
     Ensure your virtual environment is activated before running the commands below.
 
-5.  **Install Required Dependencies:**
+1.  **Install Required Dependencies:**
     ```bash
     python -m pip install --upgrade pip
     python -m pip install -r requirements-dev.txt
     ```
 
-6.  **Install Pre-commit Hooks:**
+1.  **Install Pre-commit Hooks:**
     ```bash
     pre-commit install
     pre-commit install --hook-type pre-push
@@ -60,23 +73,23 @@ It is assumed that the developer is working in Windows Powershell or in Ubuntu (
     *   On **commit**, fast checks (`black`, `isort`, `pylint` on staged files) are run.
     *   On **push**, thorough checks (`pip-audit`) are run.
 
-7.  **Start Developing:**
+1.  **Start Developing:**
     *   Develop your Python package in the `src/` directory.
     *   Write tests in the `tests/` directory.
 
-8.  **Running Tests Locally:**
+1.  **Running Tests Locally:**
     ```bash
     python -m pytest
     ```
 
-9. **Run the tests locally with coverage:**
+1. **Run the tests locally with coverage:**
     ```bash
     python -m coverage run -m pytest
     python -m coverage report
     python -m coverage html
     ```
 
-10. **Running Linters and Formatters Locally:**
+1. **Running Linters and Formatters Locally:**
     *   Black and Isort:
         ```bash
         python -m black $(git ls-files "*.py")
@@ -91,31 +104,10 @@ It is assumed that the developer is working in Windows Powershell or in Ubuntu (
         pip-audit
         ```
 
-11. **Ensure Code Quality Before Pushing:**
+1. **Ensure Code Quality Before Pushing:**
     *   Ensure all tests pass and code adheres to style guidelines.
     *   Fix any reported vulnerabilities found by `pip-audit`.
     *   Run `pre-commit run --all-files` to ensure all existing files conform to the hooks.
-
-12. **Cross-platform line endings (Windows vs WSL)**
-
-    The repo contains a `.gitattributes` file that enforces **LF** (`\n`) in history while
-    letting Windows developers see **CRLF** in their editors. Most users should need
-    no extra setup.
-
-    If you switch between Windows and WSL, run these one-time commands so
-    Git behaves consistently in both environments:
-
-    ```powershell
-    # Windows / PowerShell
-    git config --global core.autocrlf true
-    ```
-
-    ```bash
-    # WSL / Linux / macOS
-    git config --global core.autocrlf input
-    ```
-
-    These settings, together with `.gitattributes`, should allow us to work seamlessly across platforms.
 
 ## Viewing Coverage Reports on GitHub Pages
 This template repository is configured to generate coverage reports using Coverage.py during GitHub Actions workflows. The reports are automatically pushed to the `gh-pages` branch.
