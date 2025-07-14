@@ -1,12 +1,12 @@
 
 # libraries 
-import os 
+import os
 import sys
 
 # get custom libraries/ locations 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_dir, "..", "library"))
-from filepaths import PREP_LOCATION, DATA_INTERMEDIATE, OUTPUT_LOCATION
+from filepaths import DATA_INTERMEDIATE, OUTPUT_LOCATION, PREP_LOCATION
 from helpers import clear_data_intermediate, clear_output
 
 # delete the data_intermediate and output folders

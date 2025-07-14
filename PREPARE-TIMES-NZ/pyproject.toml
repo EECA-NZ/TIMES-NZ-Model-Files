@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prepare_times_nz"
+version = "0.1.0"
+description = "Data-prep pipeline for the TIMES-NZ model"
+readme = "README.md"
+requires-python = ">=3.12"
+
+# tell setuptools where the code lives
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["prepare_times_nz*"]

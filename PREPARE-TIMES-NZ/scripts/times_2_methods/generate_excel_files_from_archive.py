@@ -1,7 +1,7 @@
 """ TODO: implement an automated TIMES configuration script """
 
 # libraries 
-import os 
+import os
 import sys
 import time
 

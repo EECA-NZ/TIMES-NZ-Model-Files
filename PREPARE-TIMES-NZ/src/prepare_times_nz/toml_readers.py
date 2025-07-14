@@ -1,9 +1,11 @@
-import tomllib
 import copy
 import os
+import tomllib
 
 import pandas as pd
+
 # from filepaths import DATA_RAW, DATA_INTERMEDIATE, OUTPUT_LOCATION
+
 
 def normalize_toml_data(toml_data):
     """
@@ -20,14 +22,12 @@ def normalize_toml_data(toml_data):
         dict: Normalized TOML data
     """
 
-
     normalized_data = copy.deepcopy(toml_data)
 
     # get the bookname here
     book_name = normalized_data["WorkBookName"]
 
     for table_name, table_content in normalized_data.items():
-
 
         # these are all the values with explicit meanings for each item
         reserved_keys = [
@@ -37,45 +37,38 @@ def normalize_toml_data(toml_data):
             "Data",
             "UCSets",
             "Description",
-
-
         ]
 
         # Ignore the bookname parameter - our items inherit this
-        if(table_name == "WorkBookName"):
+        if table_name == "WorkBookName":
             continue
 
-
         # If tagname is not specified, use the table name
-        if 'TagName' not in table_content:
-            table_content['TagName'] = table_name
+        if "TagName" not in table_content:
+            table_content["TagName"] = table_name
 
         # IF sheetname is not specified, inherit the book name
-        if 'SheetName' not in table_content:
-            table_content['SheetName'] = book_name
+        if "SheetName" not in table_content:
+            table_content["SheetName"] = book_name
 
         # Blank entries for uc_sets? could put this somewhere else too if we wanted
-        if 'UCSets' not in table_content:
-            table_content['UCSets'] = ""
+        if "UCSets" not in table_content:
+            table_content["UCSets"] = ""
 
         # Blank entries for uc_sets? could put this somewhere else too if we wanted
-        if 'Description' not in table_content:
-            table_content['Description'] = ""
-
+        if "Description" not in table_content:
+            table_content["Description"] = ""
 
         # Data processing
-
 
         # we skip if no dictionary exists i can't remeber why
         # is this fully covered by skipping BookName?
 
-
-
         # Skip if not a dictionary (table)
         if not isinstance(table_content, dict):
-           continue
+            continue
 
-        if 'DataLocation' in table_content:
+        if "DataLocation" in table_content:
             # we write the data as just the location of the table provided by DataLocation, so this is already done
             continue
 
@@ -90,7 +83,6 @@ def normalize_toml_data(toml_data):
             # Create a Data subtable
             data_subtable = {}
 
-
             # Move all entries except reserved keys to 'Data'
             keys_to_remove = []
             for key, value in table_content.items():
@@ -103,15 +95,12 @@ def normalize_toml_data(toml_data):
                 del table_content[key]
 
             # Add the Data subtable
-            table_content['Data'] = data_subtable
-
-
+            table_content["Data"] = data_subtable
 
     return normalized_data
 
 
 def parse_toml_file(file_path):
-
     """
     Parse a TOML file and normalize its structure
 
@@ -122,13 +111,10 @@ def parse_toml_file(file_path):
         dict: Normalized TOML data
     """
 
-
-    with open(file_path, 'rb') as f:
+    with open(file_path, "rb") as f:
         toml_data = tomllib.load(f)
 
     return normalize_toml_data(toml_data)
-
-
 
 
 def get_toml_files(folder_path):
@@ -137,5 +123,4 @@ def get_toml_files(folder_path):
         print(f"Error: The folder '{folder_path}' does not exist.")
         return []
 
-    return [f for f in os.listdir(folder_path) if f.endswith('.toml')]
-
+    return [f for f in os.listdir(folder_path) if f.endswith(".toml")]

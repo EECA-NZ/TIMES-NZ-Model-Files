@@ -5,23 +5,24 @@ This is a one-off script designed to recreate the raw data as a series of csvs i
 There are a few redundant calls but I do not expect this script to make it into any production system so will not refactor.
 
 """
-# libraries 
-import os 
-import sys
-import numpy as np
-import pandas as pd 
-from io import StringIO
+import ast
 import csv
-import ast 
-import string
 import logging
+# libraries 
+import os
+import string
+import sys
+from io import StringIO
+
+import numpy as np
+import pandas as pd
 
 logging.basicConfig(level=logging.INFO)
 
 # get custom libraries/ locations 
 current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(current_dir, "..", "library"))
-from filepaths import PREP_LOCATION, DATA_INTERMEDIATE
+from filepaths import DATA_INTERMEDIATE, PREP_LOCATION
 
 # file locations 
 table_location = os.path.join(PREP_LOCATION, "data_raw", "archive") # archived summary table, won't update with new loads  
