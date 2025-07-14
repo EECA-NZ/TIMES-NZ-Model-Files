@@ -4,6 +4,11 @@
 THIS MODULE IS UNDER DEVELOPMENT
 ```
 
+To install this module into your local environment, enter the `PREPARE-TIMES-NZ` with your `.venv` activated and run:
+```
+python -m pip install -e .
+```
+
 To prepare the TIMES-NZ model files, we will be implementing pre-processing using the following command:
 
 ```powershell
