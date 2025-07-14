@@ -34,11 +34,11 @@ def get_csv_data(file_location):
     return df
 
 
-def dict_to_dataframe(dict):
+def dict_to_dataframe(data_dict):
     # takes a single dictionary from our tomls and creates a dataframe
     # this is only used for the direct toml data
     df_parts = []
-    for key, values in dict.items():
+    for key, values in data_dict.items():
         # Create DataFrame with explicit index
         if isinstance(values, (str, int, float, bool)) or values is None:
             # For scalar values, we need to wrap in a list and provide an index
