@@ -8,26 +8,27 @@ Note that the true configuration of the final outputs is defined by the toml fil
 
 # libraries
 import os
+import subprocess
 import sys
 import time
-import subprocess
 
-# get custom libraries/ locations
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(current_dir, "..", "library"))
-from filepaths import STAGE_0_SCRIPTS, STAGE_1_SCRIPTS, STAGE_2_SCRIPTS, STAGE_3_SCRIPTS, STAGE_4_SCRIPTS
-from helpers import clear_data_intermediate, clear_output
+from prepare_times_nz.filepaths import (STAGE_0_SCRIPTS, STAGE_1_SCRIPTS,
+                                        STAGE_2_SCRIPTS, STAGE_3_SCRIPTS,
+                                        STAGE_4_SCRIPTS)
+from prepare_times_nz.helpers import clear_data_intermediate, clear_output
 
-#start timer
+# start timer
 start_time = time.time()
 
 # clear out the data_intermediate folder and output folder
 clear_data_intermediate()
 clear_output()
 
+
 def run_script(script_path):
     """Run a script and print the output."""
     subprocess.run([sys.executable, script_path], check=True)
+
 
 # Execute TIMES excel file build from raw data
 # Stage 0: Settings
@@ -46,7 +47,7 @@ run_script(f"{STAGE_2_SCRIPTS}/baseyear_electricity_generation.py")
 run_script(f"{STAGE_2_SCRIPTS}/baseyear_industry_demand.py")
 # Stage 3: Scenarios:
 run_script(f"{STAGE_3_SCRIPTS}/industry/industry_get_demand_growth.py")
-#Stage 4: Create excel files
+# Stage 4: Create excel files
 print(f"Reshaping data to match Veda formatting...")
 run_script(f"{STAGE_4_SCRIPTS}/create_baseyear_ELC_files.py")
 print(f"Building TIMES excel files based on .toml configuration files...")

@@ -1,18 +1,12 @@
 # Libraries -------------------------------------------------------------------
 
-import sys
 import os
-import pandas as pd
-import numpy as np
 import tomllib
-import logging
 
-
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(current_dir, "../../..", "library"))
-from filepaths import DATA_RAW, STAGE_1_DATA, STAGE_2_DATA, ASSUMPTIONS
-from logger_setup import logger, h1, blue_text
-
+import pandas as pd
+from prepare_times_nz.filepaths import (ASSUMPTIONS, DATA_RAW, STAGE_1_DATA,
+                                        STAGE_2_DATA)
+from prepare_times_nz.logger_setup import blue_text, h1, logger
 
 # Constants ---------------------------------------------------------
 
