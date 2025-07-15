@@ -1,45 +1,94 @@
-# LIBRARIES -------------------------------------------------------------------------
+"""
+Extract and clean EEUD (Energy End-Use Database) data for the TIMES-NZ
+pre-processing pipeline.
 
-import os
+Steps performed
+---------------
+1. Read the EEUD "Data" sheet from the raw Excel workbook.
+2. Tidy column names, derive useful fields, and coerce values.
+3. Write a CSV copy to "data_intermediate/stage_1_input_data/eeud".
+
+This script is idempotent: it recreates its output each time it runs.
+
+Run directly::
+
+    python -m prepare_times_nz.stages.extract_eeud
+
+or import :pyfunc:`main` from elsewhere in the project or tests.
+"""
+
+from __future__ import annotations
+
+import logging
+from pathlib import Path
+from typing import Final
 
 import pandas as pd
 from prepare_times_nz.data_cleaning import rename_columns_to_pascal
 from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA
 
-# Filepaths -------------------------------------------------------------------------
-input_location = f"{DATA_RAW}/eeca_data/eeud"
-output_location = f"{STAGE_1_DATA}/eeud"
-os.makedirs(output_location, exist_ok=True)
+# ---------------------------------------------------------------------------
+# Logging
+# ---------------------------------------------------------------------------
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
-eeud_filename = "Final EEUD Outputs 2017 - 2023 12032025.xlsx"
+# ---------------------------------------------------------------------------
+# Constants and paths
+# ---------------------------------------------------------------------------
+EEUD_FILENAME: Final[str] = "Final EEUD Outputs 2017 - 2023 12032025.xlsx"
+
+INPUT_DIR = Path(DATA_RAW) / "eeca_data" / "eeud"
+OUTPUT_DIR = Path(STAGE_1_DATA) / "eeud"
+OUTPUT_FILE = OUTPUT_DIR / "eeud.csv"
+
+# ---------------------------------------------------------------------------
+# Helper functions
+# ---------------------------------------------------------------------------
 
 
-# Get data -------------------------------------------------------------------------
-
-# read
-df = pd.read_excel(
-    f"{input_location}/{eeud_filename}", engine="openpyxl", sheet_name="Data"
-)
-
-# Process and save ---------------------------------------------------
+def read_eeud(source_dir: Path, filename: str) -> pd.DataFrame:
+    """Read the EEUD *filename* from *source_dir* and return the raw Data sheet."""
+    file_path = source_dir / filename
+    logger.info("Reading EEUD workbook %s", file_path)
+    return pd.read_excel(file_path, engine="openpyxl", sheet_name="Data")
 
 
-def clean_eeud_data(df):
-
-    # standard cases
+def clean_eeud_data(df: pd.DataFrame) -> pd.DataFrame:
+    """Apply standard cleaning and reshaping to the EEUD DataFrame."""
+    # Standardise column names to PascalCase
     df = rename_columns_to_pascal(df)
-    # add year
+
+    # Add Year column derived from the period end date
     df["Year"] = df["PeriodEndDate"].dt.year
-    # create Value - force not string (and replace with nulls if needed)
+
+    # Force EnergyValue to numeric, storing it in a generic Value column
     df["Value"] = pd.to_numeric(df["EnergyValue"], errors="coerce")
-    # label with unit variable
+
+    # Add a Unit column (all TJ)
     df["Unit"] = "TJ"
-    # remove old vars
-    df = df.drop(["EnergyValue", "PeriodEndDate"], axis=1)
+
+    # Drop superseded columns
+    df = df.drop(columns=["EnergyValue", "PeriodEndDate"])
 
     return df
 
 
-df = clean_eeud_data(df)
+# ---------------------------------------------------------------------------
+# Main script execution
+# ---------------------------------------------------------------------------
 
-df.to_csv(f"{output_location}/eeud.csv", index=False)
+
+def main() -> None:
+    """Entry-point safe for import or CLI execution."""
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    raw_df = read_eeud(INPUT_DIR, EEUD_FILENAME)
+    tidy_df = clean_eeud_data(raw_df)
+
+    tidy_df.to_csv(OUTPUT_FILE, index=False)
+    logger.info("EEUD data written to %s", OUTPUT_FILE)
+
+
+if __name__ == "__main__":
+    main()
