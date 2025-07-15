@@ -1,42 +1,45 @@
-import logging
-import os
-import string
-import sys
-from ast import literal_eval
-
-import numpy as np
-import pandas as pd
-from openpyxl import Workbook, load_workbook
-
+"""
 # bit of a mess will need to come back to this one
 
 # contain all functions to read the metadata file in data_intermediate/config
 # and use this to:
 
 # 1: create all the workbooks and their relevant sheets
-# 2: Identify all the tags we're going to write and their metadata (book, sheet, tag, uc_sets, maybe more)
+# 2: Identify all the tags we're going to write and their metadata
+# (book, sheet, tag, uc_sets, maybe more)
 # 3: get all the dataframes from the original toml files
 
-#                   Hey I just had a crzy though - do we ust make a bunch of csvs for the toml data?
-#                   honestly nah just leave them as dicts in the normalised files
-
-# 5
-
-# get custom locations
-logging.basicConfig(level=logging.INFO)
-
-from .filepaths import DATA_INTERMEDIATE, OUTPUT_LOCATION
 
 
+"""
+
+# Libraries ------------------------------------------------------------------
+import os
+
+import pandas as pd
+from openpyxl import Workbook, load_workbook
+from prepare_times_nz.filepaths import OUTPUT_LOCATION
+from prepare_times_nz.logger_setup import logger
+
+
+# Functions ------------------------------------------------------------------
 def get_csv_data(file_location):
-    # must read as string in order to pull through full precision
+    """
+    Returns the datafrom from a file_location,
+    specifically we are ensuring that all data is read as strings
+    This ensures full precision
+    """
     df = pd.read_csv(file_location, dtype=str)
     return df
 
 
 def dict_to_dataframe(data_dict):
-    # takes a single dictionary from our tomls and creates a dataframe
-    # this is only used for the direct toml data
+    """
+    takes a single dictionary from our tomls and creates a dataframe
+    this is only used for the direct toml data
+    (ie: dataframes entered into the toml files directly are converted here)
+    """
+
     df_parts = []
     for key, values in data_dict.items():
         # Create DataFrame with explicit index
@@ -62,7 +65,8 @@ def dict_to_dataframe(data_dict):
 def strip_headers_from_tiny_df(df):
     """
     We need special handling for some tables with one value
-    XL2TIMES outputs these with a header called VALUE, but we need the value to be in the header column (with no data underneath)
+    XL2TIMES outputs these with a header called VALUE,
+    but we need the value to be in the header column (with no data underneath)
     This function replaces the header with the value for specific tables
 
     """
@@ -73,10 +77,24 @@ def strip_headers_from_tiny_df(df):
 
 
 def test_if_toml_location(string):
+    """
+    Return True if filename ends with .toml else False
+    Mostly just wrapping the function in a more obvious name for its purpose
+
+    """
     return string.endswith(".toml")
 
 
 def create_empty_workbook(book_name, sheets):
+    """
+    Creates a workbook with empty sheets
+    THe sheets will have data appended via excel overlay,
+    but the sheets are required to exist first for that to work.
+
+    Takes a book name and list of sheets, then saves the empty book
+    in OUTPUT_LOCATION
+
+    """
     # This function creates the workbook with empty sheets
     # Later, data is appended to these sheets by overlay.
     book_location = f"{OUTPUT_LOCATION}/{book_name}.xlsx"
@@ -100,20 +118,42 @@ def create_empty_workbook(book_name, sheets):
 
 
 def write_data(df, book_name, sheet_name, tag, uc_set, startrow=0):
+    """
+    Writes data to the existing book
+
+    Based on the input dataframe, the excel workbook is updated based on:
+
+      The book's name
+      THe Sheet name,
+      The required input tag,
+      Any uc_sets if relevant
+      THe start row to begin adding data to
+
+    The startrow input is a required input because each new tag added to a sheet
+    needs to increase the start row so our tables don't overwrite each other.
+
+    THis allows us to print many tagged tables to a single worksheet
+
+    """
+
+    # Ideally, this function should be broken down into smaller pieces
+    # to reduce the required arguments
+
+    # pylint: disable=too-many-positional-arguments
+    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-locals
 
     # Load existing workbook
-    book_location = f"{OUTPUT_LOCATION}/{book_name}.xlsx"
-    book = load_workbook(book_location)
+    book = load_workbook(f"{OUTPUT_LOCATION}/{book_name}.xlsx")
     sheet = book[sheet_name]
 
     # Get uc_set length and adjust startrow if needed
-
     uc_set_length = len(uc_set)
     if uc_set_length > 0:
-        print("uc_sets detected")
+        logger.debug("uc_sets detected")
         startrow += uc_set_length - 1
     else:
-        print("no uc_sets detected ")
+        logger.debug("no uc_sets detected ")
 
     # Write the header row
     for col_idx, column_name in enumerate(df.columns, 1):
@@ -137,63 +177,4 @@ def write_data(df, book_name, sheet_name, tag, uc_set, startrow=0):
             sheet.cell(row=uc_set_tag_row, column=2, value=f"~UC_Sets: {key}: {value}")
 
     # Save the workbook
-    book.save(book_location)
-
-
-# probably won't use the below two functions but will keep these to farm for parts and delete when finished
-
-
-def write_all_tags_to_sheet(book_name, sheet_name):
-
-    # The sheets with multiple tags need to be stacked up.
-    # Each table we write will need to have its row number saved in here so other tables can move down.
-
-    tag_list = get_tags_for_sheet(book_name, sheet_name)
-    sheet_folder = f"{INPUT_LOCATION}/{book_name}/{sheet_name}"
-
-    # we start from the first row and will move down as needed
-    startrow = 0
-
-    for tag_name in tag_list:
-        csv_files = return_csvs_in_folder(f"{sheet_folder}/{tag_name}")
-
-        for csv_name in csv_files:
-            # read the data
-            df = get_csv_data(book_name, sheet_name, tag_name, csv_name)
-            # include the uc_set if needed (this comes up null otherwise)
-            uc_set = get_uc_sets(book_name, sheet_name, tag_name, csv_name)
-
-            # Patch for small files
-            # TO-DO: automate handling of these rather than hardcoding which tables receive this treatment.
-            # This currently covers all of TIMES-NZ but better to be flexible to future changes if needed.
-
-            if (
-                book_name == "SysSettings"
-                and sheet_name == "TimePeriods"
-                and tag_name in ["StartYear", "ActivePDef"]
-            ):
-                df = strip_headers_from_tiny_df(df)
-
-            # create the tag (this also returns the colons where necessary)
-            write_data(df, book_name, sheet_name, tag_name, uc_set, startrow=startrow)
-            # measure the length (row count), adding extra space for additional uc_sets if needed, so the next table has space
-            df_row_count = len(df) + len(uc_set)
-            # add the dataframe rows to our start row index so we can keep going without overwriting
-            # and additional rows for a healthy gap.
-            startrow += df_row_count + 3
-
-
-def write_workbook(book_name):
-    logging.info(f"Creating {book_name}.xlsx:")
-    sheets = get_sheets_for_book(book_name)
-    # create structure, overwriting everything already there
-    create_empty_workbook(book_name, sheets, suffix="")
-
-    for sheet in sheets:
-        # Verbose printing
-        logging.info(f"     - Sheet: '{sheet}'")
-        # the workbook exists now we write each tag set to each sheet
-        write_all_tags_to_sheet(book_name, sheet_name=sheet)
-
-
-# test_data = toml_test["TimeSlices"]
+    book.save(f"{OUTPUT_LOCATION}/{book_name}.xlsx")
