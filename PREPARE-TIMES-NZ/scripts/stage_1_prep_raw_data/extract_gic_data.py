@@ -1,48 +1,80 @@
-import os
+"""
+Extract and reshape Gas Industry Company (GIC) production / consumption data
+for the TIMES-NZ preparation pipeline.
+
+Steps performed
+---------------
+1. Read the "Prod_Cons" and "Rep Major Users" sheets from
+   "data_raw/external_data/gic/ProductionConsumption.xlsx".
+2. Merge them on the "Date" column (outer merge to keep every row).
+3. Tidy / pivot to long format.
+4. Label each participant as a *Producer* or *Consumer*.
+5. Save the result to
+   "data_intermediate/stage_1_external_data/gic/gic_production_consumption.csv".
+
+Run directly::
+
+    python -m prepare_times_nz.stages.extract_gic_data
+"""
+
+from __future__ import annotations
+
+import logging
+from pathlib import Path
+from typing import List
 
 import pandas as pd
-from prepare_times_nz.data_cleaning import rename_columns_to_pascal
 from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA
 
-# FILEPATHS -------------------------------------------------------------------------
-input_location = f"{DATA_RAW}/external_data/gic"
-output_location = f"{STAGE_1_DATA}/gic"
-os.makedirs(output_location, exist_ok=True)
+# ---------------------------------------------------------------------------
+# Logging setup
+# ---------------------------------------------------------------------------
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
-gic_filename = "ProductionConsumption.xlsx"
+# ---------------------------------------------------------------------------
+# Constants
+# ---------------------------------------------------------------------------
+INPUT_DIR: Path = Path(DATA_RAW) / "external_data" / "gic"
+OUTPUT_DIR: Path = Path(STAGE_1_DATA) / "gic"
+GIC_FILENAME = "ProductionConsumption.xlsx"
 
-
-def read_gic_data(SheetName):
-    gic_location = f"{input_location}/{gic_filename}"
-    df = pd.read_excel(gic_location, sheet_name=SheetName)
-    return df
-
-
-def get_all_gic_data():
-    df1 = read_gic_data("Prod_Cons")
-    df2 = read_gic_data("Rep Major Users")
-    # want everything even if the join fails left or right (it shouldn't but we carry on if it does )
-    df = pd.merge(df1, df2, on="Date")
-    return df
+# ---------------------------------------------------------------------------
+# Helper functions
+# ---------------------------------------------------------------------------
 
 
-def pivot_gic_data(df):
-    df = pd.melt(df, id_vars="Date", var_name="Participant", value_name="Value")
-    return df
+def read_gic_sheet(sheet_name: str) -> pd.DataFrame:
+    """Read *sheet_name* from the GIC workbook and return a DataFrame."""
+    gic_path = INPUT_DIR / GIC_FILENAME
+    logger.debug("Reading sheet '%s' from %s", sheet_name, gic_path)
+    return pd.read_excel(gic_path, sheet_name=sheet_name)
 
 
-def define_producers_and_consumers(df):
+def get_all_gic_data() -> pd.DataFrame:
     """
-    Here we manually list the producers in the producer/consumer list
-    I don't think this is super important since we're really just using this data for the Ballance/Methanex splits?
-    But we're doing it here anyway just in case
+    Merge production/consumption and major-user sheets on the "Date" column.
+
+    Uses an outer join so that rows present in only one sheet are retained.
     """
+    df_prod_cons = read_gic_sheet("Prod_Cons")
+    df_major_users = read_gic_sheet("Rep Major Users")
+    merged = pd.merge(df_prod_cons, df_major_users, on="Date", how="outer")
+    return merged
 
-    # Set default
-    df["UserType"] = "Consumer"
 
-    producers = [
-        # Here we manually list the GIC producers from the producer/consumer list
+def pivot_gic_data(df: pd.DataFrame) -> pd.DataFrame:
+    """Convert wide DataFrame to long format with *Participant* / *Value* columns."""
+    return df.melt(id_vars="Date", var_name="Participant", value_name="Value")
+
+
+def define_producers_and_consumers(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Label each *Participant* as **Producer** or **Consumer**.
+
+    The list of producers is based on the GIC producer/consumer list.
+    """
+    producers: List[str] = [
         "Pohokura",
         "Maui",
         "McKee/Mangahewa",
@@ -55,27 +87,35 @@ def define_producers_and_consumers(df):
         "Sidewinder",
     ]
 
-    # Change label for producers
-    df.loc[(df["Participant"].isin(producers)), "UserType"] = "Producer"
-
+    df["UserType"] = "Consumer"
+    df.loc[df["Participant"].isin(producers), "UserType"] = "Producer"
     return df
 
 
-def label_and_rearrange_gic_data(df):
+def label_and_rearrange(df: pd.DataFrame) -> pd.DataFrame:
+    """Add "Unit" column and reorder for final output."""
     df["Unit"] = "TJ"
-
-    df = df[["Date", "UserType", "Participant", "Unit", "Value"]]
-
-    return df
+    return df[["Date", "UserType", "Participant", "Unit", "Value"]]
 
 
-# run
+# ---------------------------------------------------------------------------
+# Main execution flow
+# ---------------------------------------------------------------------------
 
-df = get_all_gic_data()
-df = pivot_gic_data(df)
-df = define_producers_and_consumers(df)
-df = label_and_rearrange_gic_data(df)
 
-df.to_csv(f"{output_location}/gic_production_consumption.csv", index=False)
+def main() -> None:
+    """Orchestrate reading, processing, and writing of GIC data."""
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# print(df)
+    df = get_all_gic_data()
+    df = pivot_gic_data(df)
+    df = define_producers_and_consumers(df)
+    df = label_and_rearrange(df)
+
+    out_path = OUTPUT_DIR / "gic_production_consumption.csv"
+    df.to_csv(out_path, index=False)
+    logger.info("Wrote cleaned GIC data to %s", out_path)
+
+
+if __name__ == "__main__":
+    main()

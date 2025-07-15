@@ -1,110 +1,120 @@
-# this script:
-# 1) reads in all the config toml files,
-# 2) normalises them (which makes the default settings explicit),
-# 3) saves these,
-# 4) and also writes a descriptive metadata file for them
+"""
+Parse TOML configuration files for the TIMES-NZ preparation pipeline.
 
-# It writes everything into data_intermediate, which is designed to be wiped on runs and reruns and not tracked by git.
+Steps performed
+----------------
+1. Locate every "*.toml" file in "data_raw/user_config".
+2. Normalise each file (expanding defaults) via
+   :pyfunc:`prepare_times_nz.toml_readers.parse_toml_file`.
+3. Save the normalised TOMLs to "data_intermediate/stage_0_config" so
+   that later stages have a single, explicit source of truth.
+4. Write a CSV ("config_metadata.csv") describing the workbook/table
+   layout required for the Excel builder.
 
+The script is idempotent and safe to run multiple times; it will
+re-create its output directory on every run.
+
+Run directly::
+
+    python -m prepare_times_nz.stages.parse_tomls
+
+or import the :pyfunc:`main` function from elsewhere in the pipeline
+or tests.
+"""
+
+from __future__ import annotations
 
 import logging
-import os
+from pathlib import Path
+from typing import List
 
 import pandas as pd
 import tomli_w
-
-# set log level for message outputs
-logging.basicConfig(level=logging.INFO)
-
 from prepare_times_nz.filepaths import DATA_INTERMEDIATE, DATA_RAW
 from prepare_times_nz.helpers import clear_data_intermediate
-from prepare_times_nz.toml_readers import normalize_toml_data, parse_toml_file
+from prepare_times_nz.toml_readers import parse_toml_file
 
-# clear data_intermediate - this will need removing later because this toml parse method will probably come quite late? or maybe it's the first thing. Not sure
-# Definitely don't want to delete all the processed data in any case.
+# ---------------------------------------------------------------------------
+# Logging setup
+# ---------------------------------------------------------------------------
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
-clear_data_intermediate()
+# ---------------------------------------------------------------------------
+# Constants
+# ---------------------------------------------------------------------------
+RAW_DATA_LOCATION = Path(DATA_RAW) / "user_config"
+OUTPUT_LOCATION = Path(DATA_INTERMEDIATE) / "stage_0_config"
+
+# ---------------------------------------------------------------------------
+# Helper functions
+# ---------------------------------------------------------------------------
 
 
-# Define locations for this file, and spin up the folder if needed
-raw_data_location = f"{DATA_RAW}/user_config"
-output_location = f"{DATA_INTERMEDIATE}/stage_0_config"
-os.makedirs(f"{output_location}", exist_ok=True)
-
-
-# STEP ONE: Get all the tomls
-
-#
-
-
-def list_toml_files(folder_path):
-    """Returns a list of all .toml files in the specified folder."""
-    if not os.path.isdir(folder_path):
-        print(f"Error: The folder '{folder_path}' does not exist.")
+def list_toml_files(folder_path: Path) -> List[Path]:
+    """Return every "*.toml" file inside *folder_path* (non-recursive)."""
+    if not folder_path.is_dir():
+        logger.error("The folder '%s' does not exist.", folder_path)
         return []
+    return [p for p in folder_path.iterdir() if p.suffix == ".toml"]
 
-    return [f for f in os.listdir(folder_path) if f.endswith(".toml")]
 
+def process_toml_file(toml_path: Path, output_dir: Path) -> pd.DataFrame:
+    """Normalise *toml_path*, write it to *output_dir*, and return metadata."""
+    toml_normalised = parse_toml_file(toml_path)
 
-# Identify all the tomls we will be writing
-toml_list = list_toml_files(raw_data_location)
+    # Write the fully-expanded TOML back out for later stages
+    output_file = output_dir / toml_path.name
+    with output_file.open("wb") as fp:
+        tomli_w.dump(toml_normalised, fp)
 
-# NOTE: we will later need to consider how we handle nested folders here, for subRES and Scenario files
-# honestly we might even want to just allow much more flexibility - do a toml .glob to get everything, and then let the config files themselves
-# specify how these should translate to excel versions
+    # Extract workbook-level information
+    book_name = toml_normalised.pop("WorkBookName")
 
-# and actually maybe add a little archive so we can swap different scenarios in and out as needed (and obviously not extract from this one )
-
-# make an empty dataframe to start filling
-metadata_df = pd.DataFrame()
-
-for toml_name in toml_list:
-
-    # first we normalise the data then write the file for later
-    raw_toml_location = f"{raw_data_location}/{toml_name}"
-    toml_normalised = parse_toml_file(raw_toml_location)
-
-    # write the file out for later
-    file_path = f"{output_location}/{toml_name}"
-    with open(file_path, "wb") as f:
-        tomli_w.dump(toml_normalised, f)
-
-    # extract the book name to use through the rest of this approach
-    book_name = toml_normalised["WorkBookName"]
-    # don't need this anymore
-    del toml_normalised["WorkBookName"]
-
-    # Now we go through the dictionary for this toml file and write the key items to the metadata dataframe
-
-    for name, item in toml_normalised.items():
-
-        # We label the data's location as the original toml file if it was directly in the file
-        # Otherwise keep the original location
-
-        # Later we will extract dicts from the normalised toml file then convert these to dfs to insert into the excel files
-        if "DataLocation" in item:
-            data_location = item["DataLocation"]
-        else:
-            # otherwise we use the address of the toml file
-            data_location = toml_name
-
-        df = pd.DataFrame(
+    rows = []
+    for table_name, spec in toml_normalised.items():
+        data_location = spec.get("DataLocation", toml_path.name)
+        rows.append(
             {
-                "WorkBookName": [book_name],
-                "TableName": [name],
-                "SheetName": [item["SheetName"]],
-                "VedaTag": [f"~{item['TagName']}"],
-                "UC_Sets": [item["UCSets"]],
-                "DataLocation": [data_location],
-                "Description": [item["Description"]],
+                "WorkBookName": book_name,
+                "TableName": table_name,
+                "SheetName": spec["SheetName"],
+                "VedaTag": f"~{spec['TagName']}",
+                "UC_Sets": spec["UCSets"],
+                "DataLocation": data_location,
+                "Description": spec["Description"],
             }
         )
-        # df = pd.DataFrame({"something_is here": [toml_normalised[x]]})
-        metadata_df = pd.concat([metadata_df, df], ignore_index=True)
 
-        # we write this out so that everyone can use it
+    return pd.DataFrame(rows)
 
 
-# Finally, save the metadata
+# ---------------------------------------------------------------------------
+# Main execution flow
+# ---------------------------------------------------------------------------
 
-metadata_df.to_csv(f"{output_location}/config_metadata.csv", index=False)
+
+def main() -> None:
+    """Entry-point safe for direct execution or programmatic import."""
+    # Always start from a clean slate for this stage
+    clear_data_intermediate()
+    OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
+
+    metadata_frames: list[pd.DataFrame] = []
+
+    for toml_file in list_toml_files(RAW_DATA_LOCATION):
+        logger.info("Normalising %s", toml_file.name)
+        metadata_frames.append(process_toml_file(toml_file, OUTPUT_LOCATION))
+
+    # Combine and write metadata CSV
+    if metadata_frames:
+        metadata_df = pd.concat(metadata_frames, ignore_index=True)
+        metadata_csv = OUTPUT_LOCATION / "config_metadata.csv"
+        metadata_df.to_csv(metadata_csv, index=False)
+        logger.info("Wrote metadata to %s", metadata_csv)
+    else:
+        logger.warning("No TOML files found in %s", RAW_DATA_LOCATION)
+
+
+if __name__ == "__main__":
+    main()
