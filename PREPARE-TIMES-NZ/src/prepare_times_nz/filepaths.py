@@ -1,12 +1,18 @@
 """
-This file includes configuration directories
-This way any scripts can use these without hardcoding, which maintains a bit more flexibility in separate environments
-The structure will need to change if this file is moved, as it uses the current location:
+This file surfaces our directory locations for anything else to reference
 
-PREPARE-TIMES-NZ/library
+This way any scripts can use these without hardcoding,
+which ensures consistent locations for the whole system
+We use Path variables to ensure consistency across separate environments.
+
+Note that this file expects to be in a specific location to find _REPO_ROOT
+That means if this file is moved, the _REPO_ROOT definition will need to change
+
+Note that output and data intermediate directories are currently wiped on each run
+THese are based on the addresses defined in this file.
+
 """
 
-import os
 from pathlib import Path
 
 _THIS_DIR = Path(__file__).resolve().parent
@@ -17,30 +23,27 @@ PREP_LIBRARY_LOCATION = _THIS_DIR
 PREP_LOCATION = _REPO_ROOT
 TIMES_LOCATION = _REPO_ROOT.parent
 
+# Data directories (Top-level)
+OUTPUT_LOCATION = PREP_LOCATION / "output"
+DATA_INTERMEDIATE = PREP_LOCATION / "data_intermediate"
+DATA_RAW = PREP_LOCATION / "data_raw"
 
-# data locations
-# NOTE: OUTPUT_LOCATION is the directory for the final excel files.
-# It is regularly wiped and replaced with new files, so do not adjust this to the TIMES-NZ module without being careful
-OUTPUT_LOCATION = os.path.join(PREP_LOCATION, "output")
-# DATA_INTERMEDIATE is gitignored and regularly wiped. It acts as a staging area but nothing should be stored here permanently.
-DATA_INTERMEDIATE = os.path.join(PREP_LOCATION, "data_intermediate")
-DATA_RAW = os.path.join(PREP_LOCATION, "data_raw")
+# Data raw subfolders
 
+ASSUMPTIONS = DATA_RAW / "coded_assumptions"
+CONCORDANCES = DATA_RAW / "concordances"
 
-# data raw subfolders
-ASSUMPTIONS = os.path.join(DATA_RAW, "coded_assumptions")
-CONCORDANCES = os.path.join(DATA_RAW, "concordances")
+# Data intermediate subfolders
 
+STAGE_1_DATA = DATA_INTERMEDIATE / "stage_1_input_data"
+STAGE_2_DATA = DATA_INTERMEDIATE / "stage_2_baseyear_data"
+STAGE_3_DATA = DATA_INTERMEDIATE / "stage_3_scenario_data"
+STAGE_4_DATA = DATA_INTERMEDIATE / "stage_4_veda_format"
 
-# data intermediate stages
-STAGE_1_DATA = os.path.join(DATA_INTERMEDIATE, "stage_1_input_data")
-STAGE_2_DATA = os.path.join(DATA_INTERMEDIATE, "stage_2_baseyear_data")
-STAGE_3_DATA = os.path.join(DATA_INTERMEDIATE, "stage_3_scenario_data")
-STAGE_4_DATA = os.path.join(DATA_INTERMEDIATE, "stage_4_veda_format")
+# Scripts
 
-# scripts
-STAGE_0_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_0_settings"
-STAGE_1_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_1_prep_raw_data"
-STAGE_2_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_2_baseyear"
-STAGE_3_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_3_scenarios"
-STAGE_4_SCRIPTS = f"{PREP_LOCATION}/scripts/stage_4_veda_format"
+STAGE_0_SCRIPTS = PREP_LOCATION / "scripts/stage_0_settings"
+STAGE_1_SCRIPTS = PREP_LOCATION / "scripts/stage_1_prep_raw_data"
+STAGE_2_SCRIPTS = PREP_LOCATION / "scripts/stage_2_baseyear"
+STAGE_3_SCRIPTS = PREP_LOCATION / "scripts/stage_3_scenarios"
+STAGE_4_SCRIPTS = PREP_LOCATION / "scripts/stage_4_veda_format"

@@ -1,29 +1,53 @@
-import logging
+"""
+This script currently contains miscellaneous functions
+
+THese may need to be organised more clearly within the program, as there
+is not a clear conceptual throughline.
+
+It currently includes:
+
+Directory manipulation functions:
+    - clear_data_intermediate()
+    - clear_output()
+
+Data testing functions:
+    - check_table_grain()
+
+Data manipulation functions:
+    - select_and_rename()
+
+These should potentially be moved into their own specific scripts,
+OR this might make more sense if we can move more functions to shared
+scripts with clearer conceptual throughlines. TBD.
+
+"""
+
 import os
-# import string
 import shutil
-import sys
 
-# from openpyxl import Workbook, load_workbook
-# from ast import literal_eval
-import pandas as pd
-
-from .filepaths import DATA_INTERMEDIATE, OUTPUT_LOCATION
+from prepare_times_nz.filepaths import DATA_INTERMEDIATE, OUTPUT_LOCATION
+from prepare_times_nz.logger_setup import logger
 
 
 def clear_data_intermediate():
+    """
+    DELETES the folder defined as DATA_INTERMEDIATE
+    """
     # Delete folder
     if os.path.exists(DATA_INTERMEDIATE):
-        logging.debug(f"DATA_INTERMEDIATE = {DATA_INTERMEDIATE}")
+        logger.debug("DATA_INTERMEDIATE = {%s}", DATA_INTERMEDIATE)
         shutil.rmtree(DATA_INTERMEDIATE)
     # and make fresh
     os.makedirs(DATA_INTERMEDIATE)
 
 
 def clear_output():
+    """
+    DELETES the folder defined as OUTPUT_LOCATION
+    """
     # Delete folder
     if os.path.exists(OUTPUT_LOCATION):
-        logging.debug(f"OUTPUT_LOCATION = {OUTPUT_LOCATION}")
+        logger.debug("OUTPUT_LOCATION = {%s}", OUTPUT_LOCATION)
         shutil.rmtree(OUTPUT_LOCATION)
     # and make fresh
     os.makedirs(OUTPUT_LOCATION)
@@ -38,7 +62,8 @@ def select_and_rename(df, name_map):
 
     Parameters:
     - df: The input DataFrame.
-    - name_map: A dictionary where keys are the original column names and values are the new column names.
+    - name_map: A dictionary:
+        keys are the original column names and values are the new column names.
 
     Returns:
     - A DataFrame with selected and renamed columns.
@@ -61,10 +86,11 @@ def check_table_grain(df, grain_list):
 
     Parameters:
     - df: The input DataFrame.
-    - grain_list: A list of column names that should uniquely identify the rows in the Dataframe.
+    - grain_list: A list of column names
+        These should uniquely identify the rows in the Dataframe.
 
     Returns:
-    - A boolean indicating whether the provided column names uniquely identify rows in the DataFrame.
+    - A boolean indicating whether rows are uniquely idenfied by the grain_list
     """
     return df.duplicated(subset=grain_list).sum() == 0
 
@@ -75,22 +101,22 @@ def test_table_grain(df, grain_list):
 
     Parameters:
     - df: The input DataFrame.
-    - grain_list: A list of column names that should uniquely identify the rows in the Dataframe.
+    - grain_list: A list of column names that should uniquely identify the rows in df.
 
     Outputs: logging information regarding the results of the test.
 
     """
 
     if check_table_grain(df, grain_list):
-        logging.info(
-            f"Success: rows are uniquely identified using the following variables:"
+        logger.info(
+            "Success: rows are uniquely identified using the following variables:"
         )
         for var in grain_list:
-            logging.info(f" - {var}")
+            logger.info(" - {%s}", var)
 
     else:
-        logging.warning(
-            f"Rows are NOT uniquely identified using the following variables - please review!"
+        logger.warning(
+            "Please review! Rows are NOT uniquely identified using these variables:"
         )
         for var in grain_list:
-            logging.info(f" - {var}")
+            logger.info(" - {%s}", var)
