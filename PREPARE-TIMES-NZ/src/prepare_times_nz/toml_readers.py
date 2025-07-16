@@ -1,10 +1,20 @@
+"""
+This module contains the functions required to read and parse our toml user configs
+
+THe most important (and mildly complex) feature is the "normalize_toml_data" function,
+
+which effectively defines and sets default rules for how tomls work to create
+Veda workbooks.
+
+
+
+"""
+
 import copy
 import os
 import tomllib
 
-import pandas as pd
-
-# from filepaths import DATA_RAW, DATA_INTERMEDIATE, OUTPUT_LOCATION
+from prepare_times_nz.logger_setup import logger
 
 
 def normalize_toml_data(toml_data):
@@ -22,22 +32,27 @@ def normalize_toml_data(toml_data):
         dict: Normalized TOML data
     """
 
+    # create a copy to work with
     normalized_data = copy.deepcopy(toml_data)
 
     # get the bookname here
     book_name = normalized_data["WorkBookName"]
 
+    # reserved_keys are all the values with explicit meanings for each item
+    # Note that any other keys will be assumed to be data
+    # and inserted into the Veda file accordingly
+    reserved_keys = [
+        "SheetName",
+        "TagName",
+        "DataLocation",
+        "Data",
+        "UCSets",
+        "Description",
+    ]
+
     for table_name, table_content in normalized_data.items():
 
-        # these are all the values with explicit meanings for each item
-        reserved_keys = [
-            "SheetName",
-            "TagName",
-            "DataLocation",
-            "Data",
-            "UCSets",
-            "Description",
-        ]
+        # Assess how to adjust each item, if necessary
 
         # Ignore the bookname parameter - our items inherit this
         if table_name == "WorkBookName":
@@ -51,51 +66,47 @@ def normalize_toml_data(toml_data):
         if "SheetName" not in table_content:
             table_content["SheetName"] = book_name
 
-        # Blank entries for uc_sets? could put this somewhere else too if we wanted
+        # Blank entries for uc_sets.
         if "UCSets" not in table_content:
             table_content["UCSets"] = ""
 
-        # Blank entries for uc_sets? could put this somewhere else too if we wanted
+        # Blank entries for Description
         if "Description" not in table_content:
             table_content["Description"] = ""
+            logger.warning("This file has no description - please review")
 
         # Data processing
-
-        # we skip if no dictionary exists i can't remeber why
-        # is this fully covered by skipping BookName?
+        # We process specific data if it is captured in this table_name
 
         # Skip if not a dictionary (table)
         if not isinstance(table_content, dict):
             continue
-
+        # IF table_name contains a data_location, then the data is just that location
+        # so this is already done and we skip
         if "DataLocation" in table_content:
-            # we write the data as just the location of the table provided by DataLocation, so this is already done
             continue
 
-        elif "Data" in table_content:
-            # we just keep it
+        # If "Data" has been specified clearly in the content, we just keep it as is
+        if "Data" in table_content:
             continue
 
-        else:
-            # This means there were no references to data tables or locations,
-            # so we assume the data is in the toml and just take all the other variables and make them a dictionary
+        # If there were no references to data tables or locations,
+        # We assume the data is in the toml and just take all the non-key variables
+        # and convert these to the data
+        data_subtable = {}
+        # Move all entries except reserved keys to 'Data'
+        keys_to_remove = []
+        for key, value in table_content.items():
+            if key not in reserved_keys:
+                data_subtable[key] = value
+                keys_to_remove.append(key)
 
-            # Create a Data subtable
-            data_subtable = {}
+        # Remove the moved keys from the original table
+        for key in keys_to_remove:
+            del table_content[key]
 
-            # Move all entries except reserved keys to 'Data'
-            keys_to_remove = []
-            for key, value in table_content.items():
-                if key not in reserved_keys:
-                    data_subtable[key] = value
-                    keys_to_remove.append(key)
-
-            # Remove the moved keys from the original table
-            for key in keys_to_remove:
-                del table_content[key]
-
-            # Add the Data subtable
-            table_content["Data"] = data_subtable
+        # Add the Data subtable
+        table_content["Data"] = data_subtable
 
     return normalized_data
 
