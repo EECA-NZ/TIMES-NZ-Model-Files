@@ -1,323 +1,194 @@
 """
+Add technical and economic assumptions to TIMES-NZ industry demand data.
 
-This script takes the TIMES sector industrial demand outputs and adds:
+This script takes the industrial demand outputs from the regional disaggregation
+stage and adds:
 
-AFA
-Efficiency
-Capital costs
-Lifetimes
+- Annual full availability (AFA)
+- Efficiency
+- Capital costs (CAPEX)
+- Lifetimes
+- Capacity estimates
 
-Capacity estimates
+It reshapes the data to a long format after setting units and variables.
+The output is the final industrial sector base-year data, including all
+required parameters for further modelling.
 
-It's intended to run on the outputs of the regional disaggregation data, but could run on others
+Run directly::
 
-It then tidies the variables long ways after defining the topology, setting units etc.
+    python -m prepare_times_nz.stages.industry_add_assumptions
 
-This is the final output for the industrial sector base year, and includes all the categories etc (so we can make concordances out of this too)
-
+or import the :pyfunc:`main` function from elsewhere.
 """
 
-import os
+from __future__ import annotations
+
+import logging
+from pathlib import Path
 
 import pandas as pd
 from prepare_times_nz.deflator import deflate_data
 from prepare_times_nz.filepaths import ASSUMPTIONS, STAGE_2_DATA
-from prepare_times_nz.logger_setup import blue_text, h1, h2, logger
+from prepare_times_nz.logger_setup import blue_text, h2, logger
 
-# Constants -------
+# ---------------------------------------------------------------------------
+# Logging setup
+# ---------------------------------------------------------------------------
+logging.basicConfig(level=logging.INFO)
 
-run_tests = False
+# ---------------------------------------------------------------------------
+# Constants
+# ---------------------------------------------------------------------------
 CAP2ACT = 31.536
-base_year = 2023
-logger.warning("Alert! constants hardcoded in this script")
+BASE_YEAR = 2023
+RUN_TESTS = False
 
-if run_tests:
-    logger.info("Including test outputs")
-else:
-    logger.info("Not running tests")
+OUTPUT_LOCATION = Path(STAGE_2_DATA) / "industry" / "preprocessing"
+OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 
-# Filepaths  --------------------
+CHECKS_LOCATION = Path(STAGE_2_DATA) / "industry" / "checks" / "3_parameter_assumptions"
+CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
 
-output_location = f"{STAGE_2_DATA}/industry/preprocessing"
-os.makedirs(output_location, exist_ok=True)
+INDUSTRY_ASSUMPTIONS = Path(ASSUMPTIONS) / "industry_demand"
 
-checks_location = f"{STAGE_2_DATA}/industry/checks/3_parameter_assumptions"
-os.makedirs(checks_location, exist_ok=True)
-
-INDUSTRY_ASSUMPTIONS = f"{ASSUMPTIONS}/industry_demand"
+# ---------------------------------------------------------------------------
+# Helper functions
+# ---------------------------------------------------------------------------
 
 
-# Get data -----------------------------------------------------
-
-# need to input the regional shares data
-# think this would work with the original data too though
-df = pd.read_csv(f"{output_location}/2_times_baseyear_regional_disaggregation.csv")
-
-# get assumptions per tech
-tech_lifetimes = pd.read_csv(f"{INDUSTRY_ASSUMPTIONS}/tech_lifetimes.csv")
-tech_afa = pd.read_csv(f"{INDUSTRY_ASSUMPTIONS}/tech_afa.csv")
-
-# per tech and fuel
-tech_fuel_efficiencies = pd.read_csv(
-    f"{INDUSTRY_ASSUMPTIONS}/tech_fuel_efficiencies.csv"
-)
-tech_fuel_capex = pd.read_csv(f"{INDUSTRY_ASSUMPTIONS}/tech_fuel_capex.csv")
-
-
-# Functions ----------------------------------------------------
-
-
-def save_output(df, name):
-
-    filename = f"{output_location}/{name}"
-    logger.info(f"Saving output:\n{blue_text(filename)}")
+def save_output(df: pd.DataFrame, name: str) -> None:
+    """Save DataFrame as CSV to the preprocessing output directory."""
+    filename = OUTPUT_LOCATION / name
+    logger.info("Saving output:\n%s", blue_text(filename))
     df.to_csv(filename, index=False)
 
 
-def save_checks(df, name, label):
-    filename = f"{checks_location}/{name}"
-    logger.info(f"Saving {label}:\n{blue_text(filename)}")
-    df.to_csv(filename, index=False)
-
-
-def check_missing_lifetimes(df):
-
-    ### expecting the df to have a Life variable
-    # will return all the technologies that don't have a life
-    # lol
-
-    df = df[df["Life"].isna()]
-    missing_techs = df["Technology"].drop_duplicates()
-    missing_tech_count = len(missing_techs)
-
-    if missing_tech_count > 0:
-        logger.warning(
-            f"Warning: the following {missing_tech_count} technologies have no lifetimes"
-        )
-
+def check_missing_lifetimes(df: pd.DataFrame) -> None:
+    """Log warning for technologies missing lifetime data."""
+    missing_techs = df[df["Life"].isna()]["Technology"].drop_duplicates()
+    if not missing_techs.empty:
+        logger.warning("The following technologies have no lifetimes:")
         for tech in missing_techs:
-            logger.warning(f"              {tech}")
-
-        logger.warning(
-            f"These will be given infinite lifetimes in the model and not retired!"
-        )
-
-    return df
+            logger.warning("    %s", tech)
+        logger.warning("These will have infinite lifetimes in the model.")
 
 
-def add_lifetimes(df):
-
-    df = pd.merge(df, tech_lifetimes, on="Technology", how="left")
-    if run_tests:
+def add_lifetimes(df: pd.DataFrame, lifetimes: pd.DataFrame) -> pd.DataFrame:
+    """Merge technology lifetime data into the main DataFrame."""
+    df = df.merge(lifetimes, on="Technology", how="left")
+    if RUN_TESTS:
         check_missing_lifetimes(df)
-
-    df = df.drop("Note", axis=1)
-
-    return df
+    return df.drop(columns=["Note"])
 
 
-def check_missing_efficiencies(df):
-
-    missing_eff = df[df["Efficiency"].isna()]
-    missing_eff = missing_eff[["Technology", "Fuel"]].drop_duplicates()
-    missing_eff_count = len(missing_eff)
-
-    if missing_eff_count > 0:
-        logger.warning(
-            f"Warning: the following {missing_eff_count} technologies have no efficiency listed"
-        )
-
-        for (
-            index,
-            row,
-        ) in missing_eff.iterrows():
-            logger.warning(f"        {row["Technology"]} - {row["Fuel"]}")
-        logger.warning(f"These will be given 100% efficiency in the model")
-
-    # also checking which ones we've explicitly set to 1 in the inputs just to make sure that makes sense
-    max_eff = df[df["Efficiency"] == 1]
-    max_eff = max_eff[["Technology", "Fuel"]].drop_duplicates()
-    max_eff_count = len(max_eff)
-
-    if max_eff_count > 0:
-        logger.warning(
-            f"Warning: the following {missing_eff_count} technologies have had efficiency set to 100%:"
-        )
-
-        for (
-            index,
-            row,
-        ) in max_eff.iterrows():
-            logger.warning(f"        {row["Technology"]} - {row["Fuel"]}")
-        logger.warning(f"Maybe you intended this, but just worth reviewing")
-
-    return df
+def check_missing_efficiencies(df: pd.DataFrame) -> None:
+    """Log warning for technologies missing efficiency data."""
+    missing_eff = df[df["Efficiency"].isna()][["Technology", "Fuel"]].drop_duplicates()
+    if not missing_eff.empty:
+        logger.warning("Technologies with missing efficiency:")
+        for _, row in missing_eff.iterrows():
+            logger.warning("    %s - %s", row["Technology"], row["Fuel"])
 
 
-def add_efficiencies(df, eff_data=tech_fuel_efficiencies):
-    # remove notes and things
+def add_efficiencies(df: pd.DataFrame, eff_data: pd.DataFrame) -> pd.DataFrame:
+    """Merge efficiency data per fuel and technology into main DataFrame."""
     eff_data = eff_data[["Technology", "Fuel", "Efficiency"]]
-
-    df = pd.merge(df, eff_data, on=["Technology", "Fuel"], how="left")
-    if run_tests:
+    df = df.merge(eff_data, on=["Technology", "Fuel"], how="left")
+    if RUN_TESTS:
         check_missing_efficiencies(df)
-
-    # set default as 1 explicitly (Veda will do this anyway but just makes it clearer)
-
     df["Efficiency"] = df["Efficiency"].fillna(1)
-
     return df
 
 
-def add_capex(df, capex_data=tech_fuel_capex):
+def check_missing_capex(df: pd.DataFrame) -> None:
+    """Log warning for technologies missing capital cost data."""
+    missing_capex = df[df["CAPEX"].isna()][["Technology", "Fuel"]].drop_duplicates()
+    if not missing_capex.empty:
+        logger.warning("Processes with missing capital cost:")
+        for _, row in missing_capex.iterrows():
+            logger.warning("    %s - %s", row["Technology"], row["Fuel"])
 
-    capex_data = capex_data[["Technology", "Fuel", "PriceBaseYear", "CAPEX"]].copy()
 
-    # rebase
+def add_capex(df: pd.DataFrame, capex_data: pd.DataFrame) -> pd.DataFrame:
+    """Merge and deflate capital costs into main DataFrame."""
+    capex_data = capex_data[["Technology", "Fuel", "PriceBaseYear", "CAPEX"]]
     capex_data = deflate_data(
-        capex_data, base_year=base_year, variables_to_deflate=["CAPEX"]
+        capex_data, base_year=BASE_YEAR, variables_to_deflate=["CAPEX"]
     )
-    df = pd.merge(df, capex_data, on=["Technology", "Fuel"], how="left")
-
-    if run_tests:
+    df = df.merge(capex_data, on=["Technology", "Fuel"], how="left")
+    if RUN_TESTS:
         check_missing_capex(df)
-
     return df
 
 
-def check_missing_capex(df):
-
-    df = df[df["CAPEX"].isna()]
-
-    missing_capex = df[["Technology", "Fuel"]].drop_duplicates()
-    missing_capex_count = len(missing_capex)
-
-    if missing_capex_count > 0:
-        logger.warning(
-            f"Warning: the following {missing_capex_count} processes have no capital cost listed"
-        )
-
-        for (
-            index,
-            row,
-        ) in missing_capex.iterrows():
-            logger.warning(f"        {row["Technology"]} - {row["Fuel"]}")
-
-        logger.warning(
-            f"These will require no capital investment in the model, so if more can be purchased they will be free"
-        )
-
-
-def add_afa(df, afa_data=tech_afa):
-
+def add_afa(df: pd.DataFrame, afa_data: pd.DataFrame) -> pd.DataFrame:
+    """Merge Annual Full Availability (AFA) data into main DataFrame."""
     afa_data = afa_data[["Technology", "AFA"]]
-    df = pd.merge(df, afa_data, on=["Technology"], how="left")
-
-    if run_tests:
-        check_missing_afa(df)
-
-    return df
+    return df.merge(afa_data, on="Technology", how="left")
 
 
-def check_missing_afa(df):
-
-    df = df[df["AFA"].isna()]
-
-    missing_afa = df[["Technology", "Fuel"]].drop_duplicates()
-    missing_afa_count = len(missing_afa)
-
-    if missing_afa_count > 0:
-        logger.warning(
-            f"Warning: the following {missing_afa_count} processes have no availability factor listed"
-        )
-
-        for (
-            index,
-            row,
-        ) in missing_afa.iterrows():
-            logger.warning(f"        {row["Technology"]} - {row["Fuel"]}")
-
-        logger.warning(
-            f"This will lead to issues: please check the tech_afa.csv input file and ensure you have full tech coverage"
-        )
-
-
-def estimate_capacity(df):
-    """
-    Capacity (as a function of output) is estimated according to the input fuel demand, the efficiency of the output, and the avaialability factor
-
-    For example, if we have 3PJ going in with 80% efficiency and 50% AFA, then the output is 3PJ * 80% (2.4PJ)
-    the capacity required for 2.4PJ output is output/CAP2ACT, or output/31.536 (when output is PJ and capacity is GW)
-    THen, because avaialbility is only 50%, we just divide by AFA (or doubling in this case)
-    so the final equation for cap is
-
-    (inputPJ * efficiency)/(CAP2ACT*EFF)
-
-    We keep the inputPJ*EFF in the data as "OutputEnergy" - this defines our activity bound later
-
-    """
-
-    # output energy (relevant later, as this sets the base year activity bounds)
+def estimate_capacity(df: pd.DataFrame) -> pd.DataFrame:
+    """Estimate process capacity from energy input, efficiency, and AFA."""
     df["InputEnergy"] = df["Value"]
     df["OutputEnergy"] = df["InputEnergy"] * df["Efficiency"]
-
-    # Required capacity
-    df["Capacity"] = df["OutputEnergy"] / CAP2ACT
-    # Modify for availability
-    df["Capacity"] = df["Capacity"] / df["AFA"]
-
+    df["Capacity"] = df["OutputEnergy"] / CAP2ACT / df["AFA"]
     return df
 
 
-def tidy_data(df):
-    """Here we just consistently set all our variables long with values and unit columns to make the thing self documenting"""
-
-    df = df.drop(["Value", "Unit", "PriceBaseYear"], axis=1)
-
-    # we pivot the value columns. First define these with units. Everything else will stay in the data unpivoted
+def tidy_data(df: pd.DataFrame) -> pd.DataFrame:
+    """Reshape DataFrame to long format with standardized units."""
+    df = df.drop(columns=["Value", "Unit", "PriceBaseYear"])
     value_units = {
         "Life": "Years",
         "Efficiency": "%",
-        "CAPEX": f"{base_year} NZD/kW",
+        "CAPEX": f"{BASE_YEAR} NZD/kW",
         "AFA": "%",
         "InputEnergy": "PJ",
         "OutputEnergy": "PJ",
         "Capacity": "GW",
     }
-    # extract variable names
-    value_cols = list(value_units.keys())
-
-    # id columns are everything else
-    id_cols = [col for col in df.columns if col not in value_cols]
-    df = df.melt(
-        id_vars=id_cols, value_vars=value_cols, var_name="Variable", value_name="Value"
-    )
-    # add the units we designated
+    id_cols = df.columns.difference(value_units.keys()).tolist()
+    df = df.melt(id_vars=id_cols, var_name="Variable", value_name="Value")
     df["Unit"] = df["Variable"].map(value_units)
-
     return df
 
 
-# Execute
+# ---------------------------------------------------------------------------
+# Main execution
+# ---------------------------------------------------------------------------
 
 
-h2("Adding technology lifetimes")
-df = add_lifetimes(df)
+def main() -> None:
+    """Entry-point for adding assumptions to industrial base-year data."""
+    df = pd.read_csv(OUTPUT_LOCATION / "2_times_baseyear_regional_disaggregation.csv")
 
-h2("Adding efficiency per fuel and technology")
-df = add_efficiencies(df)
+    tech_lifetimes = pd.read_csv(INDUSTRY_ASSUMPTIONS / "tech_lifetimes.csv")
+    tech_afa = pd.read_csv(INDUSTRY_ASSUMPTIONS / "tech_afa.csv")
+    tech_fuel_efficiencies = pd.read_csv(
+        INDUSTRY_ASSUMPTIONS / "tech_fuel_efficiencies.csv"
+    )
+    tech_fuel_capex = pd.read_csv(INDUSTRY_ASSUMPTIONS / "tech_fuel_capex.csv")
 
-h2("Adding capital costs")
-df = add_capex(df)
+    h2("Adding technology lifetimes")
+    df = add_lifetimes(df, tech_lifetimes)
 
-h2("Adding tech availabilities")
-df = add_afa(df)
+    h2("Adding efficiency per fuel and technology")
+    df = add_efficiencies(df, tech_fuel_efficiencies)
 
-h2("Estimating capacity")
-df = estimate_capacity(df)
+    h2("Adding capital costs")
+    df = add_capex(df, tech_fuel_capex)
 
-h2("Cleaning up")
-df = tidy_data(df)
+    h2("Adding tech availabilities")
+    df = add_afa(df, tech_afa)
 
-# Save
-save_output(df, "3_times_baseyear_with_assumptions.csv")
+    h2("Estimating capacity")
+    df = estimate_capacity(df)
+
+    h2("Cleaning up")
+    df = tidy_data(df)
+
+    save_output(df, "3_times_baseyear_with_assumptions.csv")
+
+
+if __name__ == "__main__":
+    main()
