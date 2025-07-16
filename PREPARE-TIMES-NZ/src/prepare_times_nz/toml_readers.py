@@ -73,7 +73,7 @@ def normalize_toml_data(toml_data):
         # Blank entries for Description
         if "Description" not in table_content:
             table_content["Description"] = ""
-            logger.warning("This file has no description - please review")
+            logger.warning("{%s} has no Description - please fix", table_name)
 
         # Data processing
         # We process specific data if it is captured in this table_name
