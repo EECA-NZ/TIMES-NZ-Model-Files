@@ -1,15 +1,20 @@
 """
 
-This script takes the historical demand for each sector and uses the timeseries for demand projections.
+This script takes the historical demand for each sector
+and uses the timeseries for demand projections.
 
-This method is mostly a minimal implementation and currently just (optionally) outputs charts for each sector depending on the selected method.
+This method is mostly a minimal implementation and currently
+just (optionally) outputs charts for each sector depending
+on the selected method.
 It does not contribute to the main workflow at this stage
 
-We can expand this for demand projections later when doing industry demand scenarios
+We can expand this for demand projections later when doing
+industry demand scenarios
 
 """
 
 import os
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -23,46 +28,47 @@ from prepare_times_nz.logger_setup import logger
 STAGE_2_INDUSTRY_DATA = f"{STAGE_2_DATA}/industry"
 INDUSTRY_ASSUMPTIONS = f"{ASSUMPTIONS}/industry_demand"
 
-checks_location = f"{STAGE_2_INDUSTRY_DATA}/checks"
-os.makedirs(checks_location, exist_ok=True)
-
 # Constants --------------------------------------------
 
-# If print_charts, this script renders several results of different forecast methods
+# If PRINT_CHARTS, this script renders several results of
+# different forecast methods
 
-# Currently it does nothing else, but can be expanded to our eventual scenario demand forecasts
-print_charts = False
-
-if print_charts:
-    logger.info("Printing different forecast result charts")
-else:
-    logger.info(
-        "Not currently returning forecast industrial demand - this script is WIP"
-    )
+# Currently it does nothing else, but can be expanded to
+# our eventual scenario demand forecasts
+PRINT_CHARTS = False
 
 # Get data ---------------------------------------------------
 
 
 def get_demand_settings():
+    """
+    Docstring needed
+    """
 
     df = pd.read_csv(f"{INDUSTRY_ASSUMPTIONS}/sector_demand_methods.csv")
     return df
 
 
 def get_aggregate_data():
-    df = pd.read_csv(
-        f"{STAGE_2_INDUSTRY_DATA}/checks/1_sector_alignment/times_eeud_alignment_timeseries.csv"
+    """
+    Docstring needed
+    """
+
+    times_eeud_alignment_timeseries_csv_path = (
+        Path(STAGE_2_INDUSTRY_DATA)
+        / "checks"
+        / "1_sector_alignment"
+        / "times_eeud_alignment_timeseries.csv"
     )
+    df = pd.read_csv(times_eeud_alignment_timeseries_csv_path)
     df = df.groupby(["Year", "Sector"])["Value"].sum().reset_index()
     return df
 
 
-# Functions
-
-#
-
-
 def make_linear_model(df):
+    """
+    Docstring needed
+    """
 
     results = {}
 
@@ -94,6 +100,9 @@ def make_linear_model(df):
 
 
 def carry_forward_linear(df, final_year=2050):
+    """
+    Docstring needed
+    """
     regression = make_linear_model(df)
     future_years = np.arange(df["Year"].min(), final_year)
     preds = []
@@ -120,6 +129,10 @@ def carry_forward_linear(df, final_year=2050):
 
 # some data standardising to join real and actual
 def reshape_preds(df):
+    """
+    Docstring needed
+    """
+
     df = df[["Year", "Sector", "predicted_demand"]]
     df = df.rename(columns={"predicted_demand": "Value"})
     df["Type"] = "Predicted"
@@ -128,6 +141,10 @@ def reshape_preds(df):
 
 
 def reshape_actuals(df):
+    """
+    Docstring needed
+    """
+
     df = df[["Year", "Sector", "Value"]]
     df["Type"] = "Actual"
 
@@ -135,12 +152,19 @@ def reshape_actuals(df):
 
 
 def calc_cagr(start_value, end_value, num_years):
+    """
+    Docstring needed
+    """
+
     if start_value == 0 or num_years == 0:
         return np.nan
     return (end_value / start_value) ** (1 / num_years) - 1
 
 
 def get_cagrs(df):
+    """
+    Docstring needed
+    """
 
     cagrs = []
 
@@ -168,6 +192,10 @@ def get_cagrs(df):
 
 
 def forecast_cagr(last_year, last_value, cagr, end_year):
+    """
+    Docstring needed
+    """
+
     years = np.arange(last_year + 1, end_year + 1)
     preds = []
 
@@ -178,7 +206,7 @@ def forecast_cagr(last_year, last_value, cagr, end_year):
     return pd.DataFrame(preds)
 
 
-def cast_with_cagr(df, final_year=2050, method="normal"):
+def cast_with_cagr(df, final_year=2050):
     """
     Expect Year, Sector, Value from historical data
     """
@@ -207,6 +235,9 @@ def cast_with_cagr(df, final_year=2050, method="normal"):
 
 
 def get_historical_linear_values(df):
+    """
+    Docstring needed
+    """
 
     historical_df = df
 
@@ -221,27 +252,28 @@ def get_historical_linear_values(df):
     return df
 
 
-def make_forecast_chart(df, method="Linear Regression"):
+def make_forecast_chart(df, checks_location, method="Linear Regression"):
+    """
     # regress and cast results
-
     # standardise predictions and actuals
+    """
 
-    logger.info(f"Forecasting demand with {method}")
+    logger.info("Forecasting demand with %s", method)
 
     if method == "Linear Regression":
         preds_raw = carry_forward_linear(df)
         preds = reshape_preds(preds_raw)
-
-    if method == "CAGR":
+    elif method == "CAGR":
         preds_raw = cast_with_cagr(df)
         cagrs = get_cagrs(df)
         preds = reshape_preds(preds_raw)
-
-    if method == "CAGR (smooth historical)":
+    elif method == "CAGR (smooth historical)":
         linear_historical = get_historical_linear_values(df)
         cagrs = get_cagrs(linear_historical)
         preds_raw = cast_with_cagr(linear_historical)
         preds = reshape_preds(preds_raw)
+    else:
+        raise ValueError(f"Unknown forecasting method: {method}")
 
     actuals = reshape_actuals(df)
 
@@ -282,13 +314,30 @@ def make_forecast_chart(df, method="Linear Regression"):
     chart_location = (
         f'{checks_location}/demand_forecast_{method.lower().replace(" ", "_")}.png'
     )
-    logger.info(f"Saving results to {chart_location}")
+    logger.info("Saving results to %s", chart_location)
     plt.savefig(chart_location, dpi=300)
 
 
-df = get_aggregate_data()
+def main():
+    """Entrypoint for running the script."""
 
-if print_charts:
-    make_forecast_chart(df, method="Linear Regression")
-    make_forecast_chart(df, method="CAGR")
-    make_forecast_chart(df, method="CAGR (smooth historical)")
+    checks_location = f"{STAGE_2_INDUSTRY_DATA}/checks"
+    os.makedirs(checks_location, exist_ok=True)
+
+    if PRINT_CHARTS:
+        logger.info("Printing different forecast result charts")
+    else:
+        logger.info(
+            "Not currently returning forecast industrial demand - this script is WIP"
+        )
+
+    df = get_aggregate_data()
+
+    if PRINT_CHARTS:
+        make_forecast_chart(df, checks_location, method="Linear Regression")
+        make_forecast_chart(df, checks_location, method="CAGR")
+        make_forecast_chart(df, checks_location, method="CAGR (smooth historical)")
+
+
+if __name__ == "__main__":
+    main()

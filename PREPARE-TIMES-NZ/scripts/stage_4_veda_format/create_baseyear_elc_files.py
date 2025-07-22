@@ -1,0 +1,358 @@
+"""
+Generate all Veda-ready CSVs that describe:
+
+* electricity-input commodities and “dummy fuel” processes
+* existing generation process definitions, parameters and capacities
+* electricity-distribution commodity / process tables
+
+"""
+
+from __future__ import annotations
+
+import os
+from pathlib import Path
+from typing import Dict, Tuple
+
+import numpy as np
+import pandas as pd
+from prepare_times_nz.deflator import deflate_data
+from prepare_times_nz.filepaths import DATA_RAW, STAGE_2_DATA, STAGE_4_DATA
+from prepare_times_nz.helpers import select_and_rename, test_table_grain
+from prepare_times_nz.logger_setup import logger
+
+# --------------------------------------------------------------------------- #
+# CONSTANTS
+# --------------------------------------------------------------------------- #
+
+# so ideally we would have a library script that reads the data_intermediate
+# config files and returns all the useful parameters, including base year,
+# but also whatever else we might need, that any script could load in.
+
+BASE_YEAR: int = 2023
+CAP2ACT_PJGW: float = 31.536  # PJ per GW at 100 % utilisation (365 * 24 / 1000)
+
+
+# ----- Generation units  --------------------------------------- #
+GENERATION_UNIT_MAP = {
+    # old_unit: (new_unit, factor)
+    "MW": ("GW", 1 / 1000),
+    "GWh": ("PJ", 0.0036),
+    "kWh": ("MWh", 1 / 1000),
+    "MWh": ("GWh", 1 / 1000),
+    "2023 NZD/MWh": ("2023 $m NZD/PJ", 0.27778),
+    "2023 NZD/kw": ("2023 $m NZD/GW", 1),
+    "2023 NZD/GJ": ("2023 $m NZD/PJ", 1),
+}
+
+# ----- Variables in real terms ------------------------------------- #
+VARIABLES_TO_DEFLATE = ["INVCOST", "VAROM", "FIXOM"]
+
+# ----- Commodity definitions --------------------------------------- #
+FI_COMM_MAP = {
+    "CommoditySets": "CSets",
+    "Comm-OUT": "CommName",
+    "ActivityUnit": "Unit",
+    "CommodityTimeSlice": "CTSLvl",
+    "CommodityType": "CType",
+}
+
+# ----- Process definitions ---------------------------------------- #
+FI_PROCESS_MAP = {
+    "Sets": "Sets",
+    "TechName": "TechName",
+    "ActivityUnit": "Tact",
+    "CapacityUnit": "Tcap",
+    "TimeSlice": "TSlvl",
+}
+
+# ----- Process parameters ----------------------------------------- #
+DISTRIBUTION_PARAMETERS_MAP = {
+    "TechName": "TechName",
+    "Comm-IN": "Comm-IN",
+    "Comm-OUT": "Comm-OUT",
+    "Region": "Region",
+    "NCAP_PASTI~2015": "NCAP_PASTI~2015",
+    "AF": "AF",
+    "CAP2ACT": "CAP2ACT",
+    "INVCOST": "INVCOST",
+    "VAROM": "VAROM",
+    "FIXOM": "FIXOM",
+    "Efficiency": "EFF",
+    "Life": "Life",
+}
+
+# --------------------------------------------------------------------------- #
+# HELPERS
+# --------------------------------------------------------------------------- #
+
+
+def convert_units(
+    df: pd.DataFrame, conversion_map: Dict[str, Tuple[str, float]]
+) -> pd.DataFrame:
+    """
+    Convert *Value* from one unit to another according to *conversion_map*.
+
+    Parameters
+    ----------
+    df
+        DataFrame that contains ``Unit`` and ``Value`` columns.
+    conversion_map
+        Mapping of ``old_unit -> (new_unit, factor)`` where *factor*
+        is multiplied into ``Value`` to obtain the new unit.
+
+    Returns
+    -------
+    pd.DataFrame
+        Copy of *df* with units and values converted in-place.
+    """
+    out = df.copy()
+    for old_unit, (new_unit, factor) in conversion_map.items():
+        mask = out["Unit"] == old_unit
+        out.loc[mask, "Value"] = out.loc[mask, "Value"] * factor
+        out.loc[mask, "Unit"] = new_unit
+    return out
+
+
+# --------------------------------------------------------------------------- #
+# MAIN
+# --------------------------------------------------------------------------- #
+
+
+# pylint: disable=too-many-locals,too-many-statements
+def main() -> None:
+    """
+    Main entrypoint for this script. Would be good to factor out the sections.
+    """
+    # --------------------------------------------------------------------- #
+    # OUTPUT LOCATION
+    # --------------------------------------------------------------------- #
+    output_location = f"{STAGE_4_DATA}/base_year_elc"
+    os.makedirs(output_location, exist_ok=True)
+    logger.info("Output location created: %s", output_location)
+
+    # --------------------------------------------------------------------- #
+    # LOAD DATA
+    # --------------------------------------------------------------------- #
+
+    existing_techs_df = pd.read_csv(
+        f"{STAGE_2_DATA}/electricity/base_year_electricity_supply.csv"
+    )
+    # Align column naming - should have done this before
+    existing_techs_df.rename(columns={"Process": "TechName"}, inplace=True)
+
+    distribution_csv_path = (
+        Path(DATA_RAW)
+        / "coded_assumptions"
+        / "electricity_generation"
+        / "DistributionAssumptions.csv"
+    )
+
+    distribution_df = pd.read_csv(distribution_csv_path)
+
+    # --------------------------------------------------------------------- #
+    # COMMODITY DEFINITIONS (electricity input fuels)
+    # --------------------------------------------------------------------- #
+    # This section creates the tables for SECTOR_FUELS_ELC
+    # we have already defined ELC and ELCC02, and all the output commodities
+    # (like ELCDD etc) so these are just the dummy commodites and processes
+    # for electricity input fuels. we will basically just extract them all
+    # from the input commodities, so this list updates automatically.
+
+    elc_input_commoditylist = existing_techs_df["Comm-IN"].unique()
+
+    elc_input_commodity_definitions = pd.DataFrame(
+        {
+            "CommName": elc_input_commoditylist,
+            "Csets": "NRG",
+            "Unit": "PJ",
+            "LimType": "FX",
+        }
+    )
+
+    # ── Dummy fuel processes ──────────────────────────────────────────── #
+    # We also define the dummy processes that turn the regular commodity into
+    # the elc version. We'll start with the parameters (just in/out/100% efficiency)
+
+    elc_dummy_fuel_process_parameters = pd.DataFrame()
+    elc_dummy_fuel_process_parameters["Comm-Out"] = elc_input_commoditylist
+    elc_dummy_fuel_process_parameters["Comm-In"] = elc_dummy_fuel_process_parameters[
+        "Comm-Out"
+    ].str.removeprefix("ELC")
+    elc_dummy_fuel_process_parameters["TechName"] = (
+        "FTE_" + elc_dummy_fuel_process_parameters["Comm-Out"]
+    )
+    # The next steps are just making sure the columns roughly match the TIMES 2.0
+    # version, but they might actually all be unnecessary.
+    elc_dummy_fuel_process_parameters = elc_dummy_fuel_process_parameters[
+        ["TechName", "Comm-In", "Comm-Out"]
+    ]
+    elc_dummy_fuel_process_parameters["EFF"] = 1
+    elc_dummy_fuel_process_parameters["Life"] = "100"
+    # NOTE: we are not using these for fuel delivery costs anymore, as these
+    # are done on a per-plant basis in the generation processes.
+
+    # Dummy process definitions -----------------------------------------------------
+    # Now we just provide the definitions for these processes in a separate table
+
+    elc_dummy_fuel_process_definitions = pd.DataFrame(
+        {
+            "TechName": elc_dummy_fuel_process_parameters["TechName"],
+            "Sets": "PRE",
+            "Tact": "PJ",
+            "Tcap": "GW",
+        }
+    )
+    elc_dummy_fuel_process_definitions["Tslvl"] = np.where(
+        elc_dummy_fuel_process_definitions["TechName"] == "FTE_ELCNGA",
+        "DAYNITE",
+        None,
+    )
+
+    # ── Save commodity tables ─────────────────────────────────────────── #
+
+    elc_input_commodity_definitions.to_csv(
+        f"{output_location}/elc_input_commodity_definitions.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
+    elc_dummy_fuel_process_definitions.to_csv(
+        f"{output_location}/elc_dummy_fuel_process_definitions.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
+    elc_dummy_fuel_process_parameters.to_csv(
+        f"{output_location}/elc_dummy_fuel_process_parameters.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
+
+    # --------------------------------------------------------------------- #
+    # EXISTING GENERATION PROCESS DEFINITIONS
+    # --------------------------------------------------------------------- #
+
+    existing_techs_process_df = (
+        existing_techs_df[["TechName", "Region"]].drop_duplicates().copy()
+    )
+    existing_techs_process_df["Sets"] = "ELE"
+    existing_techs_process_df["Tact"] = "PJ"
+    existing_techs_process_df["Tcap"] = "GW"
+    existing_techs_process_df["Tslvl"] = "DAYNITE"
+    existing_techs_process_df = existing_techs_process_df[
+        ["Sets", "Region", "TechName", "Tact", "Tcap"]
+    ]
+
+    existing_techs_process_df.to_csv(
+        f"{output_location}/existing_tech_process_definitions.csv", index=False
+    )
+
+    # --------------------------------------------------------------------- #
+    # EXISTING GENERATION PARAMETERS / CAPACITY
+    # --------------------------------------------------------------------- #
+
+    existing_techs_df = convert_units(existing_techs_df, GENERATION_UNIT_MAP)
+
+    # --- NCAP_PASTI / PRC_RESID capacity treatment ---------------------- #
+
+    existing_techs_capacity = existing_techs_df[
+        existing_techs_df["Variable"] == "Capacity"
+    ].copy()
+
+    def _capacity_attribute(row: pd.Series) -> str:
+        return "PRC_RESID" if pd.isna(row["YearCommissioned"]) else "NCAP_PASTI"
+
+    existing_techs_capacity["Attribute"] = existing_techs_capacity.apply(
+        _capacity_attribute, axis=1
+    )
+    existing_techs_capacity.rename(columns={"YearCommissioned": "Year"}, inplace=True)
+    existing_techs_capacity["Year"] = existing_techs_capacity["Year"].fillna(BASE_YEAR)
+    existing_techs_capacity = existing_techs_capacity[
+        ["TechName", "Region", "Attribute", "Year", "Value"]
+    ]
+
+    existing_techs_capacity.to_csv(
+        f"{output_location}/existing_tech_capacity.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
+
+    # --- Technical parameters table ------------------------------------ #
+
+    index_variables = ["TechName", "Comm-IN", "Comm-OUT", "Region"]
+    existing_techs_parameters = (
+        existing_techs_df[index_variables + ["Variable", "Value"]]
+        .loc[lambda d: d["Variable"] != "Capacity"]
+        .pivot_table(index=index_variables, columns="Variable", values="Value")
+        .reset_index()
+        .rename(
+            columns={
+                "CapacityFactor": "AFA",
+                "FuelDelivCost": "FLO_DELIV",
+                "Generation": f"ACT_BND~FX~{BASE_YEAR}",
+                "PeakContribution": "NCAP_PKCNT",
+                "PlantLife": "NCAP_TLIFE",
+                "VarOM": "ACTCOST",
+                "FixOM": "NCAP_FOM",
+                "FuelEfficiency": "EFF",
+            }
+        )
+    )
+
+    # additional hard-coded parameters
+    existing_techs_parameters["NCAP_BND"] = 0
+    existing_techs_parameters["NCAP_BND~0"] = 5
+    existing_techs_parameters["CAP2ACT"] = CAP2ACT_PJGW
+    existing_techs_parameters["ACT_BND~0"] = 1
+
+    existing_techs_parameters.to_csv(
+        f"{output_location}/existing_tech_parameters.csv", index=False
+    )
+
+    # --------------------------------------------------------------------- #
+    # DISTRIBUTION TABLES
+    # --------------------------------------------------------------------- #
+
+    distribution_df_deflated = deflate_data(
+        distribution_df, BASE_YEAR, VARIABLES_TO_DEFLATE
+    )
+
+    distribution_commodities = select_and_rename(
+        distribution_df_deflated, FI_COMM_MAP
+    ).drop_duplicates()
+
+    distribution_processes = select_and_rename(
+        distribution_df_deflated, FI_PROCESS_MAP
+    ).drop_duplicates()
+
+    distribution_parameters = select_and_rename(
+        distribution_df_deflated, DISTRIBUTION_PARAMETERS_MAP
+    )
+    distribution_parameters["EFF~0"] = 0
+
+    # ----- Grain checks & save ---------------------------------------- #
+    test_table_grain(distribution_commodities, ["CommName"])
+    test_table_grain(distribution_processes, ["TechName"])
+    test_table_grain(distribution_parameters, ["TechName", "Region"])
+
+    distribution_commodities.to_csv(
+        f"{output_location}/distribution_commodities.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
+    distribution_processes.to_csv(
+        f"{output_location}/distribution_processes.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
+    distribution_parameters.to_csv(
+        f"{output_location}/distribution_parameters.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
+
+
+# --------------------------------------------------------------------------- #
+# SCRIPT ENTRY-POINT
+# --------------------------------------------------------------------------- #
+
+if __name__ == "__main__":
+    main()
