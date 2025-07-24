@@ -47,15 +47,22 @@ run_script(f"{STAGE_1_SCRIPTS}/extract_ea_data.py")
 run_script(f"{STAGE_1_SCRIPTS}/extract_mbie_data.py")
 run_script(f"{STAGE_1_SCRIPTS}/extract_snz_data.py")
 run_script(f"{STAGE_1_SCRIPTS}/extract_gic_data.py")
+run_script(f"{STAGE_1_SCRIPTS}/extract_mvr_fleet_data.py")
+run_script(f"{STAGE_1_SCRIPTS}/extract_fleet_vkt_pj_data.py")
+run_script(f"{STAGE_1_SCRIPTS}/extract_vkt_tertile_shares.py")
+run_script(f"{STAGE_1_SCRIPTS}/extract_vehicle_costs_data.py")
+run_script(f"{STAGE_1_SCRIPTS}/extract_vehicle_future_costs_data.py")
 # Stage 2: Base Year
 print("Compiling base year files...")
 run_script(f"{STAGE_2_SCRIPTS}/baseyear_electricity_generation.py")
 run_script(f"{STAGE_2_SCRIPTS}/baseyear_industry_demand.py")
+run_script(f"{STAGE_2_SCRIPTS}/baseyear_transport_demand.py")
 # Stage 3: Scenarios:
 run_script(f"{STAGE_3_SCRIPTS}/industry/industry_get_demand_growth.py")
 # Stage 4: Create excel files
 print("Reshaping data to match Veda formatting...")
 run_script(f"{STAGE_4_SCRIPTS}/create_baseyear_elc_files.py")
+run_script(f"{STAGE_4_SCRIPTS}/create_baseyear_TRA_files.py")
 print("Building TIMES excel files based on .toml configuration files...")
 run_script(f"{STAGE_4_SCRIPTS}/write_excel.py")
 

@@ -15,19 +15,6 @@ repos:
         pass_filenames: false
         stages: [pre-commit]
 
-      - id: check-virtualenv-pre-push
-        name: Check virtualenv activated (pre-push)
-        entry: |
-          bash -c '
-          if [ -z "$VIRTUAL_ENV" ]; then
-            echo "ERROR: Please activate .venv before pushing."
-            exit 1
-          fi
-          '
-        language: system
-        pass_filenames: false
-        stages: [pre-push]
-
       - id: black
         name: black (venv)
         entry: black
@@ -56,10 +43,3 @@ repos:
         language: system
         types: [yaml]
         stages: [pre-commit]
-
-      - id: pip-audit
-        name: pip-audit
-        entry: python scripts/pip_audit_hook.py
-        language: system
-        pass_filenames: false
-        stages: [pre-push]

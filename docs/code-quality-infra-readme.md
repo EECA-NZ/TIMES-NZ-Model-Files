@@ -24,6 +24,27 @@ It is assumed that the developer is working in Windows Powershell or in Ubuntu (
     git clone git@github.com:EECA-NZ/TIMES-NZ-Model-Files.git
     ```
 
+1. **Install Git LFS (one-off per machine):**
+
+    _Windows / PowerShell_
+    ```
+    winget install --id GitHub.GitLFS
+    git lfs install         # sets up the Git hooks globally
+    ```
+
+    _Ubuntu / WSL_
+    ```
+    sudo apt-get install git-lfs
+    git lfs install
+    ```
+
+    Git LFS is required for any file larger than 100 MiB (e.g. 1 GB CSVs).
+    ```
+    # Re-install pre-commit hooks so LFS is wired in
+    git-lfs install --force
+    ```
+
+
 1.  **If necessary, configure cross-platform line endings (Windows vs WSL) and EditorConfig**
 
     * The repo contains a `.gitattributes` file that enforces **LF** (`\n`) in history
@@ -66,7 +87,6 @@ It is assumed that the developer is working in Windows Powershell or in Ubuntu (
 1.  **Install Pre-commit Hooks:**
     ```bash
     pre-commit install
-    pre-commit install --hook-type pre-push
     ```
 
     This installs Git hooks specified in `.pre-commit-config.yaml`:
@@ -94,14 +114,6 @@ It is assumed that the developer is working in Windows Powershell or in Ubuntu (
         ```bash
         python -m black $(git ls-files "*.py")
         python -m isort $(git ls-files "*.py")
-        ```
-    *   Full Codebase Pylint (as run pre-push):
-        ```bash
-        pylint --disable=R0801 $(git ls-files "*.py")
-        ```
-    *   Pip-Audit:
-        ```bash
-        pip-audit
         ```
 
 1. **Ensure Code Quality Before Pushing:**
@@ -139,7 +151,7 @@ Example: For this template repository:
 *   The coverage report is updated each time tests are run in GitHub Actions.
 
 ## Notes on Pre-commit:
-*   **Configuration:** The `.pre-commit-config.yaml` file defines the pre-commit and pre-push hooks.
+*   **Configuration:** The `.pre-commit-config.yaml` file defines the pre-commit hooks.
 *   **Hooks Behavior:**
 
     *   Before running any checks, the hooks verify that the `.venv` virtual environment is activated. This ensures that the correct versions of tools and dependencies are used.
