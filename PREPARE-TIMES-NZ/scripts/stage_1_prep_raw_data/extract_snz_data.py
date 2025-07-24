@@ -30,35 +30,27 @@ logging.basicConfig(level=logging.INFO)
 INPUT_LOCATION = Path(DATA_RAW) / "external_data" / "statsnz"
 OUTPUT_LOCATION = Path(STAGE_1_DATA) / "statsnz"
 SNZ_CPI_FILE = INPUT_LOCATION / "cpi" / "cpi_infoshare.csv"
+SNZ_CGPI_FILE = INPUT_LOCATION / "cgpi" / "cgpi_infoshare.csv"
 
 # ---------------------------------------------------------------------------
 # Helper functions
 # ---------------------------------------------------------------------------
 
 
-def load_raw_cpi(path: Path) -> pd.DataFrame:
-    """Read CPI CSV downloaded from Stats NZ Infoshare (skip title row)."""
-    logger.debug("Reading raw CPI from %s", path)
-    return pd.read_csv(path, skiprows=1)  # first row is a title
+def load_raw_index(path: Path, value_name: str) -> pd.DataFrame:
+    """Load and tidy a Stats NZ index file with periods as index and extra junk rows."""
+    logger.debug("Reading index from %s", path)
+    df = pd.read_csv(path, skiprows=1, index_col=0).reset_index()
+    df.columns = ["Period", value_name]
 
+    # Filter only rows that look like proper "1990Q1", "2001Q4", etc.
+    df = df[df["Period"].str.match(r"^\d{4}Q[1-4]$", na=False)]
 
-def tidy_cpi(df: pd.DataFrame) -> pd.DataFrame:
-    """Return an annual (Q4) CPI index from 1990 onward."""
-    logger.debug("Tidying CPI dataframe")
-
-    # Remove descriptive rows (empty 'All groups' cells)
-    df = df[df["All groups"].notna()].copy()
-    df.columns = ["Period", "CPI_Index"]
-
-    # Year / quarter split
     df["Year"] = df["Period"].str[:4].astype(int)
     df["Quarter"] = df["Period"].str[-1].astype(int)
-
-    # Keep Q4 observations only, from 1990 on
     df = df[(df["Year"] >= 1990) & (df["Quarter"] == 4)]
 
-    # Final shape
-    return df[["Year", "CPI_Index"]]
+    return df[["Year", value_name]]
 
 
 # ---------------------------------------------------------------------------
@@ -71,12 +63,18 @@ def main() -> None:
     OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 
     logger.info("Processing Stats NZ CPI data")
-    raw_cpi = load_raw_cpi(SNZ_CPI_FILE)
-    tidy_df = tidy_cpi(raw_cpi)
+    cpi_df = load_raw_index(SNZ_CPI_FILE, "CPI_Index")
+    cpi_df.columns = ["Year", "CPI_Index"]
+    cpi_output_file = OUTPUT_LOCATION / "cpi.csv"
+    cpi_df.to_csv(cpi_output_file, index=False)
+    logger.info("Wrote cleaned CPI data to %s", cpi_output_file)
 
-    output_file = OUTPUT_LOCATION / "cpi.csv"
-    tidy_df.to_csv(output_file, index=False)
-    logger.info("Wrote cleaned CPI data to %s", output_file)
+    logger.info("Processing Stats NZ CGPI data")
+    cgpi_df = load_raw_index(SNZ_CGPI_FILE, "CGPI_Index")
+    cgpi_df.columns = ["Year", "CGPI_Index"]
+    cgpi_output_file = OUTPUT_LOCATION / "cgpi.csv"
+    cgpi_df.to_csv(cgpi_output_file, index=False)
+    logger.info("Wrote cleaned CGPI data to %s", cgpi_output_file)
 
 
 if __name__ == "__main__":
