@@ -122,6 +122,10 @@ def deflate_data(
     DataFrame
         The DataFrame with deflated variables and adjusted PriceBaseYear.
     """
+
+    # Make a copy to avoid SettingWithCopyWarning
+    df = df.copy()
+
     for variable in variables_to_deflate:
         if variable not in df.columns:
             raise ValueError(
