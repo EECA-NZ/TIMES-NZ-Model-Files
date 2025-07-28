@@ -57,6 +57,11 @@ env.bak/
 venv.bak/
 
 # Packaging / build
+.doit.*
+.doit.db*
+.cache/doit/
+db.bak
+db.dir
 .Python
 build/
 dist/

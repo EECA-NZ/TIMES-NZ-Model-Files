@@ -20,13 +20,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from prepare_times_nz.filepaths import ASSUMPTIONS, STAGE_2_DATA
+from prepare_times_nz.filepaths import ASSUMPTIONS, DATA_INTERMEDIATE, STAGE_2_DATA
 from prepare_times_nz.logger_setup import logger
 
 # Filepaths --------
 
 STAGE_2_INDUSTRY_DATA = f"{STAGE_2_DATA}/industry"
 INDUSTRY_ASSUMPTIONS = f"{ASSUMPTIONS}/industry_demand"
+OUTPUT_PATH = (
+    DATA_INTERMEDIATE
+    / Path("stage_3_scenario_data")
+    / Path("industry/scenario_demand_growth.csv")
+)
 
 # Constants --------------------------------------------
 
@@ -337,6 +342,10 @@ def main():
         make_forecast_chart(df, checks_location, method="Linear Regression")
         make_forecast_chart(df, checks_location, method="CAGR")
         make_forecast_chart(df, checks_location, method="CAGR (smooth historical)")
+
+    # touch the file to indicate it has run
+    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT_PATH.touch()
 
 
 if __name__ == "__main__":
