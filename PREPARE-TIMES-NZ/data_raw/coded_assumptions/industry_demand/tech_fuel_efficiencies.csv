@@ -22,7 +22,8 @@ Furnace/Kiln,Coal,0.7,Typical industry value
 Furnace/Kiln,Electricity,0.8,Typical industry value
 Furnace/Kiln,Fuel Oil,0.8,Typical industry value
 Furnace/Kiln,Natural Gas,0.8,Typical industry value
-Heat Pump (for Heating),Electricity,,TODO
+Heat Pump (space heating),Electricity,,TODO
+Heat Pump (process heat),Electricity,,TODO
 Heat Pump (for Heating),Natural Gas,,TODO
 HVAC,Electricity,1,Placeholder efficiency
 Industrial Ovens,Coal,0.5,Typical industry value
