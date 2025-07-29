@@ -10,7 +10,8 @@ Electronics,0.5,Set to 0.5 as default for now. We might adjust this later
 Fan Systems,0.5,Set to 0.5 as default for now. We might adjust this later
 Feedstock,0.5,Set to 0.5 as default for now. We might adjust this later
 Furnace/Kiln,0.5,Set to 0.5 as default for now. We might adjust this later
-Heat Pump (for Heating),0.5,Set to 0.5 as default for now. We might adjust this later
+Heat Pump (space heating),0.5,Set to 0.5 as default for now. We might adjust this later
+Heat Pump (process heat),0.5,Set to 0.5 as default for now. We might adjust this later
 HVAC,0.5,Set to 0.5 as default for now. We might adjust this later
 Industrial Ovens,0.5,Set to 0.5 as default for now. We might adjust this later
 Internal Combustion Engine (Land Transport),0.5,Set to 0.5 as default for now. We might adjust this later
