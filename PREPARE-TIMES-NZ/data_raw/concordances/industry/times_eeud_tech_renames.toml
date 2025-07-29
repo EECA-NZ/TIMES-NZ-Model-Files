@@ -59,3 +59,31 @@ Justification = "There should not be high temp ele use in this sector - suspect 
   [rule.updates]
   EndUse = "Intermediate Heat (100-300 C), Process Requirements"
   Technology = "Boiler Systems"
+
+
+[[rule]]
+Name = "Heat pumps for space heating"
+Justification = "We distinguish different technologies for heatpumps for space heating v space cooling"
+
+  [rule.conditions]     
+  
+  Technology = "Heat Pump (for Heating)"
+  EndUse = "Low Temperature Heat (<100 C), Space Heating"
+
+  [rule.updates]  
+  Technology = "Heat Pump (space heating)"
+
+
+  [[rule]]
+
+
+Name = "Heat pumps for process heating"
+Justification = "We distinguish different technologies for heatpumps for space heating v space cooling"
+
+  [rule.conditions]     
+  
+  Technology = "Heat Pump (for Heating)"
+  EndUse = "Low Temperature Heat (<100 C), Process Requirements"
+
+  [rule.updates]  
+  Technology = "Heat Pump (process heat)"
