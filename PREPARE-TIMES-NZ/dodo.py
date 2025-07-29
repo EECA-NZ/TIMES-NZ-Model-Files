@@ -107,7 +107,17 @@ STAGE_1: dict[str, list[str]] = {
 
 # Specific dependencies between Stage-1 scripts
 STAGE_1_DEPS: dict[str, list[str]] = {
+    "extract_fleet_vkt_pj_data": [
+        # extract_mvr_fleet_data's output
+        "fleet_vkt_pj/vehicle_counts_2023.csv"
+    ],
+    "extract_vehicle_costs_data": [
+        # extract_snz_data's output
+        "statsnz/cpi.csv",
+        "statsnz/cgpi.csv",
+    ],
     "extract_vehicle_future_costs_data": [
+        # extract_vehicle_costs_data's output
         "vehicle_costs/vehicle_costs_by_type_fuel_2023.csv",
     ],
 }
