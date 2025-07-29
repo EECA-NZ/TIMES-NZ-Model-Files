@@ -62,7 +62,7 @@ run_script(f"{STAGE_3_SCRIPTS}/industry/industry_get_demand_growth.py")
 # Stage 4: Create excel files
 print("Reshaping data to match Veda formatting...")
 run_script(f"{STAGE_4_SCRIPTS}/create_baseyear_elc_files.py")
-run_script(f"{STAGE_4_SCRIPTS}/create_baseyear_TRA_files.py")
+run_script(f"{STAGE_4_SCRIPTS}/create_baseyear_tra_files.py")
 print("Building TIMES excel files based on .toml configuration files...")
 run_script(f"{STAGE_4_SCRIPTS}/write_excel.py")
 

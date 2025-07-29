@@ -16,7 +16,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
 from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA, STAGE_2_DATA
 
 # ──────────────────────────────────────────────────────────────── #
@@ -41,7 +40,7 @@ OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 # Constants
 # ────────────────────────────────────────────────────────────────
 MOTIVE_GROUP_MAP = {
-    "BEV":("Electricity", "BEV"),
+    "BEV": ("Electricity", "BEV"),
     "Petrol_Hybrid": ("Petrol", "ICE Hybrid"),
     "Diesel_ICE": ("Diesel", "ICE"),
     "Petrol_ICE": ("Petrol", "ICE"),
@@ -74,9 +73,9 @@ REGIONAL_SPLIT = {
 }
 
 TRUCK_NAMES = {
-    'MedTr': 'Light Truck',
-    'HevTr': 'Medium Truck',
-    'VHevTr': 'Heavy Truck',
+    "MedTr": "Light Truck",
+    "HevTr": "Medium Truck",
+    "VHevTr": "Heavy Truck",
 }
 
 FUEL_SHARE = {
@@ -90,10 +89,10 @@ FUEL_SHARE = {
     ("NI", "Rail Freight", "Electricity"): {"fuelshare": 0.02},
 }
 
-FLEET_WORKBOOK_YEAR = 2023          # <-- workbook file to open
-LIFE_ROW_YEAR       = 2022          # <-- rows we keep from sheet
-CAP2ACT = 0.08      # Max annual travel distance (000 km)
-ACT_BND_0 = -1      # Interpolation rule for ACT_BND
+FLEET_WORKBOOK_YEAR = 2023  # <-- workbook file to open
+LIFE_ROW_YEAR = 2022  # <-- rows we keep from sheet
+CAP2ACT = 0.08  # Max annual travel distance (000 km)
+ACT_BND_0 = -1  # Interpolation rule for ACT_BND
 
 MJ_PER_LITRE = {
     "Petrol": 35.18,
@@ -105,67 +104,35 @@ MJ_PER_LITRE = {
 # Data-reader helpers
 # ════════════════════════════════════════════════════════════════
 
-# def read_life_data(file_year: int) -> pd.DataFrame:
-#     """Open NZVehicleFleet_<file_year>.xlsx and return sheet 7.1/7.2."""
-#     path = MOT_DIR / f"NZVehicleFleet_{file_year}.xlsx"
-#     return (
-#         pd.read_excel(path, sheet_name="7.1,7.2", header=1)
-#           .iloc[:, :7]
-#           .rename(columns=str.strip)
-#           .round(6)
-#     )
-
-def read_rail_data() -> pd.DataFrame:
-    path = INPUT_LOCATION_KIWIRAIL / "Kiwirail data check 2022-23 Input data.xlsx"
-    df = pd.read_excel(path, skiprows=369)
-    return df.rename(columns=str.strip).round(6)
 
 def read_energy_balance(sheet_name: str) -> pd.DataFrame:
     """MBIE energy balance in *mbie* folder."""
     xls = INPUT_LOCATION_MBIE / "energy-balance-tables.xlsx"
     return pd.read_excel(xls, sheet_name=sheet_name, header=[2, 3]).round(6)
 
+
+def read_rail_data() -> pd.DataFrame:
+    """
+    Reads KiwiRail efficiency data from the shared Excel input file."""
+    path = INPUT_LOCATION_KIWIRAIL / "Kiwirail data check 2022-23 Input data.xlsx"
+    df = pd.read_excel(path, skiprows=369)
+    return df.rename(columns=str.strip).round(6)
+
+
 def read_kiwirail_energy() -> pd.DataFrame:
-    """Kiwirail fuel inputs in *kiwirail* folder (skips header rows)."""
+    """Kiwirail fuel energy inputs in *kiwirail* folder (skips header rows)."""
     xls = INPUT_LOCATION_KIWIRAIL / "Kiwirail data check 2022-23 Input data.xlsx"
     return pd.read_excel(xls, skiprows=369).round(6)
+
 
 # ════════════════════════════════════════════════════════════════
 # Transform helpers
 # ════════════════════════════════════════════════════════════════
 
-# def process_life_data(row_year: int = LIFE_ROW_YEAR,
-#                       file_year: int = FLEET_WORKBOOK_YEAR) -> pd.DataFrame:
-#     """Filter the sheet to rows where 'Year out' == row_year."""
-#     df = read_life_data(file_year)
-#     cols_needed = ["Type", "Year out", "New Average Age"]
-#     missing = [c for c in cols_needed if c not in df.columns]
-#     if missing:
-#         raise ValueError(f"Missing columns in life data: {missing}")
-
-#     df = (
-#         df[cols_needed]
-#           .rename(columns={"Type": "vehicletype",
-#                            "New Average Age": "life(years)"})
-#           .query("`Year out` == @row_year")
-#           .drop(columns="Year out")
-#           .reset_index(drop=True)
-#     )
-  
-#     df["vehicletype"] = df["vehicletype"].str.strip().replace({"Mcycl": "Motorcycle"})
-#     df = df[~df["vehicletype"].isin(["Other", "Light"])]
-
-#     # Expand generic "Truck" row into Light / Medium / Heavy
-#     truck_rows = df[df["vehicletype"] == "Truck"]
-#     if not truck_rows.empty:
-#         expanded = truck_rows.loc[truck_rows.index.repeat(3)].copy()
-#         expanded["vehicletype"] = ["Light Truck", "Medium Truck", "Heavy Truck"]
-#         df = pd.concat([df[df["vehicletype"] != "Truck"], expanded], ignore_index=True)
-
-#     return df
-
 
 def vehicle_counts_expanded(vc: pd.DataFrame) -> pd.DataFrame:
+    """Expands aggregated vehicle count records by splitting them into fuel type and
+    technology combinations using predefined mappings."""
     vc = vc.copy()
     vc["vehicletype"] = vc["vehicletype"].replace(TRUCK_NAMES)
 
@@ -205,7 +172,11 @@ def vehicle_counts_expanded(vc: pd.DataFrame) -> pd.DataFrame:
     records = [rec for _, r in vc.iterrows() for rec in expand_row(r)]
     return pd.DataFrame(records)
 
-def mbie_total_road_energy(year: int) -> pd.DataFrame:       
+
+def mbie_total_road_energy(year: int) -> pd.DataFrame:
+    """Returns total road energy consumption by fuel type
+    for a given year, in Petajoules (PJ), based on MBIE energy balance data
+    and KiwiRail rail energy usage."""
     pj = read_energy_balance(str(year))
     pj_rail = read_kiwirail_energy()
 
@@ -216,25 +187,40 @@ def mbie_total_road_energy(year: int) -> pd.DataFrame:
     transport_row = pj[pj[label_col] == "Transport"]
 
     # Build dataframe of initial road energy PJ values
-    road_df = pd.DataFrame([
-        {"fueltype": "LPG",         "pjvalue": transport_row[("Coal", "Oil.1")].values[0]},
-        {"fueltype": "Petrol",      "pjvalue": transport_row[("Coal", "Oil.2")].values[0]},
-        {"fueltype": "Diesel",      "pjvalue": transport_row[("Coal", "Oil.3")].values[0]},
-        {"fueltype": "Electricity", "pjvalue": transport_row[("Electricity", "Electricity")].values[0]},
-    ])
+    road_df = pd.DataFrame(
+        [
+            {"fueltype": "LPG", "pjvalue": transport_row[("Coal", "Oil.1")].values[0]},
+            {
+                "fueltype": "Petrol",
+                "pjvalue": transport_row[("Coal", "Oil.2")].values[0],
+            },
+            {
+                "fueltype": "Diesel",
+                "pjvalue": transport_row[("Coal", "Oil.3")].values[0],
+            },
+            {
+                "fueltype": "Electricity",
+                "pjvalue": transport_row[("Electricity", "Electricity")].values[0],
+            },
+        ]
+    )
 
     # Read and process rail PJ rows
-    rail_df = pj_rail[["Fuel Type", "Transport", "End-use Energy (output energy)"]].rename(
+    rail_df = pj_rail[
+        ["Fuel Type", "Transport", "End-use Energy (output energy)"]
+    ].rename(
         columns={
             "Fuel Type": "fueltype",
             "Transport": "vehicletype",
-            "End-use Energy (output energy)": "pjvalue"
+            "End-use Energy (output energy)": "pjvalue",
         }
     )
-    rail_df["pjvalue"] = pd.to_numeric(rail_df["pjvalue"], errors="coerce") / 1e3  # convert to PJ
+    rail_df["pjvalue"] = (
+        pd.to_numeric(rail_df["pjvalue"], errors="coerce") / 1e3
+    )  # convert to PJ
     rail_df = rail_df[
-        rail_df["vehicletype"].isin(["Passenger Rail", "Rail Freight"]) &
-        rail_df["fueltype"].isin(["Electricity", "Diesel"])
+        rail_df["vehicletype"].isin(["Passenger Rail", "Rail Freight"])
+        & rail_df["fueltype"].isin(["Electricity", "Diesel"])
     ]
 
     # Subtract rail PJ from diesel and electricity
@@ -252,10 +238,13 @@ def mbie_total_road_energy(year: int) -> pd.DataFrame:
 
     return road_df.reset_index(drop=True)
 
+
 def apply_productivity_penalty_on_afa(df: pd.DataFrame, year: int) -> pd.DataFrame:
     """
-    Applies a time-dependent productivity penalty to BEV heavy trucks by reducing their availability factor.
-    Uses year-dependent values: 13% (2023), 7% (2030), 3% (2040) with linear interpolation.
+    Applies a time-dependent productivity penalty to BEV heavy trucks
+    by reducing their availability factor.
+    Uses year-dependent values: 13% (2023), 7% (2030), 3% (2040)
+    with linear interpolation.
     """
     # Define known penalty points
     penalty_schedule = {
@@ -279,52 +268,47 @@ def apply_productivity_penalty_on_afa(df: pd.DataFrame, year: int) -> pd.DataFra
                 penalty = p0 + (p1 - p0) * ((year - y0) / (y1 - y0))
                 break
 
-    logging.info(f"📉 Applying {penalty*100:.1f}% productivity penalty to BEV Heavy Trucks for year {year}")
-
-    mask = (
-        (df["vehicletype"] == "Heavy Truck") &
-        (df["technology"] == "BEV") &
-        (df["fueltype"] == "Electricity") &
-        df["vktvalue"].notna()
+    logging.info(
+        "📉 Applying %.1f%% productivity penalty to BEV Heavy Trucks for year %s",
+        penalty * 100,
+        year,
     )
 
-    df.loc[mask, "vktvalue"] *= (1 - penalty)
+    mask = (
+        (df["vehicletype"] == "Heavy Truck")
+        & (df["technology"] == "BEV")
+        & (df["fueltype"] == "Electricity")
+        & df["vktvalue"].notna()
+    )
+
+    df.loc[mask, "vktvalue"] *= 1 - penalty
 
     return df
+
 
 # ════════════════════════════════════════════════════════════════
 # Enrichment helpers
 # ════════════════════════════════════════════════════════════════
-# def enrich_with_life(vkt_df, life_df):
-#     out = vkt_df.merge(life_df, how="left", on="vehicletype")
-#     out.loc[
-#         out["vehicletype"].isin(["Domestic Aviation", "International Aviation", "Domestic Shipping", "International Shipping", "Passenger Rail", "Rail Freight"]),
-#         "life(years)",
-#     ] = 60
-#     return out
 
-# def enrich_with_efficiency(df, rail_df):
-
-#     # Only keep necessary columns from rail_df
-#     rail_df = rail_df[["vehicletype", "fueltype", "efficiency"]]
-
-#     df = df.merge(
-#         rail_df, on=["vehicletype", "fueltype"], how="left", suffixes=("", "_rail")
-#     )
-#     df["efficiency"] = df["efficiency"].fillna(df["efficiency_rail"])
-#     df = df.drop(columns="efficiency_rail")
-#     df.loc[df["vehicletype"].isin(["Domestic Aviation", "International Aviation", "Domestic Shipping", "International Shipping"]), "efficiency"] = 1.0
-#     return df
 
 def enrich_with_efficiency(df, rail_df):
+    """Adds rail-specific energy efficiency data to the main DataFrame."""
     # Only keep necessary columns from rail_df
-    rail_df = rail_df[["vehicletype", "fueltype", "efficiency"]].rename(columns={"efficiency": "efficiency_rail"})
+    rail_df = rail_df[["vehicletype", "fueltype", "efficiency"]].rename(
+        columns={"efficiency": "efficiency_rail"}
+    )
 
     df = df.merge(rail_df, on=["vehicletype", "fueltype"], how="left")
     return df
 
 
 def enrich_with_costs(df, cost_df):
+    """
+    This function enriches the input transport activity DataFrame with vehicle cost
+    information by joining on vehicle type, fuel type, and technology. Missing values
+    are filled with zeros. Additionally, for LPV PHEV entries, it ensures costs are
+    explicitly filled using the average of matching entries in the cost dataset.
+    """
     df = df.merge(
         cost_df[
             [
@@ -353,16 +337,30 @@ def enrich_with_costs(df, cost_df):
 # ════════════════════════════════════════════════════════════════
 # Main pipeline
 # ════════════════════════════════════════════════════════════════
+# pylint: disable=too-many-statements
+# pylint: disable=too-many-locals
 def build_baseyear_table(year: int) -> pd.DataFrame:
-    vkt_long = pd.read_csv(INPUT_LOCATION_FLEET / f"vkt_by_vehicle_type_and_fuel_{year}.csv")
+    """
+    Constructs and returns a long-format base year vehicle activity and energy dataset.
+
+    This function consolidates and enriches multiple datasets related to vehicle fleet,
+    energy use, efficiency, VKT (Vehicle Kilometres Travelled), and costs for
+    a given year. It performs calculations, scaling, imputation, and transformations
+    necessary for modeling or analysis of base year transport energy activity.
+    """
+    vkt_long = pd.read_csv(
+        INPUT_LOCATION_FLEET / f"vkt_by_vehicle_type_and_fuel_{year}.csv"
+    )
     vkt_utils = pd.read_csv(INPUT_LOCATION_FLEET / f"vkt_in_utils_{year}.csv")
     vkt_shares = vkt_utils[["vehicletype", "tertile", "vktshare"]]
     life = vkt_utils[["vehicletype", "tertile", "scrap_p70"]].copy()
     life = life.rename(columns={"scrap_p70": "life(years)"})
     vehicle_counts = pd.read_csv(INPUT_LOCATION_FLEET / f"vehicle_counts_{year}.csv")
-    #life_df = process_life_data()   # uses LIFE_ROW_YEAR & FLEET_WORKBOOK_YEAR
+    # life_df = process_life_data()   # uses LIFE_ROW_YEAR & FLEET_WORKBOOK_YEAR
     counts_expanded = vehicle_counts_expanded(vehicle_counts)
-    cost_df = pd.read_csv(INPUT_LOCATION_COST / f"vehicle_costs_by_type_fuel_{year}.csv")
+    cost_df = pd.read_csv(
+        INPUT_LOCATION_COST / f"vehicle_costs_by_type_fuel_{year}.csv"
+    )
     road_df = mbie_total_road_energy(year)
 
     # rail efficiency table
@@ -385,8 +383,10 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
     # df = enrich_with_life(vkt_long, life_df)
     df = enrich_with_costs(vkt_long, cost_df)
     df = enrich_with_efficiency(df, rail_eff)
-    df = df.merge(counts_expanded, on=["vehicletype", "fueltype", "technology"], how="left")
-    
+    df = df.merge(
+        counts_expanded, on=["vehicletype", "fueltype", "technology"], how="left"
+    )
+
     # Expand rows by region and apply split
     rows = []
     for _, row in df.iterrows():
@@ -396,32 +396,47 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
             for region, frac in split.items():
                 new_row = row.copy()
                 new_row["region"] = region
-                new_row["vktvalue"] = row["vktvalue"] * frac if pd.notnull(row["vktvalue"]) else np.nan
-                new_row["pjvalue"] = row["pjvalue"] * frac if pd.notnull(row["pjvalue"]) else np.nan
-                new_row["vehicle_count"] = row["vehicle_count"] * frac if pd.notnull(row["vehicle_count"]) else np.nan
+                new_row["vktvalue"] = (
+                    row["vktvalue"] * frac if pd.notnull(row["vktvalue"]) else np.nan
+                )
+                new_row["pjvalue"] = (
+                    row["pjvalue"] * frac if pd.notnull(row["pjvalue"]) else np.nan
+                )
+                new_row["vehicle_count"] = (
+                    row["vehicle_count"] * frac
+                    if pd.notnull(row["vehicle_count"])
+                    else np.nan
+                )
                 rows.append(new_row)
     df = pd.DataFrame(rows)
-    
-    df = (df
-       .merge(vkt_shares, on="vehicletype", how="left")   # adds tertile & vktshare
-       .assign(vktvalue=lambda d: d["vktvalue"] * d["vktshare"])
-       .drop(columns="vktshare")                      # keep if you still need it
+
+    df = (
+        df.merge(vkt_shares, on="vehicletype", how="left")  # adds tertile & vktshare
+        .assign(vktvalue=lambda d: d["vktvalue"] * d["vktshare"])
+        .drop(columns="vktshare")  # keep if you still need it
     )
 
     df = df.merge(life, on=["vehicletype", "tertile"], how="left")
-    
+
     df.loc[
-    df["vehicletype"].isin([
-        "Domestic Aviation", "International Aviation",
-        "Domestic Shipping", "International Shipping",
-        "Passenger Rail", "Rail Freight"
-    ]),
-    "life(years)"
+        df["vehicletype"].isin(
+            [
+                "Domestic Aviation",
+                "International Aviation",
+                "Domestic Shipping",
+                "International Shipping",
+                "Passenger Rail",
+                "Rail Freight",
+            ]
+        ),
+        "life(years)",
     ] = 60
 
     df["pjvalue_original"] = df["pjvalue"]
     mask = df["pjvalue"].isna()
-    df.loc[mask, "pjvalue"] = df.loc[mask, "vktvalue"] * df.loc[mask, "efficiency_vfm_pj_mkm"]
+    df.loc[mask, "pjvalue"] = (
+        df.loc[mask, "vktvalue"] * df.loc[mask, "efficiency_vfm_pj_mkm"]
+    )
 
     # Step 1: Total PJ from model output
     pj_by_fuel_model = (
@@ -442,7 +457,7 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
     df["pjvalue"] = np.where(
         df["pjvalue_original"].isna(),
         df["pjvalue"] * df["scale_factor"],
-        df["pjvalue_original"]  # leave raw values untouched
+        df["pjvalue_original"],  # leave raw values untouched
     )
     df = df.drop(columns="scale_factor")
     df = df.drop(columns="pjvalue_original")
@@ -454,7 +469,9 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
     df["efficiency"] = df["efficiency_rail"].combine_first(df["efficiency_calc"])
 
     # Override motorcycle electricity efficiency manually
-    motorcycle_mask = (df["vehicletype"] == "Motorcycle") & (df["fueltype"] == "Electricity")
+    motorcycle_mask = (df["vehicletype"] == "Motorcycle") & (
+        df["fueltype"] == "Electricity"
+    )
     df.loc[motorcycle_mask, "efficiency"] = 2.82
 
     # Step: Add missing hydrogen truck rows if not already in the data
@@ -465,12 +482,11 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
 
     for row in required_rows:
         match = (
-            (df["vehicletype"] == row["vehicletype"]) &
-            (df["fueltype"] == row["fueltype"]) &
-            (df["technology"] == row["technology"])
+            (df["vehicletype"] == row["vehicletype"])
+            & (df["fueltype"] == row["fueltype"])
+            & (df["technology"] == row["technology"])
         )
         if not df[match].any().any():
-            #logging.warning(f"⛔ Missing row: {row}. Appending with NaNs except efficiency.")
             new_row = {**row}
             for col in df.columns:
                 if col not in new_row:
@@ -479,27 +495,30 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
 
     # Manually override hydrogen efficiencies
     df.loc[
-        (df["vehicletype"] == "Heavy Truck") &
-        (df["technology"] == "H2R") &
-        (df["fueltype"] == "Hydrogen"),
-        "efficiency"
+        (df["vehicletype"] == "Heavy Truck")
+        & (df["technology"] == "H2R")
+        & (df["fueltype"] == "Hydrogen"),
+        "efficiency",
     ] = 0.08
 
     df.loc[
-        (df["vehicletype"] == "Medium Truck") &
-        (df["technology"] == "H2R") &
-        (df["fueltype"] == "Hydrogen"),
-        "efficiency"
+        (df["vehicletype"] == "Medium Truck")
+        & (df["technology"] == "H2R")
+        & (df["fueltype"] == "Hydrogen"),
+        "efficiency",
     ] = 0.11
-
 
     # Override for aviation/shipping
     df.loc[
-        df["vehicletype"].isin([
-            "Domestic Aviation", "International Aviation",
-            "Domestic Shipping", "International Shipping"
-        ]),
-        "efficiency"
+        df["vehicletype"].isin(
+            [
+                "Domestic Aviation",
+                "International Aviation",
+                "Domestic Shipping",
+                "International Shipping",
+            ]
+        ),
+        "efficiency",
     ] = 1.0
 
     def to_l_per_100km(row):
@@ -511,20 +530,19 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
 
     df["fuel_consumption"] = df.apply(to_l_per_100km, axis=1)
 
-
     # For electricity: MJ to kWh conversion factor is 3.6
     df["energy_consumption"] = np.where(
         (df["fueltype"] == "Electricity") & df["efficiency"].notna(),
         100 / (df["efficiency"] * 3.6),
-        np.nan
+        np.nan,
     )
 
-    MJ_PER_KG_HYDROGEN = 120
+    MJ_PER_KG_HYDROGEN = 120  # pylint: disable=invalid-name
 
     df["hydrogen_consumption"] = np.where(
         (df["fueltype"] == "Hydrogen") & df["efficiency"].notna(),
         100 / (df["efficiency"] * MJ_PER_KG_HYDROGEN),
-        np.nan
+        np.nan,
     )
 
     # Drop temp columns
@@ -533,12 +551,14 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
     df["Cap2Act"] = np.where(df["vehicle_count"] > 0, CAP2ACT, np.nan)
     df = apply_productivity_penalty_on_afa(df, year)
     df["ACT_BND_0"] = np.where(df["vehicle_count"] > 0, ACT_BND_0, np.nan)
-    df["vktvalue"] = df["vktvalue"] / 1000    #converting to billion vkt
-    df["vehicle_count"] = df["vehicle_count"] / 1000 # converting to 000vehicles
+    df["vktvalue"] = df["vktvalue"] / 1000  # converting to billion vkt
+    df["vehicle_count"] = df["vehicle_count"] / 1000  # converting to 000vehicles
     df["vehicle_count"] = df["vehicle_count"] / 3
     df["annual_utilisation_rate"] = df["vktvalue"] / df["vehicle_count"] / df["Cap2Act"]
     df["cost_2023_nzd"] = df["cost_2023_nzd"] / 1000  # converting to 000NZD/vehicle
-    df["operation_cost_2023_nzd"] = df["operation_cost_2023_nzd"] / 1000  # converting to 000NZD/km/vehicle
+    df["operation_cost_2023_nzd"] = (
+        df["operation_cost_2023_nzd"] / 1000
+    )  # converting to 000NZD/km/vehicle
 
     # get FUEL_SHARE values
     def get_fuelshare(row):
@@ -548,18 +568,35 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
         key2 = (row["region"], row["vehicletype"], row["fueltype"])
         if key1 in FUEL_SHARE:
             return FUEL_SHARE[key1]["fuelshare"]
-        elif key2 in FUEL_SHARE:
+        if key2 in FUEL_SHARE:
             return FUEL_SHARE[key2]["fuelshare"]
-        else:
-            return np.nan
+        return np.nan
 
     df["fuelshare"] = df.apply(get_fuelshare, axis=1)
-    df = df.drop(columns=["efficiency_vfm_pj_mkm","efficiency_vfm_l_100km","efficiency_vfm_kwh_100km"])
+    df = df.drop(
+        columns=[
+            "efficiency_vfm_pj_mkm",
+            "efficiency_vfm_l_100km",
+            "efficiency_vfm_kwh_100km",
+        ]
+    )
 
     # Reshape to long format for selected variables
     value_vars = [
-        "vktvalue", "pjvalue", "life(years)", "vehicle_count", "Cap2Act",
-        "annual_utilisation_rate", "efficiency", "fuel_consumption", "energy_consumption", "hydrogen_consumption", "cost_2023_nzd", "operation_cost_2023_nzd", "ACT_BND_0", "fuelshare"
+        "vktvalue",
+        "pjvalue",
+        "life(years)",
+        "vehicle_count",
+        "Cap2Act",
+        "annual_utilisation_rate",
+        "efficiency",
+        "fuel_consumption",
+        "energy_consumption",
+        "hydrogen_consumption",
+        "cost_2023_nzd",
+        "operation_cost_2023_nzd",
+        "ACT_BND_0",
+        "fuelshare",
     ]
     unit_map = {
         "vktvalue": "billion km",
@@ -575,12 +612,13 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
         "cost_2023_nzd": "000NZD/vehicle",
         "operation_cost_2023_nzd": "000NZD/km/vehicle",
         "ACT_BND_0": "",
-        "fuelshare": "%"
+        "fuelshare": "%",
     }
 
     id_vars = [c for c in df.columns if c not in value_vars]
-    df_long = df.melt(id_vars=id_vars, value_vars=value_vars,
-                      var_name="variable", value_name="value")
+    df_long = df.melt(
+        id_vars=id_vars, value_vars=value_vars, var_name="variable", value_name="value"
+    )
     df_long["unit"] = df_long["variable"].map(unit_map)
 
     # Optionally, reorder columns
@@ -588,6 +626,7 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
     df_long = df_long[cols]
 
     return df_long
+
 
 # ────────────────────────────────────────────────────────────────
 # Main Script
@@ -601,6 +640,7 @@ def main() -> None:
     out_path = OUTPUT_LOCATION / f"transport_demand_{year}.csv"
     baseyear_df.to_csv(out_path, index=False)
     logger.info("baseyear data written to %s", out_path)
+
 
 if __name__ == "__main__":
     main()
