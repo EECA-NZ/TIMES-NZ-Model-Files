@@ -45,6 +45,8 @@ from pathlib import Path
 from typing import Iterator
 
 from prepare_times_nz.filepaths import (
+    ASSUMPTIONS,
+    CONCORDANCES,
     DATA_INTERMEDIATE,
     DATA_RAW,
     OUTPUT_LOCATION,
@@ -82,8 +84,107 @@ PY = sys.executable
 CONFIG_DIR = DATA_INTERMEDIATE / S0_DIR
 CONFIG_META_CSV = CONFIG_DIR / "config_metadata.csv"
 
+
+##########################################
+# Helpers
+
+
+def _run(script: str) -> str:
+    """Return a shell command that invokes *script* with the current Python.
+
+    We generate a string instead of a list so that *doit* passes it straight to
+    the shell, which keeps quoting simple and honours the active virtual-env.
+    """
+    return f'"{PY}" "{script}"'
+
+
+def _intermediate_out(rel_path: str, *sub):
+    """
+    Convenience helper to construct an absolute path to an output file
+    """
+    return Path(DATA_INTERMEDIATE, *sub, rel_path)
+
+
+def _out(rel_path: str) -> Path:
+    """Absolute path for a workbook under OUTPUT_LOCATION"""
+    return OUTPUT_LOCATION / rel_path
+
+
+def _files_in_path(path: str | PathLike, pattern: str = GLOB_PATTERN) -> list[Path]:
+    """
+    Recursively list *all* files inside the given path
+
+    Parameters
+    ----------
+    path : str | PathLike
+        root path. Broader applicability than _files_in_stage
+
+
+    Returns
+    -------
+    list[Path]
+        Absolute ``Path`` objects for every file found.
+    """
+    return [p for p in path.rglob(pattern) if p.is_file()]
+
+
+def _files_in_stage(
+    stage_dir: str | PathLike, pattern: str = GLOB_PATTERN
+) -> list[Path]:
+    """
+    Recursively list *all* files inside the given staging directory.
+
+    Parameters
+    ----------
+    stage_dir : str | PathLike
+        Directory name relative to DATA_INTERMEDIATE - e.g. S2_DIR
+
+    Returns
+    -------
+    list[Path]
+        Absolute ``Path`` objects for every file found.
+    """
+    root = DATA_INTERMEDIATE / stage_dir
+    return _files_in_path(root, pattern=pattern)
+
+
+##########################################
+# Dependency Definitions
+##########################################
+
+
+# Stage-0 inputs:
+STAGE_0_INPUTS = _files_in_path((DATA_RAW / "user_config"))
+ASSUMPTION_INPUTS = _files_in_path(ASSUMPTIONS)
+CONCORDANCE_INPUTS = _files_in_path(CONCORDANCES)
+
+
 # Raw data input to stage 1
-RAW_FILES = list(DATA_RAW.rglob(GLOB_PATTERN))
+
+STAGE_1_INPUTS: dict[str, list[Path]] = {
+    "extract_ea_data": _files_in_path(DATA_RAW / "external_data/electricity_authority"),
+    "extract_eeud": _files_in_path(DATA_RAW / "eeca_data/eeud"),
+    "extract_gic_data": _files_in_path(DATA_RAW / "external_data/gic"),
+    "extract_mbie_data": _files_in_path(DATA_RAW / "external_data/mbie"),
+    "extract_snz_data": _files_in_path(DATA_RAW / "external_data/statsnz"),
+    # Transport inputs
+    "extract_fleet_vkt_pj_data": _files_in_path(DATA_RAW / "eeca_data/eeud")
+    + _files_in_path(DATA_RAW / "external_data/mbie")
+    + _files_in_path(DATA_RAW / "external_data/mot")
+    + _files_in_path(DATA_RAW / "external_data/kiwirail"),
+    "extract_mvr_fleet_data": _files_in_path(DATA_RAW / "external_data/nzta"),
+    "extract_vkt_tertile_shares": _files_in_path(DATA_RAW / "external_data/mot"),
+    "extract_vehicle_costs_data": _files_in_path(DATA_RAW / "eeca_data/eeud")
+    + _files_in_path(DATA_RAW / "eeca_data/tcoe")
+    + _files_in_path(DATA_RAW / "external_data/mbie")
+    + _files_in_path(DATA_RAW / "external_data/mot")
+    + _files_in_path(DATA_RAW / "external_data/kiwirail")
+    + _files_in_path(DATA_RAW / "external_data/nrel"),
+    "extract_vehicle_future_costs_data": _files_in_path(
+        DATA_RAW / "external_data/nrel"
+    ),
+}
+
 
 # Stage-1: raw -> stage_1_input_data
 STAGE_1: dict[str, list[str]] = {
@@ -150,51 +251,6 @@ STAGE_5: dict[str, list[str]] = {
 }
 
 
-##########################################
-# Helpers
-
-
-def _run(script: str) -> str:
-    """Return a shell command that invokes *script* with the current Python.
-
-    We generate a string instead of a list so that *doit* passes it straight to
-    the shell, which keeps quoting simple and honours the active virtual-env.
-    """
-    return f'"{PY}" "{script}"'
-
-
-def _intermediate_out(rel_path: str, *sub):
-    """
-    Convenience helper to construct an absolute path to an output file
-    """
-    return Path(DATA_INTERMEDIATE, *sub, rel_path)
-
-
-def _out(rel_path: str) -> Path:
-    """Absolute path for a workbook under OUTPUT_LOCATION"""
-    return OUTPUT_LOCATION / rel_path
-
-
-def _files_in_stage(
-    stage_dir: str | PathLike, pattern: str = GLOB_PATTERN
-) -> list[Path]:
-    """
-    Recursively list *all* files inside the given staging directory.
-
-    Parameters
-    ----------
-    stage_dir : str | PathLike
-        Directory name relative to DATA_INTERMEDIATE - e.g. S2_DIR
-
-    Returns
-    -------
-    list[Path]
-        Absolute ``Path`` objects for every file found.
-    """
-    root = DATA_INTERMEDIATE / stage_dir
-    return [p for p in root.rglob(pattern) if p.is_file()]
-
-
 ###############################################################################
 # Stage-0: TOML -> config_metadata.csv
 ###############################################################################
@@ -210,7 +266,7 @@ def task_stage_0_parse_tomls():
     script = STAGE_0_SCRIPTS / "parse_tomls.py"
     return {
         "actions": [_run(str(script))],
-        "file_dep": RAW_FILES + [script],
+        "file_dep": STAGE_0_INPUTS + [script],
         "targets": [CONFIG_META_CSV],
         "clean": True,
     }
@@ -226,13 +282,13 @@ def task_stage_1_extract() -> Iterator[dict]:
     for stem, rel_outs in STAGE_1.items():
         script = STAGE_1_SCRIPTS / f"{stem}.py"
         extra_in = [_intermediate_out(p, S1_DIR) for p in STAGE_1_DEPS.get(stem, [])]
+        input_files = list(STAGE_1_INPUTS.get(stem, []))
         yield {
             "name": stem,
             "actions": [_run(str(script))],
             "file_dep": [
                 script,
-                CONFIG_META_CSV,
-                *RAW_FILES,
+                *input_files,
                 *extra_in,
                 *_files_in_stage(S0_DIR),
             ],
@@ -254,7 +310,10 @@ def task_stage_2_baseyear() -> Iterator[dict]:
         yield {
             "name": stem,
             "actions": [_run(str(script))],
-            "file_dep": [script] + _files_in_stage(S1_DIR),
+            "file_dep": [script]
+            + _files_in_stage(S1_DIR)
+            + ASSUMPTION_INPUTS
+            + CONCORDANCE_INPUTS,
             "targets": [_intermediate_out(rel, S2_DIR) for rel in rel_outs],
             "task_dep": [f"stage_1_extract:{n}" for n in STAGE_1],
             "clean": True,
@@ -273,7 +332,10 @@ def task_stage_3_scenarios() -> Iterator[dict]:
         yield {
             "name": rel_script.replace("/", "_"),
             "actions": [_run(str(script))],
-            "file_dep": [script] + _files_in_stage(S2_DIR),
+            "file_dep": [script]
+            + _files_in_stage(S2_DIR)
+            + ASSUMPTION_INPUTS
+            + CONCORDANCE_INPUTS,
             "targets": [_intermediate_out(rel, S3_DIR) for rel in rel_outs],
             "task_dep": [f"stage_2_baseyear:{n}" for n in STAGE_2],
             "clean": True,
@@ -292,7 +354,11 @@ def task_stage_4_veda_csvs() -> Iterator[dict]:
         yield {
             "name": stem,
             "actions": [_run(str(script))],
-            "file_dep": [script] + _files_in_stage(S3_DIR),
+            "file_dep": [script]
+            + _files_in_stage(S3_DIR)
+            + _files_in_stage(S2_DIR)
+            + ASSUMPTION_INPUTS
+            + CONCORDANCE_INPUTS,
             "targets": [_intermediate_out(rel, S4_DIR) for rel in rel_outs],
             "task_dep": [f"stage_3_scenarios:{n.replace('/', '_')}" for n in STAGE_3],
             "clean": True,
@@ -309,7 +375,7 @@ def task_stage_5_build_excel():
     script = STAGE_4_SCRIPTS / "write_excel.py"
     return {
         "actions": [_run(str(script))],
-        "file_dep": [script] + _files_in_stage(S4_DIR),
+        "file_dep": [script] + _files_in_stage(S4_DIR) + [CONFIG_META_CSV],
         "targets": [_out(rel) for rel in STAGE_5["write_excel"]],
         "task_dep": [f"stage_4_veda_csvs:{n}" for n in STAGE_4],
         "clean": True,
