@@ -15,6 +15,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pandas as pd
+from prepare_times_nz.data_cleaning import rename_columns_to_pascal
 from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA
 from prepare_times_nz.logger_setup import logger
 
@@ -23,12 +24,32 @@ from prepare_times_nz.logger_setup import logger
 # ---------------------------------------------------------------------------
 INPUT_LOCATION = Path(DATA_RAW) / "external_data" / "statsnz"
 OUTPUT_LOCATION = Path(STAGE_1_DATA) / "statsnz"
+
 SNZ_CPI_FILE = INPUT_LOCATION / "cpi" / "cpi_infoshare.csv"
 SNZ_CGPI_FILE = INPUT_LOCATION / "cgpi" / "cgpi_infoshare.csv"
+SNZ_CENSUS_HEATING_FILE = INPUT_LOCATION / "census" / "dwelling_heating.csv"
+SNZ_DWELLINGS_POP_FILE = INPUT_LOCATION / "census" / "population_by_dwelling.csv"
+
 
 # ---------------------------------------------------------------------------
 # Helper functions
 # ---------------------------------------------------------------------------
+
+
+def save_file(df: pd.DataFrame, filename: str, label: str):
+    """
+    Saves the stats data and includes logging
+    df: the df to write
+    filename: the name of the file
+    label: what to call this in the log
+    Requires Path OUTPUT_LOCATION to be defined
+    """
+    if not filename.lower().endswith(".csv"):
+        raise ValueError(f"Filename '{filename}' must end with '.csv'")
+
+    output_file = OUTPUT_LOCATION / filename
+    df.to_csv(output_file, index=False, encoding="utf-8-sig")
+    logger.info("Wrote %s to %s", label, output_file)
 
 
 def load_raw_index(path: Path, value_name: str) -> pd.DataFrame:
@@ -47,6 +68,97 @@ def load_raw_index(path: Path, value_name: str) -> pd.DataFrame:
     return df[["Year", value_name]]
 
 
+def extract_price_index_data():
+    """
+    Loads, tidies, and saves the CPI and CGPI data
+    Expects inputs in the SNZ_CPI_FILE and SNZ_CGPI_FILE locations
+    Writes to output_location so this location needs to exist
+
+    """
+    cpi_df = load_raw_index(SNZ_CPI_FILE, "CPI_Index")
+    cpi_df.columns = ["Year", "CPI_Index"]
+    save_file(cpi_df, "cpi.csv", "CPI data")
+
+    cgpi_df = load_raw_index(SNZ_CGPI_FILE, "CGPI_Index")
+    cgpi_df.columns = ["Year", "CGPI_Index"]
+    save_file(cpi_df, "cgpi.csv", "CGPI data")
+
+
+# Census data
+
+
+def get_dwelling_heating_data(path: Path) -> pd.DataFrame:
+    """Return the dataframe from raw census dwelling results
+    Note: manual fixing of dwelling codes to dwelling names included here
+    as these were not available in the main data
+    Source found in raw_data/statsnz/readme.md
+    """
+    # load raw data
+    df = pd.read_csv(path)
+    # consistent name case
+    df = rename_columns_to_pascal(df)
+    # dwelling type/code mapping
+    # CeDt is the SNZ label for the dwelling type code
+    # no labels were provided in the extract so we manually map these
+    dwelling_type_map = {
+        "10": "Private dwelling not further defined",
+        "11": "Separate house",
+        "12": "Joined dwelling",
+        "13": "Other private dwelling",
+        "999": "Total - private dwelling type",
+    }
+    df["PrivateDwellingType"] = df["CeDt"].astype(str).map(dwelling_type_map)
+
+    df = df[
+        [
+            "CensusYear",
+            "Area",
+            "MainTypesOfHeatingUsed",
+            "PrivateDwellingType",
+            "ObValue",
+        ]
+    ].copy()
+
+    df = df.rename(columns={"ObValue": "Value"})
+
+    return df
+
+
+def get_population_by_dwelling(path: Path) -> pd.DataFrame:
+    """
+    Some mild cleaning of the ADE pop/dwellings data
+    Reads from the filepath, returns df
+    Source provided in data_raw/statsnz/readme.md
+    """
+
+    df = pd.read_csv(path)
+    df = rename_columns_to_pascal(df)
+    # strangely, this data has the correct dwelling type labels already
+    df = df[
+        [
+            "CensusYear",
+            "Area",
+            "DwellingType",
+            "ObValue",
+        ]
+    ].copy()
+    df = df.rename(columns={"ObValue": "Value"})
+    return df
+
+
+def extract_census_data():
+    """
+    A wrapper for the census inputs and relevant mapping
+    """
+    # Census: Dwelling heating
+    df = get_dwelling_heating_data(SNZ_CENSUS_HEATING_FILE)
+    save_file(df, "dwelling_heating.csv", "dwelling heating data")
+
+    # Census: Dwelling populations. Was cleaned manually, unfortunately.
+    df = get_population_by_dwelling(SNZ_DWELLINGS_POP_FILE)
+    save_file(df, "population_by_dwelling.csv", "dwelling population data")
+
+
 # ---------------------------------------------------------------------------
 # Main flow
 # ---------------------------------------------------------------------------
@@ -56,19 +168,9 @@ def main() -> None:
     """Entry-point for direct execution or programmatic import."""
     OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 
-    logger.info("Processing Stats NZ CPI data")
-    cpi_df = load_raw_index(SNZ_CPI_FILE, "CPI_Index")
-    cpi_df.columns = ["Year", "CPI_Index"]
-    cpi_output_file = OUTPUT_LOCATION / "cpi.csv"
-    cpi_df.to_csv(cpi_output_file, index=False)
-    logger.info("Wrote cleaned CPI data to %s", cpi_output_file)
-
-    logger.info("Processing Stats NZ CGPI data")
-    cgpi_df = load_raw_index(SNZ_CGPI_FILE, "CGPI_Index")
-    cgpi_df.columns = ["Year", "CGPI_Index"]
-    cgpi_output_file = OUTPUT_LOCATION / "cgpi.csv"
-    cgpi_df.to_csv(cgpi_output_file, index=False)
-    logger.info("Wrote cleaned CGPI data to %s", cgpi_output_file)
+    # Price indices
+    extract_price_index_data()
+    extract_census_data()
 
 
 if __name__ == "__main__":
