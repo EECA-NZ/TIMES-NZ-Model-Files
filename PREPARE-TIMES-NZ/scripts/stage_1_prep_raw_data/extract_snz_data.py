@@ -12,17 +12,11 @@ function.  Steps:
 
 from __future__ import annotations
 
-import logging
 from pathlib import Path
 
 import pandas as pd
 from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA
-
-# ---------------------------------------------------------------------------
-# Logging
-# ---------------------------------------------------------------------------
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+from prepare_times_nz.logger_setup import logger
 
 # ---------------------------------------------------------------------------
 # Constants
