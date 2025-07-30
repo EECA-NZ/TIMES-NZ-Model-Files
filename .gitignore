@@ -57,6 +57,9 @@ env.bak/
 venv.bak/
 
 # Packaging / build
+PREPARE-TIMES-NZ/.cache/doit/db*
+db.bak
+db.dir
 .Python
 build/
 dist/

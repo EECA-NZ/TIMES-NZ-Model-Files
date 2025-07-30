@@ -9,15 +9,15 @@ To install this module into your local environment, enter the `PREPARE-TIMES-NZ`
 python -m pip install -e .
 ```
 
-To prepare the TIMES-NZ model files, we will be implementing pre-processing using the following command:
+To prepare the TIMES-NZ model files, we will be implementing pre-processing using the following command, run in the `PREPARE-TIMES-NZ` directory:
 
 ```powershell
-python scripts/prepare_times_nz_cli
+doit
 ```
 
-this script creates an output folder of excel files ready for Veda processing based on the user config and data for TIMES 3.0.
+This runs a `doit` pipeline to create an output folder of excel files ready for Veda processing based on the user config and data for TIMES 3.0.
 
-Alternatively, you can run `prepare_times_nz_from_archive.py` to fully generate the TIMES 2.1.3 excel files from the raw tables summary text. This exists as a proof of concept for the generation methods, as these files create a model that matches TIMES 2.1.3 perfectly.
+Alternatively, you can run `python prepare_times_nz_from_archive.py` in `scripts` to fully generate the TIMES 2.1.3 excel files from the raw tables summary text. This exists as a proof of concept for the generation methods, as these files create a model that matches TIMES 2.1.3 perfectly.
 
 Note that each script is designed to run locally, and stores all outputs in `output` and intermediate data in `data_intermediate`. These directories are not tracked by git and are fully refreshed on every run.
 
