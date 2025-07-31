@@ -105,11 +105,6 @@ def remove_diacritics(text: str) -> str:
     return "".join(c for c in nfkd if not unicodedata.combining(c))
 
 
-def clean_generic_process_names(row: pd.Series) -> str:
-    """Collapse verbose generic plant names to the single word 'Generic'."""
-    return "Generic" if row["GenerationMethod"] == "Generic" else row["Process"]
-
-
 def save_outputs(
     gen_df: pd.DataFrame,
     gen_cmp: pd.DataFrame,
@@ -595,7 +590,6 @@ def main() -> None:
         + "_"
         + base_year_gen["PlantName"].apply(to_pascal_case).apply(remove_diacritics)
     )
-    base_year_gen["Process"] = base_year_gen.apply(clean_generic_process_names, axis=1)
     base_year_gen.loc[base_year_gen["TechnologyCode"] == "RNK", "Process"] = (
         "ELC_RNK_HuntlyUnits1-4"
     )
