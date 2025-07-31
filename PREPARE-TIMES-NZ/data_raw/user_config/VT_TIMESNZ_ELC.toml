@@ -125,14 +125,14 @@ DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution
 Description = "Defines co2e kt/PJ emission factors for electricity generation (input basis)."
 SheetName = "Emission Factors"  
 TagName = "COMEMI"
-DataLocation = "data_intermediate/stage_4_veda_format/emission_factors/emission_factors_elc_fuels.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/electricity_generation/emission_factors_elc_fuels.csv"
 
 
 [GeothermalEmissionFactors]
 Description = "Defines co2e kt/PJ emission factors for geothermal electricity generation per field (output basis). Median value applied if plant data unavailable." 
 SheetName = "Emission Factors"
 TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/emission_factors/emission_factors_geo.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/electricity_generation/emission_factors_geo.csv"
 
 [NgawhaEmissionFactorAdjustments]
 Description = "Manual adjustments to reduce Ngawha emissions to 0 by 2026. Note these are hardcoded assumptions in config file." 
