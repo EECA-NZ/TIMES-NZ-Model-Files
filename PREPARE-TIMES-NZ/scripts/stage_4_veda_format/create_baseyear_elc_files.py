@@ -4,19 +4,18 @@ Generate all Veda-ready CSVs that describe:
 * electricity-input commodities and “dummy fuel” processes
 * existing generation process definitions, parameters and capacities
 * electricity-distribution commodity / process tables
-
+* emission factors
 """
 
 from __future__ import annotations
 
 import os
-from pathlib import Path
 from typing import Dict, Tuple
 
 import numpy as np
 import pandas as pd
 from prepare_times_nz.deflator import deflate_data
-from prepare_times_nz.filepaths import DATA_RAW, STAGE_2_DATA, STAGE_4_DATA
+from prepare_times_nz.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_4_DATA
 from prepare_times_nz.helpers import select_and_rename, test_table_grain
 from prepare_times_nz.logger_setup import logger
 
@@ -30,6 +29,18 @@ from prepare_times_nz.logger_setup import logger
 
 BASE_YEAR: int = 2023
 CAP2ACT_PJGW: float = 31.536  # PJ per GW at 100 % utilisation (365 * 24 / 1000)
+
+
+# Filepaths ---------------------------------------------------------------- #
+
+OUTPUT_LOCATION = STAGE_4_DATA / "base_year_elc"
+
+ELECTRICITY_INPUT_FILE = STAGE_2_DATA / "electricity/base_year_electricity_supply.csv"
+
+DISTRIBUTION_INPUT_FILE = (
+    ASSUMPTIONS / "electricity_generation/DistributionAssumptions.csv"
+)
+EF_INPUT_FILE = ASSUMPTIONS / "electricity_generation/EmissionFactors.csv"
 
 
 # ----- Generation units  --------------------------------------- #
@@ -113,52 +124,57 @@ def convert_units(
     return out
 
 
-# --------------------------------------------------------------------------- #
-# MAIN
-# --------------------------------------------------------------------------- #
+# --------------------------------------------------------------------- #
+# LOAD DATA
+# --------------------------------------------------------------------- #
 
 
-# pylint: disable=too-many-locals,too-many-statements
-def main() -> None:
+def load_electricity_baseyear(filepath):
     """
-    Main entrypoint for this script. Would be good to factor out the sections.
+    Loads the stage 2 data, and performs a rename
+    Note that the rename probably should have happened in stage 2, not here
     """
-    # --------------------------------------------------------------------- #
-    # OUTPUT LOCATION
-    # --------------------------------------------------------------------- #
-    output_location = f"{STAGE_4_DATA}/base_year_elc"
-    os.makedirs(output_location, exist_ok=True)
-    logger.info("Output location created: %s", output_location)
+    df = pd.read_csv(filepath)
+    df = df.rename(columns={"Process": "TechName"})
+    return df
 
-    # --------------------------------------------------------------------- #
-    # LOAD DATA
-    # --------------------------------------------------------------------- #
 
-    existing_techs_df = pd.read_csv(
-        f"{STAGE_2_DATA}/electricity/base_year_electricity_supply.csv"
-    )
-    # Align column naming - should have done this before
-    existing_techs_df.rename(columns={"Process": "TechName"}, inplace=True)
+def load_ef_data(filepath):
+    """
+    Loads the electricity emissions factor assumption file from path
+    Adds new units to get required co2e/PJ definition
+    returns df
+    """
 
-    distribution_csv_path = (
-        Path(DATA_RAW)
-        / "coded_assumptions"
-        / "electricity_generation"
-        / "DistributionAssumptions.csv"
-    )
+    df = pd.read_csv(filepath, encoding="utf-8-sig")
 
-    distribution_df = pd.read_csv(distribution_csv_path)
+    df["kg/MJ"] = df["EF kg CO2e/unit"] / df["CV MJ/Unit"]
+    df["kt CO2e/PJ"] = df["kg/MJ"] * 1e3
 
-    # --------------------------------------------------------------------- #
-    # COMMODITY DEFINITIONS (electricity input fuels)
-    # --------------------------------------------------------------------- #
-    # This section creates the tables for SECTOR_FUELS_ELC
-    # we have already defined ELC and ELCC02, and all the output commodities
-    # (like ELCDD etc) so these are just the dummy commodites and processes
-    # for electricity input fuels. we will basically just extract them all
-    # from the input commodities, so this list updates automatically.
+    return df
 
-    elc_input_commoditylist = existing_techs_df["Comm-IN"].unique()
+
+# --------------------------------------------------------------------- #
+# PROCESS DATA
+# --------------------------------------------------------------------- #
+
+
+def define_commodities(df):
+    """
+    This section creates the tables for SECTOR_FUELS_ELC
+    we have already defined ELC and ELCC02, and all the output commodities
+    (like ELCDD etc) so these are just:
+     - dummy commodites
+     - processes for electricity input fuels.
+
+    We extract electricity input fuels from the data,
+    so this list updates automatically.
+
+    saves outputs to csv for Veda
+
+    """
+
+    elc_input_commoditylist = df["Comm-IN"].unique()
 
     elc_input_commodity_definitions = pd.DataFrame(
         {
@@ -211,28 +227,31 @@ def main() -> None:
     # ── Save commodity tables ─────────────────────────────────────────── #
 
     elc_input_commodity_definitions.to_csv(
-        f"{output_location}/elc_input_commodity_definitions.csv",
+        f"{OUTPUT_LOCATION}/elc_input_commodity_definitions.csv",
         index=False,
         encoding="utf-8-sig",
     )
     elc_dummy_fuel_process_definitions.to_csv(
-        f"{output_location}/elc_dummy_fuel_process_definitions.csv",
+        f"{OUTPUT_LOCATION}/elc_dummy_fuel_process_definitions.csv",
         index=False,
         encoding="utf-8-sig",
     )
     elc_dummy_fuel_process_parameters.to_csv(
-        f"{output_location}/elc_dummy_fuel_process_parameters.csv",
+        f"{OUTPUT_LOCATION}/elc_dummy_fuel_process_parameters.csv",
         index=False,
         encoding="utf-8-sig",
     )
 
-    # --------------------------------------------------------------------- #
-    # EXISTING GENERATION PROCESS DEFINITIONS
-    # --------------------------------------------------------------------- #
 
-    existing_techs_process_df = (
-        existing_techs_df[["TechName", "Region"]].drop_duplicates().copy()
-    )
+def define_generation_processes(df):
+    """
+    # EXISTING GENERATION PROCESS DEFINITIONS
+
+    saves outputs to csv for Veda
+
+    """
+
+    existing_techs_process_df = df[["TechName", "Region"]].drop_duplicates().copy()
     existing_techs_process_df["Sets"] = "ELE"
     existing_techs_process_df["Tact"] = "PJ"
     existing_techs_process_df["Tcap"] = "GW"
@@ -242,14 +261,21 @@ def main() -> None:
     ]
 
     existing_techs_process_df.to_csv(
-        f"{output_location}/existing_tech_process_definitions.csv", index=False
+        f"{OUTPUT_LOCATION}/existing_tech_process_definitions.csv", index=False
     )
 
-    # --------------------------------------------------------------------- #
-    # EXISTING GENERATION PARAMETERS / CAPACITY
-    # --------------------------------------------------------------------- #
 
-    existing_techs_df = convert_units(existing_techs_df, GENERATION_UNIT_MAP)
+def define_generation_capacity(df):
+    """
+    Define parameters of existing capacity
+    This allows us to set when the plant was built
+    or, in the case of distributed solar, apply the PRC_RESID stock model
+
+    saves outputs to csv for Veda
+
+    """
+
+    existing_techs_df = convert_units(df, GENERATION_UNIT_MAP)
 
     # --- NCAP_PASTI / PRC_RESID capacity treatment ---------------------- #
 
@@ -270,13 +296,20 @@ def main() -> None:
     ]
 
     existing_techs_capacity.to_csv(
-        f"{output_location}/existing_tech_capacity.csv",
+        f"{OUTPUT_LOCATION}/existing_tech_capacity.csv",
         index=False,
         encoding="utf-8-sig",
     )
 
-    # --- Technical parameters table ------------------------------------ #
 
+def define_generation_parameters(df):
+    """
+    Parameters of existing technologies
+
+    saves outputs to csv
+    """
+
+    existing_techs_df = convert_units(df, GENERATION_UNIT_MAP)
     index_variables = ["TechName", "Comm-IN", "Comm-OUT", "Region"]
     existing_techs_parameters = (
         existing_techs_df[index_variables + ["Variable", "Value"]]
@@ -304,12 +337,16 @@ def main() -> None:
     existing_techs_parameters["ACT_BND~0"] = 1
 
     existing_techs_parameters.to_csv(
-        f"{output_location}/existing_tech_parameters.csv", index=False
+        f"{OUTPUT_LOCATION}/existing_tech_parameters.csv", index=False
     )
 
-    # --------------------------------------------------------------------- #
-    # DISTRIBUTION TABLES
-    # --------------------------------------------------------------------- #
+
+def create_distribution_tables():
+    """
+    Builds the distribution data csvs from raw table input and saves
+    """
+
+    distribution_df = pd.read_csv(DISTRIBUTION_INPUT_FILE)
 
     distribution_df_deflated = deflate_data(
         distribution_df, BASE_YEAR, VARIABLES_TO_DEFLATE
@@ -334,20 +371,130 @@ def main() -> None:
     test_table_grain(distribution_parameters, ["TechName", "Region"])
 
     distribution_commodities.to_csv(
-        f"{output_location}/distribution_commodities.csv",
+        f"{OUTPUT_LOCATION}/distribution_commodities.csv",
         index=False,
         encoding="utf-8-sig",
     )
     distribution_processes.to_csv(
-        f"{output_location}/distribution_processes.csv",
+        f"{OUTPUT_LOCATION}/distribution_processes.csv",
         index=False,
         encoding="utf-8-sig",
     )
     distribution_parameters.to_csv(
-        f"{output_location}/distribution_parameters.csv",
+        f"{OUTPUT_LOCATION}/distribution_parameters.csv",
         index=False,
         encoding="utf-8-sig",
     )
+
+
+def create_elc_fuel_emissions(df):
+    """
+    Using the input dataframe of raw data,
+    defines and shapes the emission factors
+    Maps the fuels to our commodities
+    and saves along the index expected by Veda
+
+    Note:
+        We call Diesel oil but we assume all diesel (no fuel oil generation anymore)
+            (assumes 10ppt sulphur)
+        For wood, there's an argument for instead taking other wood types,
+            or the mean of other wood types. They're all quite similar.
+    """
+
+    elec_ef_mapping = {
+        "Coal - Sub-Bituminous": "ELCCOA",
+        "Natural Gas": "ELCNGA",
+        "Diesel": "ELCOIL",
+        "Biogas": "ELCBIG",
+        "Wood - Pellets": "ELCWOD",
+    }
+
+    df = df[df["Sector"] == "Industrial"]
+    df = df[df["Fuel"].isin(elec_ef_mapping.keys())]
+    df["FuelCode"] = df["Fuel"].map(elec_ef_mapping)
+    df["CommName"] = "ELCCO2"
+
+    emission_factors_elc_names = {
+        "CommName": "CommName",
+        "FuelCode": "Fuel",
+        "kt CO2e/PJ": "Value",
+    }
+    df = select_and_rename(df, emission_factors_elc_names)
+
+    df = df.pivot(index="CommName", columns="Fuel", values="Value").reset_index()
+
+    df.to_csv(f"{OUTPUT_LOCATION}/emission_factors_elc_fuels.csv", index=False)
+
+
+def create_elc_geo_emissions(df, plant_data):
+    """
+
+    Creates the individual geothermal plant emission factors
+
+    df: the input emission factor assumptions
+    plant_data: the main baseyear dataframe
+    """
+
+    df = df[df["Fuel"] == "Geothermal"]
+
+    default_geo_factor = df.loc[df["SectorDetail"] == "Median", "kt CO2e/PJ"].iloc[0]
+
+    geo_name_map = {
+        "Fuel": "CommName",
+        "kt CO2e/PJ": "Value",
+        "SectorDetail": "PlantName",  # for joining the values to our main table
+    }
+
+    df = select_and_rename(df, geo_name_map)
+
+    # Step 1: Filter geothermal plants and select relevant columns
+    geo_plants = plant_data[plant_data["FuelType"] == "Geothermal"]
+    geo_plants = geo_plants[["PlantName", "TechName"]]
+    geo_plants = geo_plants.drop_duplicates()
+    geo_plants = geo_plants.sort_values("PlantName")  # Optional, just for cleanliness
+
+    # Join factors to plants
+    df = geo_plants.merge(df, on="PlantName", how="left")
+
+    # Fill nulls with default median value
+    df["Value"] = df["Value"].fillna(default_geo_factor)
+
+    # Rename columns for TIMES format
+    df = df.rename(columns={"Value": "ENV_ACT~ELCCO2"})
+
+    # Select final columns
+    df = df[["TechName", "ENV_ACT~ELCCO2"]]
+
+    # Save
+    df.to_csv(
+        f"{OUTPUT_LOCATION}/emission_factors_geo.csv", encoding="utf-8-sig", index=False
+    )
+
+
+# --------------------------------------------------------------------------- #
+# MAIN
+# --------------------------------------------------------------------------- #
+
+
+def main() -> None:
+    """
+    Main entrypoint for this script.
+    """
+    logger.info("Generating electricity baseyear files")
+    os.makedirs(OUTPUT_LOCATION, exist_ok=True)
+
+    ele_data = load_electricity_baseyear(ELECTRICITY_INPUT_FILE)
+    ef_data = load_ef_data(EF_INPUT_FILE)
+
+    define_commodities(ele_data)
+    define_generation_processes(ele_data)
+    define_generation_capacity(ele_data)
+    define_generation_parameters(ele_data)
+
+    create_distribution_tables()
+
+    create_elc_fuel_emissions(ef_data)
+    create_elc_geo_emissions(ef_data, ele_data)
 
 
 # --------------------------------------------------------------------------- #

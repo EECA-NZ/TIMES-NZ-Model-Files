@@ -104,51 +104,46 @@ DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution
 # Emission Factors 
 
 # This sheet applies emission factors to each electricity commodity. 
-# There is only one table needed and we can just define these assumptions here, as these are currently very simple.
-# In the future we might want to add more detail/sophistication, in which case this should be scripted instead.
 
-# The emissions factors are applied to the ELC commodity, and then the ELCCO2 commodity is defined as a function of ELC.
+# Note that geothermal emission factors are slightly different. These are defined based on the field output in kWh. 
+# This means they are not directly comparable to other fuel factors. 
+# In the model, we apply them to the activity (output flow) of the process, rather than the commodity use. 
 
-# EFS are from https://environment.govt.nz/publications/measuring-emissions-a-guide-for-organisations-2023-emission-factors-summary/
+# Key sources: 
 
-# Possible improvements: 
+# https://environment.govt.nz/publications/measuring-emissions-a-guide-for-organisations-2024-detailed-guide/
+# https://www.nzgeothermal.org.nz/geothermal-in-nz/what-is-geothermal/ 
 
-#1: convert these all to co2e (this would be preferable) - would need to get CH4 and N2O factors, and convert via AR5
-#2: add geothermal EFs per field, and allow these to decrease over time if we want to integrate better future carbon capture.
-
-# Either of these approaches would require some scripting and input data, rather than hardcoding numbers in this config file.
+# Finally, we assume some emissions from Ngawha in the base year, and that these fall to zero by 2026. 
+# This is hardcoded below.
 
 ###############################################################################
 
 # Source: MEG 
 
 [ElectricityEmissionFactors]
-Description = "Defines emission factors for electricity generation. Sources and references listed in config file. Excludes CH4 and N2O."
+Description = "Defines co2e kt/PJ emission factors for electricity generation (input basis)."
 SheetName = "Emission Factors"  
 TagName = "COMEMI"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/emission_factors_elc_fuels.csv"
 
 
-[ElectricityEmissionFactors.Data]
-# THESE ARE ALL CO2, NOT C02e! (exclude CH4 and N20)
-CommName = "ELCCO2" # all the following pairs will make a column name and a value, so this defines the attribute.
+[GeothermalEmissionFactors]
+Description = "Defines co2e kt/PJ emission factors for geothermal electricity generation per field (output basis). Median value applied if plant data unavailable." 
+SheetName = "Emission Factors"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/emission_factors_geo.csv"
 
-
-# all values are kg/GJ, which are equal to kt/PJ (our model units)
-ELCCOA = 92.20 # GCV basis - need to be careful that all our PJs are in gross terms (so use the gross balances)
-# Note: Coal use for electricity generation from: 
-# https://environment.govt.nz/assets/publications/climate-change/New-Zealands-Greenhouse-Gas-Inventory-1990-2021-Annexes.pdf
-# Table A4.2 page 142
-# This assumes all sub-bit coal. We don't distinguish between sub-bit and bit coal in the model, so this is a reasonable assumption.
-
-# Natural gas
-ELCNGA = 53.61
-# Diesel (we just call oil but it's all diesel) (assumes 10ppt sulphur)
-ELCOIL = 69.45 
-
-# all co2 is biogenic and doesn't count, so these become zero. We may need to update this. 
-ELCBIG = 0
-ELCWOD = 0
-
-# Geothermal - CURRENTLY ONLY ONE GENERAL EF 
-# This figure is from TIMES 2.0. It needs updating. It won't be CO2, either - fugitive methane? 
-ELCGEO = 23.89
+[NgawhaEmissionFactorAdjustments]
+Description = "Manual adjustments to reduce Ngawha emissions to 0 by 2026. Note these are hardcoded assumptions in config file." 
+# Source: https://www.energyawards.co.nz/article/awards-finalist-ng%C4%81wh%C4%81-generation
+SheetName = "Emission Factors"
+TagName = "FI_T"
+# Define parameters: 
+[NgawhaEmissionFactorAdjustments.Data]
+# For these specific processes (NOTE hardcoding to match generated process names)
+TechName =  ["ELC_Geothermal_GEO_Ngawha(oec1-3)", "ELC_Geothermal_GEO_Ngawha(oec4)"]
+# Set both to 0 by 2026 (must wrap variable in quotes when using ~)
+"ENV_ACT~ELCCO2~2026" = [0,0]
+# set standard linear interpolation and extrapolation
+"ENV_ACT~ELCCO2~0" = [5,5]

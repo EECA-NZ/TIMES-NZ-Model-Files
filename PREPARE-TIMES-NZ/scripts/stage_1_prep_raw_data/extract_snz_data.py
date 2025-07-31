@@ -81,7 +81,7 @@ def extract_price_index_data():
 
     cgpi_df = load_raw_index(SNZ_CGPI_FILE, "CGPI_Index")
     cgpi_df.columns = ["Year", "CGPI_Index"]
-    save_file(cpi_df, "cgpi.csv", "CGPI data")
+    save_file(cgpi_df, "cgpi.csv", "CGPI data")
 
 
 # Census data
