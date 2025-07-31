@@ -16,6 +16,10 @@ This module provides functions to:
 
 Constants at the top define filepaths and the base year.
 
+Based on methodology found at:
+
+https://www.sciencedirect.com/science/article/pii/S0378778825004451?ref=pdf_download&fr=RR-2&rr=9677b4c2bbe71c50
+
 """
 
 import numpy as np
