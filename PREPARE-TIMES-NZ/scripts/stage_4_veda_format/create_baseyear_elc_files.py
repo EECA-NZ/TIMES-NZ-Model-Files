@@ -423,7 +423,7 @@ def create_elc_fuel_emissions(df):
 
     df = df.pivot(index="CommName", columns="Fuel", values="Value").reset_index()
 
-    df.to_csv(f"{OUTPUT_LOCATION}/emission_factors_elc_fuels.csv")
+    df.to_csv(f"{OUTPUT_LOCATION}/emission_factors_elc_fuels.csv", index=False)
 
 
 def create_elc_geo_emissions(df, plant_data):
@@ -466,7 +466,9 @@ def create_elc_geo_emissions(df, plant_data):
     df = df[["TechName", "ENV_ACT~ELCCO2"]]
 
     # Save
-    df.to_csv(f"{OUTPUT_LOCATION}/emission_factors_geo.csv", encoding="utf-8-sig")
+    df.to_csv(
+        f"{OUTPUT_LOCATION}/emission_factors_geo.csv", encoding="utf-8-sig", index=False
+    )
 
 
 # --------------------------------------------------------------------------- #
