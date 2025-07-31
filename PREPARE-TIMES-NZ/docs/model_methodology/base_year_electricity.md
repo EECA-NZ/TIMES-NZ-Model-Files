@@ -195,12 +195,22 @@ Assumptions on current transmission capacity, costs, and losses, have been extra
 
 ## 10 Emissions factors
 
-Emissions factors are defined for each commodity in the user config file stage_0_config/VT_TIMESNZ_ELC.toml.
+Emission factor assumptions are (almost) all defined in `data_raw/coded_assumptions/emission_factors/emission_factors.csv`. Some adjustments are currently made in the config file, specifically for Ngāwhā's generation. This file lists relevant sources, and is heavily based on work previously done for EECA's emission factors by Achini Weerasinghe. 
 
-These are pulled from MFE data on emissions factors for fuels used in the power sector. Note that they include only c02 (not ch4 or n02) and are based on GCV of fuels. We should most likely use Gross Calorific values for other fuel inputs in the model, or at least be consistent in this approach. 
+Emission factors are processed directly from the raw data to TIMES output files in `scripts/stage_4_veda_format/create_emission_factor_files.py`.
 
-Note that geothermal emission factors are copied from TIMES 2.0. These may need to be updated and sourced better. 
-We may also wish to add more sophistication to the geothermal factors - either adjusting these between plants, or allowing them to fall in the future if we expect greater carbon reinjection at specific sites. Currently there is only one emissions factor for all geothermal plants at all times. 
+### Thermal fuel emission factors 
+
+The emission factors come in a range of units, and are all converted to CO2-e/PJ. Factors from the assumptions worksheet are directly mapped to TIMES commodities. We use industrial emission factors from MfE and apply these to electricity generation. Coal emission factors use sub-bituminous values.
+
+Note that these are based on gross calorific values.
+
+### Geothermal emission factors 
+For geothermal emissions, the factors are delivered in CO2-e/kWh. We therefore instead map these to the activity for geothermal plants (ie, the output electricity, rather than the input fuel as for thermal plants.)
+
+These are specified on a per-plant basis, using data from [NZ Geothermal](https://www.nzgeothermal.org.nz/geothermal-in-nz/what-is-geothermal/). Geothermal plants can have a wide range of fugitive emission values, depending on the chemical makeup of the field. If emission factors for a field are unknown, we apply the median value. 
+
+For Ngāwhā, we assume the 2023 emissions are much lower than the 2018 values, following Ngāwhā Generation's work in decarbonising emissions from these fields. We set emissions to an assumed 30% of 2018 values. Further, in the config file we create additional parameters to TIMES, which will reduce Ngāwhā emissions to 0 by 2026, following company announcements.
 
 ## 11 Adding TIMES features
 
