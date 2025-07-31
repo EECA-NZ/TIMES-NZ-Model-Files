@@ -4,19 +4,18 @@ Generate all Veda-ready CSVs that describe:
 * electricity-input commodities and “dummy fuel” processes
 * existing generation process definitions, parameters and capacities
 * electricity-distribution commodity / process tables
-
+* emission factors
 """
 
 from __future__ import annotations
 
 import os
-from pathlib import Path
 from typing import Dict, Tuple
 
 import numpy as np
 import pandas as pd
 from prepare_times_nz.deflator import deflate_data
-from prepare_times_nz.filepaths import DATA_RAW, STAGE_2_DATA, STAGE_4_DATA
+from prepare_times_nz.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_4_DATA
 from prepare_times_nz.helpers import select_and_rename, test_table_grain
 from prepare_times_nz.logger_setup import logger
 
@@ -32,16 +31,16 @@ BASE_YEAR: int = 2023
 CAP2ACT_PJGW: float = 31.536  # PJ per GW at 100 % utilisation (365 * 24 / 1000)
 
 
+# Filepaths ---------------------------------------------------------------- #
+
 OUTPUT_LOCATION = STAGE_4_DATA / "base_year_elc"
+
 ELECTRICITY_INPUT_FILE = STAGE_2_DATA / "electricity/base_year_electricity_supply.csv"
 
-
-DISTRIBUTION_FILEPATH = (
-    Path(DATA_RAW)
-    / "coded_assumptions"
-    / "electricity_generation"
-    / "DistributionAssumptions.csv"
+DISTRIBUTION_INPUT_FILE = (
+    ASSUMPTIONS / "electricity_generation/DistributionAssumptions.csv"
 )
+EF_INPUT_FILE = ASSUMPTIONS / "electricity_generation/EmissionFactors.csv"
 
 
 # ----- Generation units  --------------------------------------- #
@@ -125,13 +124,6 @@ def convert_units(
     return out
 
 
-# get data ---------------------------------
-
-# --------------------------------------------------------------------- #
-# OUTPUT LOCATION
-# --------------------------------------------------------------------- #
-
-
 # --------------------------------------------------------------------- #
 # LOAD DATA
 # --------------------------------------------------------------------- #
@@ -145,6 +137,26 @@ def load_electricity_baseyear(filepath):
     df = pd.read_csv(filepath)
     df = df.rename(columns={"Process": "TechName"})
     return df
+
+
+def load_ef_data(filepath):
+    """
+    Loads the electricity emissions factor assumption file from path
+    Adds new units to get required co2e/PJ definition
+    returns df
+    """
+
+    df = pd.read_csv(filepath, encoding="utf-8-sig")
+
+    df["kg/MJ"] = df["EF kg CO2e/unit"] / df["CV MJ/Unit"]
+    df["kt CO2e/PJ"] = df["kg/MJ"] * 1e3
+
+    return df
+
+
+# --------------------------------------------------------------------- #
+# PROCESS DATA
+# --------------------------------------------------------------------- #
 
 
 def define_commodities(df):
@@ -334,7 +346,7 @@ def create_distribution_tables():
     Builds the distribution data csvs from raw table input and saves
     """
 
-    distribution_df = pd.read_csv(DISTRIBUTION_FILEPATH)
+    distribution_df = pd.read_csv(DISTRIBUTION_INPUT_FILE)
 
     distribution_df_deflated = deflate_data(
         distribution_df, BASE_YEAR, VARIABLES_TO_DEFLATE
@@ -375,6 +387,88 @@ def create_distribution_tables():
     )
 
 
+def create_elc_fuel_emissions(df):
+    """
+    Using the input dataframe of raw data,
+    defines and shapes the emission factors
+    Maps the fuels to our commodities
+    and saves along the index expected by Veda
+
+    Note:
+        We call Diesel oil but we assume all diesel (no fuel oil generation anymore)
+            (assumes 10ppt sulphur)
+        For wood, there's an argument for instead taking other wood types,
+            or the mean of other wood types. They're all quite similar.
+    """
+
+    elec_ef_mapping = {
+        "Coal - Sub-Bituminous": "ELCCOA",
+        "Natural Gas": "ELCNGA",
+        "Diesel": "ELCOIL",
+        "Biogas": "ELCBIG",
+        "Wood - Pellets": "ELCWOD",
+    }
+
+    df = df[df["Sector"] == "Industrial"]
+    df = df[df["Fuel"].isin(elec_ef_mapping.keys())]
+    df["FuelCode"] = df["Fuel"].map(elec_ef_mapping)
+    df["CommName"] = "ELCCO2"
+
+    emission_factors_elc_names = {
+        "CommName": "CommName",
+        "FuelCode": "Fuel",
+        "kt CO2e/PJ": "Value",
+    }
+    df = select_and_rename(df, emission_factors_elc_names)
+
+    df = df.pivot(index="CommName", columns="Fuel", values="Value").reset_index()
+
+    df.to_csv(f"{OUTPUT_LOCATION}/emission_factors_elc_fuels.csv")
+
+
+def create_elc_geo_emissions(df, plant_data):
+    """
+
+    Creates the individual geothermal plant emission factors
+
+    df: the input emission factor assumptions
+    plant_data: the main baseyear dataframe
+    """
+
+    df = df[df["Fuel"] == "Geothermal"]
+
+    default_geo_factor = df.loc[df["SectorDetail"] == "Median", "kt CO2e/PJ"].iloc[0]
+
+    geo_name_map = {
+        "Fuel": "CommName",
+        "kt CO2e/PJ": "Value",
+        "SectorDetail": "PlantName",  # for joining the values to our main table
+    }
+
+    df = select_and_rename(df, geo_name_map)
+
+    # Step 1: Filter geothermal plants and select relevant columns
+    geo_plants = plant_data[plant_data["FuelType"] == "Geothermal"]
+    geo_plants = geo_plants[["PlantName", "TechName"]]
+    geo_plants = geo_plants.drop_duplicates()
+    geo_plants = geo_plants.sort_values("PlantName")  # Optional, just for cleanliness
+
+    # Join factors to plants
+    df = geo_plants.merge(df, on="PlantName", how="left")
+
+    # Fill nulls with default median value
+    df["Value"] = df["Value"].fillna(default_geo_factor)
+
+    # Rename columns for TIMES format
+    df = df.rename(columns={"Value": "ENV_ACT~ELCCO2"})
+
+    # Select final columns
+    df = df[["TechName", "ENV_ACT~ELCCO2"]]
+
+    # Save
+    df.to_csv(f"{OUTPUT_LOCATION}/emission_factors_geo.csv", encoding="utf-8-sig")
+
+
 # --------------------------------------------------------------------------- #
 # MAIN
 # --------------------------------------------------------------------------- #
@@ -388,6 +482,7 @@ def main() -> None:
     os.makedirs(OUTPUT_LOCATION, exist_ok=True)
 
     ele_data = load_electricity_baseyear(ELECTRICITY_INPUT_FILE)
+    ef_data = load_ef_data(EF_INPUT_FILE)
 
     define_commodities(ele_data)
     define_generation_processes(ele_data)
@@ -395,6 +490,9 @@ def main() -> None:
     define_generation_parameters(ele_data)
 
     create_distribution_tables()
+
+    create_elc_fuel_emissions(ef_data)
+    create_elc_geo_emissions(ef_data, ele_data)
 
 
 # --------------------------------------------------------------------------- #
