@@ -339,6 +339,29 @@ def recalculate_capex(df):
     return df
 
 
+def distinguish_tracking_solar(df):
+    """
+    Changes the Tech and TechName field for solar plants
+    Uses an assumption file as input which contains names of Tracking plants
+
+    The rest are defined as Fixed solar
+
+    """
+    # Update tracking plants
+    df.loc[df["Plant"].isin(tracked_solar), "Tech"] = "SolarTracking"
+    df.loc[df["Plant"].isin(tracked_solar), "TechName"] = "Solar (Tracking)"
+
+    # Update the remaining solar plants to fixed
+    df.loc[(df["Tech"] == "Solar") & (~df["Plant"].isin(tracked_solar)), "Tech"] = (
+        "SolarFixed"
+    )
+    df.loc[
+        (df["TechName"] == "Solar") & (~df["Plant"].isin(tracked_solar)), "TechName"
+    ] = "Solar (Fixed)"
+
+    return df
+
+
 def get_genstack():
     """
     Wrapper for our genstack manipulation functions.
@@ -348,6 +371,7 @@ def get_genstack():
     4) Apply learning curves for CAPEX and FOM to those plants
     5) recalculate total capex NZD/kW
          (using reduced capex + weighted connection cost)
+    6) Adjusts solar techs based on fixed/tracking
     Returns df
     """
 
@@ -356,6 +380,7 @@ def get_genstack():
     df = define_genstack_learning_curves(df)
     df = apply_learning_curves(df)
     df = recalculate_capex(df)
+    df = distinguish_tracking_solar(df)
 
     return df
 
