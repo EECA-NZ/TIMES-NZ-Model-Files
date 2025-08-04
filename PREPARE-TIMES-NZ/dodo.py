@@ -166,6 +166,7 @@ STAGE_1_INPUTS: dict[str, list[Path]] = {
     "extract_eeud": _files_in_path(DATA_RAW / "eeca_data/eeud"),
     "extract_gic_data": _files_in_path(DATA_RAW / "external_data/gic"),
     "extract_mbie_data": _files_in_path(DATA_RAW / "external_data/mbie"),
+    "extract_nrel_data": _files_in_path(DATA_RAW / "external_data/nrel"),
     "extract_snz_data": _files_in_path(DATA_RAW / "external_data/statsnz"),
     # Transport inputs
     "extract_fleet_vkt_pj_data": _files_in_path(DATA_RAW / "eeca_data/eeud")
@@ -195,6 +196,7 @@ STAGE_1: dict[str, list[str]] = {
         "electricity_authority/emi_nsp_concordances.csv",
     ],
     "extract_mbie_data": ["mbie/gen_stack.csv"],
+    "extract_nrel_data": ["nrel/future_electricity_costs.csv"],
     "extract_snz_data": ["statsnz/cpi.csv", "statsnz/cgpi.csv"],
     "extract_gic_data": ["gic/gic_production_consumption.csv"],
     "extract_mvr_fleet_data": ["fleet_vkt_pj/vehicle_counts_2023.csv"],
@@ -233,6 +235,7 @@ STAGE_2: dict[str, list[str]] = {
 # Stage-3: scenario demand-growth calculations
 STAGE_3: dict[str, list[str]] = {
     "industry/industry_get_demand_growth": ["industry/scenario_demand_growth.csv"],
+    "electricity/electricity_new_gen_tech": ["electricity/future_generation_tech.csv"],
 }
 
 # Stage-4: VEDA-format CSVs

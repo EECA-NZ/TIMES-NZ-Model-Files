@@ -1,0 +1,10 @@
+Plant,Tech,TechName,PlantType,Status,Region,CommissioningType,CommissioningYear,Variable,Unit,Value
+Offshore Wind - Class 1,WindFixOff,Fixed offshore wind,PELE,Generic,Southland,Earliest year,2035,Capacity,MW,1000
+Offshore Wind - Class 1,WindFixOff,Fixed offshore wind,PELE,Generic,Taranaki,Earliest year,2035,Capacity,MW,3800
+Offshore Wind - Class 1,WindFixOff,Fixed offshore wind,PELE,Generic,Waikato,Earliest year,2035,Capacity,MW,3000
+Offshore Wind - Class 8,WindFloatOff,Floating offshore wind,PELE,Generic,Taranaki,Earliest year,2035,Capacity,MW,1900
+Offshore Wind - Class 8,WindFloatOff,Floating offshore wind,PELE,Generic,Waikato,Earliest year,2035,Capacity,MW,1000
+Residential PV - Class 1,SolarDist,Residential dist solar,AELE,Generic,,Any year,,Capacity,MW,0.005
+Residential PV - Class 1,SolarDist,Residential dist solar,AELE,Generic,,Any year,,MaxShareOfHouses,%,0.6
+Residential PV - Class 1,SolarDist,Residential dist solar,AELE,Generic,,Any year,,CAPEX,$/kW,2200
+Residential PV - Class 1,SolarDist,Residential dist solar,AELE,Generic,,Any year,,FOM,$/kW,30
