@@ -17,7 +17,6 @@ earliest commissioning year or if it is able to be commissioned at any time.
 
 # Getting Custom Libraries
 
-import os
 
 import numpy as np
 import pandas as pd
@@ -43,6 +42,7 @@ EXCHANGE_RATE_USD = 0.62
 
 # Filepath shortcuts
 FUTURE_TECH_ASSUMPTIONS = ASSUMPTIONS / "electricity_generation/future_techs"
+OUTPUT_LOCATION = STAGE_3_DATA / "electricity"
 
 # script settings
 pd.set_option("future.no_silent_downcasting", True)
@@ -58,9 +58,6 @@ region_to_island = pd.read_csv(f"{CONCORDANCES}/region_island_concordance.csv")
 new_tech = pd.read_csv(f"{FUTURE_TECH_ASSUMPTIONS}/NewTechnology.csv")
 tracked_solar = pd.read_csv(f"{FUTURE_TECH_ASSUMPTIONS}/TrackingSolarPlants.csv")
 
-# Setting the output location
-output_location = f"{STAGE_3_DATA}/electricity"
-os.makedirs(output_location, exist_ok=True)
 
 # FUNCTIONS -------------------------------
 
@@ -519,12 +516,14 @@ def main():
         residential solar
     combines these parameters and saves to staging
     """
+    OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
+
     genstack = get_genstack()
     offshore_wind = get_offshore_wind()
     res_solar = get_residential_solar()
     df = pd.concat([genstack, offshore_wind, res_solar])
 
-    filename = f"{output_location}/future_generation_tech.csv"
+    filename = OUTPUT_LOCATION / "future_generation_tech.csv"
     logger.info("Saving future tech data to %s", filename)
     df.to_csv(filename, index=False, encoding="utf-8-sig")
 
