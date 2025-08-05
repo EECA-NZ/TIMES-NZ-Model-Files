@@ -8,6 +8,7 @@ We also do some tidying/standardising here.
 Outputs
 -------
 * "emi_md.parquet"               - half-hourly Generation_MD files (combined).
+* "emi_gxp.parquet"              - half-hourly grid export node files (combined).
 * "emi_distributed_solar.csv"    - tidy distributed-solar summary.
 * "emi_nsp_concordances.csv"     - POC → region / zone / island concordance.
 
@@ -19,18 +20,12 @@ Run directly::
 from __future__ import annotations
 
 import glob
-import logging
 from pathlib import Path
 from typing import List
 
 import pandas as pd
-from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
-
-# --------------------------------------------------------------------------- #
-# Logging
-# --------------------------------------------------------------------------- #
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA
+from prepare_times_nz.logger_setup import logger
 
 # --------------------------------------------------------------------------- #
 # Constants - all paths use pathlib for cross-platform consistency
@@ -40,6 +35,7 @@ OUTPUT_LOCATION = Path(STAGE_1_DATA) / "electricity_authority"
 OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 
 EMI_MD_FOLDER: Path = INPUT_LOCATION / "emi_md"
+EMI_GXP_FOLDER: Path = INPUT_LOCATION / "emi_grid_export"
 EMI_FLEET_FILE: Path = (
     INPUT_LOCATION / "emi_fleet_data" / "20230601_DispatchedGenerationPlant.csv"
 )  # currently unused, retained for future work
@@ -53,31 +49,56 @@ EMI_DISTRIBUTED_SOLAR_DIR: Path = INPUT_LOCATION / "emi_distributed_solar"
 # --------------------------------------------------------------------------- #
 
 
-def combine_md_generation(csv_folder: Path) -> pd.DataFrame:
-    """Load every "*.csv" in *csv_folder* and return a long-format DataFrame."""
+def combine_emi_files(csv_folder: Path) -> pd.DataFrame:
+    """
+    Load every "*.csv" in *csv_folder* and return a long-format DataFrame.
+    Pivots expected the trading period variables (TP[_])
+    """
+
     files = glob.glob(str(csv_folder / "*.csv"))
     if not files:
-        logger.warning("No Generation_MD files found in %s", csv_folder)
+        logger.warning("No files found in %s", csv_folder)
         return pd.DataFrame()
 
     frames: List[pd.DataFrame] = []
     for file in files:
-        logger.info("Reading Generation_MD file %s", Path(file).name)
+        logger.info("        Reading %s", Path(file).name)
         frames.append(pd.read_csv(file))
 
-    md_df = pd.concat(frames, ignore_index=True)
+    emi_df = pd.concat(frames, ignore_index=True)
 
     # Identify trading-period columns (TP1 … TP48)
-    tp_cols = [col for col in md_df.columns if col.startswith("TP")]
+    tp_cols = [col for col in emi_df.columns if col.startswith("TP")]
 
-    md_df = pd.melt(
-        md_df,
-        id_vars=md_df.columns.difference(tp_cols),
+    emi_df = pd.melt(
+        emi_df,
+        id_vars=emi_df.columns.difference(tp_cols),
         value_vars=tp_cols,
         var_name="Trading_Period",
         value_name="Value",
     )
-    return md_df
+    return emi_df
+
+
+def get_gxp_demand(directory: Path) -> pd.DataFrame:
+    """
+    Load every "*.csv" in *directory* and return a combined DataFrame.
+    Pivots expected the trading period variables (TP[_])
+    """
+    logger.info("Reading GXP demand data from %s", directory)
+    df = combine_emi_files(directory)
+
+    return df
+
+
+def get_md_generation(directory: Path) -> pd.DataFrame:
+    """
+    Wraps combine_emi_files with a log statement
+    """
+    logger.info("Reading MD_Generation data from %s", directory)
+    df = combine_emi_files(directory)
+
+    return df
 
 
 def read_distributed_solar(sector: str) -> pd.DataFrame:
@@ -149,11 +170,19 @@ def build_nsp_concordance(nsp_csv: Path) -> pd.DataFrame:
 def main() -> None:
     """Run all EA-data extraction steps."""
     # 1. Generation_MD
-    md_df = combine_md_generation(EMI_MD_FOLDER)
+    md_df = get_md_generation(EMI_MD_FOLDER)
     if not md_df.empty:
         md_path = OUTPUT_LOCATION / "emi_md.parquet"
         md_df.to_parquet(md_path, engine="pyarrow")
         logger.info("Wrote Generation_MD parquet to %s", md_path)
+
+    # 2. GXP demand
+
+    gxp_df = get_gxp_demand(EMI_GXP_FOLDER)
+    if not gxp_df.empty:
+        gxp_path = OUTPUT_LOCATION / "emi_gxp.parquet"
+        gxp_df.to_parquet(gxp_path, engine="pyarrow")
+        logger.info("Wrote Generation_MD parquet to %s", gxp_path)
 
     # 2. Distributed solar
     solar_df = tidy_distributed_solar()
