@@ -134,4 +134,5 @@ jobs:
 
       - name: Run pip-audit
         working-directory: PREPARE-TIMES-NZ
-        run: poetry run pip-audit --ignore-dep prepare-times-nz
+        run: poetry run pip-audit --skip-editable
+
