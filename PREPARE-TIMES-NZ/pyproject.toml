@@ -1,15 +1,38 @@
-[build-system]
-requires = ["setuptools>=80"]
-build-backend = "setuptools.build_meta"
-
-[project]
-name = "prepare_times_nz"
+[tool.poetry]
+name = "PREPARE-TIMES-NZ"
 version = "0.1.0"
 description = "Data-prep pipeline for the TIMES-NZ model"
-readme = "README.md"
-requires-python = ">=3.12"
+readme = "readme.md"
+authors = ["Your Name <your.email@example.com>"]
 
-# tell setuptools where the code lives
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["prepare_times_nz*"]
+[tool.poetry.dependencies]
+python = ">=3.12,<4"
+pandas = "^2.2"
+numpy = "^2.0"
+doit = "^0.36"
+seaborn = "^0.13"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0"
+pylint = "^3.0"
+black = "^25.0"
+isort = "^6.0"
+coverage = "^7.0"
+pre-commit = "^4.0"
+yamllint = "^1.0"
+pyarrow = "^21.0"
+openpyxl = "^3.0"
+tomli_w = "^1.2"
+
+[tool.poetry.extras]
+dev = ["pytest", "pylint", "black", "isort", "coverage", "pre-commit", "yamllint", "pyarrow", "openpyxl", "tomli_w"]
+
+[[tool.poetry.include]]
+path = "prepare_times_nz/data/**/*.csv"
+
+[[tool.poetry.include]]
+path = "prepare_times_nz/data/**/*.toml"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

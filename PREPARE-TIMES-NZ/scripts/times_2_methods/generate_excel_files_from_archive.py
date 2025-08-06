@@ -1,6 +1,6 @@
-""" TODO: implement an automated TIMES configuration script """
+"""TODO: implement an automated TIMES configuration script"""
 
-# libraries 
+# libraries
 import os
 import sys
 import time
@@ -25,9 +25,7 @@ base_year_files = [
     "VT_SI_PRI_V4",
     "VT_SI_TRA_V4",
 ]
-settings_files = [
-    "SysSettings"
-]
+settings_files = ["SysSettings"]
 
 subres_files = [
     "SubRES_TMPL/SubRES_NewTech_AGR_KEA",
@@ -58,18 +56,15 @@ supp_files = [
 
 all_times_nz_files = base_year_files + settings_files + supp_files + subres_files
 
-def write_files():    
+
+def write_files():
     files_to_write = all_times_nz_files
-    for file in files_to_write:    
+    for file in files_to_write:
         write_workbook(file)
+
 
 start_time = time.time()
 write_files()
 end_time = time.time()
 execution_time = end_time - start_time
 print(f"Writing these workbooks took {execution_time:.4f} seconds")
-
-
-
-
-
