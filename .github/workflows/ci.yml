@@ -44,13 +44,13 @@ jobs:
         working-directory: PREPARE-TIMES-NZ
         run: poetry install --no-interaction --with dev
 
-      #- name: Run linters
-      #  working-directory: PREPARE-TIMES-NZ
-      #  run: |
-      #    poetry run black --check --diff src tests scripts
-      #    poetry run isort --profile black --check-only src tests scripts
-      #    poetry run pylint src/prepare_times_nz scripts
-      #    poetry run yamllint .
+      - name: Run linters
+        working-directory: PREPARE-TIMES-NZ
+        run: |
+          poetry run black --check --diff src tests scripts
+          poetry run isort --profile black --check-only src tests scripts
+          poetry run pylint src/prepare_times_nz scripts
+          poetry run yamllint .
 
   test:
     name: Unit tests + coverage
