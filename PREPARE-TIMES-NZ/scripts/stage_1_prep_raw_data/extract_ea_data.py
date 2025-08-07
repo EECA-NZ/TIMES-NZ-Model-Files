@@ -20,16 +20,17 @@ Run directly::
 from __future__ import annotations
 
 import glob
+import time
 from pathlib import Path
 from typing import List
 
+import numpy as np
 import pandas as pd
-from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA
+from prepare_times_nz.filepaths import ASSUMPTIONS, DATA_RAW, STAGE_1_DATA
 from prepare_times_nz.logger_setup import logger
 
-# --------------------------------------------------------------------------- #
-# Constants - all paths use pathlib for cross-platform consistency
-# --------------------------------------------------------------------------- #
+# Constants ------------------------------------------------------------
+
 INPUT_LOCATION = Path(DATA_RAW) / "external_data" / "electricity_authority"
 OUTPUT_LOCATION = Path(STAGE_1_DATA) / "electricity_authority"
 OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
@@ -44,9 +45,138 @@ EMI_NSP_TABLE: Path = (
 )
 EMI_DISTRIBUTED_SOLAR_DIR: Path = INPUT_LOCATION / "emi_distributed_solar"
 
-# --------------------------------------------------------------------------- #
-# Helper functions
-# --------------------------------------------------------------------------- #
+TIME_OF_DAY_FILE = ASSUMPTIONS / "load_curves/time_of_day_types.csv"
+
+# Functions ----------------------------------------
+
+
+def convert_hour_to_timeofday(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    This function takes a dataframe with an hour variable
+    and creates the Time_Of_Day variable.
+
+    This uses an input assumptions file with
+    "Hour" and "Time_Of_Day" variables
+
+    We set default to night (this mostly just covers DST hours)
+
+    """
+    time_of_day_types = pd.read_csv(TIME_OF_DAY_FILE)
+    # # we create a dict and map these rather than merging
+    # its faster - saves ~4 seconds per run
+    hour_to_time = dict(
+        zip(time_of_day_types["Hour"], time_of_day_types["Time_Of_Day"])
+    )
+    df["Time_Of_Day"] = df["Hour"].map(hour_to_time)
+    df["Time_Of_Day"] = df["Time_Of_Day"].fillna("N")
+
+    return df
+
+
+def convert_date_to_daytype(
+    df: pd.DataFrame, date_col: str = "Trading_Date"
+) -> pd.DataFrame:
+    """
+    This function creates a Day_Type variable based on the weekday:
+      - 'WE-' for weekends,
+      - 'WK-' for weekdays,
+      - 'ERROR' otherwise (should not occur if date_col is valid).
+    Assumes date_col is of datetime type.
+    """
+    # Ensure the column is datetime
+    df[date_col] = pd.to_datetime(df[date_col])
+
+    weekday = df[date_col].dt.weekday  # Monday=0, Sunday=6
+    df["Day_Type"] = np.select(
+        [weekday.isin([5, 6]), weekday.isin([0, 1, 2, 3, 4])],
+        ["WE-", "WK-"],
+        default="ERROR",
+    )
+    return df
+
+
+def convert_date_to_season(
+    df: pd.DataFrame, date_col: str = "Trading_Date"
+) -> pd.DataFrame:
+    """
+    This function creates a Season variable based on the month:
+      - 'SUM-' for Dec, Jan, Feb
+      - 'FAL-' for Mar, Apr, May
+      - 'WIN-' for Jun, Jul, Aug
+      - 'SPR-' for Sep, Oct, Nov
+    Assumes date_col is of datetime type.
+    """
+    df[date_col] = pd.to_datetime(df[date_col])
+    month = df[date_col].dt.month
+
+    df["Season"] = np.select(
+        [
+            month.isin([12, 1, 2]),
+            month.isin([3, 4, 5]),
+            month.isin([6, 7, 8]),
+            month.isin([9, 10, 11]),
+        ],
+        ["SUM-", "FAL-", "WIN-", "SPR-"],
+        default="ERROR",
+    )
+    return df
+
+
+def create_timeslices(df: pd.DataFrame, date_col: str = "Trading_Date") -> pd.DataFrame:
+    """
+    This function takes a dataframe with a date and time variable
+    and creates the TIMES Timeslice variable.
+    It combines season, day type, and time of day
+    to produce a single categorical variable.
+
+    Parameters:
+    - df: pd.DataFrame
+    - hour_col: str, the name of the column with the hour
+    - date_col: str, the name of the column with the date
+
+
+    Returns:
+    - pd.DataFrame with a new 'Timeslice' column
+    """
+
+    df = convert_hour_to_timeofday(df)
+    df = convert_date_to_daytype(df, date_col)
+    df = convert_date_to_season(df, date_col)
+    df["TimeSlice"] = df["Season"] + df["Day_Type"] + df["Time_Of_Day"]
+    df = df.drop(columns=["Season", "Day_Type", "Time_Of_Day"])
+
+    return df
+
+
+def add_timeslices_to_emi(
+    df: pd.DataFrame, date_col: str = "Trading_Date", tp_col: str = "Trading_Period"
+) -> pd.DataFrame:
+    """
+    Adds time-based features to an EMI dataframe:
+    - Parses the date column
+    - Extracts hour from 'Trading_Period'
+    - Constructs the 'Timeslice' variable using season, day type, and time of day
+
+    Assumes the Trading_Period values are like 'TP01', 'TP48', etc.
+    """
+
+    # Step 1: Ensure the date column is parsed as datetime
+    df[date_col] = pd.to_datetime(df[date_col], format="%Y-%m-%d", errors="coerce")
+
+    # Step 2: Extract numeric period from 'TPxx' format
+    df["Trading_Time"] = (
+        df[tp_col]
+        .str.replace("TP", "", regex=False)
+        .astype("Int32")  # nullable integer in case of missing values
+    )
+
+    # Step 3: Calculate hour as integer ((TP - 1) * 30 // 60)
+    df["Hour"] = ((df["Trading_Time"] - 1) * 30) // 60
+
+    # Step 4: Create the timeslice variable
+    df = create_timeslices(df, date_col=date_col)
+
+    return df
 
 
 def combine_emi_files(csv_folder: Path) -> pd.DataFrame:
@@ -77,6 +207,8 @@ def combine_emi_files(csv_folder: Path) -> pd.DataFrame:
         var_name="Trading_Period",
         value_name="Value",
     )
+
+    emi_df = add_timeslices_to_emi(emi_df)
     return emi_df
 
 
@@ -162,9 +294,7 @@ def build_nsp_concordance(nsp_csv: Path) -> pd.DataFrame:
     return df
 
 
-# --------------------------------------------------------------------------- #
-# Main execution
-# --------------------------------------------------------------------------- #
+# Execute --------------------------------------------------
 
 
 def main() -> None:
@@ -178,11 +308,17 @@ def main() -> None:
 
     # 2. GXP demand
 
+    start_time = time.time()
+
     gxp_df = get_gxp_demand(EMI_GXP_FOLDER)
     if not gxp_df.empty:
         gxp_path = OUTPUT_LOCATION / "emi_gxp.parquet"
         gxp_df.to_parquet(gxp_path, engine="pyarrow")
         logger.info("Wrote Generation_MD parquet to %s", gxp_path)
+
+    end_time = time.time()
+    elapsed = end_time - start_time
+    logger.info("GXP Processing took %s seconds", round(elapsed, 2))
 
     # 2. Distributed solar
     solar_df = tidy_distributed_solar()

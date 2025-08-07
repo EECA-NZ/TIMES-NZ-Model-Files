@@ -25,7 +25,7 @@ OUTPUT_LOCATION = STAGE_1_DATA / "res_baseline"
 INPUT_LOCATION = DATA_RAW / "external_data/res_baseline_study"
 
 INPUT_FILE = INPUT_LOCATION / "power_demand_by_time_of_use_data.parquet"
-OUTPUT_FILE = OUTPUT_LOCATION / "power_demand_by_time_of_use_data.parquet"
+OUTPUT_FILE = OUTPUT_LOCATION / "power_demand_by_tou.parquet"
 
 # FUNCTIONS -------------------------------------
 
