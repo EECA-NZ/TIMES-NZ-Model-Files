@@ -1,5 +1,7 @@
 """TODO: implement an automated TIMES configuration script"""
 
+# pylint: disable=all
+
 # libraries
 import os
 import sys

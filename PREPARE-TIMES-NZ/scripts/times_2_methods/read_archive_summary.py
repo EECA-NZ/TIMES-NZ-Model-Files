@@ -6,6 +6,7 @@ There are a few redundant calls but I do not expect this script to make it into 
 
 """
 
+# pylint: disable=all
 import ast
 import csv
 import logging
