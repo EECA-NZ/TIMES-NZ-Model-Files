@@ -5,7 +5,9 @@
 ![ci-and-deploy](https://github.com/EECA-NZ/eeca-python-template/actions/workflows/ci-and-deploy.yml/badge.svg)
 [Test Coverage Report](https://eeca-nz.github.io/eeca-python-template/htmlcov)
 
-This guide describes the code quality infrastructure for this repository, including workflows for linting, testing, and dependency auditing.
+This guide describes the code-quality infrastructure for this repository, including workflows for linting, testing, and dependency auditing.
+
+Package and dependency management is handled using poetry.
 
 ## Features
 *   **Code Formatting:** Enforces consistent code style with Black and Isort.
@@ -17,76 +19,44 @@ This guide describes the code quality infrastructure for this repository, includ
 *   **Dependabot for Automated Updates:** A `.github/dependabot.yml` file keeps Python dependencies and GitHub Action versions updated.
 
 ## How to Use
-It is assumed that the developer is working in Windows Powershell or in Ubuntu (within `wsl` on an EECA laptop).
+It is assumed that the developer is working in Ubuntu (within `WSL` on an EECA laptop).
 
-1.  **Clone the Repository:**
+## 1. Initial one‑time setup (per machine)
+
+```bash
+# WSL (Ubuntu) assumed
+
+# 1. Clone the repo (with submodules & LFS)
+git clone --recurse-submodules git@github.com:EECA-NZ/TIMES-NZ-Model-Files.git
+
+# 2. Install Git LFS and enable it (only once per machine)
+sudo apt-get install git-lfs
+git lfs install
+
+# 3. Install Poetry (if you don't have it yet)
+curl -sSL https://install.python-poetry.org | python3 -
+
+# 4. Ensure consistent line‑ending behaviour
+git config --global core.autocrlf input
+
+# Git, .gitattributes and .editorconfig in the repo keep line‑endings and IDE settings consistent across platforms.
+```
+
+---
+
+## 2. Configuring the Python environment
+
+All Python code lives inside packages defined in subdirectories such as **`PREPARE-TIMES-NZ/`** and is managed by **Poetry**.
+
+1. **Enter `PREPARE-TIMES-NZ`** and install package.
     ```bash
-    git clone git@github.com:EECA-NZ/TIMES-NZ-Model-Files.git
+    cd PREPARE-TIMES-NZ
+    poetry install --with dev
     ```
 
-1. **Install Git LFS (one-off per machine):**
-
-    _Windows / PowerShell_
-    ```
-    winget install --id GitHub.GitLFS
-    git lfs install         # sets up the Git hooks globally
-    ```
-
-    _Ubuntu / WSL_
-    ```
-    sudo apt-get install git-lfs
-    git lfs install
-    ```
-
-    Git LFS is required for any file larger than 100 MiB (e.g. 1 GB CSVs).
-    ```
-    # Re-install pre-commit hooks so LFS is wired in
-    git-lfs install --force
-    ```
-
-
-1.  **If necessary, configure cross-platform line endings (Windows vs WSL) and EditorConfig**
-
-    * The repo contains a `.gitattributes` file that enforces **LF** (`\n`) in history
-      while letting Windows developers see **CRLF** in their editors. Most users should
-      need no extra setup.
-    * If you switch between Windows and WSL, run these one-time commands so Git
-      behaves consistently in both environments:
-        ```powershell
-        # Windows / PowerShell
-        git config --global core.autocrlf true
-        ```
-        ```bash
-        # WSL / Linux / macOS
-        git config --global core.autocrlf input
-        ```
-    * These settings, together with `.gitattributes`, let us work seamlessly
-      across platforms.
-    * We also ship an `.editorconfig` file. Enable EditorConfig support in your
-      IDE (VS Code, PyCharm, etc.) to apply these rules automatically.
-
-1.  **Create and Activate a Virtual Environment:**
-    In Ubuntu or WSL:
+1.  **Still in `PREPARE-TIMES-NZ`, Install Pre-commit Hooks:**
     ```bash
-    python -m venv .venv
-    source ./.venv/bin/activate
-    ```
-    In PowerShell (Windows):
-    ```bash
-    python -m venv .venv
-    .\.venv\Scripts\activate
-    ```
-    Ensure your virtual environment is activated before running the commands below.
-
-1.  **Install Required Dependencies:**
-    ```bash
-    python -m pip install --upgrade pip
-    python -m pip install -r requirements-dev.txt
-    ```
-
-1.  **Install Pre-commit Hooks:**
-    ```bash
-    pre-commit install
+    poetry run pre-commit install
     ```
 
     This installs Git hooks specified in `.pre-commit-config.yaml`:
@@ -94,26 +64,27 @@ It is assumed that the developer is working in Windows Powershell or in Ubuntu (
     *   On **push**, thorough checks (`pip-audit`) are run.
 
 1.  **Start Developing:**
-    *   Develop your Python package in the `src/` directory.
+    *   Develop the Python package in the `src/` directory.
     *   Write tests in the `tests/` directory.
+    *   Write scripts in the `scripts/` directory.
 
 1.  **Running Tests Locally:**
     ```bash
-    python -m pytest
+    poetry run pytest
     ```
 
 1. **Run the tests locally with coverage:**
     ```bash
-    python -m coverage run -m pytest
-    python -m coverage report
-    python -m coverage html
+    poetry run coverage run -m pytest
+    poetry run coverage report
+    poetry run coverage html
     ```
 
 1. **Running Linters and Formatters Locally:**
     *   Black and Isort:
         ```bash
-        python -m black $(git ls-files "*.py")
-        python -m isort $(git ls-files "*.py")
+        poetry run black $(git ls-files "*.py")
+        poetry run isort $(git ls-files "*.py")
         ```
 
 1. **Ensure Code Quality Before Pushing:**
