@@ -20,7 +20,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, DATA_INTERMEDIATE, STAGE_2_DATA
+from prepare_times_nz.utilities.filepaths import (
+    ASSUMPTIONS,
+    DATA_INTERMEDIATE,
+    STAGE_2_DATA,
+)
 from prepare_times_nz.utilities.logger_setup import logger
 
 # Filepaths --------

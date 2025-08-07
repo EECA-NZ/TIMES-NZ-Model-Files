@@ -22,11 +22,11 @@ curl -sSL https://install.python-poetry.org | python3 -
 
 The following guides are available:
 
-- [Getting Started Guide](https://github.com/EECA-NZ/TIMES-NZ-internal-guide-EECA) on GitHub.
 - [System Configuration Guide](SystemConfigurationGuide.md) for step-by-step environment setup.
-- [Structured Workbook Documentation](docs/README.md) for workbook details.
+- [Structured Workbook Documentation](docs/README.md) for workbook details (out-of-date - needs fixing).
 - [GitHub Flow Guide](docs/github-flow-readme.md) for our Git workflow.
 - [Code Quality Infrastructure Setup](docs/code-quality-infra-readme.md) for linting, testing, and CI/CD configuration.
+- [Setup VSCode for poetry](docs/vscode-and-poetry.md) to ensure VSCode understands your poetry environment 
 
 ## Getting the Code
 
@@ -74,6 +74,19 @@ Run tests within `PREPARE-TIMES-NZ`:
 ```bash
 poetry run pytest
 ```
+
+### Running from poetry shell 
+
+It's a good idea to execute:
+
+```bash
+poetry shell 
+```
+
+This allows your terminal to run directly from the poetry shell, meaning that `poetry run` prefixes are not required to run scripts,  `doit`, or `pre-commit`. 
+
+You can achieve similar results in the VSCode terminal by setting your python interpreter to the poetry interpreter. See [Setup VSCode for poetry](docs/vscode-and-poetry.md) documentation for further details.
+
 
 ### Step 2: Running the Model Using VEDA
 

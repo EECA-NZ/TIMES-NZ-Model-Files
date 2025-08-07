@@ -16,13 +16,9 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_1.vehicle_costs import get_rail_columns
 from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA, STAGE_2_DATA
-
-# ──────────────────────────────────────────────────────────────── #
-# Logging
-# ──────────────────────────────────────────────────────────────── #
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+from prepare_times_nz.utilities.logger_setup import logger
 
 # ────────────────────────────────────────────────────────────────
 # Constants-level paths
@@ -206,6 +202,7 @@ def mbie_total_road_energy(year: int) -> pd.DataFrame:
     )
 
     # Read and process rail PJ rows
+    rail_df = get_rail_columns(pj_rail)
     rail_df = pj_rail[
         ["Fuel Type", "Transport", "End-use Energy (output energy)"]
     ].rename(
@@ -311,6 +308,9 @@ def enrich_with_costs(df, cost_df):
     """
     df = df.merge(
         cost_df[
+            # this does duplicate a list in extract_vehicle_future_costs_data
+            # but suspect extracting it would make things worse not better
+            # pylint: disable=duplicate-code
             [
                 "vehicletype",
                 "fueltype",
