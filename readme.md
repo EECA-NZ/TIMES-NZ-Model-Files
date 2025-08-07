@@ -22,9 +22,11 @@ curl -sSL https://install.python-poetry.org | python3 -
 
 The following guides are available:
 
-- [TIMES-NZ Internal Guide](https://github.com/EECA-NZ/TIMES-NZ-internal-guide-EECA)
-- [System Configuration Guide](SystemConfigurationGuide.md)
-- [Workbook Documentation](docs/README.md)
+- [Getting Started Guide](https://github.com/EECA-NZ/TIMES-NZ-internal-guide-EECA) on GitHub.
+- [System Configuration Guide](SystemConfigurationGuide.md) for step-by-step environment setup.
+- [Structured Workbook Documentation](docs/README.md) for workbook details.
+- [GitHub Flow Guide](docs/github-flow-readme.md) for our Git workflow.
+- [Code Quality Infrastructure Setup](docs/code-quality-infra-readme.md) for linting, testing, and CI/CD configuration.
 
 ## Getting the Code
 
