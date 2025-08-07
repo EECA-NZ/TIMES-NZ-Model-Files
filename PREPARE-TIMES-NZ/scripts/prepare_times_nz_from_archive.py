@@ -8,8 +8,8 @@ Generates the files for TIMES 2.1.3 based on the contents of raw_tables.txt
 import os
 
 # get custom libraries/ locations
-from prepare_times_nz.filepaths import OUTPUT_LOCATION, PREP_LOCATION
-from prepare_times_nz.helpers import clear_data_intermediate, clear_output
+from prepare_times_nz.utilities.filepaths import OUTPUT_LOCATION, PREP_LOCATION
+from prepare_times_nz.utilities.helpers import clear_data_intermediate, clear_output
 
 TIMES_2_SCRIPTS = f"{PREP_LOCATION}/scripts/times_2_methods"
 

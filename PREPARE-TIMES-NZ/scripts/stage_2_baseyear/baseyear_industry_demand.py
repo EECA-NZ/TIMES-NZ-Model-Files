@@ -16,8 +16,8 @@ import sys
 from pathlib import Path
 
 import pandas as pd
-from prepare_times_nz.filepaths import STAGE_2_DATA, STAGE_2_SCRIPTS
-from prepare_times_nz.logger_setup import h1
+from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_2_SCRIPTS
+from prepare_times_nz.utilities.logger_setup import h1
 
 # ---------------------------------------------------------------------------
 # Constants

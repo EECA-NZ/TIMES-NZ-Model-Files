@@ -59,8 +59,8 @@ Layout:
 import os
 
 import pandas as pd
-from prepare_times_nz.filepaths import ASSUMPTIONS, STAGE_2_DATA
-from prepare_times_nz.logger_setup import blue_text, h2, logger
+from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA
+from prepare_times_nz.utilities.logger_setup import blue_text, h2, logger
 
 # --------------------------------------------------------------------------- #
 # Constants

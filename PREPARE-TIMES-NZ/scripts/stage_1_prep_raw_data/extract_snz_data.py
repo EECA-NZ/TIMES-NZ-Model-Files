@@ -15,9 +15,9 @@ from __future__ import annotations
 from pathlib import Path
 
 import pandas as pd
-from prepare_times_nz.data_cleaning import rename_columns_to_pascal
-from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA
-from prepare_times_nz.logger_setup import logger
+from prepare_times_nz.utilities.data_cleaning import rename_columns_to_pascal
+from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
+from prepare_times_nz.utilities.logger_setup import logger
 
 # ---------------------------------------------------------------------------
 # Constants

@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import List
 
 import pandas as pd
-from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA
+from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
 
 # --------------------------------------------------------------------------- #
 # Logging

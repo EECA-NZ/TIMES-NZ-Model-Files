@@ -14,10 +14,10 @@ from typing import Dict, Tuple
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.deflator import deflate_data
-from prepare_times_nz.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_4_DATA
-from prepare_times_nz.helpers import select_and_rename, test_table_grain
-from prepare_times_nz.logger_setup import logger
+from prepare_times_nz.utilities.deflator import deflate_data
+from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_4_DATA
+from prepare_times_nz.utilities.helpers import select_and_rename, test_table_grain
+from prepare_times_nz.utilities.logger_setup import logger
 
 # --------------------------------------------------------------------------- #
 # CONSTANTS

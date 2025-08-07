@@ -15,7 +15,7 @@ from typing import Mapping, Sequence
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.filepaths import STAGE_2_DATA, STAGE_4_DATA
+from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
 
 # ──────────────────────────────────────────────────────────────── #
 # Logging

@@ -14,7 +14,7 @@ import copy
 import os
 import tomllib
 
-from prepare_times_nz.logger_setup import logger
+from prepare_times_nz.utilities.logger_setup import logger
 
 
 def normalize_toml_data(toml_data):

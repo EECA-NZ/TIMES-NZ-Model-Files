@@ -16,7 +16,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA, STAGE_2_DATA
+from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA, STAGE_2_DATA
 
 # ──────────────────────────────────────────────────────────────── #
 # Logging

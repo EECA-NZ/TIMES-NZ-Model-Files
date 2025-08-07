@@ -44,7 +44,7 @@ from os import PathLike
 from pathlib import Path
 from typing import Iterator
 
-from prepare_times_nz.filepaths import (
+from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
     CONCORDANCES,
     DATA_INTERMEDIATE,

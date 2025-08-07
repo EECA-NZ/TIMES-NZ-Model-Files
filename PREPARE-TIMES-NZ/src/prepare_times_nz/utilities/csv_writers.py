@@ -12,7 +12,7 @@ from logging import Logger, getLogger
 from pathlib import Path
 
 import pandas as pd
-from prepare_times_nz.logger_setup import blue_text
+from prepare_times_nz.utilities.logger_setup import blue_text
 
 _default_logger = getLogger(__name__)
 
