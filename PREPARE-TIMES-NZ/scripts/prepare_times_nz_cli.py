@@ -14,14 +14,14 @@ import subprocess
 import sys
 import time
 
-from prepare_times_nz.filepaths import (
+from prepare_times_nz.utilities.filepaths import (
     STAGE_0_SCRIPTS,
     STAGE_1_SCRIPTS,
     STAGE_2_SCRIPTS,
     STAGE_3_SCRIPTS,
     STAGE_4_SCRIPTS,
 )
-from prepare_times_nz.helpers import clear_data_intermediate, clear_output
+from prepare_times_nz.utilities.helpers import clear_data_intermediate, clear_output
 
 # start timer
 start_time = time.time()

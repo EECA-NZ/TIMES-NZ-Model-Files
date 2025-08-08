@@ -16,7 +16,7 @@ THese are based on the addresses defined in this file.
 from pathlib import Path
 
 _THIS_DIR = Path(__file__).resolve().parent
-_REPO_ROOT = _THIS_DIR.parent.parent
+_REPO_ROOT = _THIS_DIR.parent.parent.parent
 
 # main directories
 PREP_LIBRARY_LOCATION = _THIS_DIR

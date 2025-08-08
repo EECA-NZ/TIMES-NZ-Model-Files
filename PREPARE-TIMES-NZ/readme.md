@@ -4,60 +4,80 @@
 THIS MODULE IS UNDER DEVELOPMENT
 ```
 
-To install this module into your local environment, enter the `PREPARE-TIMES-NZ` with your `.venv` activated and run:
-```
-python -m pip install -e .
-```
+### Installation
 
-To prepare the TIMES-NZ model files, we will be implementing pre-processing using the following command, run in the `PREPARE-TIMES-NZ` directory:
+To install this module and its dependencies using Poetry, navigate into the `PREPARE-TIMES-NZ` directory and run:
 
-```powershell
-doit
+```bash
+poetry install
 ```
 
-This runs a `doit` pipeline to create an output folder of excel files ready for Veda processing based on the user config and data for TIMES 3.0.
+If you require the development dependencies, run:
 
-Alternatively, you can run `python prepare_times_nz_from_archive.py` in `scripts` to fully generate the TIMES 2.1.3 excel files from the raw tables summary text. This exists as a proof of concept for the generation methods, as these files create a model that matches TIMES 2.1.3 perfectly.
+```bash
+poetry install --with dev
+```
 
-Note that each script is designed to run locally, and stores all outputs in `output` and intermediate data in `data_intermediate`. These directories are not tracked by git and are fully refreshed on every run.
+### Running Tests
 
+Run tests within `PREPARE-TIMES-NZ`:
 
-## STRUCTURE
+```bash
+poetry run pytest
+```
 
-See `docs/data_structures.md` for an outline of this module's structure and organisation methods.
+### Running the Pipeline
 
-## Configuration files
+To prepare the TIMES-NZ model files, execute the following command from within the `PREPARE-TIMES-NZ` directory:
 
-See `docs/configuration_file_guide.md` for a description and examples on how the `.toml` configuration files work.
+```bash
+poetry run doit
+```
 
-## Model methodology and documentation
+This command runs a `doit` pipeline that creates Excel files ready for VEDA processing based on the user config and data for TIMES 3.0.
 
-`docs/model_methodology/` contains documentation on various methods used for creating TIMES 3.0.
+Alternatively, you can execute:
 
-After executing `prepare_times_nz.py`, a metadata file is also created in `data_intermediate/stage_0_config/config_metadata.csv` This file lists all worksheets and tags generated with helpful descriptions (which have been assigned to Veda tags in the config files.)
+```bash
+poetry run python scripts/prepare_times_nz_from_archive.py
+```
 
-Any user creating new methods or submodels should add accompanying method documentation to this folder.
+This fully generates the TIMES 2.1.3 Excel files from the raw tables summary text. It exists as a proof of concept for generation methods, ensuring the created files match TIMES 2.1.3 perfectly.
 
+Note: Each script is designed to run locally and stores all outputs in the `output` directory and intermediate data in `data_intermediate`. These directories are not tracked by git and are fully refreshed on every run.
 
-## General Future State
+### STRUCTURE
+
+See `docs/data_structures.md` for details about the module's structure and organization.
+
+### Configuration files
+
+Refer to `docs/configuration_file_guide.md` for descriptions and examples of the `.toml` configuration files.
+
+### Model methodology and documentation
+
+The directory `docs/model_methodology/` contains documentation for methods used in creating TIMES 3.0.
+
+After executing the main preparation script, a metadata file is created at `data_intermediate/stage_0_config/config_metadata.csv`. This file lists all worksheets and tags generated with helpful descriptions assigned to VEDA tags in the configuration files.
+
+Please add any new methods or submodel documentation to this directory.
+
+### General Future State
 
 ```mermaid
 flowchart LR
-    CSV[("CSV/TOML Files")]
+    CSV["CSV/TOML Files"]
     EXCEL["Excel Processing"]
     MIGRATE_FORMULAS["Migrate formula logic (iterative)"]
     VEDA["VEDA Analysis"]
     OUTPUT["Data Output"]
     SHINY["Public Shiny Dashboard"]
-
     INTERNAL_QA["Internal QA Tools"]
 
     subgraph XL2TIMES["XL2Times"]
         EXCEL["Excel Processing"]
         VEDA["VEDA Analysis"]
     end
-
-
 
     CSV --> EXCEL
     EXCEL --> MIGRATE_FORMULAS
@@ -66,7 +86,4 @@ flowchart LR
     VEDA --> OUTPUT
     OUTPUT --> SHINY
     OUTPUT --> INTERNAL_QA
-
-
-
 ```

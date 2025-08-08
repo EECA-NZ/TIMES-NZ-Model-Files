@@ -5,7 +5,7 @@ Steps performed
 ----------------
 1. Locate every "*.toml" file in "data_raw/user_config".
 2. Normalise each file (expanding defaults) via
-   :pyfunc:`prepare_times_nz.toml_readers.parse_toml_file`.
+   :pyfunc:`prepare_times_nz.utilities.toml_readers.parse_toml_file`.
 3. Save the normalised TOMLs to "data_intermediate/stage_0_config" so
    that later stages have a single, explicit source of truth.
 4. Write a CSV ("config_metadata.csv") describing the workbook/table
@@ -30,9 +30,9 @@ from typing import List
 
 import pandas as pd
 import tomli_w
-from prepare_times_nz.filepaths import DATA_INTERMEDIATE, DATA_RAW
-from prepare_times_nz.helpers import clear_data_intermediate
-from prepare_times_nz.toml_readers import parse_toml_file
+from prepare_times_nz.utilities.filepaths import DATA_INTERMEDIATE, DATA_RAW
+from prepare_times_nz.utilities.helpers import clear_data_intermediate
+from prepare_times_nz.utilities.toml_readers import parse_toml_file
 
 # ---------------------------------------------------------------------------
 # Logging setup

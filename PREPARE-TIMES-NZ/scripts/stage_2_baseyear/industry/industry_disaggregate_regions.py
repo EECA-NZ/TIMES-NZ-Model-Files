@@ -59,8 +59,9 @@ Layout:
 import os
 
 import pandas as pd
-from prepare_times_nz.filepaths import ASSUMPTIONS, STAGE_2_DATA
-from prepare_times_nz.logger_setup import blue_text, h2, logger
+from prepare_times_nz.stage_2.industry import save_checks, save_output
+from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA
+from prepare_times_nz.utilities.logger_setup import h2, logger
 
 # --------------------------------------------------------------------------- #
 # Constants
@@ -109,18 +110,6 @@ regional_splits_by_sector_and_fuel = pd.read_csv(
 # --------------------------------------------------------------------------- #
 # Helper functions
 # --------------------------------------------------------------------------- #
-def save_output(df: pd.DataFrame, name: str) -> None:
-    """Save a DataFrame to the preprocessing output folder."""
-    filename = f"{OUTPUT_LOCATION}/{name}"
-    logger.info("Saving output:\n%s", blue_text(filename))
-    df.to_csv(filename, index=False)
-
-
-def save_checks(df: pd.DataFrame, name: str, label: str) -> None:
-    """Save a DataFrame to the checks folder with a log message."""
-    filename = f"{CHECKS_LOCATION}/{name}"
-    logger.info("Saving %s:\n%s", label, blue_text(filename))
-    df.to_csv(filename, index=False)
 
 
 def get_usage_shares(df: pd.DataFrame, *, group_used: str = GROUP_USED) -> pd.DataFrame:
@@ -283,7 +272,10 @@ def report_adjusted_weights(df: pd.DataFrame) -> pd.DataFrame:
         "UsesOverride",
     ]
     save_checks(
-        df[cols], "regional_share_adjustments.csv", "regional share adjustments made"
+        df[cols],
+        "regional_share_adjustments.csv",
+        "regional share adjustments made",
+        CHECKS_LOCATION,
     )
 
     summary = df[
@@ -340,6 +332,7 @@ def report_aggregate_subsector_shares(df: pd.DataFrame) -> None:
         shares[["Sector", "DefaultShare", "AdjustedShare"]],
         "sector_share_adjustments.csv",
         "sector share adjustments",
+        CHECKS_LOCATION,
     )
 
 
@@ -383,7 +376,12 @@ def report_sector_fuel_shares(df: pd.DataFrame) -> None:
     )
     report_sector_fuel_shares_feasible(pivot)
 
-    save_checks(pivot.reset_index(), "fuel_sector_shares.csv", "fuel sector shares")
+    save_checks(
+        pivot.reset_index(),
+        "fuel_sector_shares.csv",
+        "fuel sector shares",
+        CHECKS_LOCATION,
+    )
 
     logger.info("Fuel and Sector North Island share results:")
     printable = (pivot * 100).round(2).astype(str).replace("nan", "")
@@ -423,6 +421,7 @@ def calculate_shares(df: pd.DataFrame) -> pd.DataFrame:
         df_calc,
         "full_industrial_share_calculations.csv",
         "all regional share calculations",
+        CHECKS_LOCATION,
     )
 
     result = df_calc.pipe(apply_shares_to_main_dataframe).pipe(tidy_data)
@@ -439,7 +438,7 @@ def main() -> None:
     """
     logger.info("Starting regional disaggregation for industrial demand.")
     df_out = calculate_shares(baseyear_industry)
-    save_output(df_out, "2_times_baseyear_regional_disaggregation.csv")
+    save_output(df_out, "2_times_baseyear_regional_disaggregation.csv", OUTPUT_LOCATION)
     logger.info("Regional disaggregation complete.")
 
 

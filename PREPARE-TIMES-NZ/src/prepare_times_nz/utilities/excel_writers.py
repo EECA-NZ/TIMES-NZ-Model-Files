@@ -18,8 +18,8 @@ import os
 
 import pandas as pd
 from openpyxl import Workbook, load_workbook
-from prepare_times_nz.filepaths import OUTPUT_LOCATION
-from prepare_times_nz.logger_setup import logger
+from prepare_times_nz.utilities.filepaths import OUTPUT_LOCATION
+from prepare_times_nz.utilities.logger_setup import logger
 
 
 # Functions ------------------------------------------------------------------

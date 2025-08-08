@@ -13,17 +13,15 @@ extract_vehicle_future_costs_data.py
 
 from __future__ import annotations
 
-import logging
 from pathlib import Path
 
 import pandas as pd
-from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA
-
-# ──────────────────────────────────────────────────────────────── #
-# Logging
-# ──────────────────────────────────────────────────────────────── #
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+from prepare_times_nz.stage_1.vehicle_costs import (
+    CATEGORY_TO_VEHICLE_CLASS,
+    TECH_TO_POWERTRAIN,
+)
+from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
+from prepare_times_nz.utilities.logger_setup import logger
 
 # ──────────────────────────────────────────────────────────────── #
 # Constants - all paths use pathlib for cross-platform consistency
@@ -36,50 +34,6 @@ OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 # ────────────────────────────────────────────────────────────────
 # Constants
 # ────────────────────────────────────────────────────────────────
-CATEGORY_TO_VEHICLE_CLASS = {
-    "LPV": ["Compact", "Midsize", "Midsize SUV", "Small SUV"],
-    "LCV": [
-        "Pickup",
-        "Class 2 Medium Van",
-        "Class 3 Medium Pickup",
-        "Class 3 Medium School",
-        "Class 3 Medium Van",
-    ],
-    "Light Truck": [
-        "Class 4 Medium Box",
-        "Class 4 Medium Service",
-        "Class 4 Medium StepVan",
-        "Class 5 Medium Utility",
-        "Class 6 Medium Box",
-        "Class 6 Medium Construction",
-        "Class 6 Medium StepVan",
-    ],
-    "Medium Truck": [
-        "Class 7 Medium Box",
-        "Class 7 Medium School",
-        "Class 7 Tractor DayCab",
-    ],
-    "Heavy Truck": [
-        "Class 8 Beverage DayCab",
-        "Class 8 Drayage DayCab",
-        "Class 8 Longhaul Sleeper",
-        "Class 8 Regional DayCab",
-        "Class 8 Vocational Heavy",
-    ],
-    "Bus": ["Class 8 Transit Heavy"],
-}
-
-TECH_TO_POWERTRAIN = {
-    "Battery Electric": "Battery Electric",
-    "Diesel Hybrid": "Diesel Hybrid",
-    "Diesel ICE": "Diesel",
-    "Dual Fuel": "Dual Fuel",
-    "Hydrogen Fuel Cell": "Hydrogen Fuel Cell",
-    "Petrol Hybrid": "Gasoline Hybrid",
-    "Petrol ICE": "Gasoline",
-    "Plug-in Hybrid": "Plug-in Hybrid",
-    "LPG": "Natural Gas",
-}
 
 TECHNOLOGY_REMAP_COMBINED = {
     ("Electricity", "BEV"): "Battery Electric",
@@ -184,6 +138,9 @@ def generate_future_costs(year: int) -> pd.DataFrame:
         cost_df = apply_indices_to_costs(cost_df, idx, label)
 
     keep = [
+        # this does duplicate a list in baseyear_transport_demand
+        # but suspect extracting it would make things worse not better
+        # pylint: disable=duplicate-code
         "vehicletype",
         "fueltype",
         "technology",

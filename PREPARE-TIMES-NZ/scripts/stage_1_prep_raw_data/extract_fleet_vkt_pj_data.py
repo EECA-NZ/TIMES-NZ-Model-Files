@@ -12,18 +12,13 @@ year, pulling raw Excel inputs from *data_raw* and writing a CSV to
 
 from __future__ import annotations
 
-import logging
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA
-
-# ──────────────────────────────────────────────────────────────── #
-# Logging
-# ──────────────────────────────────────────────────────────────── #
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+from prepare_times_nz.stage_1.vehicle_costs import get_rail_columns
+from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
+from prepare_times_nz.utilities.logger_setup import logger
 
 # ──────────────────────────────────────────────────────────────── #
 # Constants - all paths use pathlib for cross-platform consistency
@@ -561,15 +556,8 @@ def generate_vkt_long(year: int) -> pd.DataFrame:
     )
 
     # ---------- Rail PJ rows (Kiwirail sheet)
-    rail_df = pj_rail[
-        ["Fuel Type", "Transport", "End-use Energy (output energy)"]
-    ].rename(
-        columns={
-            "Fuel Type": "fueltype",
-            "Transport": "vehicletype",
-            "End-use Energy (output energy)": "pjvalue",
-        }
-    )
+
+    rail_df = get_rail_columns(pj_rail)
     rail_df["pjvalue"] = pd.to_numeric(rail_df["pjvalue"], errors="coerce") / 1e3
     rail_df = rail_df[rail_df["vehicletype"].isin(["Passenger Rail", "Rail Freight"])]
     rail_df = rail_df[rail_df["fueltype"].isin(["Electricity", "Diesel"])]

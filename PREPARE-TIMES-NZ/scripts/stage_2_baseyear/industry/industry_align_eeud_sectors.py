@@ -12,18 +12,18 @@ Run directly:
 or import the `main()` function from elsewhere in the pipeline or tests.
 """
 
-import logging
 import os
 import tomllib
 
 import pandas as pd
-from prepare_times_nz.filepaths import ASSUMPTIONS, DATA_RAW, STAGE_1_DATA, STAGE_2_DATA
-from prepare_times_nz.logger_setup import blue_text, logger
-
-# ----------------------------------------------------------------------------
-# Logging setup
-# ----------------------------------------------------------------------------
-logger.setLevel(logging.INFO)
+from prepare_times_nz.stage_2.industry import save_checks, save_output
+from prepare_times_nz.utilities.filepaths import (
+    ASSUMPTIONS,
+    DATA_RAW,
+    STAGE_1_DATA,
+    STAGE_2_DATA,
+)
+from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # ----------------------------------------------------------------------------
 # Constants
@@ -34,6 +34,7 @@ BALLANCE_DU_ASSUMPTION = 0.38
 
 OUTPUT_LOCATION = f"{STAGE_2_DATA}/industry/preprocessing"
 CHECKS_LOCATION = f"{STAGE_2_DATA}/industry/checks/1_sector_alignment"
+
 
 os.makedirs(OUTPUT_LOCATION, exist_ok=True)
 os.makedirs(CHECKS_LOCATION, exist_ok=True)
@@ -47,20 +48,6 @@ def parse_toml_file(file_path):
     """Read and parse a TOML file."""
     with open(file_path, "rb") as f:
         return tomllib.load(f)
-
-
-def save_output(df, name):
-    """Save DataFrame output to the output location."""
-    filename = f"{OUTPUT_LOCATION}/{name}"
-    logger.info("Saving output:\n%s", blue_text(filename))
-    df.to_csv(filename, index=False)
-
-
-def save_checks(df, name, label):
-    """Save DataFrame checks to the checks location."""
-    filename = f"{CHECKS_LOCATION}/{name}"
-    logger.info("Saving %s:\n%s", label, blue_text(filename))
-    df.to_csv(filename, index=False)
 
 
 # ----------------------------------------------------------------------------
@@ -357,6 +344,7 @@ def create_chemical_nga_shares(
         calcs,
         name="chemical_split_calculations.csv",
         label="detailed chemical split calculations and tests",
+        dir=CHECKS_LOCATION,
     )
     df2 = calcs[
         [
@@ -457,7 +445,9 @@ def create_default_groups_per_fuel(df):
     df = df.drop(["Value", "index"], axis=1)
 
     # save this as well for reference
-    save_checks(df, name="default_fuel_uses.csv", label="default fuel uses")
+    save_checks(
+        df, name="default_fuel_uses.csv", label="default fuel uses", dir=CHECKS_LOCATION
+    )
 
     return df
 
@@ -534,6 +524,7 @@ def check_sector_demand_shares(df, year=BASE_YEAR):
         df,
         name=f"industry_demand_shares_{year}.csv",
         label=f"industry demand shares in {year}",
+        dir=CHECKS_LOCATION,
     )
 
 
@@ -575,8 +566,13 @@ def main():
     check_sector_demand_shares(df, year=2018)
     df_baseyear = filter_output_to_base_year(df)
     # Save outputs
-    save_checks(df, "times_eeud_alignment_timeseries.csv", "full EEUD timeseries")
-    save_output(df_baseyear, "1_times_eeud_alignment_baseyear.csv")
+    save_checks(
+        df,
+        "times_eeud_alignment_timeseries.csv",
+        "full EEUD timeseries",
+        CHECKS_LOCATION,
+    )
+    save_output(df_baseyear, "1_times_eeud_alignment_baseyear.csv", OUTPUT_LOCATION)
 
 
 if __name__ == "__main__":

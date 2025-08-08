@@ -25,8 +25,8 @@ scripts with clearer conceptual throughlines. TBD.
 import os
 import shutil
 
-from prepare_times_nz.filepaths import DATA_INTERMEDIATE, OUTPUT_LOCATION
-from prepare_times_nz.logger_setup import logger
+from prepare_times_nz.utilities.filepaths import DATA_INTERMEDIATE, OUTPUT_LOCATION
+from prepare_times_nz.utilities.logger_setup import logger
 
 
 def clear_data_intermediate():

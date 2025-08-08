@@ -2,44 +2,29 @@
 # This file defines pre-commit and pre-push hooks.
 # Includes a virtual environment check and basic
 # tooling (black, isort, pylint, pip-audit, yamllint).
-# All Python tools run inside the already-activated .venv
 repos:
   - repo: local
     hooks:
-
-      - id: check-virtualenv-pre-commit
-        name: Check virtualenv activated (pre-commit)
-        entry: >
-          python -c "import sys; exit(sys.prefix==sys.base_prefix)"
+      - id: black
+        name: black via Poetry
+        entry: bash -c 'cd PREPARE-TIMES-NZ && poetry run black src tests scripts'
         language: system
         pass_filenames: false
-        stages: [pre-commit]
-
-      - id: black
-        name: black (venv)
-        entry: black
-        language: system
-        types: [python]
-        stages: [pre-commit]
 
       - id: isort
-        name: isort (venv)
-        entry: isort --profile black
+        name: isort via Poetry
+        entry: bash -c 'cd PREPARE-TIMES-NZ && poetry run isort src tests scripts --profile black'
         language: system
-        types: [python]
-        stages: [pre-commit]
+        pass_filenames: false
 
       - id: pylint
-        name: pylint
-        entry: pylint --rcfile=.pylintrc
+        name: pylint via Poetry
+        entry: bash -c 'cd PREPARE-TIMES-NZ && poetry run pylint src/prepare_times_nz scripts'
         language: system
-        types: [python]
-        pass_filenames: true
-        stages: [pre-commit]
+        pass_filenames: false
 
       - id: yamllint
-        name: yamllint (venv)
-        entry: yamllint
+        name: yamllint via Poetry
+        entry: bash -c 'cd PREPARE-TIMES-NZ && poetry run yamllint .'
         language: system
-        types: [yaml]
-        stages: [pre-commit]
+        pass_filenames: false
