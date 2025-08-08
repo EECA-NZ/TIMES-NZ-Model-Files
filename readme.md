@@ -1,10 +1,14 @@
 # TIMES-NZ-Model-Files
+![CI Pipeline](https://github.com/EECA-NZ/TIMES-NZ-Model-Files/actions/workflows/ci.yml/badge.svg)
+[Test Coverage Report](https://eeca-nz.github.io/TIMES-NZ-Model-Files)
 
 Developed by [Energy Efficiency and Conservation Authority](https://github.com/EECA-NZ), [BusinessNZ Energy Council](https://bec.org.nz/) and [Paul Scherrer Institut](https://www.psi.ch/en)
 
 This repository integrates the previously separate TIMES-NZ GAMS files into a unified model management system for the TIMES-NZ (The Integrated MARKAL-EFOM System - New Zealand) energy system model. It is intended for researchers and analysts working with the TIMES-NZ energy model.
 
 ## Prerequisites
+
+While VEDA needs to be run in Windows, we recommend running the scripted data processing pipelines in a WSL Linux environment.
 
 Ensure the following prerequisites are installed:
 
@@ -14,11 +18,9 @@ Ensure the following prerequisites are installed:
 - [GAMS](https://www.gams.com/) installed on Windows.
 - A valid GAMS license placed at `C:\GAMS\44\gamslice.txt`.
 - A working VEDA (VEDA 2.0 localhost) installation in your Windows user directory. See instructions [here](https://github.com/kanors-emr/Veda2.0-Installation/tree/master).
-- Poetry for Python dependency management. Install Poetry within WSL by running:
+- Poetry for Python dependency management. Install Poetry within WSL by running: `curl -sSL https://install.python-poetry.org | python3 -`
 
-```bash
-curl -sSL https://install.python-poetry.org | python3 -
-```
+## Documentation
 
 The following guides are available:
 
@@ -26,7 +28,7 @@ The following guides are available:
 - [Structured Workbook Documentation](docs/README.md) for workbook details (out-of-date - needs fixing).
 - [GitHub Flow Guide](docs/github-flow-readme.md) for our Git workflow.
 - [Code Quality Infrastructure Setup](docs/code-quality-infra-readme.md) for linting, testing, and CI/CD configuration.
-- [Setup VSCode for poetry](docs/vscode-and-poetry.md) to ensure VSCode understands your poetry environment 
+- [Setup VSCode for poetry](docs/vscode-and-poetry.md) to ensure VSCode understands your poetry environment
 
 ## Getting the Code
 
@@ -75,15 +77,15 @@ Run tests within `PREPARE-TIMES-NZ`:
 poetry run pytest
 ```
 
-### Running from poetry shell 
+### Running from poetry shell
 
 It's a good idea to execute:
 
 ```bash
-poetry shell 
+poetry shell
 ```
 
-This allows your terminal to run directly from the poetry shell, meaning that `poetry run` prefixes are not required to run scripts,  `doit`, or `pre-commit`. 
+This allows your terminal to run directly from the poetry shell, meaning that `poetry run` prefixes are not required to run scripts,  `doit`, or `pre-commit`.
 
 You can achieve similar results in the VSCode terminal by setting your python interpreter to the poetry interpreter. See [Setup VSCode for poetry](docs/vscode-and-poetry.md) documentation for further details.
 
@@ -100,9 +102,9 @@ VEDA will create scenario directories within:
 Scenario naming convention example: `kea-v2_1_3`.
 
 Export these items from VEDA:
-- Select "Process" → "Export to Excel"
-- Select "Commodity" → "Export to Excel"
-- Select "Commodity Groups" → "Export to Excel"
+- Select "Process" -> "Export to Excel"
+- Select "Commodity" -> "Export to Excel"
+- Select "Commodity Groups" -> "Export to Excel"
 
 ### Step 3: Model Retrieval and Scripted Execution
 

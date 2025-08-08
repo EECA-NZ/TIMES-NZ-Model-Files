@@ -8,7 +8,13 @@ on:
   pull_request:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 env:
   PYTHON_VERSION: "3.12"
@@ -21,7 +27,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -56,13 +61,10 @@ jobs:
     name: Unit tests + coverage
     runs-on: ubuntu-latest
     needs: lint
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -89,14 +91,9 @@ jobs:
           poetry run coverage html
 
       - name: Publish coverage to gh-pages
-        if: success()
-        uses: peaceiris/actions-gh-pages@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: PREPARE-TIMES-NZ/htmlcov
-          publish_branch: gh-pages
-          force_orphan: true
-          allow_empty_commit: true
+          path: PREPARE-TIMES-NZ/htmlcov
 
       - name: Coverage summary
         working-directory: PREPARE-TIMES-NZ
@@ -106,13 +103,9 @@ jobs:
     name: pip-audit (Poetry env)
     runs-on: ubuntu-latest
     needs: lint
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -136,3 +129,15 @@ jobs:
         working-directory: PREPARE-TIMES-NZ
         run: poetry run pip-audit --skip-editable
 
+  deploy:
+    name: Deploy to GitHub Pages
+    if: ${{ success() && github.event_name != 'pull_request' }}
+    needs: [test]
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
