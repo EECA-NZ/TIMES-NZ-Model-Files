@@ -43,6 +43,8 @@ Potential checking outputs:
 
 # LIBRARIES -------------------------------------------------------
 
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from prepare_times_nz.filepaths import ASSUMPTIONS, STAGE_1_DATA, STAGE_2_DATA
 from prepare_times_nz.logger_setup import logger
@@ -238,8 +240,16 @@ def get_residential_curves(df, with_islands=False):
         agg_group_vars = ["Year", "Unit_Measure"]
         df = add_islands(df)
 
+    # df["Unit_Measure"] = "GWh"
+    # df["Value"] = df["Value"] / 1e6 # GWh conversion
+
     df = df.groupby(group_vars)["Value"].sum().reset_index()
     df["LoadCurve"] = df["Value"] / df.groupby(agg_group_vars)["Value"].transform("sum")
+
+    # the value is just the sum of the sample POCs so not useful by itself.
+    # remove to avoid confusion
+    # we only want the curves
+    df = df.drop(["Value", "Unit_Measure"], axis=1)
 
     return df
 
@@ -254,6 +264,124 @@ def test_average_loads():
 
     """
 
+    residential_curve = pd.read_csv(OUTPUT_LOCATION / "residential_curves.csv")
+    base_year_curve = pd.read_csv(OUTPUT_LOCATION / "base_year_load_curve.csv")
+    yrfr = pd.read_csv(OUTPUT_LOCATION / "yrfr.csv")
+
+    # does yrfr add 1?
+
+    should_be_one = round(
+        yrfr["YRFR"].sum(), 8
+    )  # check this matches/exceeds GAMS/Veda tolerance
+    if should_be_one != 1:
+        logger.warning("YRFR does not add to 1! TIMES will fail")
+
+    # national curves are the base year curve but sum across islands
+
+    # tidy residential curves (some of this might go back into the main!!)
+
+    # for total residential demand
+    # residential_curve =
+    eeud = pd.read_csv(f"{STAGE_1_DATA}/eeud/eeud.csv")
+
+    eeud_res = eeud[eeud["SectorGroup"] == "Residential"]
+    eeud_res = eeud_res[eeud_res["Fuel"] == "Electricity"]
+    eeud_res = (
+        eeud_res.groupby(["Year", "SectorGroup", "Unit"])["Value"].sum().reset_index()
+    )
+
+    eeud_res["Unit"] = "GWh"
+    eeud_res["Value"] = eeud_res["Value"] * (1 / 3.6)
+
+    residential_curve = pd.merge(residential_curve, eeud_res)
+    residential_curve = pd.merge(residential_curve, yrfr)
+    residential_curve["Value"] = (
+        residential_curve["LoadCurve"] * residential_curve["Value"]
+    )
+
+    residential_curve = residential_curve[["Year", "Unit", "TimeSlice", "Value"]]
+    residential_curve["Sector"] = "Residential"
+
+    base_year_curve = base_year_curve.rename(columns={"Unit_Measure": "Unit"})
+    base_year_curve = (
+        base_year_curve.groupby(["Year", "TimeSlice", "Unit"])["Value"]
+        .sum()
+        .reset_index()
+    )
+    base_year_curve["Sector"] = "Total"
+
+    df = pd.concat([base_year_curve, residential_curve])
+
+    # add hours for average load
+    df = pd.merge(df, yrfr)
+    df["Hours"] = df["YRFR"] * 8760
+
+    df["AverageLoadGW"] = df["Value"] / df["Hours"]
+
+    # Pivot so we have Total and Residential side-by-side per timeslice
+    pivot_df = df.pivot(index="TimeSlice", columns="Sector", values="AverageLoadGW")
+
+    # Calculate 'Other' as Total minus Residential
+    pivot_df["Other"] = pivot_df["Total"] - pivot_df["Residential"]
+
+    # Ensure the desired order
+    order = [
+        "FAL-WE-D",
+        "FAL-WE-N",
+        "FAL-WE-P",
+        "FAL-WK-D",
+        "FAL-WK-N",
+        "FAL-WK-P",
+        "SPR-WE-D",
+        "SPR-WE-N",
+        "SPR-WE-P",
+        "SPR-WK-D",
+        "SPR-WK-N",
+        "SPR-WK-P",
+        "SUM-WE-D",
+        "SUM-WE-N",
+        "SUM-WE-P",
+        "SUM-WK-D",
+        "SUM-WK-N",
+        "SUM-WK-P",
+        "WIN-WE-D",
+        "WIN-WE-N",
+        "WIN-WE-P",
+        "WIN-WK-D",
+        "WIN-WK-N",
+        "WIN-WK-P",
+    ]
+    pivot_df = pivot_df.reindex(order)
+
+    # Keep only Residential and Other for the stacked chart
+    stack_df = pivot_df[["Residential", "Other"]]
+
+    # Plot with nudged labels
+    fig, ax = plt.subplots(figsize=(12, 6))
+    stack_df.plot(
+        kind="bar",
+        stacked=True,
+        width=0.8,
+        color=["#1f77b4", "#ff7f0e"],
+        ax=ax,
+        fig=fig,
+    )
+
+    plt.ylabel("Average Load (GW)")
+    plt.title("Average Load per TimeSlice (Residential vs Other)")
+    plt.grid(axis="y", linestyle="--", alpha=0.7)
+    plt.legend(title="Sector")
+
+    # Nudge x-axis labels right so the END of label aligns with bar center
+    ticks = np.arange(len(stack_df.index))
+    ax.set_xticks(ticks + 0.05)  # adjust the shift amount as needed
+    ax.set_xticklabels(stack_df.index, rotation=45, ha="right")
+
+    plt.tight_layout()
+    plt.savefig(f"{CHECKS_LOCATION}/average_load_timeslice.png", dpi=300)
+
+    print(CHECKS_LOCATION)
+
 
 def main():
     """
@@ -263,6 +391,7 @@ def main():
 
     Saves all data to staging
     """
+
     OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
     CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
 
@@ -283,6 +412,9 @@ def main():
 
     residential_curves = get_residential_curves(emi_timeslice)
     residential_curves.to_csv(OUTPUT_LOCATION / "residential_curves.csv", index=False)
+
+    # Test outputs
+    test_average_loads()
 
 
 if __name__ == "__main__":
