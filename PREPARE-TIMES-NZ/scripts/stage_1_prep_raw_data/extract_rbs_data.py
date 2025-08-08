@@ -14,8 +14,8 @@ This avoids dumping 40MB into the repo
 
 # LIBRARIES -------------------------------------
 import pandas as pd
-from prepare_times_nz.filepaths import DATA_RAW, STAGE_1_DATA
-from prepare_times_nz.logger_setup import logger
+from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
+from prepare_times_nz.utilities.logger_setup import logger
 
 # CONSTANTS -------------------------------------
 SAVE_CSV = False

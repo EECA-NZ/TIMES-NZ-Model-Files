@@ -46,8 +46,8 @@ Potential checking outputs:
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from prepare_times_nz.filepaths import ASSUMPTIONS, STAGE_1_DATA, STAGE_2_DATA
-from prepare_times_nz.logger_setup import logger
+from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_1_DATA, STAGE_2_DATA
+from prepare_times_nz.utilities.logger_setup import logger
 
 # CONSTANTS -------------------------------------------------------
 
@@ -254,6 +254,25 @@ def get_residential_curves(df, with_islands=False):
     return df
 
 
+def get_residential_total_demand():
+    """
+    Load res elc demand from EEUD
+    """
+
+    eeud = pd.read_csv(f"{STAGE_1_DATA}/eeud/eeud.csv")
+
+    eeud_res = eeud[eeud["SectorGroup"] == "Residential"]
+    eeud_res = eeud_res[eeud_res["Fuel"] == "Electricity"]
+    eeud_res = (
+        eeud_res.groupby(["Year", "SectorGroup", "Unit"])["Value"].sum().reset_index()
+    )
+
+    eeud_res["Unit"] = "GWh"
+    eeud_res["Value"] = eeud_res["Value"] * (1 / 3.6)
+
+    return eeud_res
+
+
 def test_average_loads():
     """
     This functions adds as a test
@@ -278,20 +297,7 @@ def test_average_loads():
 
     # national curves are the base year curve but sum across islands
 
-    # tidy residential curves (some of this might go back into the main!!)
-
-    # for total residential demand
-    # residential_curve =
-    eeud = pd.read_csv(f"{STAGE_1_DATA}/eeud/eeud.csv")
-
-    eeud_res = eeud[eeud["SectorGroup"] == "Residential"]
-    eeud_res = eeud_res[eeud_res["Fuel"] == "Electricity"]
-    eeud_res = (
-        eeud_res.groupby(["Year", "SectorGroup", "Unit"])["Value"].sum().reset_index()
-    )
-
-    eeud_res["Unit"] = "GWh"
-    eeud_res["Value"] = eeud_res["Value"] * (1 / 3.6)
+    eeud_res = get_residential_total_demand()
 
     residential_curve = pd.merge(residential_curve, eeud_res)
     residential_curve = pd.merge(residential_curve, yrfr)
@@ -383,6 +389,47 @@ def test_average_loads():
     print(CHECKS_LOCATION)
 
 
+def estimate_res_real_peak():
+    """
+    Analysis function. Not part of main workflow
+    Intended to assess actual residential peaks by checking the peak of residential POC
+    and applying that share of demand to total known res demand
+    to estimate residential peak
+    gets roughly 3GW in 2023 - seems a little low. To assess further.
+
+    """
+
+    df = pd.read_parquet(GXP_FILE)
+    res_pocs = get_residential_pocs(threshold=0.90)
+
+    df = df[df["POC"].isin(res_pocs)]
+    df["Year"] = df["Trading_Date"].dt.year
+    df = df[df["Year"] == 2023]
+
+    df = df.groupby(["Trading_Date", "Trading_Period"])["Value"].sum().reset_index()
+    df = df[df["Value"] != 0]
+
+    df["Share"] = df["Value"] / df["Value"].sum()
+
+    df["Year"] = 2023
+    eeud_res = get_residential_total_demand()
+
+    df = df.drop("Value", axis=1)
+
+    df = pd.merge(df, eeud_res)
+
+    df["Unit"] = "GWh"
+
+    df["Value"] = df["Share"] * df["Value"]
+
+    df["Unit"] = "GW"
+    df["Value"] = df["Value"] * 2
+
+    df = df.sort_values("Value", ascending=False)
+
+    return df
+
+
 def main():
     """
     Creates national electricity load curves for each island
@@ -415,6 +462,7 @@ def main():
 
     # Test outputs
     test_average_loads()
+    # estimate_res_real_peak()
 
 
 if __name__ == "__main__":
