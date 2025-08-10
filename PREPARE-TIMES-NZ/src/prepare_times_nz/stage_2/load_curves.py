@@ -65,7 +65,7 @@ def add_islands(df, nsp_file=NODE_CONCORDANCE_FILE):
     return df
 
 
-def get_summary_timeslices(df, by_island=True):
+def get_summary_timeslices(df, by_island=True, nsp_file=NODE_CONCORDANCE_FILE):
     """
     Aggregates load data by timeslice and computes total GWh and average load (GW).
 
@@ -78,7 +78,7 @@ def get_summary_timeslices(df, by_island=True):
 
     if by_island:
         # add the island variable to the data, extend our group definitions by island
-        df = add_islands(df)
+        df = add_islands(df, nsp_file)
         group_vars += ["Island"]
         agg_group_vars += ["Island"]
 
