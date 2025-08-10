@@ -49,13 +49,13 @@ def aggregate_emi_by_timeslice(df):
     return df
 
 
-def add_islands(df):
+def add_islands(df, nsp_file=NODE_CONCORDANCE_FILE):
     """
     Expects an input df with a POC Variable
     Then adds the Island from the NSP concordance file
     """
 
-    nsp = pd.read_csv(NODE_CONCORDANCE_FILE)
+    nsp = pd.read_csv(nsp_file)
     nsp = nsp.rename(columns={"POC": "POCPrefix"})
     nsp = nsp[["POCPrefix", "Island"]]
 

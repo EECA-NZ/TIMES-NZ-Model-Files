@@ -1,3 +1,6 @@
+import importlib
+
+import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_2 import load_curves as lc
 
@@ -42,3 +45,39 @@ def test_aggregate_emi_by_timeslice_groups_and_filters():
         out.sort_values(sort_cols).reset_index(drop=True),
         expected.sort_values(sort_cols).reset_index(drop=True),
     )
+
+
+def write_concordance(tmp_path):
+    path = tmp_path / "nsp_concordance.csv"
+    pd.DataFrame(
+        {"POC": ["ABC", "DEF", "123"], "Island": ["North", "South", "Chatham"]}
+    ).to_csv(path, index=False)
+    return str(path)
+
+
+def test_add_islands_basic(tmp_path):
+    nsp_file = write_concordance(tmp_path)
+
+    df_in = pd.DataFrame(
+        {"POC": ["ABC12345", "DEF999", "GHI000"], "OtherCol": [1, 2, 3]}
+    )
+    out = lc.add_islands(df_in, nsp_file=nsp_file)
+
+    expected = pd.DataFrame(
+        {
+            "POC": ["ABC12345", "DEF999", "GHI000"],
+            "OtherCol": [1, 2, 3],
+            "Island": ["North", "South", np.nan],
+        }
+    )
+    pd.testing.assert_frame_equal(out.reset_index(drop=True), expected)
+
+
+def test_add_islands_numeric_poc(tmp_path):
+    nsp_file = write_concordance(tmp_path)
+
+    df_in = pd.DataFrame({"POC": [123456]})
+    out = lc.add_islands(df_in, nsp_file=nsp_file)
+
+    assert list(out.columns) == ["POC", "Island"]
+    assert out.loc[0, "Island"] == "Chatham"
