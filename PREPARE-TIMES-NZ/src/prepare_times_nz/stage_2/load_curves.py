@@ -99,12 +99,12 @@ def get_summary_timeslices(df, by_island=True, nsp_file=NODE_CONCORDANCE_FILE):
     return df
 
 
-def get_base_year_load_curves(df):
+def get_base_year_load_curves(df, base_year=BASE_YEAR):
     """
     Filter input data to base year, then create the curves based on demand per slice
     """
 
-    df = df[df["Year"] == BASE_YEAR].copy()
+    df = df[df["Year"] == base_year].copy()
 
     df["LoadCurve"] = df["Value"] / df["Value"].sum()
 
@@ -145,7 +145,7 @@ def get_yrfr(df):
     return df
 
 
-def get_residential_pocs(threshold=0.9):
+def get_residential_pocs(threshold=0.9, gxp_shares_file=GXP_SHARES_FILE):
     """
     Reads the raw data on ICP shares of each gxp.
 
@@ -157,7 +157,7 @@ def get_residential_pocs(threshold=0.9):
 
     """
 
-    df = pd.read_csv(GXP_SHARES_FILE)
+    df = pd.read_csv(gxp_shares_file)
     df = df[["Connection point", "Residential"]]
     df = df[df["Residential"] >= threshold]
 
@@ -169,7 +169,13 @@ def get_residential_pocs(threshold=0.9):
     return df["Connection point"].tolist()
 
 
-def get_residential_curves(df, with_islands=False):
+def get_residential_curves(
+    df,
+    with_islands=False,
+    base_year=BASE_YEAR,
+    residential_pocs=None,
+    nsp_file=NODE_CONCORDANCE_FILE,
+):
     """
 
     Filter the main dataset by the residential pocs
@@ -179,8 +185,11 @@ def get_residential_curves(df, with_islands=False):
     Create timeslice curves
 
     """
-    residential_pocs = get_residential_pocs()
-    df = df[df["Year"] == BASE_YEAR]
+
+    if residential_pocs is None:
+        residential_pocs = get_residential_pocs()
+
+    df = df[df["Year"] == base_year]
     df = df[df["POC"].isin(residential_pocs)]
 
     # add islands
@@ -191,10 +200,7 @@ def get_residential_curves(df, with_islands=False):
     if with_islands:
         group_vars = group_vars + ["Island"]
         agg_group_vars = ["Year", "Unit_Measure"]
-        df = add_islands(df)
-
-    # df["Unit_Measure"] = "GWh"
-    # df["Value"] = df["Value"] / 1e6 # GWh conversion
+        df = add_islands(df, nsp_file=nsp_file)
 
     df = df.groupby(group_vars)["Value"].sum().reset_index()
     df["LoadCurve"] = df["Value"] / df.groupby(agg_group_vars)["Value"].transform("sum")
@@ -231,9 +237,19 @@ def test_average_loads():
     """
     This functions adds as a test
     to ensure our load shares for the base year look sensible
-    Both our
+    Prints a chart to checks for visual analysis
 
-    TBD !
+    NOTE: We're getting like 3GW peak load for residential, which is likely too low
+    And around 6GW for total, also too low for 2023
+
+    GXP half-hourly data peaks will be lower than actuals (known issue)
+
+    The totals shouldn't matter, because we shape actual demand by the GXP curve
+    So this implies the GXP demand shape is not quite correct.
+
+    Possible improvements:
+    Swap this entire method to use the GR010s instead of GXP data?
+    Add distributed generation during peak?
 
     """
 
@@ -343,7 +359,7 @@ def test_average_loads():
     print(CHECKS_LOCATION)
 
 
-def estimate_res_real_peak():
+def estimate_res_real_peak(gxp_file=GXP_FILE):
     """
     Analysis function. Not part of main workflow
     Intended to assess actual residential peaks by checking the peak of residential POC
@@ -353,7 +369,7 @@ def estimate_res_real_peak():
 
     """
 
-    df = pd.read_parquet(GXP_FILE)
+    df = pd.read_parquet(gxp_file)
     res_pocs = get_residential_pocs(threshold=0.90)
 
     df = df[df["POC"].isin(res_pocs)]
