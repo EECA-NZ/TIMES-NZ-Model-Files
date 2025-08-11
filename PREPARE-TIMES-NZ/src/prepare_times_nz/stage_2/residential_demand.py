@@ -1,27 +1,3 @@
-"""
-
-Builds and applies a residential space‑heating disaggregation model
-for EEUD data.
-
-This module provides functions to:
-
-  1. Load and clean StatsNZ census dwelling & heating data.
-  2. Aggregate private dwelling types into standardized categories.
-  3. Compute normalized heating‑technology shares by region.
-  4. Merge in assumptions: floor area, heating efficiency, HDD.
-  5. Build a space‑heating demand model to derive fuel demand shares.
-  6. Distribute modelled shares against the EEUD residential space‑heating data.
-  7. Split Gas/LPG demand between North and South Islands and by fuel.
-  8. Saves final results to: residential_space_heating_disaggregation.csv
-
-Constants at the top define filepaths and the base year.
-
-Based on methodology found at:
-
-https://www.sciencedirect.com/science/article/pii/S0378778825004451?ref=pdf_download&fr=RR-2&rr=9677b4c2bbe71c50
-
-"""
-
 import numpy as np
 import pandas as pd
 from prepare_times_nz.utilities.filepaths import (
@@ -32,7 +8,7 @@ from prepare_times_nz.utilities.filepaths import (
 )
 from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
-# filepaths --------------------------------------------
+# Main filepaths --------------------------------------------
 
 RESIDENTIAL_ASSUMPTIONS = ASSUMPTIONS / "residential"
 OUTPUT_LOCATION = STAGE_2_DATA / "residential"
@@ -44,8 +20,10 @@ BASE_YEAR = 2023
 RUN_TESTS = False
 
 # Data locations -----------------------------
+
 EEUD_FILE = STAGE_1_DATA / "eeud/eeud.csv"
 DWELLING_HEATING_FILE = STAGE_1_DATA / "statsnz/dwelling_heating.csv"
+POP_DWELLING = STAGE_1_DATA / "statsnz/population_by_dwelling.csv"
 
 # Assumptions --------------------------------------------
 
@@ -55,10 +33,147 @@ FLOOR_AREAS = RESIDENTIAL_ASSUMPTIONS / "floor_area_per_dwelling.csv"
 
 # CONCORDANCES -----------------------------------------
 
-REGION_ISLAND_CONCORDANCE = CONCORDANCES / "region_island_concordance.csv"
+ISLAND_FILE = CONCORDANCES / "region_island_concordance.csv"
+
+# Population functions -----------------------------------------
 
 
-# Functions -----------------------------------------
+def get_population_data(filepath=POP_DWELLING, base_year=BASE_YEAR):
+    """Loads census pop/dwelling data
+    Returns the df filtered to input baseyear
+
+    IMPORTANT NOTE: this is not full dwelling/pop coverage
+    So, we can use the shares of pop per dwelling type and region
+
+    But we can't use the totals to imply total pop or dwellings
+
+    It is best to instead apply these shares to actual pop/dwelling counts
+    """
+
+    df = pd.read_csv(filepath)
+    df = df[df["CensusYear"] == base_year]
+
+    return df
+
+
+def clean_population_data(df):
+    """
+    Perform standard population cleaning and dwelling aggregation
+    Input df of raw census data, output df
+
+    Removes unnecessary regions
+    Tidies region names
+    Aggregates dwelling types to joined/detached
+    """
+
+    regions_to_exclude = [
+        "Area Outside Region",  # ignore the Chathams
+        "Total - New Zealand by regional council",
+        "Total - New Zealand by health region/health district",
+    ]
+
+    dwelling_type_mapping = {
+        "Other private dwelling": "Detached",
+        "Private dwelling not further defined": "Detached",
+        "Separate house": "Detached",
+        "Joined dwelling": "Joined",
+        "Total - private dwelling type": "Total",
+    }
+
+    df = df.copy()
+
+    # Drop unwanted regions
+    df = df.loc[~df["Area"].isin(regions_to_exclude)]
+
+    # Remove trailing " Region" from area names
+    df["Area"] = df["Area"].str.replace(r" Region$", "", regex=True)
+
+    # aggregate dwelling types
+    df["DwellingType"] = df["DwellingType"].map(dwelling_type_mapping)
+    group_cols = [col for col in df.columns if col != "Value"]
+    df = df.groupby(group_cols, as_index=False)["Value"].sum()
+
+    return df
+
+
+def get_population_shares(df):
+    """
+    Calculate the shares of population among each region
+    and dwelling type.
+
+    Pull the population data, clean, find shares
+
+    Return df of region, dwelling type, and share
+    share should add to 1
+
+    """
+
+    df["ShareOfPopulation"] = df["Value"] / df["Value"].sum()
+
+    # jsut return shares
+    df = df[["Area", "DwellingType", "ShareOfPopulation"]]
+
+    return df
+
+
+def get_residential_other_demand(base_year=BASE_YEAR, eeud_file=EEUD_FILE):
+    """
+    Takes the EEUD data, filters it to base year
+    Then returns all residential demand EXCEPT SPACE HEATING
+    """
+    df = pd.read_csv(eeud_file)
+
+    df = df[df["Year"] == base_year]
+    df = df[df["SectorGroup"] == "Residential"]
+    df = df[df["EndUse"] != "Low Temperature Heat (<100 C), Space Heating"]
+
+    return df
+
+
+def disaggregate_other_demand(eeud_df, shares_df):
+    """
+    Takes the calculated shares for each region and dwelling type
+    Cross joins these to EEUD, cartesian exploding the frame
+    Uses the population shares to disaggregate residential demand
+
+    Returns a df
+
+    NOTE: currently, the expected input is just all residential demand
+    (except space heating)
+    This filter currently happens in get_residential_other_demand()
+    However, we could alternatively include the space heating
+        to get a population-based space heating model
+    """
+
+    df = pd.merge(eeud_df, shares_df, how="cross")
+
+    df["Value"] = df["Value"] * df["ShareOfPopulation"]
+
+    df = df.drop("ShareOfPopulation", axis=1)
+
+    return df
+
+
+def add_islands(df, island_file=ISLAND_FILE):
+    """
+    Reads in the island concordance file to attach islands to
+    an in input df with a "Area" variable
+    Renames the island concordance "Region" variable to "Area"
+    Returns the df with "Island"
+    """
+
+    ri_df = pd.read_csv(island_file)
+    ri_df = ri_df.rename(columns={"Region": "Area"})
+    df = pd.merge(df, ri_df, on="Area", how="left", validate="many_to_one")
+
+    # Validate merge result
+    if "Island" not in df.columns:
+        raise KeyError("Merge failed to produce 'Island' column")
+
+    return df
+
+
+# Space heating model functions ------------------------------------------------------
 
 
 def get_latest_census_year(df, base_year=BASE_YEAR, year_variable="CensusYear"):
@@ -499,7 +614,9 @@ def build_sh_model(df):
     # we then just want to find the share of fuel demand (within each tech)
     # per region and dwelling type
 
-    # First, aggregate up to define the grain (this should already be the grain?)
+    # First, aggregate up to define the grain
+    # In theory there should be only one census year in the data
+    # but we will group by this just in case that filter changes
     df = (
         df.groupby(["CensusYear", "Area", "DwellingType", "Technology", "Fuel"])[
             "ModelHeatFuelInput"
@@ -515,6 +632,8 @@ def build_sh_model(df):
     # finally, the share of total fuel demand by area/dwellingtype
     # this is what we'll use to disaggregate the heating demand
     df["FuelDemandShare"] = df["ModelHeatFuelInput"] / df["TotalModelFuelInput"]
+    # no longer needed
+    df = df.drop(["CensusYear", "ModelHeatFuelInput", "TotalModelFuelInput"], axis=1)
 
     return df
 
@@ -542,6 +661,37 @@ def get_eeud_space_heating_data():
     return df
 
 
+def check_join_grain(df1, df2, join_vars):
+    """
+    Assesses how well two dataframes can join together
+    Checks the unique combination of each grain
+    This is basically like a SQL minus test in both directions
+
+    """
+
+    df1_vars = df1[join_vars].drop_duplicates()
+    df2_vars = df2[join_vars].drop_duplicates()
+
+    only_in_df1 = df1_vars.merge(df2_vars, on=join_vars, how="left", indicator=True)
+    only_in_df1 = only_in_df1[only_in_df1["_merge"] == "left_only"].drop(
+        columns="_merge"
+    )
+
+    only_in_df2 = df2_vars.merge(df1_vars, on=join_vars, how="left", indicator=True)
+    only_in_df2 = only_in_df2[only_in_df2["_merge"] == "left_only"].drop(
+        columns="_merge"
+    )
+
+    if not only_in_df1.empty & only_in_df2.empty:
+        logger.warning("Grain mismatch found in join")
+
+        if not only_in_df1.empty:
+            print(only_in_df1)
+
+        if not only_in_df2.empty:
+            print(only_in_df2)
+
+
 def apply_sh_model_to_eeud(df: pd.DataFrame) -> pd.DataFrame:
     """
     Apply space‑heating model shares to EEUD residential demand data.
@@ -565,16 +715,23 @@ def apply_sh_model_to_eeud(df: pd.DataFrame) -> pd.DataFrame:
         A DataFrame with the same schema as the EEUD residential space
         heating subset, but with its 'Value' column replaced by
         disaggregated demand
-
     """
     # get EEUD
     sh_eeud = get_eeud_space_heating_data()
+
+    # assess joins
+    join_vars = ["Technology", "Fuel"]
+
+    check_join_grain(df, sh_eeud, join_vars)
 
     # join input to EEUD
     df = pd.merge(sh_eeud, df, on=["Technology", "Fuel"], how="left")
 
     # modify Values based on shares
     df["Value"] = df["Value"] * df["FuelDemandShare"]
+
+    # no longer needed
+    df = df.drop("FuelDemandShare", axis=1)
 
     return df
 
@@ -659,8 +816,8 @@ def get_burner_island_split() -> pd.DataFrame:
 
     """
     # 1. Load concordance
-    ri_df = pd.read_csv(REGION_ISLAND_CONCORDANCE)
-    ri_df = ri_df.rename(columns={"Region": "Area"})
+    # ri_df = pd.read_csv(REGION_ISLAND_CONCORDANCE)
+    # ri_df = ri_df.rename(columns={"Region": "Area"})
 
     # 2. Get full disaggregated demand
     model_df = disaggregate_space_heating_demand()
@@ -672,11 +829,8 @@ def get_burner_island_split() -> pd.DataFrame:
         raise KeyError(f"Missing expected column in model output: {e}") from e
 
     # 4. Merge in Island labels
-    merged = pd.merge(gas_df, ri_df, on="Area", how="left", validate="many_to_one")
 
-    # Validate merge result
-    if "Island" not in merged.columns:
-        raise KeyError("Merge failed to produce 'Island' column")
+    merged = add_islands(gas_df)
 
     # 5. Compute totals and shares
     agg = merged.groupby("Island", as_index=False)["Value"].sum()
@@ -821,12 +975,9 @@ def distribute_burner_gas(df):
 
     ie: No Natural Gas in the South Island
     """
-    # get region island concordance
-    ri_concordance = pd.read_csv(REGION_ISLAND_CONCORDANCE)
-    ri_concordance = ri_concordance.rename(columns={"Region": "Area"})
-
     # add island tags
-    df = pd.merge(df, ri_concordance, on="Area", how="left")
+    df = add_islands(df)
+
     # separate out the gas/lpg
     df_gas_lpg = df[df["Fuel"] == "Gas/LPG"]
     # remove from main
@@ -857,7 +1008,29 @@ def distribute_burner_gas(df):
     return df
 
 
-def main():
+# Execute outputs -------------------------------------------
+
+
+def save_residential_other_demand():
+    """
+    Executes all functions required for residential
+    demand disaggregated by population and dwelling type
+
+    Saves result to staging area
+    """
+    OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
+    CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
+
+    pop_dwelling = get_population_data()
+    pop_dwelling = clean_population_data(pop_dwelling)
+    shares = get_population_shares(pop_dwelling)
+    eeud = get_residential_other_demand()
+    df = disaggregate_other_demand(eeud, shares)
+    df = add_islands(df)
+    df.to_csv(OUTPUT_LOCATION / "other_demand.csv", index=False)
+
+
+def save_residential_space_heating_demand():
     """Main entry point. Creates output directories and saves
     space heating data"""
     # create dirs
@@ -873,8 +1046,3 @@ def main():
     output_file = OUTPUT_LOCATION / "residential_space_heating_disaggregation.csv"
     logger.info("Saving space heating results to %s", blue_text(output_file))
     res_sh_df.to_csv(output_file, index=False, encoding="utf-8-sig")
-
-
-# Execute
-if __name__ == "__main__":
-    main()
