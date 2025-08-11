@@ -96,24 +96,24 @@ def clean_population_data(df):
     return df
 
 
-def get_population_shares(df):
+def get_population_shares(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Calculate the shares of population among each region
-    and dwelling type.
-
-    Pull the population data, clean, find shares
-
-    Return df of region, dwelling type, and share
-    share should add to 1
-
+    Calculate overall population shares by (Area, DwellingType).
     """
+    required = {"Area", "DwellingType", "Value"}
+    missing = required - set(df.columns)
+    if missing:
+        raise KeyError(f"Missing required column(s): {missing}")
 
-    df["ShareOfPopulation"] = df["Value"] / df["Value"].sum()
+    out = df.copy()
 
-    # jsut return shares
-    df = df[["Area", "DwellingType", "ShareOfPopulation"]]
+    total = out["Value"].sum()
+    # Avoid divide-by-zero; will yield NaN shares if total == 0
+    out["ShareOfPopulation"] = (
+        out["Value"] / total if total != 0 else out["Value"] * float("nan")
+    )
 
-    return df
+    return out[["Area", "DwellingType", "ShareOfPopulation"]]
 
 
 def get_residential_other_demand(base_year=BASE_YEAR, eeud_file=EEUD_FILE):
@@ -354,7 +354,9 @@ def aggregate_dwelling_types(
     return df
 
 
-def get_dwelling_heating_data(run_tests: bool = RUN_TESTS) -> pd.DataFrame:
+def get_dwelling_heating_data(
+    run_tests: bool = RUN_TESTS, dwelling_heating_file=DWELLING_HEATING_FILE
+) -> pd.DataFrame:
     """
     Load and preprocess dwelling‑heating counts by region.
 
@@ -382,7 +384,7 @@ def get_dwelling_heating_data(run_tests: bool = RUN_TESTS) -> pd.DataFrame:
         - Value (counts of dwellings)
     """
     # 1. Load raw CSV
-    df = pd.read_csv(DWELLING_HEATING_FILE)
+    df = pd.read_csv(dwelling_heating_file)
 
     # 2. Filter to the base or latest census year
     df = get_latest_census_year(df)
@@ -525,7 +527,12 @@ def get_heating_shares(
     return df
 
 
-def add_assumptions(df: pd.DataFrame) -> pd.DataFrame:
+def add_assumptions(
+    df: pd.DataFrame,
+    eff_assumptions=EFF_ASSUMPTIONS,
+    floor_areas=FLOOR_AREAS,
+    hdd_assumptions=HDD_ASSUMPTIONS,
+) -> pd.DataFrame:
     """
     Join efficiency, floor‑area, and HDD assumptions into the model data.
 
@@ -556,27 +563,32 @@ def add_assumptions(df: pd.DataFrame) -> pd.DataFrame:
     KeyError
         If 'DwellingType' or 'Area' is missing from the input DataFrame.
     """
-    # validate required columns
-    missing = {"DwellingType", "Area"} - set(df.columns)
+    # Validate required columns (include HeatingType, since we merge on it)
+    required = {"DwellingType", "Area", "HeatingType"}
+    missing = required - set(df.columns)
     if missing:
         raise KeyError(f"Missing required column(s): {missing}")
 
-    heat_eff_assumptions = pd.read_csv(EFF_ASSUMPTIONS)
+    df = df.copy()
 
-    # efficiencies
-    df = pd.merge(df, heat_eff_assumptions)
-    df = df.drop("Note", axis=1)
-    # floor areas
+    eff = pd.read_csv(eff_assumptions)
+    fa = pd.read_csv(floor_areas)
+    hdd = pd.read_csv(hdd_assumptions)[["Region", "HDD"]].rename(
+        columns={"Region": "Area"}
+    )
 
-    floor_areas = pd.read_csv(FLOOR_AREAS)
-    df = pd.merge(df, floor_areas, on="DwellingType", how="left")
-    df = df.drop("Note", axis=1)
-    # hdd
-    # first, just select relevant fields
-    hdd_data = pd.read_csv(HDD_ASSUMPTIONS)
-    hdd_data = hdd_data[["Region", "HDD"]]
-    hdd_data = hdd_data.rename(columns={"Region": "Area"})
-    df = pd.merge(df, hdd_data, how="left")
+    # 1) Efficiencies: explicit many-to-one merge on HeatingType
+    df = pd.merge(df, eff, on="HeatingType", how="left", validate="many_to_one")
+    # Drop any Note-ish columns without failing if absent
+    for col in ["Note", "Note_x", "Note_y"]:
+        df = df.drop(columns=[col], errors="ignore")
+
+    # 2) Floor areas: merge on aggregated dwelling labels ('Detached' / 'Joined')
+    df = pd.merge(df, fa, on="DwellingType", how="left", validate="many_to_one")
+    df = df.drop(columns=["Note"], errors="ignore")
+
+    # 3) HDD:
+    df = pd.merge(df, hdd, on="Area", how="left", validate="many_to_one")
 
     return df
 
@@ -594,6 +606,7 @@ def build_sh_model(df):
     We can apply this directly to the EEUD to get the fuel demand disaggregation
 
     """
+    df = df.copy()
     # Total heat demand is a function of dwelling count * floor area * HDD
     # ie, each dwelling has a floor area to heat and some hdd to heat it by
     # the units here are very abstract
@@ -638,7 +651,7 @@ def build_sh_model(df):
     return df
 
 
-def get_eeud_space_heating_data():
+def get_eeud_space_heating_data(eeud_file=EEUD_FILE, base_year=BASE_YEAR):
     """
     Returns the EEUD residential space heating data
     for the selected base year.
@@ -648,10 +661,10 @@ def get_eeud_space_heating_data():
     """
     # get EEUD data for residential space heating
 
-    eeud = pd.read_csv(EEUD_FILE)
+    eeud = pd.read_csv(eeud_file)
     df = eeud[eeud["Sector"] == "Residential"]
     df = df[df["EndUse"] == "Low Temperature Heat (<100 C), Space Heating"]
-    df = df[df["Year"] == BASE_YEAR]
+    df = df[df["Year"] == base_year]
 
     # aggregate EEUD LPG/natural gas together
     df.loc[df["Fuel"].isin(["Natural Gas", "LPG"]), "Fuel"] = "Gas/LPG"
@@ -682,7 +695,7 @@ def check_join_grain(df1, df2, join_vars):
         columns="_merge"
     )
 
-    if not only_in_df1.empty & only_in_df2.empty:
+    if not (only_in_df1.empty and only_in_df2.empty):
         logger.warning("Grain mismatch found in join")
 
         if not only_in_df1.empty:
@@ -692,7 +705,9 @@ def check_join_grain(df1, df2, join_vars):
             print(only_in_df2)
 
 
-def apply_sh_model_to_eeud(df: pd.DataFrame) -> pd.DataFrame:
+def apply_sh_model_to_eeud(
+    df: pd.DataFrame, eeud_file=EEUD_FILE, base_year=BASE_YEAR
+) -> pd.DataFrame:
     """
     Apply space‑heating model shares to EEUD residential demand data.
 
@@ -717,7 +732,7 @@ def apply_sh_model_to_eeud(df: pd.DataFrame) -> pd.DataFrame:
         disaggregated demand
     """
     # get EEUD
-    sh_eeud = get_eeud_space_heating_data()
+    sh_eeud = get_eeud_space_heating_data(eeud_file=eeud_file, base_year=base_year)
 
     # assess joins
     join_vars = ["Technology", "Fuel"]
@@ -725,7 +740,7 @@ def apply_sh_model_to_eeud(df: pd.DataFrame) -> pd.DataFrame:
     check_join_grain(df, sh_eeud, join_vars)
 
     # join input to EEUD
-    df = pd.merge(sh_eeud, df, on=["Technology", "Fuel"], how="left")
+    df = pd.merge(sh_eeud, df, on=join_vars, how="left")
 
     # modify Values based on shares
     df["Value"] = df["Value"] * df["FuelDemandShare"]
@@ -736,7 +751,14 @@ def apply_sh_model_to_eeud(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def disaggregate_space_heating_demand() -> pd.DataFrame:
+def disaggregate_space_heating_demand(
+    dwelling_heating_file=DWELLING_HEATING_FILE,
+    hdd_assumptions=HDD_ASSUMPTIONS,
+    eff_assumptions=EFF_ASSUMPTIONS,
+    floor_areas=FLOOR_AREAS,
+    eeud_file=EEUD_FILE,
+    base_year=BASE_YEAR,
+) -> pd.DataFrame:
     """
     Disaggregate residential space heating demand using census and EEUD data.
 
@@ -764,7 +786,9 @@ def disaggregate_space_heating_demand() -> pd.DataFrame:
     """
 
     # get dwelling/heating data
-    dwelling_heating_data_tidy = get_dwelling_heating_data()
+    dwelling_heating_data_tidy = get_dwelling_heating_data(
+        dwelling_heating_file=dwelling_heating_file
+    )
     # get heating shares
     heating_shares = get_heating_shares(dwelling_heating_data_tidy)
     # total dwellings from same dataset
@@ -779,25 +803,31 @@ def disaggregate_space_heating_demand() -> pd.DataFrame:
     )
 
     # add assumptions (efficiency and floor area)
-    model_df = add_assumptions(model_df)
+    model_df = add_assumptions(
+        model_df,
+        eff_assumptions=eff_assumptions,
+        floor_areas=floor_areas,
+        hdd_assumptions=hdd_assumptions,
+    )
     # Build model heat demand
     model_df = build_sh_model(model_df)
     # apply calculated shares to EEUD
-    model_df = apply_sh_model_to_eeud(model_df)
+    model_df = apply_sh_model_to_eeud(
+        model_df, eeud_file=eeud_file, base_year=base_year
+    )
 
     return model_df
 
 
-def get_burner_island_split() -> pd.DataFrame:
+def get_burner_island_split(model_df, island_file=ISLAND_FILE) -> pd.DataFrame:
     """
     Compute the North/South Island split for Gas/LPG burners.
+    Works on the output of disaggregate_space_heating_demand()
 
     Steps
     -----
-    1. Load region–island concordance from REGION_ISLAND_CONCORDANCE.
-    2. Run disaggregate_space_heating_demand() to get full model output.
-    3. Filter for Fuel == Natural Gas/LPG.
-    4. Merge island labels on 'Area'.
+    1. Filter space heating model for Fuel == Natural Gas/LPG.
+    4. Add Islands.
     5. Sum 'Value' by 'Island' and compute share.
 
     Returns
@@ -815,24 +845,17 @@ def get_burner_island_split() -> pd.DataFrame:
         after the merge.
 
     """
-    # 1. Load concordance
-    # ri_df = pd.read_csv(REGION_ISLAND_CONCORDANCE)
-    # ri_df = ri_df.rename(columns={"Region": "Area"})
-
-    # 2. Get full disaggregated demand
-    model_df = disaggregate_space_heating_demand()
-
-    # 3. Filter to Gas/LPG burners
+    # 1. Filter model data to Gas/LPG burners
     try:
         gas_df = model_df.loc[model_df["Fuel"] == "Gas/LPG"].copy()
     except KeyError as e:
         raise KeyError(f"Missing expected column in model output: {e}") from e
 
-    # 4. Merge in Island labels
+    # 2. Merge in Island labels
 
-    merged = add_islands(gas_df)
+    merged = add_islands(gas_df, island_file=island_file)
 
-    # 5. Compute totals and shares
+    # 3. Compute totals and shares
     agg = merged.groupby("Island", as_index=False)["Value"].sum()
     total = agg["Value"].sum()
     agg["Share"] = agg["Value"] / total
@@ -840,7 +863,7 @@ def get_burner_island_split() -> pd.DataFrame:
     return agg
 
 
-def get_burner_fuel_split() -> pd.DataFrame:
+def get_burner_fuel_split(eeud_file=EEUD_FILE) -> pd.DataFrame:
     """
     Compute the share of Natural Gas vs LPG for residential burners.
 
@@ -873,7 +896,7 @@ def get_burner_fuel_split() -> pd.DataFrame:
     """
 
     # Load EEUD data
-    eeud = pd.read_csv(EEUD_FILE)
+    eeud = pd.read_csv(eeud_file)
 
     # Validate required columns
     required = {"Sector", "EndUse", "Year", "Fuel", "Value"}
@@ -899,30 +922,27 @@ def get_burner_fuel_split() -> pd.DataFrame:
     return agg
 
 
-def get_ni_lpg_share():
+def get_ni_lpg_share(burner_fuel_split, burner_island_split):
     """
     Estimate the share of LPG used in the North Island (NI) for direct heat burners.
 
+    Takes the gas burners by fuel (from the EEUD)
+    And the gas burners by island (from the space heating model)
+
     Assumptions:
     - The heating model does not distinguish gas from LPG.
-    - All South Island (SI) burner demand is LPG.
+    - All South Island (SI) gas burner demand is LPG.
     - All Natural Gas (NGA) is used in the NI.
 
     Steps:
-    1. Get the burner fuel split (Natural Gas vs LPG) from EEUD.
-    2. Get the NI/SI burner demand split from model data.
-    3. Ensure NI burner share can support the natural gas share.
-    4. Calculate remaining LPG available to NI.
-    5. Compute and return NI LPG share.
+
+    1. Ensure NI burner share can support the natural gas share.
+        (if not, the space heat model is wrong)
+    2. Calculate remaining LPG available to NI.
+    3. Compute and return NI LPG share.
     """
 
-    # 1. get fuel shares of burner demand  from EEUD
-    burner_fuel_split = get_burner_fuel_split()
-
-    # 2. Get island shares of burner demand from SH model
-    burner_island_split = get_burner_island_split()
-
-    # 3. Validate feasibility of NI supporting all natural gas demand
+    # 1. Validate feasibility of NI supporting all natural gas demand
     nat_gas_share = burner_fuel_split.loc[
         burner_fuel_split["Fuel"] == "Natural Gas", "Share"
     ].iloc[0]
@@ -937,7 +957,7 @@ def get_ni_lpg_share():
     else:
         logger.info("Natural gas share is feasible given NI burner demand.")
 
-    # 4. Calculate total NI LPG use
+    # 2. Calculate total NI LPG use
     si_total_lpg = burner_island_split.loc[
         burner_island_split["Island"] == "SI", "Value"
     ].iloc[0]
@@ -961,12 +981,16 @@ def get_ni_lpg_share():
     else:
         logger.info("NI supply balances correctly between NGA and LPG.")
 
-    # 5. Final LPG share for NI
+    # 3. Final LPG share for NI
+    if total_ni == 0 or np.isclose(total_ni, 0.0):
+        raise ZeroDivisionError(
+            "NI total burner demand is zero; cannot compute LPG share."
+        )
     ni_lpg_share = ni_total_lpg / total_ni
     return ni_lpg_share
 
 
-def distribute_burner_gas(df):
+def distribute_burner_gas(df, ni_lpg_share, island_file=ISLAND_FILE):
     """
     Takes the input space heating model,
     which aggregates gas burners among Gas/LPG
@@ -976,7 +1000,7 @@ def distribute_burner_gas(df):
     ie: No Natural Gas in the South Island
     """
     # add island tags
-    df = add_islands(df)
+    df = add_islands(df, island_file=island_file)
 
     # separate out the gas/lpg
     df_gas_lpg = df[df["Fuel"] == "Gas/LPG"]
@@ -984,7 +1008,6 @@ def distribute_burner_gas(df):
     df = df[df["Fuel"] != "Gas/LPG"]
 
     # add the lpg shares
-    ni_lpg_share = get_ni_lpg_share()
     df_gas_lpg["LPGShare"] = np.where(df_gas_lpg["Island"] == "SI", 1, ni_lpg_share)
 
     # create lpg data
@@ -1018,9 +1041,6 @@ def save_residential_other_demand():
 
     Saves result to staging area
     """
-    OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
-    CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
-
     pop_dwelling = get_population_data()
     pop_dwelling = clean_population_data(pop_dwelling)
     shares = get_population_shares(pop_dwelling)
@@ -1031,18 +1051,30 @@ def save_residential_other_demand():
 
 
 def save_residential_space_heating_demand():
-    """Main entry point. Creates output directories and saves
-    space heating data"""
-    # create dirs
-    OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
-    CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
+    # Runs the mode
 
-    # run model
-    res_sh_df = disaggregate_space_heating_demand()
-    # distribute the burner gas
-    res_sh_df = distribute_burner_gas(res_sh_df)
+    model_df = disaggregate_space_heating_demand()
+    # distribute the burner gas from model output
+    burner_island_split = get_burner_island_split(model_df, island_file=ISLAND_FILE)
+    burner_fuel_split = get_burner_fuel_split(eeud_file=EEUD_FILE)
+
+    ni_lpg_share = get_ni_lpg_share(
+        burner_fuel_split=burner_fuel_split, burner_island_split=burner_island_split
+    )
+
+    res_sh_df = distribute_burner_gas(model_df, ni_lpg_share, island_file=ISLAND_FILE)
 
     # save
     output_file = OUTPUT_LOCATION / "residential_space_heating_disaggregation.csv"
     logger.info("Saving space heating results to %s", blue_text(output_file))
     res_sh_df.to_csv(output_file, index=False, encoding="utf-8-sig")
+
+
+# Main safeguard
+if __name__ == "__main":
+    """Script entry-point"""
+    # create dirs
+    OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
+    CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
+    save_residential_other_demand()
+    save_residential_space_heating_demand()
