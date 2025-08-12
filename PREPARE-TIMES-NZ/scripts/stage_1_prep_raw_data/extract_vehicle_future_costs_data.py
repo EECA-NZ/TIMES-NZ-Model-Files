@@ -18,6 +18,7 @@ from pathlib import Path
 import pandas as pd
 from prepare_times_nz.stage_1.vehicle_costs import (
     CATEGORY_TO_VEHICLE_CLASS,
+    COST_COLS,
     TECH_TO_POWERTRAIN,
 )
 from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
@@ -137,16 +138,7 @@ def generate_future_costs(year: int) -> pd.DataFrame:
         idx = compute_cost_indices(avg, base_year=year)
         cost_df = apply_indices_to_costs(cost_df, idx, label)
 
-    keep = [
-        # this does duplicate a list in baseyear_transport_demand
-        # but suspect extracting it would make things worse not better
-        # pylint: disable=duplicate-code
-        "vehicletype",
-        "fueltype",
-        "technology",
-        "cost_2023_nzd",
-        "operation_cost_2023_nzd",
-    ]
+    keep = [COST_COLS]
     projected = [c for c in cost_df.columns if c.startswith(("tui_cost_", "kea_cost_"))]
     cost_df = cost_df[keep + projected]
 

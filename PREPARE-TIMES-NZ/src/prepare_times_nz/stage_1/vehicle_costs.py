@@ -54,3 +54,38 @@ def get_rail_columns(df):
         }
     )
     return df
+
+
+COST_COLS = [
+    "vehicletype",
+    "fueltype",
+    "technology",
+    "cost_2023_nzd",
+    "operation_cost_2023_nzd",
+]
+
+ALL_TECHS = [
+    "Petrol ICE",
+    "Diesel ICE",
+    "Petrol Hybrid",
+    "Diesel Hybrid",
+    "Plug-in Hybrid",
+    "Battery Electric",
+    "Hydrogen Fuel Cell",
+    "LPG",
+    "Dual Fuel",
+]
+
+
+# Mapping from original fueltype to (fueltype, technology)
+FUELTYPE_MAP = {
+    "Battery Electric": ("Electricity", "BEV"),
+    "Diesel Hybrid": ("Diesel", "ICE Hybrid"),
+    "Diesel ICE": ("Diesel", "ICE"),
+    "Dual Fuel": ("Diesel/Hydrogen", "Dual Fuel"),
+    "Hydrogen Fuel Cell": ("Hydrogen", "H2R"),
+    "Petrol Hybrid": ("Petrol", "ICE Hybrid"),
+    "Petrol ICE": ("Petrol", "ICE"),
+    "Plug-in Hybrid": ("Petrol/Diesel/Electricity", "PHEV"),
+    "LPG": ("LPG", "ICE"),
+}
