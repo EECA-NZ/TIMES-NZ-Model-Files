@@ -61,7 +61,7 @@ FUELTYPE_MAP = {
     "Battery Electric": ("Electricity", "BEV"),
     "Diesel Hybrid": ("Diesel", "ICE Hybrid"),
     "Diesel ICE": ("Diesel", "ICE"),
-    "Dual Fuel": ("Petrol/LPG", "ICE"),
+    "Dual Fuel": ("Diesel/Hydrogen", "Dual Fuel"),
     "Hydrogen Fuel Cell": ("Hydrogen", "H2R"),
     "Petrol Hybrid": ("Petrol", "ICE Hybrid"),
     "Petrol ICE": ("Petrol", "ICE"),

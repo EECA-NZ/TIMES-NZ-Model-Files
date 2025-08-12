@@ -79,10 +79,10 @@ FUEL_SHARE = {
     ("LPV", "Electricity", "PHEV"): {"fuelshare": 0.60},
     ("Heavy Truck", "Diesel", "Dual Fuel"): {"fuelshare": 0.70},
     ("Heavy Truck", "Hydrogen", "Dual Fuel"): {"fuelshare": 0.30},
-    ("NI", "Passenger Rail", "Electricity"): {"fuelshare": 0.62},
-    ("NI", "Passenger Rail", "Diesel"): {"fuelshare": 0.38},
-    ("NI", "Rail Freight", "Diesel"): {"fuelshare": 0.98},
-    ("NI", "Rail Freight", "Electricity"): {"fuelshare": 0.02},
+    ("NI", "Passenger Rail", "Electricity"): {"fuelshare": 0.79},
+    ("NI", "Passenger Rail", "Diesel"): {"fuelshare": 0.21},
+    ("NI", "Rail Freight", "Diesel"): {"fuelshare": 0.97},
+    ("NI", "Rail Freight", "Electricity"): {"fuelshare": 0.03},
 }
 
 FLEET_WORKBOOK_YEAR = 2023  # <-- workbook file to open
@@ -299,18 +299,43 @@ def enrich_with_efficiency(df, rail_df):
     return df
 
 
+def _prepare_costs_for_merge(cost_df: pd.DataFrame) -> pd.DataFrame:
+    # 1) Normalize column names used downstream
+    rename_map = {}
+    if "cost_2023" in cost_df.columns and "cost_2023_nzd" not in cost_df.columns:
+        rename_map["cost_2023"] = "cost_2023_nzd"
+    if (
+        "operation_cost_2023" in cost_df.columns
+        and "operation_cost_2023_nzd" not in cost_df.columns
+    ):
+        rename_map["operation_cost_2023"] = "operation_cost_2023_nzd"
+    cost_df = cost_df.rename(columns=rename_map)
+
+    # 2) Expand Diesel/Hydrogen Dual Fuel into two rows so merges by fueltype work
+    dual_mask = (cost_df["technology"] == "Dual Fuel") & (
+        cost_df["fueltype"] == "Diesel/Hydrogen"
+    )
+    dual = cost_df.loc[dual_mask]
+    if not dual.empty:
+        diesel = dual.copy()
+        diesel["fueltype"] = "Diesel"
+        hydrogen = dual.copy()
+        hydrogen["fueltype"] = "Hydrogen"
+        # Drop the combined row(s) and append the split rows
+        cost_df = pd.concat(
+            [cost_df.drop(dual.index), diesel, hydrogen], ignore_index=True
+        )
+
+    return cost_df
+
+
 def enrich_with_costs(df, cost_df):
-    """
-    This function enriches the input transport activity DataFrame with vehicle cost
-    information by joining on vehicle type, fuel type, and technology. Missing values
-    are filled with zeros. Additionally, for LPV PHEV entries, it ensures costs are
-    explicitly filled using the average of matching entries in the cost dataset.
-    """
+    """Enriches the main DataFrame with vehicle costs and operation costs
+    from a provided cost Dataframe."""
+    cost_df = _prepare_costs_for_merge(cost_df)
+
     df = df.merge(
         cost_df[
-            # this does duplicate a list in extract_vehicle_future_costs_data
-            # but suspect extracting it would make things worse not better
-            # pylint: disable=duplicate-code
             [
                 "vehicletype",
                 "fueltype",
@@ -323,7 +348,7 @@ def enrich_with_costs(df, cost_df):
         how="left",
     ).fillna({"cost_2023_nzd": 0, "operation_cost_2023_nzd": 0})
 
-    # explicit mapping for LPV PHEV (falls back to mean of existing rows)
+    # keep your LPV/PHEV override
     mask = (df["vehicletype"] == "LPV") & (df["technology"] == "PHEV")
     if mask.any():
         phev_costs = cost_df.loc[
@@ -348,9 +373,78 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
     a given year. It performs calculations, scaling, imputation, and transformations
     necessary for modeling or analysis of base year transport energy activity.
     """
+
+    def ensure_dual_fuel_rows(df: pd.DataFrame) -> pd.DataFrame:
+        # If your VKT generator already outputs Dual Fuel rows, this will be a no-op.
+        """
+        Ensure we have (vehicletype, Diesel/Hydrogen, Dual Fuel) rows in vkt_long, so they pick up
+        costs and get split by region/tertile, just like Dual Fuel.
+        We use the cost table to decide which vehicle types should exist.
+        """
+        need = [
+            ("Heavy Truck", "Diesel", "Dual Fuel"),
+            ("Heavy Truck", "Hydrogen", "Dual Fuel"),
+        ]
+        for vt, ft, tech in need:
+            mask = (
+                (df["vehicletype"] == vt)
+                & (df["fueltype"] == ft)
+                & (df["technology"] == tech)
+            )
+            if not mask.any():
+                # Try cloning a similar row shape (same vehicletype) as a template:
+                tmpl = df[df["vehicletype"] == vt].head(1).copy()
+                if tmpl.empty:
+                    tmpl = pd.DataFrame([{"vehicletype": vt}])
+                tmpl["fueltype"] = ft
+                tmpl["technology"] = tech
+                # leave VKT/PJ empty unless you have a rule to derive them
+                for c in ["vktvalue", "pjvalue"]:
+                    if c in tmpl:
+                        tmpl[c] = np.nan
+                df = pd.concat([df, tmpl], ignore_index=True)
+        return df
+
+    def ensure_h2r_rows(df: pd.DataFrame, cost_df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Ensure we have (vehicletype, Hydrogen, H2R) rows in vkt_long, so they pick up
+        costs and get split by region/tertile, just like Dual Fuel.
+        We use the cost table to decide which vehicle types should exist.
+        """
+        need = cost_df[
+            (cost_df["fueltype"] == "Hydrogen") & (cost_df["technology"] == "H2R")
+        ][["vehicletype", "fueltype", "technology"]].drop_duplicates()
+
+        for _, r in need.iterrows():
+            vt = r["vehicletype"]
+            mask = (
+                (df["vehicletype"] == vt)
+                & (df["fueltype"] == "Hydrogen")
+                & (df["technology"] == "H2R")
+            )
+            if not mask.any():
+                # clone a template row for this vehicletype (keeps expected columns)
+                tmpl = df[df["vehicletype"] == vt].head(1).copy()
+                if tmpl.empty:
+                    tmpl = pd.DataFrame([{"vehicletype": vt}])
+                tmpl["fueltype"] = "Hydrogen"
+                tmpl["technology"] = "H2R"
+                # leave activity columns empty; downstream steps will handle
+                # region/tertile and costs
+                for c in ["vktvalue", "pjvalue"]:
+                    if c in tmpl:
+                        tmpl[c] = np.nan
+                df = pd.concat([df, tmpl], ignore_index=True)
+        return df
+
     vkt_long = pd.read_csv(
         INPUT_LOCATION_FLEET / f"vkt_by_vehicle_type_and_fuel_{year}.csv"
     )
+    vkt_long = ensure_dual_fuel_rows(vkt_long)
+    cost_df = pd.read_csv(
+        INPUT_LOCATION_COST / f"vehicle_costs_by_type_fuel_{year}.csv"
+    )
+    vkt_long = ensure_h2r_rows(vkt_long, cost_df)
     vkt_utils = pd.read_csv(INPUT_LOCATION_FLEET / f"vkt_in_utils_{year}.csv")
     vkt_shares = vkt_utils[["vehicletype", "tertile", "vktshare"]]
     life = vkt_utils[["vehicletype", "tertile", "scrap_p70"]].copy()
@@ -358,9 +452,6 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
     vehicle_counts = pd.read_csv(INPUT_LOCATION_FLEET / f"vehicle_counts_{year}.csv")
     # life_df = process_life_data()   # uses LIFE_ROW_YEAR & FLEET_WORKBOOK_YEAR
     counts_expanded = vehicle_counts_expanded(vehicle_counts)
-    cost_df = pd.read_csv(
-        INPUT_LOCATION_COST / f"vehicle_costs_by_type_fuel_{year}.csv"
-    )
     road_df = mbie_total_road_energy(year)
 
     # rail efficiency table
@@ -473,25 +564,6 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
         df["fueltype"] == "Electricity"
     )
     df.loc[motorcycle_mask, "efficiency"] = 2.82
-
-    # Step: Add missing hydrogen truck rows if not already in the data
-    required_rows = [
-        {"vehicletype": "Heavy Truck", "fueltype": "Hydrogen", "technology": "H2R"},
-        {"vehicletype": "Medium Truck", "fueltype": "Hydrogen", "technology": "H2R"},
-    ]
-
-    for row in required_rows:
-        match = (
-            (df["vehicletype"] == row["vehicletype"])
-            & (df["fueltype"] == row["fueltype"])
-            & (df["technology"] == row["technology"])
-        )
-        if not df[match].any().any():
-            new_row = {**row}
-            for col in df.columns:
-                if col not in new_row:
-                    new_row[col] = np.nan
-            df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
     # Manually override hydrogen efficiencies
     df.loc[
