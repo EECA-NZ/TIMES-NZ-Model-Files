@@ -16,7 +16,18 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.stage_1.vehicle_costs import get_rail_columns
+from prepare_times_nz.stage_1.vehicle_costs import (
+    COST_COLS,
+    get_rail_columns,
+)
+from prepare_times_nz.stage_2.transport import (
+    FUEL_SHARE,
+    FUEL_SPLIT_MAP,
+    MJ_PER_LITRE,
+    MOTIVE_GROUP_MAP,
+    REGIONAL_SPLIT,
+    TRUCK_NAMES,
+)
 from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA, STAGE_2_DATA
 from prepare_times_nz.utilities.logger_setup import logger
 
@@ -35,66 +46,13 @@ OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 # ────────────────────────────────────────────────────────────────
 # Constants
 # ────────────────────────────────────────────────────────────────
-MOTIVE_GROUP_MAP = {
-    "BEV": ("Electricity", "BEV"),
-    "Petrol_Hybrid": ("Petrol", "ICE Hybrid"),
-    "Diesel_ICE": ("Diesel", "ICE"),
-    "Petrol_ICE": ("Petrol", "ICE"),
-    "LPG_ICE": ("LPG", "ICE"),
-}
 
-FUEL_SPLIT_MAP = {
-    ("LPV", "PHEV"): [
-        {"fueltype": "Petrol", "technology": "PHEV", "fraction": 0.4},
-        {"fueltype": "Electricity", "technology": "PHEV", "fraction": 0.6},
-    ]
-}
-
-REGIONAL_SPLIT = {
-    "LPV": {"NI": 0.73, "SI": 0.27},
-    "LCV": {"NI": 0.73, "SI": 0.27},
-    "Motorcycle": {"NI": 0.73, "SI": 0.27},
-    "Bus": {"NI": 0.73, "SI": 0.27},
-    "Light Truck": {"NI": 0.73, "SI": 0.27},
-    "Medium Truck": {"NI": 0.73, "SI": 0.27},
-    "Heavy Truck": {"NI": 0.73, "SI": 0.27},
-    ("Rail Freight", "Diesel"): {"NI": 0.74, "SI": 0.26},
-    ("Rail Freight", "Electricity"): {"NI": 1.0, "SI": 0.0},
-    ("Passenger Rail", "Diesel"): {"NI": 1.0, "SI": 0.0},
-    ("Passenger Rail", "Electricity"): {"NI": 0.74, "SI": 0.26},
-    "Domestic Aviation": {"NI": 0.58, "SI": 0.42},
-    "International Aviation": {"NI": 0.80, "SI": 0.20},
-    "Domestic Shipping": {"NI": 0.34, "SI": 0.66},
-    "International Shipping": {"NI": 0.72, "SI": 0.28},
-}
-
-TRUCK_NAMES = {
-    "MedTr": "Light Truck",
-    "HevTr": "Medium Truck",
-    "VHevTr": "Heavy Truck",
-}
-
-FUEL_SHARE = {
-    ("LPV", "Petrol", "PHEV"): {"fuelshare": 0.40},
-    ("LPV", "Electricity", "PHEV"): {"fuelshare": 0.60},
-    ("Heavy Truck", "Diesel", "Dual Fuel"): {"fuelshare": 0.70},
-    ("Heavy Truck", "Hydrogen", "Dual Fuel"): {"fuelshare": 0.30},
-    ("NI", "Passenger Rail", "Electricity"): {"fuelshare": 0.79},
-    ("NI", "Passenger Rail", "Diesel"): {"fuelshare": 0.21},
-    ("NI", "Rail Freight", "Diesel"): {"fuelshare": 0.97},
-    ("NI", "Rail Freight", "Electricity"): {"fuelshare": 0.03},
-}
 
 FLEET_WORKBOOK_YEAR = 2023  # <-- workbook file to open
 LIFE_ROW_YEAR = 2022  # <-- rows we keep from sheet
 CAP2ACT = 0.08  # Max annual travel distance (000 km)
 ACT_BND_0 = -1  # Interpolation rule for ACT_BND
 
-MJ_PER_LITRE = {
-    "Petrol": 35.18,
-    "Diesel": 38.49,
-    "LPG": 26.3735798,
-}
 
 # ════════════════════════════════════════════════════════════════
 # Data-reader helpers
@@ -335,15 +293,7 @@ def enrich_with_costs(df, cost_df):
     cost_df = _prepare_costs_for_merge(cost_df)
 
     df = df.merge(
-        cost_df[
-            [
-                "vehicletype",
-                "fueltype",
-                "technology",
-                "cost_2023_nzd",
-                "operation_cost_2023_nzd",
-            ]
-        ],
+        cost_df[COST_COLS],
         on=["vehicletype", "fueltype", "technology"],
         how="left",
     ).fillna({"cost_2023_nzd": 0, "operation_cost_2023_nzd": 0})

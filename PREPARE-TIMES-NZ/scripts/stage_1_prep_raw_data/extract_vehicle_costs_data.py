@@ -20,7 +20,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_1.vehicle_costs import (
+    ALL_TECHS,
     CATEGORY_TO_VEHICLE_CLASS,
+    FUELTYPE_MAP,
     TECH_TO_POWERTRAIN,
 )
 from prepare_times_nz.utilities.deflator import deflate_columns_rowwise
@@ -43,31 +45,6 @@ OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 # ────────────────────────────────────────────────────────────────
 # Constants
 # ────────────────────────────────────────────────────────────────
-ALL_TECHS = [
-    "Petrol ICE",
-    "Diesel ICE",
-    "Petrol Hybrid",
-    "Diesel Hybrid",
-    "Plug-in Hybrid",
-    "Battery Electric",
-    "Hydrogen Fuel Cell",
-    "LPG",
-    "Dual Fuel",
-]
-
-
-# Mapping from original fueltype to (fueltype, technology)
-FUELTYPE_MAP = {
-    "Battery Electric": ("Electricity", "BEV"),
-    "Diesel Hybrid": ("Diesel", "ICE Hybrid"),
-    "Diesel ICE": ("Diesel", "ICE"),
-    "Dual Fuel": ("Diesel/Hydrogen", "Dual Fuel"),
-    "Hydrogen Fuel Cell": ("Hydrogen", "H2R"),
-    "Petrol Hybrid": ("Petrol", "ICE Hybrid"),
-    "Petrol ICE": ("Petrol", "ICE"),
-    "Plug-in Hybrid": ("Petrol/Diesel/Electricity", "PHEV"),
-    "LPG": ("LPG", "ICE"),
-}
 
 USD_TO_NZD = 1.68
 MI_TO_KM = 1.60934
