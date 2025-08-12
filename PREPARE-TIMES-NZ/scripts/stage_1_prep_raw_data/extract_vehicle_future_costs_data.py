@@ -138,9 +138,17 @@ def generate_future_costs(year: int) -> pd.DataFrame:
         idx = compute_cost_indices(avg, base_year=year)
         cost_df = apply_indices_to_costs(cost_df, idx, label)
 
-    keep = [COST_COLS]
+    # COST_COLS should be a flat list; if it's a tuple, cast to list.
+    keep = list(COST_COLS)
     projected = [c for c in cost_df.columns if c.startswith(("tui_cost_", "kea_cost_"))]
-    cost_df = cost_df[keep + projected]
+
+    # helpful validation
+    missing = [c for c in keep if c not in cost_df.columns]
+    if missing:
+        raise KeyError(f"Missing base columns in cost_df: {missing}")
+
+    cols = keep + projected
+    cost_df = cost_df[cols]
 
     return cost_df
 
