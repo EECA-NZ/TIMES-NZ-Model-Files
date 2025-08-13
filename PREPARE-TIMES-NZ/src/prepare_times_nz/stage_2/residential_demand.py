@@ -35,6 +35,24 @@ FLOOR_AREAS = RESIDENTIAL_ASSUMPTIONS / "floor_area_per_dwelling.csv"
 
 ISLAND_FILE = CONCORDANCES / "region_island_concordance.csv"
 
+
+# Helpers ----------------------------------
+
+
+def save_output(df, name, dir=OUTPUT_LOCATION):
+    """Save DataFrame output to the output location."""
+    filename = f"{dir}/{name}"
+    logger.info("Saving output:\n%s", blue_text(filename))
+    df.to_csv(filename, index=False, encoding="utf-8-sig")
+
+
+def save_checks(df, name, label, dir=CHECKS_LOCATION):
+    """Save DataFrame checks to the checks location."""
+    filename = f"{dir}/{name}"
+    logger.info("Saving %s:\n%s", label, blue_text(filename))
+    df.to_csv(filename, index=False, encoding="utf-8-sig")
+
+
 # Population functions -----------------------------------------
 
 
@@ -86,7 +104,7 @@ def clean_population_data(df):
     df = df.loc[~df["Area"].isin(regions_to_exclude)]
 
     # Remove trailing " Region" from area names
-    df["Area"] = df["Area"].str.replace(r" Region$", "", regex=True)
+    df["Area"] = df["Area"].str.replace(r"\sRegion$", "", regex=True)
 
     # aggregate dwelling types
     df["DwellingType"] = df["DwellingType"].map(dwelling_type_mapping)
@@ -523,6 +541,7 @@ def get_heating_shares(
             logger.warning("Please review")
 
     df = df.drop(["Value", "Total"], axis=1)
+    save_checks(df, "fuel_heating_shares.csv", "Fuel heating shares")
 
     return df
 
@@ -1044,10 +1063,11 @@ def save_residential_other_demand():
     pop_dwelling = get_population_data()
     pop_dwelling = clean_population_data(pop_dwelling)
     shares = get_population_shares(pop_dwelling)
+    save_checks(shares, "population_shares.csv", "Population shares")
     eeud = get_residential_other_demand()
     df = disaggregate_other_demand(eeud, shares)
     df = add_islands(df)
-    df.to_csv(OUTPUT_LOCATION / "other_demand.csv", index=False)
+    save_output(df, "other_heating_disaggregation.csv")
 
 
 def save_residential_space_heating_demand():
@@ -1065,16 +1085,17 @@ def save_residential_space_heating_demand():
     res_sh_df = distribute_burner_gas(model_df, ni_lpg_share, island_file=ISLAND_FILE)
 
     # save
-    output_file = OUTPUT_LOCATION / "residential_space_heating_disaggregation.csv"
-    logger.info("Saving space heating results to %s", blue_text(output_file))
-    res_sh_df.to_csv(output_file, index=False, encoding="utf-8-sig")
+    save_output(res_sh_df, "residential_space_heating_disaggregation.csv")
 
 
-# Main safeguard
-if __name__ == "__main":
+def main():
     """Script entry-point"""
-    # create dirs
     OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
     CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
     save_residential_other_demand()
     save_residential_space_heating_demand()
+
+
+# Main safeguard
+if __name__ == "__main__":
+    main()

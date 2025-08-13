@@ -47,3 +47,7 @@ STAGE_1_SCRIPTS = PREP_LOCATION / "scripts/stage_1_prep_raw_data"
 STAGE_2_SCRIPTS = PREP_LOCATION / "scripts/stage_2_baseyear"
 STAGE_3_SCRIPTS = PREP_LOCATION / "scripts/stage_3_scenarios"
 STAGE_4_SCRIPTS = PREP_LOCATION / "scripts/stage_4_veda_format"
+
+# Other
+
+ANALYSIS = PREP_LOCATION / "analysis"
