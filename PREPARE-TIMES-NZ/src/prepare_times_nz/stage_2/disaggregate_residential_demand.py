@@ -1057,14 +1057,19 @@ def get_disaggregated_end_use_by_pop(
     Calculates all other fuel's share of the original demand (minus natural gas)
     Distributes other fuels among the "Residual" demand for that end use
         (ie: demand unmet by natural gas)
-    Converts back to fuel demand using the same efficient
+    Converts back to fuel demand using the same efficiency rating
 
 
     NOTE: the allocation is slightly complex. This is because we handle multiple natural gas technologies
 
-    The simplest option is to throw an error for this. If the error is ever raised, then you'll need to handle the multiple techs somehow
-    Couple of different options, but mostly you'll want to assign the original shares of the ng techs within that end group in the final allocation
-    (Otherwise it will give ALL the natural gas to EACH natural gas technology)
+    Currently, there is only one natural gas tech per end use.
+    If there are more, then a naive implementation of the current method will double count
+    We have added a way of apportioning these, which is very defensive (covering an edge case that doesn't exist yet)
+
+    If it comes up, the script flags a warning to check these.
+    If anything goes wrong and stuff gets double-counted, the final check will fail
+
+
 
 
 

@@ -231,7 +231,7 @@ STAGE_2: dict[str, list[str]] = {
     "baseyear_industry_demand": ["industry/baseyear_industry_demand.csv"],
     "baseyear_transport_demand": ["transport/transport_demand_2023.csv"],
     "settings/load_curves": ["settings/load_curves.csv", "settings/residential_curves.csv", "settings.yrfr.csv"],
-    "baseyear_residential_demand" : ["residential/other_demand.csv", "residential/residential_space_heating_disaggregation.csv"]
+    "baseyear_residential_demand" : ["residential/residential_demand_disaggregated.csv"]
 }
 
 # Stage-3: scenario demand-growth calculations
