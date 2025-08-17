@@ -150,3 +150,4 @@ Thumbs.db
 # Some spare processing locations
 PREPARE-TIMES-NZ/data_intermediate/
 PREPARE-TIMES-NZ/output/
+PREPARE-TIMES-NZ/analysis/results/

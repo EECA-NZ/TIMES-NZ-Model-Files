@@ -1,5 +1,3 @@
-import importlib
-
 import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_2 import load_curves as lc
