@@ -504,7 +504,9 @@ def get_heating_shares(
             logger.warning("Please review")
 
     df = df.drop(["Value", "Total"], axis=1)
-    save_checks(df, "fuel_heating_shares.csv", "Fuel heating shares")
+
+    if run_tests:
+        save_checks(df, "fuel_heating_shares.csv", "Fuel heating shares")
 
     return df
 

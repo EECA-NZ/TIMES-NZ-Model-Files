@@ -600,7 +600,7 @@ def test_get_heating_shares_basic_and_sums_to_one():
         }
     )
 
-    out = rd.get_heating_shares(raw, run_tests=True)
+    out = rd.get_heating_shares(raw, run_tests=False)
 
     # Excluded categories should be gone
     assert (
