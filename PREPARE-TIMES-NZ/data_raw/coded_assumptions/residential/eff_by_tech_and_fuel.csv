@@ -11,7 +11,7 @@ Gas Water Heater,LPG,0.8,From TIMES 2.0
 "Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",Natural Gas,0.4,From TIMES 2.0. Note must distinguish process tech for ele vs gas/lpg
 "Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",LPG,0.4,From TIMES 2.0. Note must distinguish process tech for ele vs gas/lpg
 "Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",Electricity,0.75,From TIMES 2.0. Note must distinguish process tech for ele vs gas/lpg
-Internal Combustion Engine (Recreational Marine)  ,Petrol,,From TIMES 2.0. Not just rec marine (lawnmowers?)
+Internal Combustion Engine (Recreational Marine)  ,Petrol,0.25,From TIMES 2.0. Not just rec marine (lawnmowers?)
 Internal Combustion Engine (Recreational Marine)  ,Diesel,0.25,From TIMES 2.0. Not just rec marine (lawnmowers?)
 Hot Water Cylinder,Electricity,1,From TIMES 2.0
 Heat Pump (for Cooling),Electricity,3.45,From TIMES 2.0
