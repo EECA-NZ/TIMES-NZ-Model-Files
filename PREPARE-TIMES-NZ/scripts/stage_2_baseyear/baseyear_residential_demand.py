@@ -32,12 +32,8 @@ So we should only use the shares, not treat these as regional ERP
 
 """
 
-from prepare_times_nz.stage_2.residential_demand import (
-    save_residential_other_demand,
-    save_residential_space_heating_demand,
-)
+from prepare_times_nz.stage_2.disaggregate_residential_demand import main
 
 if __name__ == "__main__":
 
-    save_residential_other_demand()
-    save_residential_space_heating_demand()
+    main()

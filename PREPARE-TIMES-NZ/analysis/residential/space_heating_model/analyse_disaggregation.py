@@ -2,24 +2,25 @@
 Here we just pull some intermediate outputs from the space heating model 
 and make some graphs about it 
 
-
+pylint doesn't check these scripts
 
 """
 from plotnine import ggplot, aes, geom_col, facet_wrap, coord_flip, scale_fill_manual, labs, scale_y_continuous, theme_minimal
 from mizani.formatters import percent_format
 import pandas as pd
-import numpy as np 
+
+from prepare_times_nz.utilities.filepaths import STAGE_1_DATA, STAGE_2_DATA, ANALYSIS
+from prepare_times_nz.utilities.logger_setup import logger
 
 
-
-from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, ANALYSIS
-
-
-OUTPUT_LOCATION = ANALYSIS / "results/space_heating_model"
+BASE_YEAR = 2023
+OUTPUT_LOCATION = ANALYSIS / "results/residential_demand_disaggregation"
 OUTPUT_LOCATION.mkdir(parents = True, exist_ok= True)
 
 RES_DATA = STAGE_2_DATA / "residential"
 RES_CHECKS = RES_DATA / "checks"
+
+EEUD_FILE = STAGE_1_DATA / "eeud/eeud.csv"
 
 # get data 
 
@@ -89,9 +90,10 @@ def plot_heating_shares():
     
     chart.save(OUTPUT_LOCATION / "heating_shares.png", dpi = 300, height= 5, width = 8)
 
-def plot_final_results(category):
+def plot_disaggregation_results(category = "Fuel", end_use = "Low Temperature Heat (<100 C), Space Heating", label = "Space Heating"):
 
-    sh_demand = pd.read_csv(RES_DATA / "residential_space_heating_disaggregation.csv")
+    disag_demand = pd.read_csv(RES_DATA / "residential_demand_disaggregated.csv")
+    disag_demand = disag_demand[disag_demand["EndUse"] == end_use]
 
 
     # region orders     
@@ -114,7 +116,7 @@ def plot_final_results(category):
         "Southland",
     ]
     region_order_flipped = list(reversed(region_order))
-    sh_demand["Area"] = pd.Categorical(sh_demand["Area"], categories=region_order_flipped, ordered=True)
+    disag_demand["Area"] = pd.Categorical(disag_demand["Area"], categories=region_order_flipped, ordered=True)
     
     # fuel orders/colours     
     fuel_config = {
@@ -125,51 +127,39 @@ def plot_final_results(category):
         "LPG": "#FFA500",    
     }   
 
-    sh_demand["Fuel"] = pd.Categorical(
-        sh_demand["Fuel"],
+    disag_demand["Fuel"] = pd.Categorical(
+        disag_demand["Fuel"],
         categories=list(fuel_config.keys()),
         ordered=True
     )
 
-    # tech orders/colours 
-
-    techs = [sh_demand["Technology"].unique()]
-
-    print(techs)
-
-
-    sh_demand["Value"] = sh_demand["Value"] / 1e3 # convert PJ
-    # this agg actually isn't even needed huh 
-    sh_demand_agg = sh_demand.groupby(["Sector", "DwellingType", "Area", category])["Value"].sum().reset_index()   
-
-
-
+    disag_demand["Value"] = disag_demand["Value"] / 1e3 # convert PJ
 
     chart = (
-        ggplot(sh_demand_agg, 
+        ggplot(disag_demand, 
                aes(y = "Value", x = "Area", fill = category))
                + geom_col() 
                + facet_wrap("~DwellingType", scales = "free_x")
                + coord_flip()
                + scale_fill_manual(values=fuel_config)
-               + labs(x = "Region", y = "PJ", fill = category, title = "2023 residential space heating demand")
-               # + scale_y_continuous(breaks=[0, 0.5,1.0], labels=percent_format())
-               + theme_minimal()
-               
+               + labs(x = "Region", y = "PJ", fill = category, title = f"2023 residential {label} demand")               
+               + theme_minimal()               
                )
     
 
-    chart_name = f"demand_by_{category.lower()}.png"
-    
-    
+    chart_name = f"demand_by_{category.lower()}_{label}.png"
     chart.save(OUTPUT_LOCATION / chart_name, dpi = 300, height= 5, width = 8)
+
+
 
 
 def main():
     plot_heating_shares()
-    plot_final_results("Fuel")
+    plot_disaggregation_results("Fuel", end_use = "Low Temperature Heat (<100 C), Space Heating", label = "space heating")
+    plot_disaggregation_results("Fuel", end_use = "Low Temperature Heat (<100 C), Water Heating", label = "water heating")
+    plot_disaggregation_results("Fuel", end_use = "Intermediate Heat (100-300 C), Cooking", label = "cooking")
     # plot_final_results("Technology") # not much extra info here - just hp breakdown
-
+    
 
 if __name__ == "__main__":
     main()
