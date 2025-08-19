@@ -1,0 +1,28 @@
+﻿EndUse,Technology,Fuel,AFA,AFAJoined,Note
+Electronics and Other Electrical Uses,IT and Entertainment,Electricity,16.7%,,from TIMES 2.0
+Electronics and Other Electrical Uses,Miscellaneous,Electricity,16.7%,,from TIMES 2.0
+"Intermediate Heat (100-300 C), Cooking",Cooking Appliances,Electricity,4.2%,2.8%,from TIMES 2.0
+"Intermediate Heat (100-300 C), Cooking",Cooking Appliances,LPG,4.2%,2.8%,from TIMES 2.0
+"Intermediate Heat (100-300 C), Cooking",Cooking Appliances,Natural Gas,4.2%,2.8%,from TIMES 2.0
+Lighting,Fluorescent,Electricity,16.7%,,from TIMES 2.0
+Lighting,Incandescent/Halogen,Electricity,16.7%,,from TIMES 2.0
+Lighting,LED,Electricity,16.7%,,from TIMES 2.0
+"Low Temperature Heat (< 100 C), Dishwashers",Dishwashers,Electricity,4.2%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Clothes Drying",Clothes Dryer,Electricity,0.6%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Clothes Washing",Clothes Washers,Electricity,4.2%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),LPG,8.2%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),Natural Gas,8.2%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),Wood,8.2%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Coal Heaters,Coal,8.2%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Ground source heat pump,Geothermal,8.2%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Heat Pump (for Heating),Electricity,8.2%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Resistance Heater,Electricity,8.2%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating","Burner, with Wetback",Wood,12.5%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating",Gas Water Heater,LPG,12.5%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating",Gas Water Heater,Natural Gas,12.5%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating",Hot Water Cylinder,Electricity,12.5%,,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating",Solar hot water cylinder,Solar,12.5%,,from TIMES 2.0
+"Motive Power, Mobile",Internal Combustion Engine,Diesel,0.3%,,from TIMES 2.0
+"Motive Power, Mobile",Internal Combustion Engine,Petrol,0.3%,,from TIMES 2.0
+Refrigeration,Refrigeration Systems,Electricity,100.0%,,from TIMES 2.0
+Space Cooling,Heat Pump (for Cooling),Electricity,1.1%,,from TIMES 2.0
