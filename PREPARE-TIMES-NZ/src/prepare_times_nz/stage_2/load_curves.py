@@ -359,7 +359,7 @@ def test_average_loads():
     print(CHECKS_LOCATION)
 
 
-def estimate_res_real_peak(gxp_file=GXP_FILE):
+def estimate_res_real_peak(gxp_file=GXP_FILE, test_year=2023):
     """
     Analysis function. Not part of main workflow
     Intended to assess actual residential peaks by checking the peak of residential POC
@@ -374,14 +374,14 @@ def estimate_res_real_peak(gxp_file=GXP_FILE):
 
     df = df[df["POC"].isin(res_pocs)]
     df["Year"] = df["Trading_Date"].dt.year
-    df = df[df["Year"] == 2023]
+    df = df[df["Year"] == test_year]
 
     df = df.groupby(["Trading_Date", "Trading_Period"])["Value"].sum().reset_index()
     df = df[df["Value"] != 0]
 
     df["Share"] = df["Value"] / df["Value"].sum()
 
-    df["Year"] = 2023
+    df["Year"] = test_year
     eeud_res = get_residential_total_demand()
 
     df = df.drop("Value", axis=1)
