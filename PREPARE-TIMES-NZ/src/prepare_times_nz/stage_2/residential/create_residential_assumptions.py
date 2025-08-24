@@ -22,12 +22,12 @@ RESIDENTIAL_ASSUMPTIONS = ASSUMPTIONS / "residential"
 OUTPUT_LOCATION = STAGE_2_DATA / "residential"
 CHECKS_LOCATION = OUTPUT_LOCATION / "checks"
 
+
 # constants -----------------
 
 BASE_YEAR = 2023
 RUN_TESTS = False
 CAP2ACT = 31.536
-RUN_TESTS = True
 
 # get data
 # do a bunch of joins
