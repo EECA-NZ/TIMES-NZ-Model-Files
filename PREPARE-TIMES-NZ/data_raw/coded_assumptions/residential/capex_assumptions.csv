@@ -1,28 +1,55 @@
-﻿EndUse,Technology,Fuel,CAPEX,CAPEX Joined,OPEX,PriceBaseYear,Note
-Electronics and Other Electrical Uses,IT and Entertainment,Electricity,733,,,2018,from TIMES 2.0
-Electronics and Other Electrical Uses,Miscellaneous,Electricity,733,,,2018,from TIMES 2.0
-"Intermediate Heat (100-300 C), Cooking",Cooking Appliances,Electricity,450,,,2018,from TIMES 2.0
-"Intermediate Heat (100-300 C), Cooking",Cooking Appliances,LPG,350,,150,2018,from TIMES 2.0
-"Intermediate Heat (100-300 C), Cooking",Cooking Appliances,Natural Gas,350,,150,2018,from TIMES 2.0
-Lighting,Fluorescent,Electricity,1176,,,2018,from TIMES 2.0
-Lighting,Incandescent/Halogen,Electricity,778,,,2018,from TIMES 2.0
-Lighting,LED,Electricity,1148,,,2018,from TIMES 2.0
-"Low Temperature Heat (< 100 C), Dishwashers",Dishwashers,Electricity,2640,,,2018,from TIMES 2.0
-"Low Temperature Heat (<100 C), Clothes Drying",Clothes Dryer,Electricity,1665,,,2018,from TIMES 2.0
-"Low Temperature Heat (<100 C), Clothes Washing",Clothes Washers,Electricity,3995,,,2018,from TIMES 2.0
-"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),LPG,1260,807,150,2018,from TIMES 2.0
-"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),Natural Gas,1260,807,150,2018,from TIMES 2.0
-"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),Wood,373,unavailable,,2018,from TIMES 2.0
-"Low Temperature Heat (<100 C), Space Heating",Coal Heaters,Coal,NULL,NULL,,2018,from TIMES 2.0 - tech cannot be built
-"Low Temperature Heat (<100 C), Space Heating",Ground source heat pump,Geothermal,NULL,NULL,,2018,from TIMES 2.0 - tech cannot be built (assume no additional resource?)
-"Low Temperature Heat (<100 C), Space Heating",Heat Pump (for Heating),Electricity,558,703,,2018,from TIMES 2.0
-"Low Temperature Heat (<100 C), Space Heating",Resistance Heater,Electricity,24,,,2018,from TIMES 2.0
-"Low Temperature Heat (<100 C), Water Heating","Burner, with Wetback",Wood,NULL,NULL,,2018,from TIMES 2.0 - tech cannot be built
-"Low Temperature Heat (<100 C), Water Heating",Gas Water Heater,LPG,250,,150,2018,from TIMES 2.0
-"Low Temperature Heat (<100 C), Water Heating",Gas Water Heater,Natural Gas,250,,150,2018,from TIMES 2.0
-"Low Temperature Heat (<100 C), Water Heating",Hot Water Cylinder,Electricity,758,,,2018,from TIMES 2.0
-"Low Temperature Heat (<100 C), Water Heating",Solar hot water cylinder,Solar,2121,,,2018,from TIMES 2.0
-"Motive Power, Mobile",Internal Combustion Engine,Diesel,1467,,,2018,from TIMES 2.0 (petrol motive costs)
-"Motive Power, Mobile",Internal Combustion Engine,Petrol,1467,,,2018,from TIMES 2.0
-Refrigeration,Refrigeration Systems,Electricity,3280,,,2018,from TIMES 2.0
-Space Cooling,Heat Pump (for Cooling),Electricity,685,900,,2018,from TIMES 2.0
+﻿EndUse,Technology,Fuel,DwellingType,CAPEX,OPEX,PriceBaseYear,Note
+Electronics and Other Electrical Uses,IT and Entertainment,Electricity,Detached,733,,2018,from TIMES 2.0
+Electronics and Other Electrical Uses,"Misc, Residential Only (Battery chargers, Pools, Pumps)  ",Electricity,Detached,733,,2018,from TIMES 2.0
+"Intermediate Heat (100-300 C), Cooking","Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",Electricity,Detached,450,,2018,from TIMES 2.0
+"Intermediate Heat (100-300 C), Cooking","Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",LPG,Detached,350,150,2018,from TIMES 2.0
+"Intermediate Heat (100-300 C), Cooking","Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",Natural Gas,Detached,350,150,2018,from TIMES 2.0
+Lighting,Fluorescent,Electricity,Detached,1176,,2018,from TIMES 2.0
+Lighting,Incandescent/Halogen,Electricity,Detached,778,,2018,from TIMES 2.0
+Lighting,LED,Electricity,Detached,1148,,2018,from TIMES 2.0
+"Low Temperature Heat (< 100 C), Dishwashers",Dishwashers,Electricity,Detached,2640,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Clothes Drying",Clothes Dryer,Electricity,Detached,1665,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Clothes Washing",Clothes Washers,Electricity,Detached,3995,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),LPG,Detached,1260,150,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),Natural Gas,Detached,1260,150,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),Wood,Detached,373,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating","Coal Heaters, Residential Only  ",Coal,Detached,,,2018,from TIMES 2.0 - tech cannot be built
+"Low Temperature Heat (<100 C), Space Heating",Ground source heat pump,Geothermal,Detached,,,2018,from TIMES 2.0 - tech cannot be built (assume no additional resource?)
+"Low Temperature Heat (<100 C), Space Heating",Heat Pump (for Heating),Electricity,Detached,558,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Resistance Heater,Electricity,Detached,24,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating","Burner, with Wetback",Wood,Detached,,,2018,from TIMES 2.0 - tech cannot be built
+"Low Temperature Heat (<100 C), Water Heating",Gas Water Heater,LPG,Detached,250,150,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating",Gas Water Heater,Natural Gas,Detached,250,150,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating",Hot Water Cylinder,Electricity,Detached,758,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating",Solar hot water cylinder,Solar,Detached,2121,,2018,from TIMES 2.0
+"Motive Power, Mobile",Internal Combustion Engine (Recreational Marine)  ,Diesel,Detached,1467,,2018,from TIMES 2.0 (petrol motive costs)
+"Motive Power, Mobile",Internal Combustion Engine (Recreational Marine)  ,Petrol,Detached,1467,,2018,from TIMES 2.0
+Refrigeration,Refrigeration Systems,Electricity,Detached,3280,,2018,from TIMES 2.0
+Space Cooling,Heat Pump (for Cooling),Electricity,Detached,685,,2018,from TIMES 2.0
+Electronics and Other Electrical Uses,IT and Entertainment,Electricity,Joined,733,,2018,from TIMES 2.0
+Electronics and Other Electrical Uses,"Misc, Residential Only (Battery chargers, Pools, Pumps)  ",Electricity,Joined,733,,2018,from TIMES 2.0
+"Intermediate Heat (100-300 C), Cooking","Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",Electricity,Joined,450,,2018,from TIMES 2.0
+"Intermediate Heat (100-300 C), Cooking","Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",LPG,Joined,350,150,2018,from TIMES 2.0
+"Intermediate Heat (100-300 C), Cooking","Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",Natural Gas,Joined,350,150,2018,from TIMES 2.0
+Lighting,Fluorescent,Electricity,Joined,1176,,2018,from TIMES 2.0
+Lighting,Incandescent/Halogen,Electricity,Joined,778,,2018,from TIMES 2.0
+Lighting,LED,Electricity,Joined,1148,,2018,from TIMES 2.0
+"Low Temperature Heat (< 100 C), Dishwashers",Dishwashers,Electricity,Joined,2640,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Clothes Drying",Clothes Dryer,Electricity,Joined,1665,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Clothes Washing",Clothes Washers,Electricity,Joined,3995,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),LPG,Joined,807,150,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),Natural Gas,Joined,807,150,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),Wood,Joined,,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating","Coal Heaters, Residential Only  ",Coal,Joined,,,2018,from TIMES 2.0 - tech cannot be built
+"Low Temperature Heat (<100 C), Space Heating",Ground source heat pump,Geothermal,Joined,,,2018,from TIMES 2.0 - tech cannot be built (assume no additional resource?)
+"Low Temperature Heat (<100 C), Space Heating",Heat Pump (for Heating),Electricity,Joined,703,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Space Heating",Resistance Heater,Electricity,Joined,24,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating","Burner, with Wetback",Wood,Joined,,,2018,from TIMES 2.0 - tech cannot be built
+"Low Temperature Heat (<100 C), Water Heating",Gas Water Heater,LPG,Joined,250,150,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating",Gas Water Heater,Natural Gas,Joined,250,150,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating",Hot Water Cylinder,Electricity,Joined,758,,2018,from TIMES 2.0
+"Low Temperature Heat (<100 C), Water Heating",Solar hot water cylinder,Solar,Joined,2121,,2018,from TIMES 2.0
+"Motive Power, Mobile",Internal Combustion Engine (Recreational Marine)  ,Diesel,Joined,1467,,2018,from TIMES 2.0 (petrol motive costs)
+"Motive Power, Mobile",Internal Combustion Engine (Recreational Marine)  ,Petrol,Joined,1467,,2018,from TIMES 2.0
+Refrigeration,Refrigeration Systems,Electricity,Joined,3280,,2018,from TIMES 2.0
+Space Cooling,Heat Pump (for Cooling),Electricity,Joined,900,,2018,from TIMES 2.0

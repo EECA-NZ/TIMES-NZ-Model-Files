@@ -32,7 +32,7 @@ So we should only use the shares, not treat these as regional ERP
 
 """
 
-from prepare_times_nz.stage_2.disaggregate_residential_demand import main
+from prepare_times_nz.stage_2.residential.disaggregate_residential_demand import main
 
 if __name__ == "__main__":
 

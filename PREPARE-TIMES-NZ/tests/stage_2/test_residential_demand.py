@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import pytest
-from prepare_times_nz.stage_2 import disaggregate_residential_demand as rd
+from prepare_times_nz.stage_2.residential import disaggregate_residential_demand as rd
 
 BASE_YEAR = 2023
 

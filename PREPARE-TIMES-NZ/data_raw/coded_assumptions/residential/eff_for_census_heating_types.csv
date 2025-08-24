@@ -1,4 +1,4 @@
-﻿HeatingType,Technology,Fuel,EFF,Note
+﻿HeatingType,Technology,Fuel,Efficiency,Note
 Coal burner,"Coal Heaters, Residential Only  ",Coal,0.55,From TIMES 2.0
 Electric heater,Resistance Heater,Electricity,1,From TIMES 2.0
 Fixed gas heater,Burner (Direct Heat),Gas/LPG,0.8,From TIMES 2.0

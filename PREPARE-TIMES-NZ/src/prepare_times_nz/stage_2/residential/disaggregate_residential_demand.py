@@ -605,7 +605,7 @@ def build_sh_model(df):
     #   reverse efficiency
     # the apply these shares to the modelled heat demand
     # This gives modelled fuel demand per heating category, dwellingtype, and region
-    df["ModelHeatFuelInput"] = df["FuelHeatingShare"] / df["EFF"]
+    df["ModelHeatFuelInput"] = df["FuelHeatingShare"] / df["Efficiency"]
     df["ModelHeatFuelInput"] = df["ModelHeatFuelInput"] * df["ModelHeatDemand"]
 
     # we then just want to find the share of fuel demand (within each tech)
@@ -1075,7 +1075,7 @@ def get_disaggregated_end_use_by_pop(
 
     """
 
-    eff = pd.read_csv(eff_assumptions)[["Technology", "Fuel", "EFF"]]
+    eff = pd.read_csv(eff_assumptions)[["Technology", "Fuel", "Efficiency"]]
 
     df = eeud.copy()
     eeud_columns = df.columns.to_list()  # keep original EEUD schema
@@ -1093,7 +1093,7 @@ def get_disaggregated_end_use_by_pop(
 
     # Guard EFF=0. This means bad input data.
 
-    mask = df["EFF"].isna() | (df["EFF"] == 0)
+    mask = df["Efficiency"].isna() | (df["Efficiency"] == 0)
     if mask.any():
         bad_rows = df.loc[mask, ["Technology", "Fuel"]].drop_duplicates()
         logger.error(
@@ -1113,7 +1113,7 @@ def get_disaggregated_end_use_by_pop(
         )
 
     # Step 1: demand by area/dwelling
-    df["Demand"] = df["Value"] * df["EFF"]
+    df["Demand"] = df["Value"] * df["Efficiency"]
     df["DemandPerAreaDwelling"] = df["Demand"] * df["ShareOfPopulation"]
 
     # Step 2: allocate natural gas to NI only, proportional to island pop shares
@@ -1190,7 +1190,7 @@ def get_disaggregated_end_use_by_pop(
     )
 
     # Convert back to fuel consumption.
-    df["Value"] = df["DemandPerAreaDwelling"] / df["EFF"]
+    df["Value"] = df["DemandPerAreaDwelling"] / df["Efficiency"]
 
     # Save entire (massive) dataframe of intermediate variables to checking output for possible inspections
     save_checks(
