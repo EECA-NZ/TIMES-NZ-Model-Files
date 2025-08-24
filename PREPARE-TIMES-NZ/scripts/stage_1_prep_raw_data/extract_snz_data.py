@@ -31,6 +31,15 @@ SNZ_CENSUS_HEATING_FILE = INPUT_LOCATION / "census" / "dwelling_heating.csv"
 SNZ_DWELLINGS_POP_FILE = INPUT_LOCATION / "census" / "population_by_dwelling.csv"
 
 
+SNZ_ERP_FILE = INPUT_LOCATION / "population" / "erp_regions.csv"
+SNZ_SUBNATIONAL_PROJECTIONS_FILE = (
+    INPUT_LOCATION / "population" / "projections_regions_2018.csv"
+)
+SNZ_NATIONAL_PROJECTIONS_FILE = (
+    INPUT_LOCATION / "population" / "projections_national_2024.csv"
+)
+
+
 # ---------------------------------------------------------------------------
 # Helper functions
 # ---------------------------------------------------------------------------
@@ -159,6 +168,59 @@ def extract_census_data():
     save_file(df, "population_by_dwelling.csv", "dwelling population data")
 
 
+def extract_population_data():
+    """
+    Loading/tidying the estimated resident population data
+    """
+
+    df = pd.read_csv(SNZ_ERP_FILE, skiprows=1)
+    # remove metadata rows (ie anything with missing data except the first column)
+    df = df[~df["New Zealand"].isnull()]
+    # label first column (blank in infoshare data)
+    df.rename(columns={df.columns[0]: "Year"}, inplace=True)
+    # melt regions
+    df = df.melt(id_vars="Year", var_name="Area", value_name="Value")
+    # remove " Region" suffix
+    df["Area"] = df["Area"].str.removesuffix(" Region")
+    # save
+    save_file(
+        df, "estimated_resident_population.csv", "Estimated Resident Population (2024)"
+    )
+
+
+def extract_population_projections_data():
+    """
+    Loading and tidying the population projections data
+    Currently does the subnational projections (2018)
+    and the latest national projections (2024)
+
+    national projections include a range of scenarios we can use
+    """
+
+    # Subnational 2018
+    df = pd.read_csv(SNZ_SUBNATIONAL_PROJECTIONS_FILE)
+    df = df[["Year", "Area", "OBS_VALUE"]].copy()
+    df = df.rename(columns={"OBS_VALUE": "Value"})
+    # remove " Region" suffix
+    df["Area"] = df["Area"].str.removesuffix(" region")
+    df["Variable"] = "2018 base regional population projections"
+    save_file(df, "projections_region_2018.csv", "subnational population projections")
+
+    # National 2024
+    df = pd.read_csv(SNZ_NATIONAL_PROJECTIONS_FILE)
+    df = df[["Year", "Scenario", "MEASURE_POPPR_NAT_008", "OBS_VALUE"]].copy()
+    df = df.rename(columns={"OBS_VALUE": "Value", "MEASURE_POPPR_NAT_008": "Variable"})
+    # just total pop for now - simpler. can extend to cover migration changes etc
+    df = df[df["Variable"] == "TOTPOP"]
+    df["Variable"] = "2024 base national population projections"
+    save_file(df, "projections_national_2024.csv", "national population projections")
+
+
+# ---------------------------------------------------------------------------
+# Population
+# ---------------------------------------------------------------------------
+
+
 # ---------------------------------------------------------------------------
 # Main flow
 # ---------------------------------------------------------------------------
@@ -171,6 +233,8 @@ def main() -> None:
     # Price indices
     extract_price_index_data()
     extract_census_data()
+    extract_population_data()
+    extract_population_projections_data()
 
 
 if __name__ == "__main__":
