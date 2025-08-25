@@ -38,3 +38,6 @@ path = "prepare_times_nz/data/**/*.toml"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pylint.main]
+source-roots = ["PREPARE-TIMES-NZ/src"]

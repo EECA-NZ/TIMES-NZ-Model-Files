@@ -2,29 +2,51 @@
 # This file defines pre-commit and pre-push hooks.
 # Includes a virtual environment check and basic
 # tooling (black, isort, pylint, pip-audit, yamllint).
+default_language_version:
+  python: python3.12
+
 repos:
-  - repo: local
+  - repo: https://github.com/psf/black
+    rev: 24.8.0
     hooks:
       - id: black
-        name: black via Poetry
-        entry: bash -c 'cd PREPARE-TIMES-NZ && poetry run black src tests scripts'
-        language: system
-        pass_filenames: false
+        types: [python]
+        files: ^PREPARE-TIMES-NZ/.*\.py$
+        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
 
+  - repo: https://github.com/pycqa/isort
+    rev: 6.0.1
+    hooks:
       - id: isort
-        name: isort via Poetry
-        entry: bash -c 'cd PREPARE-TIMES-NZ && poetry run isort src tests scripts --profile black'
-        language: system
-        pass_filenames: false
+        args: ["--profile=black"]
+        types: [python]
+        files: ^PREPARE-TIMES-NZ/.*\.py$
+        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
 
-      - id: pylint
-        name: pylint via Poetry
-        entry: bash -c 'cd PREPARE-TIMES-NZ && poetry run pylint src/prepare_times_nz scripts'
+  - repo: local
+    hooks:
+      - id: pylint-poetry
+        name: pylint via Poetry (staged)
         language: system
-        pass_filenames: false
+        entry: poetry --directory PREPARE-TIMES-NZ run python ../tools/pylint_precommit.py
+        types: [python]
+        files: ^PREPARE-TIMES-NZ/.*\.py$
+        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
 
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
       - id: yamllint
-        name: yamllint via Poetry
-        entry: bash -c 'cd PREPARE-TIMES-NZ && poetry run yamllint .'
+        files: ^PREPARE-TIMES-NZ/.*\.(?:yml|yaml)$
+
+  - repo: local
+    hooks:
+      - id: pip-audit-poetry
+        name: pip-audit via Poetry (PREPARE-TIMES-NZ)
         language: system
+        entry: poetry --directory PREPARE-TIMES-NZ run pip-audit
+        args:
+          - --progress-spinner=off
         pass_filenames: false
+        always_run: true
+        stages: [pre-push]

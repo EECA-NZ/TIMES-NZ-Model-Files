@@ -84,6 +84,11 @@ It's a good idea to execute:
 ```bash
 poetry shell
 ```
+or
+```bash
+eval "$(poetry env activate)"
+```
+from within `PREPARE-TIMES-NZ`.
 
 This allows your terminal to run directly from the poetry shell, meaning that `poetry run` prefixes are not required to run scripts,  `doit`, or `pre-commit`.
 
