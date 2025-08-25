@@ -1,0 +1,82 @@
+# Base year residential demand for TIMES-NZ 3.0 
+
+WorkBookName = "VT_TIMESNZ_RES"
+
+###########################################
+# Commodity and Process Definitions 
+###########################################
+
+[ResidentialEndUseCommodityDefinitions]
+Description = "Defines enduse residential commodities, such as space heating"
+SheetName = "Commodities and Processes"
+TagName = "FI_Comm"
+# Data to insert later 
+FakeData = "Hello"
+
+[ResidentialFuelCommodityDefinitions]
+Description = "Defines residential input fuel commodities, such as electricity (RESELC)"
+SheetName = "Commodities and Processes"
+TagName = "FI_Comm"
+# Data to insert later 
+FakeData = "Hello"
+
+[ResidentialProcessDefinitions]
+Description = "Defines residential enduse processes, such as heatpumps"
+SheetName = "Commodities and Processes"
+TagName = "FI_Comm"
+# Data to insert later 
+FakeData = "Hello"
+
+###############################################################################
+# Fuel Delivery
+###############################################################################
+
+[ResidentialFuelProcessDefinitions]
+Description = "Defines residential fuel delivery processes that convert fuels (like NGA) into RES fuels (INDNGA)"
+SheetName = "Fuel Delivery"
+TagName = "FI_Comm"
+# Data to insert later 
+FakeData = "Hello"
+
+[ResidentialFuelProcessParameters]
+Description = "Sets parameters for residential fuel delivery processes (mostly delivery costs)"
+SheetName = "Fuel Delivery"
+TagName = "FI_Comm"
+# Data to insert later 
+FakeData = "Hello"
+
+
+###############################################################################
+# Emissions
+###############################################################################
+
+
+[ResidentialEmissionsDefinitions]
+Description = "Defines the residential emissions commodity"
+SheetName = "Emissions"
+TagName = "FI_Comm"
+Csets =    ["ENV"]
+CommName = ["RESCO2"]
+Unit =     ["kt"]
+CTSLvl =   ["ANNUAL"]
+
+[ResidentialEmissionsParameters]
+Description = "Defines emissions factors for residential fuels"
+SheetName = "Emissions"
+TagName = "COMEMI"
+# Data to insert later 
+FakeData = "Hello"
+
+
+##################################################################
+# Base year demand 
+##################################################################
+
+
+[ResidentialDemand]
+Description = "Residential base year demand topology and parameters"
+SheetName = "Residential demand"
+TagName = "FI_T"
+# Data to insert later 
+FakeData = "Hello"
+

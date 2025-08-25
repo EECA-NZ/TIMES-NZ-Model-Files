@@ -1,39 +1,37 @@
 """
-
-# Will extract this module docstring to an actual doco file at some point
-
-Builds and applies a residential space‑heating disaggregation model
-for EEUD data.
-
-This module provides functions to:
-
-  1. Load and clean StatsNZ census dwelling & heating data.
-  2. Aggregate private dwelling types into standardized categories.
-  3. Compute normalized heating‑technology shares by region.
-  4. Merge in assumptions: floor area, heating efficiency, HDD.
-  5. Build a space‑heating demand model to derive fuel demand shares.
-  6. Distribute modelled shares against the EEUD residential space‑heating data.
-  7. Split Gas/LPG demand between North and South Islands and by fuel.
-  8. Saves final results to: residential_space_heating_disaggregation.csv
-
-Constants at the top define filepaths and the base year.
-
-Based on methodology found at:
-
-https://www.sciencedirect.com/science/article/pii/S0378778825004451?ref=pdf_download&fr=RR-2&rr=9677b4c2bbe71c50
-
-Other residential non space-heating demand is disaggregated by
-population, and growth is keyed to population
-
-Population data is from census 2023
-The population data is disaggregated by dwelling type from census.
-This means it's incomplete (not everyone answered dwelling type)
-So we should only use the shares, not treat these as regional ERP
-
+A wrapper to execute all the residential scripts
 """
 
-from prepare_times_nz.stage_2.residential.disaggregate_residential_demand import main
+import pandas as pd
+from prepare_times_nz.stage_2.residential.create_residential_assumptions import (
+    main as create_assumptions,
+)
+from prepare_times_nz.stage_2.residential.disaggregate_residential_demand import (
+    main as disaggregate_demand,
+)
+from prepare_times_nz.stage_2.residential.generate_residential_processes import (
+    main as generate_processes,
+)
+from prepare_times_nz.utilities.filepaths import STAGE_2_DATA
+
+RESIDENTIAL_DATA = STAGE_2_DATA / "residential"
 
 if __name__ == "__main__":
 
-    main()
+    disaggregate_demand()
+    create_assumptions(
+        input_file=RESIDENTIAL_DATA / "residential_demand_by_island.csv",
+        output_file=RESIDENTIAL_DATA / "residential_demand_with_assumptions.csv",
+    )
+    generate_processes(
+        input_file=RESIDENTIAL_DATA / "residential_demand_with_assumptions.csv",
+        output_file=RESIDENTIAL_DATA / "residential_demand_processes.csv",
+    )
+
+    # save the final output as baseyear data
+    residential_baseyear_data = pd.read_csv(
+        RESIDENTIAL_DATA / "residential_demand_processes.csv"
+    )
+    residential_baseyear_data.to_csv(
+        RESIDENTIAL_DATA / "residential_baseyear_demand.csv", index=False
+    )

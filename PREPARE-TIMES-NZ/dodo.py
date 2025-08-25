@@ -342,7 +342,7 @@ def task_stage_3_scenarios() -> Iterator[dict]:
             "name": rel_script.replace("/", "_"),
             "actions": [_run(str(script))],
             "file_dep": [script]
-            + _files_in_stage(S2_DIR)
+            + _files_in_stage(S1_DIR)
             + ASSUMPTION_INPUTS
             + CONCORDANCE_INPUTS,
             "targets": [_intermediate_out(rel, S3_DIR) for rel in rel_outs],

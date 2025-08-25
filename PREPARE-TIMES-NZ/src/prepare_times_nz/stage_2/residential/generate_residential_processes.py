@@ -45,10 +45,10 @@ def define_residential_process_commodities(
     original_columns: List[str] = list(df.columns)
 
     # Attach TIMES codes
-    df = add_times_codes(df, USE_CODES, "EndUse", run_tests=RUN_TESTS)
-    df = add_times_codes(df, TECH_CODES, "Technology", run_tests=RUN_TESTS)
-    df = add_times_codes(df, DWELL_CODES, "DwellingType", run_tests=RUN_TESTS)
-    df = add_times_codes(df, FUEL_CODES, "Fuel", run_tests=RUN_TESTS)
+    df = add_times_codes(df, USE_CODES, "EndUse", run_tests=run_tests)
+    df = add_times_codes(df, TECH_CODES, "Technology", run_tests=run_tests)
+    df = add_times_codes(df, DWELL_CODES, "DwellingType", run_tests=run_tests)
+    df = add_times_codes(df, FUEL_CODES, "Fuel", run_tests=run_tests)
 
     # Default naming rules
     df["Process"] = "RES-" + df[
@@ -64,7 +64,7 @@ def define_residential_process_commodities(
     return df[["Process", "CommodityIn", "CommodityOut"] + original_columns]
 
 
-def main():
+def main(input_file, output_file):
     """
     Loads input data, adds codes from concordances
     fails if concordances not written correctly (so adjust inputs as needed)
@@ -73,6 +73,6 @@ def main():
     saves to output location
     """
 
-    df = pd.read_csv(INPUT_FILE)
+    df = pd.read_csv(input_file)
     df = define_residential_process_commodities(df)
-    df.to_csv(OUTPUT_FILE, index=False)
+    df.to_csv(output_file, index=False)

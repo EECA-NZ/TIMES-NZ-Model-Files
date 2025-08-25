@@ -104,8 +104,8 @@ def add_opex(
 
 def add_afa(df: pd.DataFrame, afa_data: pd.DataFrame) -> pd.DataFrame:
     """Merge Annual Full Availability (AFA) data into main DataFrame."""
-    afa_data = afa_data[["Technology", "AFA"]]
-    return df.merge(afa_data, on="Technology", how="left")
+    afa_data = afa_data[["EndUse", "AFA"]]
+    return df.merge(afa_data, on="EndUse", how="left")
 
 
 def estimate_capacity(df: pd.DataFrame) -> pd.DataFrame:

@@ -59,7 +59,7 @@ def tidy_data(df: pd.DataFrame) -> pd.DataFrame:
         "Life": "Years",
         "Efficiency": "%",
         "CAPEX": f"{BASE_YEAR} NZD/kW",
-        "CAPEX": f"{BASE_YEAR} NZD/kW/year",
+        "OPEX": f"{BASE_YEAR} NZD/kW/year",
         "AFA": "%",
         "InputEnergy": "PJ",
         "OutputEnergy": "PJ",
@@ -88,10 +88,13 @@ def get_residential_assumptions(df):
     return df
 
 
-def main():
-    df = pd.read_csv(OUTPUT_LOCATION / "residential_demand_by_island.csv")
+def main(
+    input_file=OUTPUT_LOCATION / "residential_demand_by_island.csv",
+    output_file=OUTPUT_LOCATION / "residential_demand_with_assumptions.csv",
+):
+    df = pd.read_csv(input_file)
     df = get_residential_assumptions(df)
-    df.to_csv(OUTPUT_LOCATION / "residential_demand_with_assumptions.csv", index=False)
+    df.to_csv(output_file, index=False)
 
 
 if __name__ == "__main__":
