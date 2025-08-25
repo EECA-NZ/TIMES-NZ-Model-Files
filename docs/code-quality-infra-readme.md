@@ -57,6 +57,7 @@ All Python code lives inside packages defined in subdirectories such as **`PREPA
 1.  **Still in `PREPARE-TIMES-NZ`, Install Pre-commit Hooks:**
     ```bash
     poetry run pre-commit install
+    poetry run pre-commit install --hook-type pre-push
     ```
 
     This installs Git hooks specified in `.pre-commit-config.yaml`:

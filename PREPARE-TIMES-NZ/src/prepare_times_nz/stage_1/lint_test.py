@@ -1,5 +1,9 @@
+"""
+Should pass now
+"""
+
 import numpy as np
 
-a = 3
+a = np.float32(3)
 
 print(a)
