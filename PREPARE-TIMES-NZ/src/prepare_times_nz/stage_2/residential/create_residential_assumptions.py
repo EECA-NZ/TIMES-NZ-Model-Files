@@ -1,4 +1,16 @@
-import numpy as np
+"""
+
+Loads residential data and adds all assumption inputs
+
+ - Avaialbility factors 
+ - capital and opeerating costs
+ - fuel efficiencies 
+ - lifteims 
+
+ Then estimates capacity based on the inupts and reshapes data to be legible before saving to 
+ preprocessing 
+"""
+
 import pandas as pd
 from prepare_times_nz.stage_2.common.add_tech_assumptions import (
     add_afa,
@@ -10,39 +22,10 @@ from prepare_times_nz.stage_2.common.add_tech_assumptions import (
 )
 from prepare_times_nz.stage_2.residential.common import (
     BASE_YEAR,
-    CAP2ACT,
     RESIDENTIAL_ASSUMPTIONS,
-    RUN_TESTS,
+    RESIDENTIAL_DATA_DIR,
     save_preprocessing,
 )
-from prepare_times_nz.utilities.filepaths import (
-    ASSUMPTIONS,
-    CONCORDANCES,
-    STAGE_1_DATA,
-    STAGE_2_DATA,
-)
-from prepare_times_nz.utilities.logger_setup import blue_text, logger
-
-# Main filepaths --------------------------------------------
-
-OUTPUT_LOCATION = STAGE_2_DATA / "residential"
-CHECKS_LOCATION = OUTPUT_LOCATION / "checks"
-
-
-# constants -----------------
-
-
-# get data
-# do a bunch of joins
-# add some derived variables (like capacity or whatever)
-# deflate all costs ( to re-output for the document)
-
-# save
-
-# roughhly copying the industry approach
-
-# get data here i guess
-
 
 # Get DATA --------------------------------------------------------------
 
@@ -78,6 +61,13 @@ def tidy_data(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def get_residential_assumptions(df):
+    """
+    Wrapper for all residential assumptions
+    Convert demand units to PJ
+    Apply all residential assumptions throgh join functions
+    Then derive new variables (like capacity estimates)
+    Make table long with unit var
+    """
     df["Value"] = df["Value"] / 1e3  # TJ - PJ
     df["Unit"] = "PJ"
     df = add_efficiencies(df, eff_data)
@@ -92,13 +82,13 @@ def get_residential_assumptions(df):
 
 
 def main(
-    input_file=OUTPUT_LOCATION / "residential_demand_by_island.csv",
-    output_file=OUTPUT_LOCATION / "residential_demand_with_assumptions.csv",
+    input_file=RESIDENTIAL_DATA_DIR / "residential_demand_by_island.csv",
+    output_file="residential_demand_with_assumptions.csv",
 ):
-    df = pd.read_csv(input_file)
+    """Script entrypoint"""
+    df = pd.read_csv(RESIDENTIAL_DATA_DIR / input_file)
     df = get_residential_assumptions(df)
-    save_preprocessing(df, "residential_demand_with_assumptions.csv")
-    df.to_csv(output_file, index=False)
+    save_preprocessing(df, output_file, "Residential assumptions data")
 
 
 if __name__ == "__main__":
