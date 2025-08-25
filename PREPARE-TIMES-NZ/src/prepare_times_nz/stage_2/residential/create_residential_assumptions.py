@@ -8,6 +8,13 @@ from prepare_times_nz.stage_2.common.add_tech_assumptions import (
     add_opex,
     estimate_capacity,
 )
+from prepare_times_nz.stage_2.residential.common import (
+    BASE_YEAR,
+    CAP2ACT,
+    RESIDENTIAL_ASSUMPTIONS,
+    RUN_TESTS,
+    save_preprocessing,
+)
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
     CONCORDANCES,
@@ -18,16 +25,12 @@ from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # Main filepaths --------------------------------------------
 
-RESIDENTIAL_ASSUMPTIONS = ASSUMPTIONS / "residential"
 OUTPUT_LOCATION = STAGE_2_DATA / "residential"
 CHECKS_LOCATION = OUTPUT_LOCATION / "checks"
 
 
 # constants -----------------
 
-BASE_YEAR = 2023
-RUN_TESTS = False
-CAP2ACT = 31.536
 
 # get data
 # do a bunch of joins
@@ -94,6 +97,7 @@ def main(
 ):
     df = pd.read_csv(input_file)
     df = get_residential_assumptions(df)
+    save_preprocessing(df, "residential_demand_with_assumptions.csv")
     df.to_csv(output_file, index=False)
 
 
