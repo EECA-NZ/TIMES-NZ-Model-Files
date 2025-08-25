@@ -1307,6 +1307,17 @@ def get_residential_space_heating_demand():
     return res_sh_df
 
 
+def aggregate_regions_to_islands(df):
+    """
+    "Area" includes region, but TIMES just needs islands.
+    The data already has an "Island" variable so this function
+    just aggregates everything out by removing "Area"
+    """
+    group_cols = [col for col in df.columns if col not in ["Area", "Value"]]
+    df = df.groupby(group_cols)["Value"].sum().reset_index()
+    return df
+
+
 def main():
     """Script entry-point"""
     OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
@@ -1314,11 +1325,17 @@ def main():
     residential_other_demand = get_residential_other_demand()
     residential_sh_demand = get_residential_space_heating_demand()
 
-    residential_demand = pd.concat([residential_other_demand, residential_sh_demand])
+    residential_demand_by_region = pd.concat(
+        [residential_other_demand, residential_sh_demand]
+    )
+    residential_demand_by_island = aggregate_regions_to_islands(
+        residential_demand_by_region
+    )
 
-    ensure_totals_match(residential_demand)
+    ensure_totals_match(residential_demand_by_region)
 
-    save_output(residential_demand, "residential_demand_disaggregated.csv")
+    save_output(residential_demand_by_island, "residential_demand_by_island.csv")
+    save_output(residential_demand_by_region, "residential_demand_by_region.csv")
 
 
 # Main safeguard

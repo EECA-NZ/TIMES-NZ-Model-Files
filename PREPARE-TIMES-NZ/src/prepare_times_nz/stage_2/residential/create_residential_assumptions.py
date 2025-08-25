@@ -89,10 +89,9 @@ def get_residential_assumptions(df):
 
 
 def main():
-    df = pd.read_csv(OUTPUT_LOCATION / "residential_demand_disaggregated.csv")
+    df = pd.read_csv(OUTPUT_LOCATION / "residential_demand_by_island.csv")
     df = get_residential_assumptions(df)
-    df.to_csv(OUTPUT_LOCATION / "residential_assumptions.csv")
-    print(df)
+    df.to_csv(OUTPUT_LOCATION / "residential_demand_with_assumptions.csv", index=False)
 
 
 if __name__ == "__main__":

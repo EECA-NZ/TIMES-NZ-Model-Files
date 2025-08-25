@@ -1,0 +1,40 @@
+Technology,Technology_TIMES
+Air Compressors,ACOMP
+Boiler Systems,BOILR
+Burner (Direct Heat),BURNR
+"Burner, with Wetback",BURNR_W
+Clothes Dryer,CDRY
+Clothes Washers,CWASH
+"Coal Heaters, Residential Only  ",HEATR_C
+Compressors,COMPR
+"Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",COOK
+Dishwashers,DWASH
+Electric Furnace,FURNC
+Electric Motor,MOTOR
+Electronics,ELCTR
+Fan Systems,FAN
+Feedstock,FDSTK
+Fluorescent,L_FLUOR
+Furnace/Kiln,FURNC
+Gas Water Heater,HWATER_G
+Heat Exchangers,HEATX
+Heat Pump (for Cooling),HPUMP_C
+Heat Pump (for Heating),HPSH
+Heat Pump (process heat),HPPH
+Heat Pump (space heating),HPSH
+Hot Water Cylinder,HWATER_C
+HVAC,HVAC
+Incandescent/Halogen,L_INCAN
+Industrial Ovens,IOVEN
+Internal Combustion Engine (Land Transport),ICENG
+Internal Combustion Engine (Recreational Marine)  ,ICENG
+IT and Entertainment,IT_ENT
+LED,L_LED
+Lights,LIGHT
+"Misc, Residential Only (Battery chargers, Pools, Pumps)  ",RES_MISC
+"Pump Systems (for Fluids, etc.)",PUMP
+Refiners,REFIN
+Reformer,BOILR
+Refrigeration Systems,FRIDG
+Resistance Heater,HEATR
+Stationary Engine,ENGIN
