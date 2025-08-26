@@ -1,16 +1,16 @@
 """
 
-Uses concordance defintions which map EEUD categories to TIMES codes 
+Uses concordance defintions which map EEUD categories to TIMES codes
 
-Builds consistent process and commodity defintions based on these 
+Builds consistent process and commodity defintions based on these
 
 Also defines the topology: how technologies can meet different commodity needs
     for the sector
 
 
-Uses the stage 3 input dataframe and a common codes module to attach codes 
+Uses the stage 3 input dataframe and a common codes module to attach codes
 
-codes are stored in residential concordances 
+codes are stored in residential concordances
 
 """
 

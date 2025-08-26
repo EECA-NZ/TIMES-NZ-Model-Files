@@ -1,6 +1,6 @@
 """
-A wrapper to execute all the residential scripts in order 
-Each depends on the previous 
+A wrapper to execute all the residential scripts in order
+Each depends on the previous
 """
 
 import pandas as pd

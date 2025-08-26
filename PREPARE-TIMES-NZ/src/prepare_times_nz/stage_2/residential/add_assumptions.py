@@ -2,13 +2,13 @@
 
 Loads residential data and adds all assumption inputs
 
- - Avaialbility factors 
+ - Avaialbility factors
  - capital and opeerating costs
- - fuel efficiencies 
- - lifteims 
+ - fuel efficiencies
+ - lifteims
 
- Then estimates capacity based on the inupts and reshapes data to be legible before saving to 
- preprocessing 
+ Then estimates capacity based on the inupts and reshapes data to be legible before saving to
+ preprocessing
 """
 
 import pandas as pd
