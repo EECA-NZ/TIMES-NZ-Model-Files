@@ -13,20 +13,20 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
 
 env:
   PYTHON_VERSION: "3.12"
 
-# Linting, testing and security audit steps
 jobs:
   lint:
-    name: Lint (black / isort / pylint / yamllint)
+    name: "Lint (pre-commit: black / isort / pylint / yamllint)"
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -43,24 +43,37 @@ jobs:
           path: |
             ~/.cache/pypoetry
             ~/.cache/pip
-          key: ${{ runner.os }}-poetry-${{ hashFiles('PREPARE-TIMES-NZ/poetry.lock') }}
+          key: >-
+            ${{ runner.os }}-poetry-${{
+              hashFiles('PREPARE-TIMES-NZ/poetry.lock')
+            }}
 
       - name: Install dependencies (with dev extras)
         working-directory: PREPARE-TIMES-NZ
         run: poetry install --no-interaction --with dev
 
-      - name: Run linters
-        working-directory: PREPARE-TIMES-NZ
-        run: |
-          poetry run black --check --diff src tests scripts
-          poetry run isort --profile black --check-only src tests scripts
-          poetry run pylint src/prepare_times_nz scripts
-          poetry run yamllint .
+      - name: Cache pre-commit
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pre-commit
+          key: >-
+            ${{ runner.os }}-precommit-${{
+              hashFiles('.pre-commit-config.yaml')
+            }}
+
+      - name: Run pre-commit (all files)
+        uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: >-
+            --all-files
+            --hook-stage commit
+            --show-diff-on-failure
 
   test:
     name: Unit tests + coverage
     runs-on: ubuntu-latest
     needs: lint
+
     steps:
       - uses: actions/checkout@v4
 
@@ -78,7 +91,10 @@ jobs:
           path: |
             ~/.cache/pypoetry
             ~/.cache/pip
-          key: ${{ runner.os }}-poetry-${{ hashFiles('PREPARE-TIMES-NZ/poetry.lock') }}
+          key: >-
+            ${{ runner.os }}-poetry-${{
+              hashFiles('PREPARE-TIMES-NZ/poetry.lock')
+            }}
 
       - name: Install deps
         working-directory: PREPARE-TIMES-NZ
@@ -103,8 +119,10 @@ jobs:
     name: pip-audit (Poetry env)
     runs-on: ubuntu-latest
     needs: lint
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -119,7 +137,10 @@ jobs:
           path: |
             ~/.cache/pypoetry
             ~/.cache/pip
-          key: ${{ runner.os }}-poetry-${{ hashFiles('PREPARE-TIMES-NZ/poetry.lock') }}
+          key: >-
+            ${{ runner.os }}-poetry-${{
+              hashFiles('PREPARE-TIMES-NZ/poetry.lock')
+            }}
 
       - name: Install deps
         working-directory: PREPARE-TIMES-NZ
@@ -131,12 +152,16 @@ jobs:
 
   deploy:
     name: Deploy to GitHub Pages
-    if: ${{ success() && github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') }}
+    if: >-
+      ${{ success() && github.event_name != 'pull_request' &&
+          (github.ref == 'refs/heads/main' ||
+           github.ref == 'refs/heads/dev') }}
     needs: [test]
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Deploy
         id: deployment
