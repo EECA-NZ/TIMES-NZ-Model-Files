@@ -22,8 +22,10 @@ from prepare_times_nz.stage_2.common.add_tech_assumptions import (
 )
 from prepare_times_nz.stage_2.residential.common import (
     BASE_YEAR,
+    PREPRO_DF_NAME_STEP2,
+    PREPRO_DF_NAME_STEP3,
+    PREPROCESSING_DIR,
     RESIDENTIAL_ASSUMPTIONS,
-    RESIDENTIAL_DATA_DIR,
     save_preprocessing,
 )
 
@@ -81,14 +83,11 @@ def get_residential_assumptions(df):
     return df
 
 
-def main(
-    input_file=RESIDENTIAL_DATA_DIR / "residential_demand_by_island.csv",
-    output_file="residential_demand_with_assumptions.csv",
-):
+def main():
     """Script entrypoint"""
-    df = pd.read_csv(RESIDENTIAL_DATA_DIR / input_file)
+    df = pd.read_csv(PREPROCESSING_DIR / PREPRO_DF_NAME_STEP2)
     df = get_residential_assumptions(df)
-    save_preprocessing(df, output_file, "Residential assumptions data")
+    save_preprocessing(df, PREPRO_DF_NAME_STEP3, "Residential assumptions data")
 
 
 if __name__ == "__main__":

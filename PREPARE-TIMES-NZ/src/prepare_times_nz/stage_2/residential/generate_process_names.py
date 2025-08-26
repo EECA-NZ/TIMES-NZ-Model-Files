@@ -1,41 +1,46 @@
+"""
+
+Uses concordance defintions which map EEUD categories to TIMES codes 
+
+Builds consistent process and commodity defintions based on these 
+
+Also defines the topology: how technologies can meet different commodity needs
+    for the sector
+
+
+Uses the stage 3 input dataframe and a common codes module to attach codes 
+
+codes are stored in residential concordances 
+
+"""
+
 from typing import List
 
-import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_2.common.add_times_codes import add_times_codes
-from prepare_times_nz.utilities.filepaths import (
-    ASSUMPTIONS,
-    CONCORDANCES,
-    STAGE_1_DATA,
-    STAGE_2_DATA,
+from prepare_times_nz.stage_2.residential.common import (
+    PREPRO_DF_NAME_STEP3,
+    PREPRO_DF_NAME_STEP4,
+    PREPROCESSING_DIR,
+    RESIDENTIAL_CONCORDANCES,
+    RUN_TESTS,
+    save_preprocessing,
 )
-from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # ----------------------------------------------------------------------------
 # Constants
 # ----------------------------------------------------------------------------
-RUN_TESTS: bool = True
 
-OUTPUT_LOCATION = STAGE_2_DATA / "residential/"
-OUTPUT_LOCATION.mkdir(exist_ok=True)
-
-INPUT_FILE = OUTPUT_LOCATION / "residential_demand_with_assumptions.csv"
-OUTPUT_FILE = OUTPUT_LOCATION / "residential_demand_processes.csv"
-
-RES_CONCORDANCES = CONCORDANCES / "residential"
 
 # Concordance tables – loaded at import time so they are module‑level constants
-USE_CODES = pd.read_csv(RES_CONCORDANCES / "use_codes.csv")
-TECH_CODES = pd.read_csv(RES_CONCORDANCES / "tech_codes.csv")
-DWELL_CODES = pd.read_csv(RES_CONCORDANCES / "dwellingtype_codes.csv")
-FUEL_CODES = pd.read_csv(RES_CONCORDANCES / "fuel_codes.csv")
+USE_CODES = pd.read_csv(RESIDENTIAL_CONCORDANCES / "use_codes.csv")
+TECH_CODES = pd.read_csv(RESIDENTIAL_CONCORDANCES / "tech_codes.csv")
+DWELL_CODES = pd.read_csv(RESIDENTIAL_CONCORDANCES / "dwellingtype_codes.csv")
+FUEL_CODES = pd.read_csv(RESIDENTIAL_CONCORDANCES / "fuel_codes.csv")
 
 # ----------------------------------------------------------------------------
 # Helper functions
 # ----------------------------------------------------------------------------
-
-
-RUN_TESTS = True
 
 
 def define_residential_process_commodities(
@@ -64,7 +69,7 @@ def define_residential_process_commodities(
     return df[["Process", "CommodityIn", "CommodityOut"] + original_columns]
 
 
-def main(input_file, output_file):
+def main():
     """
     Loads input data, adds codes from concordances
     fails if concordances not written correctly (so adjust inputs as needed)
@@ -72,7 +77,6 @@ def main(input_file, output_file):
     outputs original dataframe with new Process, CommodityIn, and CommodityOut fields
     saves to output location
     """
-
-    df = pd.read_csv(input_file)
+    df = pd.read_csv(PREPROCESSING_DIR / PREPRO_DF_NAME_STEP3)
     df = define_residential_process_commodities(df)
-    df.to_csv(output_file, index=False)
+    save_preprocessing(df, PREPRO_DF_NAME_STEP4, "Residential process data")
