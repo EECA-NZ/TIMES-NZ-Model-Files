@@ -64,9 +64,14 @@ Unit =     ["kt"]
 CTSLvl =   ["ANNUAL"]
 
 [ResidentialEmissionsParameters]
-Description = "Defines emissions factors for residential fuels"
+Description = "Defines emissions factors for residential fuels. Currently hardcoded and need a proper update. To do with all other demand emission factors for consistency"
 SheetName = "Emissions"
 TagName = "COMEMI"
-# Data to insert later 
-FakeData = "Hello"
+CommName = "RESCO2"
+RESCOA = 92
+RESNGA = 53.96
+RESLPG = 60.43
+RESDSL = 69.69
+RESWOD = 4 # rough estimate - need to update with better residential wood calorific value assumptions!
+
 
