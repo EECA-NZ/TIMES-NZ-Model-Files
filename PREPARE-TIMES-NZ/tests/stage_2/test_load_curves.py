@@ -1,4 +1,4 @@
-"""Unit tests for load curve functions """
+"""Unit tests for load curve functions"""
 
 import numpy as np
 import pandas as pd
