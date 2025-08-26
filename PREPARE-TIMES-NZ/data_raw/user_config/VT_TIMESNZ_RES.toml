@@ -3,29 +3,33 @@
 WorkBookName = "VT_TIMESNZ_RES"
 
 ###########################################
-# Commodity and Process Definitions 
+# BaseYear Demand 
 ###########################################
+
 
 [ResidentialEndUseCommodityDefinitions]
 Description = "Defines enduse residential commodities, such as space heating"
-SheetName = "Commodities and Processes"
+SheetName = "Residential demand"
 TagName = "FI_Comm"
-# Data to insert later 
-FakeData = "Hello"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/enduse_commodity_definitions.csv"
 
 [ResidentialFuelCommodityDefinitions]
 Description = "Defines residential input fuel commodities, such as electricity (RESELC)"
-SheetName = "Commodities and Processes"
+SheetName = "Residential demand"
 TagName = "FI_Comm"
-# Data to insert later 
-FakeData = "Hello"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/fuel_commodity_definitions.csv"
 
 [ResidentialProcessDefinitions]
 Description = "Defines residential enduse processes, such as heatpumps"
-SheetName = "Commodities and Processes"
-TagName = "FI_Comm"
-# Data to insert later 
-FakeData = "Hello"
+SheetName = "Residential demand"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/demand_process_definitions.csv"
+
+[ResidentialDemand]
+Description = "Residential base year demand topology and technical parameters"
+SheetName = "Residential demand"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/residential_baseyear_demand.csv"
 
 ###############################################################################
 # Fuel Delivery
@@ -34,16 +38,15 @@ FakeData = "Hello"
 [ResidentialFuelProcessDefinitions]
 Description = "Defines residential fuel delivery processes that convert fuels (like NGA) into RES fuels (INDNGA)"
 SheetName = "Fuel Delivery"
-TagName = "FI_Comm"
-# Data to insert later 
-FakeData = "Hello"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/fuel_delivery_definitions.csv"
 
 [ResidentialFuelProcessParameters]
 Description = "Sets parameters for residential fuel delivery processes (mostly delivery costs)"
 SheetName = "Fuel Delivery"
-TagName = "FI_Comm"
-# Data to insert later 
-FakeData = "Hello"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/fuel_delivery_parameters.csv"
+
 
 
 ###############################################################################
@@ -64,19 +67,6 @@ CTSLvl =   ["ANNUAL"]
 Description = "Defines emissions factors for residential fuels"
 SheetName = "Emissions"
 TagName = "COMEMI"
-# Data to insert later 
-FakeData = "Hello"
-
-
-##################################################################
-# Base year demand 
-##################################################################
-
-
-[ResidentialDemand]
-Description = "Residential base year demand topology and parameters"
-SheetName = "Residential demand"
-TagName = "FI_T"
 # Data to insert later 
 FakeData = "Hello"
 

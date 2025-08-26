@@ -230,12 +230,12 @@ STAGE_2: dict[str, list[str]] = {
     "baseyear_electricity_generation": ["electricity/base_year_electricity_supply.csv"],
     "baseyear_industry_demand": ["industry/baseyear_industry_demand.csv"],
     "baseyear_transport_demand": ["transport/transport_demand_2023.csv"],
+    "baseyear_residential_demand": ["residential/baseyear_residential_demand.csv"],
     "settings/load_curves": [
         "settings/load_curves.csv",
         "settings/residential_curves.csv",
         "settings.yrfr.csv",
     ],
-    "baseyear_residential_demand": ["residential/baseyear_residential_demand.csv"],
 }
 
 # Stage-3: scenario demand-growth calculations
@@ -248,6 +248,7 @@ STAGE_3: dict[str, list[str]] = {
 STAGE_4: dict[str, list[str]] = {
     "create_baseyear_elc_files": ["base_year_elc/existing_tech_capacity.csv"],
     "create_baseyear_tra_files": ["base_year_tra/tra_commodity_definitions.csv"],
+    "create_baseyear_res_files": ["base_year_res/residential_baseyear_demand.csv"],
 }
 
 # Stage-5: final Excel workbooks
