@@ -35,7 +35,7 @@ def main():
     generate_process_names()
     # 5: take the final output and save it to the output folder for downstream use
     df = pd.read_csv(PREPROCESSING_DIR / PREPRO_DF_NAME_STEP4)
-    save_output(df, "residential_baseyear_demand.csv", "residential baseyear demand")
+    save_output(df, "baseyear_residential_demand.csv", "baseyear residential demand")
 
 
 if __name__ == "__main__":
