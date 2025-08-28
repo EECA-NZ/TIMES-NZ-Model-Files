@@ -1,3 +1,5 @@
+"""Unit tests for load curve functions"""
+
 import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_2 import load_curves as lc
@@ -6,6 +8,7 @@ BASE_YEAR = 2023
 
 
 def test_aggregate_emi_by_timeslice_groups_and_filters():
+    """Test aggregation of EMI data by timeslice, groups, and filters."""
     # Fake input
     df = pd.DataFrame(
         {
@@ -48,6 +51,7 @@ def test_aggregate_emi_by_timeslice_groups_and_filters():
 
 
 def write_island_concordance(tmp_path):
+    """Write a temporary island concordance CSV file for testing."""
     path = tmp_path / "nsp_concordance.csv"
     pd.DataFrame(
         {"POC": ["ABC", "DEF", "123"], "Island": ["North", "South", "Chatham"]}
@@ -56,6 +60,7 @@ def write_island_concordance(tmp_path):
 
 
 def test_add_islands_basic(tmp_path):
+    """Test adding island information to a DataFrame using a concordance file."""
     nsp_file = write_island_concordance(tmp_path)
 
     df_in = pd.DataFrame(
@@ -74,6 +79,7 @@ def test_add_islands_basic(tmp_path):
 
 
 def test_add_islands_numeric_poc(tmp_path):
+    """Test handling of numeric POC values when adding island information."""
     nsp_file = write_island_concordance(tmp_path)
 
     df_in = pd.DataFrame({"POC": [123456]})
@@ -84,7 +90,7 @@ def test_add_islands_numeric_poc(tmp_path):
 
 
 def test_summary_timeslice_with_island(tmp_path):
-
+    """Test summarising timeslices by island, converting kWh to GWh and computing average load."""
     fake_input = pd.DataFrame(
         {
             "Year": [2024, 2024, 2024],
@@ -131,6 +137,7 @@ def test_summary_timeslice_with_island(tmp_path):
 
 
 def get_base_year_test_input():
+    """Return a sample DataFrame for testing with base year and prior year values."""
     return pd.DataFrame(
         {
             "Year": [BASE_YEAR, BASE_YEAR, BASE_YEAR - 1],
@@ -141,6 +148,7 @@ def get_base_year_test_input():
 
 
 def test_base_year_basic():
+    """Base year basic tests"""
     df_in = get_base_year_test_input()
     out = lc.get_base_year_load_curves(df_in, base_year=BASE_YEAR)
 
@@ -157,6 +165,7 @@ def test_base_year_basic():
 
 
 def test_zero_total_ok():
+    """Ensure zeros handled correctly"""
     df_zero = pd.DataFrame({"Year": [BASE_YEAR, BASE_YEAR], "Value": [0.0, 0.0]})
     out = lc.get_base_year_load_curves(df_zero, base_year=BASE_YEAR)
     assert len(out) == 2
@@ -164,6 +173,7 @@ def test_zero_total_ok():
 
 
 def test_no_matching_rows():
+    """Ensure no rows match in base year test input"""
     df_in = get_base_year_test_input()
     out = lc.get_base_year_load_curves(df_in, base_year=BASE_YEAR + 100)
     assert out.empty
@@ -187,6 +197,7 @@ def make_yrfr_test_input(base_year, hours_peak, hours_offpeak):
 
 
 def test_yrfr_normal_year_no_warning(caplog):
+    """Test YRFR calculation for a standard 8760-hour year without logging warnings."""
 
     base_year = BASE_YEAR
 
@@ -217,6 +228,7 @@ def test_yrfr_normal_year_no_warning(caplog):
 
 
 def test_yrfr_leap_year_warns(caplog):
+    """Test YRFR calculation for a normal year with 8760 hours and no warnings."""
 
     base_year = BASE_YEAR
 
@@ -234,6 +246,7 @@ def test_yrfr_leap_year_warns(caplog):
 
 
 def test_yrfr_incorrect_hours_warns(caplog):
+    """Test YRFR computation with incorrect total hours and verify warning is logged."""
     base_year = BASE_YEAR
 
     # 8750 total -> not 8760/8784
@@ -255,6 +268,7 @@ def test_yrfr_incorrect_hours_warns(caplog):
 
 
 def get_fake_res_curve_input(base_year):
+    """Return a sample DataFrame for testing residential demand curve inputs."""
     # ABC001 and DEF999 are “residential”; GHI000 is not
     return pd.DataFrame(
         {
@@ -268,6 +282,7 @@ def get_fake_res_curve_input(base_year):
 
 
 def test_without_islands_basic():
+    """Test residential load curve aggregation without island grouping for the base year."""
     base_year = BASE_YEAR
     df_in = get_fake_res_curve_input(base_year)
 
@@ -292,6 +307,7 @@ def test_without_islands_basic():
 
 
 def test_with_islands_basic(tmp_path):
+    """Test residential load curve aggregation with island grouping for the base year."""
 
     base_year = BASE_YEAR
     df_in = get_fake_res_curve_input(base_year)
@@ -325,6 +341,7 @@ def test_with_islands_basic(tmp_path):
 
 
 def test_empty_after_filter():
+    """Test empty result when no residential POCs match, retaining expected columns."""
 
     base_year = BASE_YEAR
 

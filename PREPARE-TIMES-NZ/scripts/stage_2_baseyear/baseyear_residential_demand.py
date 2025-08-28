@@ -1,39 +1,42 @@
 """
-
-# Will extract this module docstring to an actual doco file at some point
-
-Builds and applies a residential space‑heating disaggregation model
-for EEUD data.
-
-This module provides functions to:
-
-  1. Load and clean StatsNZ census dwelling & heating data.
-  2. Aggregate private dwelling types into standardized categories.
-  3. Compute normalized heating‑technology shares by region.
-  4. Merge in assumptions: floor area, heating efficiency, HDD.
-  5. Build a space‑heating demand model to derive fuel demand shares.
-  6. Distribute modelled shares against the EEUD residential space‑heating data.
-  7. Split Gas/LPG demand between North and South Islands and by fuel.
-  8. Saves final results to: residential_space_heating_disaggregation.csv
-
-Constants at the top define filepaths and the base year.
-
-Based on methodology found at:
-
-https://www.sciencedirect.com/science/article/pii/S0378778825004451?ref=pdf_download&fr=RR-2&rr=9677b4c2bbe71c50
-
-Other residential non space-heating demand is disaggregated by
-population, and growth is keyed to population
-
-Population data is from census 2023
-The population data is disaggregated by dwelling type from census.
-This means it's incomplete (not everyone answered dwelling type)
-So we should only use the shares, not treat these as regional ERP
-
+A wrapper to execute all the residential scripts in order
+Each depends on the previous
 """
 
-from prepare_times_nz.stage_2.disaggregate_residential_demand import main
+import pandas as pd
+from prepare_times_nz.stage_2.residential.add_assumptions import main as add_assumptions
+from prepare_times_nz.stage_2.residential.common import (
+    PREPRO_DF_NAME_STEP4,
+    PREPROCESSING_DIR,
+    save_output,
+)
+from prepare_times_nz.stage_2.residential.disaggregate_demand import (
+    main as disaggregate_demand,
+)
+from prepare_times_nz.stage_2.residential.generate_process_names import (
+    main as generate_process_names,
+)
+from prepare_times_nz.stage_2.residential.space_heating_model import (
+    main as space_heating_model,
+)
+
+
+def main():
+    """Script entrypoint"""
+
+    # 1: space heating model
+    space_heating_model()
+    # 2: disaggregate other demand, and combine with space heating
+    # aggregate per island
+    disaggregate_demand()
+    # 3: add all assumptions, infer capacity, tidy
+    add_assumptions()
+    # 4: Generate TIMES process names and definitions for the model
+    generate_process_names()
+    # 5: take the final output and save it to the output folder for downstream use
+    df = pd.read_csv(PREPROCESSING_DIR / PREPRO_DF_NAME_STEP4)
+    save_output(df, "baseyear_residential_demand.csv", "baseyear residential demand")
+
 
 if __name__ == "__main__":
-
     main()

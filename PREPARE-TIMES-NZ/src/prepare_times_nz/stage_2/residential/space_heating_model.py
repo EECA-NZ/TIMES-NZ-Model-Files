@@ -1,29 +1,55 @@
+"""
+
+
+Builds and applies a residential space‑heating disaggregation model
+for EEUD data.
+
+This module provides functions to:
+
+  1. Load and clean StatsNZ census dwelling & heating data.
+  2. Aggregate private dwelling types into standardized categories.
+  3. Compute normalized heating‑technology shares by region.
+  4. Merge in assumptions: floor area, heating efficiency, HDD.
+  5. Build a space‑heating demand model to derive fuel demand shares.
+  6. Distribute modelled shares against the EEUD residential space‑heating data.
+  7. Split Gas/LPG demand between North and South Islands and by fuel.
+  8. Saves final results to: residential_space_heating_disaggregation.csv
+
+Constants at the top define filepaths and the base year.
+
+Based on methodology found at:
+
+https://www.sciencedirect.com/science/article/pii/S0378778825004451?ref=pdf_download&fr=RR-2&rr=9677b4c2bbe71c50
+
+Other residential non space-heating demand is disaggregated by
+population, and growth is keyed to population
+
+Population data is from census 2023
+The population data is disaggregated by dwelling type from census.
+This means it's incomplete (not everyone answered dwelling type)
+So we should only use the shares, not treat these as regional ERP
+
+"""
+
 import numpy as np
 import pandas as pd
-from prepare_times_nz.utilities.filepaths import (
-    ASSUMPTIONS,
-    CONCORDANCES,
-    STAGE_1_DATA,
-    STAGE_2_DATA,
+from prepare_times_nz.stage_2.residential.common import (
+    BASE_YEAR,
+    ISLAND_FILE,
+    PREPRO_DF_NAME_STEP1,
+    RESIDENTIAL_ASSUMPTIONS,
+    RUN_TESTS,
+    add_islands,
+    save_checks,
+    save_preprocessing,
 )
+from prepare_times_nz.utilities.filepaths import STAGE_1_DATA
 from prepare_times_nz.utilities.logger_setup import blue_text, logger
-
-# Main filepaths --------------------------------------------
-
-RESIDENTIAL_ASSUMPTIONS = ASSUMPTIONS / "residential"
-OUTPUT_LOCATION = STAGE_2_DATA / "residential"
-CHECKS_LOCATION = OUTPUT_LOCATION / "checks"
-
-# constants -----------------
-
-BASE_YEAR = 2023
-RUN_TESTS = False
 
 # Data locations -----------------------------
 
 EEUD_FILE = STAGE_1_DATA / "eeud/eeud.csv"
 DWELLING_HEATING_FILE = STAGE_1_DATA / "statsnz/dwelling_heating.csv"
-POP_DWELLING = STAGE_1_DATA / "statsnz/population_by_dwelling.csv"
 
 # Assumptions --------------------------------------------
 
@@ -31,127 +57,6 @@ HDD_ASSUMPTIONS = RESIDENTIAL_ASSUMPTIONS / "regional_hdd_assumptions.csv"
 EFF_ASSUMPTIONS = RESIDENTIAL_ASSUMPTIONS / "eff_by_tech_and_fuel.csv"
 CENSUS_EFF_ASSUMPTIONS = RESIDENTIAL_ASSUMPTIONS / "eff_for_census_heating_types.csv"
 FLOOR_AREAS = RESIDENTIAL_ASSUMPTIONS / "floor_area_per_dwelling.csv"
-
-# CONCORDANCES -----------------------------------------
-
-ISLAND_FILE = CONCORDANCES / "region_island_concordance.csv"
-
-
-# Helpers ----------------------------------
-
-
-def save_output(df, name, dir=OUTPUT_LOCATION):
-    """Save DataFrame output to the output location."""
-    filename = f"{dir}/{name}"
-    logger.info("Saving output:\n%s", blue_text(filename))
-    df.to_csv(filename, index=False, encoding="utf-8-sig")
-
-
-def save_checks(df, name, label, dir=CHECKS_LOCATION):
-    """Save DataFrame checks to the checks location."""
-    filename = f"{dir}/{name}"
-    logger.info("Saving %s:\n%s", label, blue_text(filename))
-    df.to_csv(filename, index=False, encoding="utf-8-sig")
-
-
-# Population functions -----------------------------------------
-
-
-def get_population_data(filepath=POP_DWELLING, base_year=BASE_YEAR):
-    """Loads census pop/dwelling data
-    Returns the df filtered to input baseyear
-
-    IMPORTANT NOTE: this is not full dwelling/pop coverage
-    So, we can use the shares of pop per dwelling type and region
-
-    But we can't use the totals to imply total pop or dwellings
-
-    It is best to instead apply these shares to actual pop/dwelling counts
-    """
-
-    df = pd.read_csv(filepath)
-    df = df[df["CensusYear"] == base_year]
-
-    return df
-
-
-def clean_population_data(df):
-    """
-    Perform standard population cleaning and dwelling aggregation
-    Input df of raw census data, output df
-
-    Removes unnecessary regions
-    Tidies region names
-    Aggregates dwelling types to joined/detached
-    """
-
-    regions_to_exclude = [
-        "Area Outside Region",  # ignore the Chathams
-        "Total - New Zealand by regional council",
-        "Total - New Zealand by health region/health district",
-    ]
-
-    dwelling_type_mapping = {
-        "Other private dwelling": "Detached",
-        "Private dwelling not further defined": "Detached",
-        "Separate house": "Detached",
-        "Joined dwelling": "Joined",
-        "Total - private dwelling type": "Total",
-    }
-
-    df = df.copy()
-
-    # Drop unwanted regions
-    df = df.loc[~df["Area"].isin(regions_to_exclude)]
-
-    # Remove trailing " Region" from area names
-    df["Area"] = df["Area"].str.replace(r"\sRegion$", "", regex=True)
-
-    # aggregate dwelling types
-    df["DwellingType"] = df["DwellingType"].map(dwelling_type_mapping)
-    group_cols = [col for col in df.columns if col != "Value"]
-    df = df.groupby(group_cols, as_index=False)["Value"].sum()
-
-    return df
-
-
-def get_population_shares(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Calculate overall population shares by (Area, DwellingType).
-    """
-    required = {"Area", "DwellingType", "Value"}
-    missing = required - set(df.columns)
-    if missing:
-        raise KeyError(f"Missing required column(s): {missing}")
-
-    out = df.copy()
-
-    total = out["Value"].sum()
-    # Avoid divide-by-zero; will yield NaN shares if total == 0
-    out["ShareOfPopulation"] = (
-        out["Value"] / total if total != 0 else out["Value"] * float("nan")
-    )
-
-    return out[["Area", "DwellingType", "ShareOfPopulation"]]
-
-
-def add_islands(df, island_file=ISLAND_FILE):
-    """
-    Reads in the island concordance file to attach islands to
-    an in input df with a "Area" variable
-    Renames the island concordance "Region" variable to "Area"
-    Returns the df with "Island"
-    """
-
-    ri_df = pd.read_csv(island_file)
-    ri_df = ri_df.rename(columns={"Region": "Area"})
-    df = pd.merge(df, ri_df, on="Area", how="left", validate="many_to_one")
-
-    # Validate merge result
-    if "Island" not in df.columns:
-        raise KeyError("Merge failed to produce 'Island' column")
-
-    return df
 
 
 # Space heating model functions ------------------------------------------------------
@@ -525,23 +430,6 @@ def add_assumptions(
       2. Floor‑area per dwelling (FLOOR_AREAS),
       3. Heating degree days per region (HDD_ASSUMPTIONS).
 
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        Input must contain:
-          - 'DwellingType' (for floor area merge)
-          - 'Area'        (for HDD merge)
-          - any columns produced by earlier steps (e.g.
-            'FuelHeatingShare', 'TotalDwellingsInRegion').
-
-    Returns
-    -------
-    pandas.DataFrame
-        Original rows plus these new columns:
-          - 'EFF'       (heat efficiency)
-          - 'FloorArea' (area to heat per dwelling)
-          - 'HDD'       (degree‑day heating factor)
-
     Raises
     ------
     KeyError
@@ -605,7 +493,7 @@ def build_sh_model(df):
     #   reverse efficiency
     # the apply these shares to the modelled heat demand
     # This gives modelled fuel demand per heating category, dwellingtype, and region
-    df["ModelHeatFuelInput"] = df["FuelHeatingShare"] / df["EFF"]
+    df["ModelHeatFuelInput"] = df["FuelHeatingShare"] / df["Efficiency"]
     df["ModelHeatFuelInput"] = df["ModelHeatFuelInput"] * df["ModelHeatDemand"]
 
     # we then just want to find the share of fuel demand (within each tech)
@@ -735,6 +623,7 @@ def apply_sh_model_to_eeud(
     return df
 
 
+# pylint: disable=too-many-arguments, too-many-positional-arguments
 def disaggregate_space_heating_demand(
     dwelling_heating_file=DWELLING_HEATING_FILE,
     hdd_assumptions=HDD_ASSUMPTIONS,
@@ -804,7 +693,7 @@ def disaggregate_space_heating_demand(
 
 
 def get_tech_island_split(
-    model_df, technology, island_file=ISLAND_FILE
+    model_df, technology, island_file=ISLAND_FILE, run_tests=RUN_TESTS
 ) -> pd.DataFrame:
     """
     Compute the North/South Island split for Gas/LPG burners.
@@ -845,9 +734,10 @@ def get_tech_island_split(
     techs = df["Technology"].unique().tolist()
 
     if technology in techs:
-        logger.info("%s found in dataframe", blue_text(technology))
-
+        if run_tests:  # we only verbalise the success if tests are running
+            logger.info("%s found in dataframe", blue_text(technology))
     else:
+        # we always verbalise the failures because they predict a broken pipeline
         logger.warning("'%s' not found in input data!", blue_text(technology))
         logger.warning("This pipeline is about to break.")
         logger.warning("Available technologies are: ")
@@ -864,7 +754,9 @@ def get_tech_island_split(
     total = agg["Value"].sum()
     agg["Share"] = agg["Value"] / total
 
-    print(f"ISLAND SPLIT: {agg}")
+    if run_tests:
+        logger.info("Island splits of natural gas:")
+        print(f"ISLAND SPLIT: {agg}")
     return agg
 
 
@@ -1031,258 +923,10 @@ def distribute_gas_for_tech(
     return df
 
 
-# disaggregate other demand by pop (and redistribute NGA) ------------------------
-
-
-def get_residential_eeud(eeud_file=EEUD_FILE, base_year=BASE_YEAR):
-    """Loads residential EEUD for the base year"""
-
-    df = pd.read_csv(eeud_file)
-
-    df = df[df["Sector"] == "Residential"]
-    df = df[df["Year"] == base_year]
-
-    return df
-
-
-def get_disaggregated_end_use_by_pop(
-    eeud, pop_shares, uses, eff_assumptions=EFF_ASSUMPTIONS
-):
-    """
-
-    For the given end uses, converts consumption to demand via efficiency assumptions
-    Then disaggregates demand to island and dwelling type based on population shares
-    ensures that the natural gas is distributed among north island regions only
-        (based on the region's share of NI demand )
-    Calculates all other fuel's share of the original demand (minus natural gas)
-    Distributes other fuels among the "Residual" demand for that end use
-        (ie: demand unmet by natural gas)
-    Converts back to fuel demand using the same efficiency rating
-
-
-    NOTE: the allocation is slightly complex. This is because we handle multiple natural gas technologies
-
-    Currently, there is only one natural gas tech per end use.
-    If there are more, then a naive implementation of the current method will double count
-    We have added a way of apportioning these, which is very defensive (covering an edge case that doesn't exist yet)
-
-    If it comes up, the script flags a warning to check these.
-    If anything goes wrong and stuff gets double-counted, the final check will fail
-
-
-
-
-
-    """
-
-    eff = pd.read_csv(eff_assumptions)[["Technology", "Fuel", "EFF"]]
-
-    df = eeud.copy()
-    eeud_columns = df.columns.to_list()  # keep original EEUD schema
-
-    # inputs for shares
-    group_vars = ["EndUse", "Area", "DwellingType"]
-
-    # filter - only base year residential specific uses
-    df = df[df["EndUse"].isin(uses)]
-
-    # Join additional parameters (pop share expansion and efficiencies)
-
-    df = df.merge(eff, how="left", on=["Technology", "Fuel"])
-    df = df.merge(pop_shares, how="cross")
-
-    # Guard EFF=0. This means bad input data.
-
-    mask = df["EFF"].isna() | (df["EFF"] == 0)
-    if mask.any():
-        bad_rows = df.loc[mask, ["Technology", "Fuel"]].drop_duplicates()
-        logger.error(
-            f"Zero or missing efficiency found for residential technologies!. Please complete the input sheet."
-        )
-        raise ValueError(
-            f"Zero or missing efficiency found for: {bad_rows.to_dict(orient='records')}"
-        )
-
-    # Warning early if multiple techs. This case doesn't currently exist but needs robust testing if it does.
-    ng = df[df["Fuel"].eq("Natural Gas")]
-    viol = ng.groupby(["EndUse", "Area", "DwellingType"])["Technology"].nunique()
-    if (viol > 1).any():
-        logger.warning("Warning - multiple NG techs discovered")
-        logger.warning(
-            "This result should be handled, but please test that outputs aren't double-counting!"
-        )
-
-    # Step 1: demand by area/dwelling
-    df["Demand"] = df["Value"] * df["EFF"]
-    df["DemandPerAreaDwelling"] = df["Demand"] * df["ShareOfPopulation"]
-
-    # Step 2: allocate natural gas to NI only, proportional to island pop shares
-    df = add_islands(df)  # must create column "Island" with {"NI","SI"}
-
-    df["IslandShareOfPop"] = df.groupby(["EndUse", "Fuel", "Island"])[
-        "ShareOfPopulation"
-    ].transform("sum")
-    df["ShareOfIsland"] = df["ShareOfPopulation"] / df["IslandShareOfPop"]
-
-    df["NaturalGasShare"] = np.where(df["Island"].eq("SI"), 0.0, df["ShareOfIsland"])
-
-    # NG demand only on NG rows
-    df["NaturalGasDemand_row"] = np.where(
-        df["Fuel"].eq("Natural Gas"),
-        df["NaturalGasShare"] * df["Demand"],
-        0.0,
-    )
-
-    # Aggregate NG demand per (EndUse, Area, DwellingType), then merge back
-    ng = (
-        df.loc[df["Fuel"].eq("Natural Gas"), group_vars + ["NaturalGasDemand_row"]]
-        .groupby(group_vars, as_index=False)["NaturalGasDemand_row"]
-        .sum()
-        .rename(columns={"NaturalGasDemand_row": "NaturalGasDemand"})
-    )
-    df = df.merge(ng, on=group_vars, how="left").fillna({"NaturalGasDemand": 0.0})
-
-    # Step 3: residual allocation to non-gas fuels
-    df["TotalDemandInArea"] = df.groupby(group_vars)["DemandPerAreaDwelling"].transform(
-        "sum"
-    )
-
-    df["DemandPerAreaDwellingNoGas"] = np.where(
-        df["Fuel"].eq("Natural Gas"), 0.0, df["DemandPerAreaDwelling"]
-    )
-    df["DemandPerAreaDwellingNoGasTotal"] = df.groupby(group_vars)[
-        "DemandPerAreaDwellingNoGas"
-    ].transform("sum")
-
-    # Avoid divide by zero
-    denom = df["DemandPerAreaDwellingNoGasTotal"].replace(0, np.nan)
-    df["ShareOfResidual"] = df["DemandPerAreaDwellingNoGas"] / denom
-    df["ShareOfResidual"] = df["ShareOfResidual"].fillna(0.0)
-
-    df["Residual"] = df["TotalDemandInArea"] - df["NaturalGasDemand"]
-
-    # Assign final demand per area/dwelling
-    df["DemandIfOtherFuel"] = df["ShareOfResidual"] * df["Residual"]
-
-    # NOTE: we've added functionality to apportion different natural gas techs,
-    # because the simplest option will double count natural gas if there are multiple ng techs for a use
-    # there actually isn't multiple techs in residential,
-    # so this is defensive for if the input data ever gets more detailed
-
-    ng_mask = df["Fuel"].eq("Natural Gas")
-    ng = df.loc[
-        ng_mask, group_vars + ["DemandPerAreaDwelling", "NaturalGasDemand"]
-    ].copy()
-    # weights within each group
-    denom = (
-        ng.groupby(group_vars)["DemandPerAreaDwelling"]
-        .transform("sum")
-        .replace(0, np.nan)
-    )
-    ng["w"] = ng["DemandPerAreaDwelling"] / denom
-
-    # assign non-NG rows
-    df.loc[~ng_mask, "DemandPerAreaDwelling"] = df.loc[~ng_mask, "DemandIfOtherFuel"]
-
-    # split NG total across NG-tech rows (order-aligned via the slice)
-    df.loc[ng_mask, "DemandPerAreaDwelling"] = (
-        ng["w"].fillna(0).to_numpy() * ng["NaturalGasDemand"].to_numpy()
-    )
-
-    # Convert back to fuel consumption.
-    df["Value"] = df["DemandPerAreaDwelling"] / df["EFF"]
-
-    # Save entire (massive) dataframe of intermediate variables to checking output for possible inspections
-    save_checks(
-        df,
-        "full_enduse_method_variables.csv",
-        "All enduse disaggregation variables (no space heating)",
-    )
-
-    # Return EEUD shape plus geography
-    out_cols = eeud_columns + ["Area", "DwellingType", "Island"]
-    out = df[out_cols].copy()
-
-    return out
-
-
-# Checks
-
-
-def ensure_totals_match(disag_demand, base_year=BASE_YEAR, eeud_file=EEUD_FILE):
-    """Get original eeud demand for each tech/sector,
-    compare to summed disaggregated demand
-
-    Just ensure that totals match
-    Can probably just move this as an automated check to main script
-
-    """
-    # GET EEUD
-    eeud_res = pd.read_csv(eeud_file)
-
-    eeud_res = eeud_res[eeud_res["Sector"] == "Residential"]
-    eeud_res = eeud_res[eeud_res["Year"] == base_year]
-
-    eeud_res = (
-        eeud_res.groupby(["Year", "EndUse", "Technology", "Fuel"])["Value"]
-        .sum()
-        .reset_index()
-    )
-    eeud_res = eeud_res.rename(columns={"Value": "ORIGINAL"})
-    # summarise disaggregated results
-    disag_demand = (
-        disag_demand.groupby(["Year", "EndUse", "Technology", "Fuel"])["Value"]
-        .sum()
-        .reset_index()
-    )
-    disag_demand = disag_demand.rename(columns={"Value": "DISAGGREGATED"})
-
-    # compare
-    test = pd.merge(eeud_res, disag_demand, how="left")
-
-    test["DELTA"] = round(abs(test["DISAGGREGATED"] - test["ORIGINAL"]), 6)
-
-    mask = test["DELTA"] != 0
-    if mask.any():
-        bad_rows = test[mask].drop_duplicates()
-        logger.error(
-            f"Disaggregated residential demand does not match totals! Please review"
-        )
-        raise ValueError(
-            f"Disaggregation model has warped results for: {bad_rows.to_dict(orient='records')}"
-        )
-
-
-# Execute outputs -------------------------------------------
-
-
-def get_residential_other_demand():
-    """
-    Executes all functions required for residential
-    demand disaggregated by population and dwelling type
-
-    Saves result to staging area
-    """
-    pop_dwelling = get_population_data()
-    pop_dwelling = clean_population_data(pop_dwelling)
-    shares = get_population_shares(pop_dwelling)
-    save_checks(shares, "population_shares.csv", "Population shares")
-
-    # get residential eeud
-    eeud = get_residential_eeud(eeud_file=EEUD_FILE, base_year=BASE_YEAR)
-
-    # identify all end uses except space heating
-    all_uses = eeud["EndUse"].unique().tolist()
-    uses = [u for u in all_uses if u != "Low Temperature Heat (<100 C), Space Heating"]
-    #     uses = ["Low Temperature Heat (<100 C), Water Heating", "Intermediate Heat (100-300 C), Cooking"]
-
-    df = get_disaggregated_end_use_by_pop(eeud=eeud, pop_shares=shares, uses=uses)
-
-    return df
-
-
 def get_residential_space_heating_demand():
-    # Runs the mode
+    """
+    Orchestrates the entire space heating model, including LPG/NGA splits
+    """
 
     model_df = disaggregate_space_heating_demand()
     # distribute the burner gas from model output
@@ -1308,17 +952,15 @@ def get_residential_space_heating_demand():
 
 
 def main():
-    """Script entry-point"""
-    OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
-    CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
-    residential_other_demand = get_residential_other_demand()
+    """Script entry-point. calculates and saves residential space heating disaggregation"""
+
     residential_sh_demand = get_residential_space_heating_demand()
 
-    residential_demand = pd.concat([residential_other_demand, residential_sh_demand])
-
-    ensure_totals_match(residential_demand)
-
-    save_output(residential_demand, "residential_demand_disaggregated.csv")
+    save_preprocessing(
+        residential_sh_demand,
+        PREPRO_DF_NAME_STEP1,
+        "Residential space heating demand",
+    )
 
 
 # Main safeguard
