@@ -1,4 +1,4 @@
-"""All baseyear residential veda files
+"""All baseyear commercial veda files
 Mostly built off of one input table, with additional inputs
 including the variable selection/renaming
 And a few other basic inputs defined in the constants section"""
@@ -6,17 +6,14 @@ And a few other basic inputs defined in the constants section"""
 import pandas as pd
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
-from prepare_times_nz.stage_2.residential.common import _save_data
+from prepare_times_nz.stage_2.commercial.common import _save_data
 from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
 from prepare_times_nz.utilities.helpers import select_and_rename
 
-# from prepare_times_nz.utilities.logger_setup import logger
-
-
 # FILEPATHS ---------------------------------------------------------------
 
-INPUT_FILE = STAGE_2_DATA / "residential/baseyear_residential_demand.csv"
-OUTPUT_DIR = STAGE_4_DATA / "base_year_res"
+INPUT_FILE = STAGE_2_DATA / "commercial/baseyear_commercial_demand.csv"
+OUTPUT_DIR = STAGE_4_DATA / "base_year_com"
 
 # should instead use save function pattern here!!
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -26,7 +23,7 @@ ACTIVITY_UNIT = "PJ"
 CAPACITY_UNIT = "GW"
 CAP2ACT = 31.536
 
-RESIDENTIAL_DEMAND_VARIABLE_MAP = {
+COMMERCIAL_DEMAND_VARIABLE_MAP = {
     "Process": "TechName",
     "CommodityIn": "Comm-IN",
     "CommodityOut": "Comm-OUT",
@@ -45,15 +42,14 @@ DELIVERY_COST_ASSUMPTIONS = {
     # put me in an assumptions file!!
     # these are NZDm/PJ or NZD/GJ
     # anything not listed is assumed 0 (incl LPG)
-    "RESNGA": 25,
-    "RESDSL": 0.92,
-    "RESPET": 0.92,
-    "RESWOD": 10,
+    "COMNGA": 9.35,
+    "COMDSL": 0.92,
+    "COMPET": 0.92,
 }
 # Helpers -----------------------------------------------------------------------
 
 
-def save_residential_veda_file(df, name, label, filepath=OUTPUT_DIR):
+def save_commercial_veda_file(df, name, label, filepath=OUTPUT_DIR):
     """Wraps _save_data to send a file to the veda output"""
     label = f"Saving VEDA table for {label}"
     _save_data(df=df, name=name, label=label, filepath=filepath)
@@ -62,7 +58,7 @@ def save_residential_veda_file(df, name, label, filepath=OUTPUT_DIR):
 # Main input data =--------------------------------------------------------------
 
 
-def get_residential_veda_table(df, input_map):
+def get_commercial_veda_table(df, input_map):
     """convert input table to veda format"""
     df = df.drop(columns="Unit")
     # we work wide - pivot
@@ -71,8 +67,8 @@ def get_residential_veda_table(df, input_map):
     # add some things
     df["CAP2ACT"] = CAP2ACT
     # shape output
-    res_df = select_and_rename(df, input_map)
-    return res_df
+    com_df = select_and_rename(df, input_map)
+    return com_df
 
 
 # Define processes ----------------------------------------------------------
@@ -90,7 +86,7 @@ def define_demand_processes(df, filename, label):
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
 
-    save_residential_veda_file(demand_df, name=filename, label=label)
+    save_commercial_veda_file(demand_df, name=filename, label=label)
 
 
 # Define commodities ---------------------------------------------------------
@@ -108,22 +104,29 @@ def define_enduse_commodities(df, filename, label):
     commodity_df["Csets"] = "DEM"
     commodity_df["Unit"] = ACTIVITY_UNIT
 
-    save_residential_veda_file(commodity_df, name=filename, label=label)
+    save_commercial_veda_file(commodity_df, name=filename, label=label)
 
 
 def define_fuel_commodities(df, filename, label):
     """Distinct fuel commodities for the FI_Comm table
     Also add activity and capacity units just for clarity"""
 
-    fuels = df["Comm-IN"].unique()
+    fuels = df["Comm-IN"].dropna().unique().tolist()
+    if "COMCO2" not in fuels:
+        fuels.append("COMCO2")
 
-    fuel_df = pd.DataFrame()
-    fuel_df["CommName"] = fuels
-    fuel_df["Csets"] = "NRG"
-    fuel_df["Unit"] = ACTIVITY_UNIT
-    fuel_df["LimType"] = "FX"
+    fuel_df = pd.DataFrame({"CommName": fuels})
+    fuel_df["Csets"] = fuel_df["CommName"].apply(
+        lambda x: "ENV" if x == "COMCO2" else "NRG"
+    )
+    fuel_df["Unit"] = fuel_df["CommName"].apply(
+        lambda x: "Kt" if x == "COMCO2" else ACTIVITY_UNIT
+    )
+    fuel_df["LimType"] = fuel_df["CommName"].apply(
+        lambda x: "" if x == "COMCO2" else "FX"
+    )
 
-    save_residential_veda_file(fuel_df, name=filename, label=label)
+    save_commercial_veda_file(fuel_df, name=filename, label=label)
 
 
 # Fuel delivery tables ------------------------------------------------------
@@ -161,16 +164,37 @@ def define_fuel_delivery(df):
         }
     )
 
-    save_residential_veda_file(
+    save_commercial_veda_file(
         fuel_deliv_parameters,
         "fuel_delivery_parameters.csv",
         "fuel delivery parameters",
     )
-    save_residential_veda_file(
+    save_commercial_veda_file(
         fuel_deliv_definitions,
         "fuel_delivery_definitions.csv",
         "fuel delivery definitions",
     )
+
+
+# Emissions ----------------------------------------------------------------------
+
+
+def emission_factors_df(emi_df, filename, label):
+    """Returns emission factors for selected commercial fuels"""
+
+    emi_df = pd.DataFrame()
+    emi_df["CommName"] = ["COMCO2"]
+    emi_df["COMCOA"] = [82.37]
+    emi_df["COMNGA"] = [54.10]
+    emi_df["COMLPG"] = [59.32]
+    emi_df["COMDSL"] = [69.63]
+    emi_df["COMBIG"] = [None]
+    emi_df["COMGEO"] = [None]
+    emi_df["COMPET"] = [68.79]
+    emi_df["COMWOD"] = [None]
+    emi_df["COMPLT"] = [None]
+
+    save_commercial_veda_file(emi_df, name=filename, label=label)
 
 
 # Main ----------------------------------------------------------------------
@@ -180,44 +204,50 @@ def main():
     """script entry point"""
     # get and transform data
     raw_df = pd.read_csv(INPUT_FILE)
-    res_veda = get_residential_veda_table(raw_df, RESIDENTIAL_DEMAND_VARIABLE_MAP)
+    com_veda = get_commercial_veda_table(raw_df, COMMERCIAL_DEMAND_VARIABLE_MAP)
 
-    agg_df = res_veda.groupby(["Region", "Comm-OUT"], as_index=False)["ACT_BND"].sum()
+    agg_df = com_veda.groupby(["Region", "Comm-OUT"], as_index=False)["ACT_BND"].sum()
     agg_df = agg_df.rename(columns={"Comm-OUT": "CommName", "ACT_BND": "Demand~2023"})
 
     # main table
-    save_residential_veda_file(
-        res_veda,
-        name="residential_baseyear_demand.csv",
-        label="residential baseyear demand",
+    save_commercial_veda_file(
+        com_veda,
+        name="commercial_baseyear_demand.csv",
+        label="commercial baseyear demand",
+    )
+    save_commercial_veda_file(
+        agg_df,
+        name="commercial_baseyear_demand2.csv",
+        label="commercial baseyear demand2",
     )
 
-    save_residential_veda_file(
-        agg_df,
-        name="residential_baseyear_demand2.csv",
-        label="residential baseyear demand2",
-    )
     # commodity definitions for fi_comm
-    # (Note emissions commodity declared directly in user config file)
     define_enduse_commodities(
-        res_veda,
+        com_veda,
         filename="enduse_commodity_definitions.csv",
         label="enduse commodity definitions",
     )
     define_fuel_commodities(
-        res_veda,
+        com_veda,
         filename="fuel_commodity_definitions.csv",
         label="fuel commodity definitions",
     )
 
     # process definitions for fi_process
     define_demand_processes(
-        res_veda,
+        com_veda,
         filename="demand_process_definitions.csv",
         label="demand process definitions",
     )
 
-    define_fuel_delivery(res_veda)
+    define_fuel_delivery(com_veda)
+
+    # emission factors
+    emission_factors_df(
+        com_veda,
+        filename="commercial_emission_factors.csv",
+        label="commercial emission factors",
+    )
 
 
 if __name__ == "__main__":

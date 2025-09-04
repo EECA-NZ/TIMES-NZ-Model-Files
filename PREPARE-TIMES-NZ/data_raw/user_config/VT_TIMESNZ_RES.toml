@@ -31,6 +31,12 @@ SheetName = "Residential demand"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/residential_baseyear_demand.csv"
 
+[ResidentialDemand2]
+Description = "Summary of residential base year demand topology and technical parameters by commodity"
+SheetName = "Residential demand"
+TagName = "FI_T: Demand"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/residential_baseyear_demand2.csv"
+
 ###############################################################################
 # Fuel Delivery
 ###############################################################################
@@ -46,7 +52,6 @@ Description = "Sets parameters for residential fuel delivery processes (mostly d
 SheetName = "Fuel Delivery"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/fuel_delivery_parameters.csv"
-
 
 
 ###############################################################################

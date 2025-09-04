@@ -1,0 +1,19 @@
+Technology,Technology_TIMES
+Electronics,ELEC
+Lights (Incandescent),INC
+Lights (Fluorescent),FLU
+Lights (LED),LED
+Boiler Systems,Boiler
+Burner (Direct Heat),Burner
+Heat Pump (for Heating),AIRHP
+Heat Pump (for Cooling),AIRHP
+Resistance Heater,RH
+Hot Water Cylinder,Cylinder
+Internal Combustion Engine (Land Transport),MPM
+Electric Motor,MPS
+Stationary Engine,MPS
+Refrigeration Systems,Refriger
+Direct Heat,DirectH
+Cooking Elements,CK
+Cooking Ovens,Ovens
+"Pump Systems (for Fluids, etc.)",PUMP

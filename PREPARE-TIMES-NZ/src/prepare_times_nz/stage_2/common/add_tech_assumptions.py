@@ -34,7 +34,7 @@ def add_lifetimes(
     df = df.merge(lifetimes, on=cols, how="left")
     if run_tests:
         check_missing_lifetimes(df)
-    return df.drop(columns=["Note"])
+    return df
 
 
 def check_missing_efficiencies(df: pd.DataFrame, cols=["Technology", "Fuel"]) -> None:
@@ -104,8 +104,14 @@ def add_opex(
 
 def add_afa(df: pd.DataFrame, afa_data: pd.DataFrame) -> pd.DataFrame:
     """Merge Annual Full Availability (AFA) data into main DataFrame."""
-    afa_data = afa_data[["EndUse", "AFA"]]
-    return df.merge(afa_data, on="EndUse", how="left")
+
+    if "Sector" in afa_data.columns and "Technology" in afa_data.columns:
+        keys = ["Sector", "EndUse", "Technology"]
+    else:
+        keys = ["EndUse"]
+
+    afa_subset = afa_data[keys + ["AFA"]].drop_duplicates(subset=keys)
+    return df.merge(afa_subset, on=keys, how="left")
 
 
 def estimate_capacity(df: pd.DataFrame) -> pd.DataFrame:

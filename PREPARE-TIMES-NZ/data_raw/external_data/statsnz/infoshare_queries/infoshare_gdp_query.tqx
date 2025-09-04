@@ -1,0 +1,73 @@
+<Table tableID="RNA001AA">
+  <TableParameters>
+    <Decimals>0</Decimals>
+    <SplitTime>False</SplitTime>
+    <ShowZeroRows>True</ShowZeroRows>
+    <StatusFlagOption>None</StatusFlagOption>
+  </TableParameters>
+  <VariableCollection>
+    <Variable variableName="Time" isColumn="False">
+      <Value code="2000">2000</Value>
+      <Value code="2001">2001</Value>
+      <Value code="2002">2002</Value>
+      <Value code="2003">2003</Value>
+      <Value code="2004">2004</Value>
+      <Value code="2005">2005</Value>
+      <Value code="2006">2006</Value>
+      <Value code="2007">2007</Value>
+      <Value code="2008">2008</Value>
+      <Value code="2009">2009</Value>
+      <Value code="2010">2010</Value>
+      <Value code="2011">2011</Value>
+      <Value code="2012">2012</Value>
+      <Value code="2013">2013</Value>
+      <Value code="2014">2014</Value>
+      <Value code="2015">2015</Value>
+      <Value code="2016">2016</Value>
+      <Value code="2017">2017</Value>
+      <Value code="2018">2018</Value>
+      <Value code="2019">2019</Value>
+      <Value code="2020">2020</Value>
+      <Value code="2021">2021</Value>
+      <Value code="2022">2022</Value>
+      <Value code="2023">2023</Value>
+      <Value code="2024">2024</Value>
+    </Variable>
+    <Variable variableName="System of National Accounts Classification of Transactions and Other Flows" isColumn="True">
+      <Value code="B01">Gross Domestic Product - production measure</Value>
+    </Variable>
+    <Variable variableName="Regional GDP Regional Council Group" isColumn="True">
+      <Value code="21">Total North Island</Value>
+      <Value code="22">Total South Island</Value>
+      <Value code="99">New Zealand</Value>
+    </Variable>
+    <Variable variableName="Regional GDP ANZSIC06 Industry Group" isColumn="True">
+      <Value code="AA1">Agriculture</Value>
+      <Value code="AB1">Forestry, Fishing, and Mining</Value>
+      <Value code="ABD">Forestry, Fishing, Mining, Electricity, Gas, Water and Waste Services</Value>
+      <Value code="CCA">Primary Manufacturing</Value>
+      <Value code="CCC">Other Manufacturing</Value>
+      <Value code="CCZ">Manufacturing</Value>
+      <Value code="DD1">Electricity, Gas, Water, and Waste services</Value>
+      <Value code="EE1">Construction</Value>
+      <Value code="FF1">Wholesale Trade</Value>
+      <Value code="GH1">Retail Trade</Value>
+      <Value code="GH2">Accommodation and Food Services</Value>
+      <Value code="GH3">Accommodation</Value>
+      <Value code="GH4">Food and beverage services</Value>
+      <Value code="II1">Transport, Postal and Warehousing</Value>
+      <Value code="JRS">Information Media, Telecommunications and Other Services</Value>
+      <Value code="KK1">Financial and Insurance Services</Value>
+      <Value code="LL1">Rental, Hiring and Real Estate Services</Value>
+      <Value code="LL2">Owner-Occupied Property Operation</Value>
+      <Value code="MN1">Professional, Scientific, and Technical Services</Value>
+      <Value code="MN2">Administrative and Support Services</Value>
+      <Value code="OOZ">Public Administration and Safety</Value>
+      <Value code="PP1">Education and Training</Value>
+      <Value code="QQ1">Health Care and Social Assistance</Value>
+      <Value code="ZZ9">Total All Industries</Value>
+      <Value code="ZZA">GST on Production, Import Duties and Other Taxes</Value>
+      <Value code="ZZB">Gross Domestic Product</Value>
+    </Variable>
+  </VariableCollection>
+</Table>
