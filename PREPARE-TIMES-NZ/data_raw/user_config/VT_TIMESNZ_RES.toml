@@ -29,13 +29,13 @@ DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/demand_proce
 Description = "Residential base year demand topology and technical parameters"
 SheetName = "Residential demand"
 TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/residential_baseyear_demand.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/residential_baseyear_details.csv"
 
 [ResidentialDemand2]
-Description = "Summary of residential base year demand topology and technical parameters by commodity"
+Description = "Residential total commodity demand (met by activity bound per process)"
 SheetName = "Residential demand"
 TagName = "FI_T: Demand"
-DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/residential_baseyear_demand2.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/residential_commodity_demand.csv"
 
 ###############################################################################
 # Fuel Delivery

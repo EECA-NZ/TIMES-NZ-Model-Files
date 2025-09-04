@@ -77,6 +77,14 @@ def get_residential_veda_table(df, input_map):
     return res_df
 
 
+def get_commodity_demand(df):
+    """Aggregate total service demand per commodity"""
+    agg_df = df.groupby(["Region", "Comm-OUT"], as_index=False)["ACT_BND"].sum()
+    # Note: have set label as "Demand" rather than "Demand~2023". Demand should default to base year
+    agg_df = agg_df.rename(columns={"Comm-OUT": "CommName", "ACT_BND": "Demand"})
+    return agg_df
+
+
 # Define processes ----------------------------------------------------------
 
 
@@ -183,21 +191,19 @@ def main():
     # get and transform data
     raw_df = pd.read_csv(INPUT_FILE)
     res_veda = get_residential_veda_table(raw_df, RESIDENTIAL_DEMAND_VARIABLE_MAP)
-
-    agg_df = res_veda.groupby(["Region", "Comm-OUT"], as_index=False)["ACT_BND"].sum()
-    agg_df = agg_df.rename(columns={"Comm-OUT": "CommName", "ACT_BND": "Demand~2023"})
+    agg_df = get_commodity_demand(res_veda)
 
     # main table
     save_residential_veda_file(
         res_veda,
-        name="residential_baseyear_demand.csv",
-        label="residential baseyear demand",
+        name="residential_baseyear_details.csv",
+        label="residential baseyear details",
     )
 
     save_residential_veda_file(
         agg_df,
-        name="residential_baseyear_demand2.csv",
-        label="residential baseyear demand2",
+        name="residential_commodity_demand.csv",
+        label="residential commodity demand",
     )
     # commodity definitions for fi_comm
     # (Note emissions commodity declared directly in user config file)

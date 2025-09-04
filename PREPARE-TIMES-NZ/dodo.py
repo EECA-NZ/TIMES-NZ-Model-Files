@@ -249,7 +249,7 @@ STAGE_3: dict[str, list[str]] = {
 STAGE_4: dict[str, list[str]] = {
     "create_baseyear_elc_files": ["base_year_elc/existing_tech_capacity.csv"],
     "create_baseyear_tra_files": ["base_year_tra/tra_commodity_definitions.csv"],
-    "create_baseyear_res_files": ["base_year_res/residential_baseyear_demand.csv"],
+    "create_baseyear_res_files": ["base_year_res/residential_baseyear_details.csv"],
     "create_baseyear_com_files": ["base_year_com/commercial_baseyear_demand.csv"],
 }
 
