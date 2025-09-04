@@ -5,3 +5,5 @@ Remember to tick "add recent time periods" or you'll just get the time periods f
 Currently query files exist for: 
 
 1) CPI
+2) CGPI
+3) GDP

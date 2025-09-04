@@ -1,4 +1,4 @@
-# Base year residential demand for TIMES-NZ 3.0 
+# Base year residential demand for TIMES-NZ 3.0.
 
 WorkBookName = "VT_TIMESNZ_RES"
 
@@ -29,7 +29,13 @@ DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/demand_proce
 Description = "Residential base year demand topology and technical parameters"
 SheetName = "Residential demand"
 TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/residential_baseyear_demand.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/residential_baseyear_details.csv"
+
+[ResidentialDemand2]
+Description = "Residential total commodity demand (met by activity bound per process)"
+SheetName = "Residential demand"
+TagName = "FI_T: Demand"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/residential_commodity_demand.csv"
 
 ###############################################################################
 # Fuel Delivery
@@ -46,7 +52,6 @@ Description = "Sets parameters for residential fuel delivery processes (mostly d
 SheetName = "Fuel Delivery"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/fuel_delivery_parameters.csv"
-
 
 
 ###############################################################################

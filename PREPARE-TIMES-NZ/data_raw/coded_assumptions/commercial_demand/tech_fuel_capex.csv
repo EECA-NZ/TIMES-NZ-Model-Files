@@ -1,0 +1,32 @@
+Technology,Fuel,CAPEX,PriceBaseYear,Notes,Source
+Boiler Systems,Coal,1000,2020,,https://www.eeca.govt.nz/assets/EECA-Resources/fonterra-coal-boiler-conversion_case-study.pdf?utm_source=chatgpt.com
+Boiler Systems,Diesel,380,2023,Estimate based on relativeheat pump costs.,"https://www.eeca.govt.nz/insights/eeca-insights/industrial-heat-pumps-for-process-heat/#:~:text=,upgrades%20and%20heat%20recovery%20equipment"
+Boiler Systems,LPG,250,2023,Estimate based on relativeheat pump costs.,"https://www.eeca.govt.nz/insights/eeca-insights/industrial-heat-pumps-for-process-heat/#:~:text=,upgrades%20and%20heat%20recovery%20equipment"
+Boiler Systems,Natural Gas,250,2023,Similar to LPG above.,
+Burner (Direct Heat),Coal,600,2023,Estimate based on relative boiler costs.,
+Burner (Direct Heat),LPG,300,2023,Estimate based on relative boiler costs.,
+Burner (Direct Heat),Natural Gas,300,2023,Similar to LPG above.,
+Burner (Direct Heat),Biogas,300,2023,Similar to LPG above.,
+Heat Pump (for Cooling),Electricity,3000,2022,,https://www.eeca.govt.nz/insights/eeca-insights/hot-water-heat-pumps-in-commercial-buildings/#:~:text=Capital%20cost
+Heat Pump (for Heating),Electricity,3000,2022,,https://www.eeca.govt.nz/insights/eeca-insights/hot-water-heat-pumps-in-commercial-buildings/#:~:text=Capital%20cost
+Resistance Heater,Electricity,50,2025,,https://www.mitre10.co.nz/shop/heating-cooling/heating/electrical-heating/c/RS2059?srsltid=AfmBOopi8AEheKiqFv5ok30DAcHOxaq4gtjs0dCVd5aKjnqK7luqyedl&inStockNationwide=false&inStockSelectedStore=false&sort=RELEVANCY
+Direct Heat,Geothermal,150,2024,"High temperature geothermal resources in the Taup?, Rotorua and Kawerau districts deliver Geoheat across a range 
+of scales up to 10’s MWth and temperatures up to 220°C, with energy drawn from wells up to 3km deep. Estimated for 12 hour operation",https://www.nzgeothermal.org.nz/downloads/2024-2025-Geoheat-Action-Plan.pdf
+Hot Water Cylinder,Electricity,500,2025,,https://hotwatercylinders.nz/
+Hot Water Cylinder,Natural Gas,100,2025,,https://hotwatercylinders.nz/
+Lights (Incandescent) ,Electricity,15,2025,,https://www.bunnings.co.nz/?srsltid=AfmBOorDcT1TVtFpdbyTBFj7Wf-ZwnjenucKTxfQ6zjnQ0Q9vKudoEA2
+Lights (Fluorescent) ,Electricity,112,2025,,https://www.bunnings.co.nz/?srsltid=AfmBOorDcT1TVtFpdbyTBFj7Wf-ZwnjenucKTxfQ6zjnQ0Q9vKudoEA2
+Lights (LED),Electricity,500,2025,,https://www.bunnings.co.nz/?srsltid=AfmBOorDcT1TVtFpdbyTBFj7Wf-ZwnjenucKTxfQ6zjnQ0Q9vKudoEA2
+Internal Combustion Engine (Land Transport),Diesel,200,2025,,https://www.omcpowerequipment.co.nz/product
+Internal Combustion Engine (Land Transport),LPG,200,2025,,https://www.omcpowerequipment.co.nz/product
+Internal Combustion Engine (Land Transport),Natural Gas,200,2025,Similar to LPG above.,https://www.omcpowerequipment.co.nz/product
+Internal Combustion Engine (Land Transport),Petrol,222,2025,,https://www.omcpowerequipment.co.nz/product
+Electric Motor,Electricity,185,2025,,https://www.omcpowerequipment.co.nz/product
+Stationary Engine,Petrol,200,2025,,https://www.omcpowerequipment.co.nz/product
+Refrigeration Systems,Electricity,5000,2025,Estimated based on market prices. ,
+Electronics,Electricity,5000,2025,Estimated based on market prices. ,
+Cooking Elements,Electricity,200,2025,,https://magnessbenrow.co.nz/appliances/ovens-cooking/ovens/freestanding-ovens/?srsltid=AfmBOookezHSFVpjvdjzWkLeLR1R8fjEWV1TXRhp0m_jFQzBl2MB_QB3
+Cooking Ovens,Electricity,250,2025,,https://magnessbenrow.co.nz/appliances/ovens-cooking/ovens/freestanding-ovens/?srsltid=AfmBOookezHSFVpjvdjzWkLeLR1R8fjEWV1TXRhp0m_jFQzBl2MB_QB3
+Cooking Ovens,LPG,200,2025,,https://www.thewarehouse.co.nz/c/home-garden-appliances/home-appliances/whiteware/ovens
+Cooking Ovens,Natural Gas,200,2025,,https://www.thewarehouse.co.nz/c/home-garden-appliances/home-appliances/whiteware/ovens
+"Pump Systems (for Fluids, etc.)",Electricity,185,2025,Similar to Electric Motor,

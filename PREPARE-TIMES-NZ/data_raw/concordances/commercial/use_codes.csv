@@ -1,0 +1,12 @@
+EndUse,EndUse_TIMES,
+Electronics and Other Electrical Uses,OTH,3
+"Intermediate Heat (100-300 C), Cooking",CK,2
+"Intermediate Heat (100-300 C), Process Requirements",PH,2
+Lighting,LT,2
+"Low Temperature Heat (<100 C), Space Heating",SH,2
+"Low Temperature Heat (<100 C), Water Heating",WH,2
+"Motive Power, Mobile",MPM,3
+"Motive Power, Stationary",MPS,3
+Refrigeration,RF,2
+Space Cooling,SC,2
+Pumping,PUMP,4

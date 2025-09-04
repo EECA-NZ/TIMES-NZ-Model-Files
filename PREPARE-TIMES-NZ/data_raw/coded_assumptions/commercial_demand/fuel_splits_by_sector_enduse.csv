@@ -1,0 +1,12 @@
+﻿Sector,TechnologyGroup,Technology,Fuel,Enduse,EnduseGroup,Share,
+Other,Mobile Motors,Internal Combustion Engine (Land Transport),Diesel,"Motive Power, Mobile",Mobile Motive Power,1,"EECA identifies this as a significant stationary energy end-use category, largely covering off-road vehicles."
+Other,Mobile Motors,Internal Combustion Engine (Land Transport),Petrol,"Motive Power, Mobile",Mobile Motive Power,1,"EECA identifies this as a significant stationary energy end-use category, largely covering off-road vehicles."
+Healthcare,Heat/Cooling Devices,Burner (Direct Heat),Biogas,"Intermediate Heat (100-300 C), Process Requirements",Heating/Cooling,0.06,Based on Nelson hospital landfill gas–fired boiler.
+Other,Heat/Cooling Devices,Burner (Direct Heat),Biogas,"Intermediate Heat (100-300 C), Process Requirements",Heating/Cooling,0.94,Rest is allocated here.
+WSR,Mobile Motors,Internal Combustion Engine (Land Transport),Natural Gas,"Motive Power, Mobile",Mobile Motive Power,1,"EECA identifies this as a significant stationary energy end-use category, largely covering off-road vehicles."
+Education,Heat/Cooling Devices,Direct Heat,Geothermal,"Low Temperature Heat (<100 C), Space Heating",Heating/Cooling,0.027,Based on the GNS New Zealand geothermal use database.
+Healthcare,Heat/Cooling Devices,Direct Heat,Geothermal,"Low Temperature Heat (<100 C), Space Heating",Heating/Cooling,0.1,Based on the GNS New Zealand geothermal use database.
+WSR,Heat/Cooling Devices,Direct Heat,Geothermal,"Low Temperature Heat (<100 C), Space Heating",Heating/Cooling,0.299,Based on the GNS New Zealand geothermal use database.
+WSR,Heat/Cooling Devices,Direct Heat,Geothermal,"Low Temperature Heat (<100 C), Water Heating",Heating/Cooling,0.307,Based on the GNS New Zealand geothermal use database.
+Other,Heat/Cooling Devices,Direct Heat,Geothermal,"Low Temperature Heat (<100 C), Water Heating",Heating/Cooling,0.229,Based on the GNS New Zealand geothermal use database.
+Other,Heat/Cooling Devices,Direct Heat,Geothermal,"Low Temperature Heat (<100 C), Water Heating",Heating/Cooling,0.039,Based on the GNS New Zealand geothermal use database.
