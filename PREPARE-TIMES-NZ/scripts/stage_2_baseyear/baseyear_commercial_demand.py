@@ -1,5 +1,5 @@
 """
-A wrapper to execute all the commercial scripts in order
+A wrapper to execute all the commercial scripts in order.
 Each depends on the previous
 """
 

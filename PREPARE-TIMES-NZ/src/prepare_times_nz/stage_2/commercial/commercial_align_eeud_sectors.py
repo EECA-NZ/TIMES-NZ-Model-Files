@@ -48,7 +48,7 @@ group_cols = [
 ]
 
 # Be tolerant of Windows-encoded source CSVs
-READ_OPTS = dict(encoding="cp1252", encoding_errors="replace")
+READ_OPTS = {"encoding": "cp1252", "encoding_errors": "replace"}
 MISSING_TOKENS = {"", "NA", "N/A", "NONE", "NULL", "UNKNOWN"}
 
 # Locations
@@ -95,6 +95,7 @@ def _norm_header(header: str) -> str:
 
 
 def is_missing_series(s: pd.Series) -> pd.Series:
+    """For missing tokens"""
     return s.isna() | s.astype(str).str.strip().str.upper().isin(MISSING_TOKENS)
 
 
@@ -237,7 +238,8 @@ def _load_light_splits() -> pd.DataFrame:
     missing = [r for r in required if r not in cmap]
     if missing:
         raise KeyError(
-            f"light_splits.csv missing columns {missing}. Found: {list(ls.columns)}  File: {LIGHT_SPLITS_FILE}"
+            f"light_splits.csv missing columns {missing}. "
+            f"Found: {list(ls.columns)} File: {LIGHT_SPLITS_FILE}"
         )
 
     ls = ls[
@@ -302,6 +304,7 @@ def aggregate_eeud(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+# pylint: disable=too-many-locals
 def split_na_rows(df: pd.DataFrame) -> pd.DataFrame:
     """
     Split rows with NULL TechnologyGroup/Technology/EndUse/EnduseGroup
@@ -384,10 +387,10 @@ def split_na_rows(df: pd.DataFrame) -> pd.DataFrame:
     wanted_cols = keep_rows.columns.tolist()
     merged = merged[wanted_cols]
 
-    group_cols = [c for c in wanted_cols if c != "Value"]
+    grouping_cols = [c for c in wanted_cols if c != "Value"]
     out = (
         pd.concat([keep_rows, merged], ignore_index=True)
-        .groupby(group_cols, as_index=False)["Value"]
+        .groupby(grouping_cols, as_index=False)["Value"]
         .sum()
     )
     return out
@@ -426,10 +429,10 @@ def apply_light_splits(
 
     keep = df[~mask].copy()
 
-    group_cols = [c for c in df.columns if c != "Value"]
+    grouping_cols = [c for c in df.columns if c != "Value"]
     out = (
         pd.concat([keep, to_split], ignore_index=True)
-        .groupby(group_cols, as_index=False)["Value"]
+        .groupby(grouping_cols, as_index=False)["Value"]
         .sum()
     )
 

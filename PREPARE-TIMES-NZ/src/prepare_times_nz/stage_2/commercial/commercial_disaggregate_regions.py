@@ -2,7 +2,8 @@
 Commercial demand — Islandal (NI/SI) disaggregation using THREE inputs:
 
 1) STAGE_2_DATA/commercial/preprocessing/1_times_eeud_alignment_baseyear.csv
-   Required cols: Sector, Fuel, Unit, Value, [TechnologyGroup], [Technology], [EndUse], [EnduseGroup]
+   Required cols: Sector, Fuel, Unit, Value, [TechnologyGroup],
+   [Technology], [EndUse], [EnduseGroup]
 
 2) ASSUMPTIONS/commercial_demand/Islandal_splits_by_sector.csv
    Required cols: Sector, NI_Share   (sector default NI share in [0,1])
@@ -15,7 +16,7 @@ Rules:
 - Prefer fuel override when present (e.g., Natural Gas / Geothermal = 1.0 → all NI).
 - Otherwise use the sector default.
 - NI = Value * NIShare ;  SI = Value - NI
-- Output: long table with Island ∈ {NI, SI}.
+- Output: long table with Island ∈ {NI, SI}
 
 Outputs:
 - STAGE_2_DATA/commercial/preprocessing/2_times_baseyear_Islandal_disaggregation.csv
@@ -50,6 +51,7 @@ ROUND_TOL = 8  # round NI/SI for FP stability
 # Load inputs
 # -----------------------------------------------------------------------------
 def load_inputs() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Load data"""
     baseyear = pd.read_csv(BASEYEAR_CSV)
     sector = pd.read_csv(SECTOR_SPLITS_CSV)
     fuel = pd.read_csv(FUEL_OVERRIDES_CSV)
@@ -118,7 +120,7 @@ def attach_fuel_overrides(
     return out
 
 
-def compute_Island_values(df: pd.DataFrame) -> pd.DataFrame:
+def compute_island_values(df: pd.DataFrame) -> pd.DataFrame:
     """Prefer override when present; else sector default. Compute NI and SI."""
     df = df.copy()
     df["NIShare"] = df["NIShareOverride"].where(
@@ -131,7 +133,7 @@ def compute_Island_values(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def tidy_long_Island(df: pd.DataFrame) -> pd.DataFrame:
+def tidy_long_island(df: pd.DataFrame) -> pd.DataFrame:
     """
     Return tidy long table with Island ∈ {NI, SI}.
     Drops helper columns and the original total 'Value' to avoid melt collision.
@@ -197,6 +199,7 @@ def save_checks_pivot(df_long: pd.DataFrame) -> None:
 # Orchestration
 # -----------------------------------------------------------------------------
 def calculate_and_save() -> pd.DataFrame:
+    """Apply sector splits and fuel overrides"""
     baseyear, sector_splits, fuel_overrides = load_inputs()
     logger.info(
         "Loaded inputs: %s rows base-year, %s sector splits, %s fuel overrides",
@@ -208,10 +211,10 @@ def calculate_and_save() -> pd.DataFrame:
     df = (
         baseyear.pipe(attach_sector_defaults, sector_splits=sector_splits)
         .pipe(attach_fuel_overrides, fuel_overrides=fuel_overrides)
-        .pipe(compute_Island_values)
+        .pipe(compute_island_values)
     )
 
-    df_long = tidy_long_Island(df)
+    df_long = tidy_long_island(df)
 
     save_output(df_long, "2_times_baseyear_regional_disaggregation.csv", OUTPUT_DIR)
     save_checks_pivot(df_long)
@@ -224,6 +227,7 @@ def calculate_and_save() -> pd.DataFrame:
 # Script entry
 # -----------------------------------------------------------------------------
 def main() -> None:
+    """Run the calculations and save outputs"""
     calculate_and_save()
 
 

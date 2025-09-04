@@ -259,8 +259,6 @@ STAGE_5: dict[str, list[str]] = {
         "SysSettings.xlsx",
         "VT_TIMESNZ_ELC.xlsx",
         "VT_TIMESNZ_TRA.xlsx",
-        # "VT_TIMESNZ_RES.xlsx",
-        # "VT_TIMESNZ_COM.xlsx",
     ],
 }
 

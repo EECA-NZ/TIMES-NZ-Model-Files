@@ -1,7 +1,7 @@
 """All baseyear residential veda files
 Mostly built off of one input table, with additional inputs
 including the variable selection/renaming
-And a few other basic inputs defined in the constants section"""
+And a few other basic inputs defined in the constants section."""
 
 import pandas as pd
 
@@ -25,6 +25,8 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 ACTIVITY_UNIT = "PJ"
 CAPACITY_UNIT = "GW"
 CAP2ACT = 31.536
+
+# pylint: disable=duplicate-code
 
 RESIDENTIAL_DEMAND_VARIABLE_MAP = {
     "Process": "TechName",

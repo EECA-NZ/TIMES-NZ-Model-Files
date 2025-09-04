@@ -1,7 +1,7 @@
 """All baseyear commercial veda files
 Mostly built off of one input table, with additional inputs
 including the variable selection/renaming
-And a few other basic inputs defined in the constants section"""
+And a few other basic inputs defined in the constants section."""
 
 import pandas as pd
 
@@ -39,9 +39,7 @@ COMMERCIAL_DEMAND_VARIABLE_MAP = {
 }
 
 DELIVERY_COST_ASSUMPTIONS = {
-    # put me in an assumptions file!!
-    # these are NZDm/PJ or NZD/GJ
-    # anything not listed is assumed 0 (incl LPG)
+    # NZDm/PJ or NZD/GJ
     "COMNGA": 9.35,
     "COMDSL": 0.92,
     "COMPET": 0.92,
@@ -49,6 +47,7 @@ DELIVERY_COST_ASSUMPTIONS = {
 # Helpers -----------------------------------------------------------------------
 
 
+# pylint: disable=duplicate-code
 def save_commercial_veda_file(df, name, label, filepath=OUTPUT_DIR):
     """Wraps _save_data to send a file to the veda output"""
     label = f"Saving VEDA table for {label}"
@@ -144,7 +143,7 @@ def define_fuel_delivery(df):
     fuel_deliv_parameters["Comm-OUT"] = fuels
     fuel_deliv_parameters["Comm-IN"] = fuel_deliv_parameters[
         "Comm-OUT"
-    ].str.removeprefix("RES")
+    ].str.removeprefix("COM")
     fuel_deliv_parameters["TechName"] = "FTE_" + fuel_deliv_parameters["Comm-OUT"]
 
     fuel_deliv_parameters["LIFE"] = 100  # pretty sure we don't need this

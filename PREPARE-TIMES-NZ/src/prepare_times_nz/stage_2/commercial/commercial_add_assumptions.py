@@ -1,5 +1,5 @@
 """
-Loads commercial data and adds all assumption inputs
+Loads commercial data and adds all assumption inputs.
 
  - Availability factors
  - Capital and operating costs
@@ -33,7 +33,7 @@ from prepare_times_nz.stage_2.common.add_tech_assumptions import (
 # Get DATA --------------------------------------------------------------
 
 # Assumption CSVs were saved with Windows-1252 on your machine; be tolerant on read.
-_READ_OPTS = dict(encoding="cp1252", encoding_errors="replace")
+_READ_OPTS = {"encoding": "cp1252", "encoding_errors": "replace"}
 
 # Load and restrict to expected columns
 afa_data = pd.read_csv(COMMERCIAL_ASSUMPTIONS / "tech_afa.csv", **_READ_OPTS)[
@@ -56,6 +56,7 @@ lif_data = pd.read_csv(COMMERCIAL_ASSUMPTIONS / "tech_lifetimes.csv", **_READ_OP
 
 
 def tidy_data(df: pd.DataFrame) -> pd.DataFrame:
+    """Tidy data and column selection."""
     value_units = {
         "Life": "Years",
         "Efficiency": "%",
@@ -71,7 +72,7 @@ def tidy_data(df: pd.DataFrame) -> pd.DataFrame:
     if "Value" in df.columns:
         df.rename(columns={"Value": "ExistingValue"}, inplace=True)
 
-    melt_columns = [col for col in value_units.keys() if col in df.columns]
+    melt_columns = [col for col in value_units if col in df.columns]
     id_cols = df.columns.difference(melt_columns).tolist()
 
     if not melt_columns:
@@ -91,29 +92,29 @@ def tidy_data(df: pd.DataFrame) -> pd.DataFrame:
     if "ExistingValue" in df.columns:
         df = df.drop(columns=["ExistingValue", "PriceBaseYear"])
 
-    desired_order = [
-        "SectorGroup",
-        "Sector",
-        "SectorAnzsic",
-        "FuelGroup",
-        "Fuel",
-        "TechnologyGroup",
-        "Technology",
-        "EnduseGroup",
-        "EndUse",
-        "Transport",
-        "Island",
-        "Variable",
-        "Year",
-        "Value",
-        "Unit",
-    ]
+    # desired_order = [
+    #     "SectorGroup",
+    #     "Sector",
+    #     "SectorAnzsic",
+    #     "FuelGroup",
+    #     "Fuel",
+    #     "TechnologyGroup",
+    #     "Technology",
+    #     "EnduseGroup",
+    #     "EndUse",
+    #     "Transport",
+    #     "Island",
+    #     "Variable",
+    #     "Year",
+    #     "Value",
+    #     "Unit",
+    # ]
 
-    # Keep only those columns that actually exist in df
-    cols = [c for c in desired_order if c in df.columns]
-    other_cols = [c for c in df.columns if c not in cols]
+    # # Keep only those columns that actually exist in df
+    # cols = [c for c in desired_order if c in df.columns]
+    # other_cols = [c for c in df.columns if c not in cols]
 
-    df = df[cols + other_cols]  # puts desired columns first, rest afterwards
+    # df = df[cols + other_cols]  # puts desired columns first, rest afterwards
 
     return df
 
