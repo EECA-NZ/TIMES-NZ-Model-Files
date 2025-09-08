@@ -22,6 +22,8 @@ from prepare_times_nz.stage_2.commercial.common import (
     save_output,
 )
 
+# pylint: disable=duplicate-code
+
 
 def main():
     """Script entrypoint"""

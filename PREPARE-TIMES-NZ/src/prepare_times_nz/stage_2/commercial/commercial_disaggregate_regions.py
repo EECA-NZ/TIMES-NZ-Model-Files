@@ -23,26 +23,27 @@ Outputs:
 - STAGE_2_DATA/commercial/checks/2_Island_disaggregation/fuel_sector_shares.csv
 """
 
-from __future__ import annotations
-
-import os
+from pathlib import Path
 
 import pandas as pd
-from prepare_times_nz.stage_2.industry import save_checks, save_output
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA
-from prepare_times_nz.utilities.logger_setup import logger
+from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # -----------------------------------------------------------------------------
 # Locations
 # -----------------------------------------------------------------------------
-OUTPUT_DIR = f"{STAGE_2_DATA}/commercial/preprocessing"
-CHECKS_DIR = f"{STAGE_2_DATA}/commercial/checks/2_Island_disaggregation"
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-os.makedirs(CHECKS_DIR, exist_ok=True)
+OUTPUT_DIR = Path(STAGE_2_DATA) / "commercial" / "preprocessing"
+CHECKS_DIR = Path(STAGE_2_DATA) / "commercial" / "checks" / "2_Island_disaggregation"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+CHECKS_DIR.mkdir(parents=True, exist_ok=True)
 
-BASEYEAR_CSV = f"{OUTPUT_DIR}/1_times_eeud_alignment_baseyear.csv"
-SECTOR_SPLITS_CSV = f"{ASSUMPTIONS}/commercial_demand/regional_splits_by_sector.csv"
-FUEL_OVERRIDES_CSV = f"{ASSUMPTIONS}/commercial_demand/regional_splits_by_fuel.csv"
+BASEYEAR_CSV = OUTPUT_DIR / "1_times_eeud_alignment_baseyear.csv"
+SECTOR_SPLITS_CSV = (
+    Path(ASSUMPTIONS) / "commercial_demand" / "regional_splits_by_sector.csv"
+)
+FUEL_OVERRIDES_CSV = (
+    Path(ASSUMPTIONS) / "commercial_demand" / "regional_splits_by_fuel.csv"
+)
 
 ROUND_TOL = 8  # round NI/SI for FP stability
 
@@ -178,6 +179,21 @@ def tidy_long_island(df: pd.DataFrame) -> pd.DataFrame:
     return df_long
 
 
+# --- saving helpers ---
+def save_output(df: pd.DataFrame, name: str) -> None:
+    """Save DataFrame to the preprocessing output directory."""
+    fp = OUTPUT_DIR / name
+    logger.info("Saving output → %s", blue_text(str(fp)))
+    df.to_csv(fp, index=False)
+
+
+def save_checks(df: pd.DataFrame, name: str, label: str) -> None:
+    """Save diagnostic/check tables."""
+    fp = CHECKS_DIR / name
+    logger.info("Saving check (%s) → %s", label, blue_text(str(fp)))
+    df.to_csv(fp, index=False)
+
+
 def save_checks_pivot(df_long: pd.DataFrame) -> None:
     """Simple check: fuel-by-sector NI share matrix."""
     wide = df_long.pivot_table(
@@ -192,7 +208,7 @@ def save_checks_pivot(df_long: pd.DataFrame) -> None:
     total = wide.get("NI", 0) + wide.get("SI", 0)
     shares = wide[["Sector", "Fuel"]].copy()
     shares["NI_Share"] = (wide["NI"] / total).where(total != 0, 0)
-    save_checks(shares, "fuel_sector_shares.csv", "fuel × sector NI shares", CHECKS_DIR)
+    save_checks(shares, "fuel_sector_shares.csv", "fuel × sector NI shares")
 
 
 # -----------------------------------------------------------------------------
@@ -216,7 +232,7 @@ def calculate_and_save() -> pd.DataFrame:
 
     df_long = tidy_long_island(df)
 
-    save_output(df_long, "2_times_baseyear_regional_disaggregation.csv", OUTPUT_DIR)
+    save_output(df_long, "2_times_baseyear_regional_disaggregation.csv")
     save_checks_pivot(df_long)
 
     logger.info("Regional disaggregation complete: %s rows", len(df_long))

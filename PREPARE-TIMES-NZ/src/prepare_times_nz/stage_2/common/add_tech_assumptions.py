@@ -11,7 +11,7 @@ from prepare_times_nz.utilities.logger_setup import logger
 
 BASE_YEAR = 2023
 CAP2ACT = 31.536
-# RUN_TESTS = True
+RUN_TESTS = True
 
 
 def check_missing_lifetimes(df: pd.DataFrame) -> None:
@@ -28,12 +28,12 @@ def add_lifetimes(
     df: pd.DataFrame,
     lifetimes: pd.DataFrame,
     cols: Sequence[str] = ("Technology",),  # immutable default
-    # run_tests: bool = RUN_TESTS,
+    run_tests: bool = RUN_TESTS,
 ) -> pd.DataFrame:
     """Merge technology lifetime data into the main DataFrame."""
     out = df.merge(lifetimes, on=list(cols), how="left")
-    # if run_tests:
-    #     check_missing_lifetimes(out)
+    if run_tests:
+        check_missing_lifetimes(out)
     return out
 
 
@@ -51,14 +51,13 @@ def check_missing_efficiencies(
 
 
 def add_efficiencies(
-    df: pd.DataFrame,
-    eff_data: pd.DataFrame,  # run_tests: bool = RUN_TESTS
+    df: pd.DataFrame, eff_data: pd.DataFrame, run_tests: bool = RUN_TESTS
 ) -> pd.DataFrame:
     """Merge efficiency data per fuel and technology into main DataFrame."""
     eff_data = eff_data[["Technology", "Fuel", "Efficiency"]]
     df = df.merge(eff_data, on=["Technology", "Fuel"], how="left")
-    # if run_tests:
-    #     check_missing_efficiencies(df)
+    if run_tests:
+        check_missing_efficiencies(df)
     df["Efficiency"] = df["Efficiency"].fillna(1)
     return df
 
@@ -75,21 +74,11 @@ def check_missing_capex(
             logger.warning("    %s", " | ".join(f"'{row[c]}'" for c in cols))
 
 
-# Vectorized alternative (optional):
-# if not missing_capex.empty:
-#     logger.warning("Processes with missing capital cost:\n    %s",
-#                    "\n    ".join(" | ".join(f"'{v}'" for v in r)
-#                                 for r in missing_capex.to_numpy()))
-
-
-# --- CAPEX / OPEX merge functions -------------------------------------------
-
-
 def add_capex(
     df: pd.DataFrame,
     capex_data: pd.DataFrame,
     cols: Sequence[str] = ("Technology", "Fuel"),
-    # run_tests: bool = RUN_TESTS,
+    run_tests: bool = RUN_TESTS,
 ) -> pd.DataFrame:
     """Merge and deflate CAPEX into the main DataFrame."""
     # Select only required columns from capex_data
@@ -98,23 +87,39 @@ def add_capex(
         capex_sel, base_year=BASE_YEAR, variables_to_deflate=["CAPEX"]
     )
     out = df.merge(capex_deflated, on=list(cols), how="left")
-    # if run_tests:
-    #     check_missing_capex(out, cols=cols)
+    if run_tests:
+        check_missing_capex(out, cols=cols)
     return out
+
+
+def check_missing_opex(
+    df: pd.DataFrame,
+    cols: Sequence[str] = ("Technology", "Fuel"),
+) -> None:
+    """Log warning for processes/technologies missing operating cost data."""
+    missing_opex = df[df["OPEX"].isna()][list(cols)].drop_duplicates()
+    if not missing_opex.empty:
+        logger.warning("Processes with missing operating cost:")
+        for _, row in missing_opex.iterrows():
+            logger.warning("    %s", " | ".join(f"'{row[c]}'" for c in cols))
 
 
 def add_opex(
     df: pd.DataFrame,
     opex_data: pd.DataFrame,
     cols: Sequence[str] = ("Technology", "Fuel"),
-    # run_tests: bool = RUN_TESTS,  # kept for symmetry; not used here
+    run_tests: bool = RUN_TESTS,
 ) -> pd.DataFrame:
     """Merge and deflate OPEX into the main DataFrame."""
     opex_sel = opex_data[list(cols) + ["PriceBaseYear", "OPEX"]]
     opex_deflated = deflate_data(
         opex_sel, base_year=BASE_YEAR, variables_to_deflate=["OPEX"]
     ).drop(columns="PriceBaseYear")
-    return df.merge(opex_deflated, on=list(cols), how="left")
+
+    out = df.merge(opex_deflated, on=list(cols), how="left")
+    if run_tests:
+        check_missing_opex(out, cols=cols)
+    return out
 
 
 # --- AFA merge (flexible keys) ----------------------------------------------
@@ -144,6 +149,8 @@ def add_afa(
             keys = ["Sector", "EndUse", "Technology"]
         elif "EndUse" in afa_data.columns and "EndUse" in df.columns:
             keys = ["EndUse"]
+        elif "Technology" in afa_data.columns and "Technology" in df.columns:
+            keys = ["Technology"]
         else:
             raise KeyError("No compatible join keys between df and afa_data.")
 
