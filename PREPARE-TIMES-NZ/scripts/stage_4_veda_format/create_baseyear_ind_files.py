@@ -1,4 +1,4 @@
-"""All baseyear industrial veda files
+"""All baseyear industrial veda files.
 Mostly built off of one input table, with additional inputs
 including the variable selection/renaming
 And a few other basic inputs defined in the constants section."""
