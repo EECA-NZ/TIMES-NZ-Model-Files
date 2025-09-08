@@ -31,6 +31,7 @@ from prepare_times_nz.stage_2.industry.industry_disaggregate_regions import (
 )
 
 
+# pylint: disable=duplicate-code
 def main():
     """Script entrypoint"""
 
