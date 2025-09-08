@@ -12,11 +12,10 @@ Run directly:
 or import the `main()` function from elsewhere in the pipeline or tests.
 """
 
-import os
 import tomllib
+from pathlib import Path
 
 import pandas as pd
-from prepare_times_nz.stage_2.industry import save_checks, save_output
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
     DATA_RAW,
@@ -32,13 +31,12 @@ BASE_YEAR = 2023
 BALLANCE_FEEDSTOCK_SHARE_ASSUMPTION = 0.53
 BALLANCE_DU_ASSUMPTION = 0.38
 
-OUTPUT_LOCATION = f"{STAGE_2_DATA}/industry/preprocessing"
-CHECKS_LOCATION = f"{STAGE_2_DATA}/industry/checks/1_sector_alignment"
+# Make these real Paths (not strings)
+OUTPUT_LOCATION = Path(STAGE_2_DATA) / "industry" / "preprocessing"
+CHECKS_LOCATION = Path(STAGE_2_DATA) / "industry" / "checks" / "1_sector_alignment"
 
-
-os.makedirs(OUTPUT_LOCATION, exist_ok=True)
-os.makedirs(CHECKS_LOCATION, exist_ok=True)
-
+OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
+CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
 # ----------------------------------------------------------------------------
 # Helper Functions
 # ----------------------------------------------------------------------------
@@ -48,6 +46,20 @@ def parse_toml_file(file_path):
     """Read and parse a TOML file."""
     with open(file_path, "rb") as f:
         return tomllib.load(f)
+
+
+def save_output(df: pd.DataFrame, name: str) -> None:
+    """Save DataFrame to the preprocessing output directory."""
+    fp = OUTPUT_LOCATION / name
+    logger.info("Saving output → %s", blue_text(str(fp)))
+    df.to_csv(fp, index=False)
+
+
+def save_checks(df: pd.DataFrame, name: str, label: str) -> None:
+    """Save diagnostic/check tables."""
+    fp = CHECKS_LOCATION / name
+    logger.info("Saving check (%s) → %s", label, blue_text(str(fp)))
+    df.to_csv(fp, index=False)
 
 
 # ----------------------------------------------------------------------------
@@ -340,11 +352,11 @@ def create_chemical_nga_shares(
         + calcs["Methanex Furnaces"]
     )
     calcs["Methanex FS Share"] = calcs["Methanex Feedstock"] / calcs["Methanex Total"]
+
     save_checks(
         calcs,
         name="chemical_split_calculations.csv",
         label="detailed chemical split calculations and tests",
-        dir=CHECKS_LOCATION,
     )
     df2 = calcs[
         [
@@ -444,11 +456,12 @@ def create_default_groups_per_fuel(df):
     # Value no longer needed and also remove index
     df = df.drop(["Value", "index"], axis=1)
 
-    # save this as well for reference
+    # save this as well for reference)
     save_checks(
-        df, name="default_fuel_uses.csv", label="default fuel uses", dir=CHECKS_LOCATION
+        df,
+        name="default_fuel_uses.csv",
+        label="default fuel uses",
     )
-
     return df
 
 
@@ -520,11 +533,11 @@ def check_sector_demand_shares(df, year=BASE_YEAR):
     df = df.groupby(["Sector"])[["Value"]].sum().reset_index()
     df["Total Demand"] = df["Value"].sum()
     df["Share of Industrial demand"] = df["Value"] / df["Value"].sum()
+
     save_checks(
         df,
         name=f"industry_demand_shares_{year}.csv",
         label=f"industry demand shares in {year}",
-        dir=CHECKS_LOCATION,
     )
 
 
@@ -570,9 +583,8 @@ def main():
         df,
         "times_eeud_alignment_timeseries.csv",
         "full EEUD timeseries",
-        CHECKS_LOCATION,
     )
-    save_output(df_baseyear, "1_times_eeud_alignment_baseyear.csv", OUTPUT_LOCATION)
+    save_output(df_baseyear, "1_times_eeud_alignment_baseyear.csv")
 
 
 if __name__ == "__main__":

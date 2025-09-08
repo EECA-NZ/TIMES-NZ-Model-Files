@@ -11,70 +11,40 @@ This script performs:
 This script is idempotent: re-running will overwrite previous outputs.
 """
 
-import subprocess
-import sys
-from pathlib import Path
-
 import pandas as pd
-from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_2_SCRIPTS
-from prepare_times_nz.utilities.logger_setup import h1
-
-# ---------------------------------------------------------------------------
-# Constants
-# ---------------------------------------------------------------------------
-INDUSTRY_SCRIPTS_DIR = Path(STAGE_2_SCRIPTS) / "industry"
-PREPROCESS_INPUT = (
-    Path(STAGE_2_DATA)
-    / "industry"
-    / "preprocessing"
-    / "4_times_baseyear_with_commodity_definitions.csv"
+from prepare_times_nz.stage_2.industry.common import (
+    PREPRO_DF_NAME_STEP4,
+    PREPROCESSING_DIR,
+    save_output,
 )
-OUTPUT_FILE = Path(STAGE_2_DATA) / "industry" / "baseyear_industry_demand.csv"
-
-# ---------------------------------------------------------------------------
-# Helper functions
-# ---------------------------------------------------------------------------
-
-
-def run_script(script_path: Path) -> None:
-    """Run a script at *script_path* using the current Python interpreter."""
-    subprocess.run([sys.executable, str(script_path)], check=True)
-
-
-def run_all_preprocessing() -> None:
-    """Execute the industry preprocessing scripts in the required sequence."""
-    steps = [
-        (
-            "Aligning EEUD and TIMES industrial sector categories",
-            "industry_align_eeud_sectors.py",
-        ),
-        (
-            "Calculating regional disaggregations based on input assumptions",
-            "industry_disaggregate_regions.py",
-        ),
-        ("Adding technical parameters by assumption", "industry_add_assumptions.py"),
-        (
-            "Defining processes and commodities",
-            "industry_define_process_commodities.py",
-        ),
-    ]
-    for message, script_name in steps:
-        h1(message)
-        script_path = INDUSTRY_SCRIPTS_DIR / script_name
-        run_script(script_path)
+from prepare_times_nz.stage_2.industry.industry_add_assumptions import (
+    main as add_assumptions,
+)
+from prepare_times_nz.stage_2.industry.industry_align_eeud_sectors import (
+    main as align_eeud_sectors,
+)
+from prepare_times_nz.stage_2.industry.industry_define_process_commodities import (
+    main as generate_process_names,
+)
+from prepare_times_nz.stage_2.industry.industry_disaggregate_regions import (
+    main as disaggregate_demand,
+)
 
 
-def assemble_final_output() -> None:
-    """Copy the final preprocessed CSV into the main base-year industry demand file."""
-    df = pd.read_csv(PREPROCESS_INPUT)
-    df.to_csv(OUTPUT_FILE, index=False)
-    h1(f"Wrote final base-year industry demand to {OUTPUT_FILE}")
+def main():
+    """Script entrypoint"""
 
-
-def main() -> None:
-    """Main entry point."""
-    run_all_preprocessing()
-    assemble_final_output()
+    # 1: align eeud sectors and make other adjustments
+    align_eeud_sectors()
+    # 2: disaggregate demand - aggregate per island
+    disaggregate_demand()
+    # 3: add all assumptions, infer capacity, tidy
+    add_assumptions()
+    # 4: Generate TIMES process names and definitions for the model
+    generate_process_names()
+    # 5: take the final output and save it to the output folder for downstream use
+    df = pd.read_csv(PREPROCESSING_DIR / PREPRO_DF_NAME_STEP4)
+    save_output(df, "baseyear_industry_demand.csv", "baseyear industry demand")
 
 
 if __name__ == "__main__":

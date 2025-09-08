@@ -92,30 +92,6 @@ def tidy_data(df: pd.DataFrame) -> pd.DataFrame:
     if "ExistingValue" in df.columns:
         df = df.drop(columns=["ExistingValue", "PriceBaseYear"])
 
-    # desired_order = [
-    #     "SectorGroup",
-    #     "Sector",
-    #     "SectorAnzsic",
-    #     "FuelGroup",
-    #     "Fuel",
-    #     "TechnologyGroup",
-    #     "Technology",
-    #     "EnduseGroup",
-    #     "EndUse",
-    #     "Transport",
-    #     "Island",
-    #     "Variable",
-    #     "Year",
-    #     "Value",
-    #     "Unit",
-    # ]
-
-    # # Keep only those columns that actually exist in df
-    # cols = [c for c in desired_order if c in df.columns]
-    # other_cols = [c for c in df.columns if c not in cols]
-
-    # df = df[cols + other_cols]  # puts desired columns first, rest afterwards
-
     return df
 
 
@@ -161,9 +137,9 @@ def get_commercial_assumptions(df: pd.DataFrame) -> pd.DataFrame:
     # print("Columns after add_efficiencies:", df.columns)
     # print("After efficiencies:", len(df))
 
-    df = add_lifetimes(df, lif_data, cols=["Technology"])
-    df = add_capex(df, cap_data, cols=["Technology", "Fuel"])
-    df = add_opex(df, opex_data, cols=["Technology", "Fuel"])
+    df = add_lifetimes(df, lif_data)
+    df = add_capex(df, cap_data)
+    df = add_opex(df, opex_data)
     df = add_afa(df, afa_data)
 
     # Derived metrics

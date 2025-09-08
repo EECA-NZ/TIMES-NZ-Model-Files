@@ -56,12 +56,12 @@ Layout:
 # --------------------------------------------------------------------------- #
 # Imports
 # --------------------------------------------------------------------------- #
-import os
+
+from pathlib import Path
 
 import pandas as pd
-from prepare_times_nz.stage_2.industry import save_checks, save_output
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA
-from prepare_times_nz.utilities.logger_setup import h2, logger
+from prepare_times_nz.utilities.logger_setup import blue_text, h2, logger
 
 # --------------------------------------------------------------------------- #
 # Constants
@@ -82,11 +82,11 @@ logger.info("Will calculate group shares using '%s'", GROUP_USED)
 # --------------------------------------------------------------------------- #
 # File-paths
 # --------------------------------------------------------------------------- #
-OUTPUT_LOCATION = f"{STAGE_2_DATA}/industry/preprocessing"
-os.makedirs(OUTPUT_LOCATION, exist_ok=True)
+OUTPUT_LOCATION = Path(STAGE_2_DATA) / "industry" / "preprocessing"
+OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 
-CHECKS_LOCATION = f"{STAGE_2_DATA}/industry/checks/2_region_disaggregation"
-os.makedirs(CHECKS_LOCATION, exist_ok=True)
+CHECKS_LOCATION = Path(STAGE_2_DATA) / "industry" / "checks" / "2_region_disaggregation"
+CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
 
 # --------------------------------------------------------------------------- #
 # Data – loaded at import so default arguments work unchanged
@@ -254,6 +254,29 @@ def tidy_data(df: pd.DataFrame) -> pd.DataFrame:
 
     # Remove explicit zeros (e.g., SI natural gas if all NG assumed 100 % NI)
     return df[df["Value"] != 0]
+
+
+def save_output(
+    df: pd.DataFrame,
+    name: str,
+    directory: Path = OUTPUT_LOCATION,  # ← allow an optional directory arg
+) -> None:
+    """Save DataFrame to the preprocessing output directory."""
+    fp = directory / name
+    logger.info("Saving output → %s", blue_text(fp))
+    df.to_csv(fp, index=False)
+
+
+def save_checks(
+    df: pd.DataFrame,
+    name: str,
+    label: str,
+    directory: Path = CHECKS_LOCATION,  # ← allow an optional directory arg
+) -> None:
+    """Save diagnostic/check tables."""
+    fp = directory / name
+    logger.info("Saving check (%s) → %s", label, blue_text(fp))
+    df.to_csv(fp, index=False)
 
 
 # --------------------------------------------------------------------------- #
