@@ -1,0 +1,21 @@
+# Base year primary energy supply for TIMES:
+
+# Gas 
+# Oil 
+# Coal
+# Other Later probably (renewables) 
+
+WorkBookName = "VT_TIMESNZ_PRI"
+
+###########################################
+# Gas
+###########################################
+
+
+[ResidentialEndUseCommodityDefinitions]
+Description = "The tag's description"
+SheetName = "Gas"
+TagName = "FI_T"
+Placeholder_Data = "Hello"
+Placeholder_Data_Description = "THis isn'tr done yet "
+
