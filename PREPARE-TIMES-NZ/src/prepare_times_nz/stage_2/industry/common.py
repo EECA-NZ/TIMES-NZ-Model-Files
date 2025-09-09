@@ -16,7 +16,7 @@ from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # Constants ------------------------------------------------
 BASE_YEAR = 2023
-RUN_TESTS = False
+RUN_TESTS = True
 CAP2ACT = 31.536
 
 # Filepaths ------------------------------------------------

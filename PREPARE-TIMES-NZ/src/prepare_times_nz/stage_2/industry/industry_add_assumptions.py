@@ -106,7 +106,9 @@ def main() -> None:
     """Script entrypoint"""
     df = pd.read_csv(PREPROCESSING_DIR / PREPRO_DF_NAME_STEP2)
     df = get_industry_assumptions(df)
-    save_preprocessing(df, PREPRO_DF_NAME_STEP3, "3_times_baseyear_with_assumptions")
+    save_preprocessing(
+        df, PREPRO_DF_NAME_STEP3, "industry baseyear data with assumptions"
+    )
 
 
 if __name__ == "__main__":
