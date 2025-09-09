@@ -64,26 +64,25 @@ Tweaks
 # ----------------------------------------------------------------------------
 from __future__ import annotations
 
-import os
 from typing import List
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.utilities.csv_writers import save_dataframe_to_csv
-from prepare_times_nz.utilities.filepaths import CONCORDANCES, STAGE_2_DATA
+from prepare_times_nz.stage_2.industry.common import (
+    INDUSTRY_CONCORDANCES,
+    PREPRO_DF_NAME_STEP3,
+    PREPRO_DF_NAME_STEP4,
+    PREPROCESSING_DIR,
+    RUN_TESTS,
+    save_checks,
+    save_preprocessing,
+)
 from prepare_times_nz.utilities.logger_setup import logger
 
 # ----------------------------------------------------------------------------
 # Constants
 # ----------------------------------------------------------------------------
-RUN_TESTS: bool = True
 
-OUTPUT_LOCATION = f"{STAGE_2_DATA}/industry/preprocessing"
-CHECKS_LOCATION = f"{STAGE_2_DATA}/industry/checks/4_process_commodity_definitions"
-os.makedirs(OUTPUT_LOCATION, exist_ok=True)
-os.makedirs(CHECKS_LOCATION, exist_ok=True)
-
-INDUSTRY_CONCORDANCES = f"{CONCORDANCES}/industry"
 
 # Concordance tables – loaded at import time so they are module‑level constants
 USE_CODES = pd.read_csv(f"{INDUSTRY_CONCORDANCES}/use_codes.csv")
@@ -186,20 +185,22 @@ def make_wide(df: pd.DataFrame) -> pd.DataFrame:
 def main() -> None:
     """Entrypoint for running the process/commodity definition stage."""
     # Input table
-    df = pd.read_csv(f"{OUTPUT_LOCATION}/3_times_baseyear_with_assumptions.csv")
+    df = pd.read_csv(PREPROCESSING_DIR / PREPRO_DF_NAME_STEP3)
 
     # Transform
     df = define_process_commodities(df)
 
     # Save outputs
-    save_dataframe_to_csv(
-        df, OUTPUT_LOCATION, "4_times_baseyear_with_commodity_definitions.csv"
+    save_preprocessing(
+        df,
+        PREPRO_DF_NAME_STEP4,
+        "baseyear industry data with commodity and process definitions",
     )
 
     df_wide = make_wide(df)
-    save_dataframe_to_csv(
+
+    save_checks(
         df_wide,
-        CHECKS_LOCATION,
         "baseyear_with_commodities_wide.csv",
         label="data in wide format",
     )

@@ -13,15 +13,16 @@ or import the `main()` function from elsewhere in the pipeline or tests.
 """
 
 import tomllib
-from pathlib import Path
 
 import pandas as pd
-from prepare_times_nz.utilities.filepaths import (
-    ASSUMPTIONS,
-    DATA_RAW,
-    STAGE_1_DATA,
-    STAGE_2_DATA,
+from prepare_times_nz.stage_2.industry.common import (
+    INDUSTRY_ASSUMPTIONS,
+    INDUSTRY_CONCORDANCES,
+    PREPRO_DF_NAME_STEP1,
+    save_checks,
+    save_preprocessing,
 )
+from prepare_times_nz.utilities.filepaths import STAGE_1_DATA
 from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # ----------------------------------------------------------------------------
@@ -31,12 +32,6 @@ BASE_YEAR = 2023
 BALLANCE_FEEDSTOCK_SHARE_ASSUMPTION = 0.53
 BALLANCE_DU_ASSUMPTION = 0.38
 
-# Make these real Paths (not strings)
-OUTPUT_LOCATION = Path(STAGE_2_DATA) / "industry" / "preprocessing"
-CHECKS_LOCATION = Path(STAGE_2_DATA) / "industry" / "checks" / "1_sector_alignment"
-
-OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
-CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
 # ----------------------------------------------------------------------------
 # Helper Functions
 # ----------------------------------------------------------------------------
@@ -48,20 +43,6 @@ def parse_toml_file(file_path):
         return tomllib.load(f)
 
 
-def save_output(df: pd.DataFrame, name: str) -> None:
-    """Save DataFrame to the preprocessing output directory."""
-    fp = OUTPUT_LOCATION / name
-    logger.info("Saving output → %s", blue_text(str(fp)))
-    df.to_csv(fp, index=False)
-
-
-def save_checks(df: pd.DataFrame, name: str, label: str) -> None:
-    """Save diagnostic/check tables."""
-    fp = CHECKS_LOCATION / name
-    logger.info("Saving check (%s) → %s", label, blue_text(str(fp)))
-    df.to_csv(fp, index=False)
-
-
 # ----------------------------------------------------------------------------
 # Data Loading
 # ----------------------------------------------------------------------------
@@ -71,21 +52,21 @@ def load_data():
     """Load all necessary input data."""
     data = {
         "times_eeud_industry_categories": pd.read_csv(
-            f"{DATA_RAW}/concordances/industry/times_eeud_industry_categories.csv"
+            INDUSTRY_CONCORDANCES / "times_eeud_industry_categories.csv"
         ),
-        "gic_data": pd.read_csv(f"{STAGE_1_DATA}/gic/gic_production_consumption.csv"),
-        "eeud": pd.read_csv(f"{STAGE_1_DATA}/eeud/eeud.csv"),
+        "gic_data": pd.read_csv(STAGE_1_DATA / "gic/gic_production_consumption.csv"),
+        "eeud": pd.read_csv(STAGE_1_DATA / "eeud/eeud.csv"),
         "mbie_gas_non_energy": pd.read_csv(
-            f"{STAGE_1_DATA}/mbie/mbie_gas_non_energy.csv"
+            STAGE_1_DATA / "mbie/mbie_gas_non_energy.csv"
         ),
         "chemical_split_categories": pd.read_csv(
-            f"{ASSUMPTIONS}/industry_demand/chemical_split_category_definitions.csv"
+            INDUSTRY_ASSUMPTIONS / "chemical_split_category_definitions.csv"
         ),
         "nz_steel_coal_use": pd.read_csv(
-            f"{ASSUMPTIONS}/industry_demand/nz_steel_coal_use.csv"
+            INDUSTRY_ASSUMPTIONS / "nz_steel_coal_use.csv"
         ),
         "eeud_tech_adjustments": parse_toml_file(
-            f"{DATA_RAW}/concordances/industry/times_eeud_tech_renames.toml"
+            INDUSTRY_CONCORDANCES / "times_eeud_tech_renames.toml"
         ),
     }
     return data
@@ -584,7 +565,9 @@ def main():
         "times_eeud_alignment_timeseries.csv",
         "full EEUD timeseries",
     )
-    save_output(df_baseyear, "1_times_eeud_alignment_baseyear.csv")
+    save_preprocessing(
+        df_baseyear, PREPRO_DF_NAME_STEP1, "eeud and TIMES sector alignments"
+    )
 
 
 if __name__ == "__main__":

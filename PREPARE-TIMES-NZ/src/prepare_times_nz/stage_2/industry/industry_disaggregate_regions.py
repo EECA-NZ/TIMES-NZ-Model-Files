@@ -57,21 +57,29 @@ Layout:
 # Imports
 # --------------------------------------------------------------------------- #
 
-from pathlib import Path
-
 import pandas as pd
-from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA
-from prepare_times_nz.utilities.logger_setup import blue_text, h2, logger
+from prepare_times_nz.stage_2.industry.common import (
+    CHECKS_DIR,
+    INDUSTRY_ASSUMPTIONS,
+    PREPRO_DF_NAME_STEP1,
+    PREPRO_DF_NAME_STEP2,
+    PREPROCESSING_DIR,
+    RUN_TESTS,
+    save_checks,
+    save_preprocessing,
+)
+from prepare_times_nz.utilities.logger_setup import h2, logger
 
 # --------------------------------------------------------------------------- #
 # Constants
 # --------------------------------------------------------------------------- #
-# Toggle extra checks / verbose output
-RUN_TESTS = False
+
+
 if RUN_TESTS:
     logger.info("Including test outputs")
 else:
     logger.info("Not running tests")
+
 
 # Grouping column used when balancing shares.  Typical options: Technology,
 # EndUse, etc.  Within each subsector, the NI/SI fuel shares will balance for
@@ -79,31 +87,21 @@ else:
 GROUP_USED = "Technology"
 logger.info("Will calculate group shares using '%s'", GROUP_USED)
 
-# --------------------------------------------------------------------------- #
-# File-paths
-# --------------------------------------------------------------------------- #
-OUTPUT_LOCATION = Path(STAGE_2_DATA) / "industry" / "preprocessing"
-OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
-
-CHECKS_LOCATION = Path(STAGE_2_DATA) / "industry" / "checks" / "2_region_disaggregation"
-CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
 
 # --------------------------------------------------------------------------- #
 # Data – loaded at import so default arguments work unchanged
+# should really adjust these so all the functions take the I/O properly !!
 # --------------------------------------------------------------------------- #
-baseyear_industry = pd.read_csv(
-    f"{OUTPUT_LOCATION}/1_times_eeud_alignment_baseyear.csv"
-)
 
 # Assumption tables
 regional_splits_by_sector = pd.read_csv(
-    f"{ASSUMPTIONS}/industry_demand/regional_splits_by_sector.csv"
+    INDUSTRY_ASSUMPTIONS / "regional_splits_by_sector.csv"
 )
 regional_splits_by_fuel = pd.read_csv(
-    f"{ASSUMPTIONS}/industry_demand/regional_splits_by_fuel.csv"
+    INDUSTRY_ASSUMPTIONS / "regional_splits_by_fuel.csv"
 )
 regional_splits_by_sector_and_fuel = pd.read_csv(
-    f"{ASSUMPTIONS}/industry_demand/regional_splits_by_sector_and_fuel.csv"
+    INDUSTRY_ASSUMPTIONS / "regional_splits_by_sector_and_fuel.csv"
 )
 
 
@@ -226,8 +224,8 @@ def summarise_shares(df: pd.DataFrame, *, group_used: str = GROUP_USED) -> pd.Da
 
 def apply_shares_to_main_dataframe(
     df: pd.DataFrame,
+    main_df: pd.DataFrame,
     *,
-    main_df: pd.DataFrame = baseyear_industry,
     tolerance: int = 8,
 ) -> pd.DataFrame:
     """
@@ -256,29 +254,6 @@ def tidy_data(df: pd.DataFrame) -> pd.DataFrame:
     return df[df["Value"] != 0]
 
 
-def save_output(
-    df: pd.DataFrame,
-    name: str,
-    directory: Path = OUTPUT_LOCATION,  # ← allow an optional directory arg
-) -> None:
-    """Save DataFrame to the preprocessing output directory."""
-    fp = directory / name
-    logger.info("Saving output → %s", blue_text(fp))
-    df.to_csv(fp, index=False)
-
-
-def save_checks(
-    df: pd.DataFrame,
-    name: str,
-    label: str,
-    directory: Path = CHECKS_LOCATION,  # ← allow an optional directory arg
-) -> None:
-    """Save diagnostic/check tables."""
-    fp = directory / name
-    logger.info("Saving check (%s) → %s", label, blue_text(fp))
-    df.to_csv(fp, index=False)
-
-
 # --------------------------------------------------------------------------- #
 # Tests / Reporting helpers (unchanged except for quoting fix)
 # --------------------------------------------------------------------------- #
@@ -298,7 +273,7 @@ def report_adjusted_weights(df: pd.DataFrame) -> pd.DataFrame:
         df[cols],
         "regional_share_adjustments.csv",
         "regional share adjustments made",
-        CHECKS_LOCATION,
+        CHECKS_DIR,
     )
 
     summary = df[
@@ -355,7 +330,7 @@ def report_aggregate_subsector_shares(df: pd.DataFrame) -> None:
         shares[["Sector", "DefaultShare", "AdjustedShare"]],
         "sector_share_adjustments.csv",
         "sector share adjustments",
-        CHECKS_LOCATION,
+        CHECKS_DIR,
     )
 
 
@@ -396,14 +371,14 @@ def report_sector_fuel_shares(df: pd.DataFrame) -> None:
 
     pivot = pd.pivot(
         shares[["Sector", "Fuel", "Share"]], index="Sector", columns="Fuel"
-    )
+    ).reset_index()
     report_sector_fuel_shares_feasible(pivot)
 
     save_checks(
-        pivot.reset_index(),
+        pivot,
         "fuel_sector_shares.csv",
         "fuel sector shares",
-        CHECKS_LOCATION,
+        CHECKS_DIR,
     )
 
     logger.info("Fuel and Sector North Island share results:")
@@ -424,6 +399,8 @@ def calculate_shares(df: pd.DataFrame) -> pd.DataFrame:
         4. Optionally run diagnostic reports.
         5. Merge shares onto main dataframe and tidy result.
     """
+
+    original_df = df.copy()
     df_calc = (
         df.pipe(get_usage_shares)
         .pipe(add_sector_default_shares)
@@ -444,10 +421,12 @@ def calculate_shares(df: pd.DataFrame) -> pd.DataFrame:
         df_calc,
         "full_industrial_share_calculations.csv",
         "all regional share calculations",
-        CHECKS_LOCATION,
+        CHECKS_DIR,
     )
 
-    result = df_calc.pipe(apply_shares_to_main_dataframe).pipe(tidy_data)
+    result = apply_shares_to_main_dataframe(df_calc, original_df)
+    result = tidy_data(result)
+
     return result
 
 
@@ -459,10 +438,13 @@ def main() -> None:
     Entry point for script execution.  Calculates regional split and saves the
     primary output CSV.
     """
-    logger.info("Starting regional disaggregation for industrial demand.")
+
+    baseyear_industry = pd.read_csv(PREPROCESSING_DIR / PREPRO_DF_NAME_STEP1)
+
     df_out = calculate_shares(baseyear_industry)
-    save_output(df_out, "2_times_baseyear_regional_disaggregation.csv", OUTPUT_LOCATION)
-    logger.info("Regional disaggregation complete.")
+    save_preprocessing(
+        df_out, PREPRO_DF_NAME_STEP2, "regional disaggregation for industrial demand"
+    )
 
 
 # --------------------------------------------------------------------------- #

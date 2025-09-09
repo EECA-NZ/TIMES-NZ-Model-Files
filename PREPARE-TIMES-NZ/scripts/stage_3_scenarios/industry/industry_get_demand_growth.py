@@ -20,8 +20,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from prepare_times_nz.stage_2.industry.common import CHECKS_DIR, INDUSTRY_ASSUMPTIONS
 from prepare_times_nz.utilities.filepaths import (
-    ASSUMPTIONS,
     DATA_INTERMEDIATE,
     STAGE_2_DATA,
 )
@@ -30,7 +30,6 @@ from prepare_times_nz.utilities.logger_setup import logger
 # Filepaths --------
 
 STAGE_2_INDUSTRY_DATA = f"{STAGE_2_DATA}/industry"
-INDUSTRY_ASSUMPTIONS = f"{ASSUMPTIONS}/industry_demand"
 OUTPUT_PATH = (
     DATA_INTERMEDIATE
     / Path("stage_3_scenario_data")
@@ -58,18 +57,14 @@ def get_demand_settings():
     return df
 
 
-def get_aggregate_data():
+def get_aggregate_data(checks_dir=CHECKS_DIR):
     """
-    Docstring needed
+    Load the TIMES sector's disaggregated timeseries data
+    (ie an EEUD timeseries with Methanex disaggregation etc)
+    THen summarise for total energy demand per sector
     """
 
-    times_eeud_alignment_timeseries_csv_path = (
-        Path(STAGE_2_INDUSTRY_DATA)
-        / "checks"
-        / "1_sector_alignment"
-        / "times_eeud_alignment_timeseries.csv"
-    )
-    df = pd.read_csv(times_eeud_alignment_timeseries_csv_path)
+    df = pd.read_csv(checks_dir / "times_eeud_alignment_timeseries.csv")
     df = df.groupby(["Year", "Sector"])["Value"].sum().reset_index()
     return df
 
