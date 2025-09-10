@@ -233,9 +233,9 @@ STAGE_2: dict[str, list[str]] = {
     "baseyear_residential_demand": ["residential/baseyear_residential_demand.csv"],
     "baseyear_commercial_demand": ["commercial/baseyear_commercial_demand.csv"],
     "settings/load_curves": [
-        "settings/load_curves.csv",
-        "settings/residential_curves.csv",
-        "settings.yrfr.csv",
+        "settings/load_curves/base_year_load_curve.csv",
+        "settings/load_curves/residential_curves.csv",
+        "settings/load_curves/yrfr.csv",
     ],
 }
 
@@ -303,7 +303,8 @@ def task_stage_1_extract() -> Iterator[dict]:
                 script,
                 *input_files,
                 *extra_in,
-                *_files_in_stage(S0_DIR),
+                # remove this so all raw data doesn't rerun on config change
+                # *_files_in_stage(S0_DIR),
             ],
             "targets": [_intermediate_out(rel, S1_DIR) for rel in rel_outs],
             "task_dep": ["stage_0_parse_tomls"],

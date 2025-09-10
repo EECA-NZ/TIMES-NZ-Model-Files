@@ -12,10 +12,117 @@ WorkBookName = "VT_TIMESNZ_PRI"
 ###########################################
 
 
-[ResidentialEndUseCommodityDefinitions]
-Description = "The tag's description"
-SheetName = "Gas"
+[GasSupplyCommodityDefinitions]
+Description = "Define natural gas and fugitive emissions commodities (North Island only). Hardcoded in user config."
+SheetName = "Natural Gas"
+TagName = "FI_Comm"
+Csets = ["NRG", "ENV"]
+Region = ["NI", "NI"]
+CommName = ["NGA", "GASCO2"]
+Unit = ["PJ", "kt"]
+
+[GasSupplyProcessDefinitions]
+Description = "Define natural gas production processes"
+SheetName = "Natural Gas"
+TagName = "FI_Process"
+
+PlaceHolderData = "Hello" # not built - should autogenerate? 
+
+[GasSupplyProcessParameters]
+Description = "Add costs and supply limits for natural gas production. Base year (excludes contingent)"
+SheetName = "Natural Gas"
 TagName = "FI_T"
-Placeholder_Data = "Hello"
-Placeholder_Data_Description = "THis isn'tr done yet "
+
+PlaceHolderData = "Hello" # not built
+
+# this will include costs and activity bounds 
+# cost will be a linear interpolation, but activity bound needs to be annual inputs from reserves 
+# the process definitions can be pulled from this as per normal 
+# later might need to mess with this a bit to standardise for reporting 
+
+###########################################
+# LNG
+###########################################
+
+[LNGSupplyCommodityDefinitions]
+Description = "Define LNG commodity"
+SheetName = "LNG"
+TagName = "FI_Comm"
+Csets = ["NRG"]
+Region = ["NI"]
+CommName = ["LNG"]
+Unit = ["PJ"]
+
+
+[LNGSupplyProcessDefinitions]
+Description = "Define LNG production processes"
+SheetName = "LNG"
+TagName = "FI_Process"
+
+PlaceHolderData = "Hello" # not built - should autogenerate? 
+
+
+[LNGSupplyProcessParameters]
+Description = "Adds costs to LNG processes. LNG should maybe go in a subres?"
+SheetName = "LNG"
+TagName = "FI_Process"
+
+PlaceHolderData = "Hello" # not built - should autogenerate? 
+
+###########################################
+# Oil
+###########################################
+
+[OilSupplyCommodityDefinitions]
+Description = "Define Oil and oil product commodities"
+SheetName = "Oil"
+TagName = "FI_Comm"
+Csets = ["NRG"] # (all energy commodities) 
+CommName = ["OILI",
+            "LPG",
+            "PET",
+            "PET",
+            "DSL",
+            "FOL",
+            "JET",]
+Unit = ["PJ"] # All PJ 
+
+[OilProductionProcessDefinitions]
+Description = "Define oil supply processes (mining)"
+SheetName = "Oil"
+TagName = "FI_Process"
+Sets = ["IMP"]
+CommName = ["MINOIL", "MINLPG"]
+Tact = "PJ" 
+Tcap = "PJa"
+
+[OilImportProcessDefinitions]
+Description = "Define oil supply processes (imported products)"
+SheetName = "Oil"
+TagName = "FI_Process"
+Sets = ["IMP"]
+CommName = ["IMPLPG",
+            "IMPPET",
+            "IMPPET",
+            "IMPDSL",
+            "IMPFOL",
+            "IMPJET",]
+Tact = "PJ" 
+Tcap = "PJa"
+
+[OilExportProcessDefinitions]
+Description = "Define oil export processes. With no refinery, only domestic crude is exported."
+SheetName = "Oil"
+TagName = "FI_Process"
+Sets = ["EXP"]
+CommName = ["EXPOIL"]
+Tact = "PJ" 
+Tcap = "PJa"
+
+[OilSupplyProcessParameters]
+
+Description = "Set base year activity and cost assumptions for oil product imports. Note extremely simple imports used directly"
+SheetName = "Oil"
+TagName = "FI_T"
+PlaceHolderData = "Hello" # not built - should autogenerate? 
 
