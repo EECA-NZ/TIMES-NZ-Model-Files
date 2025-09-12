@@ -389,7 +389,10 @@ def task_stage_5_build_excel():
     script = STAGE_4_SCRIPTS / "write_excel.py"
     return {
         "actions": [_run(str(script))],
-        "file_dep": [script] + _files_in_stage(S4_DIR) + [CONFIG_META_CSV],
+        "file_dep": [script]
+        + STAGE_0_INPUTS
+        + _files_in_stage(S4_DIR)
+        + [CONFIG_META_CSV],
         "targets": [_out(rel) for rel in STAGE_5["write_excel"]],
         "task_dep": [f"stage_4_veda_csvs:{n}" for n in STAGE_4],
         "clean": True,

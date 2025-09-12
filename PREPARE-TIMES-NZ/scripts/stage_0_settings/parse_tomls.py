@@ -11,8 +11,7 @@ Steps performed
 4. Write a CSV ("config_metadata.csv") describing the workbook/table
    layout required for the Excel builder.
 
-The script is idempotent and safe to run multiple times; it will
-re-create its output directory on every run.
+The script is idempotent and safe to run multiple times.
 
 Run directly::
 
@@ -31,7 +30,6 @@ from typing import List
 import pandas as pd
 import tomli_w
 from prepare_times_nz.utilities.filepaths import DATA_INTERMEDIATE, DATA_RAW
-from prepare_times_nz.utilities.helpers import clear_data_intermediate
 from prepare_times_nz.utilities.toml_readers import parse_toml_file
 
 # ---------------------------------------------------------------------------
@@ -69,14 +67,14 @@ def process_toml_file(toml_path: Path, output_dir: Path) -> pd.DataFrame:
         tomli_w.dump(toml_normalised, fp)
 
     # Extract workbook-level information
-    book_name = toml_normalised.pop("WorkBookName")
+    toml_normalised.pop("WorkBookName")
 
     rows = []
     for table_name, spec in toml_normalised.items():
         data_location = spec.get("DataLocation", toml_path.name)
         rows.append(
             {
-                "WorkBookName": book_name,
+                "WorkBookName": spec["WorkBookName"],
                 "TableName": table_name,
                 "SheetName": spec["SheetName"],
                 "VedaTag": f"~{spec['TagName']}",
@@ -96,8 +94,7 @@ def process_toml_file(toml_path: Path, output_dir: Path) -> pd.DataFrame:
 
 def main() -> None:
     """Entry-point safe for direct execution or programmatic import."""
-    # Always start from a clean slate for this stage
-    clear_data_intermediate()
+
     OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 
     metadata_frames: list[pd.DataFrame] = []

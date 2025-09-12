@@ -13,7 +13,7 @@ WorkBookName = "VT_TIMESNZ_PRI"
 
 
 [GasSupplyCommodityDefinitions]
-Description = "Define natural gas and fugitive emissions commodities (North Island only). Hardcoded in user config."
+Description = "Declare natural gas and fugitive emissions commodities (North Island only). Hardcoded in user config."
 SheetName = "Natural Gas"
 TagName = "FI_Comm"
 Csets = ["NRG", "ENV"]
@@ -22,18 +22,18 @@ CommName = ["NGA", "GASCO2"]
 Unit = ["PJ", "kt"]
 
 [GasSupplyProcessDefinitions]
-Description = "Define natural gas production processes"
+Description = "Declare natural gas production processes"
 SheetName = "Natural Gas"
 TagName = "FI_Process"
 
 PlaceHolderData = "Hello" # not built - should autogenerate? 
 
-[GasSupplyProcessParameters]
+[GasSupplyCosts]
 Description = "Add costs and supply limits for natural gas production. Base year (excludes contingent)"
 SheetName = "Natural Gas"
 TagName = "FI_T"
 
-PlaceHolderData = "Hello" # not built
+PlaceHolderData = "Require costs and activity bounds for natural gas" # not built
 
 # this will include costs and activity bounds 
 # cost will be a linear interpolation, but activity bound needs to be annual inputs from reserves 
@@ -42,10 +42,16 @@ PlaceHolderData = "Hello" # not built
 
 ###########################################
 # LNG
+# NOTE: LNG goes into SUBRES files here 
+# BUT some parts need to go into a scenario file for lumpy investment
+# kept in this config file for tidiness (it's small) 
+# we do not limit this to the north island, because the south island can't do anything with NGA
+# so this shouldnt' matter (but to keep an eye on that)
 ###########################################
 
 [LNGSupplyCommodityDefinitions]
-Description = "Define LNG commodity"
+WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
+Description = "Declare LNG commodity"
 SheetName = "LNG"
 TagName = "FI_Comm"
 Csets = ["NRG"]
@@ -55,19 +61,70 @@ Unit = ["PJ"]
 
 
 [LNGSupplyProcessDefinitions]
-Description = "Define LNG production processes"
+WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
+Description = "Declare LNG production/regasification processes"
 SheetName = "LNG"
 TagName = "FI_Process"
 
-PlaceHolderData = "Hello" # not built - should autogenerate? 
+# setting discrete investments on the LNG ports
+# actual values are set in the scenario file
+Sets = ["IMP", "PRE, DISCINV", "PRE, DISCINV"] 
+
+TechName = ["IMPLNG", # just import the commodity
+            "LNGPORTSML", # small-scale configuration
+            "LNGPORTSTD" # standard configuration
+            ]
+
+Tact = "PJ"
+Tcap = ["PJa", "SmallScalePort", "StandardPort"] # we are defining abstract units for these ports to work around
 
 
-[LNGSupplyProcessParameters]
-Description = "Adds costs to LNG processes. LNG should maybe go in a subres?"
+[LNGCommodityCosts]
+WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
+Description = "Defines costs for LNG import (Just the commodity, not infrastructure or delivery)"
 SheetName = "LNG"
-TagName = "FI_Process"
+TagName = "FI_T"
+TechName = "IMPLNG"
+Comm-IN = ""
+Comm-Out = "LNG"
+COST = 18 # NZD/GJ
 
-PlaceHolderData = "Hello" # not built - should autogenerate? 
+[LNGImportConfigurations]
+WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
+Description = "Defines parameters for different LNG configurations. These are integers, calling MIP."
+SheetName = "LNG"
+TagName = "FI_T"           
+
+[LNGImportConfigurations.Data]
+TechName = ["LNGPORTSML", "LNGPORTSTD"]
+Comm-IN = ["LNG","LNG"]
+Comm-Out = ["NGA","NGA"]
+INVCOST = [295,800] # again, this is total per "port" unit. We can only build one port unit, and this is the price NZDm
+CAP2ACT = [9,40] # ie, the small port can produce 9 a year, and the big port 40: now all our capacity unit is "port" so everything simpler 
+Eff = [1,1] # this is by default anyway, but we'll make explicit
+AFA = [1,1] # defaults, but explicit - can run at max capacity 
+"AFA~LO" = [1,0] # force the small port to always run at max capacity, as per the reporting on these setups. You buy LNG ahead of time and must deliver. 
+FIXOM = [10, 90] # operating costs per capacity unit (NZDm per port setup excl capex) 
+FLO_DELIV = [2.55,0] # delivery costs NZD/GJ (penalty for small-scale, no penalty for standard) 
+
+
+[LNGImportBuildOptions]
+# this is basically straight from section 3.1.2 of the Part IV model docs. Would be good to make it a little cleaner if possible. 
+WorkBookName = "SuppXLS/Scen_LNG_build_timing"
+Description = "Integer settings for building discrete LNG ports."
+SheetName = "LNG"
+TagName = "TFM_INS"
+
+[LNGImportBuildOptions.Data]
+Attribute = ["NCAP_DISC","NCAP_DISC", "NCAP_DISC","NCAP_DISC"]
+Pset_PN =["LNGPORTSML","LNGPORTSTD", "LNGPORTSML","LNGPORTSTD"]
+Year = [2027,2028,0,0 ] # 0s for interp 
+AllRegions = [1,1,5,5] # ie : one unit available for each unit, and 2 5s for interp (can be built any time)
+Other_Indexes = [1,1,1,1] # I have no idea what this is doing and should test a run removing it 
+[LNGImportBuildOptions.UCSets]
+R_S = "Allregions"
+T_S = ""
+            
 
 ###########################################
 # Oil
@@ -102,8 +159,7 @@ SheetName = "Oil"
 TagName = "FI_Process"
 Sets = ["IMP"]
 CommName = ["IMPLPG",
-            "IMPPET",
-            "IMPPET",
+            "IMPPET",            
             "IMPDSL",
             "IMPFOL",
             "IMPJET",]
@@ -124,5 +180,31 @@ Tcap = "PJa"
 Description = "Set base year activity and cost assumptions for oil product imports. Note extremely simple imports used directly"
 SheetName = "Oil"
 TagName = "FI_T"
-PlaceHolderData = "Hello" # not built - should autogenerate? 
+PlaceHolderData = "Need to add import costs for fuels!" # not built - should autogenerate? 
 
+###########################################
+# TotalCO2
+###########################################
+
+[TOTCO2CommodityDefinition]
+
+Description = "Declares TOTCO2 commodity. In old TIMES, all other emissions were re-declared here (not necessary)"
+SheetName = "Total CO2"
+TagName = "FI_Comm"
+Csets = "ENV"
+CommName = "TOTCO2"
+Unit = "kt"
+
+[TOTCO2AggregationDefinition]
+
+Description = "Defines TOTCO2 as the sum of all other emissions commodities. No refinery."
+SheetName = "Total CO2"
+TagName = "COMAGG"
+CommName = "TOTCO2"
+ELCCO2 = 1
+TRACO2 = 1
+RESCO2 = 1
+INDCO2 = 1
+COMCO2 = 1
+AGRCO2 = 1
+GASCO2 = 1

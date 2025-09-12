@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import logging
 import tomllib
+from ast import literal_eval
 from pathlib import Path
 
 import numpy as np
@@ -104,12 +105,12 @@ def write_workbook(workbook: str, workbook_meta: pd.DataFrame) -> None:
             }:
                 df = strip_headers_from_tiny_df(df)
 
-            # UC_Sets may be NaN (float), so normalise that to an empty list
-            uc_sets = (
-                []
-                if (isinstance(row.UC_Sets, float) and np.isnan(row.UC_Sets))
-                else row.UC_Sets
-            )
+            # UC_Sets may be NaN (float), so normalise that to an empty dict
+
+            if isinstance(row.UC_Sets, float) and np.isnan(row.UC_Sets):
+                uc_sets = {}
+            else:
+                uc_sets = literal_eval(row.UC_Sets)
 
             # ------------------------------------------------------------------
             # Write the table
@@ -121,12 +122,15 @@ def write_workbook(workbook: str, workbook_meta: pd.DataFrame) -> None:
                 tag=row.VedaTag,
                 uc_set=uc_sets,
                 startrow=start_row,
+                table_name=row.TableName,
+                table_description=row.Description,
             )
 
             # ------------------------------------------------------------------
-            # Increment start_row for the NEXT table (+3 blank lines as buffer)
+            # Increment start_row for the NEXT table
+            # Requires 5 to ensure space
             # ------------------------------------------------------------------
-            start_row += len(df) + len(uc_sets) + 3
+            start_row += len(df) + len(uc_sets) + 4
 
 
 # -----------------------------------------------------------------------------
