@@ -15,7 +15,11 @@ from typing import Mapping, Sequence
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
+from prepare_times_nz.utilities.filepaths import (
+    STAGE_2_DATA,
+    STAGE_3_DATA,
+    STAGE_4_DATA,
+)
 
 # ──────────────────────────────────────────────────────────────── #
 # Logging
@@ -28,6 +32,7 @@ logging.basicConfig(level=logging.INFO)
 # ──────────────────────────────────────────────────────────────── #
 
 INPUT_LOCATION = Path(STAGE_2_DATA) / "transport"
+SCENARIO_LOCATION = Path(STAGE_3_DATA) / "transport"
 
 OUTPUT_LOCATION = Path(STAGE_4_DATA) / "base_year_tra"
 OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
@@ -47,9 +52,9 @@ FUEL_TO_COMM = {
 
 SPECIAL_COMM_IN: dict[str, list[str]] = {
     "T_F_DSHIPP15": ["TRAFOL"],
-    "T_F_ISHIPP15": ["FOL"],
+    "T_F_ISHIPP15": ["TRAFOL"],
     "T_O_FuelJet": ["TRAJet"],
-    "T_O_FuelJet_Int": ["Jet"],
+    "T_O_FuelJet_Int": ["TRAJet"],
     "T_R_Rail15": ["TRADSL", "TRAELC"],
     "T_P_Rail15": ["TRAELC", "TRADSL"],
 }
@@ -84,18 +89,22 @@ VAR_LIST = [
     "fuelshare",
 ]
 VAR_RENAME = {
-    "efficiency": "EFF~2023",
+    "efficiency": "EFF",
     "life(years)": "LIFE",
     "vktvalue": "ACT_BND~2023",
     "pjvalue": "ACT_BND~2023",
     "ACT_BND_0": "ACT_BND~0",
-    "Cap2Act": "Cap2Act",
-    "annual_utilisation_rate": "NCAP_AFA~2023",
+    "Cap2Act": "CAP2ACT",
+    "annual_utilisation_rate": "AFA",
     "cost_2023_nzd": "INVCOST",
-    "operation_cost_2023_nzd": "VAROM",
+    "operation_cost_2023_nzd": "FIXOM",
     "vehicle_count": "PRC_resid~2023",
     "fuelshare": "Share",
 }
+
+START = 2025
+INVCOST_0 = 5
+SCENARIO = ["Traditional", "Transformation"]
 
 
 # # -----------------------------------------------------------------------------
@@ -150,7 +159,6 @@ def assign_tcap(base):
         "T_P_CICELPG15",
         "T_P_CHYBPET15",
         "T_P_CPHEVPET15",
-        "T_P_CPHEVELC15",
         "T_C_CICEPET15",
         "T_C_CICEDSL15",
         "T_C_CBEVNEW15",
@@ -237,6 +245,8 @@ def comm_out_for_tech(base: str) -> str | None:
 def infer_comm_in(name: str) -> str | None:
     """Infer Comm-In from PET/DSL/LPG/ELC/H2 in tech name."""
     up = name.upper()
+    if "BEV" in up:  # catch BEV techs
+        return "TRAELC"
     return next((v for k, v in FUEL_TO_COMM.items() if k in up), None)
 
 
@@ -410,7 +420,6 @@ def create_process_df(cfg):
         "T_P_CICELPG15",
         "T_P_CHYBPET15",
         "T_P_CPHEVPET15",
-        "T_P_CPHEVELC15",
         "T_C_CICEPET15",
         "T_C_CICEDSL15",
         "T_C_CBEVNEW15",
@@ -460,58 +469,6 @@ def create_process_df(cfg):
     )
     df["Tcap"] = df["TechName"].apply(
         lambda x: assign_tcap(get_base_name(x, tech_names_base))
-    )
-    final_column_order = cfg["Columns"]
-    return df[final_column_order]
-
-
-def create_newtech_process_df(cfg):
-    """Creates a DataFrame defining new transport technologies.
-
-    This function returns a standardized process definition table for a fixed list of
-    demand-side vehicle technologies introduced as part of future transitions. Each
-    technology is tagged with modeling attributes such as unit activity type, capacity
-    unit, and vintage flag."""
-    tech_names = [
-        "T_P_CICEPET",
-        "T_P_CICEDSL",
-        "T_P_CHYBPET",
-        "T_P_CHYBDSL",
-        "T_P_CBEVELC",
-        "T_P_CFCH2R",
-        "T_P_CPHEVPET",
-        "T_P_CPHEVDSL",
-        "T_C_CICEPET",
-        "T_C_CICEDSL",
-        "T_C_CHYBPET",
-        "T_C_CHYBDSL",
-        "T_C_CBEVELC",
-        "T_C_CFCH2R",
-        "T_C_CPHEVPET",
-        "T_C_CPHEVDSL",
-        "T_P_McyICEPET",
-        "T_P_McyBEVELC",
-        "T_F_LTrICEDSL",
-        "T_F_LTrBEVELC",
-        "T_F_LTrFCH2R",
-        "T_F_MTrICEDSL",
-        "T_F_MTrBEVELC",
-        "T_F_MTrFCH2R",
-        "T_F_HTICEDSL",
-        "T_F_HTBEVELC",
-        "T_F_HTFCH2R",
-        "T_P_BusICEDSL",
-        "T_P_BusBEVELC",
-        "T_P_BusFCH2R",
-    ]
-    df = pd.DataFrame(
-        {
-            "Sets": "DMD",
-            "TechName": tech_names,
-            "Tact": "BVkm",
-            "Tcap": "000vehicles",
-            "Vintage": "YES",
-        }
     )
     final_column_order = cfg["Columns"]
     return df[final_column_order]
@@ -594,9 +551,23 @@ def create_process_parameters_df(cfg: Mapping[str, list[str]]) -> pd.DataFrame:
         if comm_out is None:
             continue
 
+        # 1) specials first
         comm_ins = next(
             (lst for key, lst in SPECIAL_COMM_IN.items() if key in tech), None
         )
+
+        # 2) PHEV: allow multiple fuels (liquid + electricity) for one TechName
+        if comm_ins is None and "PHEV" in tech.upper():
+            up = tech.upper()
+            fuels = []
+            if "PET" in up:
+                fuels.append("TRAPET")  # petrol
+            if "DSL" in up:
+                fuels.append("TRADSL")  # diesel PHEV variants, if any
+            fuels.append("TRAELC")  # electricity for all PHEVs
+            comm_ins = fuels
+
+        # 3) default inference for everything else
         if comm_ins is None:
             ci = infer_comm_in(tech)
             comm_ins = [ci] if ci else []
@@ -610,7 +581,7 @@ def create_process_parameters_df(cfg: Mapping[str, list[str]]) -> pd.DataFrame:
                 "Comm-Out": comm_out,
             }
 
-            # ✅ ADD THIS HERE
+            # ADD THIS HERE
             is_special = any(key in tech for key in SPECIAL_COMM_IN)
 
             for var in VAR_LIST:
@@ -647,7 +618,7 @@ def create_process_parameters_df(cfg: Mapping[str, list[str]]) -> pd.DataFrame:
                     ]
 
                 row[out] = hit["value"].iloc[0] if not hit.empty else None
-            # ✅ Append the row after it's fully built
+            # Append the row after it's fully built
             rows.append(row)
 
     df = pd.DataFrame(rows)
@@ -734,11 +705,6 @@ def main() -> None:
             "tra_process_definitions.csv",
         ),
         (
-            create_newtech_process_df,
-            {"Columns": ["Sets", "TechName", "Tact", "Tcap", "Vintage"]},
-            "tra_newtech_process_definitions.csv",
-        ),
-        (
             create_fuel_process_parameters_df,
             {
                 "Columns": [
@@ -766,20 +732,20 @@ def main() -> None:
                     "Region",
                     "Comm-In",
                     "Comm-Out",
-                    "EFF~2023",
+                    "EFF",
                     "LIFE",
                     "ACT_BND~2023",
                     "ACT_BND~0",
-                    "Cap2Act",
-                    "NCAP_AFA~2023",
+                    "CAP2ACT",
+                    "AFA",
                     "INVCOST",
-                    "VAROM",
+                    "FIXOM",
                     "PRC_resid~2023",
                     "PRC_resid~2045",
                     "PRC_resid~2050",
                     "Share",
                     "Share~0",
-                    "CEFF~2023",
+                    "CEFF",
                 ]
             },
             "tra_process_parameters.csv",

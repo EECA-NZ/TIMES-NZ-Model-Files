@@ -38,6 +38,7 @@ INPUT_LOCATION_MBIE = Path(DATA_RAW) / "external_data" / "mbie"
 INPUT_LOCATION_EEUD = Path(DATA_RAW) / "eeca_data" / "eeud"
 INPUT_LOCATION_TCOE = Path(DATA_RAW) / "eeca_data" / "tcoe"
 INPUT_LOCATION_NREL = Path(DATA_RAW) / "external_data" / "nrel"
+INPUT_LOCATION_OTHER = Path(DATA_RAW) / "coded_assumptions" / "transport_demand"
 
 OUTPUT_LOCATION = Path(STAGE_1_DATA) / "vehicle_costs"
 OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
@@ -46,7 +47,8 @@ OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 # Constants
 # ────────────────────────────────────────────────────────────────
 
-USD_TO_NZD = 1.68
+USD_TO_NZD = 1.68  # use this to convert ship costs
+EURO_TO_NZD = 1.98  # use this to convert rail costs
 MI_TO_KM = 1.60934
 TCOE_BASEYEAR = 2025  # local EECA price sheet
 NREL_BASEYEAR = 2022  # NREL cost vintage
@@ -59,14 +61,16 @@ def load_data(year: int):
     """Load EECA + NREL sources for *year* from the standard folders."""
     vehicle_costs_path = INPUT_LOCATION_TCOE / f"vehicle_costs_{year}.xlsx"
     nrel_costs_path = INPUT_LOCATION_NREL / f"NREL_vehicles_fuels_{year}.csv"
+    other_costs_path = INPUT_LOCATION_OTHER / "air_rail_ship_costs.csv"
 
     try:
         vehicle_costs = pd.read_excel(vehicle_costs_path, sheet_name="AG_costs")
         nrel_costs = pd.read_csv(nrel_costs_path, low_memory=False)
+        other_costs = pd.read_csv(other_costs_path)
     except Exception as exc:
         raise FileNotFoundError(f"Error loading data: {exc}") from exc
 
-    return vehicle_costs, nrel_costs
+    return vehicle_costs, nrel_costs, other_costs
 
 
 # ════════════════════════════════════════════════════════════════
@@ -127,6 +131,7 @@ def ensure_full_coverage(df: pd.DataFrame, all_categories, all_techs):
 # ════════════════════════════════════════════════════════════════
 # Main orchestrator
 # ════════════════════════════════════════════════════════════════
+# pylint: disable=too-many-branches
 # pylint: disable=too-many-locals
 # pylint: disable=too-many-statements
 def generate_vehicle_costs(year: int) -> pd.DataFrame:
@@ -134,7 +139,7 @@ def generate_vehicle_costs(year: int) -> pd.DataFrame:
     Return tidy cost table with provenance for purchase **and** operation costs.
     EECA (TCOE) values override NREL when present.
     """
-    vehicle_costs_raw, nrel_costs = load_data(year)
+    vehicle_costs_raw, nrel_costs, other_costs = load_data(year)
 
     # ───── 1. PURCHASE PRICE ──────────────────────────────
     price_df = vehicle_costs_raw.pivot_table(
@@ -235,6 +240,39 @@ def generate_vehicle_costs(year: int) -> pd.DataFrame:
     vehicle_costs[["fueltype", "technology"]] = (
         vehicle_costs["fueltype"].map(FUELTYPE_MAP).apply(pd.Series)
     )
+
+    other_usd = ["Domestic Shipping", "International Shipping"]
+
+    other_euro = ["Passenger Rail", "Rail Freight"]
+
+    cost_cols = ["cost_2023", "operation_cost_2023"]
+
+    # 1) Clean & coerce the cost columns to numeric once
+    for c in cost_cols:
+        other_costs[c] = (
+            other_costs[c]
+            .astype(str)
+            .str.replace(r"[,$\s]", "", regex=True)  # remove $, commas, spaces
+            .replace({"": np.nan})
+            .pipe(pd.to_numeric, errors="coerce")
+        )
+
+    # 2) Build masks
+    mask_usd = other_costs["vehicletype"].isin(other_usd)
+    mask_euro = other_costs["vehicletype"].isin(other_euro)
+
+    # 3) Multiply IN PLACE (note the assignment)
+    other_costs.loc[mask_usd, cost_cols] = other_costs.loc[mask_usd, cost_cols].mul(
+        USD_TO_NZD
+    )
+    other_costs.loc[mask_euro, cost_cols] = other_costs.loc[mask_euro, cost_cols].mul(
+        EURO_TO_NZD
+    )
+
+    vehicle_costs = pd.concat(
+        [vehicle_costs, other_costs], ignore_index=True, sort=False
+    )
+
     vehicle_costs = vehicle_costs[
         [
             "vehicletype",
@@ -248,13 +286,32 @@ def generate_vehicle_costs(year: int) -> pd.DataFrame:
             "operation_baseyear",
         ]
     ]
+
     vehicle_costs.loc[vehicle_costs["vehicletype"] == "Motorbike", "vehicletype"] = (
         "Motorcycle"
     )
 
+    # make costs numeric (strip thousands separators / blanks)
+    for c in ["cost_2023", "operation_cost_2023"]:
+        vehicle_costs[c] = pd.to_numeric(vehicle_costs[c], errors="coerce")
+
+    # ensure baseyears are numeric Int64 (nullable)
+    for c in ["purchase_baseyear", "operation_baseyear"]:
+        vehicle_costs[c] = pd.to_numeric(vehicle_costs[c], errors="coerce")
+
     # ───── 4. Deflate money columns → 2023 NZD─────
     # right before `return vehicle_costs`
-    cpi_types = ["LPV", "LCV", "Motorcycle"]
+    cpi_types = [
+        "LPV",
+        "LCV",
+        "Motorcycle",
+        "Domestic Aviation",
+        "International Aviation",
+        "Domestic Shipping",
+        "International Shipping",
+        "Passenger Rail",
+        "Rail Freight",
+    ]
     cgpi_types = ["Light Truck", "Medium Truck", "Heavy Truck", "Bus"]
 
     # Split DataFrame

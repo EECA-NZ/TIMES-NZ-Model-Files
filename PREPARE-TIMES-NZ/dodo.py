@@ -203,9 +203,6 @@ STAGE_1: dict[str, list[str]] = {
     "extract_fleet_vkt_pj_data": ["fleet_vkt_pj/vkt_by_vehicle_type_and_fuel_2023.csv"],
     "extract_vkt_tertile_shares": ["fleet_vkt_pj/vkt_in_utils_2023.csv"],
     "extract_vehicle_costs_data": ["vehicle_costs/vehicle_costs_by_type_fuel_2023.csv"],
-    "extract_vehicle_future_costs_data": [
-        "vehicle_costs/vehicle_costs_by_type_fuel_projected_2023.csv"
-    ],
 }
 
 # Specific dependencies between Stage-1 scripts
@@ -243,6 +240,9 @@ STAGE_2: dict[str, list[str]] = {
 STAGE_3: dict[str, list[str]] = {
     "industry/industry_get_demand_growth": ["industry/scenario_demand_growth.csv"],
     "electricity/electricity_new_gen_tech": ["electricity/future_generation_tech.csv"],
+    "transport/extract_vehicle_future_costs_data": [
+        "transport/vehicle_costs/vehicle_costs_by_type_fuel_projected_2023.csv"
+    ],
 }
 
 # Stage-4: VEDA-format CSVs
