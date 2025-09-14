@@ -57,6 +57,7 @@ COMM_TO_VEHICLE = {
 # pylint: disable=too-many-branches
 # pylint: disable=too-many-locals
 # pylint: disable=too-many-statements
+# pylint: disable=duplicate-code
 # # -----------------------------------------------------------------------------
 # # GENERIC HELPERS
 # # -----------------------------------------------------------------------------

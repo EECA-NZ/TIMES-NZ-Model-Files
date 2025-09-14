@@ -42,6 +42,9 @@ TRA_FILE: Path = INPUT_LOCATION / "transport_demand_2023.csv"
 # ────────────────────────────────────────────────────────────────
 # Constants
 # ────────────────────────────────────────────────────────────────
+# pylint: disable=too-many-return-statements
+# pylint: disable=duplicate-code
+
 FUEL_TO_COMM = {
     "PET": "TRAPET",
     "DSL": "TRADSL",
@@ -207,7 +210,6 @@ def load_var_tables(demand: pd.DataFrame) -> dict[str, pd.DataFrame]:
     return tbls
 
 
-# pylint: disable=too-many-return-statements
 def comm_out_for_tech(base: str) -> str | None:
     """Map Tech base name → Comm-Out code."""
     # pylint: disable=invalid-name
