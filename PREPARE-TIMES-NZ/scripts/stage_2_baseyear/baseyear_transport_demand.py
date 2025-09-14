@@ -46,7 +46,7 @@ OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 # ────────────────────────────────────────────────────────────────
 # Constants
 # ────────────────────────────────────────────────────────────────
-
+# pylint: disable=duplicate-code
 
 FLEET_WORKBOOK_YEAR = 2023  # <-- workbook file to open
 LIFE_ROW_YEAR = 2022  # <-- rows we keep from sheet

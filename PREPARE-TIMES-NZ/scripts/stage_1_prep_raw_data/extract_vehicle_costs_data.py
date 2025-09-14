@@ -46,6 +46,7 @@ OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 # ────────────────────────────────────────────────────────────────
 # Constants
 # ────────────────────────────────────────────────────────────────
+# pylint: disable=duplicate-code
 
 USD_TO_NZD = 1.68  # use this to convert ship costs
 EURO_TO_NZD = 1.98  # use this to convert rail costs
