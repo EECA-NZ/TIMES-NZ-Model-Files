@@ -1,6 +1,7 @@
-﻿Field,Category,Emissions_Factor,Unit,Note
-Kapuni,Venting,28.97,tCO2e/TJ,"Estimated from GHG inventory on fugitive emissions, divided by net field production. Method reviewed by MBIE and documented in assumptions doc"
-Kapuni,Flaring,0.408,tCO2e/TJ,"Estimated from GHG inventory on fugitive emissions, divided by net field production. Method reviewed by MBIE and documented in assumptions doc"
-Kapuni,Production,0.962,tCO2e/TJ,"Estimated from GHG inventory on fugitive emissions, divided by net field production. Method reviewed by MBIE and documented in assumptions doc"
-All other fields,Flaring,0.408,tCO2e/TJ,"Estimated from GHG inventory on fugitive emissions, divided by net field production. Method reviewed by MBIE and documented in assumptions doc"
-All other fields,Production,0.962,tCO2e/TJ,"Estimated from GHG inventory on fugitive emissions, divided by net field production. Method reviewed by MBIE and documented in assumptions doc"
+﻿Field,TIMES_Field,Category,Emissions_Factor,Unit,Note
+Kapuni,MINNGA-KAP,Venting,26.96,tCO2e/TJ,"Estimated from GHG inventory on fugitive emissions, divided by net field production. Method reviewed by MBIE and documented in assumptions doc"
+Kapuni,MINNGA-KAP,Flaring,0.408,tCO2e/TJ,"Estimated from GHG inventory on fugitive emissions, divided by net field production. Method reviewed by MBIE and documented in assumptions doc"
+Kapuni,MINNGA-KAP,Production,0.962,tCO2e/TJ,"Estimated from GHG inventory on fugitive emissions, divided by net field production. Method reviewed by MBIE and documented in assumptions doc"
+All other fields,MINNGA-OTH,Venting,0.164,tCO2e/TJ,"Estimated from GHG inventory on fugitive emissions, divided by net field production. Method reviewed by MBIE and documented in assumptions doc"
+All other fields,MINNGA-OTH,Flaring,0.408,tCO2e/TJ,"Estimated from GHG inventory on fugitive emissions, divided by net field production. Method reviewed by MBIE and documented in assumptions doc"
+All other fields,MINNGA-OTH,Production,0.962,tCO2e/TJ,"Estimated from GHG inventory on fugitive emissions, divided by net field production. Method reviewed by MBIE and documented in assumptions doc"

@@ -25,15 +25,32 @@ Unit = ["PJ", "kt"]
 Description = "Declare natural gas production processes"
 SheetName = "Natural Gas"
 TagName = "FI_Process"
+Sets = ["MIN"]
+TechName = ["MINNGA-KAP", "MINNGA-OTH"] # All other fields and Kapuni
+Tact = "PJ"
+Tcap = "PJa"
 
-PlaceHolderData = "Hello" # not built - should autogenerate? 
-
-[GasSupplyCosts]
-Description = "Add costs and supply limits for natural gas production. Base year (excludes contingent)"
+[GasSupplyCostsAndEmissions]
+Description = "Production costs and fugitive emissions for domestic gas fields. Hardcoded in config file "
 SheetName = "Natural Gas"
 TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/natural_gas_production_costs_emissions.csv"
 
-PlaceHolderData = "Require costs and activity bounds for natural gas" # not built
+
+[GasSupplyForecastsStandard]
+Description = "Add natural gas production forecast limits. Excludes contingent, and just kept in baseyear"
+SheetName = "Natural Gas"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/deliverability_forecasts_2p.csv"
+
+
+[GasSupplyForecastsIncludingContingent]
+WorkBookName = "SuppXLS/Scen_ContingentGas"
+Description = "Add increased natural gas production forecast limits. These include contingent and are added to a separate scenario file"
+SheetName = "Natural Gas"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/deliverability_forecasts_2p_and_2c.csv"
+
 
 # this will include costs and activity bounds 
 # cost will be a linear interpolation, but activity bound needs to be annual inputs from reserves 
@@ -111,7 +128,7 @@ FLO_DELIV = [2.55,0] # delivery costs NZD/GJ (penalty for small-scale, no penalt
 [LNGImportBuildOptions]
 # this is basically straight from section 3.1.2 of the Part IV model docs. Would be good to make it a little cleaner if possible. 
 WorkBookName = "SuppXLS/Scen_LNG_build_timing"
-Description = "Integer settings for building discrete LNG ports."
+Description = "Integer settings for building discrete LNG ports. This is included in a scenario file which is apparently needed for discrete builds?"
 SheetName = "LNG"
 TagName = "TFM_INS"
 
@@ -121,9 +138,6 @@ Pset_PN =["LNGPORTSML","LNGPORTSTD", "LNGPORTSML","LNGPORTSTD"]
 Year = [2027,2028,0,0 ] # 0s for interp 
 AllRegions = [1,1,5,5] # ie : one unit available for each unit, and 2 5s for interp (can be built any time)
 Other_Indexes = [1,1,1,1] # I have no idea what this is doing and should test a run removing it 
-[LNGImportBuildOptions.UCSets]
-R_S = "Allregions"
-T_S = ""
             
 
 ###########################################
@@ -148,7 +162,7 @@ Unit = ["PJ"] # All PJ
 Description = "Define oil supply processes (mining)"
 SheetName = "Oil"
 TagName = "FI_Process"
-Sets = ["IMP"]
+Sets = ["MIN"]
 CommName = ["MINOIL", "MINLPG"]
 Tact = "PJ" 
 Tcap = "PJa"
@@ -180,7 +194,7 @@ Tcap = "PJa"
 Description = "Set base year activity and cost assumptions for oil product imports. Note extremely simple imports used directly"
 SheetName = "Oil"
 TagName = "FI_T"
-PlaceHolderData = "Need to add import costs for fuels!" # not built - should autogenerate? 
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/imported_fuel_costs.csv"
 
 ###########################################
 # TotalCO2
