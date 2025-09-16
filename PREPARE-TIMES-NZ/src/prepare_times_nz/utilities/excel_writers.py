@@ -18,6 +18,7 @@ import os
 
 import pandas as pd
 from openpyxl import Workbook, load_workbook
+from openpyxl.styles import Font
 from prepare_times_nz.utilities.filepaths import OUTPUT_LOCATION
 from prepare_times_nz.utilities.logger_setup import logger
 
@@ -117,7 +118,16 @@ def create_empty_workbook(book_name, sheets):
     wb.save(book_location)
 
 
-def write_data(df, book_name, sheet_name, tag, uc_set, startrow=0):
+def write_data(
+    df,
+    book_name,
+    sheet_name,
+    tag,
+    uc_set,
+    startrow=0,
+    table_name="TABLE NAME",
+    table_description="TABLE DESCRIPTION",
+):
     """
     Writes data to the existing book
 
@@ -146,26 +156,42 @@ def write_data(df, book_name, sheet_name, tag, uc_set, startrow=0):
     # Load existing workbook
     book = load_workbook(f"{OUTPUT_LOCATION}/{book_name}.xlsx")
     sheet = book[sheet_name]
+    # expand the width of the first column (often important for names)
+    sheet.column_dimensions["A"].width = 30
 
+    # quick definitions of row layout
+    description_row = startrow + 1
     # Get uc_set length and adjust startrow if needed
+    # (after setting description row, which is always at the top)
     uc_set_length = len(uc_set)
     if uc_set_length > 0:
         logger.debug("uc_sets detected")
-        startrow += uc_set_length - 1
+        startrow += uc_set_length
     else:
         logger.debug("no uc_sets detected ")
 
+    tag_row = startrow + 2
+    header_row = startrow + 3
+    data_start_row = startrow + 4
+
+    # Now can write things:
+    # Write the table name and description, inherited from config files
+    sheet.cell(row=description_row, column=1, value=table_name)
+    sheet.cell(row=description_row, column=2, value=table_description)
+    # make bold, for fun
+    sheet.cell(row=description_row, column=1).font = Font(bold=True)
+    sheet.cell(row=description_row, column=2).font = Font(bold=True)
+
     # Write the header row
     for col_idx, column_name in enumerate(df.columns, 1):
-        sheet.cell(row=startrow + 2, column=col_idx, value=column_name)
+        sheet.cell(row=header_row, column=col_idx, value=column_name)
 
     # Write the data
-    for row_idx, row in enumerate(df.values, startrow + 3):
+    for row_idx, row in enumerate(df.values, data_start_row):
         for col_idx, value in enumerate(row, 1):
             sheet.cell(row=row_idx, column=col_idx, value=value)
 
     # Write the tag
-    tag_row = startrow + 1
     sheet.cell(row=tag_row, column=1, value=tag)
 
     # Add UC_Set tags if needed

@@ -19,11 +19,11 @@ b) if it's intended to be a baseyear workbook (VT_NAME_SECTOR_VERSION) then it a
 
 TableName can contain anything you want, but some variables will be explicitly treated: 
 
+  - `WorkBookName`: will specify a different workbook name for this table. Almost never needed, but useful if you need to output a subres or transformation or scenario workbook related to what you're doing and don't want to make a whole new config file for it. 
   - `SheetName`: will name the sheet this table is added to. If missing, it will default to creating a sheet that matches BookName
   - `TagName`: will set the tag for this table (eg "FI_T", etc). Tilde not needed. If missing, it will default to the TableName (this will almost always mean Veda doesn't know what you're talking about, except for some SysSettings tags)
-  - `UCSets`: the uc_sets designation. If missing, will not be used. This is just for the user constraint tables and will often not be necessary.
-  - `Description`: Enter a short description of the purpose of this table. Not used by TIMES/VEDA, so can be anything you want. Will be read into the config metadata table, so can be helpful for reviewing the final structure later. 
-
+  - `UCSets`: the uc_sets designation. If missing, will not be used. This is just for the user constraint tables and will often not be necessary. If used, they must be a dict (see below )
+  - `Description`: Enter a short description of the purpose of this table. Not used by TIMES/VEDA, so can be anything you want. Will be read into the config metadata table, so can be helpful for reviewing the final structure later. Is also printed to the output tables for a quick reference. 
   - `DataLocation`: the file path for the data this table is expected to contain. If missing, it will instead look for `Data`.
   - `Data`: a dictionary for the data contained in this TableName. Allows you to specify the data directly in the config file rather than an external file, which can be useful for smaller, simpler tables.
 
@@ -50,8 +50,17 @@ TableName can contain anything you want, but some variables will be explicitly t
   5Year_increments = [1,2,5,5,5,5,5,5,5]
   1Year_increments = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
   ```
+  Effectively what's happening here is that anything under `[TableName.Data]` is considered the data, but so are any values in each `TableName` that aren't explicitly set to metadata. So the above file will process exactly the same as this: 
 
-  However, most `TableNames` will likely look like this `[YearFractions]` example from `SysSettings`: 
+  ```toml
+  [TimePeriods]
+  TagName = "TimePeriods" # not actually needed, as TagName inherits from TableName      
+  5Year_increments = [1,2,5,5,5,5,5,5,5]
+  1Year_increments = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+  ```
+  Adding `TableName.Data` is just a good way to explicitly clarify what your data items are. This can be especially useful if you're also using `UCSets` (below)
+
+  However, most `TableNames` ingest data directly from the system, and will likely look more like this: 
 
   ```toml
   [YearFractions]
@@ -60,7 +69,32 @@ TableName can contain anything you want, but some variables will be explicitly t
   DataLocation = "data_raw/0_config/year_fractions.csv"
   ```
 
+ Config files that are mostly quick assumptions are generally written directly in the toml file to reduce data manipulation overheads. 
+### Writing UCSets 
+
+UCSets expect a python dictionary, which will be represented as a string dict in the metadata file, then evalauted during processing
+
+There are two ways to do this in the config files. First is using a nested toml object (recommended):
+
+  ```toml
+  [UserConstraint]
+  SheetName = "UserConstraints"
+  TagName = "UC_T"
+  DataLocation = "data_raw/constraints/some_constraints.csv"
+  [UserConstraint.UCSets]
+  R_S = "Allregions"
+  T_S = ""
+            
+  ```
+It's however also possible to just insert the dictionary as a string, like: 
+
+  ```toml
+  [UserConstraint]
+  SheetName = "UserConstraints"
+  TagName = "UC_T"
+  DataLocation = "data_raw/constraints/some_constraints.csv"
+  UCSets = "{'R_S': 'Allregions', 'T_S': ''}" 
+            
+  ```
 
 
-(Can we remove the Data variable entirely?)
-(Would also be good to add a uniqueness check to the table names)
