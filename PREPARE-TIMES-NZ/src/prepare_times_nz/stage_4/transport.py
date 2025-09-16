@@ -14,6 +14,7 @@ from prepare_times_nz.utilities.filepaths import (
     STAGE_3_DATA,
     STAGE_4_DATA,
 )
+from prepare_times_nz.utilities.logger_setup import logger
 
 # from prepare_times_nz.utilities.logger_setup import logger
 
@@ -25,7 +26,7 @@ INPUT_LOCATION = Path(STAGE_2_DATA) / "transport"
 SCENARIO_LOCATION = Path(STAGE_3_DATA) / "transport"
 
 OUTPUT_LOCATION = Path(STAGE_4_DATA) / "base_year_tra"
-OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
+
 
 TRA_FILE: Path = INPUT_LOCATION / "transport_demand_2023.csv"
 
@@ -653,3 +654,117 @@ def emission_factors_df(cfg: Mapping[str, list[str]]) -> pd.DataFrame:
 
     emi_df = pd.DataFrame(data).set_index("CommName")
     return emi_df.reset_index()[cfg["Columns"]]
+
+
+# -----------------------------------------------------------------------------
+# MAIN – orchestrate every builder & write CSVs
+# -----------------------------------------------------------------------------
+def main() -> None:
+    """Generates and exports TIMES-NZ transport sector definition and parameter tables.
+
+    This function sequentially runs a set of table-builder functions
+    (e.g., fuel definitions, process definitions, technical parameters)
+    and writes the resulting DataFrames to CSV files using standardized
+    output filenames. Each builder function is passed a configuration
+    dictionary containing the expected column structure."""
+
+    OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
+    tasks = [
+        (
+            create_fuel_commodity_df,
+            {
+                "Columns": [
+                    "Csets",
+                    "Region",
+                    "CommName",
+                    "Unit",
+                    "LimType",
+                    "CTSLvl",
+                    "Ctype",
+                ]
+            },
+            "tra_fuel_commodity_definitions.csv",
+        ),
+        (
+            create_fuel_process_df,
+            {"Columns": ["Sets", "Region", "TechName", "Tact", "Tcap", "Tslvl"]},
+            "tra_fuel_process_definitions.csv",
+        ),
+        (
+            create_commodity_df,
+            {"Columns": ["Csets", "Region", "CommName", "Unit", "LimType"]},
+            "tra_commodity_definitions.csv",
+        ),
+        (
+            create_process_df,
+            {"Columns": ["Sets", "Region", "TechName", "Tact", "Tcap"]},
+            "tra_process_definitions.csv",
+        ),
+        (
+            create_fuel_process_parameters_df,
+            {
+                "Columns": [
+                    "TechName",
+                    "Region",
+                    "Comm-In",
+                    "Comm-Out",
+                    "Share-I~UP",
+                    "Share-I~UP~2025",
+                    "Share-I~UP~2060",
+                    "EFF",
+                    "Life",
+                    "FIXOM",
+                    "VAROM",
+                    "FLO_DELIV",
+                ]
+            },
+            "tra_fuel_process_parameters.csv",
+        ),
+        (
+            create_process_parameters_df,
+            {
+                "Columns": [
+                    "TechName",
+                    "Region",
+                    "Comm-In",
+                    "Comm-Out",
+                    "EFF",
+                    "LIFE",
+                    "ACT_BND~2023",
+                    "ACT_BND~0",
+                    "CAP2ACT",
+                    "AFA",
+                    "INVCOST",
+                    "FIXOM",
+                    "PRC_resid~2023",
+                    "PRC_resid~2045",
+                    "PRC_resid~2050",
+                    "Share",
+                    "Share~0",
+                    "CEFF",
+                ]
+            },
+            "tra_process_parameters.csv",
+        ),
+        (
+            creat_process_paramereters2_df,
+            {"Columns": ["CommName", "Region", "2023"]},
+            "tra_process_parameters2.csv",
+        ),
+        (
+            emission_factors_df,
+            {"Columns": ["CommName", "TRALPG", "TRAPET", "TRADSL", "TRAJET", "TRAFOL"]},
+            "tra_emission_factors.csv",
+        ),
+    ]
+
+    for builder, cfg, fname in tasks:
+        logger.info("Building %s", fname)
+        df = builder(cfg)
+        outfile = OUTPUT_LOCATION / fname
+        df.to_csv(outfile, index=False)
+        logger.info("  → saved %s  (%d rows)", outfile.name, len(df))
+
+
+if __name__ == "__main__":
+    main()

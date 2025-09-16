@@ -9,27 +9,20 @@ Stage 4 – VEDA-format builders for the transport (TRA) sector new technologies
 from __future__ import annotations
 
 import logging
-import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_4.transport import (
+    create_process_df,
+    create_process_parameters_df,
+)
 
 # Third party imports
 from prepare_times_nz.utilities.filepaths import (
     STAGE_3_DATA,
     STAGE_4_DATA,
 )
-
-from scripts.stage_4_veda_format.create_baseyear_tra_files import (
-    create_process_df,
-    create_process_parameters_df,
-)
-
-# ensure repo root is on sys.path when run as a plain script
-_REPO_ROOT = Path(__file__).resolve().parents[2]
-if str(_REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(_REPO_ROOT))
 
 # Constants for file paths
 
