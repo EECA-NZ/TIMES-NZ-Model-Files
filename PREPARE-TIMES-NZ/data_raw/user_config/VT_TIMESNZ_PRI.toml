@@ -31,14 +31,14 @@ Tact = "PJ"
 Tcap = "PJa"
 
 [GasSupplyCostsAndEmissions]
-Description = "Production costs and fugitive emissions for domestic gas fields. Hardcoded in config file "
+Description = "Production costs and fugitive emissions for domestic gas fields."
 SheetName = "Natural Gas"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/natural_gas_production_costs_emissions.csv"
 
 
-[GasSupplyForecastsStandard]
-Description = "Add natural gas production forecast limits. Excludes contingent, and just kept in baseyear"
+[GasSupplyForecasts]
+Description = "Add natural gas production forecast limits. Excludes contingent - only the 2P reserves"
 SheetName = "Natural Gas"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/deliverability_forecasts_2p.csv"
