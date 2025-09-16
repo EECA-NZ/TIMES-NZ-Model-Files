@@ -8,7 +8,6 @@ Stage 4 – VEDA-format builders for the transport (TRA) sector new technologies
 
 from __future__ import annotations
 
-import logging
 from pathlib import Path
 
 import numpy as np
@@ -26,7 +25,7 @@ from prepare_times_nz.utilities.filepaths import (
 
 # Constants for file paths
 
-OUTPUT_LOCATION = Path(STAGE_4_DATA) / "future_year_tra"
+OUTPUT_LOCATION = Path(STAGE_4_DATA) / "subres_tra"
 OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 
 SCENARIO_LOCATION = Path(STAGE_3_DATA) / "transport"
@@ -619,45 +618,51 @@ def create_newtech_process_parameters_df(cfg):
 def main() -> None:
     """Generates and exports TIMES-NZ transport sector newt etchnologies
     definition and parameter tables."""
-    tasks = [
-        (
-            create_newtech_process_df,
-            {"Columns": ["Sets", "TechName", "Tact", "Tcap", "Vintage"]},
-            "tra_newtech_process_definitions.csv",
-        ),
-        (
-            create_newtech_process_parameters_df,
-            {
-                "Columns": [
-                    "TechName",
-                    "Comm-In",
-                    "Comm-Out",
-                    "SCENARIO",
-                    "START",
-                    "EFF",
-                    "AFA",
-                    "AFA~2050",
-                    "LIFE",
-                    "INVCOST",
-                    "INVCOST~2030",
-                    "INVCOST~2040",
-                    "INVCOST~2050",
-                    "INVCOST~0",
-                    "FIXOM",
-                    "CAP2ACT",
-                    "Share",
-                ]
-            },
-            "newtech_process_parameters.csv",
-        ),
-    ]
 
-    for builder, cfg, fname in tasks:
-        logging.info("Building %s", fname)
-        df = builder(cfg)
-        outfile = OUTPUT_LOCATION / fname
-        df.to_csv(outfile, index=False)
-        logging.info("  → saved %s  (%d rows)", outfile.name, len(df))
+    processes = create_newtech_process_df(
+        {"Columns": ["Sets", "TechName", "Tact", "Tcap", "Vintage"]}
+    )
+
+    df = create_newtech_process_parameters_df(
+        {
+            "Columns": [
+                "TechName",
+                "Comm-In",
+                "Comm-Out",
+                "SCENARIO",
+                "START",
+                "EFF",
+                "AFA",
+                "AFA~2050",
+                "LIFE",
+                "INVCOST",
+                "INVCOST~2030",
+                "INVCOST~2040",
+                "INVCOST~2050",
+                "INVCOST~0",
+                "FIXOM",
+                "CAP2ACT",
+                "Share",
+            ]
+        }
+    )
+    df_standard_cost_curve = df[df["SCENARIO"] == "Traditional"].drop(
+        columns="SCENARIO"
+    )
+    df_advanced_cost_curve = df[df["SCENARIO"] == "Transformation"].drop(
+        columns="SCENARIO"
+    )
+
+    # save
+
+    processes.to_csv(OUTPUT_LOCATION / "future_transport_processes.csv", index=False)
+
+    df_standard_cost_curve.to_csv(
+        OUTPUT_LOCATION / "future_transport_details_standard_costcurve.csv", index=False
+    )
+    df_advanced_cost_curve.to_csv(
+        OUTPUT_LOCATION / "future_transport_details_advanced_costcurve.csv", index=False
+    )
 
 
 if __name__ == "__main__":

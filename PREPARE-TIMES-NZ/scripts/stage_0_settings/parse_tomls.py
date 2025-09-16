@@ -50,11 +50,11 @@ OUTPUT_LOCATION = Path(DATA_INTERMEDIATE) / "stage_0_config"
 
 
 def list_toml_files(folder_path: Path) -> List[Path]:
-    """Return every "*.toml" file inside *folder_path* (non-recursive)."""
+    """Return every '*.toml' file inside *folder_path* (recursive)."""
     if not folder_path.is_dir():
         logger.error("The folder '%s' does not exist.", folder_path)
         return []
-    return [p for p in folder_path.iterdir() if p.suffix == ".toml"]
+    return list(folder_path.rglob("*.toml"))
 
 
 def process_toml_file(toml_path: Path, output_dir: Path) -> pd.DataFrame:
