@@ -244,15 +244,15 @@ STAGE_3: dict[str, list[str]] = {
 
 # Stage-4: VEDA-format CSVs. Single sentinel per script
 STAGE_4: dict[str, list[str]] = {
+    # base years
     "create_baseyear_elc_files": ["base_year_elc/existing_tech_capacity.csv"],
     "create_baseyear_ind_files": ["base_year_ind/industry_baseyear_details.csv"],
     "create_baseyear_tra_files": ["base_year_tra/tra_commodity_definitions.csv"],
-    "create_newtechs_tra_files": [
-        "future_year_tra/tra_newtech_process_definitions.csv"
-    ],
     "create_baseyear_res_files": ["base_year_res/residential_baseyear_details.csv"],
     "create_baseyear_com_files": ["base_year_com/commercial_baseyear_demand.csv"],
     "create_baseyear_pri_files": ["base_year_pri/deliverability_forecasts_2p.csv"],
+    # new techs (subres files)
+    "create_newtechs_tra_files": ["subres_tra/future_transport_processes.csv"],
 }
 
 # Stage-5: final Excel workbooks.
