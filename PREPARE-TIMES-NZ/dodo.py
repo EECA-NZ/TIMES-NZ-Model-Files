@@ -229,11 +229,7 @@ STAGE_2: dict[str, list[str]] = {
     "baseyear_transport_demand": ["transport/transport_demand_2023.csv"],
     "baseyear_residential_demand": ["residential/baseyear_residential_demand.csv"],
     "baseyear_commercial_demand": ["commercial/baseyear_commercial_demand.csv"],
-    "settings/load_curves": [
-        "settings/load_curves.csv",
-        "settings/residential_curves.csv",
-        "settings.yrfr.csv",
-    ],
+    "settings/load_curves": ["settings/load_curves/base_year_load_curve.csv"],
 }
 
 # Stage-3: scenario demand-growth calculations
@@ -243,9 +239,10 @@ STAGE_3: dict[str, list[str]] = {
     "transport/extract_vehicle_future_costs_data": [
         "transport/vehicle_costs/vehicle_costs_by_type_fuel_projected_2023.csv"
     ],
+    "oil_and_gas/gas_projections": ["oil_and_gas/oil_and_gas_projections.csv"],
 }
 
-# Stage-4: VEDA-format CSVs
+# Stage-4: VEDA-format CSVs. Single sentinel per script
 STAGE_4: dict[str, list[str]] = {
     "create_baseyear_elc_files": ["base_year_elc/existing_tech_capacity.csv"],
     "create_baseyear_ind_files": ["base_year_ind/industry_baseyear_details.csv"],
@@ -255,9 +252,10 @@ STAGE_4: dict[str, list[str]] = {
     ],
     "create_baseyear_res_files": ["base_year_res/residential_baseyear_details.csv"],
     "create_baseyear_com_files": ["base_year_com/commercial_baseyear_demand.csv"],
+    "create_baseyear_pri_files": ["base_year_pri/deliverability_forecasts_2p.csv"],
 }
 
-# Stage-5: final Excel workbooks
+# Stage-5: final Excel workbooks.
 STAGE_5: dict[str, list[str]] = {
     "write_excel": [
         "SysSettings.xlsx",
@@ -306,7 +304,8 @@ def task_stage_1_extract() -> Iterator[dict]:
                 script,
                 *input_files,
                 *extra_in,
-                *_files_in_stage(S0_DIR),
+                # remove this so all raw data doesn't rerun on config change
+                # *_files_in_stage(S0_DIR),
             ],
             "targets": [_intermediate_out(rel, S1_DIR) for rel in rel_outs],
             "task_dep": ["stage_0_parse_tomls"],
@@ -391,7 +390,10 @@ def task_stage_5_build_excel():
     script = STAGE_4_SCRIPTS / "write_excel.py"
     return {
         "actions": [_run(str(script))],
-        "file_dep": [script] + _files_in_stage(S4_DIR) + [CONFIG_META_CSV],
+        "file_dep": [script]
+        + STAGE_0_INPUTS
+        + _files_in_stage(S4_DIR)
+        + [CONFIG_META_CSV],
         "targets": [_out(rel) for rel in STAGE_5["write_excel"]],
         "task_dep": [f"stage_4_veda_csvs:{n}" for n in STAGE_4],
         "clean": True,

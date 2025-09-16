@@ -17,6 +17,8 @@ import tomllib
 from prepare_times_nz.utilities.logger_setup import logger
 
 
+# this function is too complex and should be refactored
+# pylint: disable = too-many-branches
 def normalize_toml_data(toml_data):
     """
     Normalize TOML data by:
@@ -42,6 +44,7 @@ def normalize_toml_data(toml_data):
     # Note that any other keys will be assumed to be data
     # and inserted into the Veda file accordingly
     reserved_keys = [
+        "WorkBookName",
         "SheetName",
         "TagName",
         "DataLocation",
@@ -61,6 +64,10 @@ def normalize_toml_data(toml_data):
         # If tagname is not specified, use the table name
         if "TagName" not in table_content:
             table_content["TagName"] = table_name
+
+        # inherit the workbook name (but otherwise keep specific workbooks if needed)
+        if "WorkBookName" not in table_content:
+            table_content["WorkBookName"] = book_name
 
         # IF sheetname is not specified, inherit the book name
         if "SheetName" not in table_content:

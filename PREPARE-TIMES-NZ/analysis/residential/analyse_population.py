@@ -22,6 +22,12 @@ df = df[df["Area"] == "New Zealand"]
 df["Scenario"] = "Historical"
 df["Variable"] = "ERP 2024-base"
 
+
+EECA_TEAL = "#447474"
+EECA_CORAL = "#ED6D63"
+colours = [EECA_CORAL, EECA_TEAL]
+
+
 df_current = df.copy()
 
 df = pd.read_csv(PROJECTED_POP_FILE)
@@ -49,21 +55,24 @@ df = df[df["Scenario"].isin(scenarios)]
 
 df = df[df["Year"] <= MAX_YEAR]
 
-df["ValueLabel"] = df["Value"].astype(str) + "m"
+df["ValueLabel"] = df["Value"].round(2).astype(str) + "m"
+df["YearAdjust"] = df["Year"] - 2
 
 # latest_year
 
 # chart
 chart = (
     ggplot(df, aes(y="Value", x="Year"))
-    + geom_line(aes(colour="Scenario"))
-    + geom_text(
-        aes(label="Value"),
+    + geom_line(aes(colour="Scenario"), size=1)
+    + geom_label(
+        aes(x="YearAdjust", label="ValueLabel"),
+        colour="white",
+        fill=EECA_CORAL,
         data=df[df["Year"] == MAX_YEAR],
     )
     # + facet_wrap("~DwellingType", scales = "free_x")
     # + coord_flip()
-    # + scale_fill_manual(values=fuel_config)
+    + scale_colour_manual(values=colours, na_value="black")
     + scale_y_continuous(limits=[0, 8])
     + labs(
         x="Year",
@@ -76,6 +85,4 @@ chart = (
 
 
 CHART_NAME = "population_projections.png"
-chart.save(OUTPUT_LOCATION / CHART_NAME, dpi=300, height=5, width=8)
-
-print(df_current)
+chart.save(OUTPUT_LOCATION / CHART_NAME, dpi=300, height=4, width=8)

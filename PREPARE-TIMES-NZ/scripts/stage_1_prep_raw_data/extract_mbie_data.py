@@ -24,17 +24,11 @@ Files produced
 
 from __future__ import annotations
 
-import logging
 from pathlib import Path
 
 import pandas as pd
 from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
-
-# ---------------------------------------------------------------------------
-# Logging
-# ---------------------------------------------------------------------------
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+from prepare_times_nz.utilities.logger_setup import logger
 
 # ---------------------------------------------------------------------------
 # Constants & I/O locations
@@ -164,6 +158,67 @@ def _get_mbie_gas_pj(
     return df[df["Value"].notna()]
 
 
+def _get_reserves_data(sheet, cols, skip, size):
+    """Reads a hardcoded table path from the published reserves workbook"""
+    reserves_path = INPUT_DIR / "petroleum-reserves-1-jan-2025.xlsx"
+
+    df = pd.read_excel(
+        reserves_path, sheet_name=sheet, usecols=cols, skiprows=skip, nrows=size
+    )
+
+    return df
+
+
+reserve_sheets = [
+    "Oil Production Profile",
+    "Gas LPG Production Profile",
+    "2C Resources",
+]
+
+
+def _tidy_production_profiles(df, label):
+    """tidy the inputs for production profiles by field and add units and metadata"""
+    df = pd.melt(df, id_vars="Field", var_name="Year", value_name="Value")
+    # clean value column (make numeric, fill blanks with 0, explicitly coerce)
+    df["Value"] = pd.to_numeric(df["Value"], errors="coerce").fillna(0)
+    # add metadata
+    df["Unit"] = "PJ"
+    df["Value"] = df["Value"]
+    df["Variable"] = label
+    return df
+
+
+def _get_forecasts(sheet, col_range, skiprows, table_height, var_label):
+    """Load and tidy production profiles from reserves workbook
+    Must specify ranges (column range, rows to skip, and table height)
+    which defines the range loaded from the MBIE workbook
+    You must also declare var_label which will label the outputs"""
+    df = _get_reserves_data(sheet, col_range, skiprows, table_height)
+    df = _tidy_production_profiles(df, var_label)
+    return df
+
+
+def _get_contingent_reserve_data():
+    """Load and tidy 2c resources from reserves workbook
+    Includes hardcoded table names and unit mapping
+    Updating may require close review of input data"""
+    df = _get_reserves_data("2C Resources", "B:F", 4, 18)
+    # hardcode rename columns. this is hacky but the input file is not clean.
+    # to discuss MBIE's approach
+    df.columns = ["Field", "Oil", "Condensate", "LPG", "Natural gas"]
+    # pivoit
+    df = df.melt(id_vars="Field", var_name="Fuel", value_name="Value")
+    # hardcode units based on input file. likely need to check if this gets updated.
+    unit_map = {
+        "Oil": "Million Barrels",
+        "Condensate": "Million Barrels",
+        "LPG": "kt",
+        "Natural gas": "PJ",
+    }
+    df["Unit"] = df["Fuel"].map(unit_map)
+    return df
+
+
 # ---------------------------------------------------------------------------
 # Main script
 # ---------------------------------------------------------------------------
@@ -212,6 +267,39 @@ def main() -> None:
         unit="PJ",
         variable_name="Natural gas non-energy use",
     ).to_csv(OUTPUT_DIR / "mbie_gas_non_energy.csv", index=False)
+
+    logger.info("Loading reserves data …")
+
+    # Natural gas
+    _get_forecasts(
+        sheet="Gas LPG Production Profile",
+        col_range="B:BA",
+        skiprows=3,
+        table_height=20,
+        var_label="Natural gas forecasts",
+    ).to_csv(OUTPUT_DIR / "natural_gas_forecasts.csv", index=False)
+    # LPG
+    _get_forecasts(
+        sheet="Gas LPG Production Profile",
+        col_range="B:P",
+        skiprows=27,
+        table_height=5,
+        var_label="LPG forecasts",
+    ).to_csv(OUTPUT_DIR / "lpg_forecasts.csv", index=False)
+
+    # crude and condensate
+    _get_forecasts(
+        sheet="Oil Production Profile",
+        col_range="B:BA",
+        skiprows=3,
+        table_height=20,
+        var_label="Oil and condensate",
+    ).to_csv(OUTPUT_DIR / "oil_forecasts.csv", index=False)
+
+    # 2c
+    _get_contingent_reserve_data().to_csv(
+        OUTPUT_DIR / "contingent_reserves.csv", index=False
+    )
 
     logger.info("MBIE extraction complete → %s", OUTPUT_DIR)
 
