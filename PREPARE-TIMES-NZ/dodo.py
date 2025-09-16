@@ -203,9 +203,6 @@ STAGE_1: dict[str, list[str]] = {
     "extract_fleet_vkt_pj_data": ["fleet_vkt_pj/vkt_by_vehicle_type_and_fuel_2023.csv"],
     "extract_vkt_tertile_shares": ["fleet_vkt_pj/vkt_in_utils_2023.csv"],
     "extract_vehicle_costs_data": ["vehicle_costs/vehicle_costs_by_type_fuel_2023.csv"],
-    "extract_vehicle_future_costs_data": [
-        "vehicle_costs/vehicle_costs_by_type_fuel_projected_2023.csv"
-    ],
 }
 
 # Specific dependencies between Stage-1 scripts
@@ -239,6 +236,9 @@ STAGE_2: dict[str, list[str]] = {
 STAGE_3: dict[str, list[str]] = {
     "industry/industry_get_demand_growth": ["industry/scenario_demand_growth.csv"],
     "electricity/electricity_new_gen_tech": ["electricity/future_generation_tech.csv"],
+    "transport/extract_vehicle_future_costs_data": [
+        "transport/vehicle_costs/vehicle_costs_by_type_fuel_projected_2023.csv"
+    ],
     "oil_and_gas/gas_projections": ["oil_and_gas/oil_and_gas_projections.csv"],
 }
 
@@ -247,6 +247,9 @@ STAGE_4: dict[str, list[str]] = {
     "create_baseyear_elc_files": ["base_year_elc/existing_tech_capacity.csv"],
     "create_baseyear_ind_files": ["base_year_ind/industry_baseyear_details.csv"],
     "create_baseyear_tra_files": ["base_year_tra/tra_commodity_definitions.csv"],
+    "create_newtechs_tra_files": [
+        "future_year_tra/tra_newtech_process_definitions.csv"
+    ],
     "create_baseyear_res_files": ["base_year_res/residential_baseyear_details.csv"],
     "create_baseyear_com_files": ["base_year_com/commercial_baseyear_demand.csv"],
     "create_baseyear_pri_files": ["base_year_pri/deliverability_forecasts_2p.csv"],
