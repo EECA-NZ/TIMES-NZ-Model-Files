@@ -1,6 +1,6 @@
-# Base year transport sector technologies for TIMES-NZ
+# New transport sector technologies for TIMES-NZ
 
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_TRA_Standard"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_TRA_Traditional"
 
 ###############################################################################
 # Standard scenario 
@@ -29,14 +29,14 @@ DataLocation = "data_intermediate/stage_4_veda_format/subres_tra/future_transpor
 
 [TransportNewTechProcessDefinitionsAdvanced]
 Description = "Defines processes for future transport technologies"
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_TRA_Advanced"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_TRA_Transformation"
 SheetName = "TRA_NEW"
 TagName = "FI_Process"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_tra/future_transport_processes.csv"
 
 [TransportNewTechParametersAdvanced]
 Description = "Defines technical parameters for future transport technologies, using advanced cost curves"
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_TRA_Advanced"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_TRA_Transformation"
 SheetName = "TRA_NEW"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_tra/future_transport_details_advanced_costcurve.csv"

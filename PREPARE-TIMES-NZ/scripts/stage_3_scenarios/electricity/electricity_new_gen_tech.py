@@ -18,6 +18,8 @@ earliest commissioning year or if it is able to be commissioned at any time.
 # Getting Custom Libraries
 
 
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 from prepare_times_nz.utilities.deflator import deflate_data
@@ -28,7 +30,7 @@ from prepare_times_nz.utilities.filepaths import (
     STAGE_1_DATA,
     STAGE_3_DATA,
 )
-from prepare_times_nz.utilities.logger_setup import logger
+from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # CONSTANTS ----------------------------------------------------------------
 
@@ -57,6 +59,23 @@ census_dwellings = pd.read_csv(
 region_to_island = pd.read_csv(f"{CONCORDANCES}/region_island_concordance.csv")
 new_tech = pd.read_csv(f"{FUTURE_TECH_ASSUMPTIONS}/NewTechnology.csv")
 tracked_solar = pd.read_csv(f"{FUTURE_TECH_ASSUMPTIONS}/TrackingSolarPlants.csv")
+
+
+# HELPERS
+
+
+def _save_data(df, name, label, filepath: Path):
+    """Save DataFrame output to the output location."""
+    filepath.mkdir(parents=True, exist_ok=True)
+    filename = f"{filepath}/{name}"
+    logger.info("%s: %s", label, blue_text(filename))
+    df.to_csv(filename, index=False, encoding="utf-8-sig")
+
+
+def save_gen_output(df, name, label, filepath=OUTPUT_LOCATION):
+    """Save DataFrame output to the output location."""
+    label = f"Saving output ({label})"
+    _save_data(df=df, name=name, label=label, filepath=filepath)
 
 
 # FUNCTIONS -------------------------------
@@ -273,7 +292,7 @@ def apply_learning_curves(df):
 
     # add back non-curved data
     df = pd.concat([df, df_inapplicable])
-    df = df.drop(["AddLearningCurve", "Index"], axis=1)
+    # df = df.drop(["AddLearningCurve", "Index"], axis=1)
     return df
 
 
@@ -451,6 +470,9 @@ def get_residential_solar():
     Note: this repeats a lot of the methods used for other plants
     However, they're not using the same functions - could generalise methods.
 
+    I'm not sure if these should actually go in the base year techs !!
+    Will leave as is for now but could clean this up a bit
+
     """
 
     # get dsolar assumptions
@@ -521,11 +543,10 @@ def main():
     genstack = get_genstack()
     offshore_wind = get_offshore_wind()
     res_solar = get_residential_solar()
-    df = pd.concat([genstack, offshore_wind, res_solar])
 
-    filename = OUTPUT_LOCATION / "future_generation_tech.csv"
-    logger.info("Saving future tech data to %s", filename)
-    df.to_csv(filename, index=False, encoding="utf-8-sig")
+    save_gen_output(genstack, "genstack.csv", "genstack plants")
+    save_gen_output(offshore_wind, "offshore_wind.csv", "offshore wind")
+    save_gen_output(res_solar, "residential_solar.csv", "residential solar")
 
 
 if __name__ == "__main__":

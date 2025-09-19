@@ -253,6 +253,7 @@ STAGE_4: dict[str, list[str]] = {
     "create_baseyear_pri_files": ["base_year_pri/deliverability_forecasts_2p.csv"],
     # new techs (subres files)
     "create_newtechs_tra_files": ["subres_tra/future_transport_processes.csv"],
+    "create_newtechs_elc_files": ["subres_elc/genstack/Traditional_process.csv"],
 }
 
 # Stage-5: final Excel workbooks.

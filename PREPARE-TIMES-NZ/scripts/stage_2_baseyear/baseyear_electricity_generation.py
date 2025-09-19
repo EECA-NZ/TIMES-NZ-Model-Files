@@ -19,22 +19,21 @@ Run directly::
 
 from __future__ import annotations
 
+import numpy as np
+import pandas as pd
+from prepare_times_nz.utilities.data_cleaning import pascal_case, remove_diacritics
+from prepare_times_nz.utilities.filepaths import (
+    CONCORDANCES,
+    DATA_RAW,
+    STAGE_1_DATA,
+    STAGE_2_DATA,
+)
+from prepare_times_nz.utilities.logger_setup import logger
+
 # --------------------------------------------------------------------------- #
 # Imports
 # --------------------------------------------------------------------------- #
-import logging
-import unicodedata
-from pathlib import Path
 
-import numpy as np
-import pandas as pd
-from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA, STAGE_2_DATA
-
-# --------------------------------------------------------------------------- #
-# Logging
-# --------------------------------------------------------------------------- #
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 
 # --------------------------------------------------------------------------- #
 # Constants
@@ -42,15 +41,12 @@ logging.basicConfig(level=logging.INFO)
 BASE_YEAR = 2023
 SHOW_CHECKS = True
 
-RAW_DIR = Path(DATA_RAW)
-STAGE1_DIR = Path(STAGE_1_DATA)
-STAGE2_DIR = Path(STAGE_2_DATA)
-
-CUSTOM_ELE_ASSUMPTIONS = RAW_DIR / "coded_assumptions" / "electricity_generation"
-CONCORDANCES = RAW_DIR / "concordances"
-
-OUTPUT_DIR = STAGE2_DIR / "electricity"
+CUSTOM_ELE_ASSUMPTIONS = DATA_RAW / "coded_assumptions" / "electricity_generation"
+OUTPUT_DIR = STAGE_2_DATA / "electricity"
 CHECK_DIR = OUTPUT_DIR / "checks"
+
+
+FUEL_CODES = CONCORDANCES / "electricity/fuel_codes.csv"
 
 pd.set_option("display.float_format", lambda x: f"{x:.6f}")
 
@@ -64,45 +60,30 @@ def assign_cogen(value: str) -> str:
     return "CHP" if value == "COG" else "ELE"
 
 
-def add_output_commodity(row: pd.Series) -> str:  # noqa: D401
+def add_output_commodity(df: pd.Series, tech_var="TechnologyCode") -> str:  # noqa: D401
     """
-    TIMES output commodity code.
+    TIMES output commodity code based on the Technology
 
     Solar gets 'ELCDD'; everything else is 'ELC'.
+
+    Can adjust this as needed !
     """
-    return "ELCDD" if row["TechnologyCode"] == "SOL" else "ELC"
+    df["Comm-OUT"] = np.where(df[tech_var] == "SOL", "ELCDD", "ELC")
+    return df
 
 
-def add_input_commodity(row: pd.Series) -> str:  # noqa: D401
+def add_input_commodity(df: pd.DataFrame):
     """
     TIMES input commodity code matching TIMES-2 mapping logic.
+    Expects a "Fuel" variable like other sectors, with
     """
-    tech_based = {"SOL", "WIN", "HYD", "GEO"}
-    if row["TechnologyCode"] in tech_based:
-        in_com = row["TechnologyCode"]
-    else:
-        fuel_to_com = {
-            "Wood": "WOD",
-            "Gas": "NGA",
-            "Coal": "COA",
-            "Diesel": "OIL",
-            "Biogas": "BIG",
-            "Geothermal": "GEO",
-            "Hydro": "HYD",
-        }
-        in_com = fuel_to_com.get(row["FuelType"], "UNDEFINED")
-    return f"ELC{in_com}"
+    conc = pd.read_csv(FUEL_CODES)
+    df = df.merge(conc, on="Fuel", how="left")
+    df["Fuel_TIMES"] = df["Fuel_TIMES"].fillna("UNDEFINED")
+    # hve added Fuel_TIMES. specify electricity fuel:
+    df["Comm-IN"] = "ELC" + df["Fuel_TIMES"]
 
-
-def to_pascal_case(text: str) -> str:
-    """Convert string to PascalCase (spaces removed, words capitalised)."""
-    return "".join(word.capitalize() for word in text.split())
-
-
-def remove_diacritics(text: str) -> str:
-    """Strip accent marks so names are ASCII-safe for GAMS/VEDA."""
-    nfkd = unicodedata.normalize("NFKD", text)
-    return "".join(c for c in nfkd if not unicodedata.combining(c))
+    return df
 
 
 def save_outputs(
@@ -157,21 +138,21 @@ def main() -> None:
     # Load input data
     # --------------------------------------------------------------------- #
     official_generation = pd.read_csv(
-        STAGE1_DIR / "mbie" / "mbie_ele_generation_gwh.csv"
+        STAGE_1_DATA / "mbie" / "mbie_ele_generation_gwh.csv"
     )
     official_generation_no_cogen = pd.read_csv(
-        STAGE1_DIR / "mbie" / "mbie_ele_only_generation.csv"
+        STAGE_1_DATA / "mbie" / "mbie_ele_only_generation.csv"
     )
     official_capacity = pd.read_csv(
-        STAGE1_DIR / "mbie" / "mbie_generation_capacity.csv"
+        STAGE_1_DATA / "mbie" / "mbie_generation_capacity.csv"
     )
-    genstack = pd.read_csv(STAGE1_DIR / "mbie" / "gen_stack.csv")
+    genstack = pd.read_csv(STAGE_1_DATA / "mbie" / "gen_stack.csv")
 
     emi_md = pd.read_parquet(
-        STAGE1_DIR / "electricity_authority" / "emi_md.parquet", engine="pyarrow"
+        STAGE_1_DATA / "electricity_authority" / "emi_md.parquet", engine="pyarrow"
     )
     emi_solar = pd.read_csv(
-        STAGE1_DIR / "electricity_authority" / "emi_distributed_solar.csv"
+        STAGE_1_DATA / "electricity_authority" / "emi_distributed_solar.csv"
     )
 
     eeca_fleet_data = pd.read_csv(CUSTOM_ELE_ASSUMPTIONS / "GenerationFleet.csv")
@@ -188,7 +169,7 @@ def main() -> None:
         CONCORDANCES / "region_island_concordance.csv"
     )
     nsp_table = pd.read_csv(
-        STAGE1_DIR / "electricity_authority" / "emi_nsp_concordances.csv"
+        STAGE_1_DATA / "electricity_authority" / "emi_nsp_concordances.csv"
     )
 
     # --------------------------------------------------------------------- #
@@ -588,13 +569,16 @@ def main() -> None:
         + "_"
         + base_year_gen["TechnologyCode"]
         + "_"
-        + base_year_gen["PlantName"].apply(to_pascal_case).apply(remove_diacritics)
+        + base_year_gen["PlantName"].apply(pascal_case).apply(remove_diacritics)
     )
     base_year_gen.loc[base_year_gen["TechnologyCode"] == "RNK", "Process"] = (
         "ELC_RNK_HuntlyUnits1-4"
     )
-    base_year_gen["Comm-OUT"] = base_year_gen.apply(add_output_commodity, axis=1)
-    base_year_gen["Comm-IN"] = base_year_gen.apply(add_input_commodity, axis=1)
+
+    base_year_gen = add_output_commodity(base_year_gen)
+    # input commodity functin works on full df not per row
+    base_year_gen["Fuel"] = base_year_gen["FuelType"]
+    base_year_gen = add_input_commodity(base_year_gen)
 
     # --------------------------------------------------------------------- #
     # Tidy to long-format with units
