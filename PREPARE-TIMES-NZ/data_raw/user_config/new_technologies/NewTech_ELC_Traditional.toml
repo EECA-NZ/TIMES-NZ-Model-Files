@@ -68,13 +68,13 @@ TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/parameters.csv"
 
 [ResidentialSolarCostCurves]
-Description = "Standard cost curve projections for residential rooftop solar (NREL Moderate)"
+Description = "Conservative cost curve projections for residential rooftop solar (NREL Conservateve)"
 SheetName = "ELC_DistSolar"
 TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/cost_curves_moderate.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/cost_curves_conservative.csv"
 
 ###############################################################################
-# Standard scenario OFFSHOREWIND
+# Offshore Wind
 ###############################################################################
 
 
@@ -85,22 +85,44 @@ TagName = "FI_Process"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/process_definitions.csv"
 
 [OffshoreWindDetails]
-Description = "Declares processes for offshore wind plants"
+Description = "Provides key assumptions for offshore wind plants"
 SheetName = "ELC_OffshoreWind"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/base_file.csv"
 
 [OffshoreWindCostCurves]
-Description = "Standard cost curve projections for offshore wind plants"
+Description = "Standard cost curve projections for offshore wind plants (NREL conservative)"
 SheetName = "ELC_OffshoreWind"
 TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/cost_curves_moderate.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/cost_curves_conservative.csv"
 
 [OffshoreWindIslandDefinitions]
 WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_trans"
-Description = "SubRES Transformation - ensure offshore wind built in correct islands"
+Description = "SubRES Transformation - ensure offshore wind built in correct islands. Idea: test adding this to main subres instead?"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/island_definitions.csv"
 SheetName = "AVA"
 TagName = "TFM_AVA"
-PlaceHolderData = "Hello"
 
+
+###############################################################################
+# Battery technologies
+###############################################################################
+
+
+[BatteryDefinitions]
+Description = "Declares processes for battery technologies"
+SheetName = "Batteries"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_processes.csv"
+
+[BatteryParameters]
+Description = "Describes key assumptions for battery technologies"
+SheetName = "Batteries"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_parameters.csv"
+
+[BatteryCostCurves]
+Description = "Adds cost curves to battery technologies"
+SheetName = "Batteries"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_costs.csv"

@@ -1,0 +1,13 @@
+TechName,Tech,Year,CAPEX,FOM
+ELC_BAT_2H,Utility-scale (2 hour),2023,1581.6,15.816
+ELC_BAT_8H,Utility-scale (8 hour),2023,4491.6,44.916
+ELC_BAT_DIST,Distributed (2 hour),2023,3163.1,31.631
+ELC_BAT_2H,Utility-scale (2 hour),2030,962.8,15.816
+ELC_BAT_8H,Utility-scale (8 hour),2030,2527,44.916
+ELC_BAT_DIST,Distributed (2 hour),2030,1925.6,31.631
+ELC_BAT_2H,Utility-scale (2 hour),2040,731.3,15.816
+ELC_BAT_8H,Utility-scale (8 hour),2040,1860.7,44.916
+ELC_BAT_DIST,Distributed (2 hour),2040,1462.6,31.631
+ELC_BAT_2H,Utility-scale (2 hour),2040,692.3,15.816
+ELC_BAT_8H,Utility-scale (8 hour),2040,1748.2,44.916
+ELC_BAT_DIST,Distributed (2 hour),2040,1384.7,31.631

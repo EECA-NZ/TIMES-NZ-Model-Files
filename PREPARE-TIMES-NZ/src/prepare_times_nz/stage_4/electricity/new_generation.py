@@ -19,6 +19,7 @@ import re
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_4.electricity.common import CAP2ACT, create_process_file
 from prepare_times_nz.utilities.data_cleaning import pascal_case, remove_diacritics
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
@@ -30,19 +31,7 @@ from prepare_times_nz.utilities.filepaths import (
 
 # Constants ----------------------------------------------------
 
-USD_TO_NZD = 1.68
-
-
 BASE_YEAR = 2023
-
-# basic parameters
-
-CAPACITY_UNIT = "GW"
-ACTIVITY_UNIT = "PJ"
-TIMESLICE_LEVEL = "DAYNITE"
-VINTAGE_TRACKING = "YES"
-SETS = "ELE"
-CAP2ACT = 31.536
 
 # Cost curve variables
 # Only these have cost curves applied, so are treated differently
@@ -108,28 +97,6 @@ def add_islands(df):
     islands = pd.read_csv(region_islands)
     df = df.merge(islands, on="Region", how="left")
     return df
-
-
-def create_process_file(df):
-    """
-    Takes an input file including TechName
-    automatically produces the table appropriate for FI_Process
-    """
-
-    out = pd.DataFrame()
-    out["TechName"] = df["TechName"].unique()
-
-    out["Sets"] = SETS
-    # arrange sets first
-    out = out[["Sets", "TechName"]]
-    # add the rest of the inputs for the process table
-
-    out["Tact"] = ACTIVITY_UNIT
-    out["Tcap"] = CAPACITY_UNIT
-    out["Tslvl"] = TIMESLICE_LEVEL
-    out["Vintage"] = VINTAGE_TRACKING
-
-    return out
 
 
 def trim_cost_curves(df):

@@ -77,13 +77,13 @@ TagName = "FI_Process"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/process_definitions.csv"
 
 [OffshoreWindDetails]
-Description = "Declares processes for offshore wind plants"
+Description = "Provides key assumptions for offshore wind plants"
 SheetName = "ELC_OffshoreWind"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/base_file.csv"
 
 [OffshoreWindCostCurves]
-Description = "Standard cost curve projections for offshore wind plants"
+Description = "Advanced cost curve projections for offshore wind plants (NREL Moderate)"
 SheetName = "ELC_OffshoreWind"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/cost_curves_moderate.csv"
@@ -94,5 +94,28 @@ Description = "SubRES Transformation - ensure offshore wind built in correct isl
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/island_definitions.csv"
 SheetName = "AVA"
 TagName = "TFM_AVA"
-PlaceHolderData = "Hello"
+
+
+###############################################################################
+# Battery technologies
+###############################################################################
+
+
+[BatteryDefinitions]
+Description = "Declares processes for battery technologies"
+SheetName = "Batteries"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_processes.csv"
+
+[BatteryParameters]
+Description = "Describes key assumptions for battery technologies"
+SheetName = "Batteries"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_parameters.csv"
+
+[BatteryCostCurves]
+Description = "Adds cost curves to battery technologies"
+SheetName = "Batteries"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_costs.csv"
 
