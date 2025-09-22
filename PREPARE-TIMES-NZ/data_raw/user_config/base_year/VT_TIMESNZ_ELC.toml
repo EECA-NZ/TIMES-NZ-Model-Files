@@ -82,7 +82,7 @@ DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/existing_tec
 
 
 [DistributionProcessDefinitions]
-Description = "Defines all processes involved in distribution (eg Processes that convert ELCHV to ELCMV)"
+Description = "Defines all processes involved in distribution (eg Processes that convert ELC to ELCHV)"
 SheetName = "Distribution"
 TagName = "FI_Process"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_processes.csv"

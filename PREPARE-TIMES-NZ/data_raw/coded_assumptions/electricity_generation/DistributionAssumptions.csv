@@ -1,17 +1,13 @@
-Sets,TechName,*TechDesc,Comm-IN,Comm-OUT,Region,NCAP_PASTI~2015,AF,INVCOST,FIXOM,VAROM,Life,CAP2ACT,Efficiency,ActivityUnit,CapacityUnit,TimeSlice,CommodityTimeSlice,CommodityType,CommoditySets,LimType,PriceBaseYear
-PRE,G_ELC_HV-00,Existing electricity distribution grid  - 220V voltage,ELC,ELC-HV,NI,5,1,500,2.5,0.44,100,31.536,0.9711,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_MV-00,Existing electricity distribution grid  - 65/50V voltage,ELC-HV,ELC-MV,NI,5,1,1500,7.5,0.44,100,31.536,0.98,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_LV-00,Existing electricity distribution grid  - Low voltage,ELC-MV,ELCDD,NI,5,1,1700,8.5,0.44,100,31.536,0.98,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC2ELCD,Virtual process for collecting ELCDD from grid and RES,ELCDD,ELCD,NI,,1,,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_R_00,Existing electricity distribution grid  RESELC,ELCD,RESELC,NI,2.2,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_I_00,Existing electricity distribution grid  INDELC,ELCD,INDELC,NI,1.6,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_S_00,Existing electricity distribution grid  COMELC,ELCD,COMELC,NI,0.82,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_A_00,Existing electricity distribution grid  AGRELC,ELCD,AGRELC,NI,0.38,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_HV-00,Existing electricity distribution grid  - 220V voltage,ELC,ELC-HV,SI,2.5,1,500,2.5,0.44,100,31.536,0.9711,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_MV-00,Existing electricity distribution grid  - 65/50V voltage,ELC-HV,ELC-MV,SI,2.5,1,1500,7.5,0.44,100,31.536,0.98,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_LV-00,Existing electricity distribution grid  - Low voltage,ELC-MV,ELCDD,SI,2.5,1,1700,8.5,0.44,100,31.536,0.98,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC2ELCD,Virtual process for collecting ELCDD from grid and RES,ELCDD,ELCD,SI,,1,,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_R_00,Existing electricity distribution grid  RESELC,ELCD,RESELC,SI,1.2,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_I_00,Existing electricity distribution grid  INDELC,ELCD,INDELC,SI,0.5,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_S_00,Existing electricity distribution grid  COMELC,ELCD,COMELC,SI,0.5,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
-PRE,G_ELC_A_00,Existing electricity distribution grid  AGRELC,ELCD,AGRELC,SI,0.3,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2015
+Sets,TechName,*TechDesc,Comm-IN,Comm-OUT,Region,NCAP_PASTI,AF,INVCOST,FIXOM,VAROM,Life,CAP2ACT,Efficiency,ActivityUnit,CapacityUnit,TimeSlice,CommodityTimeSlice,CommodityType,CommoditySets,LimType,PriceBaseYear
+PRE,G_ELC_HV,Electricity Transmission Grid,ELC,ELCHV,NI,5,1,700,108,,100,31.536,0.985,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2023
+PRE,G_ELC_LV,Electricity Distribution Grid,ELCHV,ELCDD,NI,4.74,1,2371.1,296.2,,100,31.536,0.946,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2023
+PRE,G_ELC_R,Existing electricity distribution grid  RESELC,ELCDD,RESELC,NI,2.2,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2023
+PRE,G_ELC_I,Existing electricity distribution grid  INDELC,ELCDD,INDELC,NI,1.6,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2023
+PRE,G_ELC_C,Existing electricity distribution grid  COMELC,ELCDD,COMELC,NI,0.82,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2023
+PRE,G_ELC_A,Existing electricity distribution grid  AGRELC,ELCDD,AGRELC,NI,0.38,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2023
+PRE,G_ELC_HV,Electricity Transmission Grid,ELC,ELCHV,SI,2.5,1,700,108,,100,31.536,0.985,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2023
+PRE,G_ELC_LV,Electricity Distribution Grid,ELCHV,ELCDD,SI,2.07,1,2371.1,296.2,,100,31.536,0.946,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2023
+PRE,G_ELC_R,Existing electricity distribution grid  RESELC,ELCD,RESELC,SI,1.2,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2023
+PRE,G_ELC_I,Existing electricity distribution grid  INDELC,ELCD,INDELC,SI,0.5,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2023
+PRE,G_ELC_C,Existing electricity distribution grid  COMELC,ELCD,COMELC,SI,0.5,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2023
+PRE,G_ELC_A,Existing electricity distribution grid  AGRELC,ELCD,AGRELC,SI,0.3,1,0.1,,,100,31.536,1,PJ,GW,DAYNITE,DAYNITE,ELC,NRG,FX,2023

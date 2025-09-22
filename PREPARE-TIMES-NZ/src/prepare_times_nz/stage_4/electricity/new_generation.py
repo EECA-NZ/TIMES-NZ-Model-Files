@@ -8,10 +8,9 @@ MBIE and NREL scenarios. So we output specific scenario files based on
 MBIE/NREL selected inputs. These can be adjusted quite easily as needed.
 
 For offshore/distributed solar, only the NREL scenario is relevant
-As these are excluded from the MBIE data. So We currently just
-output every file for these, and the config file can select
-which to use
-
+As these are excluded from the MBIE data. We currently just
+output every file for these (advanced/moderate/conservative),
+and the config file can select which to use for whatever TIMES scenario
 
 """
 
