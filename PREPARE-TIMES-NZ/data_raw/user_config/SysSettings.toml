@@ -1,6 +1,4 @@
 
-# TOML RULES - FIRST PASS 
-
 # every tag gets its own block header like [StartYear]
 
 # if you need to specify a tag, like FI_T, then you can use TagName = <whatever>. Don't need to add the tilde. 
@@ -8,12 +6,8 @@
 # If you specify data directly in the toml, that will be read in by variable and assigned to "Data". See "TimeSlices" for an example of this. 
 # You can alternatively do this explicitly by assigning [NAME].Data (See "TimePeriods" for an example of this). 
 # Otherwise, you can specify a data location to read in. 
-#
 
-# You will need to specify a SheetName for this toml. All data from one toml goes onto a single sheet 
-# The distinction can be pretty arbitrary. It doesn't really matter what goes on what sheet. 
 
-# To do: Sheet name should inherit book name if not specified.
 
 WorkBookName = "SysSettings"
 

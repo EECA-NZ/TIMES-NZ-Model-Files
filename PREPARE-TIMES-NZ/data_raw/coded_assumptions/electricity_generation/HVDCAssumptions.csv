@@ -1,0 +1,10 @@
+﻿Attribute,Year,Attrib_Cond,AllRegions,Pset_Set,Pset_PN,*Notes
+LIFE,,,100,,TB_ELC*,
+CAP2ACT,,,31.536,,TB_ELC*,
+EFF,,,0.97,,TB_ELC*,
+NCAP_PASTI,2010,,1.2,,TB_ELC*,Current capacity
+NCAP_PASTI,2031,,0.2,,TB_ELC*,"Known future upgrades. With the current setup, this will compete with NCAP_BND, and hopefully overwrite it, but we may have to revisit this otherwise"
+NCAP_BND,2023,,0,,TB_ELC*,Limiting future expansion to 0
+NCAP_BND,0,,5,,TB_ELC*,Extrapolating expansion limitation
+INVCOST,,,650,,TB_ELC*,
+FIXOM,,,80,,TB_ELC*,
