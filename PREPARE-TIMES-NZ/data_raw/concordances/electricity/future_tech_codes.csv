@@ -1,0 +1,13 @@
+Tech,Tech_TIMES,Fuel_TIMES
+SolarFixed,SolarFixed,SOL
+SolarDist,SolarDist,SOL
+SolarTrack,SolarTrack,SOL
+HydPK,HydSC,HYD
+HydRR,HydRR,HYD
+Wind,WindOn,WIN
+GasPkr,GasPkr,NGA
+BioRecip,BioRecip,BIG
+Geo,Geo,GEO
+OCGT,GasPkr,NGA
+WindFixOff,WindFixOff,WIN
+WindFloatOff,WindFloatOff,WIN

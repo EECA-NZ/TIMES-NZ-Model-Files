@@ -115,7 +115,7 @@ def generate_techname(df):
         "ELC_HydRR_BranchRiverArgyleWairau": "ELC_HydRR_BranchRiver",
         "ELC_GasCHP_FonterraDairyWhareroa": "ELC_GasCHP_FonterraWhareroa",
     }
-    df["TechName"] = df["TechName"].map(manual_name_adjustments)
+    df["TechName"] = df["TechName"].replace(manual_name_adjustments)
 
     # check length
     test = df.copy()

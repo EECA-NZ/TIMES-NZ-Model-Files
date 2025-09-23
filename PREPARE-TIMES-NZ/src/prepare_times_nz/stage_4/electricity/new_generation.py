@@ -14,12 +14,9 @@ and the config file can select which to use for whatever TIMES scenario
 
 """
 
-import re
-
 import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_4.electricity.common import CAP2ACT, create_process_file
-from prepare_times_nz.utilities.data_cleaning import pascal_case, remove_diacritics
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
@@ -52,7 +49,6 @@ residential_solar = ELECTRICITY_DATA / "residential_solar.csv"
 # Assumptions and concordances
 region_islands = CONCORDANCES / "region_island_concordance.csv"
 tech_assumptions = ELC_ASSUMPTIONS / "TechnologyAssumptions.csv"
-fuel_codes = CONCORDANCES / "electricity/future_tech_fuel_codes.csv"
 
 
 # Set output location --------------------------------------------------------
@@ -172,58 +168,10 @@ def add_assumptions(df):
     assumptions_df = pd.read_csv(tech_assumptions)
     df = df.merge(assumptions_df, on="Tech", how="left")
 
-    fuels_df = pd.read_csv(fuel_codes)
-    df = df.merge(fuels_df, on="Tech", how="left")
-
     return df
 
 
 # misc cleaning functions
-
-
-def remove_parentheses_if_generic_solar(name: str) -> str:
-    """
-    Removes text inside parentheses (and the parentheses themselves)
-    only if the string contains 'Generic solar' (case-insensitive).
-    """
-    if re.search(r"\bGeneric\s+solar\b", name, re.IGNORECASE):
-        return re.sub(r"\([^)]*\)", "", name).strip()
-    return name
-
-
-def create_process_name(df):
-    """
-    Designed to create a TIMES-appropriate process name based on some input variables
-    Follows the original methods !!! We'll see how it all goes
-
-    So, we need a fuel code for TIMES, as well as a technology code
-
-    Then we'll take the hopefully distinct plantname (with the pascalification)
-
-    And tack that on to ensure distinct processes
-
-    We haven't actually made those yet !!!!!
-
-
-    Should use consistent concordance methods between this and the base year stuff
-    """
-    df["TechName"] = (
-        "ELC_"
-        # + df["FuelType"]
-        # + "_"
-        + df["Tech"]
-        + "_"
-        + df["Plant"].apply(remove_diacritics).apply(clean_name)
-    )
-
-    return df
-
-
-def clean_name(string):
-    """Wraps our separate cleaning functions together"""
-    string = remove_parentheses_if_generic_solar(string)
-    string = pascal_case(string)
-    return string
 
 
 # ------------------------------------------------------------------------------------------
@@ -339,7 +287,6 @@ def tidy_genstack(df):
 
     """
     #  really this whole function should go in stage 3. the surfaced s3 data should be tidier
-    df = create_process_name(df)
     df = add_islands(df)
 
     # MBIE includes Huntly black pellets as a separate plant.
@@ -528,7 +475,7 @@ def reshape_solar_file(df):
 
     df = df[df["Variable"] == "Capacity"].copy()
     # summarise regions
-    df = df.groupby(["Tech", "TechName"])["Value"].sum().reset_index()
+    df = df.groupby(["Tech", "TechName", "Fuel_TIMES"])["Value"].sum().reset_index()
     df["CAP_BND"] = df["Value"] / 1000  # convert GW
 
     df = add_assumptions(df)
