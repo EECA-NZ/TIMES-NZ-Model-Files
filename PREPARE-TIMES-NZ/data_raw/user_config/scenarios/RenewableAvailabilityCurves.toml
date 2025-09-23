@@ -6,7 +6,7 @@
 # For now, these are input assumptions. The onshore wind curves have been recently reviewed in a separate piece of work. 
 
 
-WorkBookName = "SuppXLS/Scen_Renewable_Availability.xlsx"
+WorkBookName = "SuppXLS/Scen_Renewable_Availability"
 
 
 # This is going to be much simpler than the original file, because everything gets processed together so we only need two tags

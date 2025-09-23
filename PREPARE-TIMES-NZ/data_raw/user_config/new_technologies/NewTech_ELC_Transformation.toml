@@ -8,41 +8,10 @@ WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Transformation"
 # As defined in the BY Files
 # So all sheets must start with ELC_, TRA_, etc
 
-###############################################################################
-# GENSTACK
-###############################################################################
+# fun fact: it's much better to do genstack last in this config file. The reason for this is it's quite big data, 
+# and opening/closing the file slows down it's included. It's not hugely important, but there are quite a few file read/writes,
+# it's much more efficient to not load the bigger data over and over 
 
-
-[GenStackProcesses]
-Description = "Declares processes for plants from genstack (Transformation settings)"
-SheetName = "ELC_GenerationStack"
-TagName = "FI_Process"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_process.csv"
-
-[GenStackDetails]
-Description = "Adds details for new plants from genstack (Transformation settings)"
-SheetName = "ELC_GenerationStack"
-TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_parameters.csv"
-
-[GenStackCostFixedInstalls]
-Description = "Defines fixed install dates for genstack plants (Transformation settings)"
-SheetName = "ELC_GenerationStack"
-TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_fixed_installs.csv"
-
-[GenStackCostCurves]
-Description = "Standard cost curve projections for applicable genstack plants (Transformation settings)"
-SheetName = "ELC_GenerationStack"
-TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_cost_curves.csv"
-
-[GenStackIslandDefinitions] 
-Description = "Ensure genstack plants end up in the right island(Transformation settings)"
-SheetName = "AVA"
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Transformation_trans"
-TagName = "TFM_AVA"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_island_definitions.csv"
 
 ###############################################################################
 # RESIDENTIAL_SOLAR
@@ -118,4 +87,41 @@ Description = "Adds cost curves to battery technologies"
 SheetName = "Batteries"
 TagName = "FI_Process"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_costs.csv"
+
+
+###############################################################################
+# GENSTACK
+###############################################################################
+
+
+[GenStackProcesses]
+Description = "Declares processes for plants from genstack (Transformation settings)"
+SheetName = "ELC_GenerationStack"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_process.csv"
+
+[GenStackDetails]
+Description = "Adds details for new plants from genstack (Transformation settings)"
+SheetName = "ELC_GenerationStack"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_parameters.csv"
+
+[GenStackCostFixedInstalls]
+Description = "Defines fixed install dates for genstack plants (Transformation settings)"
+SheetName = "ELC_GenerationStack"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_fixed_installs.csv"
+
+[GenStackCostCurves]
+Description = "Standard cost curve projections for applicable genstack plants (Transformation settings)"
+SheetName = "ELC_GenerationStack"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_cost_curves.csv"
+
+[GenStackIslandDefinitions] 
+Description = "Ensure genstack plants end up in the right island(Transformation settings)"
+SheetName = "AVA"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Transformation_trans"
+TagName = "TFM_AVA"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_island_definitions.csv"
 

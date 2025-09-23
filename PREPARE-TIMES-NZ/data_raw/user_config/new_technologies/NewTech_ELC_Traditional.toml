@@ -2,55 +2,17 @@
 
 WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional"
 
-###############################################################################
-# Standard scenario 
-###############################################################################
-
 # The standard scenario uses the MBIE reference scenario and the NREL conserative price paths 
 
 # We break this down by genstack, offshore wind, residential solar, and batteries 
-
 # Due to the way subres files are processed in Veda, it is required that each sheet begin with the sector
 # As defined in the BY Files
 # So all sheets must start with ELC_, TRA_, etc
 
+# fun fact: it's much better to do genstack last in this config file. The reason for this is it's quite big data, 
+# and opening/closing the file slows down it's included. It's not hugely important, but there are quite a few file read/writes,
+# it's much more efficient to not load the bigger data over and over 
 
-
-###############################################################################
-# Standard scenario GENSTACK
-###############################################################################
-
-
-[GenStackProcesses]
-Description = "Declares processes for plants from genstack (Traditional settings)"
-SheetName = "ELC_GenerationStack"
-TagName = "FI_Process"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_process.csv"
-
-[GenStackDetails]
-Description = "Adds details for new plants from genstack (Traditional settings)"
-SheetName = "ELC_GenerationStack"
-TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_parameters.csv"
-
-[GenStackCostFixedInstalls]
-Description = "Defines fixed install dates for genstack plants (Traditional settings)"
-SheetName = "ELC_GenerationStack"
-TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_fixed_installs.csv"
-
-[GenStackCostCurves]
-Description = "Standard cost curve projections for applicable genstack plants (Traditional settings)"
-SheetName = "ELC_GenerationStack"
-TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_cost_curves.csv"
-
-[GenStackIslandDefinitions] 
-Description = "Ensure genstack plants end up in the right island(Traditional settings)"
-SheetName = "AVA"
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_trans"
-TagName = "TFM_AVA"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_island_definitions.csv"
 
 ###############################################################################
 # Standard scenario RESIDENTIAL_SOLAR
@@ -126,3 +88,41 @@ Description = "Adds cost curves to battery technologies"
 SheetName = "Batteries"
 TagName = "FI_Process"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_costs.csv"
+
+
+
+###############################################################################
+# Standard scenario GENSTACK
+###############################################################################
+
+
+[GenStackProcesses]
+Description = "Declares processes for plants from genstack (Traditional settings)"
+SheetName = "ELC_GenerationStack"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_process.csv"
+
+[GenStackDetails]
+Description = "Adds details for new plants from genstack (Traditional settings)"
+SheetName = "ELC_GenerationStack"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_parameters.csv"
+
+[GenStackCostFixedInstalls]
+Description = "Defines fixed install dates for genstack plants (Traditional settings)"
+SheetName = "ELC_GenerationStack"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_fixed_installs.csv"
+
+[GenStackCostCurves]
+Description = "Standard cost curve projections for applicable genstack plants (Traditional settings)"
+SheetName = "ELC_GenerationStack"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_cost_curves.csv"
+
+[GenStackIslandDefinitions] 
+Description = "Ensure genstack plants end up in the right island(Traditional settings)"
+SheetName = "AVA"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_trans"
+TagName = "TFM_AVA"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_island_definitions.csv"
