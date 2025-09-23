@@ -562,6 +562,11 @@ def main() -> None:
 
     base_year_gen["FuelEfficiency"] = 3600 / base_year_gen["HeatRate"]
 
+    print("Hello I am your columns ")
+
+    for col in base_year_gen.columns:
+        print(col)
+
     # TIMES process names & commodities ------------------------------------
     base_year_gen["Process"] = (
         "ELC_"

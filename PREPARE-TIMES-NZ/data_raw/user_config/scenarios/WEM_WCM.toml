@@ -1,0 +1,19 @@
+# WEM_WCM
+
+# this scenario file adds the winter energy margin and winter capacity margin constraints. 
+
+# The methods and rationale for these are documented more fully in the electricity docs. In a nutshell: 
+
+# The winter capacity margin declares the peaking equation, including a 15% NI margin.
+# The winter energy margin requires total energy capacity during winter to be able to meet margins nationally and in the south island
+
+
+# These are set by the EA several years back and Transpower reports on how well the system can meet them.
+
+# Note that there is no actual market force that dictates that these standards are met. so there's an argument for excluding them from reference scenarios 
+# And instead assessing the capacity of the system to meet them. 
+
+#For now, we'll just include as a scenario file to mix and match as needed 
+
+
+WorkBookName = "SuppXLS/Scen_WEM_WCM.xlsx"
