@@ -1,11 +1,19 @@
-Fuel,Fuel_TIMES
-Biogas,BIG
-Coal,COA
-Diesel,DSL
-Electricity,ELC
-Fuel Oil,FOL
-Geothermal,GEO
-LPG,LPG
-Natural Gas,NGA
-Petrol,PET
-Wood,WOD
+Fuel,Fuel_TIMES,,,,,,,,,,,,,,,,,,,,,,,
+Biogas,BIG,,,,,,,,,,,,,,,,,,,,,,,
+Coal,COA,,,,,,,,,,,,,,,,,,,,,,,
+Diesel,DSL,,,,,,,,,,,,,,,,,,,,,,,
+Electricity,ELC,,,,,,,,,,,,,,,,,,,,,,,
+Fuel Oil,FOL,,,,,,,,,,,,,,,,,,,,,,,
+Geothermal,GEO,,,,,,,,,,,,,,,,,,,,,,,
+LPG,LPG,,,,,,,,,,,,,,,,,,,,,,,
+Natural Gas,NGA,,,,,,,,,,,,,,,,,,,,,,,
+Gas,NGA,,,,,,,,,,,,,,,,,,,,,,,
+Wood,WOD,,,,,,,,,,,,,,,,,,,,,,,
+Solar,SOL,,,,,,,,,,,,,,,,,,,,,,,
+Wind,WIN,,,,,,,,,,,,,,,,,,,,,,,
+Hydro,HYD,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,

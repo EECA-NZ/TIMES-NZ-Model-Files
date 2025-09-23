@@ -14,10 +14,10 @@ import unicodedata
 
 def pascal_case(name: str) -> str:
     """
-    Converts a given string to PascalCase format, including numbers.
+    Converts a given string to PascalCase.
     Preserves all-uppercase abbreviations like 'NZ'.
     """
-    parts = re.findall(r"[A-Z]?[a-z]+|[A-Z]{2,}|\d+", name)
+    parts = re.findall(r"[A-Z]?[a-z]+|[A-Z]{2,}|\d+|[A-Z]", name)
     out = []
     for word in parts:
         if word.isupper() and len(word) > 1:  # preserve acronyms

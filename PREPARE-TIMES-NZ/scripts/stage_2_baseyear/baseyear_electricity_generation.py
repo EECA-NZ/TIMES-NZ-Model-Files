@@ -39,14 +39,14 @@ from prepare_times_nz.utilities.logger_setup import logger
 # Constants
 # --------------------------------------------------------------------------- #
 BASE_YEAR = 2023
-SHOW_CHECKS = True
+SHOW_CHECKS = False
 
 CUSTOM_ELE_ASSUMPTIONS = DATA_RAW / "coded_assumptions" / "electricity_generation"
 OUTPUT_DIR = STAGE_2_DATA / "electricity"
 CHECK_DIR = OUTPUT_DIR / "checks"
 
 
-FUEL_CODES = CONCORDANCES / "electricity/fuel_codes.csv"
+TECH_CODES = CONCORDANCES / "electricity/tech_codes.csv"
 
 pd.set_option("display.float_format", lambda x: f"{x:.6f}")
 
@@ -75,13 +75,63 @@ def add_output_commodity(df: pd.Series, tech_var="TechnologyCode") -> str:  # no
 def add_input_commodity(df: pd.DataFrame):
     """
     TIMES input commodity code matching TIMES-2 mapping logic.
-    Expects a "Fuel" variable like other sectors, with
+    Expects a "Fuel_TIMES" variable like other sectors
     """
-    conc = pd.read_csv(FUEL_CODES)
-    df = df.merge(conc, on="Fuel", how="left")
-    df["Fuel_TIMES"] = df["Fuel_TIMES"].fillna("UNDEFINED")
-    # hve added Fuel_TIMES. specify electricity fuel:
     df["Comm-IN"] = "ELC" + df["Fuel_TIMES"]
+    return df
+
+
+def generate_techname(df):
+    """
+    Uses the data's parameters to generate process names
+    (called "TechName" in TIMES)
+
+    for the model to distinguish each process
+    This will be used to define the techs
+    but also mean we have easy lookup tables for each technology code
+    Requires the Tech_TIMES definition, which everything else is built on.
+
+    A reminder that it's recommended no techname is above 27 characters,
+    and certainly can't exceed 32
+    """
+    df["TechName"] = (  # Alert! this is going to break something downstream!
+        "ELC_"
+        + df["Tech_TIMES"]
+        + "_"
+        + df["PlantName"].apply(remove_diacritics).apply(pascal_case)
+    )
+
+    # the generic plants get a bit carried away so we trim these
+    df["TechName"] = np.where(
+        df["GenerationMethod"] == "Generic",
+        "ELC_" + df["Tech_TIMES"] + "_Generic",
+        df["TechName"],
+    )
+
+    # manual name adjustments for excessive length from the autogeneration process
+    manual_name_adjustments = {
+        "ELC_WindOn_KaiweraDownsStage1": "ELC_WindOn_KaiwaraDownsS1",
+        "ELC_CCGT_TaranakiCombinedCycle": "ELC_CCGT_TCC",
+        "ELC_HydRR_BranchRiverArgyleWairau": "ELC_HydRR_BranchRiver",
+        "ELC_GasCHP_FonterraDairyWhareroa": "ELC_GasCHP_FonterraWhareroa",
+    }
+    df["TechName"] = df["TechName"].map(manual_name_adjustments)
+
+    # check length
+    test = df.copy()
+    test["name_length"] = test["TechName"].str.len()
+    test = test[test["name_length"] > 27]
+
+    if len(test) > 0:
+        logger.warning(
+            "Alert! THe following generated plants have names that exceed the recommended length!"
+        )
+
+        plants = test["TechName"].unique()
+        for plant in plants:
+            logger.warning("         %s", plant)
+
+        logger.warning("Please resolve this in `manual_name_adjustments`! ")
 
     return df
 
@@ -283,7 +333,7 @@ def main() -> None:
     df_sol = df_sol[df_sol["Month"].dt.month == 12]
     df_sol["Year"] = df_sol["Month"].dt.year
     df_sol = df_sol.merge(region_island_concordance, on="Region", how="left")
-    df_sol["PlantName"] = "DistributedSolar" + df_sol["Sector"]
+    df_sol["PlantName"] = df_sol["Sector"]
     df_sol = (
         df_sol.groupby(["Year", "PlantName", "Island", "Sector"])[
             "capacity_installed_mw"
@@ -496,40 +546,20 @@ def main() -> None:
                 "Variable operating costs (NZD/MWh)": "generic_varom_nzd_mwh",
                 "Fixed operating costs (NZD/kW/year)": "generic_fixom_nzd_kw_year",
                 "Fuel delivery costs (NZD/GJ)": "generic_fuel_delivery_costs_nzd_gj",
+                # clarifying this concept as separate from usual TIMES TechNames
+                "TechName": "MBIETechName",
             }
         )
     )
 
-    techs_to_fuels = pd.DataFrame(
-        np.array(
-            [
-                ["Coal", "RNK", "Coal"],
-                ["Gas", "RNK", "Gas"],
-                ["Cogeneration, gas-fired", "COG", "Gas"],
-                ["Cogeneration, other", "COG", "Wood"],
-                ["Cogeneration, other", "COG", "Coal"],
-                ["Cogeneration, other", "COG", "Biogas"],
-                ["Geothermal", "GEO", "Geothermal"],
-                ["Geothermal", "COG", "Geothermal"],
-                ["Reciprocating Biogas engine", "BIG", "Biogas"],
-                ["Combined cycle gas turbine", "CCGT", "Gas"],
-                ["Open cycle gas turbine", "OCGT", "Gas"],
-                ["Peaker, diesel-fired OCGT", "OCGT", "Diesel"],
-                ["Peaker, diesel-fired OCGT", "DSL", "Diesel"],
-                ["Solar", "SOL", "Solar"],
-                ["Wind", "WIN", "Wind"],
-                ["Hydro, schedulable", "HYD", "Hydro"],
-                ["Hydro, run of river", "HYDRR", "Hydro"],
-            ]
-        ),
-        columns=["TechName", "TechnologyCode", "FuelType"],
-    )
-
+    tech_codes = pd.read_csv(TECH_CODES)
     base_year_gen = base_year_gen.merge(
-        techs_to_fuels, on=["FuelType", "TechnologyCode"], how="left"
+        tech_codes, on=["FuelType", "TechnologyCode"], how="left"
     )
+    # this is literally the only thing the techname is used for
+    # perhaps should clarify it's the MBIE techname
     base_year_gen = base_year_gen.merge(
-        genstack_avg_parameters, on="TechName", how="left"
+        genstack_avg_parameters, on="MBIETechName", how="left"
     )
 
     base_year_gen["HeatRate"] = base_year_gen["specific_heatrate_gj_gwh"].fillna(
@@ -555,34 +585,18 @@ def main() -> None:
             "specific_varom_nzd_mwh",
             "specific_fixom_nzd_kw_year",
             "specific_fuel_delivery_costs_nzd_gj",
-            "TechName",
         ],
         inplace=True,
     )
 
     base_year_gen["FuelEfficiency"] = 3600 / base_year_gen["HeatRate"]
 
-    print("Hello I am your columns ")
-
-    for col in base_year_gen.columns:
-        print(col)
-
     # TIMES process names & commodities ------------------------------------
-    base_year_gen["Process"] = (
-        "ELC_"
-        + base_year_gen["FuelType"]
-        + "_"
-        + base_year_gen["TechnologyCode"]
-        + "_"
-        + base_year_gen["PlantName"].apply(pascal_case).apply(remove_diacritics)
-    )
-    base_year_gen.loc[base_year_gen["TechnologyCode"] == "RNK", "Process"] = (
-        "ELC_RNK_HuntlyUnits1-4"
-    )
+
+    base_year_gen = generate_techname(base_year_gen)
 
     base_year_gen = add_output_commodity(base_year_gen)
     # input commodity functin works on full df not per row
-    base_year_gen["Fuel"] = base_year_gen["FuelType"]
     base_year_gen = add_input_commodity(base_year_gen)
 
     # --------------------------------------------------------------------- #
