@@ -136,6 +136,21 @@ def generate_techname(df):
     return df
 
 
+def remove_coal_cogeneration(df):
+    """
+    Here, we remove any coal cogen plants from the outputs
+
+    THis is specifically because coal cogen is now entirely
+        treated within the industrial demand side
+        We assume its all NZSteel as an auxiliary output from the coal use there
+    So we don't want to double count this
+    """
+
+    df = df[~((df["FuelType"] == "Coal") & (df["GenerationType"] == "CHP"))]
+
+    return df
+
+
 def save_outputs(
     gen_df: pd.DataFrame,
     gen_cmp: pd.DataFrame,
@@ -624,6 +639,9 @@ def main() -> None:
         id_vars=id_vars, value_vars=value_vars, var_name="Variable", value_name="Value"
     )
     base_year_gen["Unit"] = base_year_gen["Variable"].map(variable_unit_map)
+
+    # Remove coal cogeneration - this is all industrial demand
+    base_year_gen = remove_coal_cogeneration(base_year_gen)
 
     # --------------------------------------------------------------------- #
     # Output + checks
