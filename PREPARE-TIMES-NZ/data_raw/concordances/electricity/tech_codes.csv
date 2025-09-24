@@ -7,7 +7,7 @@ COG,Coal,"Cogeneration, other",COA,CoalCHP
 COG,Biogas,"Cogeneration, other",BIG,BiogasCHP
 GEO,Geothermal,Geothermal,GEO,Geo
 COG,Geothermal,Geothermal,GEO,GeoCHP
-BIG,Biogas,Reciprocating Biogas engine,BIG,RecipBiogas
+BIG,Biogas,Reciprocating Biogas engine,BIG,BioRecip
 CCGT,Gas,Combined cycle gas turbine,NGA,CCGT
 OCGT,Gas,Open cycle gas turbine,NGA,GasPkr
 OCGT,Diesel,"Peaker, diesel-fired OCGT",DSL,DslPkr

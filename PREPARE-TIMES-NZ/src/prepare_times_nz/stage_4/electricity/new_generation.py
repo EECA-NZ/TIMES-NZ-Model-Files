@@ -162,11 +162,27 @@ def get_island_definitions(df):
 def add_assumptions(df):
     """
     Joining various assumptions on the Tech field from raw data
+    We are using the Tech_TIMES field, which should be propogated more
+    fully through the process
+    And everything else tied to that specific definition
+
+    Currently the base year and some future year code/assumptions
+    need a bit of refactoring to apply this method properly
+
+    Really we should assign Tech_TIMES to everything,
+    Then join assumptions onto that.
+
+    Currently we instead patch the "Tech" field into Tech_TIMES if it
+        is missing (as in some smaller tables)
     """
 
     # bring in additional assumptions
     assumptions_df = pd.read_csv(tech_assumptions)
-    df = df.merge(assumptions_df, on="Tech", how="left")
+
+    if "Tech_TIMES" not in df.columns:
+        df["Tech_TIMES"] = df["Tech"]
+
+    df = df.merge(assumptions_df, on="Tech_TIMES", how="left")
 
     return df
 
