@@ -232,14 +232,17 @@ STAGE_2: dict[str, list[str]] = {
     "settings/load_curves": ["settings/load_curves/base_year_load_curve.csv"],
 }
 
-# Stage-3: scenario demand-growth calculations
+# Stage-3: scenario and subres files
 STAGE_3: dict[str, list[str]] = {
     "industry/industry_get_demand_growth": ["industry/scenario_demand_growth.csv"],
+    # subres
     "electricity/electricity_new_gen_tech": ["electricity/future_generation_tech.csv"],
     "transport/extract_vehicle_future_costs_data": [
         "transport/vehicle_costs_by_type_fuel_projected_2023.csv"
     ],
+    # scenarios
     "oil_and_gas/gas_projections": ["oil_and_gas/oil_and_gas_projections.csv"],
+    "electricity/wem_wcm": ["wem_user_constraints/uc_wem.csv"],
 }
 
 # Stage-4: VEDA-format CSVs. Single sentinel per script
@@ -253,6 +256,7 @@ STAGE_4: dict[str, list[str]] = {
     "create_baseyear_pri_files": ["base_year_pri/deliverability_forecasts_2p.csv"],
     # new techs (subres files)
     "create_newtechs_tra_files": ["subres_tra/future_transport_processes.csv"],
+    "create_newtechs_elc_files": ["subres_elc/genstack/Traditional_process.csv"],
 }
 
 # Stage-5: final Excel workbooks.

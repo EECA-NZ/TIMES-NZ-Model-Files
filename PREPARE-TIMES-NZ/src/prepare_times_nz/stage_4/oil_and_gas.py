@@ -1,9 +1,9 @@
 """
 This module loads our processed oil and gas data and creates three outputs:
 
-1) gas_supply processes (declarations of the processes and some stats about em)
-2)
-
+1) deliverability forecasts (multiple versions)
+2) natural gas fugitive emissions and costs (these are applied to the field processes)
+3) imported fuel cost assumptions, incl usd/bbl - NZD/GJ conversions
 
 """
 

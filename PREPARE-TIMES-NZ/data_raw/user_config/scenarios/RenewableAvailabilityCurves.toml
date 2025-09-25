@@ -1,0 +1,41 @@
+
+# Here we define all our seasonal availability for various renewable generation 
+# this won't apply to dispatchable generation, which obviously is mostly fossil thermal but could include eg biogas peakers etc 
+# We're just defining hydro, solar (various types) and wind (various types) 
+# Note that the processing of these is currently external to the main pre-processing. It would be ideal to code this up somewhere for posterity
+# For now, these are input assumptions. The onshore wind curves have been recently reviewed in a separate piece of work. 
+
+
+WorkBookName = "SuppXLS/Scen_Renewable_Availability"
+
+
+# This is going to be much simpler than the original file, because everything gets processed together so we only need two tags
+
+[AvailabilityCurveExtrapolation]
+Description = "Interpolation/extrapolation of AFs for whole time horizon at all timeslices"
+SheetName = "Renewable Availability" 
+TagName = "TFM_INS"
+
+TimeSlice = ["*", "*"]
+LimType = ["UP,LO,FX", "UP,LO,FX"]
+Attribute = ["NCAP_AF","NCAP_AFS"]
+Year = [0,0]
+NI = [3,3]
+SI = [3,3]
+Pset_PN = ["E*Win*, E*Hyd*, E*Sol*", "E*Win*, E*Hyd*, E*Sol*"]
+
+[AvailabilityCurveData]
+Description = "All availability curves for renewable technologies"
+SheetName = "Renewable Availability" 
+TagName = "TFM_INS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_ren_af/renewable_availability.csv"
+
+
+
+
+
+
+
+
+
+

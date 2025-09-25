@@ -1,13 +1,13 @@
 ﻿FuelType,GenerationType,TechnologyCode,CapacityFactor
-Biogas,CHP,COG,0.75
-Biogas,ELE,BIG,0.75
+Biogas,CHP,COG,0.66
+Biogas,ELE,BIG,0.66
 Coal,CHP,COG,0.55
 Coal,ELE,RNK,0.37
 Diesel,ELE,DSL,0.02
 Diesel,ELE,OCGT,0.02
 Gas,CHP,COG,0.55
 Gas,ELE,CCGT,0.65
-Gas,ELE,OCGT,0.33
+Gas,ELE,OCGT,0.3
 Gas,ELE,RNK,0.37
 Geothermal,CHP,COG,0.8
 Geothermal,ELE,GEO,0.95

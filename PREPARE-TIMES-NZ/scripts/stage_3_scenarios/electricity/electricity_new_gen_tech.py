@@ -18,8 +18,12 @@ earliest commissioning year or if it is able to be commissioned at any time.
 # Getting Custom Libraries
 
 
+import re
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
+from prepare_times_nz.utilities.data_cleaning import pascal_case, remove_diacritics
 from prepare_times_nz.utilities.deflator import deflate_data
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
@@ -28,7 +32,7 @@ from prepare_times_nz.utilities.filepaths import (
     STAGE_1_DATA,
     STAGE_3_DATA,
 )
-from prepare_times_nz.utilities.logger_setup import logger
+from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # CONSTANTS ----------------------------------------------------------------
 
@@ -48,15 +52,33 @@ OUTPUT_LOCATION = STAGE_3_DATA / "electricity"
 pd.set_option("future.no_silent_downcasting", True)
 
 # GET DATA ------------------------------------
-genstack_file = pd.read_csv(f"{STAGE_1_DATA}/mbie/gen_stack.csv")
-nrel_data = pd.read_csv(f"{STAGE_1_DATA}/nrel/future_electricity_costs.csv")
+genstack_file = pd.read_csv(STAGE_1_DATA / "mbie/gen_stack.csv")
+nrel_data = pd.read_csv(STAGE_1_DATA / "nrel/future_electricity_costs.csv")
 
 census_dwellings = pd.read_csv(
-    f"{DATA_RAW}/external_data/statsnz/census/total_dwellings.csv"
+    DATA_RAW / "external_data/statsnz/census/total_dwellings.csv"
 )
-region_to_island = pd.read_csv(f"{CONCORDANCES}/region_island_concordance.csv")
-new_tech = pd.read_csv(f"{FUTURE_TECH_ASSUMPTIONS}/NewTechnology.csv")
-tracked_solar = pd.read_csv(f"{FUTURE_TECH_ASSUMPTIONS}/TrackingSolarPlants.csv")
+region_to_island = pd.read_csv(CONCORDANCES / "region_island_concordance.csv")
+new_tech = pd.read_csv(FUTURE_TECH_ASSUMPTIONS / "NewTechnology.csv")
+tracked_solar = pd.read_csv(FUTURE_TECH_ASSUMPTIONS / "TrackingSolarPlants.csv")
+future_tech_codes = pd.read_csv(CONCORDANCES / "electricity/future_tech_codes.csv")
+
+
+# HELPERS
+
+
+def _save_data(df, name, label, filepath: Path):
+    """Save DataFrame output to the output location."""
+    filepath.mkdir(parents=True, exist_ok=True)
+    filename = f"{filepath}/{name}"
+    logger.info("%s: %s", label, blue_text(filename))
+    df.to_csv(filename, index=False, encoding="utf-8-sig")
+
+
+def save_gen_output(df, name, label, filepath=OUTPUT_LOCATION):
+    """Save DataFrame output to the output location."""
+    label = f"Saving output ({label})"
+    _save_data(df=df, name=name, label=label, filepath=filepath)
 
 
 # FUNCTIONS -------------------------------
@@ -273,7 +295,7 @@ def apply_learning_curves(df):
 
     # add back non-curved data
     df = pd.concat([df, df_inapplicable])
-    df = df.drop(["AddLearningCurve", "Index"], axis=1)
+    # df = df.drop(["AddLearningCurve", "Index"], axis=1)
     return df
 
 
@@ -359,6 +381,45 @@ def distinguish_tracking_solar(df):
     return df
 
 
+def remove_parentheses_if_generic_solar(name: str) -> str:
+    """
+    Removes text inside parentheses (and the parentheses themselves)
+    only if the string contains 'Generic solar' (case-insensitive).
+    """
+    if re.search(r"\bGeneric\s+solar\b", name, re.IGNORECASE):
+        return re.sub(r"\([^)]*\)", "", name).strip()
+    return name
+
+
+def add_times_codes(df):
+    """
+    Designed to create a set of consistent techs and process names to persist
+    Intended to be consistent with base year naming processes
+    Uses a concordance table to pull in Tech_TIMES and Fuel_TIMES
+    for each technology found in the table
+    Then generates the default name
+    (Sometimes the default name is overwritten later,
+        but it works well for genstack plants)
+    """
+
+    df = df.merge(future_tech_codes, how="left", on="Tech")
+    df["TechName"] = (
+        "ELC_"
+        + df["Tech_TIMES"]
+        + "_"
+        + df["Plant"].apply(remove_diacritics).apply(clean_name)
+    )
+
+    return df
+
+
+def clean_name(string):
+    """Wraps our separate cleaning functions together"""
+    string = remove_parentheses_if_generic_solar(string)
+    string = pascal_case(string)
+    return string
+
+
 def get_genstack():
     """
     Wrapper for our genstack manipulation functions.
@@ -373,12 +434,13 @@ def get_genstack():
     """
 
     df = load_genstack()
+
     df = reshape_genstack(df)
     df = define_genstack_learning_curves(df)
     df = apply_learning_curves(df)
     df = recalculate_capex(df)
     df = distinguish_tracking_solar(df)
-
+    df = add_times_codes(df)
     return df
 
 
@@ -441,6 +503,12 @@ def get_offshore_wind():
 
     df = df.drop("PriceBaseYear", axis=1)
 
+    df = add_times_codes(df)
+
+    # different naming scheme for OffShore - distinguisheach plant by region
+
+    df["TechName"] = "ELC_" + df["Tech_TIMES"] + "_" + df["Region"]
+
     return df
 
 
@@ -450,6 +518,9 @@ def get_residential_solar():
 
     Note: this repeats a lot of the methods used for other plants
     However, they're not using the same functions - could generalise methods.
+
+    I'm not sure if these should actually go in the base year techs !!
+    Will leave as is for now but could clean this up a bit
 
     """
 
@@ -504,12 +575,17 @@ def get_residential_solar():
     # set default year
     df["Year"] = df["Year"].fillna(BASE_YEAR)
 
+    df = add_times_codes(df)
+
+    # again, different naming scheme for these, clarifying the sector hardcoded
+    # These are distinguished from existing solar PV. I am not sure if that's necessary!
+    df["TechName"] = "ELC_" + df["Tech_TIMES"] + "_ResNew"
+
     return df
 
 
 def main():
     """
-
     Pulls the three component pieces
         genstack
         offshore wind
@@ -521,11 +597,10 @@ def main():
     genstack = get_genstack()
     offshore_wind = get_offshore_wind()
     res_solar = get_residential_solar()
-    df = pd.concat([genstack, offshore_wind, res_solar])
 
-    filename = OUTPUT_LOCATION / "future_generation_tech.csv"
-    logger.info("Saving future tech data to %s", filename)
-    df.to_csv(filename, index=False, encoding="utf-8-sig")
+    save_gen_output(genstack, "genstack.csv", "genstack plants")
+    save_gen_output(offshore_wind, "offshore_wind.csv", "offshore wind")
+    save_gen_output(res_solar, "residential_solar.csv", "residential solar")
 
 
 if __name__ == "__main__":

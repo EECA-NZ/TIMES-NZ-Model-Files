@@ -1,0 +1,12 @@
+Tech_TIMES,PlantLife,PeakContribution,AFA
+WindFixOff,25,0.3,
+WindFloatOff,25,0.3,
+SolarFixed,25,0,
+SolarTrack,25,0,
+SolarDist,20,0,
+HydSC,100,0.8,
+HydRR,100,0.72,
+Wind,25,0.25,
+GasPkr,30,0.97,0.3
+BioRecip,30,0.97,0.66
+Geo,40,0.92,

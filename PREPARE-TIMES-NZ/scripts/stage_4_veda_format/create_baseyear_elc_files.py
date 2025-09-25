@@ -82,7 +82,7 @@ DISTRIBUTION_PARAMETERS_MAP = {
     "Comm-IN": "Comm-IN",
     "Comm-OUT": "Comm-OUT",
     "Region": "Region",
-    "NCAP_PASTI~2015": "NCAP_PASTI~2015",
+    "NCAP_PASTI": "NCAP_PASTI",
     "AF": "AF",
     "CAP2ACT": "CAP2ACT",
     "INVCOST": "INVCOST",

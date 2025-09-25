@@ -1,0 +1,128 @@
+# New electricity sector technologies for TIMES-NZ
+
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional"
+
+# The standard scenario uses the MBIE reference scenario and the NREL conserative price paths 
+
+# We break this down by genstack, offshore wind, residential solar, and batteries 
+# Due to the way subres files are processed in Veda, it is required that each sheet begin with the sector
+# As defined in the BY Files
+# So all sheets must start with ELC_, TRA_, etc
+
+# fun fact: it's much better to do genstack last in this config file. The reason for this is it's quite big data, 
+# and opening/closing the file slows down it's included. It's not hugely important, but there are quite a few file read/writes,
+# it's much more efficient to not load the bigger data over and over 
+
+
+###############################################################################
+# Standard scenario RESIDENTIAL_SOLAR
+###############################################################################
+[ResidentialSolarProcesses]
+Description = "Declares processes for new residential rooftop solar"
+SheetName = "ELC_DistSolar"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/process_definitions.csv"
+
+[ResidentialSolarDetails]
+Description = "Adds details for residential rooftop solar"
+SheetName = "ELC_DistSolar"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/parameters.csv"
+
+[ResidentialSolarCostCurves]
+Description = "Conservative cost curve projections for residential rooftop solar (NREL Conservateve)"
+SheetName = "ELC_DistSolar"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/cost_curves_conservative.csv"
+
+###############################################################################
+# Offshore Wind
+###############################################################################
+
+
+[OffshoreWindProcesses]
+Description = "Declares processes for offshore wind plants"
+SheetName = "ELC_OffshoreWind"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/process_definitions.csv"
+
+[OffshoreWindDetails]
+Description = "Provides key assumptions for offshore wind plants"
+SheetName = "ELC_OffshoreWind"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/base_file.csv"
+
+[OffshoreWindCostCurves]
+Description = "Standard cost curve projections for offshore wind plants (NREL conservative)"
+SheetName = "ELC_OffshoreWind"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/cost_curves_conservative.csv"
+
+[OffshoreWindIslandDefinitions]
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_trans"
+Description = "SubRES Transformation - ensure offshore wind built in correct islands. Idea: test adding this to main subres instead?"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/island_definitions.csv"
+SheetName = "AVA"
+TagName = "TFM_AVA"
+
+
+###############################################################################
+# Battery technologies
+###############################################################################
+
+
+[BatteryDefinitions]
+Description = "Declares processes for battery technologies"
+SheetName = "Batteries"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_processes.csv"
+
+[BatteryParameters]
+Description = "Describes key assumptions for battery technologies"
+SheetName = "Batteries"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_parameters.csv"
+
+[BatteryCostCurves]
+Description = "Adds cost curves to battery technologies"
+SheetName = "Batteries"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_costs.csv"
+
+
+
+###############################################################################
+# Standard scenario GENSTACK
+###############################################################################
+
+
+[GenStackProcesses]
+Description = "Declares processes for plants from genstack (Traditional settings)"
+SheetName = "ELC_GenerationStack"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_process.csv"
+
+[GenStackDetails]
+Description = "Adds details for new plants from genstack (Traditional settings)"
+SheetName = "ELC_GenerationStack"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_parameters.csv"
+
+[GenStackCostFixedInstalls]
+Description = "Defines fixed install dates for genstack plants (Traditional settings)"
+SheetName = "ELC_GenerationStack"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_fixed_installs.csv"
+
+[GenStackCostCurves]
+Description = "Standard cost curve projections for applicable genstack plants (Traditional settings)"
+SheetName = "ELC_GenerationStack"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_cost_curves.csv"
+
+[GenStackIslandDefinitions] 
+Description = "Ensure genstack plants end up in the right island(Traditional settings)"
+SheetName = "AVA"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_trans"
+TagName = "TFM_AVA"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_island_definitions.csv"

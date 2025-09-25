@@ -7,23 +7,24 @@ At this stage, this is just some column renaming to standardise cases.
 """
 
 import re
+import unicodedata
 
 # Column name tidying:
 
 
 def pascal_case(name: str) -> str:
     """
-    Converts a given string to PascalCase format.
-    Splits the input string by non-word characters and camelCase boundaries,
-    then capitalizes each part and concatenates them.
-    Args:
-        name (str): The input string to convert.
-    Returns:
-        str: The PascalCase formatted string.
+    Converts a given string to PascalCase.
+    Preserves all-uppercase abbreviations like 'NZ'.
     """
-    # Split by non-word characters and camelCase boundaries
-    parts = re.findall(r"[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)", name)
-    return "".join(word.capitalize() for word in parts)
+    parts = re.findall(r"[A-Z]?[a-z]+|[A-Z]{2,}|\d+|[A-Z]", name)
+    out = []
+    for word in parts:
+        if word.isupper() and len(word) > 1:  # preserve acronyms
+            out.append(word)
+        else:
+            out.append(word.capitalize())
+    return "".join(out)
 
 
 def rename_columns_to_pascal(df):
@@ -47,3 +48,9 @@ def rename_columns_to_pascal(df):
     new_names = [pascal_case(col) for col in df.columns]
     mapping = dict(zip(df.columns, new_names))
     return df.rename(columns=mapping)
+
+
+def remove_diacritics(text: str) -> str:
+    """Strip accent marks so names are ASCII-safe for GAMS/VEDA."""
+    nfkd = unicodedata.normalize("NFKD", text)
+    return "".join(c for c in nfkd if not unicodedata.combining(c))

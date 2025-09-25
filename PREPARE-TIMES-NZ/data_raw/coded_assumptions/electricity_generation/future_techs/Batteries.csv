@@ -1,0 +1,4 @@
+TechName,StorageEfficiency,StorageRatio,PeakContribution,Commodity,PlantLife
+ELC_BAT_2H,0.85,2,0.98,ELCHV,15
+ELC_BAT_8H,0.85,8,0.98,ELCHV,15
+ELC_BAT_DIST,0.85,2,0.98,ELCDD,15
