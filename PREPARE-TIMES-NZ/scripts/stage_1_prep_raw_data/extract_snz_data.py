@@ -107,16 +107,15 @@ def get_dwelling_heating_data(path: Path) -> pd.DataFrame:
     # consistent name case
     df = rename_columns_to_pascal(df)
     # dwelling type/code mapping
-    # CeDt is the SNZ label for the dwelling type code
+    # CEN23DTD004 is the SNZ label for the dwelling type code
     # no labels were provided in the extract so we manually map these
     dwelling_type_map = {
         "10": "Private dwelling not further defined",
         "11": "Separate house",
-        "12": "Joined dwelling",
         "13": "Other private dwelling",
         "999": "Total - private dwelling type",
     }
-    df["PrivateDwellingType"] = df["CeDt"].astype(str).map(dwelling_type_map)
+    df["PrivateDwellingType"] = df["CEN23DTD004"].astype(str).map(dwelling_type_map)
 
     df = df[
         [
@@ -124,11 +123,11 @@ def get_dwelling_heating_data(path: Path) -> pd.DataFrame:
             "Area",
             "MainTypesOfHeatingUsed",
             "PrivateDwellingType",
-            "ObValue",
+            "OBSVALUE",
         ]
     ].copy()
 
-    df = df.rename(columns={"ObValue": "Value"})
+    df = df.rename(columns={"OBSVALUE": "Value"})
 
     return df
 
@@ -148,10 +147,10 @@ def get_population_by_dwelling(path: Path) -> pd.DataFrame:
             "CensusYear",
             "Area",
             "DwellingType",
-            "ObValue",
+            "OBSVALUE",
         ]
     ].copy()
-    df = df.rename(columns={"ObValue": "Value"})
+    df = df.rename(columns={"OBSVALUE": "Value"})
     return df
 
 

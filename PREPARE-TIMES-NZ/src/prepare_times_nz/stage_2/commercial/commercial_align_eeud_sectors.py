@@ -35,7 +35,7 @@ BASE_YEAR = 2023
 group_cols = [
     "SectorGroup",
     "Sector",
-    "SectorAnzsic",
+    "SectorANZSIC",
     "FuelGroup",
     "Fuel",
     "TechnologyGroup",
@@ -122,8 +122,8 @@ def save_checks(df: pd.DataFrame, name: str, label: str) -> None:
 def load_data() -> dict[str, pd.DataFrame | dict]:
     """Load inputs needed for commercial sector alignment."""
     data = {
-        "eeud": pd.read_csv(EEUD_CSV, **READ_OPTS),
-        "times_eeud_commercial_categories": pd.read_csv(TIMES_EEUD_CATS, **READ_OPTS),
+        "eeud": pd.read_csv(EEUD_CSV),
+        "times_eeud_commercial_categories": pd.read_csv(TIMES_EEUD_CATS),
     }
     return data
 
