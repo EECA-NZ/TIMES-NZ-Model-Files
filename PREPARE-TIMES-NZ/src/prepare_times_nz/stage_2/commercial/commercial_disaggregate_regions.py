@@ -158,10 +158,11 @@ def tidy_long_island(df: pd.DataFrame) -> pd.DataFrame:
     df_long = df_long[df_long["Value"] != 0]
 
     # Optional: consistent column order if present
+    # pylint:disable = duplicate-code
     order = [
         "SectorGroup",
         "Sector",
-        "SectorAnzsic",
+        "SectorANZSIC",
         "FuelGroup",
         "Fuel",
         "TechnologyGroup",

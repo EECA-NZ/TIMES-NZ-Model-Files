@@ -35,7 +35,7 @@ BASE_YEAR = 2023
 group_cols = [
     "SectorGroup",
     "Sector",
-    "SectorAnzsic",
+    "SectorANZSIC",
     "FuelGroup",
     "Fuel",
     "TechnologyGroup",

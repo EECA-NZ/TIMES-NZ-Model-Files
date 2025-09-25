@@ -6,7 +6,9 @@ Steps performed
 ---------------
 1. Read the EEUD "Data" sheet from the raw Excel workbook.
 2. Tidy column names, derive useful fields, and coerce values.
-3. Write a CSV copy to "data_intermediate/stage_1_input_data/eeud".
+3. Add biomass patch assumptions for missing industrial/commercial demand
+4. Write a CSV copy to "data_intermediate/stage_1_input_data/eeud".
+5. Write an CSV copy of unpatched data to the same directory
 
 This script is idempotent: it recreates its output each time it runs.
 
@@ -19,19 +21,13 @@ or import :pyfunc:`main` from elsewhere in the project or tests.
 
 from __future__ import annotations
 
-import logging
 from pathlib import Path
 from typing import Final
 
 import pandas as pd
 from prepare_times_nz.utilities.data_cleaning import rename_columns_to_pascal
+from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, DATA_RAW, STAGE_1_DATA
-
-# ---------------------------------------------------------------------------
-# Logging
-# ---------------------------------------------------------------------------
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 
 # ---------------------------------------------------------------------------
 # Constants and paths
@@ -40,17 +36,21 @@ EEUD_FILENAME: Final[str] = "Final EEUD Outputs 2017 - 2023 12032025.xlsx"
 
 INPUT_DIR = Path(DATA_RAW) / "eeca_data" / "eeud"
 OUTPUT_DIR = Path(STAGE_1_DATA) / "eeud"
-OUTPUT_FILE = OUTPUT_DIR / "eeud.csv"
+
 
 # ---------------------------------------------------------------------------
 # Helper functions
 # ---------------------------------------------------------------------------
 
 
+def save_eeud(df, name):
+    """_save_data wrapper"""
+    _save_data(df, name, label="Saving EEUD", filepath=OUTPUT_DIR)
+
+
 def read_eeud(source_dir: Path, filename: str) -> pd.DataFrame:
     """Read the EEUD *filename* from *source_dir* and return the raw Data sheet."""
     file_path = source_dir / filename
-    logger.info("Reading EEUD workbook %s", file_path)
     return pd.read_excel(file_path, engine="openpyxl", sheet_name="Data")
 
 
@@ -116,14 +116,10 @@ def main() -> None:
 
     raw_df = read_eeud(INPUT_DIR, EEUD_FILENAME)
     tidy_df = clean_eeud_data(raw_df)
-    # patched_df = add_biomass_patch_to_eeud(tidy_df)
+    patched_df = add_biomass_patch_to_eeud(tidy_df)
 
-    tidy_df.to_csv(OUTPUT_FILE, index=False)
-    logger.info("EEUD data written to %s", OUTPUT_FILE)
-
-    df = add_biomass_patch_to_eeud(tidy_df)
-
-    print(df)
+    save_eeud(tidy_df, "eeud_no_patch.csv")
+    save_eeud(patched_df, "eeud.csv")
 
 
 if __name__ == "__main__":
