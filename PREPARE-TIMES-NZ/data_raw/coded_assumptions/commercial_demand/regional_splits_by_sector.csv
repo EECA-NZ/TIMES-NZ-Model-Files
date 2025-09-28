@@ -4,3 +4,4 @@ Healthcare,0.75,Based on number of hospital beds by island
 Office Blocks,0.79,Based on GDP  of the relevant subsectors
 WSR,0.82,GDP  of the relevant subsectors
 Other,0.76,Population
+Data Centre,0.84,Data centre map

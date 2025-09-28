@@ -102,3 +102,8 @@ Other,"Motive Power, Mobile",Internal Combustion Engine (Land Transport),0.1,TIM
 Other,"Motive Power, Stationary",Electric Motor,0.55,TIMES-NZ 2.0
 Other,"Motive Power, Stationary",Stationary Engine,0.55,TIMES-NZ 2.0
 Other,Pumping,"Pump Systems (for Fluids, etc.)",0.55,Similar to Electric Motor
+Data Centre,Electronics and Other Electrical Uses,Electronics,0.99,
+Data Centre,Space Cooling,Heat Pump (for Cooling),0.85,
+Data Centre,Lighting,Lights (Fluorescent),0.12,
+Data Centre,Lighting,Lights (Incandescent),0.12,
+Data Centre,Lighting,Lights (LED),0.12,
