@@ -47,9 +47,11 @@ def define_process_commodities(df: pd.DataFrame, run_tests=RUN_TESTS) -> pd.Data
     df = add_times_codes(df, FUEL_CODES, "Fuel", run_tests=run_tests)
 
     # Default naming rules
-    df["Process"] = df[
-        ["Sector_TIMES", "EndUse_TIMES", "Technology_TIMES", "Fuel_TIMES"]
-    ].agg("-".join, axis=1)
+    df["Process"] = (
+        df[["Sector_TIMES", "EndUse_TIMES", "Technology_TIMES", "Fuel_TIMES"]]
+        .astype(str)
+        .agg("-".join, axis=1)
+    )
 
     df["CommodityIn"] = "COM" + df[["Fuel_TIMES"]].agg("-".join, axis=1)
     df["CommodityOut"] = df[["Sector_TIMES", "EndUse_TIMES"]].agg("-".join, axis=1)
