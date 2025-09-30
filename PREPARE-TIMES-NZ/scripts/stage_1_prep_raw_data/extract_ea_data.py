@@ -45,7 +45,7 @@ EMI_NSP_TABLE: Path = (
 )
 EMI_DISTRIBUTED_SOLAR_DIR: Path = INPUT_LOCATION / "emi_distributed_solar"
 
-TIME_OF_DAY_FILE = ASSUMPTIONS / "load_curves/time_of_day_types.csv"
+TIME_OF_DAY_FILE = ASSUMPTIONS / "settings/time_of_day_types.csv"
 
 # Functions ----------------------------------------
 
