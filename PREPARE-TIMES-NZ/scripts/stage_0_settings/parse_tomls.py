@@ -29,8 +29,8 @@ from typing import List
 
 import pandas as pd
 import tomli_w
+from prepare_times_nz.stage_0.toml_readers import parse_toml_file
 from prepare_times_nz.utilities.filepaths import DATA_INTERMEDIATE, DATA_RAW
-from prepare_times_nz.utilities.toml_readers import parse_toml_file
 
 # ---------------------------------------------------------------------------
 # Logging setup

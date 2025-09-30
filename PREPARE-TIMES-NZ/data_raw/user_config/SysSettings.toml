@@ -1,15 +1,6 @@
+# 
 
-# every tag gets its own block header like [StartYear]
-
-# if you need to specify a tag, like FI_T, then you can use TagName = <whatever>. Don't need to add the tilde. 
-# This means we can give each tag a sensible descriptive name which makes things a bit clearer.
-# If you specify data directly in the toml, that will be read in by variable and assigned to "Data". See "TimeSlices" for an example of this. 
-# You can alternatively do this explicitly by assigning [NAME].Data (See "TimePeriods" for an example of this). 
-# Otherwise, you can specify a data location to read in. 
-
-
-
-WorkBookName = "SysSettings"
+WorkBookName = "SysSettingsTEST"
 
 ###############################################################################
 # TimePeriods
@@ -18,40 +9,30 @@ WorkBookName = "SysSettings"
 
 
 # Set Base Year - this will be used throughout the model
-
 [StartYear]
 StartYear = [2023]
-
 Description = "The model base year. Used by several scripts for downstream processing."
 
-# Under default settings, the timeperiods modelled will include the first year as a single year,
-# then jump to milestone years every 5 years.
 
-# so, if we start to 2018, the periods will be 2018, 2020, 2025, etc
-# TIMES will include all the relevant years within that milestone year, which is the middle year of the period, 
-# but they will all be modelled the same as the milestone year
-
-# To do: automate this process by setting just a start, end, and increment value
-
-# NOTE: You must currently also ensure the ActivePDef and final year are set how you want them in Veda when doing model runs.
 [ActivePDef]
+# The current system here uses milestone year inputs from coded_assumptions/settings/milestone_years.csv 
+# THis file can host as many milestone years as we want.
+# The ActivePDef, as set below, will select the relevant milestone years for use in this model
+# This means we are flexible on period definitions in pre-processing, but will only ever send one to the Veda files
+Description = "Model Period Definition. Will be used to select period definitions"
 ActivePDef = ["5Year_increments"]
 
 [TimePeriods]
 TagName = "TimePeriods"
-
-[TimePeriods.Data]
-5Year_increments = [1,2,5,5,5,5,5,5,5]
-1Year_increments = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-
-
-
+Description = "These time periods are calculated based on the current ActivePDef and milestone year inputs in milestone_years.csv. Only the active definition will be used."
+DataLocation = "data_intermediate/stage_4_veda_format/sys_settings/active_periods.csv"
 
 
 
 ###############################################################################
 # TIMESLICES 
 
+# significant overexplaining of timeslices below. 
 
 # TIMES understands Season, Weekly, and DayNite variables of TimeSlice. 
 # Each can be added to the model. TIMES will then combine all TimeSlices together. 
@@ -74,21 +55,17 @@ TagName = "TimePeriods"
 #  - - - and a few others 
 
 
-# Finally, it is also possible to have an asymmetric timslice structure (eg more children slices in one parent slice)
+# Finally, it is also possible to have an asymmetric timeslice structure (eg more children slices in one parent slice)
 # but this method will not be explained here. 
 
 ###############################################################################
 [TimeSlices]
 
 SheetName = "TimeSlices"
-
-Description = "Timeslice categories"
-
-
+Description = "Timeslice categories. Changing these will require changes to other settings input files and load curve methods."
 Season = ["SUM-", "FAL-", "WIN-", "SPR-"]
 Weekly = ["WK-", "WE-"]
 DayNite = ["D", "N", "P"]
-
 
 
 ###############################################################################
@@ -107,41 +84,51 @@ DayNite = ["D", "N", "P"]
 ###############################################################################
 
 [BookRegions_Map]
-
 Description = "Map books to regions. In the current version, all region information is contained within a single book."
-
 BookName = ["TIMESNZ"]
 Region = ["NI", "SI"]
 
 
-
-
 ###############################################################################
 # Defaults
-# We're not setting default units here, will set throughout the model on processes etc I think 
 ###############################################################################
 
 [Currencies]
-
+Description = "Default currency unit."
 Currency = "MioNZDollar"
-
-
-
 
 
 ###############################################################################
 # YearFractions 
-
 ###############################################################################
 
 [YearFractions]
-# a more standard example of a likely tag method 
-# includes external data, an optional sheetname and tagname location 
-# no uc_sets needed. Not sure if we make those null in the parsing method or in the metadata.
-# I think metadata generation, save us wasting space on saving extra stuff in the normalised tomls 
-
 SheetName = "YearFractions"
 TagName = "TFM_INS"
-Description = "Currently hardcoded year fractions for the model. This should be replaced with a more dynamic method of calculating year fractions."
+Description = "Year fractions as calculated based on the number of hours in each slice. Currently calculated in stage 2 load curve processing."
 # This should be processed based on hour definitions and recreated in data_intermediate. For now it's a hardcoded assumption
-DataLocation = "data_raw/coded_assumptions/settings/year_fractions.csv"
+DataLocation = "data_intermediate/stage_2_baseyear_data/settings/load_curves/yrfr.csv"
+
+
+###############################################################################
+# Import Settings
+###############################################################################
+
+# These are Veda control options.
+
+[ImportSettings]
+
+SheetName = "ImportSettings"
+TagName = "ImpSettings"
+
+
+option = [
+  "Check #DIV/0 and #REF errors in Templates",
+  "Create Dummy Imports for Energy and Material Commodities",
+  "Create Dummy Imports for Demands",
+  "Generate Vintage Bounds",
+  "chkDoTAGsQC",
+  "DumVarforUC"
+]
+value = [1, 1, 1, 0, 1, 0]
+
