@@ -138,6 +138,16 @@ def get_nrel_cost_curves(
     # removing redundant rows - TIMES will interpolate duplicate entries anyway!
     # So this just saves time/space
     df = trim_cost_curves(df)
+
+    # pivot values out so Veda understands the attribute names
+    # (better option - what column name can I use for "value" in these tables?? to research)
+    df = df.pivot(
+        index=["TechName", "Year"], columns="Attribute", values="Value"
+    ).reset_index()
+
+    # ensure years are integers
+    df["Year"] = df["Year"].astype(int)
+
     return df
 
 
@@ -156,6 +166,17 @@ def get_island_definitions(df):
     # clarify these are process sets:
     df = df.rename(columns={"TechName": "Pset_PN"})
 
+    return df
+
+
+def assume_available_all_islands(df):
+    """A simpler island definition table which just puts them on every island
+    Use this as a default table, like for distributed solar
+    """
+
+    df = df[["TechName"]].drop_duplicates()
+    df["AllRegions"] = "1"
+    df = df.rename(columns={"TechName": "Pset_PN"})
     return df
 
 
@@ -548,6 +569,12 @@ def process_solar_files():
 
     process_definitions = create_process_file(base_file)
     save_dist_solar(process_definitions, "process_definitions.csv")
+
+    # island definitions
+    island_definitions = assume_available_all_islands(df)
+    # here, all the distributed solar plants can be on either island
+    # so the method is a bit different
+    save_dist_solar(island_definitions, "island_definitions.csv")
 
     # cost curves
     # Advanced

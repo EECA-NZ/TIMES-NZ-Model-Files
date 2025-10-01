@@ -1,6 +1,6 @@
 # 
 
-WorkBookName = "SysSettingsTEST"
+WorkBookName = "SysSettings"
 
 ###############################################################################
 # TimePeriods
@@ -68,6 +68,19 @@ Weekly = ["WK-", "WE-"]
 DayNite = ["D", "N", "P"]
 
 
+[YearFractions]
+SheetName = "TimeSlices"
+TagName = "TFM_INS"
+Description = "Year fractions as calculated based on the number of hours in each slice. Currently calculated in stage 2 load curve processing."
+# This is calculated in our load curve options.
+# This means if we change our timeslice definitions, we also need to change the logic in that script to have the yrfrs align.
+# Note: year fractions are calculated in the load curve scropts based on the half-hourly data which is already mapped to timeslices on load. 
+# So that mapping would need to be updated if we wanted to update timeslices
+# There is also a timeslice map file in the concordances - this is currently unused, a vestige of development process.
+DataLocation = "data_intermediate/stage_2_baseyear_data/settings/load_curves/yrfr.csv"
+
+
+
 ###############################################################################
 # BOOKREGION NAMES
 
@@ -94,41 +107,80 @@ Region = ["NI", "SI"]
 ###############################################################################
 
 [Currencies]
-Description = "Default currency unit."
+Description = "Default currency unit"
 Currency = "MioNZDollar"
 
-
-###############################################################################
-# YearFractions 
-###############################################################################
-
-[YearFractions]
-SheetName = "YearFractions"
-TagName = "TFM_INS"
-Description = "Year fractions as calculated based on the number of hours in each slice. Currently calculated in stage 2 load curve processing."
-# This should be processed based on hour definitions and recreated in data_intermediate. For now it's a hardcoded assumption
-DataLocation = "data_intermediate/stage_2_baseyear_data/settings/load_curves/yrfr.csv"
+[DefaultUnits]
+Description = "Default activity units for each sector. We should be definined the units for all processes and commodities individually anyway, so this may be redundant."
+TagName = "DefUnits"					
+Option = ["Process_ActUnit", "Process_CapUnit", "Commodity_Unit"]
+PRI = ["PJ", "PJa", "PJ"]
+# AGR = ["PJ", "GW", "PJ"] # doesn't exist yet 
+COM = ["PJ", "GW", "PJ"]
+RES = ["PJ", "GW", "PJ"]
+ELC = ["PJ", "GW", "PJ"]
+TRA = ["bVk", "000_Units", "bVk"]
 
 
 ###############################################################################
 # Import Settings
 ###############################################################################
+# used to define some settings for the synchronization process
 
-# These are Veda control options.
+# - Dummy Imports:
+#  one can control the creation of dummy imports in the table shown above.  
+# These backstop dummy processes are introduced in the model in order to avoid infeasibilities that may arise if not enough energy carrier or demand can be supplied.
 
+# - Vintage Bounds: VEDA can automatically generate bounds to prohibit investments in processes when a newer vintage becomes available, 
+# assuming that the last two characters of the process name are used for the first year of availability.
+
+# chkDoTAGSQC Validates the tag names upon import so will check for unexpected tags on sync
+
+# DumVarforUC - I couldn't find documentation on this but assume it creates dummy imports to make user constraints feasible? Disabled in any case
+
+# It might be better to remove this from the import_settings file below, and instead write these directly in here so future developers have fewer files to switch between
 [ImportSettings]
 
+Description = "Veda control import settings. Currently vintage bounds are disabled and dummy processes are enabled."
 SheetName = "ImportSettings"
 TagName = "ImpSettings"
 
+DataLocation = "data_raw/user_config/settings/import_settings.csv"
 
-option = [
-  "Check #DIV/0 and #REF errors in Templates",
-  "Create Dummy Imports for Energy and Material Commodities",
-  "Create Dummy Imports for Demands",
-  "Generate Vintage Bounds",
-  "chkDoTAGsQC",
-  "DumVarforUC"
-]
-value = [1, 1, 1, 0, 1, 0]
+[DummyVariableCosts]
 
+Description = "Define costs for generated dummy variables. These should be very high so the model only uses them when there are no other options"
+SheetName = "ImportSettings"
+TagName = "TFM_UPD"
+
+Attribute = ["ACTCOST", "ACTCOST"] # the activity cost of the dummy processes 
+Pset_SET = ["IRE", "IRE"] # dummy processes are apparently defined as IRE
+Pset_PN = ["IMP*Z", "IMPDEMZ"] # separate costs for demand dummy variables, unclear why 
+AllRegions = [10000,9000] # very high values
+
+[DummyVariableSettings]
+Description = "Insert new attributes for generated dummy variables, including activity bounds and timeslice settings. Unclear why they are generated and then disabled."
+SheetName = "ImportSettings"
+TagName = "TFM_INS"
+DataLocation = "data_raw/user_config/settings/dummy_import_settings.csv"
+
+
+###############################################################################
+# Default interpolation/extrapolation rules
+###############################################################################
+
+[InterpolExtrapol]
+Description = "Default interpolation/extrapolation rules. These may need adjusting but currently copy TIMES 2.0 rules"
+SheetName = "ImportSettings"
+TagName = "TFM_MIG" # TFM_MIG is an uncommon tag designed to update pre-existing data
+DataLocation = "data_raw/user_config/settings/interpolation_extrapolation.csv"
+
+###############################################################################
+# Constants
+###############################################################################
+
+[DiscountRates]
+Description = "Default discount rate. Need to figure out how to adjust this in scenarios"
+TagName = "TFM_INS"
+Attribute = ["G_DYEAR", "Discount"]
+AllRegions = [2015,0.1]

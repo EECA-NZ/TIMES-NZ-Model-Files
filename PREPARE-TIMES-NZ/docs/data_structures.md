@@ -1,16 +1,43 @@
-This document outlines the rules and frameworks for the `PREPARE-TIMES-NZ` module. 
+This file describes the layout of the `PREPARE-TIMES-NZ` module. 
+The intent is that this makes the structure - which is complex - easier to understand, interrogate, and modify. 
 
 We want to make sure everything is replicable and scalable while minimising complexity as much as feasible. Minimising complexity should be our key guiding principle.
 
 1) All data transformations should be replicable, with all source inputs and scripts clearly traceable. 
 2) Steps are broken down into clear stages. This means it is clear for future modellers exactly what should be happening and when. 
-3) It should be really easy to add new data/methods/models/scenarios to future iterations TIMES-NZ. 
+3) It should be straightforward to add new data/methods/models/scenarios to future iterations of TIMES-NZ, without causing many breakages. 
+
+
+# CODE 
+
+## src 
+
+This houses all the actual code in our model and does all the work 
+
+Note that it should follow the same structure as `scripts`. The idea is that `scripts` executes the functions found in `src`. `scripts` then, should house very minimal actual code, but work as a coordinator for the relevant functions. The `dodo.py` file references scripts to be executed.
+
+However, the scripts/src dichotomy was established halfway through development. These means there is currently inconsistent treatment - some scripts files do all the work and have no relevant src files. This needs to be tidied up. 
+
+In any case, the relevant file in `scripts` always does the actual work, which may or may not import functions from `src`
+
+`src` structure is as follows: 
+
+ - `stage_0`: functions used in processing settings and user config files.
+ - `stage_1`: functions used for loading and tidying input data. There should be very little processing or data manipulation in this stage. 
+ - `stage_2`: creates base year data, including any joins, combinations, satellite modelling, etc, that are required. Should save data in sensible formats for reading by any program
+ - `stage_3`: as stage 2, but for scenario or subres files. 
+ - `stage_4`: takes the outputs of stage 2 and 3 and creates data formatted for Veda to be read by the TIMES model generator
+ - `stage_5`: Uses the user config files and data from stage_4, to generate excel files. Note that the user_config files might also specify assumptions or other inputs to go into the excel files: `stage_5` handles any and all of this. Note that 
+ - `utilities` houses common utility functions used across all stages
+ 
 
 ## scripts
 
-The scripts for this module are broken down into the following stages: 
+Files in `scripts` are executed by `dodo.py`, which tracks dependencies and allows us to only run what's necessary on any refresh of the model files. 
 
-(THIS LIST A WIP - MAY ADJUST AS WE GO DEPENDING ON WHAT MAKES SENSE)
+`scripts` is currently separate from `src`, but breaks the structure down into the following stages. However, this is not ideal. Future refactors should ensure that all code is housed in `src` and executed via the `dodo.py` file, to remove redundant stages and minimise complexity in understanding the process. 
+
+The scripts for this module are broken down into the following stages: 
 
 0) `stage_0_settings`: System settings. Read configuration files and make any key parameters (such as base year) available for all future steps. 
 1) `stage_1_prep_raw_data`: Prepare raw data, transforming and tidying where necessary (ie applying tidy data principles to excel files)
@@ -20,11 +47,9 @@ The scripts for this module are broken down into the following stages:
 
 Additionally, scripts designed to fully recreates TIMES 2.1.3 from scratch using generated excel files are available in `scripts/times_2_methods`. These remain as a proof of concept. 
 
-## libraries
+(Note: the archive scripts are currently broken because we did not put effort into maintaining them as the project structure evolved. We should either fix or delete these).
 
-This file contains helper functions in various scripts. Currently there is no further organisation within here, but this might change in future as more are added. 
-
-It also contains `filepaths.py`. All scripts should import this file when using filepaths to access other scripts or data. This means an update to locations or structures in this file will propogate to all other scripts. 
+# DATA
 
 ## data_raw
 

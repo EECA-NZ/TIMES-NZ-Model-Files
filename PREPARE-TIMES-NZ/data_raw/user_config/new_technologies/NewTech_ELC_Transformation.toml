@@ -34,6 +34,13 @@ SheetName = "ELC_DistSolar"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/cost_curves_moderate.csv"
 
+[ResidentialSolarIslandDefinitions] 
+Description = "Ensure solar plants are available on either island. I am not 100% sure this is required."
+SheetName = "AVA"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Transformation_trans"
+TagName = "TFM_AVA"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/island_definitions.csv"
+
 ###############################################################################
 # OFFSHORE WIND
 ###############################################################################

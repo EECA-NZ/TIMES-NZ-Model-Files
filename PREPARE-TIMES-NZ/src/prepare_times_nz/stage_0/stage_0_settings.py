@@ -20,13 +20,17 @@ Year fractions are processed separately in load curves so are not included here
 import tomllib
 
 import pandas as pd
-from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, DATA_INTERMEDIATE
+from prepare_times_nz.utilities.filepaths import DATA_INTERMEDIATE, DATA_RAW
 from prepare_times_nz.utilities.logger_setup import logger
 
 # File locations ------------------------------------------
-SETTINGS_ASSUMPTIONS = ASSUMPTIONS / "settings"
+SETTINGS_ASSUMPTIONS = DATA_RAW / "user_config/settings"
 SYSSETTINGS_TOML = DATA_INTERMEDIATE / "stage_0_config/SysSettings.toml"
 MILESTONE_YEARS_FILE = SETTINGS_ASSUMPTIONS / "milestone_years.csv"
+
+# Constants to distribute ----------------------------------------
+
+CAP2ACT_PJGW: float = 31.536  # PJ per GW at 100 % utilisation (365 * 24 / 1000)
 
 
 # Functions -----------------------------------------------

@@ -9,27 +9,15 @@ Generate all Veda-ready CSVs that describe:
 
 from __future__ import annotations
 
-import os
 from typing import Dict, Tuple
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR, CAP2ACT_PJGW
+from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.deflator import deflate_data
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_4_DATA
-from prepare_times_nz.utilities.helpers import select_and_rename, test_table_grain
-from prepare_times_nz.utilities.logger_setup import logger
-
-# --------------------------------------------------------------------------- #
-# CONSTANTS
-# --------------------------------------------------------------------------- #
-
-# so ideally we would have a library script that reads the data_intermediate
-# config files and returns all the useful parameters, including base year,
-# but also whatever else we might need, that any script could load in.
-
-BASE_YEAR: int = 2023
-CAP2ACT_PJGW: float = 31.536  # PJ per GW at 100 % utilisation (365 * 24 / 1000)
-
+from prepare_times_nz.utilities.helpers import select_and_rename
 
 # Filepaths ---------------------------------------------------------------- #
 
@@ -95,6 +83,11 @@ DISTRIBUTION_PARAMETERS_MAP = {
 # --------------------------------------------------------------------------- #
 # HELPERS
 # --------------------------------------------------------------------------- #
+
+
+def save_elc_data(df, name):
+    """Wrapper for data save function"""
+    _save_data(df=df, name=name, label="Baseyear electricity", filepath=OUTPUT_LOCATION)
 
 
 def convert_units(
@@ -226,20 +219,14 @@ def define_commodities(df):
 
     # ── Save commodity tables ─────────────────────────────────────────── #
 
-    elc_input_commodity_definitions.to_csv(
-        f"{OUTPUT_LOCATION}/elc_input_commodity_definitions.csv",
-        index=False,
-        encoding="utf-8-sig",
+    save_elc_data(
+        elc_input_commodity_definitions, "elc_input_commodity_definitions.csv"
     )
-    elc_dummy_fuel_process_definitions.to_csv(
-        f"{OUTPUT_LOCATION}/elc_dummy_fuel_process_definitions.csv",
-        index=False,
-        encoding="utf-8-sig",
+    save_elc_data(
+        elc_dummy_fuel_process_definitions, "elc_dummy_fuel_process_definitions.csv"
     )
-    elc_dummy_fuel_process_parameters.to_csv(
-        f"{OUTPUT_LOCATION}/elc_dummy_fuel_process_parameters.csv",
-        index=False,
-        encoding="utf-8-sig",
+    save_elc_data(
+        elc_dummy_fuel_process_parameters, "elc_dummy_fuel_process_parameters.csv"
     )
 
 
@@ -260,9 +247,7 @@ def define_generation_processes(df):
         ["Sets", "Region", "TechName", "Tact", "Tcap"]
     ]
 
-    existing_techs_process_df.to_csv(
-        f"{OUTPUT_LOCATION}/existing_tech_process_definitions.csv", index=False
-    )
+    save_elc_data(existing_techs_process_df, "existing_tech_process_definitions.csv")
 
 
 def define_generation_capacity(df):
@@ -295,11 +280,20 @@ def define_generation_capacity(df):
         ["TechName", "Region", "Attribute", "Year", "Value"]
     ]
 
-    existing_techs_capacity.to_csv(
-        f"{OUTPUT_LOCATION}/existing_tech_capacity.csv",
-        index=False,
-        encoding="utf-8-sig",
-    )
+    # make distinct (this mostly just catches the huntly doubleup but is good practise)
+    existing_techs_capacity = existing_techs_capacity.drop_duplicates()
+
+    # pivot this because Veda doesn't accept "Value" :(
+    existing_techs_capacity = existing_techs_capacity.pivot(
+        index=["TechName", "Attribute", "Year"], columns="Region", values="Value"
+    ).reset_index()
+
+    # must convert years to integers after pivot
+
+    existing_techs_capacity["Year"] = existing_techs_capacity["Year"].astype(int)
+
+    # save
+    save_elc_data(existing_techs_capacity, "existing_tech_capacity.csv")
 
 
 def define_generation_parameters(df):
@@ -335,10 +329,7 @@ def define_generation_parameters(df):
     existing_techs_parameters["NCAP_BND~0"] = 5
     existing_techs_parameters["CAP2ACT"] = CAP2ACT_PJGW
     existing_techs_parameters["ACT_BND~0"] = 1
-
-    existing_techs_parameters.to_csv(
-        f"{OUTPUT_LOCATION}/existing_tech_parameters.csv", index=False
-    )
+    save_elc_data(existing_techs_parameters, "existing_tech_parameters.csv")
 
 
 def create_distribution_tables():
@@ -365,26 +356,11 @@ def create_distribution_tables():
     )
     distribution_parameters["EFF~0"] = 0
 
-    # ----- Grain checks & save ---------------------------------------- #
-    test_table_grain(distribution_commodities, ["CommName"])
-    test_table_grain(distribution_processes, ["TechName"])
-    test_table_grain(distribution_parameters, ["TechName", "Region"])
+    # ----- Save ---------------------------------------- #
 
-    distribution_commodities.to_csv(
-        f"{OUTPUT_LOCATION}/distribution_commodities.csv",
-        index=False,
-        encoding="utf-8-sig",
-    )
-    distribution_processes.to_csv(
-        f"{OUTPUT_LOCATION}/distribution_processes.csv",
-        index=False,
-        encoding="utf-8-sig",
-    )
-    distribution_parameters.to_csv(
-        f"{OUTPUT_LOCATION}/distribution_parameters.csv",
-        index=False,
-        encoding="utf-8-sig",
-    )
+    save_elc_data(distribution_commodities, "distribution_commodities.csv")
+    save_elc_data(distribution_processes, "distribution_processes.csv")
+    save_elc_data(distribution_parameters, "distribution_parameters.csv")
 
 
 def create_elc_fuel_emissions(df):
@@ -423,7 +399,7 @@ def create_elc_fuel_emissions(df):
 
     df = df.pivot(index="CommName", columns="Fuel", values="Value").reset_index()
 
-    df.to_csv(f"{OUTPUT_LOCATION}/emission_factors_elc_fuels.csv", index=False)
+    save_elc_data(df, "emission_factors_elc_fuels.csv")
 
 
 def create_elc_geo_emissions(df, plant_data):
@@ -465,10 +441,8 @@ def create_elc_geo_emissions(df, plant_data):
     # Select final columns
     df = df[["TechName", "ENV_ACT~ELCCO2"]]
 
-    # Save
-    df.to_csv(
-        f"{OUTPUT_LOCATION}/emission_factors_geo.csv", encoding="utf-8-sig", index=False
-    )
+    # save
+    save_elc_data(df, "emission_factors_geo.csv")
 
 
 # --------------------------------------------------------------------------- #
@@ -480,8 +454,6 @@ def main() -> None:
     """
     Main entrypoint for this script.
     """
-    logger.info("Generating electricity baseyear files")
-    os.makedirs(OUTPUT_LOCATION, exist_ok=True)
 
     ele_data = load_electricity_baseyear(ELECTRICITY_INPUT_FILE)
     ef_data = load_ef_data(EF_INPUT_FILE)
