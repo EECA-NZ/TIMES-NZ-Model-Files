@@ -61,7 +61,9 @@ def get_veda_deliverability(df, resource_types):
 
     # reshape
     df["Attribute"] = "ACT_BND"
-    df["Region"] = "NI"
+
+    df = df.rename(columns={"Value": "NI"})
+    # df["Region"] = "NI"
 
     return df
 

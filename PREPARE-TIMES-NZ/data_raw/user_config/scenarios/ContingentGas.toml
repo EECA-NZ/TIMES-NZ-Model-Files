@@ -1,0 +1,11 @@
+# Contingent Gas
+# Simple scenario file to optionally update the output of gas fields based on release of 2c reserves.
+
+WorkBookName = "SuppXLS/Scen_ContingentGas"
+
+[GasSupplyForecastsIncludingContingent]
+
+Description = "Add increased natural gas production forecast limits."
+SheetName = "Natural Gas"
+TagName = "TFM_UPD" # TFM tags for scenario files
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/deliverability_forecasts_2p_and_2c.csv"

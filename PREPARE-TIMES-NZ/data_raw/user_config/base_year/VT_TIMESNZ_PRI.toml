@@ -36,21 +36,12 @@ SheetName = "Natural Gas"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/natural_gas_production_costs_emissions.csv"
 
-
 [GasSupplyForecasts]
-Description = "Add natural gas production forecast limits. Excludes contingent - only the 2P reserves"
+Description = "Add natural gas production forecast limits. Excludes contingent - only the 2P reserves."
+# Note contingent reserves are specified as a separate/optional scenario table
 SheetName = "Natural Gas"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/deliverability_forecasts_2p.csv"
-
-
-[GasSupplyForecastsIncludingContingent]
-WorkBookName = "SuppXLS/Scen_ContingentGas"
-Description = "Add increased natural gas production forecast limits. These include contingent and are added to a separate scenario file"
-SheetName = "Natural Gas"
-TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/deliverability_forecasts_2p_and_2c.csv"
-
 
 # this will include costs and activity bounds 
 # cost will be a linear interpolation, but activity bound needs to be annual inputs from reserves 
