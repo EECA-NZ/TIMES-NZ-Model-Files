@@ -1,5 +1,4 @@
 ﻿TimeSlice,LimType,Attribute,Year2,AllRegions,Pset_Set,Pset_PN,Pset_PD,Pset_CI,Pset_CO,Cset_Set,Cset_CN,Cset_CD
-,"UP,LO",ACT_BND,0,5,"MIN,PRE,IMP,EXP,-ELE,-DMD",,,,,,,
+,"UP,LO",ACT_BND,0,5,*,,,,,,,
 ,"UP,LO",Share-O,0,3,*,,,,,*,,
 ,"UP,LO",Share-I,0,3,*,,,,,*,,
-,"UP,LO",ACT_BND,0,0,DMD,"R*,C*",,,,,,

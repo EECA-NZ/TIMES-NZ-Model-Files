@@ -34,7 +34,7 @@ TagName = "TFM_INS"
 Attribute = ["COM_PKRSV","COM_PKRSV"]
 Year = [2023,0] # extrapolate
 NI = [0.15,5] # extrapoloate
-
+CSet_CN = ["ELC", "ELC"]
 
 
 [UC_WEM]

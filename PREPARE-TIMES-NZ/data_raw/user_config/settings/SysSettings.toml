@@ -72,12 +72,10 @@ DayNite = ["D", "N", "P"]
 SheetName = "TimeSlices"
 TagName = "TFM_INS"
 Description = "Year fractions as calculated based on the number of hours in each slice. Currently calculated in stage 2 load curve processing."
-# This is calculated in our load curve options.
-# This means if we change our timeslice definitions, we also need to change the logic in that script to have the yrfrs align.
 # Note: year fractions are calculated in the load curve scropts based on the half-hourly data which is already mapped to timeslices on load. 
-# So that mapping would need to be updated if we wanted to update timeslices
+# So that mapping would need to be updated if we wanted to change timeslices ever (possibly unlikely, but want to make this easier over time) 
 # There is also a timeslice map file in the concordances - this is currently unused, a vestige of development process.
-DataLocation = "data_intermediate/stage_2_baseyear_data/settings/load_curves/yrfr.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/sys_settings/yrfr.csv"
 
 
 
@@ -159,10 +157,16 @@ Pset_PN = ["IMP*Z", "IMPDEMZ"] # separate costs for demand dummy variables, uncl
 AllRegions = [10000,9000] # very high values
 
 [DummyVariableSettings]
-Description = "Insert new attributes for generated dummy variables, including activity bounds and timeslice settings. Unclear why they are generated and then disabled."
+Description = "Insert activity bounds for generated dummy variables. Unclear why they are generated and then disabled."
 SheetName = "ImportSettings"
 TagName = "TFM_INS"
 DataLocation = "data_raw/user_config/settings/dummy_import_settings.csv"
+
+[DummyVariableTimeSlices]
+Description = "Timeslice definitions for generated dummy variables."
+SheetName = "ImportSettings"
+TagName = "TFM_INS-TXT"
+DataLocation = "data_raw/user_config/settings/dummy_timeslices.csv"
 
 
 ###############################################################################
@@ -170,7 +174,7 @@ DataLocation = "data_raw/user_config/settings/dummy_import_settings.csv"
 ###############################################################################
 
 [InterpolExtrapol]
-Description = "Default interpolation/extrapolation rules. These may need adjusting but currently copy TIMES 2.0 rules"
+Description = "Default interpolation/extrapolation rules. These may need adjusting."
 SheetName = "ImportSettings"
 TagName = "TFM_MIG" # TFM_MIG is an uncommon tag designed to update pre-existing data
 DataLocation = "data_raw/user_config/settings/interpolation_extrapolation.csv"

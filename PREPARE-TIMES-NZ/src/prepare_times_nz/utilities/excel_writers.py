@@ -166,7 +166,7 @@ def write_data(
     uc_set_length = len(uc_set)
     if uc_set_length > 0:
         logger.debug("uc_sets detected")
-        startrow += uc_set_length
+        startrow += uc_set_length - 1
     else:
         logger.debug("no uc_sets detected ")
 
@@ -197,7 +197,7 @@ def write_data(
     # Add UC_Set tags if needed
     if uc_set_length > 0:
         for n in range(uc_set_length):
-            uc_set_tag_row = startrow - n + 1
+            uc_set_tag_row = startrow - n + 2
             key = list(uc_set.keys())[n]
             value = uc_set[key]
             sheet.cell(row=uc_set_tag_row, column=2, value=f"~UC_Sets: {key}: {value}")

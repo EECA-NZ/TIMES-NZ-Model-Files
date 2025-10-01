@@ -16,7 +16,12 @@ and the config file can select which to use for whatever TIMES scenario
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.stage_4.electricity.common import CAP2ACT, create_process_file
+from prepare_times_nz.stage_0.stage_0_settings import (
+    BASE_YEAR,
+    CAP2ACT_PJGW,
+    MILESTONE_YEAR_LIST,
+)
+from prepare_times_nz.stage_4.electricity.common import create_process_file
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
@@ -26,8 +31,6 @@ from prepare_times_nz.utilities.filepaths import (
 )
 
 # Constants ----------------------------------------------------
-
-BASE_YEAR = 2023
 
 # Cost curve variables
 # Only these have cost curves applied, so are treated differently
@@ -101,20 +104,12 @@ def trim_cost_curves(df):
     This is helpful for data manip,
     but for Veda we save processing time/space by trimming redundant info
 
-    This expects a dataframe of TechName, Attribute, Year, and Value
-    It sorts by TechName, Attribute, and Year, then deletes the row
-    if only the year variable is different from the previous row
+    We can do this by filtering on the model's milestone years.
+    This means the data detail can expand/contract based on what we're processing
     """
-    # sort first to ensure "previous row" is meaningful
-    df = df.sort_values(["TechName", "Attribute", "Year"]).reset_index(drop=True)
 
-    # keep first row in each (TechName, Attribute) group and any row where Value changes
-    changed = df.groupby(["TechName", "Attribute"])["Value"].transform(
-        lambda s: s.ne(s.shift())
-    )
-
-    # return trimmed frame
-    return df[changed].reset_index(drop=True)
+    df = df[df["Year"].isin(MILESTONE_YEAR_LIST)]
+    return df
 
 
 def get_nrel_cost_curves(
@@ -389,11 +384,11 @@ def reshape_genstack(df):
         df["CommissioningType"] == "Earliest year",
         df["CommissioningYear"],
         BASE_YEAR + 1,
-    )
+    ).astype(int)
 
     df["Comm-OUT"] = "ELC"
     df["Comm-IN"] = "ELC" + df["Fuel_TIMES"]
-    df["CAP2ACT"] = CAP2ACT
+    df["CAP2ACT"] = CAP2ACT_PJGW
 
     return df
 
@@ -439,11 +434,10 @@ def get_fixed_installation_dates(df):
     """
 
     df = df[df["CommissioningType"] == "Fixed"].copy()
-    df["Attribute"] = "NCAP_PASTI"
-    df["Value"] = df["CAP_BND"]
-    df["Year"] = df["CommissioningYear"]
+    df["NCAP_PASTI"] = df["CAP_BND"]
+    df["Year"] = df["CommissioningYear"].astype(int)
 
-    df = df[["TechName", "Attribute", "Year", "Value"]]
+    df = df[["TechName", "Year", "NCAP_PASTI"]]
 
     return df
 
@@ -531,7 +525,7 @@ def reshape_solar_file(df):
 
     df["EFF"] = 1
     df["NCAP_START"] = BASE_YEAR + 1
-    df["CAP2ACT"] = CAP2ACT
+    df["CAP2ACT"] = CAP2ACT_PJGW
 
     return df
 
