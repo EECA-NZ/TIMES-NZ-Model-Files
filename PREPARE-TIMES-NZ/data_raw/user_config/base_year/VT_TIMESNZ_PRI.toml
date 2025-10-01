@@ -213,3 +213,19 @@ INDCO2 = 1
 COMCO2 = 1
 AGRCO2 = 1
 GASCO2 = 1
+
+
+###########################################
+# Bio energy 
+###########################################
+
+
+# Declaring biofuels - these are fake entries and we can tidy up later when biomass module done 
+
+[DeclareBiofuels]
+Description = "Define biofuels. Temporary declarations until biomass module completed. Currently only feeds transport biofuel processes"
+SheetName = "Biofuels"
+TagName = "FI_Comm"
+Csets = ["NRG"] # (all energy commodities) 
+CommName = ["DID", "BDSL", "DIJ"]
+Unit = ["PJ"] # All PJ 
