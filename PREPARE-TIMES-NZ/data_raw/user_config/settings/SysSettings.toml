@@ -156,19 +156,6 @@ Pset_SET = ["IRE", "IRE"] # dummy processes are apparently defined as IRE
 Pset_PN = ["IMP*Z", "IMPDEMZ"] # separate costs for demand dummy variables, unclear why 
 AllRegions = [10000,9000] # very high values
 
-[DummyVariableSettings]
-Description = "Insert activity bounds for generated dummy variables. Unclear why they are generated and then disabled."
-SheetName = "ImportSettings"
-TagName = "TFM_INS"
-DataLocation = "data_raw/user_config/settings/dummy_import_settings.csv"
-
-[DummyVariableTimeSlices]
-Description = "Timeslice definitions for generated dummy variables."
-SheetName = "ImportSettings"
-TagName = "TFM_INS-TXT"
-DataLocation = "data_raw/user_config/settings/dummy_timeslices.csv"
-
-
 ###############################################################################
 # Default interpolation/extrapolation rules
 ###############################################################################
