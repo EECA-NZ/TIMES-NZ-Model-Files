@@ -125,14 +125,10 @@ jobs:
         working-directory: PREPARE-TIMES-NZ
         run: poetry install --no-interaction --with dev
 
-      - name: Export requirements.txt
+      - name: Run pip-audit
         working-directory: PREPARE-TIMES-NZ
-        run: poetry export -f requirements.txt --without-hashes -o requirements.txt
-  
-      - name: Run pip-audit on exported requirements
-        working-directory: PREPARE-TIMES-NZ
-        run: pip-audit -r requirements.txt --progress-spinner=off
-        
+        run: poetry run pip-audit --skip-editable
+
   deploy:
     name: Deploy to GitHub Pages
     if: ${{ success() && github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') }}
