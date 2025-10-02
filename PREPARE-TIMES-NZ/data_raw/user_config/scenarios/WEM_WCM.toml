@@ -16,7 +16,7 @@
 # TIMES will optimise the system and some slack/margin is likely more realistic.
 # From this perspective the slack figures chosen are somewhat arbitrary. 
 
-WorkBookName = "SuppXLS/Scen_WEM_WCM.xlsx"
+WorkBookName = "SuppXLS/Scen_WEM_WCM"
 
 
 [PeakConstraint]
@@ -25,6 +25,7 @@ SheetName = "WCM"
 TagName = "TFM_INS"
 Attribute = ["COM_PEAK"]
 AllRegions = [1]
+CSet_CN = "ELC"
 
 [PeakConstraintNIMargin]
 Description = "Sets 15% NI peak margin"
@@ -33,7 +34,7 @@ TagName = "TFM_INS"
 Attribute = ["COM_PKRSV","COM_PKRSV"]
 Year = [2023,0] # extrapolate
 NI = [0.15,5] # extrapoloate
-
+CSet_CN = ["ELC", "ELC"]
 
 
 [UC_WEM]

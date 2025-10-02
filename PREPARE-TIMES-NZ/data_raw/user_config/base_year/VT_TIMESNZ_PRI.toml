@@ -25,32 +25,24 @@ Unit = ["PJ", "kt"]
 Description = "Declare natural gas production processes"
 SheetName = "Natural Gas"
 TagName = "FI_Process"
-Sets = ["MIN"]
+Sets = ["MIN", "MIN"] # this actually doesn't need to dupe - rows inherit so "MIN" would also be fine
 TechName = ["MINNGA-KAP", "MINNGA-OTH"] # All other fields and Kapuni
-Tact = "PJ"
-Tcap = "PJa"
+Tact = ["PJ","PJ"]
+Tcap = ["PJa","PJa"]
 
-[GasSupplyCostsAndEmissions]
-Description = "Production costs and fugitive emissions for domestic gas fields."
+
+[GasSupplyParameters]
+Description = "Production costs and fugitive emissions for domestic gas fields, and output commodity declaration."
 SheetName = "Natural Gas"
 TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/natural_gas_production_costs_emissions.csv"
-
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/natural_gas_production_parameters.csv"
 
 [GasSupplyForecasts]
-Description = "Add natural gas production forecast limits. Excludes contingent - only the 2P reserves"
+Description = "Add natural gas production forecast limits. Excludes contingent - only the 2P reserves."
+# Note contingent reserves are specified as a separate/optional scenario table
 SheetName = "Natural Gas"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/deliverability_forecasts_2p.csv"
-
-
-[GasSupplyForecastsIncludingContingent]
-WorkBookName = "SuppXLS/Scen_ContingentGas"
-Description = "Add increased natural gas production forecast limits. These include contingent and are added to a separate scenario file"
-SheetName = "Natural Gas"
-TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/deliverability_forecasts_2p_and_2c.csv"
-
 
 # this will include costs and activity bounds 
 # cost will be a linear interpolation, but activity bound needs to be annual inputs from reserves 
@@ -103,7 +95,7 @@ SheetName = "LNG"
 TagName = "FI_T"
 TechName = "IMPLNG"
 Comm-IN = ""
-Comm-Out = "LNG"
+Comm-OUT = "LNG"
 COST = 18 # NZD/GJ
 
 [LNGImportConfigurations]
@@ -115,7 +107,7 @@ TagName = "FI_T"
 [LNGImportConfigurations.Data]
 TechName = ["LNGPORTSML", "LNGPORTSTD"]
 Comm-IN = ["LNG","LNG"]
-Comm-Out = ["NGA","NGA"]
+Comm-OUT = ["NGA","NGA"]
 INVCOST = [295,800] # again, this is total per "port" unit. We can only build one port unit, and this is the price NZDm
 CAP2ACT = [9,40] # ie, the small port can produce 9 a year, and the big port 40: now all our capacity unit is "port" so everything simpler 
 Eff = [1,1] # this is by default anyway, but we'll make explicit
@@ -222,3 +214,19 @@ INDCO2 = 1
 COMCO2 = 1
 AGRCO2 = 1
 GASCO2 = 1
+
+
+###########################################
+# Bio energy 
+###########################################
+
+
+# Declaring biofuels - these are fake entries and we can tidy up later when biomass module done 
+
+[DeclareBiofuels]
+Description = "Define biofuels. Temporary declarations until biomass module completed. Currently only feeds transport biofuel processes"
+SheetName = "Biofuels"
+TagName = "FI_Comm"
+Csets = ["NRG"] # (all energy commodities) 
+CommName = ["DID", "BDSL", "DIJ"]
+Unit = ["PJ"] # All PJ 

@@ -9,12 +9,15 @@ This module loads our processed oil and gas data and creates three outputs:
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
     CONCORDANCES,
     STAGE_3_DATA,
     STAGE_4_DATA,
 )
+
+# CONSTANTS
 
 USD_TO_NZD = 1.68
 LITRES_PER_BARREL = 158.987
@@ -34,6 +37,16 @@ OUTPUT_LOCATION = STAGE_4_DATA / "base_year_pri"
 
 # identify field name mapped to TIMES
 FIELD_MAPPING = {"Kapuni": "MINNGA-KAP"}
+
+# Helpers ----------------------------------------------------------------------
+
+
+def save_og_data(df, name):
+    """Wrapper for save function"""
+    _save_data(df, name, label="Oil & Gas for Veda", filepath=OUTPUT_LOCATION)
+
+
+# Functions ----------------------------------------------------------------------
 
 
 def aggregate_fields(df, field_mapping, default="MINNGA-OTH"):
@@ -61,7 +74,8 @@ def get_veda_deliverability(df, resource_types):
 
     # reshape
     df["Attribute"] = "ACT_BND"
-    df["Region"] = "NI"
+    df = df.rename(columns={"Value": "NI"})
+    # df["Region"] = "NI"
 
     return df
 
@@ -94,19 +108,23 @@ def get_natural_gas_fugitive_emissions():
     df = pd.read_csv(fug_emissions)
     df = df.groupby(["TIMES_Field"])["Emissions_Factor"].sum().reset_index()
     df = df.rename(
-        columns={"TIMES_Field": "TechName", "Emissions_Factor": "ENV_ACT~GASCO2"}
+        columns={"TIMES_Field": "TechName", "Emissions_Factor": "ENV_ACT~GASCO2~NI"}
     )
     return df
 
 
-def get_nga_costs_emissions():
+def get_nga_paramaters():
     """Combines the costs and emissions data for a single table
     Uses the field codes listed in the emissions file
-    and attaches costs to all of these"""
+    and attaches costs to all of these
+    Ensures output commodity is declared"""
     costs = get_natural_gas_price_forecasts()
     efs = get_natural_gas_fugitive_emissions()
 
     df = efs.merge(costs, how="cross")
+    df["Comm-OUT"] = "NGA"
+
+    # ensure the outputs include
     return df
 
 
@@ -179,21 +197,19 @@ def main():
     df = aggregate_fields(df, FIELD_MAPPING)
 
     df_2p = get_veda_deliverability(df, resource_types=["2P"])
-    df_2p.to_csv(OUTPUT_LOCATION / "deliverability_forecasts_2p.csv", index=False)
+    save_og_data(df_2p, "deliverability_forecasts_2p.csv")
 
     df_all = get_veda_deliverability(df, resource_types=["2P", "2C"])
-    df_all.to_csv(
-        OUTPUT_LOCATION / "deliverability_forecasts_2p_and_2c.csv", index=False
-    )
+    save_og_data(df_all, "deliverability_forecasts_2p_and_2c.csv")
 
     # nga costs and emissions
-    df_nga_costs_emissions = get_nga_costs_emissions()
-    df_nga_costs_emissions.to_csv(
-        OUTPUT_LOCATION / "natural_gas_production_costs_emissions.csv", index=False
+    df_nga_parameters = get_nga_paramaters()
+    df_nga_parameters.to_csv(
+        OUTPUT_LOCATION / "natural_gas_production_parameters.csv", index=False
     )
 
     import_costs = get_imported_fuel_costs(["PET", "DSL", "FOL", "JET", "LPG"])
-    import_costs.to_csv(OUTPUT_LOCATION / "imported_fuel_costs.csv")
+    save_og_data(import_costs, "imported_fuel_costs.csv")
 
 
 if __name__ == "__main__":

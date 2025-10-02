@@ -19,21 +19,29 @@ WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional"
 ###############################################################################
 [ResidentialSolarProcesses]
 Description = "Declares processes for new residential rooftop solar"
-SheetName = "ELC_DistSolar"
+SheetName = "ELC_SolarDist"
 TagName = "FI_Process"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/process_definitions.csv"
 
 [ResidentialSolarDetails]
 Description = "Adds details for residential rooftop solar"
-SheetName = "ELC_DistSolar"
+SheetName = "ELC_SolarDist"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/parameters.csv"
 
 [ResidentialSolarCostCurves]
-Description = "Conservative cost curve projections for residential rooftop solar (NREL Conservateve)"
-SheetName = "ELC_DistSolar"
+Description = "Conservative cost curve projections for residential rooftop solar (NREL Conservative)"
+SheetName = "ELC_SolarDist"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/cost_curves_conservative.csv"
+
+[ResidentialSolarIslandDefinitions] 
+Description = "Ensure solar plants are available on either island. I am not 100% sure this is required."
+SheetName = "AVA"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_trans"
+TagName = "TFM_AVA"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/island_definitions.csv"
+
 
 ###############################################################################
 # Offshore Wind

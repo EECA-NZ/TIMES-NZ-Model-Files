@@ -366,16 +366,20 @@ def distinguish_tracking_solar(df):
     The rest are defined as Fixed solar
 
     """
+
+    tracked_solar_plants = tracked_solar["Plant"].unique()
+
     # Update tracking plants
-    df.loc[df["Plant"].isin(tracked_solar), "Tech"] = "SolarTracking"
-    df.loc[df["Plant"].isin(tracked_solar), "TechName"] = "Solar (Tracking)"
+    df.loc[df["Plant"].isin(tracked_solar_plants), "Tech"] = "SolarTrack"
+    df.loc[df["Plant"].isin(tracked_solar_plants), "TechName"] = "Solar (Tracking)"
 
     # Update the remaining solar plants to fixed
-    df.loc[(df["Tech"] == "Solar") & (~df["Plant"].isin(tracked_solar)), "Tech"] = (
-        "SolarFixed"
-    )
     df.loc[
-        (df["TechName"] == "Solar") & (~df["Plant"].isin(tracked_solar)), "TechName"
+        (df["Tech"] == "Solar") & (~df["Plant"].isin(tracked_solar_plants)), "Tech"
+    ] = "SolarFixed"
+    df.loc[
+        (df["TechName"] == "Solar") & (~df["Plant"].isin(tracked_solar_plants)),
+        "TechName",
     ] = "Solar (Fixed)"
 
     return df
@@ -409,7 +413,6 @@ def add_times_codes(df):
         + "_"
         + df["Plant"].apply(remove_diacritics).apply(clean_name)
     )
-
     return df
 
 

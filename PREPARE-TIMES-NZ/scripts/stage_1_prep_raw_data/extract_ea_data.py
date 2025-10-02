@@ -26,7 +26,7 @@ from typing import List
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, DATA_RAW, STAGE_1_DATA
+from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
 from prepare_times_nz.utilities.logger_setup import logger
 
 # Constants ------------------------------------------------------------
@@ -45,7 +45,7 @@ EMI_NSP_TABLE: Path = (
 )
 EMI_DISTRIBUTED_SOLAR_DIR: Path = INPUT_LOCATION / "emi_distributed_solar"
 
-TIME_OF_DAY_FILE = ASSUMPTIONS / "load_curves/time_of_day_types.csv"
+TIME_OF_DAY_FILE = DATA_RAW / "user_config/settings/time_of_day_types.csv"
 
 # Functions ----------------------------------------
 

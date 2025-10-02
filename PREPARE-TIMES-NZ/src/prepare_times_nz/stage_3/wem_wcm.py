@@ -18,17 +18,22 @@ We can then add the effective RHS as a function of the demand/CAP2ACT
 This is effectively an energy constraint but expressed as a capacity one
 
 
+NOTE:
 
-
+When originally writing this, we assumed that only the capacity
+     factors needed to be calculated from other data
+However, actually the technology's island availability
+    and output commodities are also important for the user constraint.
+This method could be made much much much more robust by extracting
+    that data from the system rather than doing some hardcoding here
 
 """
 
+import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_3_DATA
-
-BASE_YEAR = 2023
-
 
 OUTPUT_LOCATION = STAGE_3_DATA / "wem_user_constraints"
 
@@ -70,7 +75,6 @@ def get_baseyear_tech_afs():
 def get_subres_tech_afs():
     """
     Return default tech assumptions for future Tech_TIMES codes
-
     Pulled directly from assumptions files
     """
 
@@ -94,8 +98,8 @@ def get_default_afs():
     df_y = get_subres_tech_afs()
 
     df = pd.concat([df_b, df_y]).drop_duplicates()
-    df = df.sort_values("Tech_TIMES")
 
+    df = df.sort_values("Tech_TIMES")
     return df
 
 
@@ -131,6 +135,37 @@ def get_yrfr_seasons(df):
     df["TimeSlice"] = df["TimeSlice"].str[:4]
     df = df.groupby("TimeSlice").sum().reset_index()
     return df
+
+
+def get_ni_only_techs():
+    """
+    returns a list of all base year techs only available in the NI
+    Includes some specific hardcoded ones that weren't in base year data
+    The non base year techs should be handled better - sorry
+    """
+
+    hardcoded_ni_techs = ["WindFloatOff"]
+    # base year from main data
+    by_islands = pd.read_csv(
+        STAGE_2_DATA / "electricity/base_year_electricity_supply.csv"
+    )
+    by_islands = by_islands[["Tech_TIMES", "Region"]].drop_duplicates()
+
+    techs_in_ni = by_islands[by_islands["Region"] == "NI"]["Tech_TIMES"].tolist()
+    techs_in_si = by_islands[by_islands["Region"] == "SI"]["Tech_TIMES"].tolist()
+
+    ni_only = [
+        tech for tech in techs_in_ni if tech not in techs_in_si
+    ] + hardcoded_ni_techs
+
+    return ni_only
+
+
+def get_si_only_techs():
+    """
+    extremely complex function to return a list of all techs only available in SI
+    """
+    return ["HydRR"]
 
 
 def get_weighted_winter_afs():
@@ -208,8 +243,10 @@ def get_all_afs():
     # first start by just ensuring that we have every tech from either table
     df = pd.concat([df_default, df_intermittent])
 
-    df = df[["Tech_TIMES"]]
+    df = df[["Tech_TIMES"]].drop_duplicates()
 
+    ni_techs = get_ni_only_techs()
+    si_techs = get_si_only_techs()
     # add details from both tables
 
     df = df.merge(df_default, how="left", on="Tech_TIMES")
@@ -221,6 +258,11 @@ def get_all_afs():
 
     # trim to just needed outputs
     df = df[["Tech_TIMES", "UC_CAP~SI", "UC_CAP~NI"]]
+
+    # make SI value NA if the tech is NI only
+    df.loc[df["Tech_TIMES"].isin(ni_techs), "UC_CAP~SI"] = np.nan
+    # and vice versa
+    df.loc[df["Tech_TIMES"].isin(si_techs), "UC_CAP~NI"] = np.nan
 
     return df
 
@@ -256,6 +298,7 @@ def create_uc_table(df, uc_n, uc_type, uc_desc, margin):
     # get AF wildcards
     df["Pset_PN"] = "ELC_" + df["Tech_TIMES"] + "*"
     df["Pset_CO"] = "ELC"
+    df.loc[df["Tech_TIMES"] == "SolarDist", "Pset_CO"] = "ELCDD"
 
     # add some labels (first row only, using df.loc[0])
 
@@ -298,7 +341,9 @@ def make_uc_wem(df):
 
     out = create_uc_table(df, "WEM", "UC_RHSTS", "NZ Winter energy margin", margin=0.16)
 
-    out["UC_RHSTS"] = 0  # regenerating the RHS, removing the specific islands
+    # relabel the UC_RHSTS to ignore islands.
+    # Because its always 0 it doesn't matter which we pick.
+    out["UC_RHSTS"] = out["UC_RHSTS~NI"]
 
     out = out[
         [
@@ -329,8 +374,11 @@ def make_uc_wem_si(df):
     national constraint
     """
 
+    # first, filter out all the null SI capacites for NI only techs
+    df_for_si = df[~df["UC_CAP~SI"].isnull()].copy().reset_index()
+
     out = create_uc_table(
-        df, "WEM_SI", "UC_RHSRTS", "SI Winter energy margin", margin=0.3
+        df_for_si, "WEM_SI", "UC_RHSRTS", "SI Winter energy margin", margin=0.3
     )
 
     # only relevant capacity factor coefficient is the SI one

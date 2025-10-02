@@ -41,14 +41,14 @@ def generate_ren_af_file():
     # define all the techs with fixed af codes - other techs get "upper" (ie wind/hydro)
     # this is another way of saying we expect wind to spill first if we're in a spill situation
     # (or that solar/geo don't spill)
-    fixed_af_techs = ["Geo", "SolarDist", "SolarTracking", "SolarFixed"]
+    fixed_af_techs = ["Geo", "SolarDist", "SolarTrack", "SolarFixed"]
 
     # additional requirements
     df["LimType"] = np.where(df["TechCode"].isin(fixed_af_techs), "FX", "UP")
     df["Attribute"] = "NCAP_AF"
 
     # generate wildcards
-    df["Pset_PN"] = "ELC_*" + df["TechCode"] + "*"
+    df["Pset_PN"] = "ELC_" + df["TechCode"] + "*"
 
     # trim to necessary columns
     df = df[["TimeSlice", "LimType", "Attribute", "NI", "SI", "Pset_PN"]]

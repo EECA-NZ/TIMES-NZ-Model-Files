@@ -257,6 +257,7 @@ STAGE_4: dict[str, list[str]] = {
     # new techs (subres files)
     "create_newtechs_tra_files": ["subres_tra/future_transport_processes.csv"],
     "create_newtechs_elc_files": ["subres_elc/genstack/Traditional_process.csv"],
+    "create_settings": ["sys_settings/active_periods.csv"],
 }
 
 # Stage-5: final Excel workbooks.

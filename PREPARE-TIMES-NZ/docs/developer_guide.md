@@ -18,7 +18,7 @@ Processing scripts are organised by sector (electricity generation, commercial d
 ## Contents: 
 
 - [Installation and setup guide] (To be written, combining docs from elsewhere in a central location), which just ensures your machine is correctly setup for the project.
-- [A description of the project's structure](./configuration_file_guide.md), which explains how everything is staged and flows from raw data to Veda outputs. 
+- [A description of the project's structure](./data_structures.md), which explains how everything is staged and flows from raw data to Veda outputs. 
 - [Working with input configuration files](./configuration_file_guide.md), listing key components of the input structures and how to use these to shape the outputs
 
 Read about the assumptions and methodology 
