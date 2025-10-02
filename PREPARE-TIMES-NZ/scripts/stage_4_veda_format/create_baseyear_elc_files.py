@@ -329,6 +329,10 @@ def define_generation_parameters(df):
     existing_techs_parameters["NCAP_BND~0"] = 5
     existing_techs_parameters["CAP2ACT"] = CAP2ACT_PJGW
     existing_techs_parameters["ACT_BND~0"] = 1
+
+    # drop the AFA - we do this in a separate table
+    existing_techs_parameters = existing_techs_parameters.drop("AFA", axis=1)
+
     save_elc_data(existing_techs_parameters, "existing_tech_parameters.csv")
 
 
@@ -445,6 +449,32 @@ def create_elc_geo_emissions(df, plant_data):
     save_elc_data(df, "emission_factors_geo.csv")
 
 
+def make_capacity_factors(df):
+    """
+    So, it's possible that some of our capacity factors are too low in the base year
+    This can lead to infeasibilities if a plant outperformed our assumptions during the base year
+
+    So the solution is to apply the implied capacity factor for the base year
+
+    By setting AFA~[BASE_YEAR], we lock that year's performance for that plant
+    This should ensure high calibration with actual data.
+    This also provides a table we can use to tweak individual plant's future performances
+    """
+
+    df = df[df["Variable"] == "CapacityFactor"].copy()
+    base_afa_var = f"AFA~{BASE_YEAR}"
+    next_afa_var = f"AFA~{BASE_YEAR+1}"
+
+    df[base_afa_var] = np.where(
+        df["GenerationMethod"] == "EMI", df["ImpliedCapacityFactor"], df["Value"]
+    )
+    df[next_afa_var] = df["Value"]
+    df["AFA~0"] = 5
+    df = df[["TechName", base_afa_var, next_afa_var, "AFA~0"]].drop_duplicates()
+
+    save_elc_data(df, "base_year_capacity_factors.csv")
+
+
 # --------------------------------------------------------------------------- #
 # MAIN
 # --------------------------------------------------------------------------- #
@@ -462,6 +492,7 @@ def main() -> None:
     define_generation_processes(ele_data)
     define_generation_capacity(ele_data)
     define_generation_parameters(ele_data)
+    make_capacity_factors(ele_data)
 
     create_distribution_tables()
 
