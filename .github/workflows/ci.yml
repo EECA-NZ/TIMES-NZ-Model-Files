@@ -127,7 +127,7 @@ jobs:
 
       - name: Run pip-audit
         working-directory: PREPARE-TIMES-NZ
-        run: poetry run pip-audit --skip-editable
+        run: poetry run pip-audit --skip-editable --ignore-vuln GHSA-4xh5-x5gv-qwph #minor pip vuln to be fixed in 25.3 (not yet available)
 
   deploy:
     name: Deploy to GitHub Pages
