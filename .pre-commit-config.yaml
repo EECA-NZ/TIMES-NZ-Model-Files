@@ -44,13 +44,9 @@ repos:
       - id: pip-audit-poetry
         name: pip-audit via Poetry (PREPARE-TIMES-NZ)
         language: system
-        entry: bash
+        entry: poetry --directory PREPARE-TIMES-NZ run pip-audit
         args:
-          - -c
-          - |
-            set -e
-            poetry --directory PREPARE-TIMES-NZ export -f requirements.txt --without-hashes -o requirements.txt
-            pip-audit -r requirements.txt --progress-spinner=off
+          - --progress-spinner=off
         pass_filenames: false
         always_run: true
         stages: [pre-push]
