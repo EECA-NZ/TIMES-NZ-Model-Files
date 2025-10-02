@@ -91,12 +91,10 @@ def get_commodity_demand(df):
 
 def define_demand_processes(df, filename, label):
     """Distinct processes for the FI_PRocess table
-    Also add activity and capacity units just for clarity"""
+    Also add activity and capacity units just for clarity
+    We include regions here"""
 
-    processes = df["TechName"].unique()
-
-    demand_df = pd.DataFrame()
-    demand_df["TechName"] = processes
+    demand_df = df[["TechName", "Region"]].drop_duplicates()
     demand_df["Sets"] = "DMD"
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
@@ -110,13 +108,14 @@ def define_demand_processes(df, filename, label):
 
 def define_enduse_commodities(df, filename, label):
     """Distinct enduse commodities for the FI_Comm table
-    Also add activity and capacity units just for clarity"""
+    Also add activity and capacity units just for clarity
+    Include regions: eg we do not declare aluminium production in NI
+    """
 
-    commodities = df["Comm-OUT"].unique()
+    commodity_df = df[["Comm-OUT", "Region"]].drop_duplicates()
 
-    commodity_df = pd.DataFrame()
-    commodity_df["CommName"] = commodities
-    # why are the commodities "DEM" and the processes "DMD"?
+    commodity_df = commodity_df.rename(columns={"Comm-OUT": "CommName"})
+
     commodity_df["Csets"] = "DEM"
     commodity_df["Unit"] = ACTIVITY_UNIT
     commodity_df["CTSLvl"] = CTSLVL
@@ -164,6 +163,12 @@ def define_fuel_delivery(df):
         DELIVERY_COST_ASSUMPTIONS
     )
 
+    # remove any processes which just pass a commodity through without change
+    # (for non-energy coal/gas)
+    fuel_deliv_parameters = fuel_deliv_parameters[
+        fuel_deliv_parameters["Comm-IN"] != fuel_deliv_parameters["Comm-OUT"]
+    ]
+
     # with the structure defined, we also define the new processes in a separate file (FI_Process)
     fuel_deliv_definitions = pd.DataFrame(
         {
@@ -202,7 +207,6 @@ def main():
         name="industry_baseyear_details.csv",
         label="industry baseyear details",
     )
-
     save_industry_veda_file(
         agg_df,
         name="industry_commodity_demand.csv",

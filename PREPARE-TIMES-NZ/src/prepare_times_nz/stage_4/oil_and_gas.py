@@ -113,14 +113,18 @@ def get_natural_gas_fugitive_emissions():
     return df
 
 
-def get_nga_costs_emissions():
+def get_nga_paramaters():
     """Combines the costs and emissions data for a single table
     Uses the field codes listed in the emissions file
-    and attaches costs to all of these"""
+    and attaches costs to all of these
+    Ensures output commodity is declared"""
     costs = get_natural_gas_price_forecasts()
     efs = get_natural_gas_fugitive_emissions()
 
     df = efs.merge(costs, how="cross")
+    df["Comm-OUT"] = "NGA"
+
+    # ensure the outputs include
     return df
 
 
@@ -199,9 +203,9 @@ def main():
     save_og_data(df_all, "deliverability_forecasts_2p_and_2c.csv")
 
     # nga costs and emissions
-    df_nga_costs_emissions = get_nga_costs_emissions()
-    df_nga_costs_emissions.to_csv(
-        OUTPUT_LOCATION / "natural_gas_production_costs_emissions.csv", index=False
+    df_nga_parameters = get_nga_paramaters()
+    df_nga_parameters.to_csv(
+        OUTPUT_LOCATION / "natural_gas_production_parameters.csv", index=False
     )
 
     import_costs = get_imported_fuel_costs(["PET", "DSL", "FOL", "JET", "LPG"])

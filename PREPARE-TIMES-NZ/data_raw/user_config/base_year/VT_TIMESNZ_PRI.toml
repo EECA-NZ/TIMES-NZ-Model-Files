@@ -25,16 +25,17 @@ Unit = ["PJ", "kt"]
 Description = "Declare natural gas production processes"
 SheetName = "Natural Gas"
 TagName = "FI_Process"
-Sets = ["MIN"]
+Sets = ["MIN", "MIN"] # this actually doesn't need to dupe - rows inherit so "MIN" would also be fine
 TechName = ["MINNGA-KAP", "MINNGA-OTH"] # All other fields and Kapuni
-Tact = "PJ"
-Tcap = "PJa"
+Tact = ["PJ","PJ"]
+Tcap = ["PJa","PJa"]
 
-[GasSupplyCostsAndEmissions]
-Description = "Production costs and fugitive emissions for domestic gas fields."
+
+[GasSupplyParameters]
+Description = "Production costs and fugitive emissions for domestic gas fields, and output commodity declaration."
 SheetName = "Natural Gas"
 TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/natural_gas_production_costs_emissions.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/natural_gas_production_parameters.csv"
 
 [GasSupplyForecasts]
 Description = "Add natural gas production forecast limits. Excludes contingent - only the 2P reserves."
@@ -94,7 +95,7 @@ SheetName = "LNG"
 TagName = "FI_T"
 TechName = "IMPLNG"
 Comm-IN = ""
-Comm-Out = "LNG"
+Comm-OUT = "LNG"
 COST = 18 # NZD/GJ
 
 [LNGImportConfigurations]
@@ -106,7 +107,7 @@ TagName = "FI_T"
 [LNGImportConfigurations.Data]
 TechName = ["LNGPORTSML", "LNGPORTSTD"]
 Comm-IN = ["LNG","LNG"]
-Comm-Out = ["NGA","NGA"]
+Comm-OUT = ["NGA","NGA"]
 INVCOST = [295,800] # again, this is total per "port" unit. We can only build one port unit, and this is the price NZDm
 CAP2ACT = [9,40] # ie, the small port can produce 9 a year, and the big port 40: now all our capacity unit is "port" so everything simpler 
 Eff = [1,1] # this is by default anyway, but we'll make explicit
