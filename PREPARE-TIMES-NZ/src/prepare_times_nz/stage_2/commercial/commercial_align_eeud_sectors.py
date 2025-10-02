@@ -8,8 +8,6 @@ Pipeline:
 4) Apply lighting splits (Incandescent/Fluorescent/LED)
 5) Checks and base-year output
 
-Notes:
-- Data centre demand is yet to be allocated.
 - Outputs:
   - Preprocessing CSVs: <STAGE_2_DATA>/commercial/preprocessing
   - Checks/diagnostics: <STAGE_2_DATA>/commercial/checks/1_sector_alignment
@@ -264,16 +262,6 @@ def _load_light_splits() -> pd.DataFrame:
             cmap["share"]: "Share",
         }
     )
-
-    for col in ["TechnologyGroup", "TechnologyNew", "Fuel", "EndUse", "EnduseGroup"]:
-        ls[col] = ls[col].astype(str).str.replace("\ufeff", "", regex=False).str.strip()
-    ls["Share"] = pd.to_numeric(ls["Share"], errors="coerce").fillna(0.0)
-
-    key = ["TechnologyGroup", "EndUse", "EnduseGroup", "Fuel"]
-    ls["__sum"] = ls.groupby(key)["Share"].transform("sum")
-    ls = ls[ls["__sum"] > 0].copy()
-    ls["Share"] = ls["Share"] / ls["__sum"]
-    ls = ls.drop(columns="__sum")
 
     return ls
 
@@ -535,24 +523,31 @@ def apply_light_splits(
         logger.info("No '%s' rows to split; skipping lights split", base_technology)
         return df
 
-    to_split = df[mask].merge(ls[key + ["TechnologyNew", "Share"]], on=key, how="left")
+    base_rows = df[mask].copy()
+    keep_rows = df[~mask].copy()
 
-    if to_split["Share"].isna().all():
-        logger.warning("Lights split file loaded but no key matches found; skipping.")
-        return df
+    # match splits
+    joined = base_rows.merge(ls[key + ["TechnologyNew", "Share"]], on=key, how="left")
 
-    to_split = to_split[to_split["Share"].notna()].copy()
+    matched = joined["Share"].notna()
+    unmatched = ~matched
 
-    to_split["Value"] = to_split["Value"] * to_split["Share"]
-    to_split["Technology"] = to_split["TechnologyNew"]
-    to_split = to_split.drop(columns=["TechnologyNew", "Share"])
+    # --- 1) keep unmatched base-technology rows AS-IS (no loss)
+    unmatched_rows = joined[unmatched].drop(
+        columns=["TechnologyNew", "Share"], errors="ignore"
+    )
 
-    keep = df[~mask].copy()
+    # --- 2) split matched rows
+    split_rows = joined[matched].copy()
+    split_rows["Value"] = split_rows["Value"] * split_rows["Share"]
+    split_rows["Technology"] = split_rows["TechnologyNew"]
+    split_rows = split_rows.drop(columns=["TechnologyNew", "Share"])
 
+    # combine and re-aggregate
     grouping_cols = [c for c in df.columns if c != "Value"]
     out = (
-        pd.concat([keep, to_split], ignore_index=True)
-        .groupby(grouping_cols, as_index=False)["Value"]
+        pd.concat([keep_rows, unmatched_rows, split_rows], ignore_index=True)
+        .groupby(grouping_cols, as_index=False, dropna=False)["Value"]
         .sum()
     )
 
@@ -574,10 +569,25 @@ def filter_output_to_base_year(df: pd.DataFrame) -> pd.DataFrame:
     return df[df["Year"] == BASE_YEAR].copy()
 
 
+def aggregate_without(df: pd.DataFrame, drop_cols: str | list[str]) -> pd.DataFrame:
+    """
+    Re-aggregate by group_cols excluding one or more columns (e.g., SectorANZSIC).
+    """
+    if isinstance(drop_cols, str):
+        drop_cols = [drop_cols]
+
+    cols = [c for c in group_cols if c not in drop_cols and c in df.columns]
+    # Fill only the columns we group by
+    df[cols] = df[cols].fillna("NA")
+    return df.groupby(cols, as_index=False, dropna=False)[["Value"]].sum()
+
+
 def check_sector_demand_shares(df: pd.DataFrame, year: int = BASE_YEAR) -> None:
     """Write a quick check of commercial demand shares by sector."""
     tmp = (
-        df[df["EndUse"] != "Feedstock"].copy() if "EndUse" in df.columns else df.copy()
+        df[df["EndUse"] != "Space Cooling"].copy()
+        if "EndUse" in df.columns
+        else df.copy()
     )
     tmp = tmp[tmp["Year"] == year]
     tmp = tmp.groupby(["Sector"], as_index=False)[["Value"]].sum()
@@ -622,6 +632,11 @@ def main() -> None:
 
     logger.info("Filtering to base year and saving preprocessing output…")
     df_baseyear = filter_output_to_base_year(df)
+
+    # NEW: collapse ANZSIC for final output
+    logger.info("Re-aggregating base-year output without SectorANZSIC…")
+    df_baseyear = aggregate_without(df_baseyear, "SectorANZSIC")
+
     print("Final DataFrame columns:", df_baseyear.columns)
     save_output(df_baseyear, OUT_BASEYEAR)
 
