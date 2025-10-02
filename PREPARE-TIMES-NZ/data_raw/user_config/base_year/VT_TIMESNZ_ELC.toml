@@ -73,6 +73,14 @@ TagName = "FI_T"
 # Some floating point errors creeping through into the generated data - need to check this.
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_capacity.csv"
 
+
+
+[ElectricityProcessSpecificCapacityFactors]
+Description = "Locking specific capacity factors for plants where we have precise data, to ensure alignment."
+SheetName = "Existing Technologies"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/base_year_capacity_factors.csv"
+
 ###############################################################################
 # Distribution
 # Note: this sheet used to be called "Demand and Distribution". 
