@@ -1,0 +1,29 @@
+Technology,Fuel,CAPEX,PriceBaseYear,Notes
+Electric Motor,Electricity,411,2018,TIMES-NZ 2.0
+Electric Motor VSD,Electricity,643,2018,TIMES-NZ 2.0
+Irrigation,Electricity,6000,2018,TIMES-NZ 2.0
+Irrigation VSD,Electricity,6257,2018,TIMES-NZ 2.0
+Hot Water Cylinder,Electricity,931,2023,TIMES-NZ 3.0 Other sectors
+Heat Recovery System (Heating),Electricity,712,2023,TIMES-NZ 3.0 Other sectors
+Tractor,Diesel,965,2018,TIMES-NZ 2.0
+Truck,Diesel,723,2023,TIMES-NZ 3.0 Other sectors
+Ute,Diesel,446,2023,TIMES-NZ 3.0 Other sectors
+Internal Combustion Engine (Land Transport),Petrol,250,2023,TIMES-NZ 3.0 Other sectors
+"Pump Systems (for Fluids, etc.)",Electricity,887,2018,TIMES-NZ 2.0
+Refrigeration Systems,Electricity,4028,2023,TIMES-NZ 3.0 Other sectors
+Heat Recovery System (Cooling),Electricity,2396,2018,TIMES-NZ 2.0
+Lights,Electricity,112,2023,TIMES-NZ 3.0 Other sectors
+Boiler Systems,Coal,1654,2023,TIMES-NZ 3.0 Other sectors
+Boiler Systems,Diesel,628,2023,TIMES-NZ 3.0 Other sectors
+Boiler Systems,Natural Gas,513,2023,TIMES-NZ 3.0 Other sectors
+Boiler Systems,Geothermal,150,2023,TIMES-NZ 3.0 Other sectors
+Burner (Direct heat),LPG,300,2023,TIMES-NZ 3.0 Other sectors
+Stationary Engine,Diesel,559,2023,TIMES-NZ 3.0 Other sectors
+Stationary Engine,Petrol,559,2023,TIMES-NZ 3.0 Other sectors
+Ground Based,Diesel,1274,2018,TIMES-NZ 2.0
+Cable Yarding,Diesel,806,2018,TIMES-NZ 2.0
+Internal Combustion Engine (Sea Transport),Diesel,987,2018,TIMES-NZ 2.0
+Internal Combustion Engine (Sea Transport),Petrol,987,2018,TIMES-NZ 2.0
+Resistance Heater,Electricity,135,2023,TIMES-NZ 3.0 Other sectors
+Electronics,Electricity,5000,2023,TIMES-NZ 3.0 Other sectors
+Furnace/Kiln,Diesel,660,2023,TIMES-NZ 3.0 Other sectors

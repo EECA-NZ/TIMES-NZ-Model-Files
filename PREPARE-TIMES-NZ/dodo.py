@@ -228,7 +228,9 @@ STAGE_2: dict[str, list[str]] = {
     "baseyear_industry_demand": ["industry/baseyear_industry_demand.csv"],
     "baseyear_transport_demand": ["transport/transport_demand_2023.csv"],
     "baseyear_residential_demand": ["residential/baseyear_residential_demand.csv"],
-    "baseyear_commercial_demand": ["commercial/baseyear_commercial_demand.csv"],
+    "baseyear_ag_forest_fish_demand": [
+        "ag_forest_fish/baseyear_ag_forest_fish_demand.csv"
+    ],
     "settings/load_curves": ["settings/load_curves/base_year_load_curve.csv"],
 }
 
@@ -253,6 +255,7 @@ STAGE_4: dict[str, list[str]] = {
     "create_baseyear_tra_files": ["base_year_tra/tra_commodity_definitions.csv"],
     "create_baseyear_res_files": ["base_year_res/residential_baseyear_details.csv"],
     "create_baseyear_com_files": ["base_year_com/commercial_baseyear_demand.csv"],
+    "create_baseyear_agr_files": ["base_year_agr/agr_baseyear_demand"],
     "create_baseyear_pri_files": ["base_year_pri/deliverability_forecasts_2p.csv"],
     # new techs (subres files)
     "create_newtechs_tra_files": ["subres_tra/future_transport_processes.csv"],
