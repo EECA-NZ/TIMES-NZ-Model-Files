@@ -1,0 +1,50 @@
+Sector,Technology,Technology_TIMES
+Dairy Cattle Farming,Electric Motor,VacP
+Dairy Cattle Farming,Electric Motor VSD,VPVSD
+Dairy Cattle Farming,Heat Recovery System (Cooling),HRECSys
+Dairy Cattle Farming,Heat Recovery System (Heating),Hreco
+Dairy Cattle Farming,Hot Water Cylinder,Cylinder
+Dairy Cattle Farming,Internal Combustion Engine (Land Transport),Bike
+Dairy Cattle Farming,Irrigation,Irg
+Dairy Cattle Farming,Irrigation VSD,IrgVSD
+Dairy Cattle Farming,Lights,LT
+Dairy Cattle Farming,"Pump Systems (for Fluids, etc.)",Pump
+Dairy Cattle Farming,Refrigeration Systems,RF
+Dairy Cattle Farming,Tractor,Trac
+Dairy Cattle Farming,Truck,MTr
+Dairy Cattle Farming,Ute,Uti
+"Fishing, Hunting and Trapping",Electric Motor,Motor
+"Fishing, Hunting and Trapping",Electronics,ELEC
+"Fishing, Hunting and Trapping",Internal Combustion Engine (Sea Transport),Boat
+"Fishing, Hunting and Trapping",Lights,LT
+"Fishing, Hunting and Trapping",Refrigeration Systems,RF
+Forestry and Logging,Boiler Systems,Boiler
+Forestry and Logging,Cable Yarding,CY
+Forestry and Logging,Electric Motor,Motor
+Forestry and Logging,Electronics,ELEC
+Forestry and Logging,Ground Based,GB
+Forestry and Logging,Internal Combustion Engine (Land Transport),Motor
+Forestry and Logging,Lights,LT
+Forestry and Logging,Stationary Engine,Motor
+Horticulture (Outdoor),Irrigation,Irg
+Horticulture (Outdoor),Irrigation VSD,IrgVSD
+Horticulture (Outdoor),Lights,LT
+Horticulture (Outdoor),Stationary Engine,Motor
+Horticulture (Outdoor),Tractor,Trac
+Horticulture (Outdoor),Truck,MTr
+Horticulture (Outdoor),Ute,Uti
+Indoor Cropping,Boiler Systems,Boiler
+Indoor Cropping,Direct Heat,DH
+Indoor Cropping,Electric Motor,Motor
+Indoor Cropping,Lights,LT
+Livestock Farming,Internal Combustion Engine (Land Transport),Motor
+Livestock Farming,Irrigation,Irg
+Livestock Farming,Irrigation VSD,IrgVSD
+Livestock Farming,Lights,LT
+Livestock Farming,Tractor,Trac
+Livestock Farming,Truck,MTr
+Livestock Farming,Ute,Uti
+Other Agriculture,Burner (Direct heat),Burner
+Other Agriculture,Furnace/Kiln,Furnace
+Other Agriculture,Resistance Heater,RH
+Other Agriculture,Stationary Engine,Motor
