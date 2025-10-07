@@ -22,7 +22,7 @@ import pandas as pd
 from times_nz_internal_qa.preprocessing.get_data import read_vd
 from times_nz_internal_qa.utilities.filepaths import (
     COMMODITY_CONCORDANCES,
-    CONCORDANCES,
+    CONCORDANCE_PATCHES,
     PREP_STAGE_2,
     PREP_STAGE_4,
     PROCESS_CONCORDANCES,
@@ -34,7 +34,7 @@ current_trad = SCENARIO_FILES / "times-nz_v300_trad.vd"
 current_scenario = read_vd(current_trad)
 attributes = current_scenario["Attribute"].drop_duplicates()
 
-TRANSPORT_CONCORDANCES = CONCORDANCES / "transport"
+TRANSPORT_CONCORDANCES = CONCORDANCE_PATCHES / "transport"
 
 
 # we basically want to form category files for all our attributes, processes, and commodities
@@ -107,9 +107,13 @@ def define_transport_techs():
     Can adjust or move the method later.
     """
 
-    df = pd.read_csv(PREP_STAGE_4 / "base_year_tra/tra_process_parameters.csv")
+    df_base = pd.read_csv(PREP_STAGE_4 / "base_year_tra/tra_process_parameters.csv")
+    df_base = df_base[["TechName"]].drop_duplicates()
 
-    df = df[["TechName"]].drop_duplicates()
+    df_new = pd.read_csv(PREP_STAGE_4 / "subres_tra/future_transport_processes.csv")
+    df_new = df_new[["TechName"]].drop_duplicates()
+
+    df = pd.concat([df_base, df_new])
 
     df["Utilisation"] = np.select(
         [
@@ -151,7 +155,7 @@ def define_transport_techs():
 
     df["Technology"] = df["TechnologyGroup"] + " (" + df["Utilisation"] + ")"
 
-    df.to_csv(TRANSPORT_CONCORDANCES / "processes.csv")
+    df.to_csv(TRANSPORT_CONCORDANCES / "processes.csv", index=False)
 
 
 def get_transport_demand_processes():
@@ -164,13 +168,22 @@ def get_transport_demand_processes():
     We effectively take every process we can find and utilisation and technology names
 
     """
+
+    # redefine tech processes if necessary?
+    define_transport_techs()
     # start with all parameters sent to main
-    df = pd.read_csv(PREP_STAGE_4 / "base_year_tra/tra_process_parameters.csv")
+    df_base = pd.read_csv(PREP_STAGE_4 / "base_year_tra/tra_process_parameters.csv")
+    df_new = pd.read_csv(
+        PREP_STAGE_4 / "subres_tra/future_transport_details_advanced_costcurve.csv"
+    )
+
+    df_base = df_base[["TechName", "Comm-In", "Comm-Out"]].drop_duplicates()
+    df_new = df_new[["TechName", "Comm-In", "Comm-Out"]].drop_duplicates()
+
+    df = pd.concat([df_base, df_new])
 
     process_concordances = pd.read_csv(TRANSPORT_CONCORDANCES / "processes.csv")
     commodity_concordances = pd.read_csv(TRANSPORT_CONCORDANCES / "commodities.csv")
-
-    df = df[["TechName", "Comm-In", "Comm-Out"]].drop_duplicates()
 
     df = df.merge(process_concordances, on="TechName", how="left")
     df = df.merge(commodity_concordances, on="Comm-Out", how="left")
@@ -181,6 +194,23 @@ def get_transport_demand_processes():
     df = df.rename(columns={"TechName": "Process", "Comm-Out": "CommodityOut"})
 
     df = df[demand_process_categories]
+
+    print(df)
+
+    df.to_csv(TRANSPORT_CONCORDANCES / "TEST.csv", index=False)
+
+    return df
+
+
+def get_ag_demand_processes():
+    """
+    Ag process mapping extracted from prep module staging data.
+    """
+    df = pd.read_csv(PREP_STAGE_2 / "ag_forest_fish/baseyear_ag_forest_fish_demand.csv")
+    df["SectorGroup"] = "Agriculture, Forestry, and Fishing"
+    df["ProcessGroup"] = "Demand"
+
+    df = df[demand_process_categories].drop_duplicates()
 
     return df
 
@@ -215,6 +245,7 @@ def main():
             get_transport_demand_processes(),
             get_residential_demand_processes(),
             get_industrial_demand_processes(),
+            get_ag_demand_processes(),
         ]
     )
 

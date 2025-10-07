@@ -1,0 +1,15 @@
+Tech_TIMES,Technology,TechnologyGroup
+BioRecip,Reciprocating Biogas,Thermal
+BiogasCHP,Biogas Cogen,Thermal
+CCGT,CCGT,Thermal
+DslPkr,Diesel peaker,Thermal
+GasCHP,Natural gas cogen,Thermal
+GasPkr,Natural gas peaker,Thermal
+GeoCHP,Geothermal Cogen,Geothermal
+Geo,Geothermal,Geothermal
+HydSC,Hydro (Schedulable),Hydro
+Rankine,Rankine,Thermal
+SolarDist,Distributed Solar,Solar
+WindOn,Onshore wind,Wind
+WindOffFloat,Floating Offshore Wind,Wind
+WoodCHP,Wood Cogen,Thermal

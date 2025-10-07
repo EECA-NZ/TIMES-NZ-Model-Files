@@ -13,14 +13,16 @@ DATA_RAW = QA_LOCATION / "data_raw"
 
 FINAL_DATA = QA_LOCATION / "data"
 SCENARIO_FILES = DATA_RAW / "scenario_files"
-CONCORDANCES = DATA_RAW / "concordances"
+
+CONCORDANCE_PATCHES = DATA_RAW / "concordance_patches"
 
 
 # External locations - for defining concordance files
 PREP_LOCATION = QA_LOCATION.parent / "PREPARE-TIMES-NZ"
 PREP_STAGE_2 = PREP_LOCATION / "data_intermediate/stage_2_baseyear_data"
+PREP_STAGE_3 = PREP_LOCATION / "data_intermediate/stage_3_scenario_data"
 PREP_STAGE_4 = PREP_LOCATION / "data_intermediate/stage_4_veda_format"
 
 # Main concordance files - used for generating output data
-PROCESS_CONCORDANCES = CONCORDANCES / "processes"
-COMMODITY_CONCORDANCES = CONCORDANCES / "commodities"
+PROCESS_CONCORDANCES = DATA_RAW / "final_concordances/processes"
+COMMODITY_CONCORDANCES = DATA_RAW / "final_concordances/commodities"

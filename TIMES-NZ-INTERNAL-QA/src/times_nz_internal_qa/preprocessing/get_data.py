@@ -46,7 +46,33 @@ def read_vd(filepath):
     return vd_df
 
 
-def check_process_coverage(df):
+def test_coverage(df, result_type, scenario_name):
+    """
+    takes a df which has already been filtered to remove everything we found coverage for
+
+    Simply outputs a test describing what's left (or success if there's nothing)
+    type must be one of "Process" or "Commodity"
+    """
+
+    if result_type not in ["Process", "Commodity"]:
+        print(
+            f"Cannot test '{result_type}' coverage. Please enter 'Process' or 'Commodity'"
+        )
+
+    if len(df) > 0:
+        # failure
+        print(
+            f"FAILURE: Could not find descriptions for '{result_type}' found in {scenario_name}:"
+        )
+        df = df.sort_values(result_type)
+        uncovered_items = df[result_type].unique()
+        for item in uncovered_items:
+            print("    ", item)
+    else:
+        print(f"SUCCESS: Full coverage of each {result_type} in {scenario_name}")
+
+
+def check_process_coverage(df, scenario_name):
     """
     Checks every process in model output results
     Ensures that they are identified in one of our process description files
@@ -86,15 +112,19 @@ def check_process_coverage(df):
         for process in remaining_processes:
             print("    ", process)
 
+    test_coverage(df, "Process", scenario_name=scenario_name)
+
     # print(df)
 
 
-def check_commodity_coverage(df):
+def check_commodity_coverage(df, scenario_name):
     """
     Checks every commodity in model output results
     Ensures that they are identified in one of our commodity description files
 
     Simply prints results to console
+    Note: any failures might mean we need to tweak our description files
+    Or add a whole new section, depending
     """
 
     # commodity codes
@@ -115,27 +145,18 @@ def check_commodity_coverage(df):
     # currencies
     df = df[~df["Commodity"].isin(currency_commodities["Commodity"].unique())]
 
-    if len(df) > 0:
-        print("The following commodities have no descriptions!")
-        df = df.sort_values("Commodity")
-        remaining_commodities = df["Commodity"].unique()
-        for comm in remaining_commodities:
-            print("    ", comm)
-    else:
-        print("SUCCESS: Model data has full commodity code coverage")
-
-    # print(demand_commodities)
+    test_coverage(df, "Commodity", scenario_name=scenario_name)
 
 
-def check_coverage(df):
+def check_coverage(df, scenario_name):
     """
     Runs full process and commodity checks to console
     Everything the model outputs should be covered in our description files
     Or outputs will be wrong/misinterpreted
     """
 
-    check_commodity_coverage(df)
-    check_process_coverage(df)
+    check_commodity_coverage(df, scenario_name=scenario_name)
+    check_process_coverage(df, scenario_name=scenario_name)
 
 
 def load_scenario_results(scenario_name):
@@ -151,5 +172,6 @@ def load_scenario_results(scenario_name):
 
     df = read_vd(scenario_file)
 
-    check_coverage(df)
+    check_coverage(df, scenario_name)
+    df["Scenario"] = scenario_name
     return df

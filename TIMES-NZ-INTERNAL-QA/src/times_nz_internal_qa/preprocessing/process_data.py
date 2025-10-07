@@ -15,15 +15,15 @@ import pandas as pd
 from times_nz_internal_qa.preprocessing.get_data import load_scenario_results
 from times_nz_internal_qa.utilities.filepaths import (
     COMMODITY_CONCORDANCES,
-    CONCORDANCES,
+    CONCORDANCE_PATCHES,
     FINAL_DATA,
     PROCESS_CONCORDANCES,
 )
 
-SCENARIO_NAME = "times-nz_v300_trad"
+SCENARIO_NAME = "traditional-v3_0_0"
 
 
-def process_electricity_generation(scenario_name):
+def process_electricity_generation(df):
     """
     Load full scenario data for `scenario_name`
     Identify all elec generation processes and output each with human readable labels
@@ -33,16 +33,17 @@ def process_electricity_generation(scenario_name):
     """
 
     # load data
-    df = load_scenario_results(scenario_name)
 
     # get concordances
     processes = pd.read_csv(PROCESS_CONCORDANCES / "elec_generation.csv")
     fuels = pd.read_csv(COMMODITY_CONCORDANCES / "energy.csv")
     emissions = pd.read_csv(COMMODITY_CONCORDANCES / "emissions.csv")
     commodities = pd.concat([fuels, emissions])
-    attributes = pd.read_csv(CONCORDANCES / "attributes/attributes_for_ele_gen.csv")
+    attributes = pd.read_csv(
+        CONCORDANCE_PATCHES / "attributes/attributes_for_ele_gen.csv"
+    )
     # ele specific labels for techs
-    tech_codes = pd.read_csv(CONCORDANCES / "electricity/tech_codes.csv")
+    tech_codes = pd.read_csv(CONCORDANCE_PATCHES / "electricity/tech_codes.csv")
 
     # filter to labelled processes only
     df = df[df["Process"].isin(processes["Process"].unique())]
@@ -94,14 +95,12 @@ def process_electricity_generation(scenario_name):
     df.to_csv(FINAL_DATA / "elec_generation.csv", index=False, encoding="utf-8-sig")
 
 
-def process_energy_demand(scenario_name):
+def process_energy_demand(df):
     """
     Load full scenario data for `scenario_name`
     Identify all energy demand processes and output each with human readable labels
     For these we currently only extract energy demand, not capacity or output.
     """
-
-    df = load_scenario_results(scenario_name=scenario_name)
 
     demand_processes = pd.read_csv(PROCESS_CONCORDANCES / "demand.csv")
     energy_commodities = pd.read_csv(COMMODITY_CONCORDANCES / "energy.csv")
@@ -116,7 +115,6 @@ def process_energy_demand(scenario_name):
     # add labels (could also do this in an attributes concordance file, like with ele)
     df["Variable"] = "Energy demand"
     df["Unit"] = "PJ"
-    df["Scenario"] = scenario_name
     df["Value"] = df["PV"]
 
     # order and select output variables
@@ -134,6 +132,7 @@ def process_energy_demand(scenario_name):
         "Region",
         "Vintage",
         "TimeSlice",
+        # pylint:disable = duplicate-code
         "SectorGroup",
         "Sector",
         "EnduseGroup",
@@ -156,8 +155,9 @@ def main():
     """
     Orchestrates processing for all relevant outputs.
     """
-    process_energy_demand(SCENARIO_NAME)
-    process_electricity_generation(SCENARIO_NAME)
+    df = load_scenario_results(SCENARIO_NAME)
+    process_energy_demand(df)
+    process_electricity_generation(df)
 
 
 if __name__ == "__main__":

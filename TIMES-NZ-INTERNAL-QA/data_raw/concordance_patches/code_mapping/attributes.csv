@@ -1,0 +1,23 @@
+Attribute,Variable
+VAR_Act,Activity
+VAR_ActM,Activity Marginal Cost
+VAR_Cap,Capacity
+VAR_Ncap,New Capacity
+VAR_NcapM,New Capacity Marginal Cost
+VAR_FIn,Input
+VAR_FOut,Output
+VAR_Comnet,
+EQ_Combal,Commodity Balance Equation
+EQ_CombalM,Commodity Balance Marginal Cost
+Cap_New,
+Cost_Inv,
+Cost_Salv,
+Cost_Fom,
+Cost_Act,
+Cost_Flo,
+Time_NPV,
+ObjZ,Objective Function
+Reg_wobj,
+Reg_obj,
+Reg_ACost,
+User_con,User constraint
