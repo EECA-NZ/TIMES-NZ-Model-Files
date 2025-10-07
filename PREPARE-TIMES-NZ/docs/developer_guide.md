@@ -18,7 +18,14 @@ Processing scripts are organised by sector (electricity generation, commercial d
 ## Contents: 
 
 - [Installation and setup guide] (To be written, combining docs from elsewhere in a central location), which just ensures your machine is correctly setup for the project.
-- [A description of the project's structure](./data_structures.md), which explains how everything is staged and flows from raw data to Veda outputs. 
-- [Working with input configuration files](./configuration_file_guide.md), listing key components of the input structures and how to use these to shape the outputs
+- [A description of the project's structure](./developer_guide/data_structures.md), which explains how everything is staged and flows from raw data to Veda outputs. 
+- [Working with input configuration files](./developer_guide/configuration_file_guide.md), listing key components of the input structures and how to use these to shape the outputs
 
 Read about the assumptions and methodology 
+
+## Poetry environment switching 
+
+It's important to stick to the poetry env that's been designated for each module. The fastest way to approach this is to navigate to the package directory that you want to work in in the terminal, then: 
+
+1) `deactivate` disables whatever poetry env you previously had working 
+2) `poetry env activate` prints to console the command for activating that package's env. Just paste that into the terminal.
