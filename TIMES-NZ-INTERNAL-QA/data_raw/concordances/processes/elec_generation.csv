@@ -1,0 +1,89 @@
+﻿Process,PlantName,Tech_TIMES,ProcessGroup
+ELC_HydSC_Aniwhenua,Aniwhenua,HydSC,Electricity generation
+ELC_HydSC_Arapuni,Arapuni,HydSC,Electricity generation
+ELC_HydSC_Aratiatia,Aratiatia,HydSC,Electricity generation
+ELC_HydSC_Atiamuri,Ātiamuri,HydSC,Electricity generation
+ELC_HydSC_Aviemore,Aviemore,HydSC,Electricity generation
+ELC_HydSC_Benmore,Benmore,HydSC,Electricity generation
+ELC_HydSC_Clyde,Clyde,HydSC,Electricity generation
+ELC_HydSC_Cobb,Cobb,HydSC,Electricity generation
+ELC_HydSC_Coleridge,Coleridge,HydSC,Electricity generation
+ELC_HydSC_Highbank,Highbank,HydSC,Electricity generation
+ELC_CCGT_HuntlyUnit5E3P,Huntly Unit 5 (E3P),CCGT,Electricity generation
+ELC_GasPkr_HuntlyUnit6P40,Huntly Unit 6 (P40),GasPkr,Electricity generation
+ELC_GasPkr_JunctionRoad,Junction Road,GasPkr,Electricity generation
+ELC_HydSC_KaimaiHydroScheme,Kaimai Hydro Scheme,HydSC,Electricity generation
+ELC_HydSC_Kaitawa,Kaitawa,HydSC,Electricity generation
+ELC_WindOn_KaiwaraDownsS1,Kaiwera Downs Stage 1,WindOn,Electricity generation
+ELC_HydSC_Karapiro,Karāpiro,HydSC,Electricity generation
+ELC_HydSC_Manapouri,Manapōuri,HydSC,Electricity generation
+ELC_HydSC_Mangahao,Mangahao,HydSC,Electricity generation
+ELC_HydSC_Maraetai,Maraetai,HydSC,Electricity generation
+ELC_GasPkr_McKee,McKee,GasPkr,Electricity generation
+ELC_WindOn_MillCreek,Mill Creek,WindOn,Electricity generation
+ELC_Geo_Mokai,Mokai,Geo,Electricity generation
+ELC_Geo_NgaTamariki,Ngā Tamariki,Geo,Electricity generation
+ELC_Geo_NgawhaOEC13,Ngāwhā (OEC1-3),Geo,Electricity generation
+ELC_Geo_NgawhaOEC4,Ngāwhā (OEC4),Geo,Electricity generation
+ELC_Geo_Ohaaki,Ōhaaki,Geo,Electricity generation
+ELC_HydSC_Ohakuri,Ōhakuri,HydSC,Electricity generation
+ELC_HydSC_OhauA,Ōhau A,HydSC,Electricity generation
+ELC_HydSC_OhauB,Ōhau B,HydSC,Electricity generation
+ELC_HydSC_OhauC,Ōhau C,HydSC,Electricity generation
+ELC_HydSC_PaerauGorge,Paerau Gorge,HydSC,Electricity generation
+ELC_HydSC_Patea,Patea,HydSC,Electricity generation
+ELC_HydSC_Piripaua,Piripaua,HydSC,Electricity generation
+ELC_Geo_Poihipi,Poihipi,Geo,Electricity generation
+ELC_HydSC_Rangipo,Rangipo,HydSC,Electricity generation
+ELC_Geo_Rotokawa,Rotokawa,Geo,Electricity generation
+ELC_HydSC_Roxburgh,Roxburgh,HydSC,Electricity generation
+ELC_GasPkr_StratfordPeaker,Stratford Peaker,GasPkr,Electricity generation
+ELC_HydSC_TakapoA,Takapō A,HydSC,Electricity generation
+ELC_HydSC_TakapoB,Takapō B,HydSC,Electricity generation
+ELC_CCGT_TCC,Taranaki Combined Cycle,CCGT,Electricity generation
+ELC_WindOn_TararuaStage12,Tararua Stage 1 & 2,WindOn,Electricity generation
+ELC_WindOn_TararuaStage3,Tararua Stage 3,WindOn,Electricity generation
+ELC_WindOn_TeApiti,Te Āpiti,WindOn,Electricity generation
+ELC_Geo_TeHukaBinary,Te Huka Binary,Geo,Electricity generation
+ELC_Geo_TeMihi,Te Mihi,Geo,Electricity generation
+ELC_WindOn_TeRereHau,Te Rere Hau,WindOn,Electricity generation
+ELC_WindOn_TeUku,Te Uku,WindOn,Electricity generation
+ELC_HydSC_Teviot,Teviot,HydSC,Electricity generation
+ELC_HydSC_Tuai,Tuai,HydSC,Electricity generation
+ELC_WindOn_TuriteaNorth,Turitea North,WindOn,Electricity generation
+ELC_WindOn_TuriteaSouth,Turitea South,WindOn,Electricity generation
+ELC_HydSC_Waipapa,Waipāpa,HydSC,Electricity generation
+ELC_WindOn_Waipipi,Waipipi,WindOn,Electricity generation
+ELC_HydSC_Waipori,Waipori,HydSC,Electricity generation
+ELC_Geo_Wairakei,Wairakei,Geo,Electricity generation
+ELC_Geo_WairakeiBinary,Wairakei Binary,Geo,Electricity generation
+ELC_HydSC_Waitaki,Waitaki,HydSC,Electricity generation
+ELC_WindOn_WestWind,West Wind,WindOn,Electricity generation
+ELC_HydSC_Whakamaru,Whakamaru,HydSC,Electricity generation
+ELC_HydSC_WheaoAndFlaxy,Wheao and Flaxy,HydSC,Electricity generation
+ELC_DslPkr_Whirinaki,Whirinaki,DslPkr,Electricity generation
+ELC_WindOn_WhiteHill,White Hill,WindOn,Electricity generation
+ELC_Rankine_HuntlyUnits14,Huntly Units 1-4,Rankine,Electricity generation
+ELC_HydRR_BranchRiver,Branch River (Argyle + Wairau),HydRR,Electricity generation
+ELC_GasCHP_FonterraWhareroa,Fonterra Dairy - Whareroa,GasCHP,Electricity generation
+ELC_GasCHP_Kapuni,Kapuni,GasCHP,Electricity generation
+ELC_Geo_Kawerau,Kawerau,Geo,Electricity generation
+ELC_WoodCHP_Kinleith,Kinleith,WoodCHP,Electricity generation
+ELC_HydSC_Matahina,Matahina,HydSC,Electricity generation
+ELC_Geo_NgaAwaPurua,Nga Awa Pūrua,Geo,Electricity generation
+ELC_HydSC_RoaringMeg,Roaring Meg,HydSC,Electricity generation
+ELC_Geo_TeAhiOMaui,Te Ahi O Maui,Geo,Electricity generation
+ELC_GasCHP_TeRapa,Te Rapa,GasCHP,Electricity generation
+ELC_HydSC_TokaanuMangaio,Tokaanu/Mangaio,HydSC,Electricity generation
+ELC_Geo_TOPP1,TOPP1,Geo,Electricity generation
+ELC_SolarDist_Commercial,Commercial,SolarDist,Electricity generation
+ELC_SolarDist_Industrial,Industrial,SolarDist,Electricity generation
+ELC_SolarDist_Residential,Residential,SolarDist,Electricity generation
+ELC_HydSC_Generic,Generic hydro generation,HydSC,Electricity generation
+ELC_Geo_Generic,Generic geothermal generation,Geo,Electricity generation
+ELC_BioRecip_Generic,Generic biogas generation,BioRecip,Electricity generation
+ELC_WindOn_Generic,Generic wind generation,WindOn,Electricity generation
+ELC_DslPkr_Generic,Generic diesel generation,DslPkr,Electricity generation
+ELC_GeoCHP_Generic,Generic geothermal cogeneration,GeoCHP,Electricity generation
+ELC_BiogasCHP_Generic,Generic biogas cogeneration,BiogasCHP,Electricity generation
+ELC_WoodCHP_Generic,Generic wood cogeneration,WoodCHP,Electricity generation
