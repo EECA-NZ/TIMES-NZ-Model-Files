@@ -4,12 +4,10 @@ Some charts of the load curve inputs
 Fairly scrappy
 """
 
-from __future__ import annotations
-
+# pylint: disable=import-outside-toplevel
 import re
 from itertools import product
 from pathlib import Path
-from typing import Iterable, Tuple
 
 import pandas as pd
 from plotnine import (
@@ -23,13 +21,7 @@ from plotnine import (
     theme,
     theme_classic,
 )
-
-# pylint: disable=duplicate-code
-from prepare_times_nz.utilities.filepaths import (
-    ANALYSIS,
-    ASSUMPTIONS,
-    STAGE_2_DATA,
-)
+from prepare_times_nz.utilities.filepaths import ANALYSIS, ASSUMPTIONS, STAGE_2_DATA
 
 OUTPUT_LOCATION = ANALYSIS / "results/load_curves"
 OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
@@ -40,10 +32,8 @@ COM_ASSUMPTIONS = Path(ASSUMPTIONS) / "commercial_demand"
 TOTAL_CONSUMPTION = 39135  # for reference
 BASE_YEAR = 2023
 
-com_curves = pd.read_excel(
-    COM_ASSUMPTIONS / "commercial_curves.xlsx",
-    engine="openpyxl",
-    dtype={"Year": "Int64", "TimeSlice": str, "LoadCurve": float, "Technology": str},
+com_curves = pd.read_csv(
+    COM_ASSUMPTIONS / "commercial_curves.csv",
 )
 yrfr = pd.read_csv(LOAD_CURVE_DATA / "yrfr.csv")
 com_demand = pd.read_csv(STAGE_2_DATA / "commercial/baseyear_commercial_demand.csv")
@@ -66,45 +56,38 @@ elc_year["CommodityOut"] = elc_year["CommodityOut"].astype(str)
 com_total_by = elc_year[elc_year["Year"] == BASE_YEAR]
 
 
-def parse_excel_pattern(pattern_str: str) -> Tuple[str, set[str]]:
-    """
-    Convert an Excel-like pattern string into a regex + exclusion set.
+def sum_gwh_for_pattern(pattern_str: str, df_elc: pd.DataFrame) -> float:
+    """Sum GWh where 'CommodityOut' matches Excel-like include patterns
+    and is not in exact excludes. pattern_str: comma-separated tokens;
+    '*' wildcard supported; '-EXACT' = exact exclude.
+    '"""
+    if "CommodityOut" not in df_elc.columns or (
+        "GWH" not in df_elc.columns and "GWh" not in df_elc.columns
+    ):
+        return 0.0
 
-    Example:
-        'C_HLTH-*,-C_HLTH-SH,-C_HLTH-SC'
-        → (include_regex, {'C_HLTH-SH', 'C_HLTH-SC'})
+    proc = df_elc["CommodityOut"].astype(str)
+    gwh_col = "GWH" if "GWH" in df_elc.columns else "GWh"
+    gwh = pd.to_numeric(df_elc[gwh_col], errors="coerce")
 
-    '*' acts as a wildcard and '-' prefixes exact values to exclude.
-    Returns:
-        include_regex: regex string to match allowed values
-        exclude_values: set of exact strings to exclude
-    """
-    parts = [p.strip() for p in (pattern_str or "").split(",") if p.strip()]
-    include_regexes: list[str] = []
-    exclude_values: set[str] = set()
-
+    parts = [p.strip() for p in str(pattern_str or "").split(",") if p.strip()]
+    include_regexes, excludes = [], set()
     for part in parts:
         if part.startswith("-"):
-            exclude_values.add(part[1:])  # exact match to exclude
+            excludes.add(part[1:].strip())
         else:
-            # Escape special chars, then allow '*' as wildcard
-            regex = "^" + re.escape(part).replace(r"\*", ".*") + "$"
-            include_regexes.append(regex)
+            pat = re.escape(part).replace(r"\*", ".*")
+            pat = re.sub(r"\\([-_/ ])", r"[-_/ ]?", pat)
+            include_regexes.append(pat)
 
-    include_regex = "|".join(include_regexes) if include_regexes else r"^$"
-    return include_regex, exclude_values
+    if not include_regexes:
+        return 0.0
 
-
-def sum_gwh_for_pattern(pattern_str: str, df_elc: pd.DataFrame) -> float:
-    """
-    Sum GWh in df_elc where 'CommodityOut' matches the include pattern and
-    is not in the explicit exclude set derived from `pattern_str`.
-    """
-    inc_regex, excl = parse_excel_pattern(pattern_str)
-    mask = df_elc["CommodityOut"].str.contains(
-        inc_regex, regex=True, na=False
-    ) & ~df_elc["CommodityOut"].isin(excl)
-    return float(df_elc.loc[mask, "GWH"].sum())
+    include_pat = f"^(?:{'|'.join(include_regexes)})$"
+    mask = proc.str.contains(
+        include_pat, regex=True, na=False, case=False
+    ) & ~proc.isin(excludes)
+    return float(gwh.where(mask).sum(skipna=True))
 
 
 com_curves["Technology"] = com_curves["Technology"].astype(str)
@@ -125,19 +108,57 @@ print(com_curves)
 
 def gwh_by_sector_for_pattern(pattern_str: str, df_elc: pd.DataFrame) -> pd.Series:
     """
-    Return sector-level GWh totals for commodities matching `pattern_str`.
-
-    Args:
-        pattern_str: Excel-like include/exclude pattern.
-        df_elc: DataFrame containing at least ['Sector', 'CommodityOut', 'GWH'].
+    Return sector-level GWh totals for commodities matching Excel-like patterns.
+    pattern_str: comma-separated tokens; '*' wildcard supported; '-EXACT' = exact exclude.
+    Requires columns: ['Sector', 'CommodityOut', 'GWH'] (or 'GWh').
     """
-    inc_regex, excl = parse_excel_pattern(pattern_str)
-    if inc_regex == r"^$":
+    # Column checks
+    if "Sector" not in df_elc.columns or "CommodityOut" not in df_elc.columns:
         return pd.Series(dtype=float)
-    mask = df_elc["CommodityOut"].str.contains(
-        inc_regex, regex=True, na=False
-    ) & ~df_elc["CommodityOut"].isin(excl)
-    return df_elc.loc[mask].groupby("Sector")["GWH"].sum()
+    gwh_col = (
+        "GWH"
+        if "GWH" in df_elc.columns
+        else ("GWh" if "GWh" in df_elc.columns else None)
+    )
+    if gwh_col is None:
+        return pd.Series(dtype=float)
+
+    # Normalize
+    commod = df_elc["CommodityOut"].astype(str)
+    gwh = pd.to_numeric(df_elc[gwh_col], errors="coerce")
+
+    # Parse Excel-like include/exclude pattern
+    parts = [p.strip() for p in str(pattern_str or "").split(",") if p.strip()]
+    include_regexes: list[str] = []
+    excludes: set[str] = set()
+    for part in parts:
+        if part.startswith("-"):
+            excludes.add(part[1:].strip())
+        else:
+            pat = re.escape(part)
+            pat = pat.replace(r"\*", ".*")
+            pat = re.sub(r"\\([-_/ ])", r"[-_/ ]?", pat)
+            include_regexes.append(pat)
+
+    if not include_regexes:
+        return pd.Series(dtype=float)
+
+    include_pat = f"^(?:{'|'.join(include_regexes)})$"
+    mask = commod.str.contains(
+        include_pat, regex=True, na=False, case=False
+    ) & ~commod.isin(excludes)
+
+    out = (
+        pd.DataFrame({"Sector": df_elc["Sector"], "GWH": gwh})
+        .loc[mask]
+        .groupby("Sector", dropna=False)["GWH"]
+        .sum(min_count=1)  # if all-NaN in a group, keep NaN rather than 0
+        .fillna(0.0)  # and then standardize to 0.0
+    )
+
+    # Ensure a plain float Series
+    out = out.astype(float)
+    return out
 
 
 # Expand com_curves rows into per-sector rows
@@ -192,8 +213,8 @@ season_order: list[str] = ["WIN", "SPR", "SUM", "FAL"]
 dfp["Season"] = pd.Categorical(dfp["Season"], categories=season_order, ordered=True)
 
 # Order TimeSlice for x-axis
-day_order: Iterable[str] = ["WK", "WE"]
-tod_order: Iterable[str] = ["P", "D", "N"]
+day_order = ["WK", "WE"]
+tod_order = ["P", "D", "N"]
 codes_order = [
     "-".join([s, d, t]) for s, d, t in product(season_order, day_order, tod_order)
 ]
