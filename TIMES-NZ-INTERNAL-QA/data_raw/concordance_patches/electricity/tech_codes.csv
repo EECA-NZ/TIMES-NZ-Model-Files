@@ -8,8 +8,11 @@ GasPkr,Natural gas peaker,Thermal
 GeoCHP,Geothermal Cogen,Geothermal
 Geo,Geothermal,Geothermal
 HydSC,Hydro (Schedulable),Hydro
+HydRR,Hydro (Run-of-river),Hydro
 Rankine,Rankine,Thermal
 SolarDist,Distributed Solar,Solar
+SolarFixed,Utility Solar (Fixed),Solar
+SolarTrack,Utility Solar (Tracking),Solar
 WindOn,Onshore wind,Wind
 WindOffFloat,Floating Offshore Wind,Wind
 WoodCHP,Wood Cogen,Thermal

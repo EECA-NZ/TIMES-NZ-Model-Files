@@ -1,0 +1,309 @@
+﻿Attribute,Commodity,Process,Period,Region,Vintage,TimeSlice,UserConstraint,Value,Scenario,Variable,ProcessGroup,Description,Fuel,CommodityGroup
+VAR_FOut,LPG,IMPNRGZ,2023,NI,2023,ANNUAL,-,1.99095107388533,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2023,NI,2023,ANNUAL,-,7.29900704,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2023,NI,2023,ANNUAL,-,1.04638732,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2023,NI,2023,ANNUAL,-,6.61875908,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2023,NI,2023,ANNUAL,-,1.47090246,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,COMPET,IMPNRGZ,2023,NI,2023,ANNUAL,-,0.32946571,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,ELCDSL,IMPNRGZ,2023,NI,2023,ANNUAL,-,0.0490777515533832,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,FOL,IMPNRGZ,2023,NI,2023,ANNUAL,-,3.43114330820737,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2023,NI,2023,ANNUAL,-,12.32683815,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2023,NI,2023,ANNUAL,-,0.709521839999998,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDLPG,IMPNRGZ,2023,NI,2023,ANNUAL,-,3.9016521,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,INDPET,IMPNRGZ,2023,NI,2023,ANNUAL,-,0.187575039999993,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2023,NI,2023,ANNUAL,-,1.97277032958156,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESPET,IMPNRGZ,2023,NI,2023,ANNUAL,-,10.7556409286594,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRADSL,IMPNRGZ,2023,NI,2023,ANNUAL,-,12.9390987220896,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2023,NI,2023,ANNUAL,-,42.0847590347672,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,TRAPET,IMPNRGZ,2023,NI,2023,ANNUAL,-,57.4068542294567,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,LPG,IMPNRGZ,2024,NI,2024,ANNUAL,-,5.4000619748014,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2024,NI,2024,ANNUAL,-,6.85766872178838,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2024,NI,2024,ANNUAL,-,0.994067953999981,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2024,NI,2024,ANNUAL,-,6.31129220139999,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2024,NI,2024,ANNUAL,-,1.38106283096666,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,COMPET,IMPNRGZ,2024,NI,2024,ANNUAL,-,0.312992424499999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2024,NI,2024,ANNUAL,-,3.43114330820737,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2024,NI,2024,ANNUAL,-,11.557881008125,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2024,NI,2024,ANNUAL,-,0.638569655999994,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDPET,IMPNRGZ,2024,NI,2024,ANNUAL,-,0.175882318874988,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2024,NI,2024,ANNUAL,-,1.84125230760946,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESPET,IMPNRGZ,2024,NI,2024,ANNUAL,-,10.0385982000821,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRADSL,IMPNRGZ,2024,NI,2024,ANNUAL,-,12.3886915956388,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2024,NI,2024,ANNUAL,-,42.0847590347672,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,TRAPET,IMPNRGZ,2024,NI,2024,ANNUAL,-,54.8941749049148,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COA,IMPNRGZ,2025,NI,2025,ANNUAL,-,17.1830111186133,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,LPG,IMPNRGZ,2025,NI,2025,ANNUAL,-,4.90752077571748,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2025,NI,2025,ANNUAL,-,6.41633040357678,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2025,NI,2025,ANNUAL,-,0.941748587999982,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2025,NI,2025,ANNUAL,-,6.00382532279999,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2025,NI,2025,ANNUAL,-,1.29122320193333,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,COMPET,IMPNRGZ,2025,NI,2025,ANNUAL,-,0.296519138999999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2025,NI,2025,ANNUAL,-,3.43114330820737,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2025,NI,2025,ANNUAL,-,10.78892386625,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2025,NI,2025,ANNUAL,-,0.567617471999994,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDPET,IMPNRGZ,2025,NI,2025,ANNUAL,-,0.164189597749989,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2025,NI,2025,ANNUAL,-,1.70973428563735,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESPET,IMPNRGZ,2025,NI,2025,ANNUAL,-,9.32155547150481,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2025,NI,2025,ANNUAL,-,42.0847590347672,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,LPG,IMPNRGZ,2026,NI,2026,ANNUAL,-,5.61636314953356,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2026,NI,2026,ANNUAL,-,5.97499208536518,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2026,NI,2026,ANNUAL,-,0.889429221999983,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2026,NI,2026,ANNUAL,-,5.6963584442,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMPET,IMPNRGZ,2026,NI,2026,ANNUAL,-,0.280045853499999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2026,NI,2026,ANNUAL,-,3.43114330820737,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2026,NI,2026,ANNUAL,-,10.019966724375,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2026,NI,2026,ANNUAL,-,0.496665287999995,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDPET,IMPNRGZ,2026,NI,2026,ANNUAL,-,0.15249687662499,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,JET,IMPNRGZ,2026,NI,2026,ANNUAL,-,42.0847590347672,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2026,NI,2026,ANNUAL,-,1.57821626366525,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESPET,IMPNRGZ,2026,NI,2026,ANNUAL,-,8.60451274292752,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,LPG,IMPNRGZ,2027,NI,2027,ANNUAL,-,0.039210266666666,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2027,NI,2027,ANNUAL,-,5.53365376715358,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2027,NI,2027,ANNUAL,-,0.837109855999984,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2027,NI,2027,ANNUAL,-,5.3888915656,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2027,NI,2027,ANNUAL,-,1.11154394386666,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,COMPET,IMPNRGZ,2027,NI,2027,ANNUAL,-,0.263572567999999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2027,NI,2027,ANNUAL,-,3.43114330820737,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2027,NI,2027,ANNUAL,-,9.25100958249999,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2027,NI,2027,ANNUAL,-,0.425713103999996,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDLPG,IMPNRGZ,2027,NI,2027,ANNUAL,-,2.34099126,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,INDPET,IMPNRGZ,2027,NI,2027,ANNUAL,-,0.14080415549999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,JET,IMPNRGZ,2027,NI,2027,ANNUAL,-,42.0847590347672,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2027,NI,2027,ANNUAL,-,1.44669824169314,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESLPG,IMPNRGZ,2027,NI,2027,ANNUAL,-,1.54223685088297,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,RESPET,IMPNRGZ,2027,NI,2027,ANNUAL,-,7.88747001435022,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COA,IMPNRGZ,2028,NI,2028,ANNUAL,-,11.2347854420333,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,LPG,IMPNRGZ,2028,NI,2028,ANNUAL,-,4.45160149329905,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2028,NI,2028,ANNUAL,-,5.09231544894198,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2028,NI,2028,ANNUAL,-,0.784790489999985,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2028,NI,2028,ANNUAL,-,5.081424687,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMPET,IMPNRGZ,2028,NI,2028,ANNUAL,-,0.247099282499999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2028,NI,2028,ANNUAL,-,3.43114330820737,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2028,NI,2028,ANNUAL,-,8.48205244062499,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2028,NI,2028,ANNUAL,-,0.354760919999996,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDPET,IMPNRGZ,2028,NI,2028,ANNUAL,-,0.129111434374991,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2028,NI,2028,ANNUAL,-,1.31518021972104,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESPET,IMPNRGZ,2028,NI,2028,ANNUAL,-,7.17042728577293,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2028,NI,2028,ANNUAL,-,42.0847590347672,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,COA,IMPNRGZ,2029,NI,2029,ANNUAL,-,9.25204354983999,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,LPG,IMPNRGZ,2029,NI,2029,ANNUAL,-,3.8692206651818,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2029,NI,2029,ANNUAL,-,4.65097713073038,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2029,NI,2029,ANNUAL,-,0.732471123999986,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2029,NI,2029,ANNUAL,-,4.7739578084,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMPET,IMPNRGZ,2029,NI,2029,ANNUAL,-,0.230625996999999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2029,NI,2029,ANNUAL,-,3.43114330820737,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2029,NI,2029,ANNUAL,-,7.71309529874999,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2029,NI,2029,ANNUAL,-,0.283808735999997,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDPET,IMPNRGZ,2029,NI,2029,ANNUAL,-,0.117418713249992,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2029,NI,2029,ANNUAL,-,1.18366219774894,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESPET,IMPNRGZ,2029,NI,2029,ANNUAL,-,6.45338455719564,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2029,NI,2029,ANNUAL,-,42.0847590347672,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,LPG,IMPNRGZ,2030,NI,2030,ANNUAL,-,1.17049563,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2030,NI,2030,ANNUAL,-,4.20963881251878,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRLPG,IMPNRGZ,2030,NI,2030,ANNUAL,-,0.0245064166666662,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2030,NI,2030,ANNUAL,-,0.680151757999987,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2030,NI,2030,ANNUAL,-,4.4664909298,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2030,NI,2030,ANNUAL,-,0.842025056766664,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,COMPET,IMPNRGZ,2030,NI,2030,ANNUAL,-,0.214152711499999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2030,NI,2030,ANNUAL,-,6.94413815687499,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2030,NI,2030,ANNUAL,-,0.212856551999998,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDPET,IMPNRGZ,2030,NI,2030,ANNUAL,-,0.105725992124993,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2030,NI,2030,ANNUAL,-,1.05214417577683,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESLPG,IMPNRGZ,2030,NI,2030,ANNUAL,-,1.24981273363121,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,RESPET,IMPNRGZ,2030,NI,2030,ANNUAL,-,5.73634182861834,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRAFOL,IMPNRGZ,2030,NI,2030,ANNUAL,-,3.43114330820737,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2030,NI,2030,ANNUAL,-,42.0847590347672,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,LPG,IMPNRGZ,2033,NI,2033,ANNUAL,-,1.53969735271278,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2033,NI,2033,ANNUAL,-,2.88562385788398,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2033,NI,2033,ANNUAL,-,0.52319365999999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2033,NI,2033,ANNUAL,-,3.544090294,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMPET,IMPNRGZ,2033,NI,2033,ANNUAL,-,0.164732854999999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2033,NI,2033,ANNUAL,-,3.43114330820737,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2033,NI,2033,ANNUAL,-,4.63726673125,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDPET,IMPNRGZ,2033,NI,2033,ANNUAL,-,0.0706478287499952,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,JET,IMPNRGZ,2033,NI,2033,ANNUAL,-,42.0847590347672,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2033,NI,2033,ANNUAL,-,0.657590109860521,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESPET,IMPNRGZ,2033,NI,2033,ANNUAL,-,3.58521364288647,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,LPG,IMPNRGZ,2038,NI,2038,ANNUAL,-,0.247984224499999,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2038,NI,2038,ANNUAL,-,0.968565736825978,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2038,NI,2038,ANNUAL,-,0.261596829999995,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2038,NI,2038,ANNUAL,-,2.006755901,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMPET,IMPNRGZ,2038,NI,2038,ANNUAL,-,0.0823664274999996,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2038,NI,2038,ANNUAL,-,0.899457001875002,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDPET,IMPNRGZ,2038,NI,2038,ANNUAL,-,0.0121842231249991,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,JET,IMPNRGZ,2038,NI,2038,ANNUAL,-,42.0847590347672,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,RESLPG,IMPNRGZ,2038,NI,2038,ANNUAL,-,0.474974642234066,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,TRAFOL,IMPNRGZ,2038,NI,2038,ANNUAL,-,3.43114330820737,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2043,NI,2043,ANNUAL,-,0.234396818823529,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2043,NI,2043,ANNUAL,-,0.469421508,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2043,NI,2043,ANNUAL,-,0.006579746,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,TRAFOL,IMPNRGZ,2043,NI,2043,ANNUAL,-,3.43114330820737,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2043,NI,2043,ANNUAL,-,42.0847590347672,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2048,NI,2048,ANNUAL,-,0.137839248529412,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,TRAFOL,IMPNRGZ,2048,NI,2048,ANNUAL,-,3.43114330820737,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2048,NI,2048,ANNUAL,-,42.0847590347672,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,COA,IMPNRGZ,2023,SI,2023,ANNUAL,-,21.1484949029999,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,LPG,IMPNRGZ,2023,SI,2023,ANNUAL,-,0.97377836,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2023,SI,2023,ANNUAL,-,7.49275601,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2023,SI,2023,ANNUAL,-,1.14360126,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2023,SI,2023,ANNUAL,-,1.91686995,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMPET,IMPNRGZ,2023,SI,2023,ANNUAL,-,0.1038668,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2023,SI,2023,ANNUAL,-,1.64670601155725,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDCOA,IMPNRGZ,2023,SI,2023,ANNUAL,-,13.92899011,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2023,SI,2023,ANNUAL,-,5.74367438999999,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2023,SI,2023,ANNUAL,-,0.100388829999999,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDPET,IMPNRGZ,2023,SI,2023,ANNUAL,-,0.047563240000001,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,JET,IMPNRGZ,2023,SI,2023,ANNUAL,-,15.6213676264241,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2023,SI,2023,ANNUAL,-,0.619253283418439,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESLPG,IMPNRGZ,2023,SI,2023,ANNUAL,-,1.89445232211468,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,RESPET,IMPNRGZ,2023,SI,2023,ANNUAL,-,3.37619937834061,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRADSL,IMPNRGZ,2023,SI,2023,ANNUAL,-,4.77065745739335,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,TRAPET,IMPNRGZ,2023,SI,2023,ANNUAL,-,21.2326721122648,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COA,IMPNRGZ,2024,SI,2024,ANNUAL,-,19.1657530108067,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,LPG,IMPNRGZ,2024,SI,2024,ANNUAL,-,1.79944533262296,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2024,SI,2024,ANNUAL,-,7.05044122264801,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRLPG,IMPNRGZ,2024,SI,2024,ANNUAL,-,0.0539141074999967,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2024,SI,2024,ANNUAL,-,1.08642119699999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2024,SI,2024,ANNUAL,-,1.8272787729,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2024,SI,2024,ANNUAL,-,0.303688981533326,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,COMPET,IMPNRGZ,2024,SI,2024,ANNUAL,-,0.0986734599999993,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2024,SI,2024,ANNUAL,-,1.64670601155725,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDCOA,IMPNRGZ,2024,SI,2024,ANNUAL,-,12.536091099,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2024,SI,2024,ANNUAL,-,5.37798967499998,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2024,SI,2024,ANNUAL,-,0.0903499469999988,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDLPG,IMPNRGZ,2024,SI,2024,ANNUAL,-,0.532372733999998,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,INDPET,IMPNRGZ,2024,SI,2024,ANNUAL,-,0.0446013508749941,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2024,SI,2024,ANNUAL,-,0.577969731190544,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESPET,IMPNRGZ,2024,SI,2024,ANNUAL,-,3.15111941978457,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRADSL,IMPNRGZ,2024,SI,2024,ANNUAL,-,4.58211880934585,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2024,SI,2024,ANNUAL,-,15.6213676264241,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,TRAPET,IMPNRGZ,2024,SI,2024,ANNUAL,-,20.3033249648315,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2025,SI,2025,ANNUAL,-,6.60812643529605,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRLPG,IMPNRGZ,2025,SI,2025,ANNUAL,-,0.049012824999997,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2025,SI,2025,ANNUAL,-,1.02924113399999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2025,SI,2025,ANNUAL,-,1.7376875958,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2025,SI,2025,ANNUAL,-,0.28394025306666,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,COMPET,IMPNRGZ,2025,SI,2025,ANNUAL,-,0.0934801199999993,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,INDCOA,IMPNRGZ,2025,SI,2025,ANNUAL,-,11.143192088,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2025,SI,2025,ANNUAL,-,5.01230495999998,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2025,SI,2025,ANNUAL,-,0.080311063999999,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDLPG,IMPNRGZ,2025,SI,2025,ANNUAL,-,0.473220207999998,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,INDPET,IMPNRGZ,2025,SI,2025,ANNUAL,-,0.0416394617499945,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2025,SI,2025,ANNUAL,-,0.536686178962648,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESLPG,IMPNRGZ,2025,SI,2025,ANNUAL,-,1.70443834313124,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,RESPET,IMPNRGZ,2025,SI,2025,ANNUAL,-,2.92603946122853,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRAFOL,IMPNRGZ,2025,SI,2025,ANNUAL,-,1.64670601155725,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2025,SI,2025,ANNUAL,-,15.6213676264241,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,COA,IMPNRGZ,2026,SI,2026,ANNUAL,-,15.20026922642,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2026,SI,2026,ANNUAL,-,6.16581164794409,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRLPG,IMPNRGZ,2026,SI,2026,ANNUAL,-,0.0441115424999973,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2026,SI,2026,ANNUAL,-,0.972061070999988,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2026,SI,2026,ANNUAL,-,1.6480964187,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2026,SI,2026,ANNUAL,-,0.264191524599994,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,COMPET,IMPNRGZ,2026,SI,2026,ANNUAL,-,0.0882867799999993,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,INDCOA,IMPNRGZ,2026,SI,2026,ANNUAL,-,9.75029307699999,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2026,SI,2026,ANNUAL,-,4.64662024499998,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2026,SI,2026,ANNUAL,-,0.0702721809999991,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDLPG,IMPNRGZ,2026,SI,2026,ANNUAL,-,0.414067681999999,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,INDPET,IMPNRGZ,2026,SI,2026,ANNUAL,-,0.0386775726249949,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2026,SI,2026,ANNUAL,-,0.495402626734752,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESLPG,IMPNRGZ,2026,SI,2026,ANNUAL,-,1.60943135363952,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,RESPET,IMPNRGZ,2026,SI,2026,ANNUAL,-,2.70095950267249,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRAFOL,IMPNRGZ,2026,SI,2026,ANNUAL,-,1.64670601155725,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2026,SI,2026,ANNUAL,-,15.6213676264241,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,COA,IMPNRGZ,2027,SI,2027,ANNUAL,-,13.2175273342267,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,LPG,IMPNRGZ,2027,SI,2027,ANNUAL,-,2.15299257628112,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2027,SI,2027,ANNUAL,-,5.72349686059213,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2027,SI,2027,ANNUAL,-,0.914881007999989,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2027,SI,2027,ANNUAL,-,1.5585052416,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMPET,IMPNRGZ,2027,SI,2027,ANNUAL,-,0.0830934399999993,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,INDCOA,IMPNRGZ,2027,SI,2027,ANNUAL,-,8.357394066,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2027,SI,2027,ANNUAL,-,4.28093552999999,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2027,SI,2027,ANNUAL,-,0.0602332979999992,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDPET,IMPNRGZ,2027,SI,2027,ANNUAL,-,0.0357156834999953,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2027,SI,2027,ANNUAL,-,0.454119074506856,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESPET,IMPNRGZ,2027,SI,2027,ANNUAL,-,2.47587954411645,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRAFOL,IMPNRGZ,2027,SI,2027,ANNUAL,-,1.64670601155725,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2027,SI,2027,ANNUAL,-,15.6213676264241,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,LPG,IMPNRGZ,2028,SI,2028,ANNUAL,-,1.67842041982273,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2028,SI,2028,ANNUAL,-,5.28118207324017,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2028,SI,2028,ANNUAL,-,0.85770094499999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2028,SI,2028,ANNUAL,-,1.4689140645,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMPET,IMPNRGZ,2028,SI,2028,ANNUAL,-,0.0779000999999994,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2028,SI,2028,ANNUAL,-,1.64670601155725,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDCOA,IMPNRGZ,2028,SI,2028,ANNUAL,-,6.964495055,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2028,SI,2028,ANNUAL,-,3.91525081499998,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2028,SI,2028,ANNUAL,-,0.0501944149999993,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDLPG,IMPNRGZ,2028,SI,2028,ANNUAL,-,0.295762629999999,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,INDPET,IMPNRGZ,2028,SI,2028,ANNUAL,-,0.0327537943749956,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2028,SI,2028,ANNUAL,-,0.41283552227896,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESPET,IMPNRGZ,2028,SI,2028,ANNUAL,-,2.25079958556041,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2028,SI,2028,ANNUAL,-,15.6213676264241,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2029,SI,2029,ANNUAL,-,4.83886728588822,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRLPG,IMPNRGZ,2029,SI,2029,ANNUAL,-,0.0294076949999982,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2029,SI,2029,ANNUAL,-,0.80052088199999,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2029,SI,2029,ANNUAL,-,1.3793228874,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2029,SI,2029,ANNUAL,-,0.204945339199995,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,COMPET,IMPNRGZ,2029,SI,2029,ANNUAL,-,0.0727067599999995,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2029,SI,2029,ANNUAL,-,1.64670601155725,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDCOA,IMPNRGZ,2029,SI,2029,ANNUAL,-,5.57159604399999,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2029,SI,2029,ANNUAL,-,3.54956609999999,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2029,SI,2029,ANNUAL,-,0.0401555319999995,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDLPG,IMPNRGZ,2029,SI,2029,ANNUAL,-,0.236610103999999,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,INDPET,IMPNRGZ,2029,SI,2029,ANNUAL,-,0.0297919052499961,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2029,SI,2029,ANNUAL,-,0.371551970051064,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESLPG,IMPNRGZ,2029,SI,2029,ANNUAL,-,1.32441038516435,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,RESPET,IMPNRGZ,2029,SI,2029,ANNUAL,-,2.02571962700436,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2029,SI,2029,ANNUAL,-,15.6213676264241,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,COA,IMPNRGZ,2030,SI,2030,ANNUAL,-,7.26930165764666,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2030,SI,2030,ANNUAL,-,4.39655249853625,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRLPG,IMPNRGZ,2030,SI,2030,ANNUAL,-,0.0245064124999985,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2030,SI,2030,ANNUAL,-,0.743340818999991,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2030,SI,2030,ANNUAL,-,1.2897317103,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2030,SI,2030,ANNUAL,-,0.185196610733328,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,COMPET,IMPNRGZ,2030,SI,2030,ANNUAL,-,0.0675134199999995,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2030,SI,2030,ANNUAL,-,1.64670601155725,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDCOA,IMPNRGZ,2030,SI,2030,ANNUAL,-,4.17869703300001,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2030,SI,2030,ANNUAL,-,3.18388138499999,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDFOL,IMPNRGZ,2030,SI,2030,ANNUAL,-,0.0301166489999996,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDLPG,IMPNRGZ,2030,SI,2030,ANNUAL,-,0.177457577999999,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,INDPET,IMPNRGZ,2030,SI,2030,ANNUAL,-,0.0268300161249964,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2030,SI,2030,ANNUAL,-,0.330268417823168,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESLPG,IMPNRGZ,2030,SI,2030,ANNUAL,-,1.22940339567263,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,RESPET,IMPNRGZ,2030,SI,2030,ANNUAL,-,1.80063966844832,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2030,SI,2030,ANNUAL,-,15.6213676264241,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,COA,IMPNRGZ,2033,SI,2033,ANNUAL,-,1.32107598106666,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2033,SI,2033,ANNUAL,-,3.06960813648038,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRLPG,IMPNRGZ,2033,SI,2033,ANNUAL,-,0.0098025649999994,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2033,SI,2033,ANNUAL,-,0.571800629999993,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2033,SI,2033,ANNUAL,-,1.020958179,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2033,SI,2033,ANNUAL,-,0.12595042533333,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,COMPET,IMPNRGZ,2033,SI,2033,ANNUAL,-,0.0519333999999996,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2033,SI,2033,ANNUAL,-,1.64670601155725,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2033,SI,2033,ANNUAL,-,2.08682723999999,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDPET,IMPNRGZ,2033,SI,2033,ANNUAL,-,0.0179443487499976,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESDSL,IMPNRGZ,2033,SI,2033,ANNUAL,-,0.20641776113948,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,RESLPG,IMPNRGZ,2033,SI,2033,ANNUAL,-,0.94438242719747,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,RESPET,IMPNRGZ,2033,SI,2033,ANNUAL,-,1.1253997927802,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2033,SI,2033,ANNUAL,-,15.6213676264241,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,COA,IMPNRGZ,2038,SI,2038,ANNUAL,-,0.891099890099994,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2038,SI,2038,ANNUAL,-,1.04239377472058,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,AGRPET,IMPNRGZ,2038,SI,2038,ANNUAL,-,0.285900314999997,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2038,SI,2038,ANNUAL,-,0.573002293499999,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2038,SI,2038,ANNUAL,-,0.0545747304999982,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,COMPET,IMPNRGZ,2038,SI,2038,ANNUAL,-,0.0259666999999998,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,FOL,IMPNRGZ,2038,SI,2038,ANNUAL,-,1.64670601155725,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,INDDSL,IMPNRGZ,2038,SI,2038,ANNUAL,-,0.42866121,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,INDPET,IMPNRGZ,2038,SI,2038,ANNUAL,-,0.0031349031249996,traditional-v3_0_0,Production,Production,Infeasible Energy,Petrol,Energy
+VAR_FOut,RESLPG,IMPNRGZ,2038,SI,2038,ANNUAL,-,0.470972470515934,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2038,SI,2038,ANNUAL,-,15.6213676264241,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,COA,IMPNRGZ,2043,SI,2043,ANNUAL,-,0.477711865799997,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2043,SI,2043,ANNUAL,-,0.224378121294117,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMDSL,IMPNRGZ,2043,SI,2043,ANNUAL,-,0.125046408,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,COMLPG,IMPNRGZ,2043,SI,2043,ANNUAL,-,0.0014443339999999,traditional-v3_0_0,Production,Production,Infeasible Energy,LPG,Energy
+VAR_FOut,TRAFOL,IMPNRGZ,2043,SI,2043,ANNUAL,-,1.64670601155725,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2043,SI,2043,ANNUAL,-,15.6213676264241,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy
+VAR_FOut,COA,IMPNRGZ,2048,SI,2048,ANNUAL,-,0.0643238414999998,traditional-v3_0_0,Production,Production,Infeasible Energy,Coal,Energy
+VAR_FOut,AGRDSL,IMPNRGZ,2048,SI,2048,ANNUAL,-,0.122372849117647,traditional-v3_0_0,Production,Production,Infeasible Energy,Diesel,Energy
+VAR_FOut,TRAFOL,IMPNRGZ,2048,SI,2048,ANNUAL,-,1.64670601155725,traditional-v3_0_0,Production,Production,Infeasible Energy,Fuel oil,Energy
+VAR_FOut,TRAJET,IMPNRGZ,2048,SI,2048,ANNUAL,-,15.6213676264241,traditional-v3_0_0,Production,Production,Infeasible Energy,Jet fuel,Energy

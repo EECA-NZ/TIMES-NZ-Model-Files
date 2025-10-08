@@ -29,7 +29,7 @@ from times_nz_internal_qa.utilities.filepaths import (
     SCENARIO_FILES,
 )
 
-current_trad = SCENARIO_FILES / "times-nz_v300_trad.vd"
+current_trad = SCENARIO_FILES / "traditional-v3_0_0.vd"
 
 current_scenario = read_vd(current_trad)
 attributes = current_scenario["Attribute"].drop_duplicates()
@@ -125,13 +125,12 @@ def define_transport_techs():
         default="All",
     )
 
-    df["TechnologyGroup"] = np.select(
+    df["Technology"] = np.select(
         [
             df["TechName"].str.contains("ICEPET"),  # ICE (Petrol)
             df["TechName"].str.contains("ICEDSL"),  # ICE (Diesel)
-            df["TechName"].str.contains("BEVUSD"),  # BEV (New)
-            df["TechName"].str.contains("BEVNEW"),  # BEV (Used)
             df["TechName"].str.contains("ICELPG"),  # ICE (LPG)
+            df["TechName"].str.contains("BEV"),  # Battery Electric Vehicle
             df["TechName"].str.contains("HYBPET"),  # Hybrid (Petrol)
             df["TechName"].str.contains("HEVPET"),  # PHEV (Petrol)
             df["TechName"].str.contains("SHIP"),  # Ship
@@ -139,21 +138,44 @@ def define_transport_techs():
             df["TechName"].str.contains("Rail"),  # Rail
         ],
         [
-            "ICE (Petrol)",
-            "ICE (Diesel)",
-            "BEV (New)",
-            "BEV (Used)",
-            "ICE (LPG)",
+            "Internal Combustion Engine (Petrol)",
+            "Internal Combustion Engine (Diesel)",
+            "Internal Combustion Engine (LPG)",
+            "Battery Electric Vehicle",
             "Hybrid (Petrol)",
-            "PHEV (Petrol)",
+            "Plug-in Hybrid Vehicle (Petrol)",
             "Ship",
             "Jet",
             "Rail",
         ],
-        default="All",
+        default="Missing",
     )
 
-    df["Technology"] = df["TechnologyGroup"] + " (" + df["Utilisation"] + ")"
+    df["TechnologyGroup"] = np.select(
+        [
+            df["Technology"] == "Internal Combustion Engine (Petrol)",
+            df["Technology"] == "Internal Combustion Engine (Diesel)",
+            df["Technology"] == "Internal Combustion Engine (LPG)",
+            df["Technology"] == "Battery Electric Vehicle",
+            df["Technology"] == "Hybrid Vehicle (Petrol)",
+            df["Technology"] == "Plug-in Hybrid Vehicle (Petrol)",
+            df["Technology"] == "Ship",
+            df["Technology"] == "Jet",
+            df["Technology"] == "Rail",
+        ],
+        [
+            "Internal Combustion Engine",
+            "Internal Combustion Engine",
+            "Internal Combustion Engine",
+            "Battery Electric Vehicle",
+            "Hybrid Vehicle",
+            "Plug-in Hybrid Vehicle",
+            "Ship",
+            "Jet",
+            "Rail",
+        ],
+        default="Missing",
+    )
 
     df.to_csv(TRANSPORT_CONCORDANCES / "processes.csv", index=False)
 

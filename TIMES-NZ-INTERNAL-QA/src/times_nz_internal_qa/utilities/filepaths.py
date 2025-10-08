@@ -10,6 +10,7 @@ _REPO_ROOT = _THIS_DIR.parent.parent.parent
 # main directories
 QA_LOCATION = _REPO_ROOT
 DATA_RAW = QA_LOCATION / "data_raw"
+ASSETS = QA_LOCATION / "assets"
 
 FINAL_DATA = QA_LOCATION / "data"
 SCENARIO_FILES = DATA_RAW / "scenario_files"
