@@ -150,36 +150,11 @@ CommName = ["OILI",
             "JET",]
 Unit = ["PJ"] # All PJ 
 
-[OilProductionProcessDefinitions]
-Description = "Define oil supply processes (mining)"
+[OilProcessDeclarations]
+Description = "Declare oil and oil product supply processes (mining, imports). Include exports"
 SheetName = "Oil"
 TagName = "FI_Process"
-Sets = ["MIN"]
-CommName = ["MINOIL", "MINLPG"]
-Tact = "PJ" 
-Tcap = "PJa"
-
-[OilImportProcessDefinitions]
-Description = "Define oil supply processes (imported products)"
-SheetName = "Oil"
-TagName = "FI_Process"
-Sets = ["IMP"]
-CommName = ["IMPLPG",
-            "IMPPET",            
-            "IMPDSL",
-            "IMPFOL",
-            "IMPJET",]
-Tact = "PJ" 
-Tcap = "PJa"
-
-[OilExportProcessDefinitions]
-Description = "Define oil export processes. With no refinery, only domestic crude is exported."
-SheetName = "Oil"
-TagName = "FI_Process"
-Sets = ["EXP"]
-CommName = ["EXPOIL"]
-Tact = "PJ" 
-Tcap = "PJa"
+DataLocation = "data_raw/coded_assumptions/oil_and_gas/oil_process_definitions.csv"
 
 [OilSupplyProcessParameters]
 
@@ -187,6 +162,43 @@ Description = "Set base year activity and cost assumptions for oil product impor
 SheetName = "Oil"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/imported_fuel_costs.csv"
+
+
+###########################################
+# Coal
+###########################################
+
+# declaring that coal exists - very minimal input here 
+
+
+[CoalCommodityDeclarations]
+Description = "Declare coal commodity"
+SheetName = "Coal"
+TagName = "FI_Comm"
+Csets = ["NRG"] # (all energy commodities) 
+CommName = ["COA"]
+Unit = ["PJ"] # All PJ 
+
+[CoalProcessDeclarations]
+Description = "Declare coal processes (mining and importing)"
+SheetName = "Coal"
+TagName = "FI_Process"
+Sets = ["MIN", "IMP"] 
+TechName = ["MINCOA", "IMPCOA"]
+Tact = "PJ"
+Tcap = "PJa"
+
+[CoalParameterDeclarations]
+
+Description = "Declare coal processes (mining and importing). Sets coal price (sans carbon) and annual availability . Very simple approach"
+SheetName = "Coal"
+TagName = "FI_T"
+TechName = ["MINCOA", "IMPCOA"]
+Comm-Out = ["COA", "COA"]
+Cost = [7,7]
+ACT_BND = [25,15] # not sure if this is necessary. Not very precise. Roughly equivalent to values in TIMES 2.0. 
+
+
 
 ###########################################
 # TotalCO2
@@ -230,3 +242,6 @@ TagName = "FI_Comm"
 Csets = ["NRG"] # (all energy commodities) 
 CommName = ["DID", "BDSL", "DIJ"]
 Unit = ["PJ"] # All PJ 
+
+
+
