@@ -20,7 +20,7 @@ Description = "The model base year. Used by several scripts for downstream proce
 # The ActivePDef, as set below, will select the relevant milestone years for use in this model
 # This means we are flexible on period definitions in pre-processing, but will only ever send one to the Veda files
 Description = "Model Period Definition. Will be used to select period definitions"
-ActivePDef = ["TEST"]
+ActivePDef = ["Detail_to_2030"]
 
 [TimePeriods]
 TagName = "TimePeriods"
@@ -175,3 +175,24 @@ Description = "Default discount rate. Need to figure out how to adjust this in s
 TagName = "TFM_INS"
 Attribute = ["G_DYEAR", "Discount"]
 AllRegions = [2015,0.1]
+
+
+
+###############################################################################
+# RE-enable BY Investment
+###############################################################################
+
+# By default, Veda disables investment in any base year techs with PRC_RESID 
+# THis is not helpful for us, so this entry disables this
+# This definitely works in a separate BY_Trans.xlsx file, but I will also try putting it in SysSettings.xlsx
+
+[ReEnableBYInvestment]
+Description = "Overrides Veda default settings which usually disable investment in BY techs"
+SheetName = "ImportSettings"
+TagName = "TFM_INS"
+Attribute = "NCAP_BND"
+attribu_cond = "RESID"
+PSet_Pn = "*"
+Year = 0 
+Value = 0
+LimType = "UP"

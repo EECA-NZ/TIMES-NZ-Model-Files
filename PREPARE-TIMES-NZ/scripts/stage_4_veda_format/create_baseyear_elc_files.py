@@ -314,9 +314,10 @@ def define_generation_parameters(df):
             columns={
                 "CapacityFactor": "AFA",
                 "FuelDelivCost": "FLO_DELIV",
-                "Generation": f"ACT_BND~FX~{BASE_YEAR}",
+                "Generation": f"ACT_BND~UP~{BASE_YEAR}",
                 "PeakContribution": "NCAP_PKCNT",
-                "PlantLife": "NCAP_TLIFE",
+                # trying Life instead of NCAP_TLIFE - will Veda default to infinite rather than 10?
+                "PlantLife": "Life",
                 "VarOM": "ACTCOST",
                 "FixOM": "NCAP_FOM",
                 "FuelEfficiency": "EFF",
@@ -325,9 +326,12 @@ def define_generation_parameters(df):
     )
 
     # additional hard-coded parameters
+    # no new investment
     existing_techs_parameters["NCAP_BND"] = 0
     existing_techs_parameters["NCAP_BND~0"] = 5
+    # standard cap2act method (should this not go in FI_Process?)
     existing_techs_parameters["CAP2ACT"] = CAP2ACT_PJGW
+    # no extrapolation of activity bound
     existing_techs_parameters["ACT_BND~0"] = 1
 
     # drop the AFA - we do this in a separate table
