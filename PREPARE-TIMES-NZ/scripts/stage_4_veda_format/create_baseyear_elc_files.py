@@ -18,6 +18,7 @@ from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.deflator import deflate_data
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_4_DATA
 from prepare_times_nz.utilities.helpers import select_and_rename
+from prepare_times_nz.utilities.logger_setup import logger
 
 # Filepaths ---------------------------------------------------------------- #
 
@@ -314,9 +315,10 @@ def define_generation_parameters(df):
             columns={
                 "CapacityFactor": "AFA",
                 "FuelDelivCost": "FLO_DELIV",
-                "Generation": f"ACT_BND~FX~{BASE_YEAR}",
+                "Generation": f"ACT_BND~UP~{BASE_YEAR}",
                 "PeakContribution": "NCAP_PKCNT",
-                "PlantLife": "NCAP_TLIFE",
+                # trying Life instead of NCAP_TLIFE - will Veda default to infinite rather than 10?
+                "PlantLife": "Life",
                 "VarOM": "ACTCOST",
                 "FixOM": "NCAP_FOM",
                 "FuelEfficiency": "EFF",
@@ -325,13 +327,36 @@ def define_generation_parameters(df):
     )
 
     # additional hard-coded parameters
+    # no new investment
     existing_techs_parameters["NCAP_BND"] = 0
     existing_techs_parameters["NCAP_BND~0"] = 5
+    # standard cap2act method (should this not go in FI_Process?)
     existing_techs_parameters["CAP2ACT"] = CAP2ACT_PJGW
+    # no extrapolation of activity bound
     existing_techs_parameters["ACT_BND~0"] = 1
 
     # drop the AFA - we do this in a separate table
     existing_techs_parameters = existing_techs_parameters.drop("AFA", axis=1)
+
+    # hacky patch - need to fix AFAs for ren techs!!
+
+    techs_to_loosen = [
+        "ELC_SolarDist_Commercial",
+        "ELC_SolarDist_Residential",
+        "ELC_SolarDist_Industrial",
+    ]
+
+    logger.warning("Inserting manual patch into outputs for some base year generation!")
+    # This removes activity bound limits for some techs
+    #       where our AFAs don't align well with renewable AFs
+    # It's not very robust to code changes elsewhere
+    #       so it would be better to align the basic AFs with annual average renewable AFs
+
+    existing_techs_parameters["ACT_BND~UP~2023"] = np.where(
+        existing_techs_parameters["TechName"].isin(techs_to_loosen),
+        np.nan,
+        existing_techs_parameters["TechName"],
+    )
 
     save_elc_data(existing_techs_parameters, "existing_tech_parameters.csv")
 

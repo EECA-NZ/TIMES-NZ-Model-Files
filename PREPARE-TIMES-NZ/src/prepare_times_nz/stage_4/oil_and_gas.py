@@ -178,9 +178,9 @@ def get_imported_fuel_costs(imported_fuels):
     df["Comm-Out"] = df["Fuel_TIMES"]
 
     # this is just cost!
-    df["Attribute"] = "Cost"
+    df = df.rename(columns={"Value": "Cost"})
 
-    df = df[["TechName", "Comm-Out", "Attribute", "Year"]]
+    df = df[["TechName", "Comm-Out", "Year", "Cost"]]
 
     return df
 
@@ -209,6 +209,8 @@ def main():
     )
 
     import_costs = get_imported_fuel_costs(["PET", "DSL", "FOL", "JET", "LPG"])
+
+    print(import_costs)
     save_og_data(import_costs, "imported_fuel_costs.csv")
 
 
