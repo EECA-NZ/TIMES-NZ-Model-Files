@@ -1,0 +1,348 @@
+﻿Process,PlantName,Tech_TIMES,ProcessGroup
+ELC_HydSC_Aniwhenua,Aniwhenua,HydSC,Electricity generation
+ELC_HydSC_Arapuni,Arapuni,HydSC,Electricity generation
+ELC_HydSC_Aratiatia,Aratiatia,HydSC,Electricity generation
+ELC_HydSC_Atiamuri,Ātiamuri,HydSC,Electricity generation
+ELC_HydSC_Aviemore,Aviemore,HydSC,Electricity generation
+ELC_HydSC_Benmore,Benmore,HydSC,Electricity generation
+ELC_HydSC_Clyde,Clyde,HydSC,Electricity generation
+ELC_HydSC_Cobb,Cobb,HydSC,Electricity generation
+ELC_HydSC_Coleridge,Coleridge,HydSC,Electricity generation
+ELC_HydSC_Highbank,Highbank,HydSC,Electricity generation
+ELC_CCGT_HuntlyUnit5E3P,Huntly Unit 5 (E3P),CCGT,Electricity generation
+ELC_GasPkr_HuntlyUnit6P40,Huntly Unit 6 (P40),GasPkr,Electricity generation
+ELC_GasPkr_JunctionRoad,Junction Road,GasPkr,Electricity generation
+ELC_HydSC_KaimaiHydroScheme,Kaimai Hydro Scheme,HydSC,Electricity generation
+ELC_HydSC_Kaitawa,Kaitawa,HydSC,Electricity generation
+ELC_WindOn_KaiwaraDownsS1,Kaiwera Downs Stage 1,WindOn,Electricity generation
+ELC_HydSC_Karapiro,Karāpiro,HydSC,Electricity generation
+ELC_HydSC_Manapouri,Manapōuri,HydSC,Electricity generation
+ELC_HydSC_Mangahao,Mangahao,HydSC,Electricity generation
+ELC_HydSC_Maraetai,Maraetai,HydSC,Electricity generation
+ELC_GasPkr_McKee,McKee,GasPkr,Electricity generation
+ELC_WindOn_MillCreek,Mill Creek,WindOn,Electricity generation
+ELC_Geo_Mokai,Mokai,Geo,Electricity generation
+ELC_Geo_NgaTamariki,Ngā Tamariki,Geo,Electricity generation
+ELC_Geo_NgawhaOEC13,Ngāwhā (OEC1-3),Geo,Electricity generation
+ELC_Geo_NgawhaOEC4,Ngāwhā (OEC4),Geo,Electricity generation
+ELC_Geo_Ohaaki,Ōhaaki,Geo,Electricity generation
+ELC_HydSC_Ohakuri,Ōhakuri,HydSC,Electricity generation
+ELC_HydSC_OhauA,Ōhau A,HydSC,Electricity generation
+ELC_HydSC_OhauB,Ōhau B,HydSC,Electricity generation
+ELC_HydSC_OhauC,Ōhau C,HydSC,Electricity generation
+ELC_HydSC_PaerauGorge,Paerau Gorge,HydSC,Electricity generation
+ELC_HydSC_Patea,Patea,HydSC,Electricity generation
+ELC_HydSC_Piripaua,Piripaua,HydSC,Electricity generation
+ELC_Geo_Poihipi,Poihipi,Geo,Electricity generation
+ELC_HydSC_Rangipo,Rangipo,HydSC,Electricity generation
+ELC_Geo_Rotokawa,Rotokawa,Geo,Electricity generation
+ELC_HydSC_Roxburgh,Roxburgh,HydSC,Electricity generation
+ELC_GasPkr_StratfordPeaker,Stratford Peaker,GasPkr,Electricity generation
+ELC_HydSC_TakapoA,Takapō A,HydSC,Electricity generation
+ELC_HydSC_TakapoB,Takapō B,HydSC,Electricity generation
+ELC_CCGT_TCC,Taranaki Combined Cycle,CCGT,Electricity generation
+ELC_WindOn_TararuaStage12,Tararua Stage 1 & 2,WindOn,Electricity generation
+ELC_WindOn_TararuaStage3,Tararua Stage 3,WindOn,Electricity generation
+ELC_WindOn_TeApiti,Te Āpiti,WindOn,Electricity generation
+ELC_Geo_TeHukaBinary,Te Huka Binary,Geo,Electricity generation
+ELC_Geo_TeMihi,Te Mihi,Geo,Electricity generation
+ELC_WindOn_TeRereHau,Te Rere Hau,WindOn,Electricity generation
+ELC_WindOn_TeUku,Te Uku,WindOn,Electricity generation
+ELC_HydSC_Teviot,Teviot,HydSC,Electricity generation
+ELC_HydSC_Tuai,Tuai,HydSC,Electricity generation
+ELC_WindOn_TuriteaNorth,Turitea North,WindOn,Electricity generation
+ELC_WindOn_TuriteaSouth,Turitea South,WindOn,Electricity generation
+ELC_HydSC_Waipapa,Waipāpa,HydSC,Electricity generation
+ELC_WindOn_Waipipi,Waipipi,WindOn,Electricity generation
+ELC_HydSC_Waipori,Waipori,HydSC,Electricity generation
+ELC_Geo_Wairakei,Wairakei,Geo,Electricity generation
+ELC_Geo_WairakeiBinary,Wairakei Binary,Geo,Electricity generation
+ELC_HydSC_Waitaki,Waitaki,HydSC,Electricity generation
+ELC_WindOn_WestWind,West Wind,WindOn,Electricity generation
+ELC_HydSC_Whakamaru,Whakamaru,HydSC,Electricity generation
+ELC_HydSC_WheaoAndFlaxy,Wheao and Flaxy,HydSC,Electricity generation
+ELC_DslPkr_Whirinaki,Whirinaki,DslPkr,Electricity generation
+ELC_WindOn_WhiteHill,White Hill,WindOn,Electricity generation
+ELC_Rankine_HuntlyUnits14,Huntly Units 1-4,Rankine,Electricity generation
+ELC_HydRR_BranchRiver,Branch River (Argyle + Wairau),HydRR,Electricity generation
+ELC_GasCHP_FonterraWhareroa,Fonterra Dairy - Whareroa,GasCHP,Electricity generation
+ELC_GasCHP_Kapuni,Kapuni,GasCHP,Electricity generation
+ELC_Geo_Kawerau,Kawerau,Geo,Electricity generation
+ELC_WoodCHP_Kinleith,Kinleith,WoodCHP,Electricity generation
+ELC_HydSC_Matahina,Matahina,HydSC,Electricity generation
+ELC_Geo_NgaAwaPurua,Nga Awa Pūrua,Geo,Electricity generation
+ELC_HydSC_RoaringMeg,Roaring Meg,HydSC,Electricity generation
+ELC_Geo_TeAhiOMaui,Te Ahi O Maui,Geo,Electricity generation
+ELC_GasCHP_TeRapa,Te Rapa,GasCHP,Electricity generation
+ELC_HydSC_TokaanuMangaio,Tokaanu/Mangaio,HydSC,Electricity generation
+ELC_Geo_TOPP1,TOPP1,Geo,Electricity generation
+ELC_SolarDist_Commercial,Commercial,SolarDist,Electricity generation
+ELC_SolarDist_Industrial,Industrial,SolarDist,Electricity generation
+ELC_SolarDist_Residential,Residential,SolarDist,Electricity generation
+ELC_HydSC_Generic,Generic hydro generation,HydSC,Electricity generation
+ELC_Geo_Generic,Generic geothermal generation,Geo,Electricity generation
+ELC_BioRecip_Generic,Generic biogas generation,BioRecip,Electricity generation
+ELC_WindOn_Generic,Generic wind generation,WindOn,Electricity generation
+ELC_DslPkr_Generic,Generic diesel generation,DslPkr,Electricity generation
+ELC_GeoCHP_Generic,Generic geothermal cogeneration,GeoCHP,Electricity generation
+ELC_BiogasCHP_Generic,Generic biogas cogeneration,BiogasCHP,Electricity generation
+ELC_WoodCHP_Generic,Generic wood cogeneration,WoodCHP,Electricity generation
+ELC_Geo_TahekeGeothermalProject,Tāheke Geothermal Project,Geo,Electricity generation
+ELC_Geo_AtiamuriGeothermal,Ātiamuri Geothermal,Geo,Electricity generation
+ELC_Geo_NgawhaExpansionStage5,Ngāwhā Expansion: Stage 5,Geo,Electricity generation
+ELC_Geo_NgawhaExpansionStage6,Ngāwhā Expansion: Stage 6,Geo,Electricity generation
+ELC_Geo_ReporoaStage2,Reporoa: Stage 2,Geo,Electricity generation
+ELC_Geo_TahekeStage2,Tāheke: Stage 2,Geo,Electricity generation
+ELC_Geo_TahekeStage3,Tāheke: Stage 3,Geo,Electricity generation
+ELC_Geo_TokaanuGeothermalStage2,Tokaanu Geothermal (Stage 2),Geo,Electricity generation
+ELC_SolarTrack_ArgyleSolarFarmNorthernArea,Argyle Solar Farm - Northern Area,SolarTrack,Electricity generation
+ELC_SolarFixed_DannevirkeSolarFarm,Dannevirke Solar Farm,SolarFixed,Electricity generation
+ELC_SolarFixed_GreytownSolarFarmFNSF,Greytown Solar Farm (FNSF),SolarFixed,Electricity generation
+ELC_SolarFixed_OhauASolarPlant,Ohau A solar plant,SolarFixed,Electricity generation
+ELC_SolarFixed_TasmanDistrictSolarFarm,Tasman District solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_WaitaraSolarFarm,Waitara solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_GloritSolarFarm,Glorit solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_GreytownSolarFarm,Greytown solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_HelensvilleSolarFarm,Helensville solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_ManiototoSolarFarm,Maniototo solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_MartonSolarFarmHarmony,Marton Solar Farm (Harmony),SolarFixed,Electricity generation
+ELC_SolarFixed_MartonSolarFarmEnergyFarmsLtd,Marton Solar Farm (Energy Farms Ltd),SolarFixed,Electricity generation
+ELC_SolarFixed_MastertonSolarFarmNZClearnEnergy,Masterton Solar Farm (NZ Clearn Energy),SolarFixed,Electricity generation
+ELC_SolarTrack_MaungaturotoSolarFarm,Maungaturoto solar farm,SolarTrack,Electricity generation
+ELC_SolarFixed_MoroaRoadSolarFarm,Moroa Road solar farm,SolarFixed,Electricity generation
+ELC_SolarTrack_OngaongaSolarHelios,Ongaonga solar (Helios),SolarTrack,Electricity generation
+ELC_SolarFixed_OpunakeSolarFarmHarmonyEnergy,Ōpunake solar farm (Harmony Energy),SolarFixed,Electricity generation
+ELC_SolarFixed_OpunakeSolarFarmEnergyFarmsLtd,Ōpunake solar farm (Energy Farms Ltd),SolarFixed,Electricity generation
+ELC_SolarFixed_SkinnerRoadSolarFarm,Skinner Road solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_TaranakiSolarFarmMeridian,Taranaki solar farm (Meridian),SolarFixed,Electricity generation
+ELC_SolarTrack_ThePointSolarFarm,The Point solar farm,SolarTrack,Electricity generation
+ELC_SolarFixed_ThreeStreamsSolarFarm,Three Streams solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_TikokinoSolarFarm,Tikokino solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_WaiparaSolarFarm,Waipara solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_WairarapaSolarFarm,Wairarapa solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar55,Generic solar (101-200MW): 55,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar56,Generic solar (200MW+): 56,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar60,Generic solar (101-200MW): 60,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar62,Generic solar (<100 MW): 62,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar67,Generic solar (<100 MW): 67,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar75,Generic solar (200MW+): 75,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar79,Generic solar (<100 MW): 79,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar81,Generic solar (200MW+): 81,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar85,Generic solar (101-200MW): 85,SolarFixed,Electricity generation
+ELC_WindOn_GenericWind13,Generic wind #13,WindOn,Electricity generation
+ELC_WindOn_ManawatuWindMeridian,Manawatū Wind (Meridian),WindOn,Electricity generation
+ELC_WindOn_PahiatuaWindFarm,Pahiatua Wind Farm,WindOn,Electricity generation
+ELC_WindOn_ProjectHurunuiWindFarm,Project Hurunui Wind Farm,WindOn,Electricity generation
+ELC_WindOn_SouthlandWindFarm,Southland Wind Farm,WindOn,Electricity generation
+ELC_WindOn_TaranakiWindMeridian,Taranaki Wind (Meridian),WindOn,Electricity generation
+ELC_WindOn_GenericWind18,Generic Wind #18,WindOn,Electricity generation
+ELC_WindOn_GenericWind20,Generic Wind #20,WindOn,Electricity generation
+ELC_WindOn_GenericWind21,Generic Wind #21,WindOn,Electricity generation
+ELC_WindOn_GenericWind24,Generic Wind #24,WindOn,Electricity generation
+ELC_WindOn_GenericWind26,Generic Wind #26,WindOn,Electricity generation
+ELC_WindOn_GenericWind27,Generic Wind #27,WindOn,Electricity generation
+ELC_WindOn_GenericWind32,Generic Wind #32,WindOn,Electricity generation
+ELC_WindOn_GenericWind37,Generic Wind #37,WindOn,Electricity generation
+ELC_WindOn_GenericWind43,Generic Wind #43,WindOn,Electricity generation
+ELC_WindOn_GenericWind47,Generic Wind #47,WindOn,Electricity generation
+ELC_WindOn_GenericWind48,Generic Wind #48,WindOn,Electricity generation
+ELC_WindOn_GenericWind49,Generic Wind #49,WindOn,Electricity generation
+ELC_WindOn_GenericWind51,Generic Wind #51,WindOn,Electricity generation
+ELC_WindOn_GenericWind52,Generic Wind #52,WindOn,Electricity generation
+ELC_WindOn_GenericWind55,Generic Wind #55,WindOn,Electricity generation
+ELC_WindOn_GenericWind61,Generic Wind #61,WindOn,Electricity generation
+ELC_WindOn_GenericWind62,Generic Wind #62,WindOn,Electricity generation
+ELC_WindOn_GenericWind69,Generic Wind #69,WindOn,Electricity generation
+ELC_WindOn_GenericWind70,Generic Wind #70,WindOn,Electricity generation
+ELC_WindOn_GenericWind71,Generic Wind #71,WindOn,Electricity generation
+ELC_WindOn_GenericWind72,Generic Wind #72,WindOn,Electricity generation
+ELC_WindOn_GenericWind74,Generic Wind #74,WindOn,Electricity generation
+ELC_WindOn_GenericWind75,Generic Wind #75,WindOn,Electricity generation
+ELC_WindOn_GenericWind79,Generic Wind #79,WindOn,Electricity generation
+ELC_WindOn_GenericWind82,Generic Wind #82,WindOn,Electricity generation
+ELC_Geo_MangakinoGenericGeothermal,Mangakino generic geothermal,Geo,Electricity generation
+ELC_Geo_MakaiOutflow,Mākai outflow,Geo,Electricity generation
+ELC_Geo_ReporoaStage1,Reporoa: Stage 1,Geo,Electricity generation
+ELC_Geo_ReporoaStage3,Reporoa: Stage 3,Geo,Electricity generation
+ELC_Geo_TauharaExpansionStage2,Tauhara expansion: Stage 2,Geo,Electricity generation
+ELC_Geo_TauharaExpansionStage3,Tauhara expansion: Stage 3,Geo,Electricity generation
+ELC_Geo_TikitereStage1,Tikitere (Stage 1),Geo,Electricity generation
+ELC_SolarFixed_GenericSolar54,Generic solar (200MW+): 54,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar57,Generic solar (101-200MW): 57,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar58,Generic solar (<100 MW): 58,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar61,Generic solar (<100 MW): 61,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar63,Generic solar (<100 MW): 63,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar65,Generic solar (101-200MW): 65,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar74,Generic solar (101-200MW): 74,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar76,Generic solar (200MW+): 76,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar77,Generic solar (101-200MW): 77,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar78,Generic solar (101-200MW): 78,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar80,Generic solar (200MW+): 80,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar82,Generic solar (200MW+): 82,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar83,Generic solar (101-200MW): 83,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar84,Generic solar (101-200MW): 84,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar86,Generic solar (<100 MW): 86,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar90,Generic solar (200MW+): 90,SolarFixed,Electricity generation
+ELC_WindOn_GenericWind22,Generic Wind #22,WindOn,Electricity generation
+ELC_WindOn_GenericWind25,Generic Wind #25,WindOn,Electricity generation
+ELC_WindOn_GenericWind29,Generic Wind #29,WindOn,Electricity generation
+ELC_WindOn_GenericWind30,Generic Wind #30,WindOn,Electricity generation
+ELC_WindOn_GenericWind33,Generic Wind #33,WindOn,Electricity generation
+ELC_WindOn_GenericWind34,Generic Wind #34,WindOn,Electricity generation
+ELC_WindOn_GenericWind36,Generic Wind #36,WindOn,Electricity generation
+ELC_WindOn_GenericWind41,Generic Wind #41,WindOn,Electricity generation
+ELC_WindOn_GenericWind42,Generic Wind #42,WindOn,Electricity generation
+ELC_WindOn_GenericWind45,Generic Wind #45,WindOn,Electricity generation
+ELC_WindOn_GenericWind46,Generic Wind #46,WindOn,Electricity generation
+ELC_WindOn_GenericWind56,Generic Wind #56,WindOn,Electricity generation
+ELC_WindOn_GenericWind57,Generic Wind #57,WindOn,Electricity generation
+ELC_WindOn_GenericWind58,Generic Wind #58,WindOn,Electricity generation
+ELC_WindOn_GenericWind60,Generic Wind #60,WindOn,Electricity generation
+ELC_WindOn_GenericWind63,Generic Wind #63,WindOn,Electricity generation
+ELC_WindOn_GenericWind65,Generic Wind #65,WindOn,Electricity generation
+ELC_WindOn_GenericWind66,Generic Wind #66,WindOn,Electricity generation
+ELC_WindOn_GenericWind73,Generic Wind #73,WindOn,Electricity generation
+ELC_WindOn_GenericWind76,Generic Wind #76,WindOn,Electricity generation
+ELC_WindOn_GenericWind77,Generic Wind #77,WindOn,Electricity generation
+ELC_WindOn_GenericWind80,Generic Wind #80,WindOn,Electricity generation
+ELC_GasPkr_GenericOCGTPeaker1Huntly,Generic OCGT peaker: 1 (Huntly),GasPkr,Electricity generation
+ELC_GasPkr_GenericOCGTPeaker2Stratford,Generic OCGT peaker: 2 (Stratford),GasPkr,Electricity generation
+ELC_GasPkr_GenericOCGTPeaker3Otahuhu,Generic OCGT peaker: 3 (Otahuhu),GasPkr,Electricity generation
+ELC_GasPkr_GenericOCGTPeaker4Southdown,Generic OCGT peaker: 4 (Southdown),GasPkr,Electricity generation
+ELC_GasPkr_GenericOCGTPeaker5Marsden,Generic OCGT peaker: 5 (Marsden),GasPkr,Electricity generation
+ELC_GasPkr_GenericOCGTPeaker6Huntly,Generic OCGT peaker: 6 (Huntly),GasPkr,Electricity generation
+ELC_GasPkr_GenericOCGTPeaker7Otahuhu,Generic OCGT peaker: 7 (Otahuhu),GasPkr,Electricity generation
+ELC_GasPkr_GenericOCGTPeaker8Huntly,Generic OCGT peaker: 8 (Huntly),GasPkr,Electricity generation
+ELC_BioRecip_GenericReciprocatingBiogas1HalfwayBush,Generic Reciprocating Biogas: 1 (Halfway Bush),BioRecip,Electricity generation
+ELC_BioRecip_GenericReciprocatingBiogas2Christchurch,Generic Reciprocating Biogas: 2 (Christchurch),BioRecip,Electricity generation
+ELC_Geo_NgatamarikiExpansion,Ngātamariki expansion,Geo,Electricity generation
+ELC_Geo_NgawhaStage4OEC5,Ngāwhā Stage 4 (OEC5),Geo,Electricity generation
+ELC_Geo_KawerauTOPP2,Kawerau (TOPP2),Geo,Electricity generation
+ELC_Geo_TauharaStage1,Tauhara Stage 1,Geo,Electricity generation
+ELC_Geo_TauharaStage1Expansion,Tauhara Stage 1 expansion,Geo,Electricity generation
+ELC_Geo_TeHukaUnit3,Te Huka Unit 3,Geo,Electricity generation
+ELC_Geo_TeMihiExpansion,Te Mihi (expansion),Geo,Electricity generation
+ELC_Geo_WairakeiCD,Wairākei C & D,Geo,Electricity generation
+ELC_HydSC_ArnoldValleyHydro,Arnold Valley hydro,HydSC,Electricity generation
+ELC_HydRR_BushStreamHydroPlant,Bush Stream hydro plant,HydRR,Electricity generation
+ELC_HydRR_ClarenceHydroWaiauDiversions,Clarence hydro: Waiau Diversions,HydRR,Electricity generation
+ELC_HydRR_CluthaRiverBeaumontExpansion,Clutha River - Beaumont Expansion,HydRR,Electricity generation
+ELC_HydRR_CluthaRiverLuggateExpansion,Clutha River - Luggate expansion,HydRR,Electricity generation
+ELC_HydRR_CluthaRiverQueensberryExpansion,Clutha River - Queensberry expansion,HydRR,Electricity generation
+ELC_HydRR_CluthaRiverTuapekaExpansion,Clutha River - Tuapeka expansion,HydRR,Electricity generation
+ELC_HydSC_HaweaGatesHydroPlant,Hāwea Gates hydro plant,HydSC,Electricity generation
+ELC_HydSC_LakePukakiHydroPlant,Lake Pūkaki hydro plant,HydSC,Electricity generation
+ELC_HydRR_MatakitakiRiverGenericHydroPlant,Mātakitaki River generic hydro plant,HydRR,Electricity generation
+ELC_HydRR_NgakawauHydroScheme,Ngākawau hydro scheme,HydRR,Electricity generation
+ELC_HydRR_PottsRiverHydro,Potts River hydro,HydRR,Electricity generation
+ELC_HydRR_RakaiaRiverDam,Rakaia River dam,HydRR,Electricity generation
+ELC_HydRR_Taramakau,Taramakau,HydRR,Electricity generation
+ELC_HydRR_WairauHydroExpansion,Wairau Hydro Expansion,HydRR,Electricity generation
+ELC_HydRR_WhitcombeRiver,Whitcombe River,HydRR,Electricity generation
+ELC_SolarTrack_ArgyleSolarFarm,Argyle solar farm,SolarTrack,Electricity generation
+ELC_SolarFixed_BrooksideSolarFarm,Brookside solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_EdgecumbeSolarHelios,Edgecumbe solar (Helios),SolarFixed,Electricity generation
+ELC_SolarFixed_EdgecumbeSolarFarmFNSF,Edgecumbe solar farm (FNSF),SolarFixed,Electricity generation
+ELC_SolarFixed_MartonSolarFarm,Marton solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_FoxtonSolarFarm,Foxton solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_HawkeSBayAirportSolarFarm,Hawke's Bay Airport solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_KaiparaSolarFarm,Kaipara solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_KarioiSolarFarm,Karioi solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_KowhaiParkSolarFarm,Kōwhai Park solar farm,SolarFixed,Electricity generation
+ELC_SolarTrack_LauristonSolarFarm,Lauriston solar farm,SolarTrack,Electricity generation
+ELC_SolarFixed_ClandeboyeSolarFarm,Clandeboye solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_LodestoneDargaville,Lodestone Dargaville,SolarFixed,Electricity generation
+ELC_SolarFixed_DunsandelSolarFarm,Dunsandel solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_MtSomersSolarFarm,Mt Somers solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_LodestoneTeHerengaOTeRaSolarFarm,Lodestone Te Herenga o Te Rā solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_LodestoneWhitianga,Lodestone Whitianga,SolarFixed,Electricity generation
+ELC_SolarFixed_MangamaireSolarFarm,Mangamaire solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_MarangaRaSolarFarm,Maranga Rā solar farm,SolarFixed,Electricity generation
+ELC_SolarTrack_NasebySolarFarm,Naseby solar farm,SolarTrack,Electricity generation
+ELC_SolarTrack_OngaongaSolarFarmSkySolar,Ongaonga solar farm (Sky Solar),SolarTrack,Electricity generation
+ELC_SolarFixed_PalmerstonNorthSolarFarm,Palmerston North solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_PukenuiSolarFarm,Pukenui solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_RangiririSolarFarm,Rangiriri solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_RangitaikiSolarStage1,Rangitāiki solar (Stage 1),SolarFixed,Electricity generation
+ELC_SolarFixed_RangitaikiSolarStage2,Rangitāiki solar (Stage 2),SolarFixed,Electricity generation
+ELC_SolarFixed_RangitaikiSolarStage3,Rangitāiki solar (Stage 3),SolarFixed,Electricity generation
+ELC_SolarFixed_RuakakaSolarFarm,Ruakākā solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_SwannanoaSolarFarm,Swannanoa solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_TauheiSolarFarm,Tauhei solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_TwinRiversSolarFarm,Twin Rivers solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_WarengaSolarFarm,Warenga solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_WaiotaheSolarFarm,Waiotahe solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_WaiterimuSolarFarm,Waiterimu solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_WellsfordSolarFarm,Wellsford solar farm,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar15,Generic solar (200MW+): 15,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar2,Generic solar (200MW+): 2,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar29,Generic solar (200MW+): 29,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar33,Generic solar (200MW+): 33,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar35,Generic solar (101-200MW): 35,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar40,Generic solar (<100 MW): 40,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar42,Generic solar (101-200MW): 42,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar43,Generic solar (200MW+): 43,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar46,Generic solar (<100 MW): 46,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar87,Generic solar (200MW+): 87,SolarFixed,Electricity generation
+ELC_GasPkr_WaikatoPowerPlant,Waikato Power Plant,GasPkr,Electricity generation
+ELC_WindOn_CastleHillWindFarm,Castle Hill wind farm,WindOn,Electricity generation
+ELC_WindOn_HapuakoheWindFarm,Hapuakohe Wind Farm,WindOn,Electricity generation
+ELC_WindOn_HarapakiWindFarm,Harapaki wind farm,WindOn,Electricity generation
+ELC_WindOn_ProjectHuriwaka,Project Huriwaka,WindOn,Electricity generation
+ELC_WindOn_JerichoWindFarm,Jericho Wind Farm,WindOn,Electricity generation
+ELC_WindOn_KaihikuWindFarm,Kaihiku wind farm,WindOn,Electricity generation
+ELC_WindOn_KaimaiWindFarm,Kaimai wind farm,WindOn,Electricity generation
+ELC_WindOn_Kaiwaikawe,Kaiwaikawe,WindOn,Electricity generation
+ELC_WindOn_KaiweraDownsWindStage2,Kaiwera Downs wind (Stage 2),WindOn,Electricity generation
+ELC_WindOn_MahinerangiStage2,Mahinerangi (Stage 2),WindOn,Electricity generation
+ELC_WindOn_MountCassWindFarm,Mount Cass wind farm,WindOn,Electricity generation
+ELC_WindOn_MtMunroWindFarm,Mt Munro wind farm,WindOn,Electricity generation
+ELC_WindOn_OtotokaWindFarm,Ototoka Wind Farm,WindOn,Electricity generation
+ELC_WindOn_PuketoiWindFarm,Puketoi wind farm,WindOn,Electricity generation
+ELC_WindOn_TaumatatotaraStage1,Taumatatotara (Stage 1),WindOn,Electricity generation
+ELC_WindOn_TeRereHauExpansion,Te Rere Hau (Expansion),WindOn,Electricity generation
+ELC_WindOn_TeRereHauRepower,Te Rere Hau (Repower),WindOn,Electricity generation
+ELC_WindOn_WaiukuWindFarm,Waiuku Wind Farm,WindOn,Electricity generation
+ELC_HydRR_ClarenceHydro54,Clarence hydro: 54,HydRR,Electricity generation
+ELC_HydRR_ClarenceHydroConway,Clarence hydro: Conway,HydRR,Electricity generation
+ELC_SolarFixed_GenericSolar10,Generic solar (101-200MW): 10,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar12,Generic solar (200MW+): 12,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar13,Generic solar (200MW+): 13,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar14,Generic solar (200MW+): 14,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar16,Generic solar (200MW+): 16,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar17,Generic solar (200MW+): 17,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar18,Generic solar (200MW+): 18,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar19,Generic solar (200MW+): 19,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar21,Generic solar (200MW+): 21,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar23,Generic solar (101-200MW): 23,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar25,Generic solar (200MW+): 25,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar26,Generic solar (101-200MW): 26,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar28,Generic solar (200MW+): 28,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar3,Generic solar (200MW+): 3,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar30,Generic solar (101-200MW): 30,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar31,Generic solar (101-200MW): 31,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar36,Generic solar (101-200MW): 36,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar38,Generic solar (101-200MW): 38,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar39,Generic solar (200MW+): 39,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar41,Generic solar (<100 MW): 41,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar45,Generic solar (101-200MW): 45,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar47,Generic solar (101-200MW): 47,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar48,Generic solar (101-200MW): 48,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar49,Generic solar (200MW+): 49,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar51,Generic solar (200MW+): 51,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar6,Generic solar (200MW+): 6,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar69,Generic solar (200MW+): 69,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar7,Generic solar (200MW+): 7,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar71,Generic solar (200MW+): 71,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar72,Generic solar (200MW+): 72,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar73,Generic solar (101-200MW): 73,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar8,Generic solar (200MW+): 8,SolarFixed,Electricity generation
+ELC_SolarFixed_GenericSolar88,Generic solar (200MW+): 88,SolarFixed,Electricity generation
+ELC_Wood_HuntlyUnit1Wood,Huntly Unit 1 (Wood),Wood,Electricity generation
+ELC_Wood_HuntlyUnit2Wood,Huntly Unit 2 (Wood),Wood,Electricity generation
+ELC_WindFixOff_Southland,Offshore wind (Fixed) - Southland,WindFixOff,Electricity generation
+ELC_WindFixOff_Taranaki,Offshore wind (Fixed) - Taranaki,WindFixOff,Electricity generation
+ELC_WindFixOff_Waikato,Offshore wind (Fixed) - Waikato,WindFixOff,Electricity generation
+ELC_WindFloatOff_Taranaki,Offshore wind (Floating) - Taranaki,WindFloatOff,Electricity generation
+ELC_WindFloatOff_Waikato,Offshore wind (Floating) - Waikato,WindFloatOff,Electricity generation
+ELC_SolarDist_Res,ELC_SolarDist_Res,SolarDist,Electricity generation

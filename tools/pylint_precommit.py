@@ -38,6 +38,8 @@ except AssertionError:
         "path rewriting may be wrong.",
         file=sys.stderr,
     )
+    print(f"Package Root: {PACKAGE_ROOT}")
+    print(f"Running in: {Path(__file__).resolve().parent.parent}")
 
 # Strip a leading "PREPARE-TIMES-NZ/" or "PREPARE-TIMES-NZ\"
 _LEADING_PACKAGE_PREFIX = re.compile(

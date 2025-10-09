@@ -127,8 +127,9 @@ jobs:
 
       - name: Run pip-audit
         working-directory: PREPARE-TIMES-NZ
-        # #minor pip vuln to be fixed in 25.3 (not yet available)
-        # https://github.com/github/advisory-database/blob/main/advisories/github-reviewed/2025/09/GHSA-4xh5-x5gv-qwph/GHSA-4xh5-x5gv-qwph.json
+        # pip vuln to be fixed in 25.3 (not yet available)
+        # this vuln is safe to ignore assuming python version is >=3.12. See: 
+        # https://github.com/pypa/pip/issues/13607
         run: poetry run pip-audit --skip-editable --ignore-vuln GHSA-4xh5-x5gv-qwph 
 
   deploy:

@@ -1,0 +1,183 @@
+ProcessGroup,Process,CommodityOut,SectorGroup,Sector,EnduseGroup,EndUse,TechnologyGroup,Technology
+Demand,T_P_CICEPET15_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_CICEPET15_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_CICEPET15_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_CICEDSL15_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_P_CICEDSL15_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_P_CICEDSL15_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_P_CBEVNEW15_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CBEVNEW15_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CBEVNEW15_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CBEVUSD15_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CBEVUSD15_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CBEVUSD15_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CICELPG15_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (LPG)
+Demand,T_P_CICELPG15_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (LPG)
+Demand,T_P_CICELPG15_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (LPG)
+Demand,T_P_CHYBPET15_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Hybrid (Petrol)
+Demand,T_P_CHYBPET15_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Hybrid (Petrol)
+Demand,T_P_CHYBPET15_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Hybrid (Petrol)
+Demand,T_P_CPHEVPET15_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Petrol)
+Demand,T_P_CPHEVPET15_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Petrol)
+Demand,T_P_CPHEVPET15_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Petrol)
+Demand,T_P_CPHEVPET15_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Petrol)
+Demand,T_P_CPHEVPET15_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Petrol)
+Demand,T_P_CPHEVPET15_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Petrol)
+Demand,T_C_CICEPET15_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_C_CICEPET15_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_C_CICEPET15_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_C_CICEDSL15_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_C_CICEDSL15_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_C_CICEDSL15_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_C_CBEVNEW15_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_C_CBEVNEW15_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_C_CBEVNEW15_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_C_CICELPG15_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (LPG)
+Demand,T_C_CICELPG15_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (LPG)
+Demand,T_C_CICELPG15_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (LPG)
+Demand,T_C_CHYBPET15_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Hybrid (Petrol)
+Demand,T_C_CHYBPET15_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Hybrid (Petrol)
+Demand,T_C_CHYBPET15_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Hybrid (Petrol)
+Demand,T_P_MICEPET15_LOW,T_P_Mcy,Transport,Road Transport,Motorcycle,Motorcycle,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_MICEPET15_MED,T_P_Mcy,Transport,Road Transport,Motorcycle,Motorcycle,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_MICEPET15_HIGH,T_P_Mcy,Transport,Road Transport,Motorcycle,Motorcycle,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_MBEVELC15_LOW,T_P_Mcy,Transport,Road Transport,Motorcycle,Motorcycle,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_MBEVELC15_MED,T_P_Mcy,Transport,Road Transport,Motorcycle,Motorcycle,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_MBEVELC15_HIGH,T_P_Mcy,Transport,Road Transport,Motorcycle,Motorcycle,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_BICEPET15_LOW,T_P_Bus,Transport,Road Transport,Bus,Bus,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_BICEPET15_MED,T_P_Bus,Transport,Road Transport,Bus,Bus,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_BICEPET15_HIGH,T_P_Bus,Transport,Road Transport,Bus,Bus,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_BICEDSL15_LOW,T_P_Bus,Transport,Road Transport,Bus,Bus,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_P_BICEDSL15_MED,T_P_Bus,Transport,Road Transport,Bus,Bus,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_P_BICEDSL15_HIGH,T_P_Bus,Transport,Road Transport,Bus,Bus,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_P_BICELPG15_LOW,T_P_Bus,Transport,Road Transport,Bus,Bus,Internal Combustion Engine,Internal Combustion Engine (LPG)
+Demand,T_P_BICELPG15_MED,T_P_Bus,Transport,Road Transport,Bus,Bus,Internal Combustion Engine,Internal Combustion Engine (LPG)
+Demand,T_P_BICELPG15_HIGH,T_P_Bus,Transport,Road Transport,Bus,Bus,Internal Combustion Engine,Internal Combustion Engine (LPG)
+Demand,T_P_BBEVELC15_LOW,T_P_Bus,Transport,Road Transport,Bus,Bus,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_BBEVELC15_MED,T_P_Bus,Transport,Road Transport,Bus,Bus,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_BBEVELC15_HIGH,T_P_Bus,Transport,Road Transport,Bus,Bus,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_LTICEPET15_LOW,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_F_LTICEPET15_MED,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_F_LTICEPET15_HIGH,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_F_LTICEDSL15_LOW,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_LTICEDSL15_MED,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_LTICEDSL15_HIGH,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_LTBEVELC15_LOW,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_LTBEVELC15_MED,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_LTBEVELC15_HIGH,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_MTICEDSL15_LOW,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_MTICEDSL15_MED,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_MTICEDSL15_HIGH,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_MTBEVELC15_LOW,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_MTBEVELC15_MED,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_MTBEVELC15_HIGH,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_HTICEDSL15_LOW,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_HTICEDSL15_MED,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_HTICEDSL15_HIGH,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_HTBEVELC15_LOW,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_HTBEVELC15_MED,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_HTBEVELC15_HIGH,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_DSHIPP15,T_F_DSHIP,Transport,Sea Transport,Shipping,Domestic Shipping,Ship,Ship
+Demand,T_F_ISHIPP15,T_F_ISHIP,Transport,Sea Transport,Shipping,International Shipping,Ship,Ship
+Demand,T_O_FuelJet,T_O_JET,Transport,Air Transport,Aviation,Domestic Aviation,Jet,Jet
+Demand,T_O_FuelJet_Int,T_O_JET_Int,Transport,Air Transport,Aviation,International Aviation,Jet,Jet
+Demand,T_R_Rail15,T_F_Rail,Transport,Rail Transport,Rail,Freight Rail,Rail,Rail
+Demand,T_R_Rail15,T_F_Rail,Transport,Rail Transport,Rail,Freight Rail,Rail,Rail
+Demand,T_P_Rail15,T_P_Rail,Transport,Rail Transport,Rail,Passenger Rail,Rail,Rail
+Demand,T_P_Rail15,T_P_Rail,Transport,Rail Transport,Rail,Passenger Rail,Rail,Rail
+Demand,T_P_CICEPET_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_CICEPET_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_CICEPET_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_CICEDSL_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_P_CICEDSL_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_P_CICEDSL_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_P_CBEVELC_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CBEVELC_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CBEVELC_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CHYBPET_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Hybrid (Petrol)
+Demand,T_P_CHYBPET_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Hybrid (Petrol)
+Demand,T_P_CHYBPET_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Hybrid (Petrol)
+Demand,T_C_CICEPET_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_C_CICEPET_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_C_CICEPET_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_C_CICEDSL_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_C_CICEDSL_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_C_CICEDSL_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_C_CBEVELC_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_C_CBEVELC_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_C_CBEVELC_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_C_CHYBPET_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Hybrid (Petrol)
+Demand,T_C_CHYBPET_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Hybrid (Petrol)
+Demand,T_C_CHYBPET_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Hybrid (Petrol)
+Demand,T_P_MICEPET_LOW,T_P_Mcy,Transport,Road Transport,Motorcycle,Motorcycle,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_MICEPET_MED,T_P_Mcy,Transport,Road Transport,Motorcycle,Motorcycle,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_MICEPET_HIGH,T_P_Mcy,Transport,Road Transport,Motorcycle,Motorcycle,Internal Combustion Engine,Internal Combustion Engine (Petrol)
+Demand,T_P_MBEVELC_LOW,T_P_Mcy,Transport,Road Transport,Motorcycle,Motorcycle,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_MBEVELC_MED,T_P_Mcy,Transport,Road Transport,Motorcycle,Motorcycle,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_MBEVELC_HIGH,T_P_Mcy,Transport,Road Transport,Motorcycle,Motorcycle,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_BICEDSL_LOW,T_P_Bus,Transport,Road Transport,Bus,Bus,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_P_BICEDSL_MED,T_P_Bus,Transport,Road Transport,Bus,Bus,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_P_BICEDSL_HIGH,T_P_Bus,Transport,Road Transport,Bus,Bus,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_P_BBEVELC_LOW,T_P_Bus,Transport,Road Transport,Bus,Bus,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_BBEVELC_MED,T_P_Bus,Transport,Road Transport,Bus,Bus,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_BBEVELC_HIGH,T_P_Bus,Transport,Road Transport,Bus,Bus,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_LTICEDSL_LOW,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_LTICEDSL_MED,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_LTICEDSL_HIGH,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_LTBEVELC_LOW,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_LTBEVELC_MED,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_LTBEVELC_HIGH,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_MTICEDSL_LOW,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_MTICEDSL_MED,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_MTICEDSL_HIGH,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_MTBEVELC_LOW,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_MTBEVELC_MED,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_MTBEVELC_HIGH,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_HTICEDSL_LOW,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_HTICEDSL_MED,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_HTICEDSL_HIGH,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Internal Combustion Engine,Internal Combustion Engine (Diesel)
+Demand,T_F_HTBEVELC_LOW,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_HTBEVELC_MED,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_F_HTBEVELC_HIGH,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CHYBDSL_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Missing
+Demand,T_P_CHYBDSL_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Missing
+Demand,T_P_CHYBDSL_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Missing
+Demand,T_C_CHYBDSL_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Missing
+Demand,T_C_CHYBDSL_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Missing
+Demand,T_C_CHYBDSL_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Missing
+Demand,T_P_CFCH2R_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Missing
+Demand,T_P_CFCH2R_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Missing
+Demand,T_P_CFCH2R_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Missing
+Demand,T_C_CFCH2R_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Missing
+Demand,T_C_CFCH2R_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Missing
+Demand,T_C_CFCH2R_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Missing
+Demand,T_F_LTFCH2R_LOW,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Missing,Missing
+Demand,T_F_LTFCH2R_MED,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Missing,Missing
+Demand,T_F_LTFCH2R_HIGH,T_F_LTrk,Transport,Road Transport,Trucks,Light Truck,Missing,Missing
+Demand,T_F_MTFCH2R_LOW,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Missing,Missing
+Demand,T_F_MTFCH2R_MED,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Missing,Missing
+Demand,T_F_MTFCH2R_HIGH,T_F_MTrk,Transport,Road Transport,Trucks,Medium Truck,Missing,Missing
+Demand,T_F_HTFCH2R_LOW,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Missing,Missing
+Demand,T_F_HTFCH2R_MED,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Missing,Missing
+Demand,T_F_HTFCH2R_HIGH,T_F_HTrk,Transport,Road Transport,Trucks,Heavy Truck,Missing,Missing
+Demand,T_P_BFCH2R_LOW,T_P_Bus,Transport,Road Transport,Bus,Bus,Missing,Missing
+Demand,T_P_BFCH2R_MED,T_P_Bus,Transport,Road Transport,Bus,Bus,Missing,Missing
+Demand,T_P_BFCH2R_HIGH,T_P_Bus,Transport,Road Transport,Bus,Bus,Missing,Missing
+Demand,T_P_CPHEVPET_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Petrol)
+Demand,T_P_CPHEVPET_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Petrol)
+Demand,T_P_CPHEVPET_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Petrol)
+Demand,T_P_CPHEVPET_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Petrol)
+Demand,T_P_CPHEVPET_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Petrol)
+Demand,T_P_CPHEVPET_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Petrol)
+Demand,T_P_CPHEVDSL_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Missing
+Demand,T_P_CPHEVDSL_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Missing
+Demand,T_P_CPHEVDSL_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Missing
+Demand,T_P_CPHEVDSL_LOW,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Missing
+Demand,T_P_CPHEVDSL_MED,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Missing
+Demand,T_P_CPHEVDSL_HIGH,T_P_Car,Transport,Road Transport,Cars,Passenger car,Missing,Missing
+Demand,T_C_CPHEVDSL_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Missing
+Demand,T_C_CPHEVDSL_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Missing
+Demand,T_C_CPHEVDSL_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Missing
+Demand,T_C_CPHEVDSL_LOW,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Missing
+Demand,T_C_CPHEVDSL_MED,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Missing
+Demand,T_C_CPHEVDSL_HIGH,T_C_Car,Transport,Road Transport,Cars,Commercial car,Missing,Missing

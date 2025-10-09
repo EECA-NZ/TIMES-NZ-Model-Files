@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "TIMES-NZ-INTERNAL-QA"
+version = "0.1.0"
+description = "Internal handling and visualisation of TIMES-NZ result files"
+readme = "readme.md"
+authors = ["Your Name <your.email@example.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<4"
+pandas = "^2.2"
+numpy = "^2.0"
+doit = "^0.36"
+seaborn = "^0.13"
+shiny = "^1.5.0"
+shinywidgets = "^0.7.0"
+altair = "^5.5.0"
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.3.8"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint.main]
+source-roots = ["src"]
