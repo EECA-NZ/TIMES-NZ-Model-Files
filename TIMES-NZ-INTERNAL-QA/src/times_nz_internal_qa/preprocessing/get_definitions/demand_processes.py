@@ -132,7 +132,10 @@ def define_transport_techs():
             df["TechName"].str.contains("ICELPG"),  # ICE (LPG)
             df["TechName"].str.contains("BEV"),  # Battery Electric Vehicle
             df["TechName"].str.contains("HYBPET"),  # Hybrid (Petrol)
+            df["TechName"].str.contains("HYBDSL"),  # Hybrid (Diesel)
+            df["TechName"].str.contains("FCH2R"),  # Hydrogen fuel cell
             df["TechName"].str.contains("HEVPET"),  # PHEV (Petrol)
+            df["TechName"].str.contains("HEVDSL"),  # PHEV (Diesel)
             df["TechName"].str.contains("SHIP"),  # Ship
             df["TechName"].str.contains("Jet"),  # Jet
             df["TechName"].str.contains("Rail"),  # Rail
@@ -142,8 +145,11 @@ def define_transport_techs():
             "Internal Combustion Engine (Diesel)",
             "Internal Combustion Engine (LPG)",
             "Battery Electric Vehicle",
-            "Hybrid (Petrol)",
+            "Hybrid Vehicle (Petrol)",
+            "Hybrid Vehicle (Diesel)",
+            "Hydrogen Fuel Cell",
             "Plug-in Hybrid Vehicle (Petrol)",
+            "Plug-in Hybrid Vehicle (Diesel)",
             "Ship",
             "Jet",
             "Rail",
@@ -158,7 +164,10 @@ def define_transport_techs():
             df["Technology"] == "Internal Combustion Engine (LPG)",
             df["Technology"] == "Battery Electric Vehicle",
             df["Technology"] == "Hybrid Vehicle (Petrol)",
+            df["Technology"] == "Hybrid Vehicle (Diesel)",
+            df["Technology"] == "Hydrogen Fuel Cell",
             df["Technology"] == "Plug-in Hybrid Vehicle (Petrol)",
+            df["Technology"] == "Plug-in Hybrid Vehicle (Diesel)",
             df["Technology"] == "Ship",
             df["Technology"] == "Jet",
             df["Technology"] == "Rail",
@@ -169,6 +178,9 @@ def define_transport_techs():
             "Internal Combustion Engine",
             "Battery Electric Vehicle",
             "Hybrid Vehicle",
+            "Hybrid Vehicle",
+            "Hydrogen Vehicle",
+            "Plug-in Hybrid Vehicle",
             "Plug-in Hybrid Vehicle",
             "Ship",
             "Jet",
@@ -216,8 +228,6 @@ def get_transport_demand_processes():
     df = df.rename(columns={"TechName": "Process", "Comm-Out": "CommodityOut"})
 
     df = df[demand_process_categories]
-
-    print(df)
 
     df.to_csv(TRANSPORT_CONCORDANCES / "TEST.csv", index=False)
 

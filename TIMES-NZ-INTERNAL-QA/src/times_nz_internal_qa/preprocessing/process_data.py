@@ -29,7 +29,6 @@ def process_electricity_generation(df):
     Identify all elec generation processes and output each with human readable labels
 
     Uses an input attribute
-
     """
 
     # load data

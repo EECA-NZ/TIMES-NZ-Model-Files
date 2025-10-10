@@ -1,3 +1,10 @@
 ﻿ProcessGroup,Process,Description
 Production,MINNGA-KAP,Natural gas fields (Kapuni)
 Production,MINNGA-OTH,Natural gas fields (Other)
+Production,MINCOA,Domestic coal production
+Imports,IMPCOA,Imported Coal
+Imports,IMPDSL,Imported Diesel
+Imports,IMPFOL,Imported Fuel oil
+Imports,IMPLPG,Imported LPG
+Imports,IMPPET,Imported Petrol
+Imports,IMPJET,Imported Jet fuel
