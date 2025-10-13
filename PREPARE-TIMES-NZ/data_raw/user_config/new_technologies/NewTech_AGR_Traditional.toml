@@ -1,0 +1,19 @@
+# New ag, forest, fish sector technologies for TIMES-NZ
+
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_AGR_Traditional"
+
+###############################################################################
+# Same for both scenarios
+###############################################################################
+
+[AgrifultureNewTechProcessDefinitions]
+Description = "Defines processes for future ag, forest, fish technologies"
+SheetName = "AGR_NEW"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_agr/future_agriculture_processes.csv"
+
+[AgricultureNewTechParameters]
+Description = "Defines technical parameters for future ag, forest, fish technologies"
+SheetName = "AGR_NEW"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_agr/future_agriculture_parameters_traditional.csv"

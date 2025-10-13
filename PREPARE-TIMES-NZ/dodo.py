@@ -260,6 +260,8 @@ STAGE_4: dict[str, list[str]] = {
     # new techs (subres files)
     "create_newtechs_tra_files": ["subres_tra/future_transport_processes.csv"],
     "create_newtechs_elc_files": ["subres_elc/genstack/Traditional_process.csv"],
+    "create_newtechs_com_files": ["subres_com/future_commercial_processes.csv"],
+    "create_newtechs_agr_files": ["subres_agr/future_agriculture_processes.csv"],
     "create_settings": ["sys_settings/active_periods.csv"],
 }
 
