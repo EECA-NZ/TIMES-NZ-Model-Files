@@ -11,6 +11,7 @@ import pandas as pd
 from prepare_times_nz.stage_2.ag_forest_fish.common import AG_ASSUMPTIONS
 from prepare_times_nz.utilities.deflator import deflate_data
 from prepare_times_nz.utilities.filepaths import STAGE_4_DATA
+from prepare_times_nz.utilities.logger_setup import logger
 
 # ---------------------------------------------------------------------
 # Constants & file paths
@@ -24,6 +25,7 @@ NEW_TECHS_TRANS: Path = AG_ASSUMPTIONS / "new_techs_transformation.csv"
 # Choose which source drives the PROCESSES table: "trad" or "trans"
 PROCESSES_SOURCE: Literal["trad", "trans"] = "trad"
 
+# pylint: disable=duplicate-code
 # ---------------------------------------------------------------------
 # Modelling constants
 # ---------------------------------------------------------------------
@@ -62,7 +64,6 @@ def create_newtech_process_df(cfg: dict) -> pd.DataFrame:
         }
     )
 
-    # Ensure requested columns exist and reorder
     for col in cfg.get("Columns", []):
         if col not in df.columns:
             df[col] = ""
@@ -78,33 +79,27 @@ def create_newtech_process_parameters_df(cfg: dict) -> pd.DataFrame:
     source: Literal["trad", "trans"] = cfg.get("Source", "trad")
     df = _read_source(source)
 
-    # Add START column (not from CSV)
     df["START"] = START
     df["CAP2ACT"] = CAP2ACT
 
-    # Seed baseline cost columns from 2018 columns if present
     if "INVCOST~2018" in df.columns and "INVCOST" not in df.columns:
         df["INVCOST"] = df["INVCOST~2018"]
     if "FIXOM~2018" in df.columns and "FIXOM" not in df.columns:
         df["FIXOM"] = df["FIXOM~2018"]
 
-    # Only deflate variables that exist
     variables = [v for v in ["INVCOST", "FIXOM"] if v in df.columns]
 
     if variables:
-        # Current values are in 2018 dollars
+
         df["PriceBaseYear"] = 2018
 
-        # Deflate to 2023 dollars (target base year)
         df = deflate_data(df, 2023, variables)
 
-        # Optional: keep explicit ~2023 columns for audit/outputs
         if "INVCOST" in variables:
             df["INVCOST~2023"] = df["INVCOST"]
         if "FIXOM" in variables:
             df["FIXOM~2023"] = df["FIXOM"]
 
-    # Ensure requested columns exist and reorder
     requested_cols = cfg.get("Columns", list(df.columns))
     for col in requested_cols:
         if col not in df.columns:
@@ -160,7 +155,7 @@ def main() -> None:
         index=False,
     )
 
-    print("New commercial technology files successfully generated.")
+    logger.info("New agriculture technology files successfully generated.")
 
 
 if __name__ == "__main__":
