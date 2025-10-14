@@ -34,10 +34,10 @@ app_ui = ui.page_fluid(
     ),
     ui.div(
         ui.navset_tab(
-            ui.nav_panel("Infeasibilities", dummy_ui),
-            ui.nav_panel("Emissions", emissions_ui),
-            ui.nav_panel("Energy demand", demand_ui),
             ui.nav_panel("Electricity generation", elec_ui),
+            ui.nav_panel("Energy demand", demand_ui),
+            ui.nav_panel("Emissions", emissions_ui),
+            ui.nav_panel("Infeasibilities", dummy_ui),
         ),
         class_="navset-large",
     ),
