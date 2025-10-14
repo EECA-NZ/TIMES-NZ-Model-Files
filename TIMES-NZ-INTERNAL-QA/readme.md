@@ -42,9 +42,21 @@ d) be at the maximum level of detail produced by the model
 
 Later, it might be useful to package these .csv files as inputs into a single output excel file, including a data dictionary and other descriptors. 
 
+## Running postprocessing 
+
+Postprocessing can be run from the source script `src/times_nz_internal_qa/postprocessing/run_all_postprocessing.py`. It contains three steps: 
+
+1) Build definitions for TIMES items based on data from `PREPARE-TIMES-NZ` and some internal logic (and a few patches, included)
+2) Pull scenario results from a local installation of Veda. This is just for modellers. 
+3) Apply the definitions to the scenario results, and populate the `data` folder with categorised and described data
+
+The first two steps are not completely portable: Step 1 requires you to have previously run `PREPARE-TIMES-NZ` to populate those files. Step 2 requires you to have your own Veda installation. For this reason, the script has a few switches you can use to adjust depending on your environment. 
+
+The results in `data` are used to populate the app. Note that raw results (converted vd files) are currently stored in the repo under `data_raw/scenario_files`. This is mostly so that they are accessible to anyone, but there might be better solutions for this problem. 
+
+Note that all the categorised data is available for download from the public version of the app, currently at https://eeca-nz.shinyapps.io/times-nz-3-alpha/
 
 ## Deploying the app 
-
 
 A few adjustments are made to our standard poetry structure to enable the app to build on shinyapps.io: 
 
