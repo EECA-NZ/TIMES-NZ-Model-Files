@@ -14,9 +14,9 @@ T_P_CBEVUSD15_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
 T_P_CICELPG15_LOW,Low,Internal Combustion Engine (LPG),Internal Combustion Engine
 T_P_CICELPG15_MED,Medium,Internal Combustion Engine (LPG),Internal Combustion Engine
 T_P_CICELPG15_HIGH,High,Internal Combustion Engine (LPG),Internal Combustion Engine
-T_P_CHYBPET15_LOW,Low,Hybrid (Petrol),Missing
-T_P_CHYBPET15_MED,Medium,Hybrid (Petrol),Missing
-T_P_CHYBPET15_HIGH,High,Hybrid (Petrol),Missing
+T_P_CHYBPET15_LOW,Low,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_P_CHYBPET15_MED,Medium,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_P_CHYBPET15_HIGH,High,Hybrid Vehicle (Petrol),Hybrid Vehicle
 T_P_CPHEVPET15_LOW,Low,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
 T_P_CPHEVPET15_MED,Medium,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
 T_P_CPHEVPET15_HIGH,High,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
@@ -32,9 +32,9 @@ T_C_CBEVNEW15_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
 T_C_CICELPG15_LOW,Low,Internal Combustion Engine (LPG),Internal Combustion Engine
 T_C_CICELPG15_MED,Medium,Internal Combustion Engine (LPG),Internal Combustion Engine
 T_C_CICELPG15_HIGH,High,Internal Combustion Engine (LPG),Internal Combustion Engine
-T_C_CHYBPET15_LOW,Low,Hybrid (Petrol),Missing
-T_C_CHYBPET15_MED,Medium,Hybrid (Petrol),Missing
-T_C_CHYBPET15_HIGH,High,Hybrid (Petrol),Missing
+T_C_CHYBPET15_LOW,Low,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_C_CHYBPET15_MED,Medium,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_C_CHYBPET15_HIGH,High,Hybrid Vehicle (Petrol),Hybrid Vehicle
 T_P_MICEPET15_LOW,Low,Internal Combustion Engine (Petrol),Internal Combustion Engine
 T_P_MICEPET15_MED,Medium,Internal Combustion Engine (Petrol),Internal Combustion Engine
 T_P_MICEPET15_HIGH,High,Internal Combustion Engine (Petrol),Internal Combustion Engine
@@ -89,9 +89,9 @@ T_P_CICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion En
 T_P_CBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
 T_P_CBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
 T_P_CBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
-T_P_CHYBPET_LOW,Low,Hybrid (Petrol),Missing
-T_P_CHYBPET_MED,Medium,Hybrid (Petrol),Missing
-T_P_CHYBPET_HIGH,High,Hybrid (Petrol),Missing
+T_P_CHYBPET_LOW,Low,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_P_CHYBPET_MED,Medium,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_P_CHYBPET_HIGH,High,Hybrid Vehicle (Petrol),Hybrid Vehicle
 T_P_CPHEVPET_LOW,Low,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
 T_P_CPHEVPET_MED,Medium,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
 T_P_CPHEVPET_HIGH,High,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
@@ -104,9 +104,9 @@ T_C_CICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion En
 T_C_CBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
 T_C_CBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
 T_C_CBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
-T_C_CHYBPET_LOW,Low,Hybrid (Petrol),Missing
-T_C_CHYBPET_MED,Medium,Hybrid (Petrol),Missing
-T_C_CHYBPET_HIGH,High,Hybrid (Petrol),Missing
+T_C_CHYBPET_LOW,Low,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_C_CHYBPET_MED,Medium,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_C_CHYBPET_HIGH,High,Hybrid Vehicle (Petrol),Hybrid Vehicle
 T_P_MICEPET_LOW,Low,Internal Combustion Engine (Petrol),Internal Combustion Engine
 T_P_MICEPET_MED,Medium,Internal Combustion Engine (Petrol),Internal Combustion Engine
 T_P_MICEPET_HIGH,High,Internal Combustion Engine (Petrol),Internal Combustion Engine
@@ -137,33 +137,33 @@ T_F_HTICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion E
 T_F_HTBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
 T_F_HTBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
 T_F_HTBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
-T_P_CHYBDSL_LOW,Low,Missing,Missing
-T_P_CHYBDSL_MED,Medium,Missing,Missing
-T_P_CHYBDSL_HIGH,High,Missing,Missing
-T_C_CHYBDSL_LOW,Low,Missing,Missing
-T_C_CHYBDSL_MED,Medium,Missing,Missing
-T_C_CHYBDSL_HIGH,High,Missing,Missing
-T_P_CFCH2R_LOW,Low,Missing,Missing
-T_P_CFCH2R_MED,Medium,Missing,Missing
-T_P_CFCH2R_HIGH,High,Missing,Missing
-T_C_CFCH2R_LOW,Low,Missing,Missing
-T_C_CFCH2R_MED,Medium,Missing,Missing
-T_C_CFCH2R_HIGH,High,Missing,Missing
-T_P_CPHEVDSL_LOW,Low,Missing,Missing
-T_P_CPHEVDSL_MED,Medium,Missing,Missing
-T_P_CPHEVDSL_HIGH,High,Missing,Missing
-T_C_CPHEVDSL_LOW,Low,Missing,Missing
-T_C_CPHEVDSL_MED,Medium,Missing,Missing
-T_C_CPHEVDSL_HIGH,High,Missing,Missing
-T_F_LTFCH2R_LOW,Low,Missing,Missing
-T_F_LTFCH2R_MED,Medium,Missing,Missing
-T_F_LTFCH2R_HIGH,High,Missing,Missing
-T_F_MTFCH2R_LOW,Low,Missing,Missing
-T_F_MTFCH2R_MED,Medium,Missing,Missing
-T_F_MTFCH2R_HIGH,High,Missing,Missing
-T_F_HTFCH2R_LOW,Low,Missing,Missing
-T_F_HTFCH2R_MED,Medium,Missing,Missing
-T_F_HTFCH2R_HIGH,High,Missing,Missing
-T_P_BFCH2R_LOW,Low,Missing,Missing
-T_P_BFCH2R_MED,Medium,Missing,Missing
-T_P_BFCH2R_HIGH,High,Missing,Missing
+T_P_CHYBDSL_LOW,Low,Hybrid Vehicle (Diesel),Hybrid Vehicle
+T_P_CHYBDSL_MED,Medium,Hybrid Vehicle (Diesel),Hybrid Vehicle
+T_P_CHYBDSL_HIGH,High,Hybrid Vehicle (Diesel),Hybrid Vehicle
+T_C_CHYBDSL_LOW,Low,Hybrid Vehicle (Diesel),Hybrid Vehicle
+T_C_CHYBDSL_MED,Medium,Hybrid Vehicle (Diesel),Hybrid Vehicle
+T_C_CHYBDSL_HIGH,High,Hybrid Vehicle (Diesel),Hybrid Vehicle
+T_P_CFCH2R_LOW,Low,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_P_CFCH2R_MED,Medium,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_P_CFCH2R_HIGH,High,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_C_CFCH2R_LOW,Low,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_C_CFCH2R_MED,Medium,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_C_CFCH2R_HIGH,High,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_P_CPHEVDSL_LOW,Low,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+T_P_CPHEVDSL_MED,Medium,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+T_P_CPHEVDSL_HIGH,High,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+T_C_CPHEVDSL_LOW,Low,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+T_C_CPHEVDSL_MED,Medium,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+T_C_CPHEVDSL_HIGH,High,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+T_F_LTFCH2R_LOW,Low,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_LTFCH2R_MED,Medium,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_LTFCH2R_HIGH,High,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_MTFCH2R_LOW,Low,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_MTFCH2R_MED,Medium,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_MTFCH2R_HIGH,High,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_HTFCH2R_LOW,Low,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_HTFCH2R_MED,Medium,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_HTFCH2R_HIGH,High,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_P_BFCH2R_LOW,Low,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_P_BFCH2R_MED,Medium,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_P_BFCH2R_HIGH,High,Hydrogen Fuel Cell,Hydrogen Vehicle

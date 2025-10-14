@@ -154,7 +154,7 @@ TagName = "TFM_UPD"
 Attribute = ["ACTCOST", "ACTCOST"] # the activity cost of the dummy processes 
 Pset_SET = ["IRE", "IRE"] # dummy processes are apparently defined as IRE
 Pset_PN = ["IMP*Z", "IMPDEMZ"] # separate costs for demand dummy variables, unclear why 
-AllRegions = [10000,9000] # very high values
+AllRegions = [10000,100000] # very high values
 
 ###############################################################################
 # Default interpolation/extrapolation rules
@@ -187,6 +187,7 @@ AllRegions = [2015,0.1]
 # This definitely works in a separate BY_Trans.xlsx file, but I will also try putting it in SysSettings.xlsx
 
 [ReEnableBYInvestment]
+WorkBookName = "BY_Trans"
 Description = "Overrides Veda default settings which usually disable investment in BY techs"
 SheetName = "ImportSettings"
 TagName = "TFM_INS"

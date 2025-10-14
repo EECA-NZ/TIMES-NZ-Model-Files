@@ -79,7 +79,7 @@ TagName = "TFM_AVA"
 ###############################################################################
 
 
-[BatteryDefinitions]
+[BatteryProcessDeclarations]
 Description = "Declares processes for battery technologies"
 SheetName = "Batteries"
 TagName = "FI_Process"
@@ -88,13 +88,13 @@ DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery
 [BatteryParameters]
 Description = "Describes key assumptions for battery technologies"
 SheetName = "Batteries"
-TagName = "FI_Process"
+TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_parameters.csv"
 
 [BatteryCostCurves]
 Description = "Adds cost curves to battery technologies"
 SheetName = "Batteries"
-TagName = "FI_Process"
+TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_costs.csv"
 
 

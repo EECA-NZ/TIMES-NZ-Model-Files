@@ -14,5 +14,6 @@ SolarDist,Distributed Solar,Solar
 SolarFixed,Utility Solar (Fixed),Solar
 SolarTrack,Utility Solar (Tracking),Solar
 WindOn,Onshore wind,Wind
-WindOffFloat,Floating Offshore Wind,Wind
+WindFloatOff,Floating Offshore Wind,Wind
+WindFixOff,Fixed Offshore Wind,Wind
 WoodCHP,Wood Cogen,Thermal
