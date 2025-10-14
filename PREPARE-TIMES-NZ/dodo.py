@@ -263,6 +263,7 @@ STAGE_4: dict[str, list[str]] = {
     "create_newtechs_com_files": ["subres_com/future_commercial_processes.csv"],
     "create_newtechs_agr_files": ["subres_agr/future_agriculture_processes.csv"],
     "create_settings": ["sys_settings/active_periods.csv"],
+    "create_load_curves": ["scen_com_fr/com_fr_industry.csv"],
 }
 
 # Stage-5: final Excel workbooks.
