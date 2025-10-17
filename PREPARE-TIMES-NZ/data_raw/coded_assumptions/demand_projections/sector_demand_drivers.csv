@@ -1,0 +1,42 @@
+SectorGroup,Sector,SectorDriver
+Commercial,Data Centre,
+Commercial,Education,POP
+Commercial,Healthcare,POP
+Commercial,Office Blocks,GDP
+Commercial,Other,GDP
+Commercial,WSR,GDP
+Industry,Chemicals (excl. Urea and Methanol),
+Industry,Construction,
+Industry,Dairy,
+Industry,Food and Beverage,
+Industry,Iron & Steel,
+Industry,Meat,
+Industry,Methanol,
+Industry,Mining,
+Industry,Non-Metallic Mineral Product Manufacturing,
+Industry,Other,
+Industry,Pulp and Paper,
+Industry,Urea,
+Industry,Wood Products,
+Industry,Aluminium,
+Residential,Residential,POP
+"Agriculture, Forestry and Fishing",Dairy Cattle Farming,
+"Agriculture, Forestry and Fishing","Fishing, Hunting and Trapping",
+"Agriculture, Forestry and Fishing",Forestry and Logging,
+"Agriculture, Forestry and Fishing",Horticulture (Outdoor),
+"Agriculture, Forestry and Fishing",Indoor Cropping,
+"Agriculture, Forestry and Fishing",Livestock Farming,
+"Agriculture, Forestry and Fishing",Other Agriculture,
+Transport,LPV,
+Transport,LCV,
+Transport,Motorcycle,
+Transport,Bus,
+Transport,Light Truck,
+Transport,Medium Truck,
+Transport,Heavy Truck,
+Transport,Rail Freight,
+Transport,Passenger Rail,
+Transport,Domestic Shipping,
+Transport,International Shipping,
+Transport,Domestic Aviation,
+Transport,International Aviation,

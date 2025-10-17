@@ -20,6 +20,7 @@ from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAG
 # file paths
 PROJECTIONS_ASSUMPTIONS = ASSUMPTIONS / "demand_projections"
 OUTPUT = STAGE_3_DATA / "demand_projections"
+OUTPUT_CHECKS = OUTPUT / "checks"
 # end year setting
 END_YEAR = 2050
 
@@ -28,8 +29,13 @@ END_YEAR = 2050
 def save_ind_proj_data(df, name, label):
     """save data wrapper"""
     label = "Saving industrial demand projections (" + label + ")"
-
     _save_data(df, name, label, filepath=OUTPUT)
+
+
+def save_ind_proj_check(df, name, label):
+    """save checking data wrapper"""
+    label = "Saving industrial demand checks (" + label + ")"
+    _save_data(df, name, label, filepath=OUTPUT_CHECKS)
 
 
 def expand_years(df, base_year=BASE_YEAR, end_year=END_YEAR):
@@ -85,10 +91,6 @@ def get_industrial_growth_indices(transition_period):
     df["Transformation_Index"] = 1 * ((1 + df["Transformation"]) ** df["t"])
     df = df.sort_values(group_vars + ["Year"])
 
-    if transition_period is None:
-        # we can just return these directly if we want
-        return df
-
     if transition_period:
         # Transition the transformation curves if transition period provided
         df["sigma"] = (df["delta"] / transition_period) * df["t"]
@@ -98,11 +100,12 @@ def get_industrial_growth_indices(transition_period):
             df["Traditional"] - df["sigma"],
             df["Transformation"],
         )
-        df["Transformation_Transition_Index"] = (
+        df["Transformation_Index"] = (
             (1 + df["Transformation_Transition"])
             .groupby([df[c] for c in group_vars])
             .cumprod()
             # base year 1 (fill value on nan, as this is the base year)
+            # need to repeat group for this operation
             .groupby([df[c] for c in group_vars])
             .shift(1, fill_value=1.0)
         )
@@ -144,7 +147,15 @@ def get_industry_baseyear_demand(var):
     df = df[df["Variable"] == var]
     df = (
         df.groupby(
-            ["Sector", "CommodityOut", "Technology", "EndUse", "Variable", "Unit"]
+            [
+                "Sector",
+                "CommodityOut",
+                "Region",
+                "Technology",
+                "EndUse",
+                "Variable",
+                "Unit",
+            ]
         )["Value"]
         .sum()
         .reset_index()
@@ -152,7 +163,7 @@ def get_industry_baseyear_demand(var):
     return df
 
 
-def get_new_industries_demand():
+def get_new_industries_demand(ni_share=0.3):
     """
     Read assumptions for new industries demand
     """
@@ -181,8 +192,18 @@ def get_new_industries_demand():
     # if 0, not needed for model. best to remove to keep clean
     df = df[df["Value"] > 0]
 
+    key_vars = ["Sector", "Scenario", "Year"]
+
     #
-    df = df[["Sector", "Scenario", "Year", "Value"]]
+    df = df[key_vars + ["Value"]]
+
+    # island splits
+    df["NI"] = df["Value"] * ni_share
+    df["SI"] = df["Value"] * (1 - ni_share)
+    df = df.drop("Value", axis=1)
+    df = df.melt(
+        id_vars=key_vars, value_vars=["NI", "SI"], var_name="Region", value_name="Value"
+    )
 
     # add labels
     print(df)
@@ -223,8 +244,15 @@ def main():
     """Script entrypoint"""
     df_input_energy = get_energy_demand_projections("InputEnergy")
     df_output_energy = get_energy_demand_projections("OutputEnergy")
-    save_ind_proj_data(df_input_energy, "industrial_input.csv", "Input energy")
-    save_ind_proj_data(df_output_energy, "industrial_output.csv", "Output energy")
+    save_ind_proj_check(df_input_energy, "industrial_input.csv", "Input energy")
+    save_ind_proj_check(df_output_energy, "industrial_output.csv", "Output energy")
+
+    # the above is extra detail for reporting. The model just needs indices:
+
+    df_index = get_industrial_growth_indices(5)
+    save_ind_proj_data(
+        df_index, "industrial_demand_index.csv", "Industrial demand index"
+    )
 
 
 if __name__ == "__main__":
