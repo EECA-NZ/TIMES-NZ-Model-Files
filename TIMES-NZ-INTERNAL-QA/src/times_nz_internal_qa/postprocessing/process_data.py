@@ -23,13 +23,12 @@ from times_nz_internal_qa.utilities.filepaths import (
 
 
 def save_data(df, name, method="parquet"):
-    """A wrapper for saving all final outputs
-    Always saves as parquet but can be converted"""
+    """Save final outputs to <repo>/data (creates folder if missing)."""
+    name = name.removesuffix(".csv").removesuffix(".parquet")
+    FINAL_DATA.mkdir(parents=True, exist_ok=True)  # <-- ensure folder exists
 
-    name = name.removesuffix(".csv")
-    # csv?
     if method == "parquet":
-        df.to_parquet(FINAL_DATA / f"{name}.parquet")
+        df.to_parquet(FINAL_DATA / f"{name}.parquet", engine="pyarrow")
     else:
         df.to_csv(FINAL_DATA / f"{name}.csv", index=False, encoding="utf-8-sig")
 
