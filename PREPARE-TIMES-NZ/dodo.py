@@ -236,7 +236,7 @@ STAGE_2: dict[str, list[str]] = {
 
 # Stage-3: scenario and subres files
 STAGE_3: dict[str, list[str]] = {
-    "industry/industry_get_demand_growth": ["industry/scenario_demand_growth.csv"],
+    "demand_projections": ["demand_projections/industrial_demand_index.csv"],
     # subres
     "electricity/electricity_new_gen_tech": ["electricity/future_generation_tech.csv"],
     "transport/extract_vehicle_future_costs_data": [
@@ -262,7 +262,10 @@ STAGE_4: dict[str, list[str]] = {
     "create_newtechs_elc_files": ["subres_elc/genstack/Traditional_process.csv"],
     "create_newtechs_com_files": ["subres_com/future_commercial_processes.csv"],
     "create_newtechs_agr_files": ["subres_agr/future_agriculture_processes.csv"],
+    # settings
     "create_settings": ["sys_settings/active_periods.csv"],
+    # scenario files
+    "create_dem_proj_files": ["scen_demand/driver_allocations.csv"],
 }
 
 # Stage-5: final Excel workbooks.
