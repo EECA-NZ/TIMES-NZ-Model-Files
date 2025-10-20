@@ -266,6 +266,7 @@ STAGE_4: dict[str, list[str]] = {
     "create_settings": ["sys_settings/active_periods.csv"],
     # scenario files
     "create_dem_proj_files": ["scen_demand/driver_allocations.csv"],
+    "create_load_curves": ["scen_com_fr/com_fr_industry.csv"],
 }
 
 # Stage-5: final Excel workbooks.
