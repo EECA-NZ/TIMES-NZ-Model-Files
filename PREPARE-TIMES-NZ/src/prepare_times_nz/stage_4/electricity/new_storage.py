@@ -94,9 +94,7 @@ def create_battery_cost_curves():
 
     df = df.rename(columns={"CAPEX": "INVCOST", "FOM": "FIXOM"})
 
-    df = pd.melt(
-        df, id_vars=["TechName", "Year"], var_name="Attribute", value_name="Value"
-    )
+    df = df.sort_values(["TechName", "Year"])
 
     return df
 

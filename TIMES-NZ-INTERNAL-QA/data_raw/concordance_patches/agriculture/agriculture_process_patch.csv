@@ -1,0 +1,32 @@
+﻿Process,CommodityIn,CommodityOut,Sector,EnduseGroup,EndUse,TechnologyGroup,Technology
+ADCF-MoTP-Mob-Trac-ELC,AGRELC,ADCF-MoTP-Mob,Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ADCF-MoTP-Mob-Trac-H2R,AGRH2R,ADCF-MoTP-Mob,Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ADCF-MoTP-Mob-MTr-ELC,AGRELC,ADCF-MoTP-Mob,Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ADCF-MoTP-Mob-MTr-H2R,AGRH2R,ADCF-MoTP-Mob,Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ADCF-MoTP-Mob-Uti-ELC,AGRELC,ADCF-MoTP-Mob,Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ADCF-MoTP-Mob-Uti-H2R,AGRH2R,ADCF-MoTP-Mob,Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ADCF-MoTP-Mob-Bike-ELC,AGRELC,ADCF-MoTP-Mob,Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ALIVE-MoTP-Mob-Trac-ELC,AGRELC,ALIVE-MoTP-Mob,Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ALIVE-MoTP-Mob-Trac-H2R,AGRH2R,ALIVE-MoTP-Mob,Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ALIVE-MoTP-Mob-MTr-ELC,AGRELC,ALIVE-MoTP-Mob,Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ALIVE-MoTP-Mob-MTr-H2R,AGRH2R,ALIVE-MoTP-Mob,Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ALIVE-MoTP-Mob-Uti-ELC,AGRELC,ALIVE-MoTP-Mob,Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ALIVE-MoTP-Mob-Uti-H2R,AGRH2R,ALIVE-MoTP-Mob,Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ALIVE-MoTP-Mob-Bike-PET,AGRPET,ALIVE-MoTP-Mob,Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+ALIVE-MoTP-Mob-Bike-ELC,AGRELC,ALIVE-MoTP-Mob,Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+AHORT-MoTP-Mob-Trac-ELC,AGRELC,AHORT-MoTP-Mob,Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+AHORT-MoTP-Mob-Trac-H2R,AGRH2R,AHORT-MoTP-Mob,Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+AHORT-MoTP-Mob-MTr-ELC,AGRELC,AHORT-MoTP-Mob,Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+AHORT-MoTP-Mob-MTr-H2R,AGRH2R,AHORT-MoTP-Mob,Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+AHORT-MoTP-Mob-Uti-ELC,AGRELC,AHORT-MoTP-Mob,Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+AHORT-MoTP-Mob-Uti-H2R,AGRH2R,AHORT-MoTP-Mob,Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+AHORT-MoTP-Stat-Motor-ELC,AGRELC,AHORT-MoTP-Stat,Horticulture (Outdoor),Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
+AINDC-SH-Boiler-WOD,AGRWOD,AINDC-SH,Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+AINDC-SH-Boiler-ELC,AGRELC,AINDC-SH,Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+AINDC-SH-Boiler-H2R,AGRH2R,AINDC-SH,Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+AINDC-SH-HP-ELC,AGRELC,AINDC-SH,Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (for Heating)
+AFORE-MoTP-Mob-GB-ELC,AGRELC,AFORE-MoTP-Mob,Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+AFORE-MoTP-Mob-GB-H2R,AGRH2R,AFORE-MoTP-Mob,Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+AFORE-MoTP-Mob-CY-ELC,AGRELC,AFORE-MoTP-Mob,Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+AFORE-MoTP-Mob-CY-H2R,AGRH2R,AFORE-MoTP-Mob,Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+AFISH-MoTP-Mob-HYBBoat-DSL,AGRDSL,AFISH-MoTP-Mob,"Fishing, Hunting and Trapping",Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Sea Transport)
