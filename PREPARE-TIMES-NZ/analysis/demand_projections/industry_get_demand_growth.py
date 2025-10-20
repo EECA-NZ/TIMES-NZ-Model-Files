@@ -13,28 +13,21 @@ industry demand scenarios
 
 """
 
-import os
-from pathlib import Path
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
 from prepare_times_nz.stage_2.industry.common import CHECKS_DIR, INDUSTRY_ASSUMPTIONS
 from prepare_times_nz.utilities.filepaths import (
-    DATA_INTERMEDIATE,
+    ANALYSIS,
     STAGE_2_DATA,
 )
 from prepare_times_nz.utilities.logger_setup import logger
 
 # Filepaths --------
 
-STAGE_2_INDUSTRY_DATA = f"{STAGE_2_DATA}/industry"
-OUTPUT_PATH = (
-    DATA_INTERMEDIATE
-    / Path("stage_3_scenario_data")
-    / Path("industry/scenario_demand_growth.csv")
-)
+STAGE_2_INDUSTRY_DATA = STAGE_2_DATA / "industry"
+OUTPUT_PATH = ANALYSIS / "results/demand_projections"
 
 # Constants --------------------------------------------
 
@@ -43,7 +36,7 @@ OUTPUT_PATH = (
 
 # Currently it does nothing else, but can be expanded to
 # our eventual scenario demand forecasts
-PRINT_CHARTS = False
+PRINT_CHARTS = True
 
 # Get data ---------------------------------------------------
 
@@ -316,7 +309,7 @@ def make_forecast_chart(df, checks_location, method="Linear Regression"):
     plt.tight_layout()
 
     chart_location = (
-        f'{checks_location}/demand_forecast_{method.lower().replace(" ", "_")}.png'
+        f'{checks_location}/ind_demand_forecast_{method.lower().replace(" ", "_")}.png'
     )
     logger.info("Saving results to %s", chart_location)
     plt.savefig(chart_location, dpi=300)
@@ -325,26 +318,13 @@ def make_forecast_chart(df, checks_location, method="Linear Regression"):
 def main():
     """Entrypoint for running the script."""
 
-    checks_location = f"{STAGE_2_INDUSTRY_DATA}/checks"
-    os.makedirs(checks_location, exist_ok=True)
-
-    if PRINT_CHARTS:
-        logger.info("Printing different forecast result charts")
-    else:
-        logger.info(
-            "Not currently returning forecast industrial demand - this script is WIP"
-        )
-
+    OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
     df = get_aggregate_data()
 
     if PRINT_CHARTS:
-        make_forecast_chart(df, checks_location, method="Linear Regression")
-        make_forecast_chart(df, checks_location, method="CAGR")
-        make_forecast_chart(df, checks_location, method="CAGR (smooth historical)")
-
-    # touch the file to indicate it has run
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT_PATH.touch()
+        make_forecast_chart(df, OUTPUT_PATH, method="Linear Regression")
+        make_forecast_chart(df, OUTPUT_PATH, method="CAGR")
+        make_forecast_chart(df, OUTPUT_PATH, method="CAGR (smooth historical)")
 
 
 if __name__ == "__main__":

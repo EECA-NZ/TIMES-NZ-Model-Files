@@ -1,0 +1,42 @@
+SectorGroup,Sector,SectorDriver
+Commercial,Data Centre,
+Commercial,Education,POP
+Commercial,Healthcare,POP
+Commercial,Office Blocks,GDP
+Commercial,Other,GDP
+Commercial,WSR,GDP
+Industry,Aluminium,IND_ALUM_DMD
+Industry,Chemicals (excl. Urea and Methanol),IND_CHEM_DMD
+Industry,Construction,IND_CNST_DMD
+Industry,Dairy,IND_DARY_DMD
+Industry,Food and Beverage,IND_FOOD_DMD
+Industry,Iron & Steel,IND_STEEL_DMD
+Industry,Meat,IND_MEAT_DMD
+Industry,Methanol,IND_METH_DMD
+Industry,Mining,IND_MINE_DMD
+Industry,Non-Metallic Mineral Product Manufacturing,IND_MNRL_DMD
+Industry,Other,IND_OTHR_DMD
+Industry,Pulp and Paper,IND_PULP_DMD
+Industry,Urea,IND_UREA_DMD
+Industry,Wood Products,IND_WOOD_DMD
+Residential,Residential,POP
+"Agriculture, Forestry and Fishing",Dairy Cattle Farming,
+"Agriculture, Forestry and Fishing","Fishing, Hunting and Trapping",
+"Agriculture, Forestry and Fishing",Forestry and Logging,
+"Agriculture, Forestry and Fishing",Horticulture (Outdoor),
+"Agriculture, Forestry and Fishing",Indoor Cropping,
+"Agriculture, Forestry and Fishing",Livestock Farming,
+"Agriculture, Forestry and Fishing",Other Agriculture,
+Transport,LPV,
+Transport,LCV,
+Transport,Motorcycle,
+Transport,Bus,
+Transport,Light Truck,
+Transport,Medium Truck,
+Transport,Heavy Truck,
+Transport,Rail Freight,
+Transport,Passenger Rail,
+Transport,Domestic Shipping,
+Transport,International Shipping,
+Transport,Domestic Aviation,
+Transport,International Aviation,

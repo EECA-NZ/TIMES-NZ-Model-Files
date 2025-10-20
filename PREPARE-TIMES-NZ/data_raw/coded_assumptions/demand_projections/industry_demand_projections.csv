@@ -1,0 +1,16 @@
+SectorGroup,Sector,Traditional,Transformation,Method,Note
+Industry,Aluminium,0,0,Assumption,Flat 
+Industry,Construction,0.019,0.019,Assumption,Based on EEUD energy demand history
+Industry,Dairy,0.028,-0.028,Assumption,"Based on EEUD energy demand history, inverted for Transformation"
+Industry,Iron & Steel,0,0,Assumption,NZSteel techs handled separately
+Industry,Meat,0.007,-0.007,Assumption,
+Industry,Methanol,0,0,Assumption,Curve this off by setting a price
+Industry,Non-Metallic Mineral Product Manufacturing,-0.046,-0.046,Assumption,
+Industry,Mining,0.012,0,Assumption,
+Industry,Other,-0.001,-0.001,Assumption,
+Industry,Food and Beverage,-0.017,0.017,Assumption,
+Industry,Chemicals (excl. Urea and Methanol),0,0,Assumption,
+Industry,Urea,0,0,Assumption,Assume flat but cut off by setting a price 
+Industry,Wood Products,-0.018,0.018,Assumption,
+Industry,Pulp and Paper,-0.069,-0.069,Assumption,
+Industry,New Industries,0,50,New Industries,Refers to additional GWh demand each year
