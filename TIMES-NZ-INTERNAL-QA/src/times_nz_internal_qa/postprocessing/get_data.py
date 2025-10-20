@@ -4,7 +4,6 @@ Data loading and quality check functions
 
 # Libraries
 
-
 import re
 from pathlib import Path
 
@@ -77,13 +76,6 @@ def check_process_coverage(df, scenario_name):
 
     # production
     df = df[~df["Process"].isin(production_processes["Process"].unique())]
-
-    if len(df) > 0:
-        print("FAILURE: The following processes have no descriptions")
-        df = df.sort_values("Process")
-        remaining_processes = df["Process"].unique()
-        for process in remaining_processes:
-            print("    ", process)
 
     test_coverage(df, "Process", scenario_name=scenario_name)
 
@@ -269,7 +261,7 @@ def main():
 
     print("WARNING: Using hardcoded (not portable) Veda location")
     for scenario in current_scenarios:
-        get_results_from_veda(scenario, "/mnt/c/Users/SearleL")
+        get_results_from_veda(scenario, "/mnt/c/Users/weerasa")
 
 
 if __name__ == "__main__":

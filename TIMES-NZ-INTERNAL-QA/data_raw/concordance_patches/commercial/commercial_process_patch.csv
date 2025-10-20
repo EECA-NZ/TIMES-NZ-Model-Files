@@ -1,0 +1,152 @@
+﻿Process,CommodityIn,CommodityOut,Sector,EnduseGroup,EndUse,TechnologyGroup,Technology
+C_EDU-SH-Boiler-LPG,COMLPG,C_EDU-SH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_EDU-SH-Boiler-PLT,COMPLT,C_EDU-SH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_EDU-SH-Boiler-ELC,COMELC,C_EDU-SH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_EDU-SH-Boiler-BIG,COMBIG,C_EDU-SH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_EDU-SH-Boiler-H2R,COMH2R,C_EDU-SH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_EDU-WH-Boiler-LPG,COMLPG,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_EDU-WH-Boiler-WOD,COMWOD,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_EDU-WH-Boiler-PLT,COMPLT,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_EDU-WH-Boiler-BIG,COMBIG,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_EDU-WH-Boiler-H2R,COMH2R,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_EDU-SH-GHP-ELC,COMELC,C_EDU-SH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+C_EDU-WH-AIRHP-ELC,COMELC,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump (for Heating)
+C_EDU-WH-GHP-ELC,COMELC,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+C_EDU-WH-Cylinder-ELC,COMELC,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
+C_EDU-WH-Cylinder-NGA,COMNGA,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
+C_EDU-WH-Cylinder-LPG,COMLPG,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
+C_EDU-WH-Instant-NGA,COMNGA,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_EDU-WH-Instant-LPG,COMLPG,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_EDU-WH-Instant-ELC,COMELC,C_EDU-WH,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_EDU-MPM-MPM-LPG,COMLPG,C_EDU-MPM,Education,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_EDU-MPM-MPM-ELC,COMELC,C_EDU-MPM,Education,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_EDU-MPM-MPM-H2R,COMH2R,C_EDU-MPM,Education,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_EDU-MPS-MPS-DSL,COMDSL,C_EDU-MPS,Education,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_EDU-MPS-MPS-LPG,COMLPG,C_EDU-MPS,Education,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_EDU-MPS-MPS-H2R,COMH2R,C_EDU-MPS,Education,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_EDU-SC-GHP-ELC,COMELC,C_EDU-SC,Education,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
+C_HLTH-SH-Boiler-LPG,COMLPG,C_HLTH-SH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_HLTH-SH-Boiler-PLT,COMPLT,C_HLTH-SH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_HLTH-SH-Boiler-ELC,COMELC,C_HLTH-SH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_HLTH-SH-Boiler-BIG,COMBIG,C_HLTH-SH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_HLTH-SH-Boiler-H2R,COMH2R,C_HLTH-SH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_HLTH-WH-Boiler-LPG,COMLPG,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_HLTH-WH-Boiler-NGA,COMNGA,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_HLTH-WH-Boiler-WOD,COMWOD,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_HLTH-WH-Boiler-PLT,COMPLT,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_HLTH-WH-Boiler-ELC,COMELC,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_HLTH-WH-Boiler-BIG,COMBIG,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_HLTH-WH-Boiler-H2R,COMH2R,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_HLTH-PH-Boiler-DSL,COMDSL,C_HLTH-PH,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+C_HLTH-PH-Boiler-LPG,COMLPG,C_HLTH-PH,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+C_HLTH-PH-Boiler-NGA,COMNGA,C_HLTH-PH,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+C_HLTH-PH-Boiler-WOD,COMWOD,C_HLTH-PH,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+C_HLTH-PH-Boiler-PLT,COMPLT,C_HLTH-PH,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+C_HLTH-PH-Boiler-BIG,COMBIG,C_HLTH-PH,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+C_HLTH-PH-Boiler-H2R,COMH2R,C_HLTH-PH,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+C_HLTH-WH-DirectH-GEO,COMGEO,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Direct Heat
+C_HLTH-SH-GHP-ELC,COMELC,C_HLTH-SH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+C_HLTH-WH-AIRHP-ELC,COMELC,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump (for Heating)
+C_HLTH-WH-GHP-ELC,COMELC,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+C_HLTH-WH-Cylinder-NGA,COMNGA,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
+C_HLTH-WH-Cylinder-LPG,COMLPG,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
+C_HLTH-WH-Instant-NGA,COMNGA,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_HLTH-WH-Instant-LPG,COMLPG,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_HLTH-WH-Instant-ELC,COMELC,C_HLTH-WH,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_HLTH-MPM-MPM-PET,COMPET,C_HLTH-MPM,Healthcare,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_HLTH-MPM-MPM-LPG,COMLPG,C_HLTH-MPM,Healthcare,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_HLTH-MPM-MPM-ELC,COMELC,C_HLTH-MPM,Healthcare,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_HLTH-MPM-MPM-H2R,COMH2R,C_HLTH-MPM,Healthcare,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_HLTH-MPS-MPS-DSL,COMDSL,C_HLTH-MPS,Healthcare,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_HLTH-MPS-MPS-PET,COMPET,C_HLTH-MPS,Healthcare,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_HLTH-MPS-MPS-LPG,COMLPG,C_HLTH-MPS,Healthcare,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_HLTH-MPS-MPS-H2R,COMH2R,C_HLTH-MPS,Healthcare,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_HLTH-SC-GHP-ELC,COMELC,C_HLTH-SC,Healthcare,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
+C_OFFC-SH-Boiler-LPG,COMLPG,C_OFFC-SH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-SH-Boiler-WOD,COMWOD,C_OFFC-SH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-SH-Boiler-PLT,COMPLT,C_OFFC-SH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-SH-Boiler-ELC,COMELC,C_OFFC-SH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-SH-Boiler-BIG,COMBIG,C_OFFC-SH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-SH-Boiler-H2R,COMH2R,C_OFFC-SH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-WH-Boiler-LPG,COMLPG,C_OFFC-WH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-WH-Boiler-NGA,COMNGA,C_OFFC-WH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-WH-Boiler-WOD,COMWOD,C_OFFC-WH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-WH-Boiler-PLT,COMPLT,C_OFFC-WH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-WH-Boiler-ELC,COMELC,C_OFFC-WH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-WH-Boiler-BIG,COMBIG,C_OFFC-WH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-WH-Boiler-H2R,COMH2R,C_OFFC-WH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OFFC-SH-GHP-ELC,COMELC,C_OFFC-SH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+C_OFFC-WH-GHP-ELC,COMELC,C_OFFC-WH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+C_OFFC-WH-Cylinder-LPG,COMLPG,C_OFFC-WH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
+C_OFFC-WH-Instant-NGA,COMNGA,C_OFFC-WH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_OFFC-WH-Instant-LPG,COMLPG,C_OFFC-WH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_OFFC-WH-Instant-ELC,COMELC,C_OFFC-WH,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_OFFC-MPM-MPM-PET,COMPET,C_OFFC-MPM,Office Blocks,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_OFFC-MPM-MPM-ELC,COMELC,C_OFFC-MPM,Office Blocks,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_OFFC-MPM-MPM-H2R,COMH2R,C_OFFC-MPM,Office Blocks,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_OFFC-MPS-MPS-DSL,COMDSL,C_OFFC-MPS,Office Blocks,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_OFFC-MPS-MPS-PET,COMPET,C_OFFC-MPS,Office Blocks,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_OFFC-MPS-MPS-LPG,COMLPG,C_OFFC-MPS,Office Blocks,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_OFFC-MPS-MPS-H2R,COMH2R,C_OFFC-MPS,Office Blocks,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_OFFC-SC-GHP-ELC,COMELC,C_OFFC-SC,Office Blocks,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
+C_WSR-CK-Induction-ELC,COMELC,C_WSR-CK,WSR,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,Cooking Inductions
+C_WSR-CK-CK-NGA,COMNGA,C_WSR-CK,WSR,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,Cooking Elements
+C_WSR-CK-CK-LPG,COMLPG,C_WSR-CK,WSR,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,Cooking Elements
+C_WSR-CK-CK-H2R,COMH2R,C_WSR-CK,WSR,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,Cooking Elements
+C_WSR-CK-Ovens-H2R,COMH2R,C_WSR-CK,WSR,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,Cooking Ovens
+C_WSR-SH-Boiler-WOD,COMWOD,C_WSR-SH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_WSR-SH-Boiler-PLT,COMPLT,C_WSR-SH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_WSR-SH-Boiler-ELC,COMELC,C_WSR-SH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_WSR-SH-Boiler-BIG,COMBIG,C_WSR-SH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_WSR-SH-Boiler-H2R,COMH2R,C_WSR-SH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_WSR-WH-Boiler-LPG,COMLPG,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_WSR-WH-Boiler-NGA,COMNGA,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_WSR-WH-Boiler-WOD,COMWOD,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_WSR-WH-Boiler-PLT,COMPLT,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_WSR-WH-Boiler-ELC,COMELC,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_WSR-WH-Boiler-BIG,COMBIG,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_WSR-WH-Boiler-H2R,COMH2R,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_WSR-SH-GHP-ELC,COMELC,C_WSR-SH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+C_WSR-WH-AirHP-ELC,COMELC,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump (for Heating)
+C_WSR-WH-GHP-ELC,COMELC,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+C_WSR-WH-Cylinder-LPG,COMLPG,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
+C_WSR-WH-Instant-NGA,COMNGA,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_WSR-WH-Instant-LPG,COMLPG,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_WSR-WH-Instant-ELC,COMELC,C_WSR-WH,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_WSR-MPM-MPM-PET,COMPET,C_WSR-MPM,WSR,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_WSR-MPM-MPM-ELC,COMELC,C_WSR-MPM,WSR,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_WSR-MPM-MPM-H2R,COMH2R,C_WSR-MPM,WSR,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_WSR-MPS-MPS-DSL,COMDSL,C_WSR-MPS,WSR,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_WSR-MPS-MPS-PET,COMPET,C_WSR-MPS,WSR,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_WSR-MPS-MPS-LPG,COMLPG,C_WSR-MPS,WSR,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_WSR-MPS-MPS-H2R,COMH2R,C_WSR-MPS,WSR,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_WSR-SC-GHP-ELC,COMELC,C_WSR-SC,WSR,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
+C_OTH-SH-Boiler-LPG,COMLPG,C_OTH-SH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-SH-Boiler-WOD,COMWOD,C_OTH-SH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-SH-Boiler-PLT,COMPLT,C_OTH-SH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-SH-Boiler-ELC,COMELC,C_OTH-SH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-SH-Boiler-BIG,COMBIG,C_OTH-SH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-SH-Boiler-H2R,COMH2R,C_OTH-SH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-WH-Boiler-LPG,COMLPG,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-WH-Boiler-NGA,COMNGA,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-WH-Boiler-WOD,COMWOD,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-WH-Boiler-PLT,COMPLT,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-WH-Boiler-ELC,COMELC,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-WH-Boiler-BIG,COMBIG,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-WH-Boiler-H2R,COMH2R,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+C_OTH-SH-GHP-ELC,COMELC,C_OTH-SH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+C_OTH-WH-AirHP-ELC,COMELC,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump (for Heating)
+C_OTH-WH-GHP-ELC,COMELC,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+C_OTH-WH-Cylinder-LPG,COMLPG,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
+C_OTH-WH-Instant-NGA,COMNGA,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_OTH-WH-Instant-LPG,COMLPG,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_OTH-WH-Instant-ELC,COMELC,C_OTH-WH,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Instantaneous Water Heater
+C_OTH-MPM-MPM-LPG,COMLPG,C_OTH-MPM,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_OTH-MPM-MPM-ELC,COMELC,C_OTH-MPM,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_OTH-MPM-MPM-H2R,COMH2R,C_OTH-MPM,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+C_OTH-MPS-MPS-DSL,COMDSL,C_OTH-MPS,Other,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_OTH-MPS-MPS-PET,COMPET,C_OTH-MPS,Other,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_OTH-MPS-MPS-LPG,COMLPG,C_OTH-MPS,Other,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_OTH-MPS-MPS-H2R,COMH2R,C_OTH-MPS,Other,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+C_OTH-SC-GHP-ELC,COMELC,C_OTH-SC,Other,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
+C_DATA-SC-GHP-ELC,COMELC,C_DATA-SC,Data Centre,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
