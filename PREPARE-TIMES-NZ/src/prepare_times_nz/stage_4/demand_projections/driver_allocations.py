@@ -13,7 +13,9 @@ but maybe it's all just fine
 
 """
 
+# IMPORT LIBRARIES
 import pandas as pd
+from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.stage_4.transport import (
     COMM_TO_VEHICLE as transport_commodity_map,
 )
@@ -158,11 +160,35 @@ def format_allocations_for_veda(df):
     return df
 
 
+def create_helper_series(start_year=BASE_YEAR, end_year=2060):
+    """
+    Creates an additional table of helper indices to use in calculations
+    The most important is "Constant" which is just 1 for every year
+    Could extend this method if we need others
+    """
+    # build main frame
+    idx = pd.DataFrame({"Year": range(start_year, end_year + 1)})
+    # add constant series
+    idx["Series"] = "Constant"
+    idx["Value"] = 1
+
+    # pivot to veda format
+    idx["Year"] = r"\~" + idx["Year"].astype(str)
+    idx = (
+        idx.pivot(index="Series", columns="Year", values="Value")
+        .rename_axis(None, axis=1)
+        .reset_index()
+    )
+    return idx
+
+
 def main():
     """Entrypoint"""
     commodity_indices = add_sector_indices()
     df = format_allocations_for_veda(commodity_indices)
     save_data(df, "driver_allocations.csv", "Saving driver Allocations")
+    helper_series = create_helper_series()
+    save_data(helper_series, "helper_series.csv", "Saving constant index")
 
 
 if __name__ == "__main__":

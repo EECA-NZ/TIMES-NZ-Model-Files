@@ -23,6 +23,13 @@ DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/driver_allocat
 
 # Potential to-do: Series 
 
+
+[HelperSeries]
+Description = "Provides helper series to support other index methods."
+SheetName = "Series"
+TagName = "Series"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/helper_series.csv"
+
 ##################################################################
 # Traditional Scenario 
 ##################################################################

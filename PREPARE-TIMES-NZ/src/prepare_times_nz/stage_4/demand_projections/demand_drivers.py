@@ -185,7 +185,7 @@ def make_demand_drivers(df, scenario):
     df = df.drop("Scenario", axis=1)
 
     # pivot out. First do this weird thing to the year vars
-    df["Year"] = "/~" + df["Year"].astype(str)
+    df["Year"] = r"\~" + df["Year"].astype(str)
     # pivot
     df = df.pivot(
         index=["Region", "Driver"], columns="Year", values="Index"
@@ -193,10 +193,30 @@ def make_demand_drivers(df, scenario):
     # forward fill columns, just so everything is covered
     df = df.ffill(axis=1)
 
+    # expand regions
+
+    df_all_regions = df[df["Region"] == "AllRegions"]
+    df_region_detail = df[df["Region"] != "AllRegions"]
+    # need to make these explicit
+    df_all_regions_explicit = pd.concat(
+        [
+            df_all_regions.assign(Region="NI"),
+            df_all_regions.assign(Region="SI"),
+        ]
+    ).reset_index(drop=True)
+
+    df_out = pd.concat(
+        [
+            # join back any indices with specific region detail already
+            df_all_regions_explicit,
+            df_region_detail,
+        ]
+    ).reset_index(drop=True)
+
     # save
 
     _save_data(
-        df,
+        df_out,
         f"demand_drivers_{scenario}.csv",
         f"Demand Drivers ({scenario})",
         filepath=OUTPUT_LOCATION,
