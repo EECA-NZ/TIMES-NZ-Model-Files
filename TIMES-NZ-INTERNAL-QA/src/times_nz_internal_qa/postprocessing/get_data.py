@@ -4,6 +4,7 @@ Data loading and quality check functions
 
 # Libraries
 
+import getpass
 import re
 from pathlib import Path
 
@@ -252,16 +253,25 @@ def get_results_from_veda(scenario, veda_base_dir):
 def main():
     """
     Entry point
-    currently using my username to speed this up (sorry)
-    swap for your user name, or better yet, automate find_veda_working_directory() better
-    might need adjusting depending on the setup anyway
-    note that trawling windows files from linux can be very slow
-    so would need to be a bit careful about how to approach
+    Currently assuming you're on WSL and Veda folder under your windows username
+    This might need adjusting to be more flexible to different Veda locations
+
+    We had a method that was more robust, but
+        trawling windows directories from linux can be very slow
+
+    So this has been adjusted to target a specific location for speed
+
+    If we want to generalise this further, we just need to be a bit careful
+    we don't trawl windows directories blindly
     """
 
-    print("WARNING: Using hardcoded (not portable) Veda location")
+    print("WARNING: Assuming you're working in WSL")
+    print("WARNING: and Veda is under your username on your Windows mount")
+
+    # pull username for direct placement of veda working directory
+    username = getpass.getuser()
     for scenario in current_scenarios:
-        get_results_from_veda(scenario, "/mnt/c/Users/weerasa")
+        get_results_from_veda(scenario, f"/mnt/c/Users/{username}")
 
 
 if __name__ == "__main__":
