@@ -1,0 +1,94 @@
+Year,Price,Unit,PriceBaseYear,Scenario,Notes
+2020,37.69,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2021,57.75,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2022,87.11,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2023,66.14,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2024,64.54,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2025,68.54,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2026,72.79,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2027,77.31,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2028,82.10,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2029,87.19,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2030,92.60,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2031,89.72,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2032,86.94,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2033,84.25,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2034,81.64,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2035,79.11,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2036,76.65,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2037,74.28,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2038,71.97,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2039,69.74,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2040,67.58,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2041,65.49,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2042,63.46,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2043,61.49,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2044,59.58,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2045,57.74,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2046,55.95,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2047,54.21,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2048,52.53,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2049,52.05,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2050,52.05,NZD/t CO2e,2023,ERP2 Baseline,ERP2 Baseline
+2020,37.69,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2021,57.75,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2022,87.11,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2023,66.14,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2024,64.54,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2025,68.54,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2026,72.79,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2027,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2028,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2029,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2030,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2031,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2032,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2033,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2034,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2035,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2036,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2037,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2038,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2039,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2040,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2041,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2042,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2043,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2044,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2045,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2046,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2047,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2048,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2049,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2050,77.31,NZD/t CO2e,2023,Traditional,Modified ERP2 Baseline (assume price stabilises in 2028)
+2020,30,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2021,46.3,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2022,69.7,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2023,79,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2024,88.3,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2025,97.5,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2026,106.8,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2027,116.1,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2028,125.4,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2029,134.7,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2030,144,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2031,148.3,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2032,152.7,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2033,157.3,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2034,162,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2035,166.9,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2036,171.9,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2037,177,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2038,182.4,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2039,187.8,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2040,193.5,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2041,199.3,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2042,205.2,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2043,211.4,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2044,217.7,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2045,224.3,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2046,231,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2047,237.9,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2048,245.1,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2049,252.4,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
+2050,260,NZD/t CO2e,2019,Transformation,CCC Updated demonstration path
