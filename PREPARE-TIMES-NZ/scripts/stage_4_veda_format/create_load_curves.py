@@ -72,13 +72,15 @@ def _coerce_and_order(df: pd.DataFrame) -> pd.DataFrame:
 def _from_loadcurve(
     df: pd.DataFrame, *, sector_default_cset_cn: str | None = None
 ) -> pd.DataFrame:
-    """Transform (Year, TimeSlice, LoadCurve[, Technology]) into COM_FR schema."""
+    """Transform (Year, TimeSlice, LoadCurve[, Commodity]) into COM_FR schema."""
     df = df.copy()
     df["Attribute"] = "COM_FR"
     df["Cset_SET"] = "DEM"
     df["NI"] = df["LoadCurve"]
     df["SI"] = df["LoadCurve"]
-    if "Technology" in df.columns:
+    if "Commodity" in df.columns:
+        df["Cset_CN"] = df["Commodity"].astype("string").str.strip()
+    elif "Technology" in df.columns:
         df["Cset_CN"] = df["Technology"].astype("string").str.strip()
     else:
         df["Cset_CN"] = sector_default_cset_cn or "SECTOR"
@@ -109,7 +111,7 @@ def build_residential_df() -> pd.DataFrame:
     """Build residential load-curve table."""
     path = LOAD_CURVE_DATA / "residential_curves.csv"
     logger.info("Reading residential curves from %s", path)
-    return _from_loadcurve(pd.read_csv(path), sector_default_cset_cn="RES")
+    return _from_loadcurve(pd.read_csv(path), sector_default_cset_cn="JD*,DD*")
 
 
 def build_agriculture_df() -> pd.DataFrame:
