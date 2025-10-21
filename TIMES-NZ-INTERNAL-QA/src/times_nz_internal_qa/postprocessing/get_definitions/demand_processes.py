@@ -131,8 +131,6 @@ def get_transport_demand_processes():
 
     df = df[demand_process_categories]
 
-    df.to_csv(TRANSPORT_CONCORDANCES / "TEST.csv", index=False)
-
     return df
 
 

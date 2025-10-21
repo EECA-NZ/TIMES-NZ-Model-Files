@@ -44,8 +44,8 @@ Demand,C_WSR-WH,Commercial,WSR,"Low Temperature Heat (<100 C), Water Heating"
 Demand,C_WSR-RF,Commercial,WSR,Refrigeration
 Demand,C_WSR-MPS,Commercial,WSR,"Motive Power, Stationary"
 Demand,C_WSR-MPM,Commercial,WSR,"Motive Power, Mobile"
-Demand,T_P_Car,Transport,Road Transport,Passenger car
-Demand,T_C_Car,Transport,Road Transport,Commercial car
+Demand,T_P_Car,Transport,Road Transport,Light Passenger Vehicle
+Demand,T_C_Car,Transport,Road Transport,Light Commercial Vehicle
 Demand,T_P_Mcy,Transport,Road Transport,Motorcycle
 Demand,T_P_Bus,Transport,Road Transport,Bus
 Demand,T_F_LTrk,Transport,Road Transport,Light Truck
