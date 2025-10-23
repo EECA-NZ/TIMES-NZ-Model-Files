@@ -1,0 +1,4 @@
+SectorGroup,Sector,Year,Traditional,Transformation,Method,Note
+Commercial,Data Centre,2023,238,238,Forecasting,"Based on NZTech projections, assumed the demand growth after 2035 is flat (Values is in GWh)"
+Commercial,Data Centre,2030,913,1207,Forecasting,"Based on NZTech projections, assumed the demand growth after 2035 is flat (Values is in GWh)"
+Commercial,Data Centre,2035,2120,2886,Forecasting,"Based on NZTech projections, assumed the demand growth after 2035 is flat (Values is in GWh)"

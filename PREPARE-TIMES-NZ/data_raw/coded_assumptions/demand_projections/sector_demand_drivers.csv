@@ -1,5 +1,5 @@
 SectorGroup,Sector,SectorDriver
-Commercial,Data Centre,
+Commercial,Data Centre,COM_DATA_DMD
 Commercial,Education,POP
 Commercial,Healthcare,POP
 Commercial,Office Blocks,GDP
@@ -20,23 +20,23 @@ Industry,Pulp and Paper,IND_PULP_DMD
 Industry,Urea,IND_UREA_DMD
 Industry,Wood Products,IND_WOOD_DMD
 Residential,Residential,POP
-"Agriculture, Forestry and Fishing",Dairy Cattle Farming,
-"Agriculture, Forestry and Fishing","Fishing, Hunting and Trapping",
-"Agriculture, Forestry and Fishing",Forestry and Logging,
-"Agriculture, Forestry and Fishing",Horticulture (Outdoor),
-"Agriculture, Forestry and Fishing",Indoor Cropping,
-"Agriculture, Forestry and Fishing",Livestock Farming,
-"Agriculture, Forestry and Fishing",Other Agriculture,
-Transport,LPV,
-Transport,LCV,
-Transport,Motorcycle,
-Transport,Bus,
-Transport,Light Truck,
-Transport,Medium Truck,
-Transport,Heavy Truck,
-Transport,Rail Freight,
-Transport,Passenger Rail,
-Transport,Domestic Shipping,
-Transport,International Shipping,
-Transport,Domestic Aviation,
-Transport,International Aviation,
+"Agriculture, Forestry and Fishing",Dairy Cattle Farming,AGR_ADCF_DMD
+"Agriculture, Forestry and Fishing","Fishing, Hunting and Trapping",AGR_AFISH_DMD
+"Agriculture, Forestry and Fishing",Forestry and Logging,AGR_AFORE_DMD
+"Agriculture, Forestry and Fishing",Horticulture (Outdoor),AGR_AHORT_DMD
+"Agriculture, Forestry and Fishing",Indoor Cropping,AGR_AINDC_DMD
+"Agriculture, Forestry and Fishing",Livestock Farming,AGR_ALIVE_DMD
+"Agriculture, Forestry and Fishing",Other Agriculture,AGR_AOTH_DMD
+Transport,LPV,TRA_LPV_DEM
+Transport,LCV,TRA_LCV_DEM
+Transport,Motorcycle,TRA_MCY_DEM
+Transport,Bus,TRA_BUS_DEM
+Transport,Light Truck,TRA_LTRK_DEM
+Transport,Medium Truck,TRA_MTRK_DEM
+Transport,Heavy Truck,TRA_HTRK_DEM
+Transport,Rail Freight,GDP
+Transport,Passenger Rail,GDP
+Transport,Domestic Shipping,GDP
+Transport,International Shipping,GDP
+Transport,Domestic Aviation,POP
+Transport,International Aviation,POP

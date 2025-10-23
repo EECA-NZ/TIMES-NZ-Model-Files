@@ -38,7 +38,7 @@ def make_chart(df, filename):
             x="Year",
             y="PJ",
             colour="Scenario",
-            title="Industrial sector demand projections",
+            title="Sector demand projections",
         )
         + theme_minimal()
         + theme(legend_position="bottom")
@@ -54,8 +54,20 @@ def main():
     input_df = pd.read_csv(PROJECTIONS_DATA / "industrial_input.csv")
     make_chart(input_df, "industry_projections_input_energy.png")
 
+    input_df = pd.read_csv(PROJECTIONS_DATA / "datacentre_input.csv")
+    make_chart(input_df, "datacentre_projections_input_energy.png")
+
+    input_df = pd.read_csv(PROJECTIONS_DATA / "agriculture_input.csv")
+    make_chart(input_df, "agriculture_projections_input_energy.png")
+
     output_df = pd.read_csv(PROJECTIONS_DATA / "industrial_output.csv")
     make_chart(output_df, "industry_projections_output_energy.png")
+
+    output_df = pd.read_csv(PROJECTIONS_DATA / "datacentre_output.csv")
+    make_chart(output_df, "datacentre_projections_output_energy.png")
+
+    output_df = pd.read_csv(PROJECTIONS_DATA / "agriculture_output.csv")
+    make_chart(output_df, "agriculture_projections_output_energy.png")
 
 
 if __name__ == "__main__":
