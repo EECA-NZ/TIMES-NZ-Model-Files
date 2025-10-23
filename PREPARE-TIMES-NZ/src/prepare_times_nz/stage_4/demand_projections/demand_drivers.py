@@ -15,6 +15,9 @@ from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.stage_3.demand_projections.population_projections import (
     get_national_population_growth_index,
 )
+from prepare_times_nz.stage_4.transport import (
+    COMM_TO_VEHICLE as transport_commodity_map,
+)
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     CONCORDANCES,
@@ -69,6 +72,139 @@ def get_industry_indexes():
     df["Region"] = "AllRegions"
 
     df = df[["Region", "Driver", "Scenario", "Year", "Index"]]
+
+    return df
+
+
+def get_datacentre_indexes():
+    """
+    Veda-ready Data Centre demand indices
+    """
+
+    df = pd.read_csv(DEMAND_PROJECTIONS / "datacentre_demand_index.csv")
+
+    conc = pd.read_csv(CONCORDANCES / "commercial/sector_codes.csv")
+
+    df = df.merge(conc, on="Sector", how="left")
+
+    test = df[df["Sector_TIMES"].isna()]
+
+    if len(test) > 0:
+        sectors = test["Sector"].unique().tolist()
+        logger.warning("ALERT: FAILED SECTOR JOIN")
+        logger.warning("This shouldn't be possible so something has gone wrong")
+        logger.warning("Please review the following sectors:")
+        for sector in sectors:
+            logger.warning("           %s", sector)
+
+    # create demand growth code for each sector
+    # ensure strings, remove only a leading "C_", trim, and preserve NaNs
+    s = (
+        df["Sector_TIMES"]
+        .astype("string")
+        .str.replace(r"^C_", "", regex=True)
+        .str.strip()
+    )
+    df["Driver"] = pd.NA
+    mask = s.notna()
+    df.loc[mask, "Driver"] = "COM_" + s[mask] + "_DMD"
+    df["Region"] = "AllRegions"
+
+    df = df[["Region", "Driver", "Scenario", "Year", "Index"]]
+
+    return df
+
+
+def get_agriculture_indexes():
+    """
+    Veda-ready ag, forest, and fish demand indices
+    """
+
+    df = pd.read_csv(DEMAND_PROJECTIONS / "agriculture_demand_index.csv")
+
+    conc = pd.read_csv(CONCORDANCES / "ag_forest_fish/sector_codes.csv")
+
+    df = df.merge(conc, on="Sector", how="left")
+
+    test = df[df["Sector_TIMES"].isna()]
+
+    if len(test) > 0:
+        sectors = test["Sector"].unique().tolist()
+        logger.warning("ALERT: FAILED SECTOR JOIN")
+        logger.warning("This shouldn't be possible so something has gone wrong")
+        logger.warning("Please review the following sectors:")
+        for sector in sectors:
+            logger.warning("           %s", sector)
+
+    # create demand growth code for each sector
+    df["Driver"] = "AGR_" + df["Sector_TIMES"] + "_DMD"
+    df["Region"] = "AllRegions"
+
+    df = df[["Region", "Driver", "Scenario", "Year", "Index"]]
+
+    return df
+
+
+def get_transport_indexes():
+    """
+    Produce Veda-ready transport demand indices.
+
+    Inputs:
+      - DEMAND_PROJECTIONS/transport_demand_index.csv
+        (columns expected: SectorGroup, Sector, Year, Scenario, Index)
+      - transport_commodity_map: dict {CommodityOut -> Sector}
+
+    Output columns:
+      Region, Driver, Scenario, Year, Index
+    """
+
+    # 1) Load the precomputed indices
+    idx = pd.read_csv(DEMAND_PROJECTIONS / "transport_demand_index.csv")
+
+    # Basic sanity: columns present
+    required_cols = {"Sector", "Year", "Scenario", "Index"}
+    missing = required_cols - set(idx.columns)
+    if missing:
+        raise ValueError(
+            f"Missing columns in transport_demand_index.csv: {sorted(missing)}"
+        )
+
+    # 2) Build CommodityOut↔Sector map from s4 code
+    # transport_commodity_map must be {CommodityOut: Sector}
+    map_df = pd.DataFrame(
+        {
+            "CommodityOut": list(transport_commodity_map.keys()),
+            "Sector": list(transport_commodity_map.values()),
+        }
+    )
+
+    # 3) Join mapping to indices on Sector
+    df = map_df.merge(idx, on="Sector", how="left")
+
+    # 4) Create Driver using an explicit map keyed by CommodityOut
+    # (from your list)
+    driver_map = {
+        "T_C_Car": "TRA_LCV_DEM",
+        "T_F_HTrk": "TRA_HTRK_DEM",
+        "T_F_LTrk": "TRA_LTRK_DEM",
+        "T_F_MTrk": "TRA_MTRK_DEM",
+        "T_P_Bus": "TRA_BUS_DEM",
+        "T_P_Car": "TRA_LPV_DEM",
+        "T_P_Mcy": "TRA_MCY_DEM",
+    }
+
+    df["Driver"] = df["CommodityOut"].map(driver_map)
+
+    # 5) Static Region
+    df["Region"] = "AllRegions"
+
+    # 6) Keep only rows where we have a mapped Driver and an Index
+    df = df.dropna(subset=["Driver", "Index"])
+
+    # 7) Select and order final columns
+    df = df[["Region", "Driver", "Scenario", "Year", "Index"]].sort_values(
+        ["Driver", "Scenario", "Year"]
+    )
 
     return df
 
@@ -164,10 +300,13 @@ def get_all_demand_indices():
     """
 
     ind = get_industry_indexes()
+    dc = get_datacentre_indexes()
+    agr = get_agriculture_indexes()
+    tra = get_transport_indexes()
     pop = get_population_index()
     gdp = get_gdp_index()
 
-    df = pd.concat([ind, gdp, pop])
+    df = pd.concat([ind, dc, agr, tra, gdp, pop])
 
     return df
 

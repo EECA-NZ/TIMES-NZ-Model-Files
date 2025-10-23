@@ -31,6 +31,7 @@ DATA_RAW = PREP_LOCATION / "data_raw"
 # Data raw subfolders
 
 ASSUMPTIONS = DATA_RAW / "coded_assumptions"
+EXTERNAL_DATA = DATA_RAW / "external_data"
 CONCORDANCES = DATA_RAW / "concordances"
 
 # Data intermediate subfolders
