@@ -23,11 +23,8 @@ pre-commit = "^4.0"
 yamllint = "^1.0"
 pyarrow = "^21.0"
 openpyxl = "^3.0"
-tomli_w = "^1.2"
+tomli-w = "^1.2"
 plotnine = "^0.15.0"
-
-[tool.poetry.extras]
-dev = ["pytest", "pylint", "black", "isort", "coverage", "pre-commit", "yamllint", "pyarrow", "openpyxl", "tomli_w"]
 
 [[tool.poetry.include]]
 path = "prepare_times_nz/data/**/*.csv"
