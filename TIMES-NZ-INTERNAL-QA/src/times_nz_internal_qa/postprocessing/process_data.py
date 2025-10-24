@@ -232,11 +232,13 @@ def main():
     """
     Orchestrates processing for all relevant outputs.
     """
+    print("Processing all scenario files...")
     df = load_scenario_results(current_scenarios)
     process_energy_demand(df)
     process_electricity_generation(df)
     process_infeasible_data(df)
     process_emissions(df)
+    print("Done")
 
 
 if __name__ == "__main__":

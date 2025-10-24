@@ -5,21 +5,21 @@ Data formatting, server and ui functions for emissions data
 
 import io
 
-import altair as alt
 import pandas as pd
-from shiny import reactive, render, ui
-from shinywidgets import output_widget, render_altair
-from times_nz_internal_qa.app.filter_helpers import (
+from shiny import reactive, render
+from shinywidgets import render_altair
+from times_nz_internal_qa.app.helpers.charts import build_grouped_bar
+from times_nz_internal_qa.app.helpers.filters import (
     apply_filters,
     create_filter_dict,
-    filter_output_ui_list,
     register_filter_from_factory,
 )
-from times_nz_internal_qa.utilities.data_formatting import (
-    complete_periods,
-)
+from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
 from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
 
+# CONSTANTS
+
+ID_PREFIX = "ems"
 # define base columns that we must always group by
 base_cols = [
     "Scenario",
@@ -31,13 +31,13 @@ base_cols = [
 ems_filters_raw = [
     {"col": "SectorGroup", "label": "Sector Group"},
     {"col": "Sector"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    # {"col": "TechnologyGroup", "label": "Technology Group"},
     {"col": "Technology"},
-    {"col": "EnduseGroup"},
+    # {"col": "EnduseGroup"},
     {"col": "EndUse"},
     {"col": "Region"},
     {"col": "Process"},
-    {"col": "PlantName"},
+    # {"col": "PlantName"},
 ]
 # build filter dict
 ems_filters = create_filter_dict("emissions", ems_filters_raw)
@@ -55,30 +55,37 @@ def get_emissions_df():
     df["Period"] = df["Period"].astype(int)
 
     df = df.fillna("-")
-    df = df[df["Scenario"] == "traditional-v3_0_0"]
     return df
 
 
 # pylint:disable = too-many-locals, unused-argument
-def emissions_server(inputs, outputs, session):
+def emissions_server(inputs, outputs, session, selected_scens):
     """
     server functions for electricity
     """
 
-    # data
+    # GET DATA BASED ON SCENARIO SELECTION
     emissions_df = get_emissions_df()
+
+    @reactive.calc
+    def emissions_df_scens():
+        """
+        Filter raw data for the scenario list
+        """
+        d = emissions_df.copy()
+        d = d[d["Scenario"].isin(selected_scens["scenario_list"]())]
+        return d
 
     # Register all filters
     for fs in ems_filters:
         register_filter_from_factory(
-            fs, emissions_df, ems_filters, inputs, outputs, session
+            fs, emissions_df_scens, ems_filters, inputs, outputs, session
         )
 
     # dynamically filter data
-
     @reactive.calc
     def emissions_df_filtered():
-        d = emissions_df.copy()
+        d = emissions_df_scens().copy()
         d = apply_filters(d, ems_filters, inputs)
         return d.groupby(base_cols + [inputs.ems_group()])["Value"].sum().reset_index()
 
@@ -86,29 +93,11 @@ def emissions_server(inputs, outputs, session):
     @outputs(id="ems_chart")
     @render_altair
     def _():
-        df = emissions_df_filtered()
-        unit = df["Unit"].unique()[0]
-        group_col = inputs.ems_group()
-        dc = complete_periods(
-            df,
-            period_list=range(2023, 2051),
-            # group by everything important except period
-            category_cols=[c for c in base_cols if c != "Period"] + [group_col],
-        )
-
-        return (
-            # pylint: disable = duplicate-code
-            alt.Chart(dc)
-            .mark_bar(size=40, opacity=0.85)
-            .encode(
-                x=alt.X("Period:N", title="Year"),
-                y=alt.Y("Value:Q", title=f"{unit}"),
-                color=f"{group_col}:N",
-                tooltip=[
-                    alt.Tooltip(f"{group_col}:N", title=group_col),
-                    alt.Tooltip("Value:Q", title=f"{unit}", format=",.2f"),
-                ],
-            )
+        return build_grouped_bar(
+            emissions_df_filtered(),
+            base_cols,
+            inputs.ems_group(),
+            scen_list=selected_scens["scenario_list"](),
         )
 
     # DOWNLOADS
@@ -128,25 +117,6 @@ def emissions_server(inputs, outputs, session):
 
 # UI ---------------------------------------------------------------
 
-
-# pylint:disable = too-many-positional-arguments, too-many-arguments
-def section_block(sec_id, title, group_input_id, group_options, filters, chart_id):
-    """
-    Defines the ui layout of an individual chart. Flexible input params
-    """
-    return ui.div(
-        ui.layout_columns(
-            ui.tags.h3(title, id=sec_id),
-            ui.input_select(group_input_id, "Group by:", group_options),
-            ui.download_button(f"{chart_id}_data_download", "Download chart data"),
-        ),
-        ui.span("Filters"),
-        ui.div(*filter_output_ui_list(filters), class_="ems-filters"),
-        output_widget(chart_id),
-        class_="ems-section",
-    )
-
-
 sections = [
     (
         "ems-total",
@@ -158,48 +128,5 @@ sections = [
     )
 ]
 
-toc = ui.div(
-    *[ui.tags.a(lbl, href=f"#{sid}", class_="toc-link") for sid, lbl, *_ in sections],
-    id="ems-toc",
-)
 
-content = ui.div(
-    *[section_block(*s) for s in sections],
-    id="ems-content",
-)
-emissions_ui = ui.page_fluid(
-    ui.tags.style(
-        """
-    #ems-layout{display:flex; gap:16px;}
-    #ems-toc{width:240px; flex:0 0 240px; position:sticky; top:0; align-self:flex-start; 
-              max-height:calc(100vh - 120px); overflow:auto; 
-              border-right:1px solid #eee; padding-right:12px;}     
-    #ems-content{flex:1 1 auto; max-height:calc(100vh - 120px); 
-              overflow:auto; padding-right:12px;}
-    .ems-filters{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-                 gap:12px;}
-    .toc-link{display:block; padding:6px 0; text-decoration:none;}
-    .ems-section h3{scroll-margin-top:12px;}
-    """
-    ),
-    # combine the generated toc and content
-    ui.download_button("ems_all_data_download", "Download raw data"),
-    ui.div(toc, content, id="ems-layout"),
-    # javascript for in-pane scrolling
-    ui.tags.script(
-        """
-    (function(){
-      const scroller = document.getElementById('ems-content');
-      document.addEventListener('click', function(e){
-        const a = e.target.closest('a.toc-link');
-        if(!a) return;
-        e.preventDefault();
-        const target = document.querySelector(a.getAttribute('href'));
-        if(!target || !scroller) return;
-        const y = target.offsetTop - scroller.offsetTop - 8;
-        scroller.scrollTo({top: y, behavior: 'smooth'});
-      }, true);
-    })();
-    """
-    ),
-)
+emissions_ui = make_explorer_page_ui(sections, ID_PREFIX)

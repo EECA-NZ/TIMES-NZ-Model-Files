@@ -68,12 +68,15 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
 
             selected = [v for v in current if v in choices]
             # generate the selectize function
-            return ui.input_selectize(
-                iid,
-                fspec.get("label", col),
-                choices,
-                selected=selected,
-                multiple=True,
+            return ui.div(
+                ui.input_selectize(
+                    iid,
+                    fspec.get("label", col),
+                    choices,
+                    selected=selected,
+                    multiple=True,
+                ),
+                class_="individual-filter",
             )
 
         return _ui
