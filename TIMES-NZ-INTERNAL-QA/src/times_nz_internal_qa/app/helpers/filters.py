@@ -2,6 +2,7 @@
 A list of functional helpers and factories for the app
 """
 
+import polars as pl
 from shiny import render, ui
 from shiny.types import SilentException
 
@@ -56,7 +57,14 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
             )
 
             col = fspec["col"]
-            choices = sorted(filtered[col].astype(str).dropna().unique())
+            choices = (
+                filtered.select(pl.col(col).cast(str))
+                .drop_nulls()
+                .unique()
+                .to_series()
+                .to_list()
+            )
+            choices = sorted(choices)
 
             iid = ns(f"filter_{fspec['chart_id']}_{fspec['id']}_selected")
             # ensure we just output a clean empty list if no selection available
@@ -102,7 +110,7 @@ def filter_input_id(f):
     return f"filter_{f["chart_id"]}_{f["id"]}_selected"
 
 
-def apply_filters(df, filters, inputs, exclude_id=None, ns=lambda x: x):
+def apply_filters_pd(df, filters, inputs, exclude_id=None, ns=lambda x: x):
     """
     Apply all found filters to the data.
     Robust to namespace matching.
@@ -131,6 +139,55 @@ def apply_filters(df, filters, inputs, exclude_id=None, ns=lambda x: x):
         if sel:
             df = df[df[f["col"]].astype(str).isin(sel)]
     return df
+
+
+# @lru_cache(maxsize=16)
+def apply_filters(df: pl.LazyFrame, filters, inputs, exclude_id=None, ns=lambda x: x):
+    """
+    Apply filters to a Polars LazyFrame.
+
+    Apply all found filters to the data.
+    Robust to namespace matching.
+    If there are no inputs, shiny fails silently, so we catch this and ensure
+    data is returned even if there are no inputs or anything else goes wrong.
+
+    NOTE: Includes optional "exclude_id" to remove an item from the list.
+       See use of this in make_filter_ui_factory(),
+       which derives filter choices based on filtered data.
+       Removal is required for each ui item to avoid circular referencing
+       while still assessing filter choices dynamically.
+    """
+
+    # build up filters as Polars expressions
+    exprs = []
+
+    for f in filters:
+        if f["id"] == exclude_id:
+            continue
+
+        iid = ns(filter_input_id(f))
+
+        try:
+            sel = getattr(inputs, iid)()
+        except SilentException:
+            sel = None
+
+        if sel:
+            # ensure values are strings for comparison parity
+            exprs.append(pl.col(f["col"]).cast(pl.Utf8).is_in(sel))
+
+    # no filters applied → return original df
+    if not exprs:
+        return df
+
+    # combine filters together
+    combined = exprs[0]
+    for e in exprs[1:]:
+        combined = combined & e
+
+    # apply filter
+    out = df.filter(combined)
+    return out
 
 
 def filter_output_ui_list(filters, ns=lambda x: x):

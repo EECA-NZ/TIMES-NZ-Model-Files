@@ -2,7 +2,6 @@
 server functions for app.py
 """
 
-from shiny import reactive
 from times_nz_internal_qa.app.app_module_demand import demand_server
 from times_nz_internal_qa.app.app_module_dummies import dummy_server
 from times_nz_internal_qa.app.app_module_elec import elec_server
@@ -32,11 +31,3 @@ def server(inputs, outputs, session):
     dummy_server(inputs, outputs, session, selected_scens)
     elec_server(inputs, outputs, session, selected_scens)
     emissions_server(inputs, outputs, session, selected_scens)
-
-    # debug
-
-    @reactive.effect
-    def _debug():
-        print("DEBUG SCENARIO SELECTIONS")
-        print(f"Is comparison: {selected_scens["is_comparison"]()}")
-        print(f"Scenario List: {selected_scens["scenario_list"]()}")

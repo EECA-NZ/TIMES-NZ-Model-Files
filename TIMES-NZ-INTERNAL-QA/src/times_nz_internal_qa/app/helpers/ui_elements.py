@@ -14,7 +14,6 @@ def section_block(sec_id, title, group_input_id, group_options, filters, chart_i
     """
     UI generation for all explorer charts
     """
-    print(f"LOADING SECTION chart_id: {chart_id}")
     # first, the control panel
     chart_control_panel = ui.div(
         # FILTERS
