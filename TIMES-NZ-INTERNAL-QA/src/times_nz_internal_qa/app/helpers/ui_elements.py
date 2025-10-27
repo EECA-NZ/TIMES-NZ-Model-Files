@@ -17,7 +17,17 @@ def section_block(sec_id, title, group_input_id, group_options, filters, chart_i
     # first, the control panel
     chart_control_panel = ui.div(
         # FILTERS
-        ui.tags.h4("Filter:", class_="filter-section-title"),
+        ui.div(
+            ui.tags.h4("Filter:", class_="filter-section-title"),
+            ui.input_action_button(
+                f"{chart_id}_clear_filters",
+                None,  # no text
+                icon=ui.tags.i(class_="fa fa-times"),  # font-awesome "X"
+                class_="btn btn-sm clear-filters",
+                title="Clear all filters",  # hover text
+            ),
+            class_="filter-header",
+        ),
         *filter_output_ui_list(filters),
         # class defn
         class_="chart-control-panel",
@@ -80,7 +90,13 @@ def make_explorer_page_ui(sections, id_prefix):
         class_="panel-viewport",
     )
 
-    return ui.page_fluid(
+    # only open the side bar if it's useful (ie if we have multiple charts)
+    if len(choices) > 1:
+        nav_open_status = "open"
+    else:
+        nav_open_status = "closed"
+
+    out_ui = ui.page_fluid(
         ui.layout_sidebar(
             ui.sidebar(
                 ui.div(
@@ -89,11 +105,13 @@ def make_explorer_page_ui(sections, id_prefix):
                     ),
                     class_="nav-cards",
                 ),
-                open="open",
+                open=nav_open_status,
             ),
             main,
         )
     )
+
+    return out_ui
 
 
 def tab_title(label: str, btn_id: str):

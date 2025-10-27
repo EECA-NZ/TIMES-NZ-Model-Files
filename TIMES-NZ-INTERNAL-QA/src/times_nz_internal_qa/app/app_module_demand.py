@@ -2,16 +2,23 @@
 Energy demand processing, ui, and server functions
 """
 
-import io
+from functools import lru_cache
 
-import pandas as pd
 from shiny import reactive, render
 from shinywidgets import render_altair
 from times_nz_internal_qa.app.helpers.charts import build_grouped_bar
+from times_nz_internal_qa.app.helpers.data_processing import (
+    aggregate_by_group,
+    filter_df_for_variable,
+    get_agg_data,
+    get_filter_options_from_data,
+    make_chart_data,
+    read_data_pl,
+    write_polars_to_csv,
+)
 from times_nz_internal_qa.app.helpers.filters import (
-    apply_filters,
     create_filter_dict,
-    register_filter_from_factory,
+    register_all_filters_and_clear,
 )
 from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
 from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
@@ -19,6 +26,8 @@ from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
 # CONSTANTS --------------------------------------------------
 
 ID_PREFIX = "dem"
+
+DEM_FILE_LOCATION = FINAL_DATA / "energy_demand.parquet"
 
 # SET FILTER/GROUP OPTIONS
 
@@ -46,21 +55,23 @@ base_cols = [
     "Unit",
 ]
 
+dem_all_group_options = base_cols + dem_group_options
+
+
 # GET DATA ------------------------------------------
 
 
-def get_energy_dem():
+@lru_cache(maxsize=8)
+def get_base_dem_df(scenarios, filepath=DEM_FILE_LOCATION):
     """
-    Formatting for all energy demand. Outputs the main data ready for web ingestion
+    Returns demand data (pre-filtered)
+    Based on scenario selections
+    Caches results for quick switching
     """
-
-    df = pd.read_parquet(FINAL_DATA / "energy_demand.parquet")
-    df = df.fillna("-")
-    df["Period"] = df["Period"].astype("Int64")
+    df = read_data_pl(filepath, scenarios)
+    df = aggregate_by_group(df, dem_all_group_options)
+    df = filter_df_for_variable(df, "Energy demand", collect=True)
     return df
-
-
-energy_dem_base_df = get_energy_dem()
 
 
 # SERVER ------------------------------------------
@@ -73,52 +84,56 @@ def demand_server(inputs, outputs, session, selected_scens):
     """
 
     @reactive.calc
-    def energy_dem_df():
-        """
-        Filter raw data for the scenario list
-        """
-        d = energy_dem_base_df.copy()
-        d = d[d["Scenario"].isin(selected_scens["scenario_list"]())]
-        return d
+    def scen_tuple():
+        """Converting scenario list to tuple. needed for hashing"""
+        return tuple(selected_scens["scenario_list"]())
 
-    # REGISTER ALL FILTER FUNCTIONS FOR UI
-    for fs in dem_filters:
-        register_filter_from_factory(
-            fs, energy_dem_df, dem_filters, inputs, outputs, session
-        )
-
-    # DYNAMICALLY FILTER/GROUP DATA
+    # GET BASE DEMAND DATA
 
     @reactive.calc
-    def energy_dem_df_filtered():
-        d = energy_dem_df().copy()
-        d = apply_filters(d, dem_filters, inputs)
-        return d.groupby(base_cols + [inputs.dem_group()])["Value"].sum().reset_index()
+    def dem_df():
+        return get_base_dem_df(scen_tuple())
 
-    # Render chart
+    # make base filter options dynamic to scenario selection
+    @reactive.calc
+    def dem_filter_options():
+        return get_filter_options_from_data(dem_df(), dem_filters)
 
-    @outputs(id="dem_chart")
-    @render_altair
-    def _():
-        return build_grouped_bar(
-            energy_dem_df_filtered(),
+    # REGISTER ALL FILTER FUNCTIONS FOR UI
+    register_all_filters_and_clear(
+        dem_filters, dem_filter_options, inputs, outputs, session
+    )
+
+    # Apply filters to data dynamically and lazily
+    @reactive.calc
+    def dem_df_filtered():
+        group_vars = base_cols + [inputs.dem_group()]
+        df = get_agg_data(dem_df(), dem_filters, inputs, group_vars)
+        return df
+
+    # process chart inputs from filtered data
+    @reactive.calc
+    def dem_chart_df():
+        return make_chart_data(
+            dem_df_filtered(),
             base_cols,
             inputs.dem_group(),
-            scen_list=selected_scens["scenario_list"](),
+            selected_scens["scenario_list"](),
         )
 
-    # Generate downloads
-    @render.download(filename="dem_chart_data_download.csv", media_type="text/csv")
-    def dem_chart_data_download():
-        buf = io.StringIO()
-        energy_dem_df_filtered().to_csv(buf, index=False)
-        yield buf.getvalue()
+    # Render chart
+    @render_altair
+    def energy_dem_chart():
+        # name must match sections chart_id
+        # if using altair, must touch the nav input to ensure rerendering
+        _ = inputs.dem_nav()
+        params = dem_chart_df()
+        return build_grouped_bar(**params)
 
-    @render.download(filename="dem_data_raw.csv", media_type="text/csv")
-    def dem_all_data_download():
-        buf = io.StringIO()
-        energy_dem_base_df.to_csv(buf, index=False)
-        yield buf.getvalue()
+    # Generate download
+    @render.download(filename="times_nz_energy_end_use.csv", media_type="text/csv")
+    def dem_chart_data_download():
+        yield write_polars_to_csv(dem_df())
 
 
 # UI --------------------------------------------
@@ -132,7 +147,7 @@ sections = [
         "dem_group",
         dem_group_options,
         dem_filters,
-        "dem_chart",
+        "energy_dem_chart",
     )
 ]
 

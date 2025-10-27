@@ -2,29 +2,37 @@
 App processing for dummy processes
 """
 
-import io
+from functools import lru_cache
 
-import pandas as pd
+import polars as pl
 from shiny import reactive, render
 from shinywidgets import render_altair
 from times_nz_internal_qa.app.helpers.charts import build_grouped_bar
+from times_nz_internal_qa.app.helpers.data_processing import (
+    aggregate_by_group,
+    get_agg_data,
+    get_filter_options_from_data,
+    make_chart_data,
+    read_data_pl,
+    write_polars_to_csv,
+)
 from times_nz_internal_qa.app.helpers.filters import (
-    apply_filters,
     create_filter_dict,
-    register_filter_from_factory,
+    register_all_filters_and_clear,
 )
 from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
 from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
 
 ## Quite messy input data processing
 
-dummy_energy_raw = pd.read_parquet(FINAL_DATA / "dummy_energy.parquet")
-dummy_demand_raw = pd.read_parquet(FINAL_DATA / "dummy_demand.parquet")
-
 
 # CONSTANTS ---------------------------------------
 
 ID_PREFIX = "dum"
+
+
+DUMMY_ENERGY_FILEPATH = FINAL_DATA / "dummy_energy.parquet"
+DUMMY_DEMAND_FILEPATH = FINAL_DATA / "dummy_demand.parquet"
 
 dummy_energy_group_options = ["Fuel", "Commodity", "Region"]
 dummy_demand_group_options = [
@@ -60,121 +68,142 @@ dummy_energy_filters = create_filter_dict(
 )
 
 
+# Specific data processing
+
+base_cols = ["Scenario", "Period", "Variable", "Unit"]
+
+
 # GET MAIN DATA
-def get_df_dummy(df):
-    """Small preprocessing for dummy data"""
-    df["Period"] = df["Period"].astype("Int64")
-    df["Unit"] = "PJ"  # not always true but fine for placeholder
-    return df
+@lru_cache(maxsize=8)
+def get_dum_energy_df(scenarios, filepath=DUMMY_ENERGY_FILEPATH):
+    """
+    standard
+    """
+    all_group_options = base_cols + dummy_energy_group_options
+    df = read_data_pl(filepath, scenarios)
+    # add a unit (we didn't bother in preprocessing)
+    df = df.with_columns(pl.lit("PJ").alias("Unit"))
+    df = aggregate_by_group(df, all_group_options)
+    # collect. No variable filters.
+    return df.collect()
 
 
-base_cols = ["Scenario", "Period", "Unit"]
+@lru_cache(maxsize=8)
+def get_dum_demand_df(scenarios, filepath=DUMMY_DEMAND_FILEPATH):
+    """
+    standard
+    """
+    all_group_options = base_cols + dummy_demand_group_options
+    df = read_data_pl(filepath, scenarios)
+    # add a unit (we didn't bother in preprocessing)
+    df = df.with_columns(pl.lit("PJ").alias("Unit"))
+    df = aggregate_by_group(df, all_group_options)
+    # collect. No variable filters.
+    return df.collect()
+
 
 # SERVER ------------------------------------------------------------------
 
+# would be really good to functionalise these a bit better
+# to make it easier to manage at a glance and also stop pylint complaints
+# currently we re-write pretty much everything for each chart
+# this goes for the ele section too
 
-# pylint:disable = unused-argument
+
+# pylint:disable = unused-argument, too-many-locals
 def dummy_server(inputs, outputs, session, selected_scens):
     """
     Server functions for dummy process module
     """
+
     # GET DATA BASED ON SCENARIO SELECTION
-
-    df_dummy_demand_base = get_df_dummy(dummy_demand_raw)
-    df_dummy_energy_base = get_df_dummy(dummy_energy_raw)
+    @reactive.calc
+    def scen_tuple():
+        """Converting scenario list to tuple. needed for hashing"""
+        return tuple(selected_scens["scenario_list"]())
 
     @reactive.calc
-    def df_dummy_demand():
-        """
-        Filter raw data for the scenario list
-        """
-        d = df_dummy_demand_base.copy()
-        d = d[d["Scenario"].isin(selected_scens["scenario_list"]())]
-        return d
+    def dum_energy_df():
+        return get_dum_energy_df(scen_tuple())
 
     @reactive.calc
-    def df_dummy_energy():
-        """
-        Filter raw data for the scenario list
-        """
-        d = df_dummy_energy_base.copy()
-        d = d[d["Scenario"].isin(selected_scens["scenario_list"]())]
-        return d
+    def dum_demand_df():
+        return get_dum_demand_df(scen_tuple())
 
-    # REGISTER ALL FILTER FUNCTIONS FOR UI
-    for fs in dummy_demand_filters:
-        register_filter_from_factory(
-            fs, df_dummy_demand, dummy_demand_filters, inputs, outputs, session
-        )
+    # make base filter options dynamic to scenario selection
+    @reactive.calc
+    def dum_energy_filter_options():
+        return get_filter_options_from_data(dum_energy_df(), dummy_energy_filters)
 
-    for fs in dummy_energy_filters:
-        register_filter_from_factory(
-            fs, df_dummy_energy, dummy_energy_filters, inputs, outputs, session
-        )
+    @reactive.calc
+    def dum_demand_filter_options():
+        return get_filter_options_from_data(dum_demand_df(), dummy_demand_filters)
+
+    # Register filter functions for UI
+    register_all_filters_and_clear(
+        dummy_demand_filters, dum_demand_filter_options, inputs, outputs, session
+    )
+    register_all_filters_and_clear(
+        dummy_energy_filters, dum_energy_filter_options, inputs, outputs, session
+    )
 
     # APPLY FILTERS TO DATA DYNAMICALLY
-    @reactive.calc
-    def df_dummy_demand_filtered():
-        d = df_dummy_demand().copy()
-        return apply_filters(d, dummy_demand_filters, inputs)
 
     @reactive.calc
-    def df_dummy_energy_filtered():
-        d = df_dummy_energy().copy()
-        return apply_filters(d, dummy_energy_filters, inputs)
-
-    # APPPLY DYNAMIC GROUPING AFTER FILTERING
-    @reactive.calc
-    def dummy_demand_grouped():
-        d = df_dummy_demand_filtered()
-        return (
-            d.groupby(base_cols + [inputs.dummy_demand_group()])["Value"]
-            .sum()
-            .reset_index()
-        )
+    def dummy_energy_df_filtered():
+        group_vars = base_cols + [inputs.dummy_energy_group()]
+        df = get_agg_data(dum_energy_df(), dummy_energy_filters, inputs, group_vars)
+        return df
 
     @reactive.calc
-    def dummy_energy_grouped():
-        d = df_dummy_energy_filtered()
-        return (
-            d.groupby(base_cols + [inputs.dummy_energy_group()])["Value"]
-            .sum()
-            .reset_index()
-        )
+    def dummy_demand_df_filtered():
+        group_vars = base_cols + [inputs.dummy_demand_group()]
+        df = get_agg_data(dum_demand_df(), dummy_demand_filters, inputs, group_vars)
+        return df
 
-    # RENDER CHARTS
-    @outputs(id="dummy_demand_chart")
-    @render_altair
-    def _():
-        return build_grouped_bar(
-            dummy_demand_grouped(),
-            base_cols,
-            inputs.dummy_demand_group(),
-            scen_list=selected_scens["scenario_list"](),
-        )
+    # PROCESS CHART DATA
 
-    @outputs(id="dummy_energy_chart")
-    @render_altair
-    def _():
-        return build_grouped_bar(
-            dummy_energy_grouped(),
+    @reactive.calc
+    def dum_energy_chart_df():
+        return make_chart_data(
+            dummy_energy_df_filtered(),
             base_cols,
             inputs.dummy_energy_group(),
-            scen_list=selected_scens["scenario_list"](),
+            selected_scens["scenario_list"](),
         )
 
-    # DOWNLOADS
-    @render.download(filename="df_dummy_demand.csv", media_type="text/csv")
-    def dummy_demand_chart_data_download():
-        buf = io.StringIO()
-        df_dummy_demand.to_csv(buf, index=False)
-        yield buf.getvalue()
+    @reactive.calc
+    def dum_demand_chart_df():
+        return make_chart_data(
+            dummy_demand_df_filtered(),
+            base_cols,
+            inputs.dummy_demand_group(),
+            selected_scens["scenario_list"](),
+        )
 
-    @render.download(filename="df_dummy_energy.csv", media_type="text/csv")
+    # Render charts
+    @render_altair
+    def dummy_demand_chart():
+        # if using altair, must touch the nav input to ensure rerendering
+        _ = inputs.dum_nav()
+        params = dum_demand_chart_df()
+        return build_grouped_bar(**params)
+
+    @render_altair
+    def dummy_energy_chart():
+        # if using altair, must touch the nav input to ensure rerendering
+        _ = inputs.dum_nav()
+        params = dum_energy_chart_df()
+        return build_grouped_bar(**params)
+
+    # Generate downloads
+    @render.download(filename="times_nz_infeasible_energy.csv", media_type="text/csv")
     def dummy_energy_chart_data_download():
-        buf = io.StringIO()
-        df_dummy_energy.to_csv(buf, index=False)
-        yield buf.getvalue()
+        yield write_polars_to_csv(dum_energy_df())
+
+    @render.download(filename="times_nz_infeasible_demand.csv", media_type="text/csv")
+    def dummy_demand_chart_data_download():
+        yield write_polars_to_csv(dum_demand_df())
 
 
 # UI --------------------------------------------------
