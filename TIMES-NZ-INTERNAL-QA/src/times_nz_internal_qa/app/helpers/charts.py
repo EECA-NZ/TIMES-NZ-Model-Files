@@ -1,5 +1,5 @@
 """
-Chart builders for the app to ensure consistency
+Chart builders for the app to ensure consistency across all explorer sections
 """
 
 import altair as alt
@@ -25,11 +25,6 @@ def build_grouped_bar(
     period_order = [str(p) for p in period_range]
     base_scen = scen_list[0] if scen_list else None
 
-    # color mapping for groups
-
-    # if len(df) > 5000:
-    # return "This is too much data - please adjust filters or groups"
-
     chart = (
         alt.Chart(pdf)
         .mark_bar()
@@ -47,7 +42,7 @@ def build_grouped_bar(
             tooltip=[
                 alt.Tooltip("Scenario:N", title="Scenario"),
                 alt.Tooltip("Period:N", title="Year"),
-                alt.Tooltip(f"{group_col}:N"),
+                alt.Tooltip(f"{group_col}:N", title=group_col),
                 alt.Tooltip("Value:Q", title=unit, format=",.2f"),
             ],
         )

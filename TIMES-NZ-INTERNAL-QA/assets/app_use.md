@@ -1,13 +1,10 @@
-This app is designed to explore all result outputs of TIMES-NZ 3.0. It is intended as an "explorer", allowing a user or developer to browse or interrogate results. 
+This app is designed to explore all result outputs of TIMES-NZ 3.0. 
 
-### Scenario selection 
+For every chart, you can select the way the bars are grouped, and filter the data based on the underlying structure.
 
-Each chart displays the currently selected scenario, and optionally can compare results to a second scenario. 
+Filter options update based on your current selection. For example, if you select the "Industrial" sector group, then only Industral subsectors will be available in the Sector filter options. 
 
-Currently available scenarios: 
-
- - traditional-v3_0_0: Traditional scenario
- - traditional-v3_0_0-highcarbon: As Traditional, but with a higher carbon price path. 
+Select any available scenario from the dropdown to explore, or optionally compare two different scenarios in any chart.
 
 
 ### Explorer tabs 
