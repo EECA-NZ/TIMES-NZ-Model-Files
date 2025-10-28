@@ -3,6 +3,7 @@ Mostly built off of one input table, with additional inputs
 including the variable selection/renaming
 And a few other basic inputs defined in the constants section."""
 
+import numpy as np
 import pandas as pd
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
@@ -169,6 +170,13 @@ def define_fuel_delivery(df):
         fuel_deliv_parameters["Comm-IN"] != fuel_deliv_parameters["Comm-OUT"]
     ]
 
+    # ensure uses only distributed electricity so as to incur those associated costs
+    fuel_deliv_parameters["Comm-IN"] = np.where(
+        fuel_deliv_parameters["Comm-IN"] == "ELC",
+        "ELCDD",
+        fuel_deliv_parameters["Comm-IN"],
+    )
+
     # with the structure defined, we also define the new processes in a separate file (FI_Process)
     fuel_deliv_definitions = pd.DataFrame(
         {
@@ -178,6 +186,8 @@ def define_fuel_delivery(df):
             "Tcap": CAPACITY_UNIT,
         }
     )
+
+    print(fuel_deliv_parameters)
 
     save_industry_veda_file(
         fuel_deliv_parameters,

@@ -338,7 +338,7 @@ def create_fuel_process_df(cfg):
         "FTE_TRADSL",
         "FTE_TRAJET",
         "FTE_TRAH2R",
-        "G_ELC_T_00",
+        "FTE_TRAELC",
         "FTE_TRAFOL",
     ]
     regions = ["NI", "SI"]
@@ -350,10 +350,10 @@ def create_fuel_process_df(cfg):
     df.loc[0, "Sets"] = "DISTR"
     df["Tact"] = "PJ"
     df["Tcap"] = df["TechName"].apply(
-        lambda x: "GW" if x in ["FTE_TRAH2R", "G_ELC_T_00"] else "PJa"
+        lambda x: "GW" if x in ["FTE_TRAH2R", "FTE_TRAELC"] else "PJa"
     )
     df["Tslvl"] = df["TechName"].apply(
-        lambda x: "DAYNITE" if x in ["FTE_TRAH2R", "G_ELC_T_00"] else ""
+        lambda x: "DAYNITE" if x in ["FTE_TRAH2R", "FTE_TRAELC"] else ""
     )
     final_column_order = cfg["Columns"]
     return df[final_column_order]
@@ -484,9 +484,9 @@ def create_fuel_process_parameters_df(cfg):
     for _, row in tech_df.iterrows():
         tech = row["TechName"]
         region = row["Region"]
-        comm_out = tech.replace("FTE_", "").replace("G_ELC_T_00", "TRAELC")
+        comm_out = tech.replace("FTE_", "")
         comm_in_list = expanded_comm_in.get(
-            tech, [comm_out.replace("TRA", "").replace("TRAELC", "ELCD")]
+            tech, [comm_out.replace("TRA", "").replace("ELC", "ELCDD")]
         )
         for comm_in in comm_in_list:
             share_i_up = share_i_up_2025 = share_i_up_2060 = np.nan
@@ -524,7 +524,9 @@ def create_fuel_process_parameters_df(cfg):
                 }
             )
     final_column_order = cfg["Columns"]
-    return pd.DataFrame(rows)[final_column_order]
+
+    out = pd.DataFrame(rows)[final_column_order]
+    return out
 
 
 # -----------------------------------------------------------------------------
