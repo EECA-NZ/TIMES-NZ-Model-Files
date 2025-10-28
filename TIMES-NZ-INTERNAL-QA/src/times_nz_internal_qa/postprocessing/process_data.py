@@ -12,7 +12,7 @@ etc (more to come)
 """
 
 import pandas as pd
-from times_nz_internal_qa.app.config import current_scenarios
+from times_nz_internal_qa.config import current_scenarios
 from times_nz_internal_qa.utilities.filepaths import (
     COMMODITY_CONCORDANCES,
     CONCORDANCE_PATCHES,

@@ -6,5 +6,6 @@ Imports,IMPCOA,Energy imports,Imported Coal,Energy Production,Energy Production,
 Imports,IMPDSL,Energy imports,Imported Diesel,Energy Production,Energy Production,Energy Production,Energy Production
 Imports,IMPFOL,Energy imports,Imported Fuel oil,Energy Production,Energy Production,Energy Production,Energy Production
 Imports,IMPLPG,Energy imports,Imported LPG,Energy Production,Energy Production,Energy Production,Energy Production
+Imports,IMPLNG,Energy imports,Imported LNG,Energy Production,Energy Production,Energy Production,Energy Production
 Imports,IMPPET,Energy imports,Imported Petrol,Energy Production,Energy Production,Energy Production,Energy Production
 Imports,IMPJET,Energy imports,Imported Jet fuel,Energy Production,Energy Production,Energy Production,Energy Production

@@ -53,6 +53,12 @@ FTE_ELCJET,Electricity generation,Jet fuel,Distribution
 FTE_TRAJET,Transport,Jet fuel,Distribution
 FTE_AGRJET,Agriculture,Jet fuel,Distribution
 FTE_COMJET,Commercial,Jet fuel,Distribution
+FTE_INDLNG,Industry,LNG,Distribution
+FTE_RESLNG,Residential,LNG,Distribution
+FTE_ELCLNG,Electricity generation,LNG,Distribution
+FTE_TRALNG,Transport,LNG,Distribution
+FTE_AGRLNG,Agriculture,LNG,Distribution
+FTE_COMLNG,Commercial,LNG,Distribution
 FTE_INDLPG,Industry,LPG,Distribution
 FTE_RESLPG,Residential,LPG,Distribution
 FTE_ELCLPG,Electricity generation,LPG,Distribution
@@ -113,13 +119,10 @@ FTE_ELCSOL,Electricity generation,Solar,Distribution
 FTE_TRASOL,Transport,Solar,Distribution
 FTE_AGRSOL,Agriculture,Solar,Distribution
 FTE_COMSOL,Commercial,Solar,Distribution
-G_ELC_A,Electricity distribution,Electricity,Distribution
-G_ELC_C,Electricity distribution,Electricity,Distribution
-G_ELC_I,Electricity distribution,Electricity,Distribution
 G_ELC_HV,Electricity distribution,Electricity,Distribution
 G_ELC_LV,Electricity distribution,Electricity,Distribution
-G_ELC_T_00,Electricity distribution,Electricity,Distribution
-G_ELC_R,Electricity distribution,Electricity,Distribution
+LNGPORTSML,LNG Ports,LNG,Distribution
+LNGPORTSTD,LNG Ports,LNG,Distribution
 TB_COA_NI_SI_01,,Coal,IRE
 TB_ELC_NI_SI_01,,Electricity,IRE
 TU_LPG_NI_SI_01,,LPG,IRE

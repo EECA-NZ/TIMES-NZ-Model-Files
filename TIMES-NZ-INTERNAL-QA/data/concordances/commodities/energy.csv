@@ -11,6 +11,7 @@ AGRGEO,Geothermal,Energy
 AGRH2R,Hydrogen,Energy
 AGRHYD,Hydro,Energy
 AGRJET,Jet fuel,Energy
+AGRLNG,LNG,Energy
 AGRLPG,LPG,Energy
 AGRNGA,Natural gas,Energy
 AGRPET,Petrol,Energy
@@ -33,6 +34,7 @@ COMGEO,Geothermal,Energy
 COMH2R,Hydrogen,Energy
 COMHYD,Hydro,Energy
 COMJET,Jet fuel,Energy
+COMLNG,LNG,Energy
 COMLPG,LPG,Energy
 COMNGA,Natural gas,Energy
 COMPET,Petrol,Energy
@@ -58,6 +60,7 @@ ELCH2R,Hydrogen,Energy
 ELCHV,Electricity,Energy
 ELCHYD,Hydro,Energy
 ELCJET,Jet fuel,Energy
+ELCLNG,LNG,Energy
 ELCLPG,LPG,Energy
 ELCNGA,Natural gas,Energy
 ELCPET,Petrol,Energy
@@ -81,6 +84,7 @@ INDGEO,Geothermal,Energy
 INDH2R,Hydrogen,Energy
 INDHYD,Hydro,Energy
 INDJET,Jet fuel,Energy
+INDLNG,LNG,Energy
 INDLPG,LPG,Energy
 INDNGA,Natural gas,Energy
 INDPET,Petrol,Energy
@@ -89,6 +93,7 @@ INDSOL,Solar,Energy
 INDWIN,Wind,Energy
 INDWOD,Wood,Energy
 JET,Jet fuel,Energy
+LNG,LNG,Energy
 LPG,LPG,Energy
 NGA,Natural gas,Energy
 PET,Petrol,Energy
@@ -105,6 +110,7 @@ RESGEO,Geothermal,Energy
 RESH2R,Hydrogen,Energy
 RESHYD,Hydro,Energy
 RESJET,Jet fuel,Energy
+RESLNG,LNG,Energy
 RESLPG,LPG,Energy
 RESNGA,Natural gas,Energy
 RESPET,Petrol,Energy
@@ -125,6 +131,7 @@ TRAGEO,Geothermal,Energy
 TRAH2R,Hydrogen,Energy
 TRAHYD,Hydro,Energy
 TRAJET,Jet fuel,Energy
+TRALNG,LNG,Energy
 TRALPG,LPG,Energy
 TRANGA,Natural gas,Energy
 TRAPET,Petrol,Energy

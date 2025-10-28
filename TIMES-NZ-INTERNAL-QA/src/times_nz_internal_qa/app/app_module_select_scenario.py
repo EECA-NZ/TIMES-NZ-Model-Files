@@ -5,7 +5,7 @@ For now, the target is to just provide a main dropdown list,
 """
 
 from shiny import reactive, render, ui
-from times_nz_internal_qa.app.config import current_scenarios
+from times_nz_internal_qa.config import current_scenarios
 
 
 # pylint:disable = unused-argument

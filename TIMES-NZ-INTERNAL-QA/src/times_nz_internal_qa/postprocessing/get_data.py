@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 
 import pandas as pd
-from times_nz_internal_qa.app.config import current_scenarios
+from times_nz_internal_qa.config import current_scenarios
 from times_nz_internal_qa.utilities.filepaths import (
     COMMODITY_CONCORDANCES,
     PROCESS_CONCORDANCES,
