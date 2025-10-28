@@ -57,28 +57,25 @@ def create_newtech_process_df(cfg: dict) -> pd.DataFrame:
 
 
 def create_newtech_process_parameters_df(cfg: dict) -> pd.DataFrame:
-    """Get newtech parameters from coded assumptions (convert 2018 -> 2023 prices)."""
+    """Get newtech parameters from coded assumptions (convert 2018 -> 2023 prices in place)."""
     df = pd.read_csv(NEW_TECHS_FILE)
 
+    # Preserve external context
     df["START"] = START
 
-    if "INVCOST~2018" in df.columns:
-        df["INVCOST"] = df["INVCOST~2018"]
-    if "FIXOM~2018" in df.columns:
-        df["FIXOM"] = df["FIXOM~2018"]
+    # Columns to convert from 2018 -> 2023 while keeping names unchanged
+    to_convert = [
+        c
+        for c in ["INVCOST", "INVCOST~2030", "INVCOST~2050", "FIXOM"]
+        if c in df.columns
+    ]
 
-    variables = [v for v in ["INVCOST", "FIXOM"] if v in df.columns]
-
-    if variables:
+    if to_convert:
+        # Indicate the base year for the deflator and convert in place
         df["PriceBaseYear"] = 2018
+        df = deflate_data(df, 2023, to_convert)
 
-        df = deflate_data(df, 2023, variables)
-
-        if "INVCOST" in variables:
-            df["INVCOST~2023"] = df["INVCOST"]
-        if "FIXOM" in variables:
-            df["FIXOM~2023"] = df["FIXOM"]
-
+    # Ensure requested columns are present, fill missing with empty string
     requested_cols = cfg.get("Columns", list(df.columns))
     for col in requested_cols:
         if col not in df.columns:
