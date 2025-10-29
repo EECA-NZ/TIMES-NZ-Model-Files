@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from prepare_times_nz.stage_2.industry.common import CHECKS_DIR, INDUSTRY_ASSUMPTIONS
+from prepare_times_nz.stage_2.industry.common import CHECKS_DIR
 from prepare_times_nz.utilities.filepaths import (
     ANALYSIS,
     STAGE_2_DATA,
@@ -39,15 +39,6 @@ OUTPUT_PATH = ANALYSIS / "results/demand_projections"
 PRINT_CHARTS = True
 
 # Get data ---------------------------------------------------
-
-
-def get_demand_settings():
-    """
-    Docstring needed
-    """
-
-    df = pd.read_csv(f"{INDUSTRY_ASSUMPTIONS}/sector_demand_methods.csv")
-    return df
 
 
 def get_aggregate_data(checks_dir=CHECKS_DIR):
