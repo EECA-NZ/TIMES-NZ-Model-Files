@@ -21,7 +21,10 @@ def create_filter_dict(chart_id, filters):
         col = f["col"]
         fid = f.get("id", col.lower())
         label = f.get("label", col.replace("_", " ").title())
-        result.append({"chart_id": chart_id, "id": fid, "label": label, **f})
+        multiple = f.get("multiple", True)
+        result.append(
+            {"chart_id": chart_id, "id": fid, "label": label, "multiple": multiple, **f}
+        )
     return result
 
 
@@ -62,16 +65,20 @@ def apply_filters(df: pl.LazyFrame, filters, inputs, ns=lambda x: x):
     for f in filters:
         # identify the input options
         iid = ns(filter_input_id(f))
+
         # pull the current selection for this filter
         try:
             sel = getattr(inputs, iid)()
         except SilentException:
             sel = None
-
         if sel:
             # add filter to list
             # ensure values are strings for comparison parity
-            exprs.append(pl.col(f["col"]).cast(pl.Utf8).is_in(sel))
+            # we also need to apply the filter differently if it's multiple or not
+            if f["multiple"]:
+                exprs.append(pl.col(f["col"]).cast(pl.Utf8).is_in(sel))
+            else:
+                exprs.append(pl.col(f["col"]).cast(pl.Utf8) == sel)
 
     # if no filters found, return original df
     if not exprs:
@@ -81,9 +88,7 @@ def apply_filters(df: pl.LazyFrame, filters, inputs, ns=lambda x: x):
     combined = exprs[0]
     for e in exprs[1:]:
         combined = combined & e
-
     # return filtered data
-
     return df.filter(combined)
 
 
@@ -109,16 +114,32 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
     iid = ns(filter_input_id(fspec))
 
     col = fspec["col"]
+    allows_multiple = fspec["multiple"]
 
     @outputs(id=oid)
     @render.ui
     def _mount():
         base = df() if callable(df) else df
         choices = base.select(pl.col(col).cast(str)).to_series().to_list()
+
+        choices = sorted(set(choices))
+
+        if allows_multiple:
+            ui_filter = ui.input_selectize(
+                iid, fspec.get("label", col), choices, multiple=True
+            )
+
+        else:
+            ui_filter = ui.input_select(
+                iid,
+                # fspec.get("label", col),
+                "TEST",
+                choices,
+                selected=choices[1],
+            )
+
         return ui.div(
-            ui.input_selectize(
-                iid, fspec.get("label", col), sorted(set(choices)), multiple=True
-            ),
+            ui_filter,
             class_="individual-filter",
         )
 
@@ -128,8 +149,10 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
 
     # first,  identify input triggers
     triggers = [
+        # all live filter IDs in this chart's filter list
         getattr(inputs, ns(filter_input_id(s)))
         for s in filters
+        # except the one we just changed
         if ns(filter_input_id(s)) != iid
     ]
 
@@ -156,7 +179,8 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
         # keep only valid selections; do not clear unless invalid
         selected = [v for v in current if v in choices]
 
-        ui.update_selectize(iid, choices=choices, selected=selected)
+        if allows_multiple:
+            ui.update_selectize(iid, choices=choices, selected=selected)
 
     if triggers:
 
@@ -207,9 +231,6 @@ def register_filter_clear_button(filter_dict: list[dict], inputs, session):
         Otherwise it could just go straught into _clear_all_filters
         """
         ui.update_selectize(iid, selected=[])
-
-    # some debuggiong
-    # print(f"I AM LOOKING FOR  {btn_id}")
 
     @reactive.effect
     # @reactive.event(getattr(inputs, btn_id))

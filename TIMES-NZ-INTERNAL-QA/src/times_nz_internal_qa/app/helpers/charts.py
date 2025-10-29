@@ -21,6 +21,32 @@ def build_grouped_bar(
     - `scen_list[0]` shown at higher opacity.
     """
 
+    # Some minor adjustments for the chart tooltip?
+    # possibly these need to go in the chart data function instead
+    # to keep processing out of the render function?
+    # we must use pandas in these functions
+    totals_within_vars = [v for v in pdf.columns if v not in ["Value", group_col]]
+
+    pdf["Total"] = pdf.groupby(totals_within_vars, observed=True)["Value"].transform(
+        "sum"
+    )
+
+    pdf["ShareTooltip"] = (
+        ((pdf["Value"] / pdf["Total"]) * 100).map(lambda x: f"{x:.2f}")
+    ) + "%"
+
+    pdf["ValueTooltip"] = (
+        pdf["Value"]
+        .map(lambda x: f"{x:,.2f}")
+        .str.cat(pdf["Unit"].astype(str), sep=" ")
+    )
+
+    pdf["TotalTooltip"] = (
+        pdf["Total"]
+        .map(lambda x: f"{x:,.2f}")
+        .str.cat(pdf["Unit"].astype(str), sep=" ")
+    )
+
     # category orders
     period_order = [str(p) for p in period_range]
     base_scen = scen_list[0] if scen_list else None
@@ -43,7 +69,9 @@ def build_grouped_bar(
                 alt.Tooltip("Scenario:N", title="Scenario"),
                 alt.Tooltip("Period:N", title="Year"),
                 alt.Tooltip(f"{group_col}:N", title=group_col),
-                alt.Tooltip("Value:Q", title=unit, format=",.2f"),
+                alt.Tooltip("ValueTooltip:N", title="Value"),
+                alt.Tooltip("TotalTooltip:N", title="Total"),
+                alt.Tooltip("ShareTooltip:N", title="Share"),
             ],
         )
         .properties(background="transparent")
