@@ -95,7 +95,7 @@ def apply_filters(df: pl.LazyFrame, filters, inputs, ns=lambda x: x):
 # is it possible to remove some of these arguments?
 
 
-# pylint:disable = too-many-arguments, too-many-positional-arguments
+# pylint:disable = too-many-arguments, too-many-positional-arguments, too-many-locals
 def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
     """
     Creates a filter factory then uses that and the fspec inputs
@@ -106,6 +106,11 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
     Mounts the filters once, with the initial filter options
 
     Then adds an update feature to restrict the options based on current filter settings
+
+    fspec: this filter's parameters from the dict
+    df: filter options dataframe
+    filters: all fspecs defined for this page, entered as dict
+    inputs, outputs, session: server parameters
     """
 
     ns = session.ns  # no-op if not modular
@@ -195,7 +200,23 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
         def _update_self():
             _update_body()
 
-    return _mount, _update_self
+    # robust to all filters clearing themselves
+    # effectively, filters don't update when we add conditions
+    # (which is desired behaviour)
+    # but this forces updates when they're emptied to avoid users getting stuck
+    @reactive.effect
+    @reactive.event(getattr(inputs, iid))
+    def _update_on_self_clear():
+        val = getattr(inputs, iid)()
+        is_empty = (
+            val is None
+            or val == ""
+            or (isinstance(val, (list, tuple, set)) and len(val) == 0)
+        )
+        if is_empty:
+            _update_body()
+
+    return _mount, _update_self, _update_on_self_clear
 
 
 def filter_output_ui_list(filters, ns=lambda x: x):
