@@ -204,7 +204,7 @@ def demand_server(inputs, outputs, session, selected_scens):
 
     # Generate download
     @render.download(filename="times_nz_energy_end_use.csv", media_type="text/csv")
-    def dem_chart_data_download():
+    def energy_dem_chart_data_download():
         yield write_polars_to_csv(dem_df())
 
     @render.download(filename="times_nz_electricity_end_use.csv", media_type="text/csv")
