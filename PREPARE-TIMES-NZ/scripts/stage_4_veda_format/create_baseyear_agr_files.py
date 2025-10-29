@@ -3,6 +3,7 @@ Mostly built off of one input table, with additional inputs
 including the variable selection/renaming
 And a few other basic inputs defined in the constants section."""
 
+import numpy as np
 import pandas as pd
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
@@ -180,6 +181,12 @@ def define_fuel_delivery(df: pd.DataFrame) -> None:
     cols_to_blank = ["Comm-OUT", "TechName", "LIFE", "EFF", "VAROM"]
     for c in cols_to_blank:
         fuel_deliv_parameters.loc[did_mask, c] = pd.NA
+
+    fuel_deliv_parameters["Comm-IN"] = np.where(
+        fuel_deliv_parameters["Comm-IN"] == "ELC",
+        "ELCDD",
+        fuel_deliv_parameters["Comm-IN"],
+    )
 
     techs = (
         fuel_deliv_parameters.loc[
