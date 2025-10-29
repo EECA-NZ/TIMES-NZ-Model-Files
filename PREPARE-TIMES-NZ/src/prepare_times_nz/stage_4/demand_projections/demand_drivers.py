@@ -324,7 +324,7 @@ def make_demand_drivers(df, scenario):
     df = df.drop("Scenario", axis=1)
 
     # pivot out. First do this weird thing to the year vars
-    df["Year"] = r"\~" + df["Year"].astype(str)
+    df["Year"] = r"\~" + df["Year"].astype(int).astype(str)
     # pivot
     df = df.pivot(
         index=["Region", "Driver"], columns="Year", values="Index"
