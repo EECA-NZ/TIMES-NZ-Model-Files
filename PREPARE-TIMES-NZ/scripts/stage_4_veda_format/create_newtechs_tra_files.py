@@ -191,7 +191,6 @@ def create_newtech_process_df(cfg):
 
     # Add new tech names
     add_technames = [
-        "T_P_CHYBDSL",
         "T_C_CHYBDSL",
         "T_P_CFCH2R",
         "T_C_CFCH2R",
@@ -278,7 +277,6 @@ def create_newtech_process_parameters_df(cfg):
 
     # Mapping of new techs with their Comm-In / Comm-Out roots
     add_newtechnames = [
-        {"TechName": "T_P_CHYBDSL", "Comm-In": "TRADSL", "Comm-Out": "T_P_Car"},
         {"TechName": "T_C_CHYBDSL", "Comm-In": "TRADSL", "Comm-Out": "T_C_Car"},
         {
             "TechName": "T_P_CFCH2R",
