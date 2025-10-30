@@ -87,6 +87,8 @@ def get_process_declarations(df):
     """
     Builds process declarations file from generated processes
     """
+    # no mutate
+    df = df.copy()
     df["Sets"] = "DMD"
     df["Tact"] = "PJ"
     df["Tcap"] = "PJa"
