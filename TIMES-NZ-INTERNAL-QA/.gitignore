@@ -1,1 +1,4 @@
-data/*
+data/clean_results/*
+!data/clean_results/*.txt
+data_raw/scenario_files/*.csv
+data_raw/scenario_files/*.vsd

@@ -1,0 +1,128 @@
+Process,Sector,Commodity,ProcessGroup
+FTE_INDBDSL,Industry,Biodiesel,Distribution
+FTE_RESBDSL,Residential,Biodiesel,Distribution
+FTE_ELCBDSL,Electricity generation,Biodiesel,Distribution
+FTE_TRABDSL,Transport,Biodiesel,Distribution
+FTE_AGRBDSL,Agriculture,Biodiesel,Distribution
+FTE_COMBDSL,Commercial,Biodiesel,Distribution
+FTE_INDCOA,Industry,Coal,Distribution
+FTE_RESCOA,Residential,Coal,Distribution
+FTE_ELCCOA,Electricity generation,Coal,Distribution
+FTE_TRACOA,Transport,Coal,Distribution
+FTE_AGRCOA,Agriculture,Coal,Distribution
+FTE_COMCOA,Commercial,Coal,Distribution
+FTE_INDDID,Industry,Drop-in Diesel,Distribution
+FTE_RESDID,Residential,Drop-in Diesel,Distribution
+FTE_ELCDID,Electricity generation,Drop-in Diesel,Distribution
+FTE_TRADID,Transport,Drop-in Diesel,Distribution
+FTE_AGRDID,Agriculture,Drop-in Diesel,Distribution
+FTE_COMDID,Commercial,Drop-in Diesel,Distribution
+FTE_INDDIJ,Industry,Drop-in Jet fuel,Distribution
+FTE_RESDIJ,Residential,Drop-in Jet fuel,Distribution
+FTE_ELCDIJ,Electricity generation,Drop-in Jet fuel,Distribution
+FTE_TRADIJ,Transport,Drop-in Jet fuel,Distribution
+FTE_AGRDIJ,Agriculture,Drop-in Jet fuel,Distribution
+FTE_COMDIJ,Commercial,Drop-in Jet fuel,Distribution
+FTE_INDDSL,Industry,Diesel,Distribution
+FTE_RESDSL,Residential,Diesel,Distribution
+FTE_ELCDSL,Electricity generation,Diesel,Distribution
+FTE_TRADSL,Transport,Diesel,Distribution
+FTE_AGRDSL,Agriculture,Diesel,Distribution
+FTE_COMDSL,Commercial,Diesel,Distribution
+FTE_INDELC,Industry,Electricity,Distribution
+FTE_RESELC,Residential,Electricity,Distribution
+FTE_ELCELC,Electricity generation,Electricity,Distribution
+FTE_TRAELC,Transport,Electricity,Distribution
+FTE_AGRELC,Agriculture,Electricity,Distribution
+FTE_COMELC,Commercial,Electricity,Distribution
+FTE_INDFOL,Industry,Fuel oil,Distribution
+FTE_RESFOL,Residential,Fuel oil,Distribution
+FTE_ELCFOL,Electricity generation,Fuel oil,Distribution
+FTE_TRAFOL,Transport,Fuel oil,Distribution
+FTE_AGRFOL,Agriculture,Fuel oil,Distribution
+FTE_COMFOL,Commercial,Fuel oil,Distribution
+FTE_INDH2R,Industry,Hydrogen,Distribution
+FTE_RESH2R,Residential,Hydrogen,Distribution
+FTE_ELCH2R,Electricity generation,Hydrogen,Distribution
+FTE_TRAH2R,Transport,Hydrogen,Distribution
+FTE_AGRH2R,Agriculture,Hydrogen,Distribution
+FTE_COMH2R,Commercial,Hydrogen,Distribution
+FTE_INDJET,Industry,Jet fuel,Distribution
+FTE_RESJET,Residential,Jet fuel,Distribution
+FTE_ELCJET,Electricity generation,Jet fuel,Distribution
+FTE_TRAJET,Transport,Jet fuel,Distribution
+FTE_AGRJET,Agriculture,Jet fuel,Distribution
+FTE_COMJET,Commercial,Jet fuel,Distribution
+FTE_INDLNG,Industry,LNG,Distribution
+FTE_RESLNG,Residential,LNG,Distribution
+FTE_ELCLNG,Electricity generation,LNG,Distribution
+FTE_TRALNG,Transport,LNG,Distribution
+FTE_AGRLNG,Agriculture,LNG,Distribution
+FTE_COMLNG,Commercial,LNG,Distribution
+FTE_INDLPG,Industry,LPG,Distribution
+FTE_RESLPG,Residential,LPG,Distribution
+FTE_ELCLPG,Electricity generation,LPG,Distribution
+FTE_TRALPG,Transport,LPG,Distribution
+FTE_AGRLPG,Agriculture,LPG,Distribution
+FTE_COMLPG,Commercial,LPG,Distribution
+FTE_INDNGA,Industry,Natural gas,Distribution
+FTE_RESNGA,Residential,Natural gas,Distribution
+FTE_ELCNGA,Electricity generation,Natural gas,Distribution
+FTE_TRANGA,Transport,Natural gas,Distribution
+FTE_AGRNGA,Agriculture,Natural gas,Distribution
+FTE_COMNGA,Commercial,Natural gas,Distribution
+FTE_INDPET,Industry,Petrol,Distribution
+FTE_RESPET,Residential,Petrol,Distribution
+FTE_ELCPET,Electricity generation,Petrol,Distribution
+FTE_TRAPET,Transport,Petrol,Distribution
+FTE_AGRPET,Agriculture,Petrol,Distribution
+FTE_COMPET,Commercial,Petrol,Distribution
+FTE_INDBIG,Industry,Biogas,Distribution
+FTE_RESBIG,Residential,Biogas,Distribution
+FTE_ELCBIG,Electricity generation,Biogas,Distribution
+FTE_TRABIG,Transport,Biogas,Distribution
+FTE_AGRBIG,Agriculture,Biogas,Distribution
+FTE_COMBIG,Commercial,Biogas,Distribution
+FTE_INDWOD,Industry,Wood,Distribution
+FTE_RESWOD,Residential,Wood,Distribution
+FTE_ELCWOD,Electricity generation,Wood,Distribution
+FTE_TRAWOD,Transport,Wood,Distribution
+FTE_AGRWOD,Agriculture,Wood,Distribution
+FTE_COMWOD,Commercial,Wood,Distribution
+FTE_INDPLT,Industry,Wood Pellet,Distribution
+FTE_RESPLT,Residential,Wood Pellet,Distribution
+FTE_ELCPLT,Electricity generation,Wood Pellet,Distribution
+FTE_TRAPLT,Transport,Wood Pellet,Distribution
+FTE_AGRPLT,Agriculture,Wood Pellet,Distribution
+FTE_COMPLT,Commercial,Wood Pellet,Distribution
+FTE_INDGEO,Industry,Geothermal,Distribution
+FTE_RESGEO,Residential,Geothermal,Distribution
+FTE_ELCGEO,Electricity generation,Geothermal,Distribution
+FTE_TRAGEO,Transport,Geothermal,Distribution
+FTE_AGRGEO,Agriculture,Geothermal,Distribution
+FTE_COMGEO,Commercial,Geothermal,Distribution
+FTE_INDHYD,Industry,Hydro,Distribution
+FTE_RESHYD,Residential,Hydro,Distribution
+FTE_ELCHYD,Electricity generation,Hydro,Distribution
+FTE_TRAHYD,Transport,Hydro,Distribution
+FTE_AGRHYD,Agriculture,Hydro,Distribution
+FTE_COMHYD,Commercial,Hydro,Distribution
+FTE_INDWIN,Industry,Wind,Distribution
+FTE_RESWIN,Residential,Wind,Distribution
+FTE_ELCWIN,Electricity generation,Wind,Distribution
+FTE_TRAWIN,Transport,Wind,Distribution
+FTE_AGRWIN,Agriculture,Wind,Distribution
+FTE_COMWIN,Commercial,Wind,Distribution
+FTE_INDSOL,Industry,Solar,Distribution
+FTE_RESSOL,Residential,Solar,Distribution
+FTE_ELCSOL,Electricity generation,Solar,Distribution
+FTE_TRASOL,Transport,Solar,Distribution
+FTE_AGRSOL,Agriculture,Solar,Distribution
+FTE_COMSOL,Commercial,Solar,Distribution
+G_ELC_HV,Electricity distribution,Electricity,Distribution
+G_ELC_LV,Electricity distribution,Electricity,Distribution
+LNGPORTSML,LNG Ports,LNG,Distribution
+LNGPORTSTD,LNG Ports,LNG,Distribution
+TB_COA_NI_SI_01,,Coal,IRE
+TB_ELC_NI_SI_01,,Electricity,IRE
+TU_LPG_NI_SI_01,,LPG,IRE

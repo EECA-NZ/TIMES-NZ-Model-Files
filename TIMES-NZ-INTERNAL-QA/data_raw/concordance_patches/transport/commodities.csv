@@ -1,6 +1,6 @@
 Comm-Out,Sector,EnduseGroup,EndUse
-T_P_Car,Road Transport,Cars,Passenger car
-T_C_Car,Road Transport,Cars,Commercial car
+T_P_Car,Road Transport,Light vehicles,Light Passenger Vehicle
+T_C_Car,Road Transport,Light vehicles,Light Commercial Vehicle
 T_P_Mcy,Road Transport,Motorcycle,Motorcycle
 T_P_Bus,Road Transport,Bus,Bus
 T_F_LTrk,Road Transport,Trucks,Light Truck

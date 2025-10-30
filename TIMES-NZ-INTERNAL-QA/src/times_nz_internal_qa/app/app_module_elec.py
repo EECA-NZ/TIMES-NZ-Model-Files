@@ -3,32 +3,46 @@ Data formatting, server and ui functions for electricity generation data
 
 """
 
-import io
+from functools import lru_cache
 
-import altair as alt
-import pandas as pd
-from shiny import reactive, render, ui
-from shinywidgets import output_widget, render_altair
-from times_nz_internal_qa.app.filter_helpers import (
-    apply_filters,
+import polars as pl
+from shiny import reactive, render
+from shinywidgets import render_altair
+from times_nz_internal_qa.app.helpers.charts import (
+    build_grouped_bar,
+)
+from times_nz_internal_qa.app.helpers.data_processing import (
+    aggregate_by_group,
+    filter_df_for_variable,
+    get_agg_data,
+    get_filter_options_from_data,
+    make_chart_data,
+    read_data_pl,
+    write_polars_to_csv,
+)
+from times_nz_internal_qa.app.helpers.filters import (
     create_filter_dict,
-    filter_output_ui_list,
-    register_filter_from_factory,
+    register_all_filters_and_clear,
 )
-from times_nz_internal_qa.utilities.data_formatting import (
-    complete_periods,
-)
+from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
 from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
 
 # CONSTANTS  ------------------------------------------------------------------------------
+
+PJ_TO_GWH = 277.778
+# ID_PREFIX is used to ensure some ui and server elements link correctly
+ID_PREFIX = "elec"
+# data location
+ELE_GEN_FILE_LOCATION = FINAL_DATA / "elec_generation.parquet"
+
 # define base columns that we must always group by
+# Might even make these standard across everything?
 ele_base_cols = [
     "Scenario",
     "Variable",
     "Period",
     "Unit",
 ]
-
 # parameters to optionally group data by
 # Note: we can add Fuel for the fuel inputs
 ele_core_group_options = [
@@ -46,197 +60,216 @@ core_filters = [
     {"col": "PlantName", "label": "Plant"},
 ]
 
-fuel_filters = [
-    {"col": "Fuel"},
-]
-
 ele_gen_filters = create_filter_dict("ele_gen", core_filters)
 ele_cap_filters = create_filter_dict("ele_cap", core_filters)
-ele_use_filters = create_filter_dict("ele_use", core_filters + fuel_filters)
+ele_use_filters = create_filter_dict("ele_use", core_filters + [{"col": "Fuel"}])
 
-# PROCESS DATA
+ele_all_group_options = ele_base_cols + ele_core_group_options + ["Fuel"]
 
 
-def get_base_ele_df():
-    """Minor tidting of the base input"""
+# ELECTRICITY-SPECIFIC DATA HANDLING -----------------------------------------------
 
-    df = pd.read_parquet(FINAL_DATA / "elec_generation.parquet")
-    df = df.fillna("-")
-    df["Period"] = df["Period"].astype(int)
-    df = df[df["Scenario"] == "traditional-v3_0_0"]  # placeholder
+# CACHE MAIN TABLES
 
+# We build separate functions for each table so they can all be cached separately.
+
+# we define collection of the lazy frames at each of these points to hold cached data in memory
+# this only updates when the scenario changes and caches 8 copies for common scenario configs
+
+
+@lru_cache(maxsize=8)
+def get_base_ele_gen_df(scenarios, filepath=ELE_GEN_FILE_LOCATION):
+    """
+    Returns ele gen data (pre-filtered)
+    Based on scenario selections
+    Caches results for quick switching
+    """
+    df = read_data_pl(filepath, scenarios)
+    df = aggregate_by_group(df, ele_all_group_options)
+    df = filter_df_for_variable(df, "Electricity generation", collect=True)
+
+    # modify this for GWh
+
+    df = df.with_columns(
+        [(pl.col("Value") * PJ_TO_GWH).alias("Value"), pl.lit("GWh").alias("Unit")]
+    )
     return df
 
 
-def get_ele_gen_data(df, variable):
+@lru_cache(maxsize=8)
+def get_base_ele_cap_df(scenarios, filepath=ELE_GEN_FILE_LOCATION):
     """
-    Filter for the variable we want to display
-    Convert PJ to GWh for output
+    Returns ele cap data (before any filtering)
+    Based on scenario selections
+    Caches results for quick switching
     """
-    df = df[df["Variable"] == variable].copy()
-    if variable == "Electricity generation":
-        df["Value"] = df["Value"] * 277.78
-        df["Unit"] = "GWh"
+    df = read_data_pl(filepath, scenarios)
+    df = aggregate_by_group(df, ele_all_group_options)
+    df = filter_df_for_variable(df, "Electricity generation capacity", collect=True)
     return df
 
 
-# Process data
-base_df = get_base_ele_df()
-ele_gen_df = get_ele_gen_data(base_df, "Electricity generation")
-ele_cap_df = get_ele_gen_data(base_df, "Electricity generation capacity")
-ele_use_df = get_ele_gen_data(base_df, "Electricity fuel use")
+@lru_cache(maxsize=8)
+def get_base_ele_use_df(scenarios, filepath=ELE_GEN_FILE_LOCATION):
+    """
+    Returns ele use data (pre-filtered)
+    Based on scenario selections
+    Caches results for quick switching
+    """
+    df = read_data_pl(filepath, scenarios)
+    df = aggregate_by_group(df, ele_all_group_options)
+    df = filter_df_for_variable(df, "Electricity fuel use", collect=True)
+    return df
+
+
+# SERVER ------------------------------------------------------------------------
 
 
 # pylint:disable = too-many-locals, unused-argument
-def elec_server(inputs, outputs, session):
+def elec_server(inputs, outputs, session, selected_scens):
     """
     server functions for electricity
     """
 
-    # REGISTER ALL FILTER FUNCTIONS FOR UI
-    # Currently we do this once per chart
-    for fs in ele_gen_filters:
-        register_filter_from_factory(
-            fs, ele_gen_df, ele_gen_filters, inputs, outputs, session
-        )
+    @reactive.calc
+    def scen_tuple():
+        """Converting scenario list to tuple. needed for hashing"""
+        return tuple(selected_scens["scenario_list"]())
 
-    for fs in ele_cap_filters:
-        register_filter_from_factory(
-            fs, ele_cap_df, ele_cap_filters, inputs, outputs, session
-        )
+    # Many of the next steps come in groups of three - one for each chart currently built
 
-    for fs in ele_use_filters:
-        register_filter_from_factory(
-            fs, ele_use_df, ele_use_filters, inputs, outputs, session
-        )
+    # Possibly could stand to make more factories here instead, especially if we want more charts.
 
-    # APPLY FILTERS TO DATA DYNAMICALLY (group afterwards)
+    # get each table for each chart
+    @reactive.calc
+    def ele_gen_df():
+        return get_base_ele_gen_df(scen_tuple())
+
+    @reactive.calc
+    def ele_cap_df():
+        return get_base_ele_cap_df(scen_tuple())
+
+    @reactive.calc
+    def ele_use_df():
+        return get_base_ele_use_df(scen_tuple())
+
+    # separately, take base filter options data
+
+    @reactive.calc
+    def ele_gen_filter_options():
+        return get_filter_options_from_data(ele_gen_df(), ele_gen_filters)
+
+    @reactive.calc
+    def ele_cap_filter_options():
+        return get_filter_options_from_data(ele_cap_df(), ele_cap_filters)
+
+    @reactive.calc
+    def ele_use_filter_options():
+        return get_filter_options_from_data(ele_use_df(), ele_use_filters)
+
+    # register all filter controls for server side maintenance
+
+    register_all_filters_and_clear(
+        ele_gen_filters, ele_gen_filter_options, inputs, outputs, session
+    )
+    register_all_filters_and_clear(
+        ele_cap_filters, ele_cap_filter_options, inputs, outputs, session
+    )
+    register_all_filters_and_clear(
+        ele_use_filters, ele_use_filter_options, inputs, outputs, session
+    )
+
+    # APPLY FILTERS TO DATA DYNAMICALLY AND LAZILY
     @reactive.calc
     def ele_cap_df_filtered():
-        d = ele_cap_df.copy()
-        d = apply_filters(d, ele_cap_filters, inputs)
-        return (
-            d.groupby(ele_base_cols + [inputs.ele_cap_group()])["Value"]
-            .sum()
-            .reset_index()
-        )
+        group_vars = ele_base_cols + [inputs.ele_cap_group()]
+        df = get_agg_data(ele_cap_df(), ele_cap_filters, inputs, group_vars)
+        return df
 
     @reactive.calc
     def ele_use_df_filtered():
-        d = ele_use_df.copy()
-        d = apply_filters(d, ele_use_filters, inputs)
-        return (
-            d.groupby(ele_base_cols + [inputs.ele_use_group()])["Value"]
-            .sum()
-            .reset_index()
-        )
+        group_vars = ele_base_cols + [inputs.ele_use_group()]
+        df = get_agg_data(ele_use_df(), ele_use_filters, inputs, group_vars)
+        return df
 
     @reactive.calc
     def ele_gen_df_filtered():
-        d = ele_gen_df.copy()
-        d = apply_filters(d, ele_gen_filters, inputs)
-        return (
-            d.groupby(ele_base_cols + [inputs.ele_gen_group()])["Value"]
-            .sum()
-            .reset_index()
+        group_vars = ele_base_cols + [inputs.ele_gen_group()]
+        df = get_agg_data(ele_gen_df(), ele_gen_filters, inputs, group_vars)
+        return df
+
+    # CREATE CHART OUTPUT DATA
+    @reactive.calc
+    def ele_gen_chart_df():
+        return make_chart_data(
+            ele_gen_df_filtered(),
+            ele_base_cols,
+            inputs.ele_gen_group(),
+            selected_scens["scenario_list"](),
         )
 
-    # CHARTS
-
-    # we make this once then pass parameters to build each one
-
-    def build_grouped_bar(df, base_cols, group_col, period_range=range(2023, 2051)):
-        dc = complete_periods(
-            df,
-            period_list=period_range,
-            category_cols=[c for c in base_cols if c != "Period"] + [group_col],
-        )
-        # unit defined in the data itself
-        # side benefit that we can see if any units are inconsistent within a chart
-        unit = dc["Unit"].unique().tolist()
-        return (
-            alt.Chart(dc)
-            .mark_bar(size=40, opacity=0.85)
-            .encode(
-                x=alt.X("Period:N", title="Year"),
-                y=alt.Y("Value:Q", title=unit),
-                color=f"{group_col}:N",
-                tooltip=[
-                    alt.Tooltip(f"{group_col}:N", title=group_col),
-                    alt.Tooltip("Value:Q", title=unit, format=",.2f"),
-                ],
-            )
+    @reactive.calc
+    def ele_cap_chart_df():
+        return make_chart_data(
+            ele_cap_df_filtered(),
+            ele_base_cols,
+            inputs.ele_cap_group(),
+            selected_scens["scenario_list"](),
         )
 
-    # build the 3 charts
-    @outputs(id="ele_gen_chart")
+    @reactive.calc
+    def ele_use_chart_df():
+        return make_chart_data(
+            ele_use_df_filtered(),
+            ele_base_cols,
+            inputs.ele_use_group(),
+            selected_scens["scenario_list"](),
+        )
+
+    # DRAW CHARTS
     @render_altair
-    def _():
-        return build_grouped_bar(
-            ele_gen_df_filtered(), ele_base_cols, inputs.ele_gen_group()
-        )
+    def ele_gen_chart():
+        # if using altair, must touch the nav input to ensure rerendering
+        _ = inputs.elec_nav()
+        params = ele_gen_chart_df()
+        return build_grouped_bar(**params)
 
-    @outputs(id="ele_use_chart")
     @render_altair
-    def _():
-        return build_grouped_bar(
-            ele_use_df_filtered(), ele_base_cols, inputs.ele_use_group()
-        )
+    def ele_cap_chart():
+        # if using altair, must touch the nav input to ensure rerendering
+        _ = inputs.elec_nav()
+        params = ele_cap_chart_df()
+        return build_grouped_bar(**params)
 
-    @outputs(id="ele_cap_chart")
     @render_altair
-    def _():
-        return build_grouped_bar(
-            ele_cap_df_filtered(), ele_base_cols, inputs.ele_cap_group()
-        )
+    def ele_use_chart():
+        # if using altair, must touch the nav input to ensure rerendering
+        # this can be skipped if using plotly
+        _ = inputs.elec_nav()
+        params = ele_use_chart_df()
+        return build_grouped_bar(**params)
 
     # CSV downloads (not yet functionalised sorry)
-
-    @render.download(filename="ele_gen_chart_data_download.csv", media_type="text/csv")
+    @render.download(
+        filename="times_nz_electricity_generation.csv", media_type="text/csv"
+    )
     def ele_gen_chart_data_download():
-        buf = io.StringIO()
-        ele_gen_df_filtered().to_csv(buf, index=False)
-        yield buf.getvalue()
+        yield write_polars_to_csv(ele_gen_df())
 
-    @render.download(filename="ele_use_chart_data_download.csv", media_type="text/csv")
+    @render.download(
+        filename="times_nz_electricity_fuel_use.csv", media_type="text/csv"
+    )
     def ele_use_chart_data_download():
-        buf = io.StringIO()
-        ele_use_df_filtered().to_csv(buf, index=False)
-        yield buf.getvalue()
+        yield write_polars_to_csv(ele_use_df())
 
-    @render.download(filename="ele_cap_chart_data_download.csv", media_type="text/csv")
+    @render.download(
+        filename="times_nz_electricity_generation_capacity.csv", media_type="text/csv"
+    )
     def ele_cap_chart_data_download():
-        buf = io.StringIO()
-        ele_cap_df_filtered().to_csv(buf, index=False)
-        yield buf.getvalue()
-
-    @render.download(filename="ele_gen_data_raw.csv", media_type="text/csv")
-    def ele_all_data_download():
-        buf = io.StringIO()
-        base_df.to_csv(buf, index=False)
-        yield buf.getvalue()
+        yield write_polars_to_csv(ele_cap_df())
 
 
 # UI ------------------------------------------------
-
-
-# pylint:disable = too-many-positional-arguments, too-many-arguments, duplicate-code
-# probably need to send this function to a helper and have each module import it
-def section_block(sec_id, title, group_input_id, group_options, filters, chart_id):
-    """
-    Defines the ui layout of an individual chart. Flexible input params
-    """
-    return ui.div(
-        ui.layout_columns(
-            ui.tags.h3(title, id=sec_id),
-            ui.input_select(group_input_id, "Group by:", group_options),
-            ui.download_button(f"{chart_id}_data_download", "Download chart data"),
-        ),
-        ui.span("Filters"),
-        ui.div(*filter_output_ui_list(filters), class_="elec-filters"),
-        output_widget(chart_id),
-        class_="elec-section",
-    )
 
 
 sections = [
@@ -252,7 +285,7 @@ sections = [
         "elec-use",
         "Fuel used for generation",
         "ele_use_group",
-        ele_core_group_options,
+        ele_core_group_options + ["Fuel"],
         ele_use_filters,
         "ele_use_chart",
     ),
@@ -266,51 +299,4 @@ sections = [
     ),
 ]
 
-toc = ui.div(
-    *[ui.tags.a(lbl, href=f"#{sid}", class_="toc-link") for sid, lbl, *_ in sections],
-    id="elec-toc",
-)
-
-content = ui.div(
-    *[section_block(*s) for s in sections],
-    id="elec-content",
-)
-
-elec_ui = ui.page_fluid(
-    ui.tags.style(
-        """
-    #elec-layout{display:flex; gap:16px;}
-    #elec-toc{width:240px; flex:0 0 240px; position:sticky;
-                    top:0; align-self:flex-start; 
-                    max-height:calc(100vh - 120px);
-                    overflow:auto; border-right:1px solid #eee; padding-right:12px;}     
-    #elec-content{flex:1 1 auto; max-height:calc(100vh - 120px); 
-                    overflow:auto; padding-right:12px;}
-    .elec-filters{ display:grid;
-                    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-                    gap:12px;}
-    .toc-link{display:block; padding:6px 0; text-decoration:none;}
-    .elec-section h3{scroll-margin-top:12px;}
-    """
-    ),
-    # combine the generated toc and content
-    ui.download_button("ele_all_data_download", "Download raw data"),
-    ui.div(toc, content, id="elec-layout"),
-    # javascript for in-pane scrolling
-    ui.tags.script(
-        """
-    (function(){
-      const scroller = document.getElementById('elec-content');
-      document.addEventListener('click', function(e){
-        const a = e.target.closest('a.toc-link');
-        if(!a) return;
-        e.preventDefault();
-        const target = document.querySelector(a.getAttribute('href'));
-        if(!target || !scroller) return;
-        const y = target.offsetTop - scroller.offsetTop - 8;
-        scroller.scrollTo({top: y, behavior: 'smooth'});
-      }, true);
-    })();
-    """
-    ),
-)
+elec_ui = make_explorer_page_ui(sections, ID_PREFIX)

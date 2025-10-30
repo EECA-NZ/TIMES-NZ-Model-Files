@@ -1,0 +1,193 @@
+:root{
+  /* colours*/
+  --panel-bg:#eef1f4;   
+  --panel-text:#1f2937; 
+  --muted:#6b7280;      
+  --border:#d1d5db;     
+  /*sizes*/
+  --radius:12px;
+  --gap:12px;
+  --chart-panel-h: 520px;
+}
+
+
+/* CHART SIDE PANEL */
+
+.chart-control-panel{
+  
+  background:var(--panel-bg);
+  color:var(--panel-text);  
+  border-radius:var(--radius);
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:var(--gap);
+}
+
+
+.chart-with-title .chart-header{  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--panel-bg);
+  border-radius: var(--radius);
+  padding: 8px 16px;
+}
+
+.chart-with-title {  
+  min-height: var(--chart-panel-h);
+  background: var(--panel-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+  
+
+.filter-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 4px 0;
+  color:var(--muted);
+}
+
+.chart-control-panel .individual-filter .form-group {
+    display: inline;        
+    margin-bottom: 0px;
+    width: 100%;
+}
+
+/* Individual filter labels  */
+.chart-control-panel .individual-filter label {
+    flex: 0 0 90px;   
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    margin: 0;
+}
+
+
+
+/* Download button */
+.chart-with-title .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  
+  border-radius: 8px;
+  background: white;
+  color: var(--panel-text);
+  width: auto; /* not full width */
+}
+/* subtle hover effect */
+.chart-with-title .btn:hover {
+  background: #f3f4f6;
+  border-color: #cbd5e1;
+}
+/* NAV CARDS */
+/* Making radio buttons look a bit nicer */
+/* space between items */
+.nav-cards .radio { margin-bottom:8px; }
+
+/* hide native circle */
+.nav-cards .radio input[type="radio"] {
+  position:absolute; opacity:0; pointer-events:none;
+}
+
+/* make the span the clickable card */
+.nav-cards .radio label {
+  display:block; padding:10px 12px; border:1px solid #e5e7eb; border-radius:10px;
+  background:#fff; color:#111827; cursor:pointer; user-select:none;
+  transition:background .15s, border-color .15s, box-shadow .15s;
+}
+
+/* hover */
+.nav-cards .radio label:hover { background:#f9fafb; border-color:#cbd5e1; }
+
+/* selected */
+.nav-cards .radio label:has(input:checked) {
+  background:var(--panel-bg); 
+}
+
+
+/* MODALS */
+
+   
+.modal-dialog { 
+  /* set modal width */
+  max-width: 900px !important;
+  /* distance from top*/
+  margin-top: 5vh !important;   
+  }
+.modal-body p {
+  /* control paragraph spacing */
+  margin-bottom: 0.75rem;        
+  }
+
+/* INFO BUTTONS */
+
+.info-btn {
+  padding: 0 .35rem;
+  border: none;
+  border-radius: 50%;
+  font-weight: 700;
+  line-height: 1;
+  margin-left: .35rem;
+  background: transparent;
+  color:  #a7a7a7;
+  font-size: 1rem; 
+  cursor: pointer;
+  transition: color .15s ease;
+}
+
+.info-btn:hover {
+  color: #2d8db9;        /* highlight color */
+  background: transparent; /* remove background highlight */
+}
+
+.nav-tabs .nav-link .info-btn {
+  font-size: 1rem;       /* override if tab styles shrink it */
+  vertical-align: middle;
+}
+
+
+
+/* HEADER INFO */
+.header-info-btn {
+  background: transparent;
+  width: 160px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;  
+  box-sizing: border-box;
+}
+
+.header-info-btn:hover {
+  background: #2d8db9;
+}
+
+/*FILTER HEADER / BUTTONS */
+
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-header h4 {
+  margin: 0;
+}
+
+.clear-filters {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+
+

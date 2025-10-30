@@ -12,9 +12,9 @@ QA_LOCATION = _REPO_ROOT
 DATA_RAW = QA_LOCATION / "data_raw"
 ASSETS = QA_LOCATION / "assets"
 
-FINAL_DATA = QA_LOCATION / "data"
-SCENARIO_FILES = DATA_RAW / "scenario_files"
+DATA = QA_LOCATION / "data"
 
+SCENARIO_FILES = DATA_RAW / "scenario_files"
 CONCORDANCE_PATCHES = DATA_RAW / "concordance_patches"
 
 
@@ -26,5 +26,8 @@ PREP_STAGE_3 = PREP_LOCATION / "data_intermediate/stage_3_scenario_data"
 PREP_STAGE_4 = PREP_LOCATION / "data_intermediate/stage_4_veda_format"
 
 # Main concordance files - used for generating output data
-PROCESS_CONCORDANCES = DATA_RAW / "final_concordances/processes"
-COMMODITY_CONCORDANCES = DATA_RAW / "final_concordances/commodities"
+PROCESS_CONCORDANCES = DATA / "concordances/processes"
+COMMODITY_CONCORDANCES = DATA / "concordances/commodities"
+
+# For storing results
+FINAL_DATA = DATA / "clean_results"
