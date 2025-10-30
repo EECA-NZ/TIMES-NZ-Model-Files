@@ -328,7 +328,8 @@ def define_generation_parameters(df):
 
     # additional hard-coded parameters
     # no new investment
-    existing_techs_parameters["NCAP_BND"] = 0
+    # existing_techs_parameters["NCAP_BND"] = 0
+    existing_techs_parameters[f"NCAP_BND~{BASE_YEAR+1}"] = 0
     existing_techs_parameters["NCAP_BND~0"] = 5
     # standard cap2act method (should this not go in FI_Process?)
     existing_techs_parameters["CAP2ACT"] = CAP2ACT_PJGW
