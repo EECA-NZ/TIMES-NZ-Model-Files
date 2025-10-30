@@ -8,6 +8,9 @@ from prepare_times_nz.stage_4.demand_projections.demand_drivers import (
 from prepare_times_nz.stage_4.demand_projections.driver_allocations import (
     main as driver_allocations,
 )
+from prepare_times_nz.stage_4.demand_projections.sector_closures import (
+    main as sector_closures,
+)
 
 
 def main():
@@ -24,6 +27,7 @@ def main():
 
     demand_drivers()
     driver_allocations()
+    sector_closures()
 
 
 if __name__ == "__main__":

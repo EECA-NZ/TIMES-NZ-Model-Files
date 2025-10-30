@@ -6,7 +6,9 @@ This is achieved by generating processes that meet the sector's demand without i
 (But at the specified cost). If the model chooses these options
 
 We currently assume this is only possible for industrial subsectors
+ so only load industrial base year
 
+The specific sectors allowed to close are defined in the base year file
 """
 
 # Libraries
