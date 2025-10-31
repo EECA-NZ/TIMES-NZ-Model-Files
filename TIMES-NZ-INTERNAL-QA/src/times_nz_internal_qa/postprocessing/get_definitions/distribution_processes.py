@@ -43,19 +43,34 @@ def get_elc_distribution_processes():
     """
 
     elc_dist_processes = [
-        "G_ELC_A",
-        "G_ELC_C",
-        "G_ELC_I",
         "G_ELC_HV",
         "G_ELC_LV",
-        "G_ELC_T_00",  # what is this???
-        "G_ELC_R",
     ]
 
     df = pd.DataFrame()
     df["Process"] = elc_dist_processes
     df["Sector"] = "Electricity distribution"
     df["Commodity"] = "Electricity"
+    df["ProcessGroup"] = "Distribution"
+
+    return df
+
+
+def get_lng_ports():
+    """
+    quick manual descriptions of LNG ports
+    THese basically turn LNG into NGA
+    """
+
+    lng_ports = [
+        "LNGPORTSML",
+        "LNGPORTSTD",
+    ]
+
+    df = pd.DataFrame()
+    df["Process"] = lng_ports
+    df["Sector"] = "LNG Ports"
+    df["Commodity"] = "LNG"
     df["ProcessGroup"] = "Distribution"
 
     return df
@@ -81,6 +96,7 @@ def main():
         [
             get_generic_distribution_processes(),
             get_elc_distribution_processes(),
+            get_lng_ports(),
             get_ire_processes(),
         ]
     )

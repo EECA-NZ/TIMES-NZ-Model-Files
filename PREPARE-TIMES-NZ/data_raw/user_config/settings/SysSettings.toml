@@ -179,7 +179,7 @@ AllRegions = [2015,0.1]
 
 
 ###############################################################################
-# RE-enable BY Investment
+# Rase year investment settings 
 ###############################################################################
 
 # By default, Veda disables investment in any base year techs with PRC_RESID 
@@ -197,3 +197,15 @@ PSet_Pn = "*"
 Year = 0 
 Value = 0
 LimType = "UP"
+
+# Further, we want to ensure no investment in any base year electricity generation.
+
+[BlockBaseYearElectricityReinvestment]
+WorkBookName = "BY_Trans"
+Description = "Ensures no investment in any base year electricity generation (either PASTI or RESID). This means no expansion unless defined in new techs."
+SheetName = "ImportSettings"
+TagName = "TFM_INS"
+Attribute = "NCAP_BND"
+PSet_Pn = "ELC_*"
+Year = 0 
+Value = 2

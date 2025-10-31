@@ -2,42 +2,56 @@
 Energy demand processing, ui, and server functions
 """
 
-import io
+from functools import lru_cache
 
-import altair as alt
-import pandas as pd
-from shiny import reactive, render, ui
-from shinywidgets import output_widget, render_altair
-from times_nz_internal_qa.app.filter_helpers import (
-    apply_filters,
+import polars as pl
+from shiny import reactive, render
+from shinywidgets import render_altair
+from times_nz_internal_qa.app.helpers.charts import build_grouped_bar
+from times_nz_internal_qa.app.helpers.data_processing import (
+    aggregate_by_group,
+    filter_df_for_variable,
+    get_agg_data,
+    get_filter_options_from_data,
+    make_chart_data,
+    read_data_pl,
+    write_polars_to_csv,
+)
+from times_nz_internal_qa.app.helpers.filters import (
     create_filter_dict,
-    filter_output_ui_list,
-    register_filter_from_factory,
+    register_all_filters_and_clear,
 )
-from times_nz_internal_qa.utilities.data_formatting import (
-    complete_periods,
-)
+from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
 from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
 
 # CONSTANTS --------------------------------------------------
 
+# all modules get a unique id code to generate other IDs with
+ID_PREFIX = "dem"
+
+PJ_TO_GWH = 277.778
+DEM_FILE_LOCATION = FINAL_DATA / "energy_demand.parquet"
 
 # SET FILTER/GROUP OPTIONS
 
 dem_filters_raw = [
     {"col": "SectorGroup", "label": "Sector Group"},
     {"col": "Sector"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    # {"col": "TechnologyGroup", "label": "Technology Group"},
     {"col": "Technology"},
-    {"col": "EnduseGroup"},
+    # {"col": "EnduseGroup"},
     {"col": "EndUse"},
     {"col": "Region"},
-    {"col": "Fuel"},
     {"col": "Process"},
 ]
 
-dem_filters = create_filter_dict("energy_dem", dem_filters_raw)
-dem_group_options = [d["col"] for d in dem_filters_raw]
+# we add fuel to main
+dem_filters = dem_filters_raw + [{"col": "Fuel"}]
+dem_filters = create_filter_dict("energy_dem", dem_filters)
+elc_dem_filters = create_filter_dict("elc_dem", dem_filters_raw)
+
+dem_group_options = [d["col"] for d in dem_filters]
+elc_dem_group_options = [d["col"] for d in elc_dem_filters]
 
 # Core variables we always group by
 
@@ -48,172 +62,178 @@ base_cols = [
     "Unit",
 ]
 
+dem_all_group_options = base_cols + dem_group_options
+elc_dem_all_group_options = base_cols + elc_dem_group_options
+
+
 # GET DATA ------------------------------------------
 
 
-def get_energy_dem():
+@lru_cache(maxsize=8)
+def get_base_dem_df(scenarios, filepath=DEM_FILE_LOCATION):
     """
-    Formatting for all energy demand. Outputs the main data ready for web ingestion
+    Returns demand data (pre-filtered)
+    Based on scenario selections
+    Caches results for quick switching
     """
-
-    df = pd.read_parquet(FINAL_DATA / "energy_demand.parquet")
-    df = df.fillna("-")
-    df = df[df["Scenario"] == "traditional-v3_0_0"]
-    df["Period"] = df["Period"].astype("Int64")
+    df = read_data_pl(filepath, scenarios)
+    df = aggregate_by_group(df, dem_all_group_options)
+    df = filter_df_for_variable(df, "Energy demand", collect=True)
     return df
+
+
+@lru_cache(maxsize=8)
+def get_base_elc_dem_df(scenarios, filepath=DEM_FILE_LOCATION):
+    """
+    Returns electricity demand data (pre-filtered)
+    Adjusts to GWh
+    Based on scenario selections
+    Caches results for quick switching
+    """
+    df = read_data_pl(filepath, scenarios)
+    df = aggregate_by_group(df, dem_all_group_options)
+
+    # electricity demand only
+    df = df.filter(pl.col("Fuel") == "Electricity")
+
+    # don't collect yet - we want to do further modifications
+    df = filter_df_for_variable(df, "Energy demand", collect=False)
+
+    # convert gwh and change variable
+    df = df.with_columns(
+        [
+            (pl.col("Value") * PJ_TO_GWH).alias("Value"),
+            pl.lit("GWh").alias("Unit"),
+            pl.lit("Electricity demand").alias("Variable"),
+        ]
+    )
+
+    return df.collect()
 
 
 # SERVER ------------------------------------------
 
 
 # pylint:disable = too-many-locals, unused-argument, too-many-statements
-def demand_server(inputs, outputs, session):
+def demand_server(inputs, outputs, session, selected_scens):
     """
     Server functions for energy demand module
     """
-    energy_dem_df = get_energy_dem()
-
-    # REGISTER ALL FILTER FUNCTIONS FOR UI
-    for fs in dem_filters:
-        register_filter_from_factory(
-            fs, energy_dem_df, dem_filters, inputs, outputs, session
-        )
-
-    # DYNAMICALLY FILTER/GROUP DATA
 
     @reactive.calc
-    def energy_dem_df_filtered():
-        d = energy_dem_df.copy()
-        d = apply_filters(d, dem_filters, inputs)
-        return d.groupby(base_cols + [inputs.dem_group()])["Value"].sum().reset_index()
+    def scen_tuple():
+        """Converting scenario list to tuple. needed for hashing"""
+        return tuple(selected_scens["scenario_list"]())
+
+    # GET BASE DEMAND DATA
+
+    @reactive.calc
+    def dem_df():
+        return get_base_dem_df(scen_tuple())
+
+    @reactive.calc
+    def elc_dem_df():
+        return get_base_elc_dem_df(scen_tuple())
+
+    # make base filter options dynamic to scenario selection
+    @reactive.calc
+    def dem_filter_options():
+        return get_filter_options_from_data(dem_df(), dem_filters)
+
+    @reactive.calc
+    def elc_dem_filter_options():
+        return get_filter_options_from_data(elc_dem_df(), elc_dem_filters)
+
+    # REGISTER ALL FILTER FUNCTIONS FOR UI
+    register_all_filters_and_clear(
+        dem_filters, dem_filter_options, inputs, outputs, session
+    )
+
+    register_all_filters_and_clear(
+        elc_dem_filters, elc_dem_filter_options, inputs, outputs, session
+    )
+
+    # Apply filters to data dynamically and lazily
+    @reactive.calc
+    def dem_df_filtered():
+        group_vars = base_cols + [inputs.dem_group()]
+        df = get_agg_data(dem_df(), dem_filters, inputs, group_vars)
+        return df
+
+    @reactive.calc
+    def elc_dem_df_filtered():
+        group_vars = base_cols + [inputs.elc_dem_group()]
+        df = get_agg_data(elc_dem_df(), elc_dem_filters, inputs, group_vars)
+        return df
+
+    # process chart inputs from filtered data
+    @reactive.calc
+    def dem_chart_df():
+        return make_chart_data(
+            dem_df_filtered(),
+            base_cols,
+            inputs.dem_group(),
+            selected_scens["scenario_list"](),
+        )
+
+    @reactive.calc
+    def elc_dem_chart_df():
+        return make_chart_data(
+            elc_dem_df_filtered(),
+            base_cols,
+            inputs.elc_dem_group(),
+            selected_scens["scenario_list"](),
+        )
 
     # Render chart
-    @outputs(id="dem_chart")
     @render_altair
-    def _():
-        group_col = inputs.dem_group()
-        df = energy_dem_df_filtered()
-        dc = complete_periods(
-            df,
-            period_list=range(2023, 2051),
-            # group by everything important except period
-            category_cols=[c for c in base_cols if c != "Period"] + [group_col],
-        )
+    def energy_dem_chart():
+        # name must match sections chart_id
+        # if using altair, must touch the nav input to ensure rerendering
+        _ = inputs.dem_nav()
+        params = dem_chart_df()
+        return build_grouped_bar(**params)
 
-        return (
-            alt.Chart(dc)
-            .mark_bar(size=40, opacity=0.85)
-            .encode(
-                x=alt.X("Period:N", title="Year"),
-                y=alt.Y("Value:Q", title="PJ"),
-                color=f"{inputs.dem_group()}:N",
-                tooltip=[
-                    # alt.Tooltip("PlantName:N", title=""),
-                    alt.Tooltip(f"{inputs.dem_group()}:N", title=inputs.dem_group()),
-                    alt.Tooltip("Value:Q", title="PJ", format=",.2f"),
-                    # alt.Tooltip("y:Q", title="Y", format=",.2f"),
-                ],
-            )
-        )
+    @render_altair
+    def elc_dem_chart():
+        # name must match sections chart_id
+        # if using altair, must touch the nav input to ensure rerendering
+        _ = inputs.dem_nav()
+        params = elc_dem_chart_df()
+        return build_grouped_bar(**params)
 
-    # Generate downloads
-    @render.download(filename="dem_chart_data_download.csv", media_type="text/csv")
-    def dem_chart_data_download():
-        buf = io.StringIO()
-        energy_dem_df_filtered().to_csv(buf, index=False)
-        yield buf.getvalue()
+    # Generate download
+    @render.download(filename="times_nz_energy_end_use.csv", media_type="text/csv")
+    def energy_dem_chart_data_download():
+        yield write_polars_to_csv(dem_df())
 
-    @render.download(filename="dem_data_raw.csv", media_type="text/csv")
-    def dem_all_data_download():
-        buf = io.StringIO()
-        energy_dem_df.to_csv(buf, index=False)
-        yield buf.getvalue()
+    @render.download(filename="times_nz_electricity_end_use.csv", media_type="text/csv")
+    def elc_dem_chart_data_download():
+        yield write_polars_to_csv(elc_dem_df())
 
 
 # UI --------------------------------------------
 
 
-# pylint:disable = too-many-positional-arguments, too-many-arguments
-def section_block(sec_id, title, group_input_id, group_options, filters, chart_id):
-    """
-    Defines the ui layout of an individual chart. Flexible input params
-    """
-    return ui.div(
-        ui.layout_columns(
-            ui.tags.h3(title, id=sec_id),
-            ui.input_select(group_input_id, "Group by:", group_options),
-            ui.download_button(f"{chart_id}_data_download", "Download chart data"),
-        ),
-        ui.span("Filters"),
-        ui.div(*filter_output_ui_list(filters), class_="dem-filters"),
-        output_widget(chart_id),
-        class_="dem-section",
-    )
-
-
 sections = [
-    # single section for a single chart. Used
+    # single section for a single chart
     (
         "dem-total",
         "Total energy demand",
         "dem_group",
         dem_group_options,
         dem_filters,
-        "dem_chart",
-    )
+        "energy_dem_chart",
+    ),
+    (
+        "elc-dem",
+        "Electricity demand",
+        "elc_dem_group",
+        elc_dem_group_options,
+        elc_dem_filters,
+        "elc_dem_chart",
+    ),
 ]
 
-toc = ui.div(
-    *[ui.tags.a(lbl, href=f"#{sid}", class_="toc-link") for sid, lbl, *_ in sections],
-    id="dem-toc",
-)
 
-content = ui.div(
-    *[section_block(*s) for s in sections],
-    id="dem-content",
-)
-
-demand_ui = ui.page_fluid(
-    ui.tags.style(
-        """
-    #dem-layout{display:flex; gap:16px;}
-    #dem-toc{width:240px;    
-              flex:0 0 240px;
-              position:sticky;
-              top:0;
-              align-self:flex-start; 
-              max-height:calc(100vh - 120px); 
-              overflow:auto;
-              border-right:1px solid #eee;
-              padding-right:12px;}     
-    #dem-content{flex:1 1 auto; 
-            max-height:calc(100vh - 120px);
-            overflow:auto; padding-right:12px;}
-    .dem-filters{ display:grid; 
-                grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-                gap:12px;}
-    .toc-link{display:block; padding:6px 0; text-decoration:none;}
-    .dem-section h3{scroll-margin-top:12px;}
-    """
-    ),
-    # combine the generated toc and content
-    ui.download_button("dem_all_data_download", "Download raw data"),
-    ui.div(toc, content, id="dem-layout"),
-    # javascript for in-pane scrolling
-    ui.tags.script(
-        """
-    (function(){
-      const scroller = document.getElementById('dem-content');
-      document.addEventListener('click', function(e){
-        const a = e.target.closest('a.toc-link');
-        if(!a) return;
-        e.preventDefault();
-        const target = document.querySelector(a.getAttribute('href'));
-        if(!target || !scroller) return;
-        const y = target.offsetTop - scroller.offsetTop - 8;
-        scroller.scrollTo({top: y, behavior: 'smooth'});
-      }, true);
-    })();
-    """
-    ),
-)
+demand_ui = make_explorer_page_ui(sections, ID_PREFIX)
