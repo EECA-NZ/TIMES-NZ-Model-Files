@@ -386,6 +386,15 @@ def reshape_genstack(df):
         BASE_YEAR + 1,
     ).astype(int)
 
+    # ensure earliest year is never base year or earlier
+    # (possible when earliest year in the data is earlier than base)
+    df["NCAP_START"] = np.where(
+        (df["CommissioningType"] == "Earliest year")
+        & (df["NCAP_START"] < BASE_YEAR + 1),
+        BASE_YEAR + 1,
+        df["NCAP_START"],
+    )
+
     df["Comm-OUT"] = "ELC"
     df["Comm-IN"] = "ELC" + df["Fuel_TIMES"]
     df["CAP2ACT"] = CAP2ACT_PJGW
