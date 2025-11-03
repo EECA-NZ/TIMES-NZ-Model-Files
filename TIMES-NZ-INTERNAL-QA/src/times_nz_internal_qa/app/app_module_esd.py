@@ -10,20 +10,16 @@ Will need to build that into main
 
 from functools import lru_cache
 
-from shiny import reactive, render
-from shinywidgets import render_altair
-from times_nz_internal_qa.app.helpers.charts import build_grouped_bar
+from shiny import reactive
 from times_nz_internal_qa.app.helpers.data_processing import (
     aggregate_by_group,
-    get_agg_data,
-    get_filter_options_from_data,
-    make_chart_data,
     read_data_pl,
-    write_polars_to_csv,
 )
 from times_nz_internal_qa.app.helpers.filters import (
     create_filter_dict,
-    register_all_filters_and_clear,
+)
+from times_nz_internal_qa.app.helpers.server_functions import (
+    register_server_functions_for_explorer,
 )
 from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
 from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
@@ -66,6 +62,17 @@ esd_group_options = [d["col"] for d in core_filters if d["col"] != "Sector"]
 esd_all_group_options = base_cols + esd_group_options
 
 
+esd_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "esd",
+    "sec_id": "esd-total",
+    "filters": esd_filters,
+    "section_title": "Energy service demand",
+    "base_cols": base_cols,
+    "group_options": esd_group_options,
+}
+
+
 # Energy Service Demand Data ----------------------------------------------------------------
 
 
@@ -88,7 +95,7 @@ def get_base_esd_df(scenarios, filepath=ESD_FILE_LOCATION):
 
 def energy_service_demand_server(inputs, outputs, session, selected_scens):
     """
-    server functions for electricity
+    Register energy service demand server functions
     """
 
     # GET DATA BASED ON SCENARIO SELECTION
@@ -97,67 +104,12 @@ def energy_service_demand_server(inputs, outputs, session, selected_scens):
         """Converting scenario list to tuple. needed for hashing"""
         return tuple(selected_scens["scenario_list"]())
 
-    @reactive.calc
-    def esd_df():
-        return get_base_esd_df(scen_tuple())
-
-    # make base filter options dynamic to scenario selection
-    @reactive.calc
-    def esd_filter_options():
-        return get_filter_options_from_data(esd_df(), esd_filters)
-
-    # REGISTER ALL FILTER FUNCTIONS FOR UI
-    register_all_filters_and_clear(
-        esd_filters, esd_filter_options, inputs, outputs, session
+    register_server_functions_for_explorer(
+        esd_parameters, get_base_esd_df, scen_tuple, inputs, outputs, session
     )
-
-    # Apply filters to data dynamically and lazily
-
-    @reactive.calc
-    def esd_df_filtered():
-        group_vars = base_cols + [inputs.esd_group()]
-        df = get_agg_data(esd_df(), esd_filters, inputs, group_vars)
-        return df
-
-    # Process chart inputs from filtered data
-    @reactive.calc
-    def esd_chart_df():
-        return make_chart_data(
-            esd_df_filtered(),
-            base_cols,
-            inputs.esd_group(),
-            selected_scens["scenario_list"](),
-        )
-
-    # Render chart
-
-    @render_altair
-    def esd_chart():
-        # if using altair, must touch the nav input to ensure rerendering
-        _ = inputs.esd_nav()
-        params = esd_chart_df()
-        return build_grouped_bar(**params)
-
-    # Generate download
-    @render.download(
-        filename="times_nz_energy_service_demand.csv", media_type="text/csv"
-    )
-    def esd_chart_data_download():
-        yield write_polars_to_csv(esd_df())
 
 
 # UI ---------------------------------------------------------------
 
-sections = [
-    (
-        "esd-total",
-        "Energy service demand",
-        "esd_group",
-        esd_group_options,
-        esd_filters,
-        "esd_chart",
-    )
-]
-
-
+sections = [esd_parameters]
 esd_ui = make_explorer_page_ui(sections, ID_PREFIX)

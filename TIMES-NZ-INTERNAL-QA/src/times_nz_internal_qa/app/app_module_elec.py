@@ -6,23 +6,17 @@ Data formatting, server and ui functions for electricity generation data
 from functools import lru_cache
 
 import polars as pl
-from shiny import reactive, render
-from shinywidgets import render_altair
-from times_nz_internal_qa.app.helpers.charts import (
-    build_grouped_bar,
-)
+from shiny import reactive
 from times_nz_internal_qa.app.helpers.data_processing import (
     aggregate_by_group,
     filter_df_for_variable,
-    get_agg_data,
-    get_filter_options_from_data,
-    make_chart_data,
     read_data_pl,
-    write_polars_to_csv,
 )
 from times_nz_internal_qa.app.helpers.filters import (
     create_filter_dict,
-    register_all_filters_and_clear,
+)
+from times_nz_internal_qa.app.helpers.server_functions import (
+    register_server_functions_for_explorer,
 )
 from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
 from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
@@ -52,6 +46,8 @@ ele_core_group_options = [
     "PlantName",
 ]
 
+ele_fuel_group_options = ele_core_group_options + ["Fuel"]
+
 # configure filter options
 core_filters = [
     {"col": "TechnologyGroup", "label": "Technology Group"},
@@ -64,15 +60,49 @@ ele_gen_filters = create_filter_dict("ele_gen", core_filters)
 ele_cap_filters = create_filter_dict("ele_cap", core_filters)
 ele_use_filters = create_filter_dict("ele_use", core_filters + [{"col": "Fuel"}])
 
+# all groups combined: used for processing main datasets
 ele_all_group_options = ele_base_cols + ele_core_group_options + ["Fuel"]
 
+# Define chart parameters
+# here, we define the standard dictionaries for each chart.
+
+ele_gen_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "ele_gen",
+    "sec_id": "ele-gen",
+    "filters": ele_gen_filters,
+    "section_title": "Electricity generation",
+    "base_cols": ele_base_cols,
+    "group_options": ele_core_group_options,
+}
+
+
+ele_cap_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "ele_cap",
+    "sec_id": "ele-cap",
+    "filters": ele_cap_filters,
+    "section_title": "Generation capacity",
+    "base_cols": ele_base_cols,
+    "group_options": ele_core_group_options,
+}
+
+
+ele_use_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "ele_use",
+    "sec_id": "ele-use",
+    "filters": ele_use_filters,
+    "section_title": "Fuel used for generation",
+    "base_cols": ele_base_cols,
+    "group_options": ele_core_group_options,
+}
 
 # ELECTRICITY-SPECIFIC DATA HANDLING -----------------------------------------------
 
 # CACHE MAIN TABLES
 
 # We build separate functions for each table so they can all be cached separately.
-
 # we define collection of the lazy frames at each of these points to hold cached data in memory
 # this only updates when the scenario changes and caches 8 copies for common scenario configs
 
@@ -125,7 +155,6 @@ def get_base_ele_use_df(scenarios, filepath=ELE_GEN_FILE_LOCATION):
 # SERVER ------------------------------------------------------------------------
 
 
-# pylint:disable = too-many-locals, unused-argument
 def elec_server(inputs, outputs, session, selected_scens):
     """
     server functions for electricity
@@ -136,167 +165,29 @@ def elec_server(inputs, outputs, session, selected_scens):
         """Converting scenario list to tuple. needed for hashing"""
         return tuple(selected_scens["scenario_list"]())
 
-    # Many of the next steps come in groups of three - one for each chart currently built
+    # register all functions
 
-    # Possibly could stand to make more factories here instead, especially if we want more charts.
-
-    # get each table for each chart
-    @reactive.calc
-    def ele_gen_df():
-        return get_base_ele_gen_df(scen_tuple())
-
-    @reactive.calc
-    def ele_cap_df():
-        return get_base_ele_cap_df(scen_tuple())
-
-    @reactive.calc
-    def ele_use_df():
-        return get_base_ele_use_df(scen_tuple())
-
-    # separately, take base filter options data
-
-    @reactive.calc
-    def ele_gen_filter_options():
-        return get_filter_options_from_data(ele_gen_df(), ele_gen_filters)
-
-    @reactive.calc
-    def ele_cap_filter_options():
-        return get_filter_options_from_data(ele_cap_df(), ele_cap_filters)
-
-    @reactive.calc
-    def ele_use_filter_options():
-        return get_filter_options_from_data(ele_use_df(), ele_use_filters)
-
-    # register all filter controls for server side maintenance
-
-    register_all_filters_and_clear(
-        ele_gen_filters, ele_gen_filter_options, inputs, outputs, session
-    )
-    register_all_filters_and_clear(
-        ele_cap_filters, ele_cap_filter_options, inputs, outputs, session
-    )
-    register_all_filters_and_clear(
-        ele_use_filters, ele_use_filter_options, inputs, outputs, session
+    register_server_functions_for_explorer(
+        ele_gen_parameters, get_base_ele_gen_df, scen_tuple, inputs, outputs, session
     )
 
-    # APPLY FILTERS TO DATA DYNAMICALLY AND LAZILY
-    @reactive.calc
-    def ele_cap_df_filtered():
-        group_vars = ele_base_cols + [inputs.ele_cap_group()]
-        df = get_agg_data(ele_cap_df(), ele_cap_filters, inputs, group_vars)
-        return df
-
-    @reactive.calc
-    def ele_use_df_filtered():
-        group_vars = ele_base_cols + [inputs.ele_use_group()]
-        df = get_agg_data(ele_use_df(), ele_use_filters, inputs, group_vars)
-        return df
-
-    @reactive.calc
-    def ele_gen_df_filtered():
-        group_vars = ele_base_cols + [inputs.ele_gen_group()]
-        df = get_agg_data(ele_gen_df(), ele_gen_filters, inputs, group_vars)
-        return df
-
-    # CREATE CHART OUTPUT DATA
-    @reactive.calc
-    def ele_gen_chart_df():
-        return make_chart_data(
-            ele_gen_df_filtered(),
-            ele_base_cols,
-            inputs.ele_gen_group(),
-            selected_scens["scenario_list"](),
-        )
-
-    @reactive.calc
-    def ele_cap_chart_df():
-        return make_chart_data(
-            ele_cap_df_filtered(),
-            ele_base_cols,
-            inputs.ele_cap_group(),
-            selected_scens["scenario_list"](),
-        )
-
-    @reactive.calc
-    def ele_use_chart_df():
-        return make_chart_data(
-            ele_use_df_filtered(),
-            ele_base_cols,
-            inputs.ele_use_group(),
-            selected_scens["scenario_list"](),
-        )
-
-    # DRAW CHARTS
-    @render_altair
-    def ele_gen_chart():
-        # if using altair, must touch the nav input to ensure rerendering
-        _ = inputs.elec_nav()
-        params = ele_gen_chart_df()
-        return build_grouped_bar(**params)
-
-    @render_altair
-    def ele_cap_chart():
-        # if using altair, must touch the nav input to ensure rerendering
-        _ = inputs.elec_nav()
-        params = ele_cap_chart_df()
-        return build_grouped_bar(**params)
-
-    @render_altair
-    def ele_use_chart():
-        # if using altair, must touch the nav input to ensure rerendering
-        # this can be skipped if using plotly
-        _ = inputs.elec_nav()
-        params = ele_use_chart_df()
-        return build_grouped_bar(**params)
-
-    # CSV downloads (not yet functionalised sorry)
-    @render.download(
-        filename="times_nz_electricity_generation.csv", media_type="text/csv"
+    register_server_functions_for_explorer(
+        ele_cap_parameters, get_base_ele_cap_df, scen_tuple, inputs, outputs, session
     )
-    def ele_gen_chart_data_download():
-        yield write_polars_to_csv(ele_gen_df())
 
-    @render.download(
-        filename="times_nz_electricity_fuel_use.csv", media_type="text/csv"
+    register_server_functions_for_explorer(
+        ele_use_parameters, get_base_ele_use_df, scen_tuple, inputs, outputs, session
     )
-    def ele_use_chart_data_download():
-        yield write_polars_to_csv(ele_use_df())
-
-    @render.download(
-        filename="times_nz_electricity_generation_capacity.csv", media_type="text/csv"
-    )
-    def ele_cap_chart_data_download():
-        yield write_polars_to_csv(ele_cap_df())
 
 
 # UI ------------------------------------------------
 
+# just gather parameters in a list and send to explorer page function
 
 sections = [
-    (
-        "elec-gen",
-        "Electricity generation",
-        "ele_gen_group",
-        ele_core_group_options,
-        ele_gen_filters,
-        "ele_gen_chart",
-    ),
-    (
-        "elec-use",
-        "Fuel used for generation",
-        "ele_use_group",
-        ele_core_group_options + ["Fuel"],
-        ele_use_filters,
-        "ele_use_chart",
-    ),
-    (
-        "elec-cap",
-        "Generation capacity",
-        "ele_cap_group",
-        ele_core_group_options,
-        ele_cap_filters,
-        "ele_cap_chart",
-    ),
+    ele_gen_parameters,
+    ele_use_parameters,
+    ele_cap_parameters,
 ]
 
 elec_ui = make_explorer_page_ui(sections, ID_PREFIX)

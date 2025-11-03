@@ -10,17 +10,29 @@ from times_nz_internal_qa.app.helpers.filters import (
 
 
 # pylint:disable = too-many-positional-arguments, too-many-arguments, duplicate-code
-def section_block(sec_id, title, group_input_id, group_options, filters, chart_id):
+def section_block(parameters):
     """
     UI generation for all explorer charts
+
+    parameters are loaded from a dict
     """
+
+    chart_id = parameters["chart_id"]
+    title = parameters["section_title"]
+    group_options = parameters["group_options"]
+    filters = parameters["filters"]
+
+    # generate additional
+    sec_id = chart_id.replace("_", "-")  # kebab case for web
+    group_input_id = chart_id + "_group"
+
     # first, the control panel
     chart_control_panel = ui.div(
         # FILTERS
         ui.div(
             ui.tags.h4("Filter:", class_="filter-section-title"),
             ui.input_action_button(
-                f"{chart_id}_clear_filters",
+                f"{chart_id}_chart_clear_filters",
                 None,  # no text
                 icon=ui.tags.i(class_="fa fa-times"),  # font-awesome "X"
                 class_="btn btn-sm clear-filters",
@@ -41,7 +53,7 @@ def section_block(sec_id, title, group_input_id, group_options, filters, chart_i
             class_="chart-group",
         ),
         ui.download_button(
-            f"{chart_id}_data_download",
+            f"{chart_id}_chart_data_download",
             ui.tags.span(ui.tags.i(class_="fa fa-download"), " Download chart data"),
             class_="btn",
         ),
@@ -49,7 +61,7 @@ def section_block(sec_id, title, group_input_id, group_options, filters, chart_i
     )
     # chart UI
     chart_with_title = ui.div(
-        chart_header, output_widget(chart_id), class_="chart-with-title"
+        chart_header, output_widget(f"{chart_id}_chart"), class_="chart-with-title"
     )
 
     return ui.div(
@@ -65,27 +77,20 @@ def section_block(sec_id, title, group_input_id, group_options, filters, chart_i
 def make_explorer_page_ui(sections, id_prefix):
     """
     Creates the explorer page, including navbar, composed of sections
+    Each section is a dictionary of input params, and sections is a list of these dicts
+
     """
 
-    choices = {sid: title for sid, title, *_ in sections}
-    first_sid = sections[0][0]
+    choices = {s["sec_id"]: s["section_title"] for s in sections}
+    first_sec_id = sections[0]["sec_id"]
 
     main = ui.div(
         *[
             ui.panel_conditional(
-                f'input.{id_prefix}_nav == "{sid}"',
-                section_block(
-                    sid, title, group_input_id, group_options, filters, chart_id
-                ),
+                f'input.{id_prefix}_nav == "{s["sec_id"]}"',
+                section_block(s),
             )
-            for (
-                sid,
-                title,
-                group_input_id,
-                group_options,
-                filters,
-                chart_id,
-            ) in sections
+            for s in sections
         ],
         class_="panel-viewport",
     )
@@ -101,7 +106,7 @@ def make_explorer_page_ui(sections, id_prefix):
             ui.sidebar(
                 ui.div(
                     ui.input_radio_buttons(
-                        f"{id_prefix}_nav", None, choices=choices, selected=first_sid
+                        f"{id_prefix}_nav", None, choices=choices, selected=first_sec_id
                     ),
                     class_="nav-cards",
                 ),
