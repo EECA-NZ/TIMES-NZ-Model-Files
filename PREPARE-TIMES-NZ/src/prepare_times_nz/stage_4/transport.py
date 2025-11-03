@@ -46,13 +46,17 @@ FUEL_TO_COMM = {
 }
 
 SPECIAL_COMM_IN: dict[str, list[str]] = {
-    "T_F_DSHIPP15": ["TRAFOL"],
-    "T_F_ISHIPP15": ["TRAFOL"],
+    "T_F_DSHIPP": ["TRAFOL"],
+    "T_F_ISHIPP": ["TRAFOL"],
     "T_O_FuelJet": ["TRAJet"],
     "T_O_FuelJet_Int": ["TRAJet"],
-    "T_R_Rail15": ["TRADSL", "TRAELC"],
-    "T_P_Rail15": ["TRAELC", "TRADSL"],
+    # --- Updated rail technologies ---
+    "T_R_RailDSL": ["TRADSL"],
+    "T_R_RailELC": ["TRAELC"],
+    "T_P_RailDSL": ["TRADSL"],
+    "T_P_RailELC": ["TRAELC"],
 }
+
 
 COMM_TO_VEHICLE = {
     "T_P_Car": "LPV",
@@ -138,41 +142,44 @@ def get_base_name(tech_name, base_list):
 def assign_tcap(base):
     """Assigns the appropriate TIMES capacity unit based on the base technology name."""
     if base in {
-        "T_F_DSHIPP15",
-        "T_F_ISHIPP15",
+        "T_R_RailDSL",
+        "T_R_RailELC",
+        "T_P_RailDSL",
+        "T_P_RailELC",
+        "T_F_DSHIPP",
+        "T_F_ISHIPP",
         "T_O_FuelJet",
         "T_O_FuelJet_Int",
-        "T_R_Rail15",
-        "T_P_Rail15",
     }:
         return "PJa"
+
     if base in {
-        "T_P_CICEPET15",
-        "T_P_CICEDSL15",
-        "T_P_CBEVNEW15",
-        "T_P_CBEVUSD15",
-        "T_P_CICELPG15",
-        "T_P_CHYBPET15",
-        "T_P_CPHEVPET15",
-        "T_C_CICEPET15",
-        "T_C_CICEDSL15",
-        "T_C_CBEVNEW15",
-        "T_C_CICELPG15",
-        "T_C_CHYBPET15",
+        "T_P_CICEPET",
+        "T_P_CICEDSL",
+        "T_P_CBEVNEW",
+        "T_P_CBEVUSD",
+        "T_P_CICELPG",
+        "T_P_CHYBPET",
+        "T_P_CPHEVPET",
+        "T_P_CPHEVBEV",
+        "T_C_CICEPET",
+        "T_C_CICEDSL",
+        "T_C_CBEVNEW",
+        "T_C_CICELPG",
     }:
         return "000cars"
-    if base in {"T_P_MICEPET15", "T_P_MBEVELC15"}:
+    if base in {"T_P_MICEPET", "T_P_MBEVELC"}:
         return "000mcy"
-    if base in {"T_P_BICEPET15", "T_P_BICEDSL15", "T_P_BICELPG15", "T_P_BBEVELC15"}:
+    if base in {"T_P_BICEPET", "T_P_BICEDSL", "T_P_BICELPG", "T_P_BBEVELC"}:
         return "000busses"
     if base in {
-        "T_F_LTICEPET15",
-        "T_F_LTICEDSL15",
-        "T_F_LTBEVELC15",
-        "T_F_MTICEDSL15",
-        "T_F_MTBEVELC15",
-        "T_F_HTICEDSL15",
-        "T_F_HTBEVELC15",
+        "T_F_LTICEPET",
+        "T_F_LTICEDSL",
+        "T_F_LTBEVELC",
+        "T_F_MTICEDSL",
+        "T_F_MTBEVELC",
+        "T_F_HTICEDSL",
+        "T_F_HTBEVELC",
     }:
         return "000trucks"
     return None
@@ -204,8 +211,7 @@ def load_var_tables(demand: pd.DataFrame) -> dict[str, pd.DataFrame]:
 
 def comm_out_for_tech(base: str) -> str | None:
     """Map Tech base name → Comm-Out code."""
-    # pylint: disable=invalid-name
-    PREFIX = {
+    tech_to_comm = {
         "T_P_C": "T_P_Car",
         "T_C_C": "T_C_Car",
         "T_P_M": "T_P_Mcy",
@@ -221,14 +227,16 @@ def comm_out_for_tech(base: str) -> str | None:
     if "FUELJET" in base_up:
         return "T_O_JET"
 
-    for pre, out in PREFIX.items():
+    for pre, out in tech_to_comm.items():
         if base.startswith(pre):
             return out
 
+    # --- Updated: match new rail techs explicitly ---
     if "T_R_RAIL" in base_up:
         return "T_F_Rail"
     if "T_P_RAIL" in base_up:
         return "T_P_Rail"
+
     if "DSHIPP" in base_up:
         return "T_F_DSHIP"
     if "ISHIPP" in base_up:
@@ -407,56 +415,74 @@ def create_commodity_df(cfg):
 def create_process_df(cfg):
     """Creates a DataFrame defining base year technologies."""
     tech_names_base = [
-        "T_P_CICEPET15",
-        "T_P_CICEDSL15",
-        "T_P_CBEVNEW15",
-        "T_P_CBEVUSD15",
-        "T_P_CICELPG15",
-        "T_P_CHYBPET15",
-        "T_P_CPHEVPET15",
-        "T_C_CICEPET15",
-        "T_C_CICEDSL15",
-        "T_C_CBEVNEW15",
-        "T_C_CICELPG15",
-        "T_C_CHYBPET15",
-        "T_P_MICEPET15",
-        "T_P_MBEVELC15",
-        "T_P_BICEPET15",
-        "T_P_BICEDSL15",
-        "T_P_BICELPG15",
-        "T_P_BBEVELC15",
-        "T_F_LTICEPET15",
-        "T_F_LTICEDSL15",
-        "T_F_LTBEVELC15",
-        "T_F_MTICEDSL15",
-        "T_F_MTBEVELC15",
-        "T_F_HTICEDSL15",
-        "T_F_HTBEVELC15",
-        "T_F_DSHIPP15",
-        "T_F_ISHIPP15",
+        # --- Passenger cars ---
+        "T_P_CICEPET",
+        "T_P_CICEDSL",
+        "T_P_CBEVNEW",
+        "T_P_CBEVUSD",
+        "T_P_CICELPG",
+        "T_P_CHYBPET",
+        "T_P_CPHEVPET",
+        "T_P_CPHEVBEV",
+        # --- Commercial cars ---
+        "T_C_CICEPET",
+        "T_C_CICEDSL",
+        "T_C_CBEVNEW",
+        "T_C_CICELPG",
+        # --- Motorcycles ---
+        "T_P_MICEPET",
+        "T_P_MBEVELC",
+        # --- Buses ---
+        "T_P_BICEPET",
+        "T_P_BICEDSL",
+        "T_P_BICELPG",
+        "T_P_BBEVELC",
+        # --- Freight trucks ---
+        "T_F_LTICEPET",
+        "T_F_LTICEDSL",
+        "T_F_LTBEVELC",
+        "T_F_MTICEDSL",
+        "T_F_MTBEVELC",
+        "T_F_HTICEDSL",
+        "T_F_HTBEVELC",
+        # --- Shipping & aviation ---
+        "T_F_DSHIPP",
+        "T_F_ISHIPP",
         "T_O_FuelJet",
         "T_O_FuelJet_Int",
-        "T_R_Rail15",
-        "T_P_Rail15",
+        # --- RAIL (fuel-specific variants only) ---
+        "T_R_RailDSL",
+        "T_R_RailELC",
+        "T_P_RailDSL",
+        "T_P_RailELC",
     ]
+
     regions = ["NI", "SI"]
     exceptions = {
-        "T_F_DSHIPP15",
-        "T_F_ISHIPP15",
+        "T_F_DSHIPP",
+        "T_F_ISHIPP",
         "T_O_FuelJet",
         "T_O_FuelJet_Int",
-        "T_R_Rail15",
-        "T_P_Rail15",
+        # NOTE: these new rail variants should still be treated as exceptions
+        "T_R_RailDSL",
+        "T_R_RailELC",
+        "T_P_RailDSL",
+        "T_P_RailELC",
     }
+
+    # Build tech names for LOW/MED/HIGH
     tech_names = [
         f"{name}_{level}" if name not in exceptions else name
         for name in tech_names_base
         for level in (["LOW", "MED", "HIGH"] if name not in exceptions else [""])
     ]
+
+    # Build DataFrame
     df = pd.DataFrame(
         [(tech, region) for tech in tech_names for region in regions],
         columns=["TechName", "Region"],
     )
+
     df["Sets"] = "DMD"
     df["Tact"] = df["TechName"].apply(
         lambda x: "PJ" if get_base_name(x, tech_names_base) in exceptions else "BVkm"
@@ -464,6 +490,7 @@ def create_process_df(cfg):
     df["Tcap"] = df["TechName"].apply(
         lambda x: assign_tcap(get_base_name(x, tech_names_base))
     )
+
     final_column_order = cfg["Columns"]
     return df[final_column_order]
 
@@ -622,6 +649,24 @@ def create_process_parameters_df(cfg: Mapping[str, list[str]]) -> pd.DataFrame:
     for col in cfg["Columns"]:
         if col not in df.columns:
             df[col] = None  # or np.nan
+
+    # --- Drop old BEV electric rows and rename PET electric rows to BEV ---
+    mask_old_bev = df["TechName"].str.startswith("T_P_CPHEVBEV") & (
+        df["Comm-In"] == "TRAELC"
+    )
+    mask_pet_elc = df["TechName"].str.startswith("T_P_CPHEVPET") & (
+        df["Comm-In"] == "TRAELC"
+    )
+
+    # 1. Drop existing BEV + TRAELC rows
+    df = df.loc[~mask_old_bev].reset_index(drop=True)
+
+    # 2. Rename PHEVPET + TRAELC rows to PHEVBEV
+    df.loc[mask_pet_elc, "TechName"] = df.loc[mask_pet_elc, "TechName"].str.replace(
+        "T_P_CPHEVPET", "T_P_CPHEVBEV", regex=False
+    )
+
+    # Final output
     return df[cfg["Columns"]]
 
 
@@ -739,8 +784,6 @@ def main() -> None:
                     "INVCOST",
                     "FIXOM",
                     "PRC_resid~2023",
-                    "PRC_resid~2045",
-                    "PRC_resid~2050",
                     "Share",
                     "Share~0",
                     "CEFF",

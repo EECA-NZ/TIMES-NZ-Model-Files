@@ -168,7 +168,6 @@ def create_newtech_process_df(cfg):
     df_base = create_process_df({"Columns": ["TechName"]}).copy()
 
     # normalize
-    df_base["TechName"] = df_base["TechName"].str.replace(r"15_", "_", regex=True)
     df_base["TechName"] = df_base["TechName"].str.replace(r"NEW", "ELC", regex=True)
     df_base["TechName"] = df_base["TechName"].str.replace(r"USD", "ELC", regex=True)
 
@@ -180,12 +179,14 @@ def create_newtech_process_df(cfg):
 
     # Exclude specific names
     exclude_names = {
-        "T_F_DSHIPP15",
-        "T_F_ISHIPP15",
+        "T_F_DSHIPP",
+        "T_F_ISHIPP",
         "T_O_FuelJet",
         "T_O_FuelJet_Int",
-        "T_R_Rail15",
-        "T_P_Rail15",
+        "T_R_RailDSL",
+        "T_R_RailELC",
+        "T_P_RailDSL",
+        "T_P_RailELC",
     }
     df_base = df_base[~df_base["TechName"].isin(exclude_names)]
 
@@ -254,7 +255,6 @@ def create_newtech_process_parameters_df(cfg):
     newtechs_process["TechName"] = (
         newtechs_process["TechName"]
         .astype(str)
-        .str.replace(r"15_", "_", regex=True)
         .str.replace(r"NEW", "ELC", regex=False)
         .str.replace(r"USD", "ELC", regex=False)
         .str.strip()
@@ -267,12 +267,14 @@ def create_newtech_process_parameters_df(cfg):
     ]
 
     exclude_names = {
-        "T_F_DSHIPP15",
-        "T_F_ISHIPP15",
+        "T_F_DSHIPP",
+        "T_F_ISHIPP",
         "T_O_FuelJet",
         "T_O_FuelJet_Int",
-        "T_R_Rail15",
-        "T_P_Rail15",
+        "T_R_RailDSL",
+        "T_R_RailELC",
+        "T_P_RailDSL",
+        "T_P_RailELC",
     }
 
     # Mapping of new techs with their Comm-In / Comm-Out roots
@@ -394,6 +396,9 @@ def create_newtech_process_parameters_df(cfg):
 
     out["INVCOST~0"] = INVCOST_0
     out["START"] = START
+    # START for Comm-Out T_F_HTrk, T_F_MTrk, T_P_Mcy is 2024
+    mask_2024 = out["Comm-Out"].isin(["T_F_HTrk", "T_F_MTrk", "T_P_Mcy"])
+    out.loc[mask_2024, "START"] = 2024
 
     # extract Level from TechName on the fly (no persistent column needed)
     _level = out["TechName"].astype(str).str.extract(r"_(LOW|MED|HIGH)$", expand=False)

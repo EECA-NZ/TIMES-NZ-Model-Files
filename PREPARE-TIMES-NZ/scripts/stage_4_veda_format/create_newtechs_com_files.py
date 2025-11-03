@@ -62,6 +62,9 @@ def create_newtech_process_parameters_df(cfg: dict) -> pd.DataFrame:
 
     # Preserve external context
     df["START"] = START
+    # START for TechName C_EDU-WH-Cylinder-ELC is 2024
+    # mask_2024 = df["TechName"].isin(["C_EDU-WH-Cylinder-ELC"])
+    # df.loc[mask_2024, "START"] = 2024
 
     # Columns to convert from 2018 -> 2023 while keeping names unchanged
     to_convert = [

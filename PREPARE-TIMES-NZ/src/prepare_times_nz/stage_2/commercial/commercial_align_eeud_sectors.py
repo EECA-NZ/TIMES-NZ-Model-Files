@@ -17,6 +17,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
@@ -526,31 +527,97 @@ def apply_light_splits(
     base_rows = df[mask].copy()
     keep_rows = df[~mask].copy()
 
-    # match splits
+    # Give each base row a unique id so we can conserve totals per-row
+    base_rows["_rid"] = base_rows.index
+
+    # (Optional but recommended) clean split keys
+    for c in key:
+        if c in ls.columns:
+            ls[c] = (
+                ls[c]
+                .astype(str)
+                .str.replace("\ufeff", "", regex=False)
+                .str.replace(r"\s+", " ", regex=True)
+                .str.strip()
+            )
+    for c in key:
+        if c in base_rows.columns:
+            base_rows[c] = (
+                base_rows[c]
+                .astype(str)
+                .str.replace("\ufeff", "", regex=False)
+                .str.replace(r"\s+", " ", regex=True)
+                .str.strip()
+            )
+
     joined = base_rows.merge(ls[key + ["TechnologyNew", "Share"]], on=key, how="left")
 
     matched = joined["Share"].notna()
-    unmatched = ~matched
-
     # --- 1) keep unmatched base-technology rows AS-IS (no loss)
-    unmatched_rows = joined[unmatched].drop(
-        columns=["TechnologyNew", "Share"], errors="ignore"
-    )
+    # If a base row has no matches at all, it will appear exactly once with Share NaN
+    unmatched_rows = joined[~matched].copy()
+    # Reduce unmatched back to the original base rows (drop split columns)
+    if not unmatched_rows.empty:
+        unmatched_rows = unmatched_rows.drop(
+            columns=["TechnologyNew", "Share"], errors="ignore"
+        ).drop_duplicates(subset=["_rid"])
 
-    # --- 2) split matched rows
+    # --- 2) split matched rows (renormalize shares per _rid to preserve totals)
     split_rows = joined[matched].copy()
-    split_rows["Value"] = split_rows["Value"] * split_rows["Share"]
-    split_rows["Technology"] = split_rows["TechnologyNew"]
-    split_rows = split_rows.drop(columns=["TechnologyNew", "Share"])
+    if not split_rows.empty:
+        # Ensure numeric Value
+        split_rows["Value"] = pd.to_numeric(split_rows["Value"], errors="coerce")
+
+        # Sum of shares per original row
+        share_sum = split_rows.groupby("_rid")["Share"].transform("sum")
+
+        # Avoid divide-by-zero; where share_sum is 0/NaN, fall back to 1 (will keep Value unchanged)
+        share_sum_safe = share_sum.where(share_sum > 0, 1.0)
+
+        # Scale so split Values sum exactly to the original Value per _rid
+        split_rows["Value"] = split_rows["Value"] * (
+            split_rows["Share"] / share_sum_safe
+        )
+
+        # Assign new technologies and drop helper columns
+        split_rows["Technology"] = split_rows["TechnologyNew"]
+        split_rows = split_rows.drop(columns=["TechnologyNew", "Share"])
 
     # combine and re-aggregate
+    # Note: exclude helper _rid from grouping
     grouping_cols = [c for c in df.columns if c != "Value"]
+    # Ensure we drop the helper _rid before final groupby
+    for tmp in (keep_rows, unmatched_rows, split_rows):
+        if "_rid" in tmp.columns:
+            tmp.drop(columns="_rid", inplace=True, errors="ignore")
+
     out = (
         pd.concat([keep_rows, unmatched_rows, split_rows], ignore_index=True)
         .groupby(grouping_cols, as_index=False, dropna=False)["Value"]
         .sum()
     )
 
+    # optional: tame tiny float drift
+    out["Value"] = out["Value"].round(12)
+
+    # sanity check: totals before vs after for the base tech
+    before_total = df.loc[mask, "Value"].sum(skipna=True)
+    after_total = out.loc[
+        out["Technology"].str.startswith("Lights", na=False), "Value"
+    ].sum(skipna=True)
+    if (
+        not pd.isna(before_total)
+        and not pd.isna(after_total)
+        and not np.isclose(before_total, after_total, rtol=0, atol=1e-9)
+    ):
+        logger.warning(
+            "Lighting split total changed: before=%s after=%s (diff=%s)",
+            before_total,
+            after_total,
+            after_total - before_total,
+        )
+
+    # optional: keep your existing check output
     chk = (
         out[out["Technology"].str.startswith("Lights", na=False)]
         .groupby(
