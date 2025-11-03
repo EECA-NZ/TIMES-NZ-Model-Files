@@ -137,9 +137,6 @@ T_F_HTICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion E
 T_F_HTBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
 T_F_HTBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
 T_F_HTBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
-T_P_CHYBDSL_LOW,Low,Hybrid Vehicle (Diesel),Hybrid Vehicle
-T_P_CHYBDSL_MED,Medium,Hybrid Vehicle (Diesel),Hybrid Vehicle
-T_P_CHYBDSL_HIGH,High,Hybrid Vehicle (Diesel),Hybrid Vehicle
 T_C_CHYBDSL_LOW,Low,Hybrid Vehicle (Diesel),Hybrid Vehicle
 T_C_CHYBDSL_MED,Medium,Hybrid Vehicle (Diesel),Hybrid Vehicle
 T_C_CHYBDSL_HIGH,High,Hybrid Vehicle (Diesel),Hybrid Vehicle
