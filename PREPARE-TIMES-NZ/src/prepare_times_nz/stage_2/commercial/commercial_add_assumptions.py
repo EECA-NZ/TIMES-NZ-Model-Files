@@ -139,6 +139,25 @@ def get_commercial_assumptions(df: pd.DataFrame) -> pd.DataFrame:
 
     df = add_lifetimes(df, lif_data)
     df = add_capex(df, cap_data)
+
+    # Adjust CAPEX for Education and Healthcare sectors
+    if "Sector" in df.columns and "Technology" in df.columns and "CAPEX" in df.columns:
+        df.loc[
+            df["Sector"].isin(["Education", "Healthcare"])
+            & (df["Technology"] == "Boiler Systems"),
+            "CAPEX",
+        ] *= 5
+
+    if "Sector" in df.columns and "EndUse" in df.columns and "CAPEX" in df.columns:
+        df.loc[
+            df["Sector"].isin(["Healthcare"]) & (df["EndUse"] == "Lighting"), "CAPEX"
+        ] *= 4
+
+    if "Sector" in df.columns and "EndUse" in df.columns and "CAPEX" in df.columns:
+        df.loc[
+            df["Sector"].isin(["Office Blocks"]) & (df["EndUse"] == "Lighting"), "CAPEX"
+        ] *= 2
+
     df = add_opex(df, opex_data)
     df = add_afa(df, afa_data)
 
