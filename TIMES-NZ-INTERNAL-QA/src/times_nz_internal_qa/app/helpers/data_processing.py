@@ -233,3 +233,11 @@ def get_agg_data(
     lf = aggregate_by_group(lf, group_vars)
 
     return lf
+
+
+def to_snake_case(s):
+    """
+    Return s as snake_case.
+    """
+    parts = s.replace("-", " ").replace("_", " ").split()
+    return "_".join(p.lower() for p in parts)

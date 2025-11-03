@@ -6,20 +6,16 @@ Data formatting, server and ui functions for emissions data
 from functools import lru_cache
 
 import polars as pl
-from shiny import reactive, render
-from shinywidgets import render_altair
-from times_nz_internal_qa.app.helpers.charts import build_grouped_bar
+from shiny import reactive
 from times_nz_internal_qa.app.helpers.data_processing import (
     aggregate_by_group,
-    get_agg_data,
-    get_filter_options_from_data,
-    make_chart_data,
     read_data_pl,
-    write_polars_to_csv,
 )
 from times_nz_internal_qa.app.helpers.filters import (
     create_filter_dict,
-    register_all_filters_and_clear,
+)
+from times_nz_internal_qa.app.helpers.server_functions import (
+    register_server_functions_for_explorer,
 )
 from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
 from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
@@ -37,12 +33,13 @@ base_cols = [
 ]
 
 # define filter options with optional labels
+# pylint: disable = duplicate-code
 ems_filters_raw = [
     {"col": "SectorGroup", "label": "Sector Group"},
     {"col": "Sector"},
-    # {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup", "label": "Technology Group"},
     {"col": "Technology"},
-    # {"col": "EnduseGroup"},
+    {"col": "EnduseGroup"},
     {"col": "EndUse"},
     {"col": "Region"},
     {"col": "Process"},
@@ -75,79 +72,35 @@ def get_base_ems_df(scenarios, filepath=EMS_FILE_LOCATION):
     return df
 
 
+ems_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "ems",
+    "sec_id": "ems-total",
+    "filters": ems_filters,
+    "section_title": "Energy emissions",
+    "base_cols": base_cols,
+    "group_options": ems_group_options,
+}
+
 # SERVER ----------------------------------------------------------------
 
 
 def emissions_server(inputs, outputs, session, selected_scens):
     """
-    server functions for electricity
+    server functions for emissions
     """
 
-    # GET DATA BASED ON SCENARIO SELECTION
     @reactive.calc
     def scen_tuple():
         """Converting scenario list to tuple. needed for hashing"""
         return tuple(selected_scens["scenario_list"]())
 
-    @reactive.calc
-    def ems_df():
-        return get_base_ems_df(scen_tuple())
-
-    # make base filter options dynamic to scenario selection
-    @reactive.calc
-    def ems_filter_options():
-        return get_filter_options_from_data(ems_df(), ems_filters)
-
-    # REGISTER ALL FILTER FUNCTIONS FOR UI
-    register_all_filters_and_clear(
-        ems_filters, ems_filter_options, inputs, outputs, session
+    register_server_functions_for_explorer(
+        ems_parameters, get_base_ems_df, scen_tuple, inputs, outputs, session
     )
-
-    # Apply filters to data dynamically and lazily
-
-    @reactive.calc
-    def ems_df_filtered():
-        group_vars = base_cols + [inputs.ems_group()]
-        df = get_agg_data(ems_df(), ems_filters, inputs, group_vars)
-        return df
-
-    # Process chart inputs from filtered data
-    @reactive.calc
-    def ems_chart_df():
-        return make_chart_data(
-            ems_df_filtered(),
-            base_cols,
-            inputs.ems_group(),
-            selected_scens["scenario_list"](),
-        )
-
-    # Render chart
-
-    @render_altair
-    def ems_chart():
-        # if using altair, must touch the nav input to ensure rerendering
-        _ = inputs.ems_nav()
-        params = ems_chart_df()
-        return build_grouped_bar(**params)
-
-    # Generate download
-    @render.download(filename="times_nz_energy_emissions.csv", media_type="text/csv")
-    def ems_chart_data_download():
-        yield write_polars_to_csv(ems_df())
 
 
 # UI ---------------------------------------------------------------
 
-sections = [
-    (
-        "ems-total",
-        "Energy emissions",
-        "ems_group",
-        ems_group_options,
-        ems_filters,
-        "ems_chart",
-    )
-]
-
-
+sections = [ems_parameters]
 emissions_ui = make_explorer_page_ui(sections, ID_PREFIX)

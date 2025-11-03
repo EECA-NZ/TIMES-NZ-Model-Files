@@ -5,21 +5,17 @@ Energy demand processing, ui, and server functions
 from functools import lru_cache
 
 import polars as pl
-from shiny import reactive, render
-from shinywidgets import render_altair
-from times_nz_internal_qa.app.helpers.charts import build_grouped_bar
+from shiny import reactive
 from times_nz_internal_qa.app.helpers.data_processing import (
     aggregate_by_group,
     filter_df_for_variable,
-    get_agg_data,
-    get_filter_options_from_data,
-    make_chart_data,
     read_data_pl,
-    write_polars_to_csv,
 )
 from times_nz_internal_qa.app.helpers.filters import (
     create_filter_dict,
-    register_all_filters_and_clear,
+)
+from times_nz_internal_qa.app.helpers.server_functions import (
+    register_server_functions_for_explorer,
 )
 from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
 from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
@@ -37,9 +33,9 @@ DEM_FILE_LOCATION = FINAL_DATA / "energy_demand.parquet"
 dem_filters_raw = [
     {"col": "SectorGroup", "label": "Sector Group"},
     {"col": "Sector"},
-    # {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup", "label": "Technology Group"},
     {"col": "Technology"},
-    # {"col": "EnduseGroup"},
+    {"col": "EnduseGroup"},
     {"col": "EndUse"},
     {"col": "Region"},
     {"col": "Process"},
@@ -65,6 +61,28 @@ base_cols = [
 dem_all_group_options = base_cols + dem_group_options
 elc_dem_all_group_options = base_cols + elc_dem_group_options
 
+
+# SET PARAMETERS
+
+dem_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "energy_dem",
+    "sec_id": "energy-dem",
+    "filters": dem_filters,
+    "section_title": "Total energy demand",
+    "base_cols": base_cols,
+    "group_options": dem_group_options,
+}
+
+elc_dem_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "elc_dem",
+    "sec_id": "elc-dem",
+    "filters": elc_dem_filters,
+    "section_title": "Electricity demand",
+    "base_cols": base_cols,
+    "group_options": elc_dem_group_options,
+}
 
 # GET DATA ------------------------------------------
 
@@ -125,115 +143,19 @@ def demand_server(inputs, outputs, session, selected_scens):
         """Converting scenario list to tuple. needed for hashing"""
         return tuple(selected_scens["scenario_list"]())
 
-    # GET BASE DEMAND DATA
-
-    @reactive.calc
-    def dem_df():
-        return get_base_dem_df(scen_tuple())
-
-    @reactive.calc
-    def elc_dem_df():
-        return get_base_elc_dem_df(scen_tuple())
-
-    # make base filter options dynamic to scenario selection
-    @reactive.calc
-    def dem_filter_options():
-        return get_filter_options_from_data(dem_df(), dem_filters)
-
-    @reactive.calc
-    def elc_dem_filter_options():
-        return get_filter_options_from_data(elc_dem_df(), elc_dem_filters)
-
-    # REGISTER ALL FILTER FUNCTIONS FOR UI
-    register_all_filters_and_clear(
-        dem_filters, dem_filter_options, inputs, outputs, session
+    register_server_functions_for_explorer(
+        dem_parameters, get_base_dem_df, scen_tuple, inputs, outputs, session
     )
 
-    register_all_filters_and_clear(
-        elc_dem_filters, elc_dem_filter_options, inputs, outputs, session
+    register_server_functions_for_explorer(
+        elc_dem_parameters, get_base_elc_dem_df, scen_tuple, inputs, outputs, session
     )
-
-    # Apply filters to data dynamically and lazily
-    @reactive.calc
-    def dem_df_filtered():
-        group_vars = base_cols + [inputs.dem_group()]
-        df = get_agg_data(dem_df(), dem_filters, inputs, group_vars)
-        return df
-
-    @reactive.calc
-    def elc_dem_df_filtered():
-        group_vars = base_cols + [inputs.elc_dem_group()]
-        df = get_agg_data(elc_dem_df(), elc_dem_filters, inputs, group_vars)
-        return df
-
-    # process chart inputs from filtered data
-    @reactive.calc
-    def dem_chart_df():
-        return make_chart_data(
-            dem_df_filtered(),
-            base_cols,
-            inputs.dem_group(),
-            selected_scens["scenario_list"](),
-        )
-
-    @reactive.calc
-    def elc_dem_chart_df():
-        return make_chart_data(
-            elc_dem_df_filtered(),
-            base_cols,
-            inputs.elc_dem_group(),
-            selected_scens["scenario_list"](),
-        )
-
-    # Render chart
-    @render_altair
-    def energy_dem_chart():
-        # name must match sections chart_id
-        # if using altair, must touch the nav input to ensure rerendering
-        _ = inputs.dem_nav()
-        params = dem_chart_df()
-        return build_grouped_bar(**params)
-
-    @render_altair
-    def elc_dem_chart():
-        # name must match sections chart_id
-        # if using altair, must touch the nav input to ensure rerendering
-        _ = inputs.dem_nav()
-        params = elc_dem_chart_df()
-        return build_grouped_bar(**params)
-
-    # Generate download
-    @render.download(filename="times_nz_energy_end_use.csv", media_type="text/csv")
-    def energy_dem_chart_data_download():
-        yield write_polars_to_csv(dem_df())
-
-    @render.download(filename="times_nz_electricity_end_use.csv", media_type="text/csv")
-    def elc_dem_chart_data_download():
-        yield write_polars_to_csv(elc_dem_df())
 
 
 # UI --------------------------------------------
 
 
-sections = [
-    # single section for a single chart
-    (
-        "dem-total",
-        "Total energy demand",
-        "dem_group",
-        dem_group_options,
-        dem_filters,
-        "energy_dem_chart",
-    ),
-    (
-        "elc-dem",
-        "Electricity demand",
-        "elc_dem_group",
-        elc_dem_group_options,
-        elc_dem_filters,
-        "elc_dem_chart",
-    ),
-]
+sections = [dem_parameters, elc_dem_parameters]
 
 
 demand_ui = make_explorer_page_ui(sections, ID_PREFIX)
