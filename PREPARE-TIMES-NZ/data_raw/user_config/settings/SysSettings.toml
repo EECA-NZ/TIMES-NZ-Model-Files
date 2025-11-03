@@ -154,7 +154,7 @@ TagName = "TFM_UPD"
 Attribute = ["ACTCOST", "ACTCOST"] # the activity cost of the dummy processes 
 Pset_SET = ["IRE", "IRE"] # dummy processes are apparently defined as IRE
 Pset_PN = ["IMP*Z", "IMPDEMZ"] # separate costs for demand dummy variables, unclear why 
-AllRegions = [10000,100000] # very high values
+AllRegions = [10000,10000000] # very high values
 
 ###############################################################################
 # Default interpolation/extrapolation rules
