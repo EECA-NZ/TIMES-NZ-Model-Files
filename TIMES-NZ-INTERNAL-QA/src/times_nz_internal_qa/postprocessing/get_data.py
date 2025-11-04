@@ -221,7 +221,12 @@ def get_latest_scenario_vd_name(wd: Path, scenario: str):
         if f.is_file():
             m = pat.match(f.name)
             if m:
-                code = int(m.group(1))  # e.g. 0810 -> 810 -> fine for ordering
+                # get 4 digit code
+                code = str(m.group(1))
+                # swap from DDMM to MMDD
+                code = code[2:] + code[:2]
+                # make int to order by
+                code = int(code)
                 matches.append((code, f.stat().st_mtime, f))
     if not matches:
         return None, []
