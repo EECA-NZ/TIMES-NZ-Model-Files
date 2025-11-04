@@ -38,6 +38,9 @@ from prepare_times_nz.utilities.filepaths import (
 
 CURVE_VARIABLES = ["CAPEX", "FOM"]
 
+# earliest year for non-fixed plants
+EARLIEST_YEAR = 2026
+
 # Set input data locations ----------------------------------------------------
 ELECTRICITY_DATA = STAGE_3_DATA / "electricity"
 
@@ -383,8 +386,17 @@ def reshape_genstack(df):
     df["NCAP_START"] = np.where(
         df["CommissioningType"] == "Earliest year",
         df["CommissioningYear"],
-        BASE_YEAR + 1,
+        EARLIEST_YEAR,
     ).astype(int)
+
+    # ensure earliest year is never base year or earlier
+    # (possible when earliest year in the data is earlier than base)
+    df["NCAP_START"] = np.where(
+        (df["CommissioningType"] == "Earliest year")
+        & (df["NCAP_START"] < EARLIEST_YEAR),
+        EARLIEST_YEAR,
+        df["NCAP_START"],
+    )
 
     df["Comm-OUT"] = "ELC"
     df["Comm-IN"] = "ELC" + df["Fuel_TIMES"]
