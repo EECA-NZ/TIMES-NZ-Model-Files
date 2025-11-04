@@ -41,10 +41,23 @@ dem_filters_raw = [
     {"col": "Process"},
 ]
 
+
+elc_dem_curve_filters = [
+    {"col": "Period", "multiple": False, "label": "Year"},
+    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "Sector"},
+    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "Technology"},
+    {"col": "EnduseGroup"},
+    {"col": "EndUse"},
+    {"col": "Region"},
+    {"col": "Process"},
+]
 # we add fuel to main
 dem_filters = dem_filters_raw + [{"col": "Fuel"}]
 dem_filters = create_filter_dict("energy_dem", dem_filters)
 elc_dem_filters = create_filter_dict("elc_dem", dem_filters_raw)
+elc_dem_curve_filters = create_filter_dict("elc_dem_curve", dem_filters_raw)
 
 dem_group_options = [d["col"] for d in dem_filters]
 elc_dem_group_options = [d["col"] for d in elc_dem_filters]
@@ -83,6 +96,18 @@ elc_dem_parameters = {
     "base_cols": base_cols,
     "group_options": elc_dem_group_options,
 }
+
+
+elc_dem_curve_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "elc_dem_curve",
+    "sec_id": "elc-dem-curve",
+    "filters": elc_dem_curve_filters,
+    "section_title": "Electricity demand by timeslice",
+    "base_cols": base_cols + ["TimeSlice"],
+    "group_options": elc_dem_group_options,
+}
+
 
 # GET DATA ------------------------------------------
 
@@ -151,11 +176,24 @@ def demand_server(inputs, outputs, session, selected_scens):
         elc_dem_parameters, get_base_elc_dem_df, scen_tuple, inputs, outputs, session
     )
 
+    register_server_functions_for_explorer(
+        elc_dem_curve_parameters,
+        get_base_elc_dem_df,
+        scen_tuple,
+        inputs,
+        outputs,
+        session,
+    )
+
 
 # UI --------------------------------------------
 
 
-sections = [dem_parameters, elc_dem_parameters]
+sections = [
+    elc_dem_curve_parameters,
+    dem_parameters,
+    elc_dem_parameters,
+]
 
 
 demand_ui = make_explorer_page_ui(sections, ID_PREFIX)
