@@ -72,6 +72,7 @@ Demand,JD-D_WASH,Residential,Joined Dwelling,"Low Temperature Heat (< 100 C), Di
 Demand,DD-S_COOL,Residential,Detached Dwelling,Space Cooling
 Demand,JD-S_COOL,Residential,Joined Dwelling,Space Cooling
 Demand,DD-S_HEAT,Residential,Detached Dwelling,"Low Temperature Heat (<100 C), Space Heating"
+Demand,JD-S_HEAT,Residential,Joined Dwelling,"Low Temperature Heat (<100 C), Space Heating"
 Demand,DD-WH_LOW,Residential,Detached Dwelling,"Low Temperature Heat (<100 C), Water Heating"
 Demand,JD-WH_LOW,Residential,Joined Dwelling,"Low Temperature Heat (<100 C), Water Heating"
 Demand,DD-FRIDG,Residential,Detached Dwelling,Refrigeration
