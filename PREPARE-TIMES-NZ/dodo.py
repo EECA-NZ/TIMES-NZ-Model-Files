@@ -262,6 +262,7 @@ STAGE_4: dict[str, list[str]] = {
     "create_newtechs_elc_files": ["subres_elc/genstack/Traditional_process.csv"],
     "create_newtechs_com_files": ["subres_com/future_commercial_processes.csv"],
     "create_newtechs_agr_files": ["subres_agr/future_agriculture_processes.csv"],
+    "create_newtechs_ind_files": ["subres_ind/future_industry_processes.csv"],
     # settings
     "create_settings": ["sys_settings/active_periods.csv"],
     # scenario files

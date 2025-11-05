@@ -1,0 +1,19 @@
+# New industry sector technologies for TIMES-NZ
+
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_IND"
+
+###############################################################################
+# Same for both scenarios
+###############################################################################
+
+[IndustryNewTechProcessDefinitions]
+Description = "Defines processes for future industry technologies"
+SheetName = "IND_NEW"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_ind/future_industry_processes.csv"
+
+[IndustryNewTechParameters]
+Description = "Defines technical parameters for future industry technologies"
+SheetName = "IND_NEW"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_ind/future_industry_parameters.csv"
