@@ -1,6 +1,9 @@
 Technology,Fuel,CAPEX,OPEX,PriceBaseYear,Notes,Source
-Boiler Systems,Wood,500,,2022,Preliminary and based on limited industry knowledge/sources,
+Boiler Systems,Wood,286,,2022,Average capital cost taken from GIDI funded projects. ,
 Steam Generating Heat Pump (process heat),Electricity,3000,,2022,Preliminary and based on limited industry knowledge/sources,
 Mechanical Vapour Recompression (MVR),Electricity,2000,,2022,Preliminary and based on limited industry knowledge/sources,
-Internal Combustion Engine (Land Transport),Electricity,,,,TBC,
+Internal Combustion Engine (Land Transport),Electricity,1376,,2022,Preliminary and based on limited industry knowledge/sources,
+Internal Combustion Engine (PHEV),Petrol,1331,,2022,Preliminary and based on limited industry knowledge/sources,
+Internal Combustion Engine (PHEV),Electricity,1331,,2022,Preliminary and based on limited industry knowledge/sources,
+Internal Combustion Engine (Land Transport),Hydrogen,1782,,2022,Preliminary and based on limited industry knowledge/sources,
 Pulsed Electric Field,Electricity,,,,TBC,

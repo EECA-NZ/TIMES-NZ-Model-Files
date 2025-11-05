@@ -15,6 +15,7 @@ Heat Pump (process heat),HPPH
 HVAC,HVAC
 Industrial Ovens,IOVEN
 Internal Combustion Engine (Land Transport),ICENG
+Internal Combustion Engine (PHEV),PHEV
 Lights,LIGHT
 "Pump Systems (for Fluids, etc.)",PUMP
 Refiners,REFIN

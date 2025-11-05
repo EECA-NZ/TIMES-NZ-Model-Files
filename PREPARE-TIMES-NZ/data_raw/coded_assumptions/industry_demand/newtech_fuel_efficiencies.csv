@@ -1,6 +1,9 @@
 Technology,Fuel,Efficiency,Notes
 Boiler Systems,Wood,0.78,Preliminary and based on limited industry knowledge/sources
-Steam Generating Heat Pump (process heat),Electricity,2,Preliminary and based on limited industry knowledge/sources
-Mechanical Vapour Recompression (MVR),Electricity,,TODO
+Steam Generating Heat Pump (process heat),Electricity,2.3,Preliminary and based on limited industry knowledge/sources
+Mechanical Vapour Recompression (MVR),Electricity,,TBC
 Internal Combustion Engine (Land Transport),Electricity,0.7,Preliminary and based on limited industry knowledge/sources
-Pulsed Electric Field,Electricity,1.4,Preliminary and based on limited industry knowledge/sources
+Internal Combustion Engine (PHEV),Petrol,0.28,Preliminary and based on limited industry knowledge/sources
+Internal Combustion Engine (PHEV),Electricity,0.28,Preliminary and based on limited industry knowledge/sources
+Internal Combustion Engine (Land Transport),Hydrogen,0.28,Preliminary and based on limited industry knowledge/sources
+Pulsed Electric Field,Electricity,,TBC

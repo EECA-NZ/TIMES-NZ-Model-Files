@@ -83,15 +83,45 @@ def create_newtech_process_df(_cfg: dict) -> pd.DataFrame:
     filtered_pef = filtered_pef.drop_duplicates(subset=["TechName", "Comm_OUT"])
 
     # Fifth set: Add ELC-ICENG-MTV_MOB for all MTV_MOBs
-    filtered_iceng = df[df["Comm_OUT"].str.endswith("MTV_MOB")].copy()
-    filtered_iceng["Sector"] = filtered_iceng["Comm_OUT"].str.split("-").str[0]
-    filtered_iceng["TechName"] = filtered_iceng["Sector"] + "-ELC-ICENG-MTV_MOB"
-    filtered_iceng["Comm_IN"] = "INDELC"
-    filtered_iceng = filtered_iceng.drop_duplicates(subset=["TechName", "Comm_OUT"])
+    filtered_iceng1 = df[df["Comm_OUT"].str.endswith("MTV_MOB")].copy()
+    filtered_iceng1["Sector"] = filtered_iceng1["Comm_OUT"].str.split("-").str[0]
+    filtered_iceng1["TechName"] = filtered_iceng1["Sector"] + "-ELC-ICENG-MTV_MOB"
+    filtered_iceng1["Comm_IN"] = "INDELC"
+    filtered_iceng1 = filtered_iceng1.drop_duplicates(subset=["TechName", "Comm_OUT"])
+
+    # Sixth set: Add H2R-ICENG-MTV_MOB for all MTV_MOBs
+    filtered_iceng2 = df[df["Comm_OUT"].str.endswith("MTV_MOB")].copy()
+    filtered_iceng2["Sector"] = filtered_iceng2["Comm_OUT"].str.split("-").str[0]
+    filtered_iceng2["TechName"] = filtered_iceng2["Sector"] + "-H2R-ICENG-MTV_MOB"
+    filtered_iceng2["Comm_IN"] = "INDH2R"
+    filtered_iceng2 = filtered_iceng2.drop_duplicates(subset=["TechName", "Comm_OUT"])
+
+    # Seventh set: Add PET-PHEV-MTV_MOB for all MTV_MOBs
+    filtered_phev1 = df[df["Comm_OUT"].str.endswith("MTV_MOB")].copy()
+    filtered_phev1["Sector"] = filtered_phev1["Comm_OUT"].str.split("-").str[0]
+    filtered_phev1["TechName"] = filtered_phev1["Sector"] + "-PET-PHEV-MTV_MOB"
+    filtered_phev1["Comm_IN"] = "INDPET"
+    filtered_phev1 = filtered_phev1.drop_duplicates(subset=["TechName", "Comm_OUT"])
+
+    # Eighth set: Add ELC-PHEV-MTV_MOB for all MTV_MOBs
+    filtered_phev2 = df[df["Comm_OUT"].str.endswith("MTV_MOB")].copy()
+    filtered_phev2["Sector"] = filtered_phev2["Comm_OUT"].str.split("-").str[0]
+    filtered_phev2["TechName"] = filtered_phev2["Sector"] + "-ELC-PHEV-MTV_MOB"
+    filtered_phev2["Comm_IN"] = "INDELC"
+    filtered_phev2 = filtered_phev2.drop_duplicates(subset=["TechName", "Comm_OUT"])
 
     # Combine all new techs
     combined = pd.concat(
-        [filtered_wod, filtered_sghp, filtered_mvr, filtered_pef, filtered_iceng],
+        [
+            filtered_wod,
+            filtered_sghp,
+            filtered_mvr,
+            filtered_pef,
+            filtered_iceng1,
+            filtered_iceng2,
+            filtered_phev1,
+            filtered_phev2,
+        ],
         ignore_index=True,
     ).drop_duplicates(subset=["TechName", "Comm_OUT"])
 
