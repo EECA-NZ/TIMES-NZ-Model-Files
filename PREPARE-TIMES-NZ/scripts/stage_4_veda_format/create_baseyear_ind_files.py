@@ -14,6 +14,7 @@ from prepare_times_nz.utilities.helpers import select_and_rename
 # FILEPATHS ---------------------------------------------------------------
 
 INPUT_FILE = STAGE_2_DATA / "industry/baseyear_industry_demand.csv"
+COAL_COGEN = STAGE_2_DATA / "electricity/base_year_coal_cogen.csv"
 OUTPUT_DIR = STAGE_4_DATA / "base_year_ind"
 
 # should instead use save function pattern here!!
@@ -27,6 +28,9 @@ CTSLVL = "DAYNITE"
 CAP2ACT = 31.536
 NCAP_BND_2025 = 0
 NCAP_BND_0 = 5
+
+# declare coal feedstock process for particular treatment
+COAL_FEEDSTOCK_PROCESS = "STEEL-COA-FDSTK-FDSTK"
 
 # pylint: disable=duplicate-code
 
@@ -187,8 +191,6 @@ def define_fuel_delivery(df):
         }
     )
 
-    print(fuel_deliv_parameters)
-
     save_industry_veda_file(
         fuel_deliv_parameters,
         "fuel_delivery_parameters.csv",
@@ -201,6 +203,75 @@ def define_fuel_delivery(df):
     )
 
 
+def define_auxiliary_nzsteel_generation(
+    df, cogen_df, coal_fstk_process=COAL_FEEDSTOCK_PROCESS
+):
+    """
+    This function creates the table for nz steels generation
+    We change the structre of steel coal use to include a separate INDELC output
+    This then is based on total coal cogen
+    Rather than abstractly assuming "energy service" is just full input,
+    we redefine energy service, using the input and output data to infer efficiency
+    with an electricity share assumption
+
+    This function is unfortunately a little bit fiddly - a few manual steps.
+    """
+
+    # assumptions and constants
+    elc_share_of_coal = 0.55
+    output_commodity = "INDELC"
+
+    # find output PJ of generation (all MBIE coal cogen)
+    coal_cogen_output_pj = (
+        cogen_df[cogen_df["Variable"] == "Generation"]["Value"] / 277.77777778
+    )
+    coal_cogen_output_pj = coal_cogen_output_pj.iloc[0]
+
+    # get main input data from specific process
+    steel_coal_use = df.copy()
+    steel_coal_use = steel_coal_use[steel_coal_use["TechName"] == coal_fstk_process]
+
+    # extract base year energy input for later use
+    coal_cogen_input_pj = (steel_coal_use["ACT_BND"] / steel_coal_use["EFF"]).iloc[0]
+
+    # add share assumptions
+    steel_coal_use["Share-O~FX"] = 1 - elc_share_of_coal
+
+    # rejig the output "energy" - we keep efficiency flat, so this is a ratio of the generation
+
+    coal_to_elc_ration = elc_share_of_coal / (1 - elc_share_of_coal)
+
+    steel_coal_use["ACT_BND"] = coal_cogen_output_pj / coal_to_elc_ration
+
+    # create electricity side data
+    steel_gen_elc = steel_coal_use.copy()
+    steel_gen_elc["Comm-OUT"] = output_commodity
+    steel_gen_elc["Share-O~FX"] = elc_share_of_coal
+
+    # ensure the activity bound is expected electricity output
+    steel_gen_elc["ACT_BND"] = coal_cogen_output_pj
+
+    # combine
+    df = pd.concat(([steel_coal_use, steel_gen_elc]))
+
+    # get inferred efficiency
+    df["EFF"] = df["ACT_BND"] / coal_cogen_input_pj / df["Share-O~FX"]
+
+    # get inferred capacity
+    df["PRC_RESID"] = df["ACT_BND"] / df["CAP2ACT"] / df["AFA"] / df["Share-O~FX"]
+
+    # treat as stock
+    df = df.rename(columns={"PRC_RESID": "NCAP_PASTI"})
+    # with infinite life
+    df["Life"] = 100
+
+    # drop index
+    df = df.reset_index(drop=True)
+    return df
+
+    # 1) define input
+
+
 # Main ----------------------------------------------------------------------
 
 
@@ -208,15 +279,30 @@ def main():
     """script entry point"""
     # get and transform data
     raw_df = pd.read_csv(INPUT_FILE)
+    coal_cogen = pd.read_csv(COAL_COGEN)
     ind_veda = get_industry_veda_table(raw_df, INDUSTRY_DEMAND_VARIABLE_MAP)
-    agg_df = get_commodity_demand(ind_veda)
 
-    # main table
+    # get custom coal method
+    nzsteel = define_auxiliary_nzsteel_generation(ind_veda, coal_cogen)
+
+    # remove old process from main
+    ind_veda = ind_veda[ind_veda["TechName"] != COAL_FEEDSTOCK_PROCESS]
+    # attach new nzsteel process
+    ind_veda = pd.concat([ind_veda, nzsteel])
+
+    # save details
     save_industry_veda_file(
         ind_veda,
         name="industry_baseyear_details.csv",
         label="industry baseyear details",
     )
+    # remove indelc from ind_veda for next steps (commodity definitions etc)
+    ind_veda = ind_veda[ind_veda["Comm-OUT"] != "INDELC"]
+
+    agg_df = get_commodity_demand(ind_veda)
+
+    # main table
+
     save_industry_veda_file(
         agg_df,
         name="industry_commodity_demand.csv",
@@ -243,6 +329,9 @@ def main():
     )
 
     define_fuel_delivery(ind_veda)
+
+    # NZSteel generation - separate input
+    define_auxiliary_nzsteel_generation(ind_veda, coal_cogen)
 
 
 if __name__ == "__main__":

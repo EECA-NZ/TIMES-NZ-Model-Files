@@ -22,6 +22,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 from prepare_times_nz.utilities.data_cleaning import pascal_case, remove_diacritics
+from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     CONCORDANCES,
     DATA_RAW,
@@ -53,6 +54,20 @@ pd.set_option("display.float_format", lambda x: f"{x:.6f}")
 # --------------------------------------------------------------------------- #
 # Helper functions
 # --------------------------------------------------------------------------- #
+
+
+def save_output(df, name):
+    """
+    Wrapper for saving output data
+    """
+    _save_data(df, name, label="Electricity base year outputs", filepath=OUTPUT_DIR)
+
+
+def save_checks(df, name):
+    """
+    Wrapper for saving checking results
+    """
+    _save_data(df, name, label="Electricity base year checks", filepath=CHECK_DIR)
 
 
 def assign_cogen(value: str) -> str:
@@ -136,7 +151,7 @@ def generate_techname(df):
     return df
 
 
-def remove_coal_cogeneration(df):
+def split_coal_cogeneration(df):
     """
     Here, we remove any coal cogen plants from the outputs
 
@@ -144,44 +159,16 @@ def remove_coal_cogeneration(df):
         treated within the industrial demand side
         We assume its all NZSteel as an auxiliary output from the coal use there
     So we don't want to double count this
+    We save it separately for use by industrial sector
     """
 
-    df = df[~((df["FuelType"] == "Coal") & (df["GenerationType"] == "CHP"))]
+    df_no_coal_cogen = df[
+        ~((df["FuelType"] == "Coal") & (df["GenerationType"] == "CHP"))
+    ]
 
-    return df
+    df_coal_cogen = df[((df["FuelType"] == "Coal") & (df["GenerationType"] == "CHP"))]
 
-
-def save_outputs(
-    gen_df: pd.DataFrame,
-    gen_cmp: pd.DataFrame,
-    cap_cmp: pd.DataFrame,
-    gen_generic: pd.DataFrame,
-) -> None:
-    """Persist main long-form CSV plus calibration check files."""
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    CHECK_DIR.mkdir(parents=True, exist_ok=True)
-
-    out_file = OUTPUT_DIR / "base_year_electricity_supply.csv"
-    gen_df.to_csv(out_file, index=False, encoding="utf-8-sig")
-    logger.info("Wrote base-year supply table to %s", out_file)
-
-    gen_cmp.to_csv(CHECK_DIR / "check_ele_gen_calibration.csv", index=False)
-    cap_cmp.to_csv(CHECK_DIR / "check_base_year_ele_cap_calibration.csv", index=False)
-    gen_generic.to_csv(CHECK_DIR / "check_ele_gen_generated_generics.csv", index=False)
-
-
-def print_checks(
-    gen_cmp: pd.DataFrame, cap_cmp: pd.DataFrame, gen_generic: pd.DataFrame
-) -> None:
-    """Pretty-print calibration tables to stdout when SHOW_CHECKS is enabled."""
-    if not SHOW_CHECKS:
-        return
-    print("GENERATION CHECKS:")
-    print(gen_cmp)
-    print("CAPACITY CHECKS:")
-    print(cap_cmp)
-    print("GENERIC PLANTS GENERATED:")
-    print(gen_generic)
+    return df_no_coal_cogen, df_coal_cogen
 
 
 # --------------------------------------------------------------------------- #
@@ -640,14 +627,19 @@ def main() -> None:
     )
     base_year_gen["Unit"] = base_year_gen["Variable"].map(variable_unit_map)
 
-    # Remove coal cogeneration - this is all industrial demand
-    base_year_gen = remove_coal_cogeneration(base_year_gen)
+    # Separate coal cogeneration - this is all industrial demand
+    base_year_gen, coal_cogen = split_coal_cogeneration(base_year_gen)
 
     # --------------------------------------------------------------------- #
     # Output + checks
     # --------------------------------------------------------------------- #
-    save_outputs(base_year_gen, gen_comparison, cap_comparison, generic_generation)
-    print_checks(gen_comparison, cap_comparison, generic_generation)
+
+    save_output(base_year_gen, "base_year_electricity_supply.csv")
+    save_output(coal_cogen, "base_year_coal_cogen.csv")
+
+    save_checks(gen_comparison, "check_ele_gen_calibration.csv")
+    save_checks(cap_comparison, "check_base_year_ele_cap_calibration.csv")
+    save_checks(generic_generation, "check_ele_gen_generated_generics.csv")
 
 
 # --------------------------------------------------------------------------- #
