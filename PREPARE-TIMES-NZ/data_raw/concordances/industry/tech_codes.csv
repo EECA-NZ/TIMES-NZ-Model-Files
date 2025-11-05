@@ -22,3 +22,6 @@ Reformer,BOILR
 Refrigeration Systems,FRIDG
 Resistance Heater,HEATR
 Stationary Engine,ENGIN
+Steam Generating Heat Pump (process heat),SGHP
+Mechanical Vapour Recompression (MVR),MVR
+Pulsed Electric Field,PEF
