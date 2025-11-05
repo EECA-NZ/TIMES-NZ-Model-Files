@@ -211,7 +211,7 @@ def process_electricity_demand_by_timeslice(df):
         for c in annual_commodities:
             print("          '", c, "'")
 
-    #
+        raise ValueError("Process timeslices must not be annual")  #
 
     # calculate average load (PV Unit is PJ)
     df["Hours"] = df["YRFR"] * 24 * 365
@@ -223,8 +223,7 @@ def process_electricity_demand_by_timeslice(df):
 
     # order and select output variables
 
-    # save_data(df, "energy_demand.csv")
-    print(df)
+    save_data(df, "electricity_demand_by_timeslice.csv")
 
 
 def process_energy_demand(df):

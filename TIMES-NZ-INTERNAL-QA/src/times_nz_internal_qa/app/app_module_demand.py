@@ -27,6 +27,7 @@ ID_PREFIX = "dem"
 
 PJ_TO_GWH = 277.778
 DEM_FILE_LOCATION = FINAL_DATA / "energy_demand.parquet"
+ELC_DEM_CURVE_FILE = FINAL_DATA / "electricity_demand_by_timeslice.parquet"
 
 # SET FILTER/GROUP OPTIONS
 
@@ -57,7 +58,7 @@ elc_dem_curve_filters = [
 dem_filters = dem_filters_raw + [{"col": "Fuel"}]
 dem_filters = create_filter_dict("energy_dem", dem_filters)
 elc_dem_filters = create_filter_dict("elc_dem", dem_filters_raw)
-elc_dem_curve_filters = create_filter_dict("elc_dem_curve", dem_filters_raw)
+elc_dem_curve_filters = create_filter_dict("elc_dem_curve", elc_dem_curve_filters)
 
 dem_group_options = [d["col"] for d in dem_filters]
 elc_dem_group_options = [d["col"] for d in elc_dem_filters]
@@ -106,8 +107,13 @@ elc_dem_curve_parameters = {
     "section_title": "Electricity demand by timeslice",
     "base_cols": base_cols + ["TimeSlice"],
     "group_options": elc_dem_group_options,
+    "chart_type": "timeslice",
 }
 
+
+elc_dem_curve_all_groups = (
+    elc_dem_curve_parameters["base_cols"] + elc_dem_curve_parameters["group_options"]
+)
 
 # GET DATA ------------------------------------------
 
@@ -154,6 +160,22 @@ def get_base_elc_dem_df(scenarios, filepath=DEM_FILE_LOCATION):
     return df.collect()
 
 
+@lru_cache(maxsize=8)
+def get_base_elc_dem_curve_df(scenarios, filepath=ELC_DEM_CURVE_FILE):
+    """
+    Returns electricity demand data (pre-filtered)
+    Adjusts to GWh
+    Based on scenario selections
+    Caches results for quick switching
+    """
+    df = read_data_pl(filepath, scenarios)
+    df = aggregate_by_group(df, elc_dem_curve_all_groups)
+
+    # electricity demand only
+
+    return df.collect()
+
+
 # SERVER ------------------------------------------
 
 
@@ -178,7 +200,7 @@ def demand_server(inputs, outputs, session, selected_scens):
 
     register_server_functions_for_explorer(
         elc_dem_curve_parameters,
-        get_base_elc_dem_df,
+        get_base_elc_dem_curve_df,
         scen_tuple,
         inputs,
         outputs,
