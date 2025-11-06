@@ -8,6 +8,8 @@ Stage 4 – VEDA-format builders for the transport (TRA) sector.
 """
 
 
-from prepare_times_nz.stage_4.transport import main as create_baseyear_tra_files
+from prepare_times_nz.stage_4.baseyear.transport import (
+    main as create_baseyear_tra_files,
+)
 
 create_baseyear_tra_files()
