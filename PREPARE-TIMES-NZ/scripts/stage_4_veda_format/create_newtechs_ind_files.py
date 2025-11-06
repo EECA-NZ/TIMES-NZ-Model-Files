@@ -81,6 +81,7 @@ def create_newtech_process_df(_cfg: dict) -> pd.DataFrame:
             "TechName": combined["TechName"].unique(),
             "Tact": ACTIVITY_UNIT,
             "Tcap": CAPACITY_UNIT,
+            "TsLvl": "DAYNITE",
             "Vintage": VINTAGE,
         }
     )
@@ -157,7 +158,7 @@ def create_newtech_process_parameters_df(cfg: dict) -> pd.DataFrame:
 # ---------------------------------------------------------------------
 def main() -> None:
     """Generate and export TIMES-NZ new commercial tech definitions & parameters."""
-    process_cols = ["Sets", "TechName", "Tact", "Tcap", "Vintage"]
+    process_cols = ["Sets", "TechName", "Tact", "Tcap", "TsLvl", "Vintage"]
     param_cols = [
         "TechName",
         "Comm_IN",
