@@ -340,7 +340,40 @@ def process_energy_service_demand(df):
         "Value",
     ]
     esd = esd[esd_variables]
+
     save_data(esd, "energy_service_demand.csv")
+
+
+def get_data_by_timeslice(filename):
+    """
+    Takes an existing file and converts it to load by timeslice
+    Only works on PJ, and converts to GWh, then uses YRFR to convert to GW per hour
+    """
+
+    df = pd.read_parquet(FINAL_DATA / filename)
+
+    df = df[df["Unit"] == "PJ"]
+
+    yrfr = pd.read_csv(PREP_STAGE_2 / "settings/load_curves/yrfr.csv")
+
+    # add year fractions
+    df = df.merge(yrfr, on="TimeSlice", how="inner")
+
+    # calculate average load (Value unit is PJ)
+    df["Hours"] = df["YRFR"] * 24 * 365
+    df["GWh"] = df["Value"] * 277.777777778
+    df["GW"] = df["GWh"] / df["Hours"]
+    df["Variable"] = "Average output"
+    df["Unit"] = "GW"
+    df["Value"] = df["GW"]
+
+    return df
+
+
+def get_esd_by_timeslice():
+    """Wrapper for energy service demand outputs by timeslice"""
+    esd = get_data_by_timeslice("energy_service_demand.parquet")
+    save_data(esd, "esd_by_timeslice.parquet")
 
 
 def process_infeasible_data(df):
@@ -422,6 +455,8 @@ def main():
     process_emissions(df)
     process_generation_by_timeslice(df)
     process_electricity_demand_by_timeslice(df)
+
+    get_esd_by_timeslice()
     print("Done")
 
 
