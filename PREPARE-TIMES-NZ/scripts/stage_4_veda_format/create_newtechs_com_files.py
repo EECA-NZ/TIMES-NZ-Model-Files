@@ -47,6 +47,7 @@ def create_newtech_process_df(cfg: dict) -> pd.DataFrame:
             "TechName": tech_names,
             "Tact": ACTIVITY_UNIT,
             "Tcap": CAPACITY_UNIT,
+            "TsLvl": "DAYNITE",
         }
     )
 
@@ -95,7 +96,7 @@ def main() -> None:
     definition and parameter tables."""
 
     processes = create_newtech_process_df(
-        {"Columns": ["Sets", "TechName", "Tact", "Tcap"]}
+        {"Columns": ["Sets", "TechName", "Tact", "Tcap", "TsLvl"]}
     )
 
     parameters = create_newtech_process_parameters_df(
@@ -113,7 +114,7 @@ def main() -> None:
                 "INVCOST~2030",
                 "INVCOST~2050",
                 "FIXOM",
-                "AFA",
+                "AF",
                 "FLO_MARK~2030",
                 "FLO_MARK~2050",
                 "FLO_MARK~0",
