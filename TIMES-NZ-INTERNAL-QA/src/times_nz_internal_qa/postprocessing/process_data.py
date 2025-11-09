@@ -11,6 +11,7 @@ etc (more to come)
 
 """
 
+import numpy as np
 import pandas as pd
 from times_nz_internal_qa.config import current_scenarios
 from times_nz_internal_qa.utilities.filepaths import (
@@ -357,7 +358,10 @@ def get_data_by_timeslice(filename):
     yrfr = pd.read_csv(PREP_STAGE_2 / "settings/load_curves/yrfr.csv")
 
     # add year fractions
-    df = df.merge(yrfr, on="TimeSlice", how="inner")
+    df = df.merge(yrfr, on="TimeSlice", how="left")
+
+    # do annuals too
+    df["YRFR"] = np.where(df["TimeSlice"] == "ANNUAL", 1, df["YRFR"])
 
     # calculate average load (Value unit is PJ)
     df["Hours"] = df["YRFR"] * 24 * 365
