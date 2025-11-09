@@ -117,9 +117,9 @@ def define_enduse_commodities(df, filename, label):
 
     commodity_df = pd.DataFrame()
     commodity_df["CommName"] = commodities
-    # why are the commodities "DEM" and the processes "DMD"?
     commodity_df["Csets"] = "DEM"
     commodity_df["Unit"] = ACTIVITY_UNIT
+    commodity_df["TsLvl"] = "DAYNITE"
 
     save_residential_veda_file(commodity_df, name=filename, label=label)
 
