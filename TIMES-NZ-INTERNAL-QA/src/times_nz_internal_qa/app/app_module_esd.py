@@ -179,7 +179,7 @@ def energy_service_demand_server(inputs, outputs, session, selected_scens):
 # UI ---------------------------------------------------------------
 
 sections = [
-    esd_curve_parameters,
     esd_parameters,
+    esd_curve_parameters,
 ]
 esd_ui = make_explorer_page_ui(sections, ID_PREFIX)

@@ -555,7 +555,6 @@ Demand,RES-JD-ELC-DWASH-D_WASH,JD-D_WASH,Residential,Joined Dwelling,Heating/Coo
 Demand,RES-DD-ELC-HPUMP_C-S_COOL,DD-S_COOL,Residential,Detached Dwelling,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump (for Cooling)
 Demand,RES-JD-ELC-HPUMP_C-S_COOL,JD-S_COOL,Residential,Joined Dwelling,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump (for Cooling)
 Demand,RES-DD-ELC-HPSH-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (for Heating)
-Demand,RES-JD-ELC-HPSH-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (for Heating)
 Demand,RES-DD-ELC-HWATER_C-WH_LOW,DD-WH_LOW,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
 Demand,RES-JD-ELC-HWATER_C-WH_LOW,JD-WH_LOW,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
 Demand,RES-DD-ELC-RES_MISC-ELCTR,DD-ELCTR,Residential,Detached Dwelling,Electronics and Lighting,Electronics and Other Electrical Uses,Heat/Cooling Devices,"Misc, Residential Only (Battery chargers, Pools, Pumps)  "
@@ -563,19 +562,15 @@ Demand,RES-JD-ELC-RES_MISC-ELCTR,JD-ELCTR,Residential,Joined Dwelling,Electronic
 Demand,RES-DD-ELC-FRIDG-FRIDG,DD-FRIDG,Residential,Detached Dwelling,Heating/Cooling,Refrigeration,Heat/Cooling Devices,Refrigeration Systems
 Demand,RES-JD-ELC-FRIDG-FRIDG,JD-FRIDG,Residential,Joined Dwelling,Heating/Cooling,Refrigeration,Heat/Cooling Devices,Refrigeration Systems
 Demand,RES-DD-ELC-HEATR-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Resistance Heater
-Demand,RES-JD-ELC-HEATR-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Resistance Heater
 Demand,RES-DD-COA-HEATR_C-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,"Coal Heaters, Residential Only  "
-Demand,RES-JD-COA-HEATR_C-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,"Coal Heaters, Residential Only  "
 Demand,RES-DD-DSL-ICENG-MTV_MOB,DD-MTV_MOB,Residential,Detached Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
 Demand,RES-JD-DSL-ICENG-MTV_MOB,JD-MTV_MOB,Residential,Joined Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
 Demand,RES-DD-LPG-BURNR-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
-Demand,RES-JD-LPG-BURNR-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,RES-DD-LPG-COOK-CH_INT,DD-CH_INT,Residential,Detached Dwelling,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,"Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  "
 Demand,RES-JD-LPG-COOK-CH_INT,JD-CH_INT,Residential,Joined Dwelling,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,"Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  "
 Demand,RES-DD-LPG-HWATER_G-WH_LOW,DD-WH_LOW,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Gas Water Heater
 Demand,RES-JD-LPG-HWATER_G-WH_LOW,JD-WH_LOW,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Gas Water Heater
 Demand,RES-DD-NGA-BURNR-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
-Demand,RES-JD-NGA-BURNR-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,RES-DD-NGA-COOK-CH_INT,DD-CH_INT,Residential,Detached Dwelling,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,"Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  "
 Demand,RES-JD-NGA-COOK-CH_INT,JD-CH_INT,Residential,Joined Dwelling,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,"Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  "
 Demand,RES-DD-NGA-HWATER_G-WH_LOW,DD-WH_LOW,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Gas Water Heater
@@ -583,7 +578,6 @@ Demand,RES-JD-NGA-HWATER_G-WH_LOW,JD-WH_LOW,Residential,Joined Dwelling,Heating/
 Demand,RES-DD-PET-ICENG-MTV_MOB,DD-MTV_MOB,Residential,Detached Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
 Demand,RES-JD-PET-ICENG-MTV_MOB,JD-MTV_MOB,Residential,Joined Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
 Demand,RES-DD-WOD-BURNR-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
-Demand,RES-JD-WOD-BURNR-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,RES-DD-WOD-BURNR_W-WH_LOW,DD-WH_LOW,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,"Burner, with Wetback"
 Demand,RES-JD-WOD-BURNR_W-WH_LOW,JD-WH_LOW,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,"Burner, with Wetback"
 Demand,CHEM-ELC-ELCTR-ELCTR,CHEM-ELCTR-ELCTR,Industry,Chemicals (excl. Urea and Methanol),Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
