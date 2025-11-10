@@ -162,6 +162,57 @@ def process_energy_demand(df):
     save_data(df, "energy_demand.csv")
 
 
+def process_production(df):
+    """
+    Outputs of production methods, either indiginous or imports
+    Labels should include method (import/indigenous)
+
+
+    """
+
+    df = df[df["Attribute"] == "VAR_FOut"]
+
+    prod_processes = pd.read_csv(PROCESS_CONCORDANCES / "production.csv")
+    sets_units = pd.read_csv(PROCESS_CONCORDANCES / "process_sets_and_units.csv")
+    sets_units = sets_units.rename(columns={"techname": "Process"})
+    fuels = pd.read_csv(COMMODITY_CONCORDANCES / "energy.csv")
+
+    # only energy outputs of identified production processes
+    # including unit settings from inputs
+    df = df.merge(prod_processes, on="Process", how="inner")
+    df = df.merge(fuels, on="Commodity", how="inner")
+    df = df.merge(sets_units, on="Process", how="inner")
+
+    # some quick naming
+    df["Variable"] = "Primary Energy Production"
+    df = df.rename(
+        columns={
+            "tact": "Unit",
+            "PV": "Value",
+        }
+    )
+
+    prod_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "ProcessGroup",
+        "Process",
+        "ProcessName",
+        "Fuel",
+        "Region",
+        "Vintage",
+        "TimeSlice",
+        "Period",
+        "Value",
+        "Unit",
+    ]
+
+    df = df[prod_variables]
+
+    save_data(df, "production.csv")
+
+
 def process_energy_service_demand(df):
     """
     ESD methods, or the output of demand devices
@@ -298,11 +349,12 @@ def main():
     """
     print("Processing all scenario files...")
     df = load_scenario_results(current_scenarios)
-    process_energy_service_demand(df)
-    process_energy_demand(df)
-    process_electricity_generation(df)
-    process_infeasible_data(df)
-    process_emissions(df)
+    # process_energy_service_demand(df)
+    # process_energy_demand(df)
+    # process_electricity_generation(df)
+    # process_infeasible_data(df)
+    # process_emissions(df)
+    process_production(df)
     print("Done")
 
 
