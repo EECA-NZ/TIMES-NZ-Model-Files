@@ -8,6 +8,7 @@ from shiny import reactive, render
 from shinywidgets import render_altair
 from times_nz_internal_qa.app.helpers.charts import (
     build_grouped_bar,
+    build_grouped_bar_timeslice,
 )
 from times_nz_internal_qa.app.helpers.data_processing import (
     get_agg_data,
@@ -73,6 +74,9 @@ def register_server_functions_for_explorer(
     page_id = chart_parameters_dict["page_id"]
     section_title = chart_parameters_dict["section_title"]
 
+    # default to grouped bar if there's nothing in the dict
+    chart_type = chart_parameters_dict.get("chart_type", "grouped_bar")
+
     # get reactive to return data following scenario selection
     @reactive.calc
     def _df():
@@ -97,6 +101,8 @@ def register_server_functions_for_explorer(
     # Create chart data
     @reactive.calc
     def _chart_df():
+        # if using altair, must touch the nav input to ensure rerendering
+        _ = getattr(inputs, f"{page_id}_nav")()
         selected_group = getattr(inputs, f"{chart_id}_group")()
         return make_chart_data(
             _df_filtered(),
@@ -110,8 +116,11 @@ def register_server_functions_for_explorer(
     @render_altair
     def _chart():
         # if using altair, must touch the nav input to ensure rerendering
-        _ = getattr(inputs, f"{page_id}_nav")()
+        # _ = getattr(inputs, f"{page_id}_nav")()
         params = _chart_df()
+        if chart_type == "timeslice":
+            return build_grouped_bar_timeslice(**params)
+        # default
         return build_grouped_bar(**params)
 
     # Setup downloads

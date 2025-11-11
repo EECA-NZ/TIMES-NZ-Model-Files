@@ -83,9 +83,9 @@ app_ui = ui.page_fluid(
     # EXPLORER NAVSET PAGES
     ui.div(
         ui.navset_tab(
+            ui.nav_panel(tab_title("Energy service demand", "info_esd"), esd_ui),
             ui.nav_panel(tab_title("Electricity generation", "info_elc"), elec_ui),
             ui.nav_panel(tab_title("Energy demand", "info_dem"), demand_ui),
-            ui.nav_panel(tab_title("Energy service demand", "info_esd"), esd_ui),
             ui.nav_panel(tab_title("Emissions", "info_ems"), emissions_ui),
             ui.nav_panel(tab_title("Infeasibilities", "info_dum"), dummy_ui),
         ),

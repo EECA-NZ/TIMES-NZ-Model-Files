@@ -11,12 +11,14 @@ etc (more to come)
 
 """
 
+import numpy as np
 import pandas as pd
 from times_nz_internal_qa.config import current_scenarios
 from times_nz_internal_qa.utilities.filepaths import (
     COMMODITY_CONCORDANCES,
     CONCORDANCE_PATCHES,
     FINAL_DATA,
+    PREP_STAGE_2,
     PROCESS_CONCORDANCES,
     SCENARIO_FILES,
 )
@@ -107,6 +109,122 @@ def process_electricity_generation(df):
     df = df[ele_variables]
     # save
     save_data(df, "elec_generation.csv")
+
+
+def process_generation_by_timeslice(df):
+    """
+    Single preprocessing for timeslice generation
+    Pulls yrfr and calculates average load in GW per slice
+
+    Starts by matching the electricity method, then trims
+    """
+    yrfr = pd.read_csv(PREP_STAGE_2 / "settings/load_curves/yrfr.csv")
+    processes = pd.read_csv(PROCESS_CONCORDANCES / "elec_generation.csv")
+    fuels = pd.read_csv(COMMODITY_CONCORDANCES / "energy.csv")
+    emissions = pd.read_csv(COMMODITY_CONCORDANCES / "emissions.csv")
+    commodities = pd.concat([fuels, emissions])
+    attributes = pd.read_csv(
+        CONCORDANCE_PATCHES / "attributes/attributes_for_ele_gen.csv"
+    )
+    # ele specific labels for techs
+
+    # filter to labelled processes only
+    df = df[df["Process"].isin(processes["Process"].unique())]
+
+    # filter to our specific attributes. These are defined in the input file
+    df = df[df["Attribute"].isin(attributes["Attribute"].unique())]
+
+    # add labels:
+    df = df.merge(processes, on="Process", how="left")
+    # commodity labels and groups
+    df = df.merge(commodities, on="Commodity", how="left")
+    # attributes, variables, units, based on commodity group
+    df = df.merge(attributes, on=["Attribute", "CommodityGroup"], how="left")
+
+    df = df[df["Variable"] == "Electricity generation"]
+
+    # add year fractions
+
+    df = df.merge(yrfr, on="TimeSlice", how="left")
+
+    #
+
+    # calculate average load (PV Unit is PJ)
+    df["Hours"] = df["YRFR"] * 24 * 365
+    df["GWh"] = df["PV"] * 277.777777778
+    df["GW"] = df["GWh"] / df["Hours"]
+    df["Variable"] = "Average output"
+    df["Unit"] = "GW"
+    df["Value"] = df["GW"]
+
+    ele_variables = [
+        "Scenario",
+        "Attribute",
+        "Process",
+        "PlantName",
+        "TechnologyGroup",
+        "Technology",
+        "Region",
+        "Vintage",
+        "TimeSlice",
+        "Period",
+        "Variable",
+        "Value",
+        "Unit",
+    ]
+
+    df = df[ele_variables]
+
+    save_data(df, "generation_by_timeslice.csv")
+
+
+def process_electricity_demand_by_timeslice(df):
+    """
+    Load full scenario data for `scenario_name`
+    Identify all energy demand processes and output each with human readable labels
+    For these we currently only extract energy demand, not capacity or output.
+    """
+
+    demand_processes = pd.read_csv(PROCESS_CONCORDANCES / "demand.csv")
+    energy_commodities = pd.read_csv(COMMODITY_CONCORDANCES / "energy.csv")
+    yrfr = pd.read_csv(PREP_STAGE_2 / "settings/load_curves/yrfr.csv")
+
+    df = df[df["Process"].isin(demand_processes["Process"].unique())]
+
+    df = df[df["Attribute"] == "VAR_FIn"]
+
+    df = df.merge(demand_processes, on="Process", how="left")
+    df = df.merge(energy_commodities, on=["Commodity"], how="left")
+
+    # only electricity demand
+    df = df[df["Fuel"] == "Electricity"]
+
+    # add year fractions
+    df = df.merge(yrfr, on="TimeSlice", how="left")
+
+    # check annual timeslice methods
+
+    test = df[df["TimeSlice"] == "ANNUAL"]
+
+    if len(test) > 0:
+        print("WARNING - these electricity processes are running on annual")
+        annual_commodities = test["Process"].unique().tolist()
+        for c in annual_commodities:
+            print("          '", c, "'")
+
+        raise ValueError("Process timeslices must not be annual")  #
+
+    # calculate average load (PV Unit is PJ)
+    df["Hours"] = df["YRFR"] * 24 * 365
+    df["GWh"] = df["PV"] * 277.777777778
+    df["GW"] = df["GWh"] / df["Hours"]
+    df["Variable"] = "Average output"
+    df["Unit"] = "GW"
+    df["Value"] = df["GW"]
+
+    # order and select output variables
+
+    save_data(df, "electricity_demand_by_timeslice.csv")
 
 
 def process_energy_demand(df):
@@ -223,7 +341,43 @@ def process_energy_service_demand(df):
         "Value",
     ]
     esd = esd[esd_variables]
+
     save_data(esd, "energy_service_demand.csv")
+
+
+def get_data_by_timeslice(filename):
+    """
+    Takes an existing file and converts it to load by timeslice
+    Only works on PJ, and converts to GWh, then uses YRFR to convert to GW per hour
+    """
+
+    df = pd.read_parquet(FINAL_DATA / filename)
+
+    df = df[df["Unit"] == "PJ"]
+
+    yrfr = pd.read_csv(PREP_STAGE_2 / "settings/load_curves/yrfr.csv")
+
+    # add year fractions
+    df = df.merge(yrfr, on="TimeSlice", how="left")
+
+    # do annuals too
+    df["YRFR"] = np.where(df["TimeSlice"] == "ANNUAL", 1, df["YRFR"])
+
+    # calculate average load (Value unit is PJ)
+    df["Hours"] = df["YRFR"] * 24 * 365
+    df["GWh"] = df["Value"] * 277.777777778
+    df["GW"] = df["GWh"] / df["Hours"]
+    df["Variable"] = "Average output"
+    df["Unit"] = "GW"
+    df["Value"] = df["GW"]
+
+    return df
+
+
+def get_esd_by_timeslice():
+    """Wrapper for energy service demand outputs by timeslice"""
+    esd = get_data_by_timeslice("energy_service_demand.parquet")
+    save_data(esd, "esd_by_timeslice.parquet")
 
 
 def process_infeasible_data(df):
@@ -303,6 +457,10 @@ def main():
     process_electricity_generation(df)
     process_infeasible_data(df)
     process_emissions(df)
+    process_generation_by_timeslice(df)
+    process_electricity_demand_by_timeslice(df)
+
+    get_esd_by_timeslice()
     print("Done")
 
 
