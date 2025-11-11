@@ -61,6 +61,7 @@ def create_newtech_process_df(cfg: dict) -> pd.DataFrame:
             "TechName": tech_names,
             "Tact": ACTIVITY_UNIT,
             "Tcap": CAPACITY_UNIT,
+            "TsLvl": "DAYNITE",
         }
     )
 
@@ -117,7 +118,7 @@ def main() -> None:
     # 1) Processes: from one chosen source (default: trad)
     processes = create_newtech_process_df(
         {
-            "Columns": ["Sets", "TechName", "Tact", "Tcap"],
+            "Columns": ["Sets", "TechName", "Tact", "Tcap", "TsLvl"],
             "Source": PROCESSES_SOURCE,
         }
     )
@@ -134,7 +135,7 @@ def main() -> None:
         "INVCOST~2030",
         "INVCOST~2050",
         "FIXOM",
-        "AFA",
+        "AF",
         "CAP2ACT",
     ]
 
