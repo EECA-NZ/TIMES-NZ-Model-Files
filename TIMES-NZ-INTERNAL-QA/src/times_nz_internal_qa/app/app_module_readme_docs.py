@@ -52,6 +52,7 @@ def info_server(inputs, outputs, session):
     attach_info("info_btn_use", readme_app_use, "TIMES-NZ Alpha App")
     # Map each tab to its markdown doc
     attach_info("info_elc", info_elc_doc, "Electricity generation")
+    attach_info("info_pri", info_elc_doc, "Electricity generation")
     attach_info("info_ems", info_ems_doc, "Emissions")
     attach_info("info_dem", info_dem_doc, "Energy demand")
     attach_info("info_esd", info_esd_doc, "Energy service demand")

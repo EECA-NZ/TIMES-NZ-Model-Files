@@ -162,12 +162,26 @@ def process_energy_demand(df):
     save_data(df, "energy_demand.csv")
 
 
-def process_production(df):
+def process_primary_energy(df):
     """
-    Outputs of production methods, either indiginous or imports
+    Outputs of primary energy methods, either indigenous or imports
     Labels should include method (import/indigenous)
 
+    This currently takes processes defined as "prduction" ie processes that produce
+      primary energy categorised as MIN/IMP
 
+    For primary energy with no restraints or costs on production
+        (ie wind/solar/hydro/geo)
+    Because we represent the costs of collection, rather than production,
+        these won't be captured here
+
+    If we wanted to capture these, the best approach would be to add explicit
+        processes for production of those commodities then capture them labelled here.
+
+    There's room for us to add the gaps of stuff we currently assume basically free
+    We can accomplish that by just adding these as an output to a MIN process
+
+    (wind/solar/geo/etc)
     """
 
     df = df[df["Attribute"] == "VAR_FOut"]
@@ -210,7 +224,7 @@ def process_production(df):
 
     df = df[prod_variables]
 
-    save_data(df, "production.csv")
+    save_data(df, "primary_energy.csv")
 
 
 def process_energy_service_demand(df):
@@ -354,7 +368,7 @@ def main():
     # process_electricity_generation(df)
     # process_infeasible_data(df)
     # process_emissions(df)
-    process_production(df)
+    process_primary_energy(df)
     print("Done")
 
 
