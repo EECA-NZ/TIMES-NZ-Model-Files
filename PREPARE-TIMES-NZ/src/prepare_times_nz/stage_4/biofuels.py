@@ -26,7 +26,7 @@ from prepare_times_nz.utilities.logger_setup import blue_text, logger
 # Configuration
 # ----------------------------------------------------------------------------
 
-biomass_prices = EXTERNAL_DATA / "scion" / "biomass prices.csv"
+biomass_prices = EXTERNAL_DATA / "scion" / "biomass_prices.csv"
 biomass_supply_pj = (
     STAGE_3_DATA / "biofuel" / "aggregated_regional_biomass_supply_projections.csv"
 )
@@ -218,6 +218,7 @@ def create_biofuel_supply_forecasts() -> pd.DataFrame:
     # --- Final tidy output ---
     year_cols = [c for c in merged.columns if c.startswith("ACT_BND~")]
     merged = merged[["TechName", "Comm-OUT", "Island", "COST~2023"] + year_cols]
+    merged = merged.rename(columns={"Island": "Region"})
 
     logger.info("Created biofuel supply forecasts with %d rows.", len(merged))
     return merged
