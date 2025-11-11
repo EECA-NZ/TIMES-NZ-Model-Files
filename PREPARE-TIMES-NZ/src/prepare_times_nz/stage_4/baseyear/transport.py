@@ -407,6 +407,7 @@ def create_commodity_df(cfg):
             else "PJ"
         )
     )
+    df["TsLvl"] = "DAYNITE"
     df["LimType"] = df["CommName"].apply(lambda x: "FX" if x == "H2R" else "")
     final_column_order = cfg["Columns"]
     return df[final_column_order]
@@ -739,7 +740,7 @@ def main() -> None:
         ),
         (
             create_commodity_df,
-            {"Columns": ["Csets", "Region", "CommName", "Unit", "LimType"]},
+            {"Columns": ["Csets", "Region", "CommName", "Unit", "LimType", "TsLvl"]},
             "tra_commodity_definitions.csv",
         ),
         (

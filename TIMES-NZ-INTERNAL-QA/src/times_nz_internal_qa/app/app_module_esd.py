@@ -28,6 +28,7 @@ from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
 
 ID_PREFIX = "esd"
 ESD_FILE_LOCATION = FINAL_DATA / "energy_service_demand.parquet"
+ESD_CURVE_FILE_LOCATION = FINAL_DATA / "esd_by_timeslice.parquet"
 
 
 # define base columns that we must always group by
@@ -40,6 +41,18 @@ base_cols = [
     "Period",
     "Unit",
 ]
+
+
+esd_curve_base_cols = [
+    "Scenario",
+    "Variable",
+    "SectorGroup",
+    "TimeSlice",
+    "Period",
+    "Sector",
+    "Unit",
+]
+
 
 # Filter options
 core_filters = [
@@ -54,13 +67,27 @@ core_filters = [
     {"col": "Region"},
 ]
 
-esd_filters = create_filter_dict("esd", core_filters)
 
+curve_filters = [
+    # need to have Sector be at the top and not allow multiselect
+    # have added optional multiple parameter (defaults to true)
+    {"col": "Period", "multiple": False, "label": "Year"},
+    {"col": "Sector", "multiple": False},
+    {"col": "EnduseGroup", "label": "End Use Group"},
+    {"col": "EndUse", "label": "End Use"},
+    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "Technology"},
+    {"col": "Process"},
+    {"col": "Region"},
+]
+
+esd_filters = create_filter_dict("esd", core_filters)
+esd_curve_filters = create_filter_dict("esd_curve", curve_filters)
 # Group options (all filters except Sector, which is in core groups)
 esd_group_options = [d["col"] for d in core_filters if d["col"] != "Sector"]
-
 esd_all_group_options = base_cols + esd_group_options
 
+# PARAMETER DICTIONARIES
 
 esd_parameters = {
     "page_id": ID_PREFIX,
@@ -71,6 +98,22 @@ esd_parameters = {
     "base_cols": base_cols,
     "group_options": esd_group_options,
 }
+
+esd_curve_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "esd_curve",
+    "sec_id": "esd-curve",
+    "filters": esd_curve_filters,
+    "section_title": "Energy service demand by timeslice",
+    "base_cols": esd_curve_base_cols,
+    "group_options": esd_group_options,
+    "chart_type": "timeslice",
+}
+
+
+esd_curve_all_group_options = (
+    esd_curve_parameters["base_cols"] + esd_curve_parameters["group_options"]
+)
 
 
 # Energy Service Demand Data ----------------------------------------------------------------
@@ -85,6 +128,21 @@ def get_base_esd_df(scenarios, filepath=ESD_FILE_LOCATION):
     """
     df = read_data_pl(filepath, scenarios)
     df = aggregate_by_group(df, esd_all_group_options)
+    df = df.collect()
+
+    return df
+
+
+@lru_cache(maxsize=8)
+def get_base_esd_curve_df(scenarios, filepath=ESD_CURVE_FILE_LOCATION):
+    """
+    Returns ESD data pre-filtering
+    Based on scenario selections
+    Caches results for quick switching
+    """
+    df = read_data_pl(filepath, scenarios)
+    print(df)
+    df = aggregate_by_group(df, esd_curve_all_group_options)
     df = df.collect()
 
     return df
@@ -108,8 +166,20 @@ def energy_service_demand_server(inputs, outputs, session, selected_scens):
         esd_parameters, get_base_esd_df, scen_tuple, inputs, outputs, session
     )
 
+    register_server_functions_for_explorer(
+        esd_curve_parameters,
+        get_base_esd_curve_df,
+        scen_tuple,
+        inputs,
+        outputs,
+        session,
+    )
+
 
 # UI ---------------------------------------------------------------
 
-sections = [esd_parameters]
+sections = [
+    esd_parameters,
+    esd_curve_parameters,
+]
 esd_ui = make_explorer_page_ui(sections, ID_PREFIX)

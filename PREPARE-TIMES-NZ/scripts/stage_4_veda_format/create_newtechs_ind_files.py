@@ -34,7 +34,7 @@ NEW_TECHS = INDUSTRY_CONCORDANCES / "tech_codes.csv"
 START = 2025
 ACTIVITY_UNIT = "PJ"
 CAPACITY_UNIT = "GW"
-AFA = 0.5
+AF = 0.5
 VINTAGE = "YES"
 
 
@@ -81,6 +81,7 @@ def create_newtech_process_df(_cfg: dict) -> pd.DataFrame:
             "TechName": combined["TechName"].unique(),
             "Tact": ACTIVITY_UNIT,
             "Tcap": CAPACITY_UNIT,
+            "TsLvl": "DAYNITE",
             "Vintage": VINTAGE,
         }
     )
@@ -95,7 +96,7 @@ def create_newtech_process_parameters_df(cfg: dict) -> pd.DataFrame:
     """Build parameter DataFrame for new technologies (CAPEX, Efficiency, Life, etc.)."""
     _, combined = create_newtech_process_df(cfg)
     df = combined[["TechName", "Comm_IN", "Comm_OUT"]].copy()
-    df["START"], df["AFA"] = START, AFA
+    df["START"], df["AFA"] = START, AF
 
     # Load assumption & concordance files
     capex = pd.read_csv(NEW_TECHS_CAPEX)
@@ -143,7 +144,7 @@ def create_newtech_process_parameters_df(cfg: dict) -> pd.DataFrame:
 
     cols = cfg.get(
         "Columns",
-        ["TechName", "Comm-IN", "Comm-OUT", "START", "EFF", "LIFE", "INVCOST", "AFA"],
+        ["TechName", "Comm-IN", "Comm-OUT", "START", "EFF", "LIFE", "INVCOST", "AF"],
     )
     for col in cols:
         if col not in df.columns:
@@ -157,7 +158,7 @@ def create_newtech_process_parameters_df(cfg: dict) -> pd.DataFrame:
 # ---------------------------------------------------------------------
 def main() -> None:
     """Generate and export TIMES-NZ new commercial tech definitions & parameters."""
-    process_cols = ["Sets", "TechName", "Tact", "Tcap", "Vintage"]
+    process_cols = ["Sets", "TechName", "Tact", "Tcap", "TsLvl", "Vintage"]
     param_cols = [
         "TechName",
         "Comm_IN",
@@ -166,7 +167,7 @@ def main() -> None:
         "EFF",
         "LIFE",
         "INVCOST",
-        "AFA",
+        "AF",
     ]
 
     processes, _ = create_newtech_process_df({"Columns": process_cols})

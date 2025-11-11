@@ -80,6 +80,81 @@ def build_grouped_bar(
     return chart
 
 
+# pylint:disable=too-many-locals
+def build_grouped_bar_timeslice(
+    pdf: pd.DataFrame, unit: str, period_range, group_col: str, scen_list
+):
+    """
+    Grouped+stacked bar chart in Altair.
+    - Bars stack by `group_col` within each Scenario.
+    - Scenarios are clustered within each Period.
+    - `scen_list[0]` shown at higher opacity.
+
+    Sets timeslice along the bottom, assuming data is filtered for specific year already
+
+    """
+    # will need this at some point
+    print(period_range)
+
+    # Some minor adjustments for the chart tooltip?
+    # possibly these need to go in the chart data function instead
+    # to keep processing out of the render function?
+    # we must use pandas in these functions
+    totals_within_vars = [v for v in pdf.columns if v not in ["Value", group_col]]
+
+    pdf["Total"] = pdf.groupby(totals_within_vars, observed=True)["Value"].transform(
+        "sum"
+    )
+
+    pdf["ShareTooltip"] = (
+        ((pdf["Value"] / pdf["Total"]) * 100).map(lambda x: f"{x:.2f}")
+    ) + "%"
+
+    pdf["ValueTooltip"] = (
+        pdf["Value"]
+        .map(lambda x: f"{x:,.2f}")
+        .str.cat(pdf["Unit"].astype(str), sep=" ")
+    )
+
+    pdf["TotalTooltip"] = (
+        pdf["Total"]
+        .map(lambda x: f"{x:,.2f}")
+        .str.cat(pdf["Unit"].astype(str), sep=" ")
+    )
+
+    # category orders
+    # period_order = [str(p) for p in period_range]
+    base_scen = scen_list[0] if scen_list else None
+
+    chart = (
+        alt.Chart(pdf)
+        .mark_bar()
+        .encode(
+            x=alt.X("TimeSlice:N", title="Timeslice"),
+            xOffset=alt.XOffset("Scenario:N", sort=scen_list),
+            y=alt.Y("Value:Q", stack="zero", title=unit),
+            color=alt.Color(
+                f"{group_col}:N",
+                legend=alt.Legend(title=None, orient="top"),
+            ),
+            opacity=alt.condition(
+                alt.datum.Scenario == base_scen, alt.value(1), alt.value(0.6)
+            ),
+            tooltip=[
+                alt.Tooltip("Scenario:N", title="Scenario"),
+                alt.Tooltip("Period:N", title="Year"),
+                alt.Tooltip(f"{group_col}:N", title=group_col),
+                alt.Tooltip("ValueTooltip:N", title="Value"),
+                alt.Tooltip("TotalTooltip:N", title="Total"),
+                alt.Tooltip("ShareTooltip:N", title="Share"),
+            ],
+        )
+        .properties(background="transparent")
+    )
+
+    return chart
+
+
 # pylint:disable = too-many-locals, too-many-arguments, too-many-positional-arguments
 def build_grouped_bar_better_plotly(
     pdf,
