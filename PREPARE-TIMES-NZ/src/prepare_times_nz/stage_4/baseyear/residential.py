@@ -5,14 +5,12 @@ And a few other basic inputs defined in the constants section."""
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_4.common import ensure_no_build_if_free
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
-from prepare_times_nz.stage_2.residential.common import _save_data
+from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
 from prepare_times_nz.utilities.helpers import select_and_rename
-
-# from prepare_times_nz.utilities.logger_setup import logger
-
 
 # FILEPATHS ---------------------------------------------------------------
 
@@ -35,7 +33,8 @@ RESIDENTIAL_DEMAND_VARIABLE_MAP = {
     "CommodityOut": "Comm-OUT",
     "Island": "Region",
     "Capacity": "PRC_RESID",
-    "AFA": "AFA",
+    # converting to AF for any DAYNITE processes
+    "AFA": "AF",
     "CAPEX": "INVCOST",
     "OPEX": "FIXOM",
     "Efficiency": "EFF",
@@ -75,6 +74,8 @@ def get_residential_veda_table(df, input_map):
     df["CAP2ACT"] = CAP2ACT
     # shape output
     res_df = select_and_rename(df, input_map)
+    res_df = ensure_no_build_if_free(res_df)
+
     return res_df
 
 
@@ -100,6 +101,7 @@ def define_demand_processes(df, filename, label):
     demand_df["Sets"] = "DMD"
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
+    demand_df["TsLvl"] = "DAYNITE"
 
     save_residential_veda_file(demand_df, name=filename, label=label)
 
@@ -115,9 +117,9 @@ def define_enduse_commodities(df, filename, label):
 
     commodity_df = pd.DataFrame()
     commodity_df["CommName"] = commodities
-    # why are the commodities "DEM" and the processes "DMD"?
     commodity_df["Csets"] = "DEM"
     commodity_df["Unit"] = ACTIVITY_UNIT
+    commodity_df["TsLvl"] = "DAYNITE"
 
     save_residential_veda_file(commodity_df, name=filename, label=label)
 

@@ -137,8 +137,7 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
         else:
             ui_filter = ui.input_select(
                 iid,
-                # fspec.get("label", col),
-                "TEST",
+                fspec.get("label", col),
                 choices,
                 selected=choices[1],
             )
@@ -261,6 +260,9 @@ def register_filter_clear_button(filter_dict: list[dict], inputs, session):
             # if fs carries chart_id, scope to this chart
             if fs.get("chart_id") not in (None, chart_id):
                 continue
+            # dw about it for single-select items:
+            if fs.get("multiple") is False:
+                continue
             iid = ns(filter_input_id(fs))
             reset_input(iid)
 
@@ -271,7 +273,10 @@ def register_all_filters_and_clear(filters, base_options, inputs, outputs, sessi
     Based on the filter dict and base options data
     """
     # register all filters
+    # REGISTERING FS
+
     for fs in filters:
+
         register_filter_from_factory(
             fs, base_options, filters, inputs, outputs, session
         )

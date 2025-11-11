@@ -15,7 +15,7 @@ from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.stage_3.demand_projections.population_projections import (
     get_national_population_growth_index,
 )
-from prepare_times_nz.stage_4.transport import (
+from prepare_times_nz.stage_4.baseyear.transport import (
     COMM_TO_VEHICLE as transport_commodity_map,
 )
 from prepare_times_nz.utilities.data_in_out import _save_data

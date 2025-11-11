@@ -8,6 +8,7 @@ import pandas as pd
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
 from prepare_times_nz.stage_2.industry.common import _save_data
+from prepare_times_nz.stage_4.common import ensure_no_build_if_free
 from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
 from prepare_times_nz.utilities.helpers import select_and_rename
 
@@ -26,8 +27,6 @@ CAPACITY_UNIT = "GW"
 TSLVL = "DAYNITE"
 CTSLVL = "DAYNITE"
 CAP2ACT = 31.536
-NCAP_BND_2025 = 0
-NCAP_BND_0 = 5
 
 # declare coal feedstock process for particular treatment
 COAL_FEEDSTOCK_PROCESS = "STEEL-COA-FDSTK-FDSTK"
@@ -76,10 +75,13 @@ def get_industry_veda_table(df, input_map):
     df = df.pivot(index=index_vars, columns="Variable", values="Value").reset_index()
     # add some things
     df["CAP2ACT"] = CAP2ACT
-    df["NCAP_BND~0"] = NCAP_BND_0
-    df["NCAP_BND~2025"] = NCAP_BND_2025
     # shape output
     ind_df = select_and_rename(df, input_map)
+    # ensure no build if no invcost
+    ind_df = ensure_no_build_if_free(ind_df)
+    # set infinite life if blank life
+    # we should probably change default t_life in the model somewhere
+    ind_df["Life"] = ind_df["Life"].fillna(100)
     return ind_df
 
 

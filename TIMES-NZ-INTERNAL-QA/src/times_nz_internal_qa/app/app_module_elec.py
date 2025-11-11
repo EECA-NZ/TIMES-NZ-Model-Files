@@ -3,6 +3,7 @@ Data formatting, server and ui functions for electricity generation data
 
 """
 
+# pylint: disable = duplicate-code
 from functools import lru_cache
 
 import polars as pl
@@ -28,6 +29,7 @@ PJ_TO_GWH = 277.778
 ID_PREFIX = "elec"
 # data location
 ELE_GEN_FILE_LOCATION = FINAL_DATA / "elec_generation.parquet"
+ELE_GEN_BY_SLICE_FILE = FINAL_DATA / "generation_by_timeslice.parquet"
 
 # define base columns that we must always group by
 # Might even make these standard across everything?
@@ -46,7 +48,11 @@ ele_core_group_options = [
     "PlantName",
 ]
 
+# different group options for some charts
 ele_fuel_group_options = ele_core_group_options + ["Fuel"]
+
+
+#
 
 # configure filter options
 core_filters = [
@@ -56,9 +62,20 @@ core_filters = [
     {"col": "PlantName", "label": "Plant"},
 ]
 
+# Specific filters for generation curves (adding single period select)
+ele_gen_curve_filters = [
+    {"col": "Period", "multiple": False, "label": "Year"},
+    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "Technology"},
+    {"col": "Region"},
+    {"col": "PlantName", "label": "Plant"},
+]
+
 ele_gen_filters = create_filter_dict("ele_gen", core_filters)
 ele_cap_filters = create_filter_dict("ele_cap", core_filters)
 ele_use_filters = create_filter_dict("ele_use", core_filters + [{"col": "Fuel"}])
+ele_gen_curve_filters = create_filter_dict("ele_gen_curve", ele_gen_curve_filters)
+
 
 # all groups combined: used for processing main datasets
 ele_all_group_options = ele_base_cols + ele_core_group_options + ["Fuel"]
@@ -97,6 +114,22 @@ ele_use_parameters = {
     "base_cols": ele_base_cols,
     "group_options": ele_core_group_options,
 }
+
+
+ele_gen_curve_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "ele_gen_curve",
+    "sec_id": "ele-gen-curve",
+    "filters": ele_gen_curve_filters,
+    "section_title": "Average generation by timeslice",
+    "base_cols": ele_base_cols + ["TimeSlice"],
+    "group_options": ele_core_group_options,
+    "chart_type": "timeslice",
+}
+
+gen_curve_all_groups = (
+    ele_gen_curve_parameters["base_cols"] + ele_gen_curve_parameters["group_options"]
+)
 
 # ELECTRICITY-SPECIFIC DATA HANDLING -----------------------------------------------
 
@@ -152,6 +185,19 @@ def get_base_ele_use_df(scenarios, filepath=ELE_GEN_FILE_LOCATION):
     return df
 
 
+@lru_cache(maxsize=8)
+def get_base_ele_gen_curve_df(scenarios, filepath=ELE_GEN_BY_SLICE_FILE):
+    """
+    Returns ele use data (pre-filtered)
+    Based on scenario selections
+    Caches results for quick switching
+    """
+    df = read_data_pl(filepath, scenarios)
+    df = aggregate_by_group(df, gen_curve_all_groups)
+    df = df.collect()
+    return df
+
+
 # SERVER ------------------------------------------------------------------------
 
 
@@ -179,6 +225,15 @@ def elec_server(inputs, outputs, session, selected_scens):
         ele_use_parameters, get_base_ele_use_df, scen_tuple, inputs, outputs, session
     )
 
+    register_server_functions_for_explorer(
+        ele_gen_curve_parameters,
+        get_base_ele_gen_curve_df,
+        scen_tuple,
+        inputs,
+        outputs,
+        session,
+    )
+
 
 # UI ------------------------------------------------
 
@@ -188,6 +243,7 @@ sections = [
     ele_gen_parameters,
     ele_use_parameters,
     ele_cap_parameters,
+    ele_gen_curve_parameters,
 ]
 
 elec_ui = make_explorer_page_ui(sections, ID_PREFIX)
