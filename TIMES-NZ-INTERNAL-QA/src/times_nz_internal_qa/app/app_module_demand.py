@@ -212,9 +212,9 @@ def demand_server(inputs, outputs, session, selected_scens):
 
 
 sections = [
-    elc_dem_curve_parameters,
     dem_parameters,
     elc_dem_parameters,
+    elc_dem_curve_parameters,
 ]
 
 

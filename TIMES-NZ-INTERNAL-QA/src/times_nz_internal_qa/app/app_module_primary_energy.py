@@ -28,10 +28,9 @@ PRI_FILE_LOCATION = FINAL_DATA / "primary_energy.parquet"
 # SET FILTER/GROUP OPTIONS
 
 pri_filters = [
-    {"col": "ProcessGroup", "label": "Sector Group"},
-    {"col": "ProcessName"},
-    {"col": "Process"},
     {"col": "Fuel"},
+    {"col": "ProcessGroup"},
+    {"col": "ProcessName"},
 ]
 
 # we add fuel to main
@@ -42,7 +41,7 @@ pri_filters = create_filter_dict("prd", pri_filters)
 pri_group_options = [d["col"] for d in pri_filters]
 
 # Core variables we always group by
-
+# pylint:disable = duplicate-code
 base_cols = [
     "Scenario",
     "Variable",
@@ -60,7 +59,7 @@ pri_parameters = {
     "chart_id": "energy_prod",
     "sec_id": "energy-prod",
     "filters": pri_filters,
-    "section_title": "Primary energy production",
+    "section_title": "Fossil fuel production",
     "base_cols": base_cols,
     "group_options": pri_group_options,
 }
