@@ -237,13 +237,13 @@ STAGE_2: dict[str, list[str]] = {
 # Stage-3: scenario and subres files
 STAGE_3: dict[str, list[str]] = {
     "demand_projections": ["demand_projections/industrial_demand_index.csv"],
+    "supply_projections": ["oil_and_gas/oil_and_gas_projections.csv"],
     # subres
     "electricity/electricity_new_gen_tech": ["electricity/future_generation_tech.csv"],
     "transport/extract_vehicle_future_costs_data": [
         "transport/vehicle_costs_by_type_fuel_projected_2023.csv"
     ],
     # scenarios
-    "oil_and_gas/gas_projections": ["oil_and_gas/oil_and_gas_projections.csv"],
     "electricity/wem_wcm": ["wem_user_constraints/uc_wem.csv"],
 }
 

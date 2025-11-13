@@ -103,7 +103,6 @@ def define_enduse_commodities(df, filename, label):
     Also add activity and capacity units just for clarity"""
 
     commodities = df["Comm-OUT"].unique()
-
     commodity_df = pd.DataFrame()
     commodity_df["CommName"] = commodities
     commodity_df["Csets"] = "DEM"
