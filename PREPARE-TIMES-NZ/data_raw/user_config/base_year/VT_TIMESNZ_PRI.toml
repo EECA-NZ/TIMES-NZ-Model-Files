@@ -240,7 +240,7 @@ Description = "Define biofuels. Temporary declarations until biomass module comp
 SheetName = "Biofuels"
 TagName = "FI_Comm"
 Csets = ["NRG"] # (all energy commodities) 
-CommName = ["WODWST", "AGRWST", "MNCWST", "WOD", "INDOSWOD", "PLT", "ANMMNR", "OILWST", "PLT", "DID", "BDSL", "DIJ"]
+CommName = ["WODWST", "AGRWST", "MNCWST", "WOD", "INDOSWOD", "PLT", "ANMMNR", "OILWST", "PLT", "DID", "BDSL", "DIJ", "BIG"]
 Unit = ["PJ"] # All PJ 
 LimType = ["FX"]
 
@@ -257,7 +257,3 @@ Description = "Define biomass/biofuel supply forecasts"
 SheetName = "Biofuels"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/biofuel_supply_forecasts.csv"
-
-[BiofuelSupplyParameters]
-SheetName = "Biofuels"
-TagName = "FI_T"

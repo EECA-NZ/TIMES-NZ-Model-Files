@@ -175,7 +175,7 @@ def define_fuel_delivery(df):
         }
     )
     fuel_deliv_definitions["TsLvl"] = np.where(
-        fuel_deliv_definitions["TechName"] == "COMELC", "DAYNITE", ""
+        fuel_deliv_definitions["TechName"] == "FTE_COMELC", "DAYNITE", ""
     )
 
     save_commercial_veda_file(
