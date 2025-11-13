@@ -8,7 +8,6 @@ import pandas as pd
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
 from prepare_times_nz.stage_2.industry.common import _save_data
-from prepare_times_nz.stage_4.common import ensure_no_build_if_free
 from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
 from prepare_times_nz.utilities.helpers import select_and_rename
 
@@ -77,8 +76,6 @@ def get_industry_veda_table(df, input_map):
     df["CAP2ACT"] = CAP2ACT
     # shape output
     ind_df = select_and_rename(df, input_map)
-    # ensure no build if no invcost
-    ind_df = ensure_no_build_if_free(ind_df)
     # set infinite life if blank life
     # we should probably change default t_life in the model somewhere
     ind_df["Life"] = ind_df["Life"].fillna(100)
@@ -141,6 +138,7 @@ def define_fuel_commodities(df, filename, label):
     fuel_df["Csets"] = "NRG"
     fuel_df["Unit"] = ACTIVITY_UNIT
     fuel_df["LimType"] = "FX"
+    fuel_df["TsLvl"] = np.where(fuel_df["CommName"] == "INDELC", "DAYNITE", "")
 
     save_industry_veda_file(fuel_df, name=filename, label=label)
 

@@ -5,7 +5,6 @@ And a few other basic inputs defined in the constants section."""
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.stage_4.common import ensure_no_build_if_free
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
 from prepare_times_nz.utilities.data_in_out import _save_data
@@ -69,7 +68,6 @@ def get_commercial_veda_table(df, input_map):
     df["CAP2ACT"] = CAP2ACT
     # shape output
     com_df = select_and_rename(df, input_map)
-    com_df = ensure_no_build_if_free(com_df)
     return com_df
 
 
@@ -127,6 +125,9 @@ def define_fuel_commodities(df, filename, label):
     )
     fuel_df["LimType"] = fuel_df["CommName"].apply(
         lambda x: "" if x == "COMCO2" else "FX"
+    )
+    fuel_df["TsLvl"] = fuel_df["CommName"].apply(
+        lambda x: "DAYNITE" if x == "COMELC" else ""
     )
 
     save_commercial_veda_file(fuel_df, name=filename, label=label)

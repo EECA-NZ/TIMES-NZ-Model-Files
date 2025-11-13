@@ -5,7 +5,6 @@ And a few other basic inputs defined in the constants section."""
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.stage_4.common import ensure_no_build_if_free
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
 from prepare_times_nz.utilities.data_in_out import _save_data
@@ -74,7 +73,6 @@ def get_agr_veda_table(df, input_map):
     df["CAP2ACT"] = CAP2ACT
     # shape output
     agr_df = select_and_rename(df, input_map)
-    agr_df = ensure_no_build_if_free(agr_df)
     return agr_df
 
 
@@ -134,7 +132,7 @@ def define_fuel_commodities(df, filename, label):
         lambda x: "" if x == "AGRCO2" else "FX"
     )
     fuel_df["CTSLvl"] = fuel_df["CommName"].apply(
-        lambda x: "" if x == "AGRCO2" else "ANNUAL"
+        lambda x: "DAYNITE" if x == "AGRELC" else ""
     )
 
     save_agr_veda_file(fuel_df, name=filename, label=label)
