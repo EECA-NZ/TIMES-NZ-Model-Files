@@ -184,7 +184,7 @@ def main():
             get_industrial_demand_processes(),
             get_ag_demand_processes(),
         ]
-    )
+    ).drop_duplicates()
 
     df.to_csv(PROCESS_CONCORDANCES / "demand.csv", index=False, encoding="utf-8-sig")
 

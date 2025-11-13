@@ -99,7 +99,7 @@ def main():
             get_elc_offshore(),
             get_elc_dist_solar(),
         ]
-    )
+    ).drop_duplicates()
 
     # if we failed to generate a plant name, we'll use the process as a backup
     df["PlantName"] = df["PlantName"].fillna(df["Process"])

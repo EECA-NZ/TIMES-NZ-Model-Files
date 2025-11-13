@@ -352,20 +352,23 @@ def process_energy_service_demand(df):
     We have to be quite careful with units both in processing and display
     """
 
-    demand_processes = pd.read_csv(PROCESS_CONCORDANCES / "demand.csv")
+    demand_processes = pd.read_csv(
+        PROCESS_CONCORDANCES / "demand.csv"
+    ).drop_duplicates()
     demand_commodities = pd.read_csv(COMMODITY_CONCORDANCES / "demand.csv")
     com_units = pd.read_csv(COMMODITY_CONCORDANCES / "commodity_sets_and_units.csv")
 
     # get the output of all demand processes
     esd = df[df["Process"].isin(demand_processes["Process"].unique())].copy()
+    esd = esd[esd["Commodity"].isin(demand_commodities["Commodity"].unique())]
     esd = esd[esd["Attribute"] == "VAR_FOut"]
 
     # include only demand commodity outputs
     # this should exclude the emissions but theoretically any other outputs
     # auxiliary production etc
-    esd = esd[esd["Commodity"].isin(demand_commodities["Commodity"].unique())]
     esd = esd.merge(demand_processes, on="Process", how="left")
 
+    # print(demand_processes)
     # we now need to identify the unit. We'll do this based on the commodity unit
     com_units = com_units[com_units["csets"] == "DEM"]
     com_units = com_units.rename(

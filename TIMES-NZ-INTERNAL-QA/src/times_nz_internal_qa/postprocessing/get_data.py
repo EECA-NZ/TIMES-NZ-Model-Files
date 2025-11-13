@@ -246,6 +246,8 @@ def get_results_from_veda(scenario, veda_base_dir):
 
     veda_wd = find_veda_working_directory(veda_base_dir)
     latest_scenario_results = get_latest_scenario_vd_name(veda_wd, scenario)
+    print("LATEST RESULTS")
+    print(latest_scenario_results)
     df = read_vd(latest_scenario_results)
     check_coverage(df, scenario)
 
