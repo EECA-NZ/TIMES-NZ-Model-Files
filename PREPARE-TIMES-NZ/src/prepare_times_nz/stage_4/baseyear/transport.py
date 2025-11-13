@@ -9,12 +9,12 @@ from typing import Mapping, Sequence
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     STAGE_2_DATA,
     STAGE_3_DATA,
     STAGE_4_DATA,
 )
-from prepare_times_nz.utilities.logger_setup import logger
 
 # from prepare_times_nz.utilities.logger_setup import logger
 
@@ -109,6 +109,8 @@ SCENARIO = ["Traditional", "Transformation"]
 # # -----------------------------------------------------------------------------
 # # GENERIC HELPERS
 # # -----------------------------------------------------------------------------
+
+
 def strip_level(name: str) -> str:
     """Removes the demand level suffix ('_LOW', '_MED', '_HIGH')
     from a technology name."""
@@ -805,11 +807,10 @@ def main() -> None:
     ]
 
     for builder, cfg, fname in tasks:
-        logger.info("Building %s", fname)
         df = builder(cfg)
-        outfile = OUTPUT_LOCATION / fname
-        df.to_csv(outfile, index=False)
-        logger.info("  → saved %s  (%d rows)", outfile.name, len(df))
+        _save_data(
+            df, fname, label="Saving VEDA transport file", filepath=OUTPUT_LOCATION
+        )
 
 
 if __name__ == "__main__":

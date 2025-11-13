@@ -204,8 +204,11 @@ def define_fuel_delivery(df: pd.DataFrame) -> None:
             "Sets": "PRE",
             "Tact": ACTIVITY_UNIT,
             "Tcap": CAPACITY_UNIT,
-            "Tslvl": "ANNUAL",
         }
+    )
+
+    fuel_deliv_definitions["TsLvl"] = np.where(
+        fuel_deliv_definitions["TechName"] == "FTE_AGRELC", "DAYNITE", ""
     )
 
     save_agr_veda_file(

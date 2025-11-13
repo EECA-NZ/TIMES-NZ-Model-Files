@@ -190,6 +190,9 @@ def define_fuel_delivery(df):
             "Tcap": CAPACITY_UNIT,
         }
     )
+    fuel_deliv_definitions["TsLvl"] = np.where(
+        fuel_deliv_definitions["TechName"] == "FTE_INDELC", "DAYNITE", ""
+    )
 
     save_industry_veda_file(
         fuel_deliv_parameters,

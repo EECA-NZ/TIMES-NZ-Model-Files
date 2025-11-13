@@ -151,7 +151,7 @@ def define_fuel_delivery(df):
     ].str.removeprefix("COM")
     fuel_deliv_parameters["TechName"] = "FTE_" + fuel_deliv_parameters["Comm-OUT"]
 
-    fuel_deliv_parameters["LIFE"] = 100  # pretty sure we don't need this
+    fuel_deliv_parameters["LIFE"] = 100
     fuel_deliv_parameters["EFF"] = 1  # pretty sure we don't need this
 
     fuel_deliv_parameters["VAROM"] = fuel_deliv_parameters["Comm-OUT"].map(
@@ -173,6 +173,9 @@ def define_fuel_delivery(df):
             "Tact": ACTIVITY_UNIT,
             "Tcap": CAPACITY_UNIT,
         }
+    )
+    fuel_deliv_definitions["TsLvl"] = np.where(
+        fuel_deliv_definitions["TechName"] == "COMELC", "DAYNITE", ""
     )
 
     save_commercial_veda_file(
