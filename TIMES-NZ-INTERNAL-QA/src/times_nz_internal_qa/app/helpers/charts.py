@@ -246,3 +246,94 @@ def build_grouped_bar_better_plotly(
     )
 
     return fig
+
+
+def build_grouped_line(
+    pdf: pd.DataFrame, unit: str, period_range, group_col: str, _scen_list=None
+):
+    """
+    Line chart version of `build_grouped_bar`.
+
+    - Uses only non-zero data for plotting.
+    - Displays all years in period_range on the x-axis.
+    - X-axis ticks and labels are shifted horizontally by 0.5 for better centering.
+    """
+
+    # --- Early exits ---
+    if pdf is None or pdf.empty:
+        return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
+            text="No data available"
+        )
+
+    line_df = pdf[pdf["Value"] != 0].copy()
+    if line_df.empty:
+        return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
+            text="No non-zero data to plot"
+        )
+
+    # --- Preprocess ---
+    line_df["PeriodInt"] = line_df["Period"].astype(int)
+
+    totals_within = [c for c in line_df.columns if c not in ["Value", group_col]]
+
+    line_df["Total"] = line_df.groupby(totals_within, observed=True)["Value"].transform(
+        "sum"
+    )
+    line_df["ShareTooltip"] = ((line_df["Value"] / line_df["Total"]) * 100).map(
+        lambda x: f"{x:.2f}%"
+    )
+
+    line_df["ValueTooltip"] = (
+        line_df["Value"].map(lambda x: f"{x:,.2f}") + " " + line_df["Unit"].astype(str)
+    )
+    line_df["TotalTooltip"] = (
+        line_df["Total"].map(lambda x: f"{x:,.2f}") + " " + line_df["Unit"].astype(str)
+    )
+
+    # --- Axis setup ---
+    period_min, period_max = min(period_range), max(period_range)
+
+    # Shift ticks and labels by 0.5 horizontally
+    line_df["PeriodIntShift"] = line_df["PeriodInt"] + 0.5
+    tick_values = [p + 0.5 for p in period_range]
+
+    x_axis = alt.X(
+        "PeriodIntShift:Q",
+        title="Year",
+        scale=alt.Scale(domain=[period_min, period_max + 1], nice=False),
+        axis=alt.Axis(
+            values=tick_values,
+            labelExpr="datum.value - 0.5",  # display real year
+            format="d",
+            labelAngle=-90,
+            labelOverlap=False,
+            grid=False,
+        ),
+    )
+
+    chart = (
+        alt.Chart(line_df)
+        .mark_line(interpolate="basis")
+        .encode(
+            x=x_axis,
+            y=alt.Y("Value:Q", title=unit),
+            color=alt.Color(
+                f"{group_col}:N",
+                legend=alt.Legend(title=None, orient="top"),
+            ),
+            strokeDash=alt.StrokeDash(
+                "Scenario:N", legend=alt.Legend(title="Scenario")
+            ),
+            tooltip=[
+                alt.Tooltip("Scenario:N", title="Scenario"),
+                alt.Tooltip("PeriodInt:Q", title="Year"),
+                alt.Tooltip(f"{group_col}:N", title=group_col),
+                alt.Tooltip("ValueTooltip:N", title="Value"),
+                alt.Tooltip("TotalTooltip:N", title="Total"),
+                alt.Tooltip("ShareTooltip:N", title="Share"),
+            ],
+        )
+        .properties(background="transparent")
+    )
+
+    return chart

@@ -45,23 +45,69 @@ def section_block(parameters):
         class_="chart-control-panel",
     )
 
+    # Build toggle block only when charts support it
+    toggle_block = None
+    if parameters.get("chart_type") != "timeslice":
+        toggle_block = ui.div(
+            ui.input_action_button(
+                f"{chart_id}_show_bar",
+                ui.tags.i(class_="fa fa-bar-chart"),
+                class_="chart-toggle-btn",
+                title="Show bar chart",
+            ),
+            ui.input_action_button(
+                f"{chart_id}_show_line",
+                ui.tags.i(class_="fa fa-line-chart"),
+                class_="chart-toggle-btn",
+                title="Show line chart",
+            ),
+            class_="chart-toggle-bar",
+        )
+
     chart_header = ui.div(
-        ui.tags.h3(title, id=sec_id),
+        ui.tags.h3(title, id=sec_id),  # 1. Title
         ui.div(
             ui.tags.h4("Grouped by:", class_="filter-section-title"),
             ui.input_select(group_input_id, label=None, choices=group_options),
-            class_="chart-group",
-        ),
-        ui.download_button(
+            class_="chart-header-group",
+        ),  # 2. Group selector
+        toggle_block,  # 3. Toggle buttons (or None)
+        ui.download_button(  # 4. Download button
             f"{chart_id}_chart_data_download",
             ui.tags.span(ui.tags.i(class_="fa fa-download"), " Download chart data"),
-            class_="btn",
+            class_="btn chart-download-btn",
         ),
         class_="chart-header",
     )
-    # chart UI
+
+    if parameters.get("chart_type") == "timeslice":
+        # TIMESLICE SECTION → FULL-WIDTH BAR ONLY
+        chart_columns = ui.layout_columns(
+            ui.div(
+                output_widget(f"{chart_id}_chart_bar"), class_="chart-bar-container"
+            ),
+            col_widths=(12,),
+            class_="chart-single",
+        )
+    else:
+        # NORMAL SECTION → BAR + LINE
+        chart_columns = ui.layout_columns(
+            ui.div(
+                output_widget(f"{chart_id}_chart_bar"), class_="chart-bar-container"
+            ),
+            ui.div(
+                output_widget(f"{chart_id}_chart_line"),
+                id=f"{chart_id}_line_container",
+                class_="chart-line-container",
+            ),
+            col_widths=(12, 12),
+            class_="chart-dual",
+        )
+
     chart_with_title = ui.div(
-        chart_header, output_widget(f"{chart_id}_chart"), class_="chart-with-title"
+        chart_header,
+        chart_columns,  # <-- the selected layout
+        class_="chart-with-title",
     )
 
     return ui.div(

@@ -187,7 +187,7 @@ def make_chart_data(
     )
 
     # identify unit
-    unit = unit_list[0]
+    unit = unit_list[0] if unit_list else None
 
     # return all components for the chart as a dict
     return {

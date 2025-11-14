@@ -4,11 +4,14 @@ Function factories for replicable server functions
 Mostly because we were repeating methods a lot
 """
 
+import altair as alt
+import pandas as pd
 from shiny import reactive, render
 from shinywidgets import render_altair
 from times_nz_internal_qa.app.helpers.charts import (
     build_grouped_bar,
     build_grouped_bar_timeslice,
+    build_grouped_line,
 )
 from times_nz_internal_qa.app.helpers.data_processing import (
     get_agg_data,
@@ -104,24 +107,65 @@ def register_server_functions_for_explorer(
         # if using altair, must touch the nav input to ensure rerendering
         _ = getattr(inputs, f"{page_id}_nav")()
         selected_group = getattr(inputs, f"{chart_id}_group")()
+
+        df_filtered = _df_filtered()
+
+        # FIX #3 – prevent empty-data crash
+        if df_filtered is None or df_filtered.height == 0:
+            return None  # chart renderers will handle this
+
         return make_chart_data(
-            _df_filtered(),
+            df_filtered,
             base_cols,
             selected_group,
             scenarios(),
         )
 
+    toggle_mode = reactive.Value("bar")  # default
+
+    @reactive.effect
+    @reactive.event(getattr(inputs, f"{chart_id}_show_bar"))
+    def _set_to_bar():
+        toggle_mode.set("bar")
+
+    @reactive.effect
+    @reactive.event(getattr(inputs, f"{chart_id}_show_line"))
+    def _set_to_line():
+        toggle_mode.set("line")
+
     # DRAW CHARTS
-    @outputs(id=f"{chart_id}_chart")
+    @outputs(id=f"{chart_id}_chart_bar")
     @render_altair
-    def _chart():
-        # if using altair, must touch the nav input to ensure rerendering
-        # _ = getattr(inputs, f"{page_id}_nav")()
+    def _chart_bar():
+        if toggle_mode() != "bar":
+            return None  # hide bar
+
         params = _chart_df()
+        if not params:
+            return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
+                text="No data available"
+            )
+
         if chart_type == "timeslice":
             return build_grouped_bar_timeslice(**params)
-        # default
         return build_grouped_bar(**params)
+
+    @outputs(id=f"{chart_id}_chart_line")
+    @render_altair
+    def _chart_line():
+        if chart_type == "timeslice":
+            return None  # timeslice never shows line charts
+
+        if toggle_mode() != "line":
+            return None  # hide line
+
+        params = _chart_df()
+        if not params:
+            return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
+                text="No data available"
+            )
+
+        return build_grouped_line(**params)
 
     # Setup downloads
     download_function_name = f"{chart_id}_chart_data_download"
