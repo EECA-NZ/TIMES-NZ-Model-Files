@@ -249,7 +249,11 @@ def build_grouped_bar_better_plotly(
 
 
 def build_grouped_line(
-    pdf: pd.DataFrame, unit: str, period_range, group_col: str, _scen_list=None
+    pdf: pd.DataFrame,
+    unit: str,
+    period_range,
+    group_col: str,
+    scen_list,  # pylint: disable=unused-argument
 ):
     """
     Line chart version of `build_grouped_bar`.
