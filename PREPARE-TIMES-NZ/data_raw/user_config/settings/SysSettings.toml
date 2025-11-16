@@ -200,7 +200,7 @@ LimType = "UP"
 
 # Further, we want to ensure no investment in any base year electricity generation.
 
-[BanSelectedBaseYearTechss]
+[BanSelectedBaseYearTechs]
 WorkBookName = "BY_Trans"
 Description = "Ensures no investment in selected baseyear techs."
 SheetName = "ImportSettings"

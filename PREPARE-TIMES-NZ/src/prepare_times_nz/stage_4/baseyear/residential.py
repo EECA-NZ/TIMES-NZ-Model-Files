@@ -97,7 +97,9 @@ def define_demand_processes(df, filename, label):
     demand_df["Sets"] = "DMD"
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
-    demand_df["TsLvl"] = "DAYNITE"
+    demand_df["Tslvl"] = np.where(
+        demand_df["TechName"].str.contains("ELC"), "DAYNITE", ""
+    )
 
     save_residential_veda_file(demand_df, name=filename, label=label)
 
