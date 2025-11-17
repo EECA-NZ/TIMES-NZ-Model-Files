@@ -489,7 +489,6 @@ def process_genstack_files(times_scenario, mbie_scenario, nrel_scenario):
 
     fixed_installs = get_fixed_installation_dates(df_veda)
     cost_curves = get_nrel_cost_curves(df, scenario=nrel_scenario)
-    # ref_fixed_installation =
 
     save_genstack(process_file, f"{times_scenario}_process.csv")
     save_genstack(df_parameters, f"{times_scenario}_parameters.csv")

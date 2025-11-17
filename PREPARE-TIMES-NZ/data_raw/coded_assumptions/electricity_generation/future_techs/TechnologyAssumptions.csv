@@ -7,6 +7,7 @@ SolarDist,20,0,
 HydSC,100,0.8,
 HydRR,100,0.72,
 Wind,25,0.25,
+WindOn,25,0.25,
 GasPkr,30,0.97,0.3
 BioRecip,30,0.97,0.66
 Geo,40,0.92,
