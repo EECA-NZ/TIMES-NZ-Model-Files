@@ -1,11 +1,11 @@
-EndUse,EndUse_TIMES,,,,
-Electronics and Other Electrical Uses,OTH,3,,,
-"Intermediate Heat (100-300 C), Process Requirements",PH,2,,,
-Lighting,LT,2,,,
-"Low Temperature Heat (<100 C), Space Heating",SH,2,,,
-"Low Temperature Heat (<100 C), Water Heating",WH,2,,,
-"Motive Power, Mobile",MoTP-Mob,3,,,
-"Motive Power, Stationary",MoTP-Stat,3,,,
-Refrigeration,RFGR,2,,,
-Pumping,PUMP,4,,,
-Irrigation,IRG,3,,,
+EndUse,EndUse_TIMES,,UseGroup
+Electronics and Other Electrical Uses,OTH,3,Electronics and Lighting
+"Intermediate Heat (100-300 C), Process Requirements",PH,2,Heating/Cooling
+Lighting,LT,2,Electronics and Lighting
+"Low Temperature Heat (<100 C), Space Heating",SH,2,Heating/Cooling
+"Low Temperature Heat (<100 C), Water Heating",WH,2,Heating/Cooling
+"Motive Power, Mobile",MoTP-Mob,3,Mobile Motive Power
+"Motive Power, Stationary",MoTP-Stat,3,Stationary Motive Power
+Refrigeration,RFGR,2,Heating/Cooling
+Pumping,PUMP,4,Stationary Motive Power
+Irrigation,IRG,3,Electronics and Lighting
