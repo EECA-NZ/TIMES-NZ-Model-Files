@@ -475,6 +475,32 @@ def main() -> None:
         technology_assumptions, on="TechnologyCode", how="left"
     )
 
+    # some manual adjustments to some plant lives
+
+    # extend wairakei life to 2027 as per RNZ
+    # https://www.rnz.co.nz/news/business/533639/contact-energy-to-build-new-geothermal-plant-at-wairakei
+    base_year_gen["PlantLife"] = np.where(
+        base_year_gen["PlantName"] == "Wairākei",
+        (2027 - base_year_gen["YearCommissioned"]),
+        base_year_gen["PlantLife"],
+    ).astype(int)
+
+    # whareroa closure - not sure when - set 2027. closes too early otherwise
+    base_year_gen["PlantLife"] = np.where(
+        base_year_gen["PlantName"] == "Fonterra Dairy - Whareroa",
+        (2027 - base_year_gen["YearCommissioned"]),
+        base_year_gen["PlantLife"],
+    ).astype(int)
+
+    # extend tararua stage1/2 life to 30 years since they seem very reliable
+    base_year_gen["PlantLife"] = np.where(
+        base_year_gen["PlantName"] == "Tararua Stage 1 & 2",
+        30,
+        base_year_gen["PlantLife"],
+    ).astype(int)
+
+    # other assumptions
+
     base_year_gen.rename(
         columns={"CapacityFactor": "ImpliedCapacityFactor"}, inplace=True
     )
