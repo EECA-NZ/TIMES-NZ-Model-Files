@@ -1,28 +1,28 @@
-Technology,Technology_TIMES
-Air Compressors,ACOMP
-Boiler Systems,BOILR
-Burner (Direct Heat),BURNR
-Compressors,COMPR
-Electric Furnace,FURNC
-Electric Motor,MOTOR
-Electronics,ELCTR
-Fan Systems,FAN
-Feedstock,FDSTK
-Furnace/Kiln,FURNC
-Heat Exchangers,HEATX
-Heat Pump (space heating),HPSH
-Heat Pump (process heat),HPPH
-HVAC,HVAC
-Industrial Ovens,IOVEN
-Internal Combustion Engine (Land Transport),ICENG
-Internal Combustion Engine (PHEV),PHEV
-Lights,LIGHT
-"Pump Systems (for Fluids, etc.)",PUMP
-Refiners,REFIN
-Reformer,BOILR
-Refrigeration Systems,FRIDG
-Resistance Heater,HEATR
-Stationary Engine,ENGIN
-Steam Generating Heat Pump (process heat),SGHP
-Mechanical Vapour Recompression (MVR),MVR
-Pulsed Electric Field,PEF
+Technology,Technology_TIMES,TechGroup
+Air Compressors,ACOMP,Electronics and Lights
+Boiler Systems,BOILR,Heat/Cooling Devices
+Burner (Direct Heat),BURNR,Heat/Cooling Devices
+Compressors,COMPR,Stationary Motors
+Electric Furnace,FURNC,Heat/Cooling Devices
+Electric Motor,MOTOR,Stationary Motors
+Electronics,ELCTR,Electronics and Lights
+Fan Systems,FAN,Electronics and Lights
+Feedstock,FDSTK,Feedstock
+Furnace/Kiln,FURNC,Heat/Cooling Devices
+Heat Exchangers,HEATX,Heat/Cooling Devices
+Heat Pump (space heating),HPSH,Heat/Cooling Devices
+Heat Pump (process heat),HPPH,Heat/Cooling Devices
+HVAC,HVAC,Heat/Cooling Devices
+Industrial Ovens,IOVEN,Heat/Cooling Devices
+Internal Combustion Engine (Land Transport),ICENG,Mobile Motors
+Internal Combustion Engine (PHEV),PHEV,Mobile Motors
+Lights,LIGHT,Electronics and Lights
+"Pump Systems (for Fluids, etc.)",PUMP,Stationary Motors
+Refiners,REFIN,Electronics and Lights
+Reformer,REFRM,Heat/Cooling Devices
+Refrigeration Systems,FRIDG,Heat/Cooling Devices
+Resistance Heater,HEATR,Heat/Cooling Devices
+Stationary Engine,ENGIN,Stationary Motors
+Steam Generating Heat Pump (process heat),SGHP,Heat/Cooling Devices
+Mechanical Vapour Recompression (MVR),MVR,Heat/Cooling Devices
+Pulsed Electric Field,PEF,Heat/Cooling Devices
