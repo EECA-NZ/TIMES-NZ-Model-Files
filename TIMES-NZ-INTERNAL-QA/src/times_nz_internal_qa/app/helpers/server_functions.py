@@ -134,38 +134,38 @@ def register_server_functions_for_explorer(
         toggle_mode.set("line")
 
     # DRAW CHARTS
-    @outputs(id=f"{chart_id}_chart_bar")
+    @outputs(id=f"{chart_id}_chart")
     @render_altair
-    def _chart_bar():
-        if toggle_mode() != "bar":
-            return None  # hide bar
-
+    def _chart_unified():
         params = _chart_df()
-        if not params:
+
+        # Early exit 1: no chart data at all
+        if not params or params["pdf"].empty:
             return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
                 text="No data available"
             )
 
+        pdf = params["pdf"]
+
+        # Early exit 2: no non-zero values → infeasible or meaningless for line charts
+        if pdf["Value"].sum() == 0:
+            return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
+                text="No meaningful values to plot"
+            )
+
+        # Handle chart types
         if chart_type == "timeslice":
             return build_grouped_bar_timeslice(**params)
-        return build_grouped_bar(**params)
 
-    @outputs(id=f"{chart_id}_chart_line")
-    @render_altair
-    def _chart_line():
-        if chart_type == "timeslice":
-            return None  # timeslice never shows line charts
+        mode = toggle_mode()
 
-        if toggle_mode() != "line":
-            return None  # hide line
+        if mode == "bar":
+            return build_grouped_bar(**params)
 
-        params = _chart_df()
-        if not params:
-            return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
-                text="No data available"
-            )
+        if mode == "line":
+            return build_grouped_line(**params)
 
-        return build_grouped_line(**params)
+        return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(text="No chart")
 
     # Setup downloads
     download_function_name = f"{chart_id}_chart_data_download"

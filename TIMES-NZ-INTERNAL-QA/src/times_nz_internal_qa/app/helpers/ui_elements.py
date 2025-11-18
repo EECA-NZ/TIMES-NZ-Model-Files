@@ -80,29 +80,14 @@ def section_block(parameters):
         class_="chart-header",
     )
 
-    if parameters.get("chart_type") == "timeslice":
-        # TIMESLICE SECTION → FULL-WIDTH BAR ONLY
-        chart_columns = ui.layout_columns(
-            ui.div(
-                output_widget(f"{chart_id}_chart_bar"), class_="chart-bar-container"
-            ),
-            col_widths=(12,),
-            class_="chart-single",
-        )
-    else:
-        # NORMAL SECTION → BAR + LINE
-        chart_columns = ui.layout_columns(
-            ui.div(
-                output_widget(f"{chart_id}_chart_bar"), class_="chart-bar-container"
-            ),
-            ui.div(
-                output_widget(f"{chart_id}_chart_line"),
-                id=f"{chart_id}_line_container",
-                class_="chart-line-container",
-            ),
-            col_widths=(12, 12),
-            class_="chart-dual",
-        )
+    chart_columns = ui.layout_columns(
+        ui.div(
+            output_widget(f"{chart_id}_chart"),
+            class_="chart-container",
+        ),
+        col_widths=(12,),
+        class_="chart-single",
+    )
 
     chart_with_title = ui.div(
         chart_header,

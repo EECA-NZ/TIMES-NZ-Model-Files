@@ -21,10 +21,13 @@ def build_grouped_bar(
     - `scen_list[0]` shown at higher opacity.
     """
 
-    # Some minor adjustments for the chart tooltip?
-    # possibly these need to go in the chart data function instead
-    # to keep processing out of the render function?
-    # we must use pandas in these functions
+    # Add numeric axis fields for continuous domain
+    pdf["PeriodInt"] = pdf["Period"].astype(int)
+    pdf["PeriodIntShift"] = pdf["PeriodInt"] + 0.5
+
+    period_min, period_max = min(period_range), max(period_range)
+    tick_values = [p + 0.5 for p in period_range]
+
     totals_within_vars = [v for v in pdf.columns if v not in ["Value", group_col]]
 
     pdf["Total"] = pdf.groupby(totals_within_vars, observed=True)["Value"].transform(
@@ -47,20 +50,29 @@ def build_grouped_bar(
         .str.cat(pdf["Unit"].astype(str), sep=" ")
     )
 
-    # category orders
-    period_order = [str(p) for p in period_range]
     base_scen = scen_list[0] if scen_list else None
 
-    chart = (
+    return (
         alt.Chart(pdf)
-        .mark_bar()
+        .mark_bar(size=35)
         .encode(
-            x=alt.X("Period:N", sort=period_order, title="Year"),
+            x=alt.X(
+                "PeriodIntShift:Q",
+                title="Year",
+                scale=alt.Scale(domain=[period_min, period_max + 1], nice=False),
+                axis=alt.Axis(
+                    values=tick_values,
+                    labelExpr="datum.value - 0.5",
+                    format="d",
+                    labelAngle=-90,
+                    labelOverlap=False,
+                    grid=False,
+                ),
+            ),
             xOffset=alt.XOffset("Scenario:N", sort=scen_list),
             y=alt.Y("Value:Q", stack="zero", title=unit),
             color=alt.Color(
-                f"{group_col}:N",
-                legend=alt.Legend(title=None, orient="top"),
+                f"{group_col}:N", legend=alt.Legend(title=None, orient="top")
             ),
             opacity=alt.condition(
                 alt.datum.Scenario == base_scen, alt.value(1), alt.value(0.6)
@@ -76,8 +88,6 @@ def build_grouped_bar(
         )
         .properties(background="transparent")
     )
-
-    return chart
 
 
 # pylint:disable=too-many-locals
@@ -263,19 +273,9 @@ def build_grouped_line(
     - X-axis ticks and labels are shifted horizontally by 0.5 for better centering.
     """
 
-    # --- Early exits ---
-    if pdf is None or pdf.empty:
-        return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
-            text="No data available"
-        )
-
-    line_df = pdf[pdf["Value"] != 0].copy()
-    if line_df.empty:
-        return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
-            text="No non-zero data to plot"
-        )
-
     # --- Preprocess ---
+    line_df = pdf.copy()
+
     line_df["PeriodInt"] = line_df["Period"].astype(int)
 
     totals_within = [c for c in line_df.columns if c not in ["Value", group_col]]
