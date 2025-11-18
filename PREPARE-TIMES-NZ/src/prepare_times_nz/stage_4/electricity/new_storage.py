@@ -111,6 +111,12 @@ def main():
     df_process = create_process_file(df, sets=SETS_STG)
     save_battery_data(df_process, "battery_processes.csv")
 
+    # ensure batteries available on either island
+    battery_ava = df_process[["TechName"]]
+    battery_ava = battery_ava.rename(columns={"TechName": "PSet_PN"})
+    battery_ava["AllRegions"] = 1
+    save_battery_data(battery_ava, "battery_availability.csv")
+
     cost_curves = create_battery_cost_curves()
     save_battery_data(cost_curves, "battery_costs.csv")
 
