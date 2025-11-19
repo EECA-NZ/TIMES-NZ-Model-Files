@@ -1,11 +1,11 @@
-﻿ProcessGroup,Process,SectorGroup,Sector,EnduseGroup,EndUse,TechnologyGroup,Technology
-Production,MINNGA-KAP,Natural gas production,Natural gas fields (Kapuni),Energy Production,Energy Production,Energy Production,Energy Production
-Production,MINNGA-OTH,Natural gas production,Natural gas fields (Other),Energy Production,Energy Production,Energy Production,Energy Production
-Production,MINCOA,Coal production,Domestic coal production,Energy Production,Energy Production,Energy Production,Energy Production
-Imports,IMPCOA,Energy imports,Imported Coal,Energy Production,Energy Production,Energy Production,Energy Production
-Imports,IMPDSL,Energy imports,Imported Diesel,Energy Production,Energy Production,Energy Production,Energy Production
-Imports,IMPFOL,Energy imports,Imported Fuel oil,Energy Production,Energy Production,Energy Production,Energy Production
-Imports,IMPLPG,Energy imports,Imported LPG,Energy Production,Energy Production,Energy Production,Energy Production
-Imports,IMPLNG,Energy imports,Imported LNG,Energy Production,Energy Production,Energy Production,Energy Production
-Imports,IMPPET,Energy imports,Imported Petrol,Energy Production,Energy Production,Energy Production,Energy Production
-Imports,IMPJET,Energy imports,Imported Jet fuel,Energy Production,Energy Production,Energy Production,Energy Production
+﻿ProcessGroup,Process,ProcessName
+Production,MINNGA-KAP,Natural gas fields (Kapuni)
+Production,MINNGA-OTH,Natural gas fields (Other)
+Production,MINCOA,Domestic coal production
+Imports,IMPCOA,Imported coal
+Imports,IMPDSL,Imported diesel
+Imports,IMPFOL,Imported fuel oil
+Imports,IMPLPG,Imported LPG
+Imports,IMPLNG,Imported LNG
+Imports,IMPPET,Imported petrol
+Imports,IMPJET,Imported jet fuel

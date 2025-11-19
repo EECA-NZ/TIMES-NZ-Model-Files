@@ -99,7 +99,7 @@ def main():
             get_lng_ports(),
             get_ire_processes(),
         ]
-    )
+    ).drop_duplicates()
     df.to_csv(PROCESS_CONCORDANCES / "distribution.csv", index=False)
 
 

@@ -7,6 +7,7 @@ from times_nz_internal_qa.app.app_module_dummies import dummy_server
 from times_nz_internal_qa.app.app_module_elec import elec_server
 from times_nz_internal_qa.app.app_module_emissions import emissions_server
 from times_nz_internal_qa.app.app_module_esd import energy_service_demand_server
+from times_nz_internal_qa.app.app_module_primary_energy import pri_server
 from times_nz_internal_qa.app.app_module_readme_docs import info_server
 from times_nz_internal_qa.app.app_module_select_scenario import scenario_select_server
 
@@ -29,3 +30,4 @@ def server(inputs, outputs, session):
     dummy_server(inputs, outputs, session, selected_scens)
     elec_server(inputs, outputs, session, selected_scens)
     emissions_server(inputs, outputs, session, selected_scens)
+    pri_server(inputs, outputs, session, selected_scens)

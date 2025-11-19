@@ -40,6 +40,8 @@ def get_energy_commodities():
     df = df.sort_values("Commodity")
     df["CommodityGroup"] = "Energy"
 
+    df = df.drop_duplicates()
+
     return df
 
 

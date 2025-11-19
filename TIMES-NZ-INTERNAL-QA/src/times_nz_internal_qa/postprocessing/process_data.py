@@ -280,6 +280,71 @@ def process_energy_demand(df):
     save_data(df, "energy_demand.csv")
 
 
+def process_primary_energy(df):
+    """
+    Outputs of primary energy methods, either indigenous or imports
+    Labels should include method (import/indigenous)
+
+    This currently takes processes defined as "prduction" ie processes that produce
+      primary energy categorised as MIN/IMP
+
+    For primary energy with no restraints or costs on production
+        (ie wind/solar/hydro/geo)
+    Because we represent the costs of collection, rather than production,
+        these won't be captured here
+
+    If we wanted to capture these, the best approach would be to add explicit
+        processes for production of those commodities then capture them labelled here.
+
+    There's room for us to add the gaps of stuff we currently assume basically free
+    We can accomplish that by just adding these as an output to a MIN process
+
+    (wind/solar/geo/etc)
+    """
+
+    df = df[df["Attribute"] == "VAR_FOut"]
+
+    prod_processes = pd.read_csv(PROCESS_CONCORDANCES / "production.csv")
+    sets_units = pd.read_csv(PROCESS_CONCORDANCES / "process_sets_and_units.csv")
+    sets_units = sets_units.rename(columns={"techname": "Process"})
+    fuels = pd.read_csv(COMMODITY_CONCORDANCES / "energy.csv")
+
+    # only energy outputs of identified production processes
+    # including unit settings from inputs
+    df = df.merge(prod_processes, on="Process", how="inner")
+    df = df.merge(fuels, on="Commodity", how="inner")
+    df = df.merge(sets_units, on="Process", how="inner")
+
+    # some quick naming
+    df["Variable"] = "Primary Energy Production"
+    df = df.rename(
+        columns={
+            "tact": "Unit",
+            "PV": "Value",
+        }
+    )
+
+    prod_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "ProcessGroup",
+        "Process",
+        "ProcessName",
+        "Fuel",
+        "Region",
+        "Vintage",
+        "TimeSlice",
+        "Period",
+        "Value",
+        "Unit",
+    ]
+
+    df = df[prod_variables]
+
+    save_data(df, "primary_energy.csv")
+
+
 def process_energy_service_demand(df):
     """
     ESD methods, or the output of demand devices
@@ -287,20 +352,23 @@ def process_energy_service_demand(df):
     We have to be quite careful with units both in processing and display
     """
 
-    demand_processes = pd.read_csv(PROCESS_CONCORDANCES / "demand.csv")
+    demand_processes = pd.read_csv(
+        PROCESS_CONCORDANCES / "demand.csv"
+    ).drop_duplicates()
     demand_commodities = pd.read_csv(COMMODITY_CONCORDANCES / "demand.csv")
     com_units = pd.read_csv(COMMODITY_CONCORDANCES / "commodity_sets_and_units.csv")
 
     # get the output of all demand processes
     esd = df[df["Process"].isin(demand_processes["Process"].unique())].copy()
+    esd = esd[esd["Commodity"].isin(demand_commodities["Commodity"].unique())]
     esd = esd[esd["Attribute"] == "VAR_FOut"]
 
     # include only demand commodity outputs
     # this should exclude the emissions but theoretically any other outputs
     # auxiliary production etc
-    esd = esd[esd["Commodity"].isin(demand_commodities["Commodity"].unique())]
     esd = esd.merge(demand_processes, on="Process", how="left")
 
+    # print(demand_processes)
     # we now need to identify the unit. We'll do this based on the commodity unit
     com_units = com_units[com_units["csets"] == "DEM"]
     com_units = com_units.rename(
@@ -452,6 +520,8 @@ def main():
     """
     print("Processing all scenario files...")
     df = load_scenario_results(current_scenarios)
+
+    process_primary_energy(df)
     process_energy_service_demand(df)
     process_energy_demand(df)
     process_electricity_generation(df)
@@ -461,6 +531,7 @@ def main():
     process_electricity_demand_by_timeslice(df)
 
     get_esd_by_timeslice()
+
     print("Done")
 
 
