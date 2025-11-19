@@ -317,7 +317,7 @@ def build_grouped_line(
 
     chart = (
         alt.Chart(line_df)
-        .mark_line(interpolate="basis")
+        .mark_line(point=True, interpolate="linear")
         .encode(
             x=x_axis,
             y=alt.Y("Value:Q", title=unit),
