@@ -83,9 +83,7 @@ def generate_baseload_file():
     codes = tc.merge(cf, on=["TechnologyCode", "FuelType"])
 
     # only cogen capfactors
-    codes = codes[
-        (codes["TechnologyCode"] == "COG") | (codes["FuelType"] == "Geothermal")
-    ]
+    codes = codes[codes["TechnologyCode"] == "COG"]
     codes = codes[["Tech_TIMES", "CapacityFactor"]].drop_duplicates()
 
     # expand to all timeslices
