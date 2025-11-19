@@ -23,10 +23,6 @@ def build_grouped_bar(
 
     # Add numeric axis fields for continuous domain
     pdf["PeriodInt"] = pdf["Period"].astype(int)
-    pdf["PeriodIntShift"] = pdf["PeriodInt"] + 0.5
-
-    period_min, period_max = min(period_range), max(period_range)
-    tick_values = [p + 0.5 for p in period_range]
 
     totals_within_vars = [v for v in pdf.columns if v not in ["Value", group_col]]
 
@@ -54,20 +50,12 @@ def build_grouped_bar(
 
     return (
         alt.Chart(pdf)
-        .mark_bar(size=35)
+        .mark_bar()
         .encode(
             x=alt.X(
-                "PeriodIntShift:Q",
+                "PeriodInt:N",
                 title="Year",
-                scale=alt.Scale(domain=[period_min, period_max + 1], nice=False),
-                axis=alt.Axis(
-                    values=tick_values,
-                    labelExpr="datum.value - 0.5",
-                    format="d",
-                    labelAngle=-90,
-                    labelOverlap=False,
-                    grid=False,
-                ),
+                scale=alt.Scale(domain=period_range, nice=False),
             ),
             xOffset=alt.XOffset("Scenario:N", sort=scen_list),
             y=alt.Y("Value:Q", stack="zero", title=unit),
@@ -92,7 +80,7 @@ def build_grouped_bar(
 
 # pylint:disable=too-many-locals
 def build_grouped_bar_timeslice(
-    pdf: pd.DataFrame, unit: str, period_range, group_col: str, scen_list
+    pdf: pd.DataFrame, unit: str, group_col: str, scen_list
 ):
     """
     Grouped+stacked bar chart in Altair.
@@ -103,9 +91,6 @@ def build_grouped_bar_timeslice(
     Sets timeslice along the bottom, assuming data is filtered for specific year already
 
     """
-    # will need this at some point
-    print(period_range)
-
     # Some minor adjustments for the chart tooltip?
     # possibly these need to go in the chart data function instead
     # to keep processing out of the render function?

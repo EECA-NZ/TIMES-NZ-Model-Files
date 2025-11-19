@@ -155,7 +155,13 @@ def register_server_functions_for_explorer(
 
         # Handle chart types
         if chart_type == "timeslice":
-            return build_grouped_bar_timeslice(**params)
+            # unpack the params - we don't use period_range so just send everything else
+            return build_grouped_bar_timeslice(
+                pdf=params["pdf"],
+                unit=params["unit"],
+                group_col=params["group_col"],
+                scen_list=params["scen_list"],
+            )
 
         mode = toggle_mode()
 

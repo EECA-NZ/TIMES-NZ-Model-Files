@@ -141,7 +141,6 @@ def get_base_esd_curve_df(scenarios, filepath=ESD_CURVE_FILE_LOCATION):
     Caches results for quick switching
     """
     df = read_data_pl(filepath, scenarios)
-    print(df)
     df = aggregate_by_group(df, esd_curve_all_group_options)
     df = df.collect()
 

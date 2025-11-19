@@ -160,7 +160,6 @@ def make_chart_data(
     unit_list = pdf["Unit"].unique().tolist()
     # ensure only one (otherwise the chart is wrong)
     if len(unit_list) > 1:
-        print(pdf)
         raise ValueError(f"Multiple units found in data: {unit_list}")
 
     # Normalise types and ordering
