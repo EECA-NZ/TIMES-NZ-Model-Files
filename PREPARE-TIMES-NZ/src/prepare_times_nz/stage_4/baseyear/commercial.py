@@ -5,7 +5,6 @@ And a few other basic inputs defined in the constants section."""
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.stage_4.common import ensure_no_build_if_free
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
 from prepare_times_nz.utilities.data_in_out import _save_data
@@ -69,7 +68,6 @@ def get_commercial_veda_table(df, input_map):
     df["CAP2ACT"] = CAP2ACT
     # shape output
     com_df = select_and_rename(df, input_map)
-    com_df = ensure_no_build_if_free(com_df)
     return com_df
 
 
@@ -87,7 +85,9 @@ def define_demand_processes(df, filename, label):
     demand_df["Sets"] = "DMD"
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
-    demand_df["TsLvl"] = "DAYNITE"
+    demand_df["Tslvl"] = np.where(
+        demand_df["TechName"].str.contains("ELC"), "DAYNITE", ""
+    )
 
     save_commercial_veda_file(demand_df, name=filename, label=label)
 
@@ -128,6 +128,9 @@ def define_fuel_commodities(df, filename, label):
     fuel_df["LimType"] = fuel_df["CommName"].apply(
         lambda x: "" if x == "COMCO2" else "FX"
     )
+    fuel_df["TsLvl"] = fuel_df["CommName"].apply(
+        lambda x: "DAYNITE" if x == "COMELC" else ""
+    )
 
     save_commercial_veda_file(fuel_df, name=filename, label=label)
 
@@ -150,7 +153,7 @@ def define_fuel_delivery(df):
     ].str.removeprefix("COM")
     fuel_deliv_parameters["TechName"] = "FTE_" + fuel_deliv_parameters["Comm-OUT"]
 
-    fuel_deliv_parameters["LIFE"] = 100  # pretty sure we don't need this
+    fuel_deliv_parameters["LIFE"] = 100
     fuel_deliv_parameters["EFF"] = 1  # pretty sure we don't need this
 
     fuel_deliv_parameters["VAROM"] = fuel_deliv_parameters["Comm-OUT"].map(
@@ -172,6 +175,9 @@ def define_fuel_delivery(df):
             "Tact": ACTIVITY_UNIT,
             "Tcap": CAPACITY_UNIT,
         }
+    )
+    fuel_deliv_definitions["TsLvl"] = np.where(
+        fuel_deliv_definitions["TechName"] == "FTE_COMELC", "DAYNITE", ""
     )
 
     save_commercial_veda_file(

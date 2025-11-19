@@ -315,7 +315,7 @@ def define_generation_parameters(df):
             columns={
                 "CapacityFactor": "AFA",
                 "FuelDelivCost": "FLO_DELIV",
-                "Generation": f"ACT_BND~UP~{BASE_YEAR}",
+                "Generation": f"ACT_BND~{BASE_YEAR}",
                 "PeakContribution": "NCAP_PKCNT",
                 # trying Life instead of NCAP_TLIFE - will Veda default to infinite rather than 10?
                 "PlantLife": "Life",
@@ -349,10 +349,10 @@ def define_generation_parameters(df):
     # It's not very robust to code changes elsewhere
     #       so it would be better to align the basic AFs with annual average renewable AFs
 
-    existing_techs_parameters["ACT_BND~UP~2023"] = np.where(
+    existing_techs_parameters["ACT_BND~2023"] = np.where(
         existing_techs_parameters["TechName"].isin(techs_to_loosen),
         np.nan,
-        existing_techs_parameters["TechName"],
+        existing_techs_parameters["ACT_BND~2023"],
     )
 
     save_elc_data(existing_techs_parameters, "existing_tech_parameters.csv")

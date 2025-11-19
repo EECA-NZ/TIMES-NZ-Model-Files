@@ -200,12 +200,9 @@ LimType = "UP"
 
 # Further, we want to ensure no investment in any base year electricity generation.
 
-[BlockBaseYearElectricityReinvestment]
+[BanSelectedBaseYearTechs]
 WorkBookName = "BY_Trans"
-Description = "Ensures no investment in any base year electricity generation (either PASTI or RESID). This means no expansion unless defined in new techs."
+Description = "Ensures no investment in selected baseyear techs."
 SheetName = "ImportSettings"
 TagName = "TFM_INS"
-Attribute = "NCAP_BND"
-PSet_Pn = "ELC_*"
-Year = 0 
-Value = 2
+DataLocation =  "data_intermediate/stage_4_veda_format/syssettings/banned_techs.csv"

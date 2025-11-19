@@ -236,28 +236,23 @@ GASCO2 = 1
 # Declaring biofuels - these are fake entries and we can tidy up later when biomass module done 
 
 [DeclareBiofuels]
-Description = "Define biofuels. Temporary declarations until biomass module completed. Currently only feeds transport biofuel processes"
+Description = "Declare biofuel energy commodities"
 SheetName = "Biofuels"
 TagName = "FI_Comm"
 Csets = ["NRG"] # (all energy commodities) 
-CommName = ["WODWST", "AGRWST", "MNCWST", "WOD", "INDOSWOD", "PLT", "ANMMNR", "OILWST", "PLT", "DID", "BDSL", "DIJ"]
+CommName = ["WODWST", "AGRWST", "MNCWST", "WOD", "INDOSWOD", "PLT", "ANMMNR", "OILWST", "PLT", "DID", "BDSL", "DIJ", "BIG"]
 Unit = ["PJ"] # All PJ 
 LimType = ["FX"]
 
 
-
 [BiofuelProcessDeclarations]
-Description = "Declare biomass/biofuel processes"
+Description = "Declare biomass/biofuel processes, including raw production and transformation"
 SheetName = "Biofuels"
 TagName = "FI_Process"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/biofuel_supply_process_declarations.csv"
 
 [BiofuelSupplyForecasts]
-Description = "Define biomass/biofuel supply forecasts"
+Description = "Biomass/biofuel supply and costs forecasts per region "
 SheetName = "Biofuels"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/biofuel_supply_forecasts.csv"
-
-[BiofuelSupplyParameters]
-SheetName = "Biofuels"
-TagName = "FI_T"

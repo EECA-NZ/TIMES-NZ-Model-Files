@@ -5,7 +5,6 @@ And a few other basic inputs defined in the constants section."""
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.stage_4.common import ensure_no_build_if_free
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
 from prepare_times_nz.utilities.data_in_out import _save_data
@@ -74,7 +73,6 @@ def get_agr_veda_table(df, input_map):
     df["CAP2ACT"] = CAP2ACT
     # shape output
     agr_df = select_and_rename(df, input_map)
-    agr_df = ensure_no_build_if_free(agr_df)
     return agr_df
 
 
@@ -92,7 +90,9 @@ def define_demand_processes(df, filename, label):
     demand_df["Sets"] = "DMD"
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
-    demand_df["TsLvl"] = "DAYNITE"
+    demand_df["Tslvl"] = np.where(
+        demand_df["TechName"].str.contains("ELC"), "DAYNITE", ""
+    )
 
     save_agr_veda_file(demand_df, name=filename, label=label)
 
@@ -105,7 +105,6 @@ def define_enduse_commodities(df, filename, label):
     Also add activity and capacity units just for clarity"""
 
     commodities = df["Comm-OUT"].unique()
-
     commodity_df = pd.DataFrame()
     commodity_df["CommName"] = commodities
     commodity_df["Csets"] = "DEM"
@@ -134,7 +133,7 @@ def define_fuel_commodities(df, filename, label):
         lambda x: "" if x == "AGRCO2" else "FX"
     )
     fuel_df["CTSLvl"] = fuel_df["CommName"].apply(
-        lambda x: "" if x == "AGRCO2" else "ANNUAL"
+        lambda x: "DAYNITE" if x == "AGRELC" else ""
     )
 
     save_agr_veda_file(fuel_df, name=filename, label=label)
@@ -207,8 +206,11 @@ def define_fuel_delivery(df: pd.DataFrame) -> None:
             "Sets": "PRE",
             "Tact": ACTIVITY_UNIT,
             "Tcap": CAPACITY_UNIT,
-            "Tslvl": "ANNUAL",
         }
+    )
+
+    fuel_deliv_definitions["TsLvl"] = np.where(
+        fuel_deliv_definitions["TechName"] == "FTE_AGRELC", "DAYNITE", ""
     )
 
     save_agr_veda_file(

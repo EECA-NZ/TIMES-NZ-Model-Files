@@ -151,26 +151,6 @@ def generate_techname(df):
     return df
 
 
-def split_coal_cogeneration(df):
-    """
-    Here, we remove any coal cogen plants from the outputs
-
-    THis is specifically because coal cogen is now entirely
-        treated within the industrial demand side
-        We assume its all NZSteel as an auxiliary output from the coal use there
-    So we don't want to double count this
-    We save it separately for use by industrial sector
-    """
-
-    df_no_coal_cogen = df[
-        ~((df["FuelType"] == "Coal") & (df["GenerationType"] == "CHP"))
-    ]
-
-    df_coal_cogen = df[((df["FuelType"] == "Coal") & (df["GenerationType"] == "CHP"))]
-
-    return df_no_coal_cogen, df_coal_cogen
-
-
 # --------------------------------------------------------------------------- #
 # Main routine
 # --------------------------------------------------------------------------- #
@@ -495,6 +475,32 @@ def main() -> None:
         technology_assumptions, on="TechnologyCode", how="left"
     )
 
+    # some manual adjustments to some plant lives
+
+    # extend wairakei life to 2027 as per RNZ
+    # https://www.rnz.co.nz/news/business/533639/contact-energy-to-build-new-geothermal-plant-at-wairakei
+    base_year_gen["PlantLife"] = np.where(
+        base_year_gen["PlantName"] == "Wairākei",
+        (2027 - base_year_gen["YearCommissioned"]),
+        base_year_gen["PlantLife"],
+    ).astype(int)
+
+    # whareroa closure - not sure when - set 2027. closes too early otherwise
+    base_year_gen["PlantLife"] = np.where(
+        base_year_gen["PlantName"] == "Fonterra Dairy - Whareroa",
+        (2027 - base_year_gen["YearCommissioned"]),
+        base_year_gen["PlantLife"],
+    ).astype(int)
+
+    # extend tararua stage1/2 life to 30 years since they seem very reliable
+    base_year_gen["PlantLife"] = np.where(
+        base_year_gen["PlantName"] == "Tararua Stage 1 & 2",
+        30,
+        base_year_gen["PlantLife"],
+    ).astype(int)
+
+    # other assumptions
+
     base_year_gen.rename(
         columns={"CapacityFactor": "ImpliedCapacityFactor"}, inplace=True
     )
@@ -627,15 +633,11 @@ def main() -> None:
     )
     base_year_gen["Unit"] = base_year_gen["Variable"].map(variable_unit_map)
 
-    # Separate coal cogeneration - this is all industrial demand
-    base_year_gen, coal_cogen = split_coal_cogeneration(base_year_gen)
-
     # --------------------------------------------------------------------- #
     # Output + checks
     # --------------------------------------------------------------------- #
 
     save_output(base_year_gen, "base_year_electricity_supply.csv")
-    save_output(coal_cogen, "base_year_coal_cogen.csv")
 
     save_checks(gen_comparison, "check_ele_gen_calibration.csv")
     save_checks(cap_comparison, "check_base_year_ele_cap_calibration.csv")

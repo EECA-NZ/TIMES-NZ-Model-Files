@@ -123,9 +123,13 @@ def get_nrel_cost_curves(
     Outputs as "Attribute" so can be sent directly to a Veda table after"""
 
     # take the expected curve variables only
-    df = df[df["Variable"].isin(CURVE_VARIABLES)]
+    df = df[df["Variable"].isin(CURVE_VARIABLES)].copy()
 
-    df = df[df["NRELScenario"] == scenario].copy()
+    # we take NREL scenarios OR plants with no cost curves (these have costs too)
+
+    df = df[(df["NRELScenario"] == scenario) | (df["NRELScenario"].isna())].copy()
+
+    # df = df[df["NRELScenario"] == scenario].copy()
     # probably should have just called them this to start with
     variable_map = {"CAPEX": "INVCOST", "FOM": "FIXOM"}
 
@@ -489,7 +493,6 @@ def process_genstack_files(times_scenario, mbie_scenario, nrel_scenario):
 
     fixed_installs = get_fixed_installation_dates(df_veda)
     cost_curves = get_nrel_cost_curves(df, scenario=nrel_scenario)
-    # ref_fixed_installation =
 
     save_genstack(process_file, f"{times_scenario}_process.csv")
     save_genstack(df_parameters, f"{times_scenario}_parameters.csv")
