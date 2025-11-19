@@ -226,6 +226,7 @@ STAGE_1_DEPS: dict[str, list[str]] = {
 STAGE_2: dict[str, list[str]] = {
     "baseyear_electricity_generation": ["electricity/base_year_electricity_supply.csv"],
     "baseyear_industry_demand": ["industry/baseyear_industry_demand.csv"],
+    "baseyear_commercial_demand": ["commercial/baseyear_commercial_demand.csv"],
     "baseyear_transport_demand": ["transport/transport_demand_2023.csv"],
     "baseyear_residential_demand": ["residential/baseyear_residential_demand.csv"],
     "baseyear_ag_forest_fish_demand": [
