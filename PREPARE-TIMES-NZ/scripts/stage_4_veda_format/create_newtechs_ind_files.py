@@ -27,6 +27,8 @@ NEW_TECHS_EFF = INDUSTRY_ASSUMPTIONS / "newtech_fuel_efficiencies.csv"
 NEW_TECHS_LIFE = INDUSTRY_ASSUMPTIONS / "newtech_lifetimes.csv"
 NEW_TECHS_FUEL = INDUSTRY_CONCORDANCES / "fuel_codes.csv"
 NEW_TECHS = INDUSTRY_CONCORDANCES / "tech_codes.csv"
+NEW_TECHS_SECTOR = INDUSTRY_CONCORDANCES / "sector_codes.csv"
+NEW_TECHS_ENDUSE = INDUSTRY_CONCORDANCES / "use_codes.csv"
 
 # ---------------------------------------------------------------------
 # Modelling Constants
@@ -153,6 +155,77 @@ def create_newtech_process_parameters_df(cfg: dict) -> pd.DataFrame:
     return df[cols]
 
 
+def create_newtech_process_defintions(cfg: dict) -> pd.DataFrame:
+    """Create DataFrame defining new industrial technologies
+    to patch in the app from industrial concordances."""
+
+    process_cols = [
+        "Process",
+        "CommodityIn",
+        "CommodityOut",
+        "Sector",
+        "EnduseGroup",
+        "EndUse",
+        "TechnologyGroup",
+        "Technology",
+    ]
+
+    _, combined = create_newtech_process_df(cfg)
+
+    # Read concordances
+    tech_map = pd.read_csv(NEW_TECHS)
+    sector_map = pd.read_csv(NEW_TECHS_SECTOR)
+    enduse_map = pd.read_csv(NEW_TECHS_ENDUSE)
+
+    # Strip column names
+    for d in [tech_map, sector_map, enduse_map]:
+        d.columns = d.columns.str.strip()
+
+    # --- Merge TIMES codes onto combined tech list ---
+    df = combined.copy()
+    df["Sector_TIMES"] = df["TechName"].str.split("-").str[0]
+    df["Technology_TIMES"] = df["TechName"].str.split("-").str[2]
+    df["EndUse_TIMES"] = df["TechName"].str.split("-").str[3]
+
+    # --- Sector merge (use suffixes to avoid column collision) ---
+    df = df.merge(
+        sector_map[["Sector_TIMES", "Sector"]],
+        on="Sector_TIMES",
+        how="left",
+        suffixes=("_orig", "_map"),
+    )
+    # Use mapped Sector from concordance, fallback to original
+    df["Sector"] = df["Sector_map"].fillna(df["Sector_orig"])
+    df = df.drop(columns=["Sector_orig", "Sector_map"])
+
+    # --- Technology merge ---
+    df = df.merge(
+        tech_map[["Technology_TIMES", "Technology", "TechGroup"]],
+        on="Technology_TIMES",
+        how="left",
+    )
+
+    # --- EndUse merge ---
+    df = df.merge(
+        enduse_map[["EndUse_TIMES", "EndUse", "UseGroup"]],
+        on="EndUse_TIMES",
+        how="left",
+    )
+
+    # Rename columns
+    df = df.rename(
+        columns={
+            "TechName": "Process",
+            "Comm_IN": "CommodityIn",
+            "Comm_OUT": "CommodityOut",
+            "TechGroup": "TechnologyGroup",
+            "UseGroup": "EnduseGroup",
+        }
+    )
+
+    return df[process_cols]
+
+
 # ---------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------
@@ -172,9 +245,13 @@ def main() -> None:
 
     processes, _ = create_newtech_process_df({"Columns": process_cols})
     parameters = create_newtech_process_parameters_df({"Columns": param_cols})
+    process_definitions = create_newtech_process_defintions({})
 
     processes.to_csv(OUTPUT_LOCATION / "future_industry_processes.csv", index=False)
     parameters.to_csv(OUTPUT_LOCATION / "future_industry_parameters.csv", index=False)
+    process_definitions.to_csv(
+        OUTPUT_LOCATION / "future_industry_process_definitions.csv", index=False
+    )
 
     logger.info("New industry technology files successfully generated.")
 
