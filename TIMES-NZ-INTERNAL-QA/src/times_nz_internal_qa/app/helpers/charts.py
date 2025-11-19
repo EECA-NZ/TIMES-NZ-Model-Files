@@ -310,9 +310,7 @@ def build_grouped_line(
                 f"{group_col}:N",
                 legend=alt.Legend(title=None, orient="top"),
             ),
-            strokeDash=alt.StrokeDash(
-                "Scenario:N", legend=alt.Legend(title="Scenario")
-            ),
+            strokeDash=alt.StrokeDash("Scenario:N", legend=None),
             tooltip=[
                 alt.Tooltip("Scenario:N", title="Scenario"),
                 alt.Tooltip("PeriodInt:Q", title="Year"),
