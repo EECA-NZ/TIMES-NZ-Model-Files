@@ -135,7 +135,7 @@ Demand,MEAT-FRIDG-FRIDG,Industry,Meat,Refrigeration
 Demand,MEAT-HEATR-WH_LOW,Industry,Meat,"Low Temperature Heat (<100 C), Water Heating"
 Demand,MEAT-MOTOR-MTV_STA,Industry,Meat,"Motive Power, Stationary"
 Demand,METH-FDSTK-FDSTK,Industry,Methanol,Feedstock
-Demand,METH-BOILR-PH_HIGH,Industry,Methanol,"High Temperature Heat (>300 C), Process Requirements"
+Demand,METH-REFRM-PH_HIGH,Industry,Methanol,"High Temperature Heat (>300 C), Process Requirements"
 Demand,MINE-ELCTR-ELCTR,Industry,Mining,Electronics and Other Electrical Uses
 Demand,MINE-LIGHT-LIGHT,Industry,Mining,Lighting
 Demand,MINE-BOILR-PH_INT,Industry,Mining,"Intermediate Heat (100-300 C), Process Requirements"
@@ -173,7 +173,7 @@ Demand,PULP-HEATX-PH_INT,Industry,Pulp and Paper,"Intermediate Heat (100-300 C),
 Demand,PULP-MOTOR-MTV_STA,Industry,Pulp and Paper,"Motive Power, Stationary"
 Demand,PULP-PUMP-PUMP,Industry,Pulp and Paper,Pumping
 Demand,UREA-FDSTK-FDSTK,Industry,Urea,Feedstock
-Demand,UREA-BOILR-PH_HIGH,Industry,Urea,"High Temperature Heat (>300 C), Process Requirements"
+Demand,UREA-REFRM-PH_HIGH,Industry,Urea,"High Temperature Heat (>300 C), Process Requirements"
 Demand,UREA-COMPR-MTV_STA,Industry,Urea,"Motive Power, Stationary"
 Demand,WOOD-ACOMP-COMP_AIR,Industry,Wood Products,Compressed Air
 Demand,WOOD-ELCTR-ELCTR,Industry,Wood Products,Electronics and Other Electrical Uses

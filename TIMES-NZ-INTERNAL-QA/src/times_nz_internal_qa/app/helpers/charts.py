@@ -21,10 +21,9 @@ def build_grouped_bar(
     - `scen_list[0]` shown at higher opacity.
     """
 
-    # Some minor adjustments for the chart tooltip?
-    # possibly these need to go in the chart data function instead
-    # to keep processing out of the render function?
-    # we must use pandas in these functions
+    # Add numeric axis fields for continuous domain
+    pdf["PeriodInt"] = pdf["Period"].astype(int)
+
     totals_within_vars = [v for v in pdf.columns if v not in ["Value", group_col]]
 
     pdf["Total"] = pdf.groupby(totals_within_vars, observed=True)["Value"].transform(
@@ -47,20 +46,21 @@ def build_grouped_bar(
         .str.cat(pdf["Unit"].astype(str), sep=" ")
     )
 
-    # category orders
-    period_order = [str(p) for p in period_range]
     base_scen = scen_list[0] if scen_list else None
 
-    chart = (
+    return (
         alt.Chart(pdf)
         .mark_bar()
         .encode(
-            x=alt.X("Period:N", sort=period_order, title="Year"),
+            x=alt.X(
+                "PeriodInt:N",
+                title="Year",
+                scale=alt.Scale(domain=period_range, nice=False),
+            ),
             xOffset=alt.XOffset("Scenario:N", sort=scen_list),
             y=alt.Y("Value:Q", stack="zero", title=unit),
             color=alt.Color(
-                f"{group_col}:N",
-                legend=alt.Legend(title=None, orient="top"),
+                f"{group_col}:N", legend=alt.Legend(title=None, orient="top")
             ),
             opacity=alt.condition(
                 alt.datum.Scenario == base_scen, alt.value(1), alt.value(0.6)
@@ -77,12 +77,10 @@ def build_grouped_bar(
         .properties(background="transparent")
     )
 
-    return chart
-
 
 # pylint:disable=too-many-locals
 def build_grouped_bar_timeslice(
-    pdf: pd.DataFrame, unit: str, period_range, group_col: str, scen_list
+    pdf: pd.DataFrame, unit: str, group_col: str, scen_list
 ):
     """
     Grouped+stacked bar chart in Altair.
@@ -93,9 +91,6 @@ def build_grouped_bar_timeslice(
     Sets timeslice along the bottom, assuming data is filtered for specific year already
 
     """
-    # will need this at some point
-    print(period_range)
-
     # Some minor adjustments for the chart tooltip?
     # possibly these need to go in the chart data function instead
     # to keep processing out of the render function?
@@ -246,3 +241,86 @@ def build_grouped_bar_better_plotly(
     )
 
     return fig
+
+
+def build_grouped_line(
+    pdf: pd.DataFrame,
+    unit: str,
+    period_range,
+    group_col: str,
+    scen_list,  # pylint: disable=unused-argument
+):
+    """
+    Line chart version of `build_grouped_bar`.
+
+    - Uses only non-zero data for plotting.
+    - Displays all years in period_range on the x-axis.
+    - X-axis ticks and labels are shifted horizontally by 0.5 for better centering.
+    """
+
+    # --- Preprocess ---
+    line_df = pdf.copy()
+
+    line_df["PeriodInt"] = line_df["Period"].astype(int)
+
+    totals_within = [c for c in line_df.columns if c not in ["Value", group_col]]
+
+    line_df["Total"] = line_df.groupby(totals_within, observed=True)["Value"].transform(
+        "sum"
+    )
+    line_df["ShareTooltip"] = ((line_df["Value"] / line_df["Total"]) * 100).map(
+        lambda x: f"{x:.2f}%"
+    )
+
+    line_df["ValueTooltip"] = (
+        line_df["Value"].map(lambda x: f"{x:,.2f}") + " " + line_df["Unit"].astype(str)
+    )
+    line_df["TotalTooltip"] = (
+        line_df["Total"].map(lambda x: f"{x:,.2f}") + " " + line_df["Unit"].astype(str)
+    )
+
+    # --- Axis setup ---
+    period_min, period_max = min(period_range), max(period_range)
+
+    # Shift ticks and labels by 0.5 horizontally
+    line_df["PeriodIntShift"] = line_df["PeriodInt"] + 0.5
+    tick_values = [p + 0.5 for p in period_range]
+
+    x_axis = alt.X(
+        "PeriodIntShift:Q",
+        title="Year",
+        scale=alt.Scale(domain=[period_min, period_max + 1], nice=False),
+        axis=alt.Axis(
+            values=tick_values,
+            labelExpr="datum.value - 0.5",  # display real year
+            format="d",
+            labelAngle=-90,
+            labelOverlap=False,
+            grid=False,
+        ),
+    )
+
+    chart = (
+        alt.Chart(line_df)
+        .mark_line(point=True, interpolate="linear")
+        .encode(
+            x=x_axis,
+            y=alt.Y("Value:Q", title=unit),
+            color=alt.Color(
+                f"{group_col}:N",
+                legend=alt.Legend(title=None, orient="top"),
+            ),
+            strokeDash=alt.StrokeDash("Scenario:N", legend=None),
+            tooltip=[
+                alt.Tooltip("Scenario:N", title="Scenario"),
+                alt.Tooltip("PeriodInt:Q", title="Year"),
+                alt.Tooltip(f"{group_col}:N", title=group_col),
+                alt.Tooltip("ValueTooltip:N", title="Value"),
+                alt.Tooltip("TotalTooltip:N", title="Total"),
+                alt.Tooltip("ShareTooltip:N", title="Share"),
+            ],
+        )
+        .properties(background="transparent")
+    )
+
+    return chart
