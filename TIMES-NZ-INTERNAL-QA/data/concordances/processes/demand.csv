@@ -494,7 +494,7 @@ Demand,MEAT-ELC-FRIDG-FRIDG,MEAT-FRIDG-FRIDG,Industry,Meat,Heating/Cooling,Refri
 Demand,MEAT-ELC-HEATR-WH_LOW,MEAT-HEATR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Resistance Heater
 Demand,MEAT-ELC-MOTOR-MTV_STA,MEAT-MOTOR-MTV_STA,Industry,Meat,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,METH-NGA-FDSTK-FDSTK,METH-FDSTK-FDSTK,Industry,Methanol,Feedstock,Feedstock,Feedstock,Feedstock
-Demand,METH-NGA-BOILR-PH_HIGH,METH-BOILR-PH_HIGH,Industry,Methanol,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Reformer
+Demand,METH-NGA-BOILR-PH_HIGH,METH-REFRM-PH_HIGH,Industry,Methanol,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Reformer
 Demand,MINE-ELC-ELCTR-ELCTR,MINE-ELCTR-ELCTR,Industry,Mining,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,MINE-ELC-LIGHT-LIGHT,MINE-LIGHT-LIGHT,Industry,Mining,Electronics and Lighting,Lighting,Electronics and Lights,Lights
 Demand,MINE-NGA-BOILR-PH_INT,MINE-BOILR-PH_INT,Industry,Mining,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
@@ -547,7 +547,7 @@ Demand,PULP-GEO-HEATX-PH_INT,PULP-HEATX-PH_INT,Industry,Pulp and Paper,Heating/C
 Demand,PULP-ELC-MOTOR-MTV_STA,PULP-MOTOR-MTV_STA,Industry,Pulp and Paper,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,PULP-ELC-PUMP-PUMP,PULP-PUMP-PUMP,Industry,Pulp and Paper,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
 Demand,UREA-NGA-FDSTK-FDSTK,UREA-FDSTK-FDSTK,Industry,Urea,Feedstock,Feedstock,Feedstock,Feedstock
-Demand,UREA-NGA-BOILR-PH_HIGH,UREA-BOILR-PH_HIGH,Industry,Urea,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Reformer
+Demand,UREA-NGA-BOILR-PH_HIGH,UREA-REFRM-PH_HIGH,Industry,Urea,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Reformer
 Demand,UREA-NGA-COMPR-MTV_STA,UREA-COMPR-MTV_STA,Industry,Urea,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Compressors
 Demand,WOOD-ELC-ACOMP-COMP_AIR,WOOD-ACOMP-COMP_AIR,Industry,Wood Products,Electronics and Lighting,Compressed Air,Electronics and Lights,Air Compressors
 Demand,WOOD-ELC-ELCTR-ELCTR,WOOD-ELCTR-ELCTR,Industry,Wood Products,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
@@ -580,6 +580,63 @@ Demand,MEAT-WOD-BOILR-PH_INT,MEAT-BOILR-PH_INT,Industry,Meat,Heating/Cooling,"In
 Demand,MEAT-COA-BOILR-WH_LOW,MEAT-BOILR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,MINE-WOD-BOILR-PH_INT,MINE-BOILR-PH_INT,Industry,Mining,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,MINE-COA-BOILR-SH_LOW,MINE-SH_LOW,Industry,Mining,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,OTHR-WOD-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,CHEM-ELC-SGHP-PH_INT,CHEM-HEATR-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,CHEM-ELC-SGHP-PH_INT,CHEM-FURNC-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,DARY-ELC-SGHP-PH_INT,DARY-BOILR-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,DARY-ELC-SGHP-PH_INT,DARY-HEATX-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,FOOD-ELC-SGHP-PH_INT,FOOD-BOILR-PH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,MEAT-ELC-SGHP-PH_INT,MEAT-BOILR-PH_INT,Industry,Meat,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,MINE-ELC-SGHP-PH_INT,MINE-BOILR-PH_INT,Industry,Mining,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,MNRL-ELC-SGHP-PH_INT,MNRL-BOILR-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,MNRL-ELC-SGHP-PH_INT,MNRL-FURNC-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,OTHR-ELC-SGHP-PH_INT,OTHR-BOILR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,OTHR-ELC-SGHP-PH_INT,OTHR-HEATR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,PULP-ELC-SGHP-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,PULP-ELC-SGHP-PH_INT,PULP-HEATX-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,STEEL-ELC-SGHP-PH_INT,STEEL-BURNR-PH_INT,Industry,Iron & Steel,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,WOOD-ELC-SGHP-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,WOOD-ELC-SGHP-PH_INT,WOOD-HEATX-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,WOOD-ELC-SGHP-PH_INT,WOOD-BURNR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,CHEM-ELC-MVR-PH_INT,CHEM-HEATR-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,CHEM-ELC-MVR-PH_INT,CHEM-FURNC-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,DARY-ELC-MVR-PH_INT,DARY-BOILR-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,DARY-ELC-MVR-PH_INT,DARY-HEATX-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,FOOD-ELC-MVR-PH_INT,FOOD-BOILR-PH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,MEAT-ELC-MVR-PH_INT,MEAT-BOILR-PH_INT,Industry,Meat,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,MINE-ELC-MVR-PH_INT,MINE-BOILR-PH_INT,Industry,Mining,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,MNRL-ELC-MVR-PH_INT,MNRL-BOILR-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,MNRL-ELC-MVR-PH_INT,MNRL-FURNC-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,OTHR-ELC-MVR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,OTHR-ELC-MVR-PH_INT,OTHR-HEATR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,PULP-ELC-MVR-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,PULP-ELC-MVR-PH_INT,PULP-HEATX-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,STEEL-ELC-MVR-PH_INT,STEEL-BURNR-PH_INT,Industry,Iron & Steel,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,WOOD-ELC-MVR-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,WOOD-ELC-MVR-PH_INT,WOOD-HEATX-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,WOOD-ELC-MVR-PH_INT,WOOD-BURNR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,DARY-ELC-PEF-PH_LOW,DARY-BOILR-PH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
+Demand,FOOD-ELC-PEF-PH_LOW,FOOD-BOILR-PH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
+Demand,MNRL-ELC-PEF-PH_LOW,MNRL-BOILR-PH_LOW,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
+Demand,OTHR-ELC-PEF-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
+Demand,OTHR-ELC-PEF-PH_LOW,OTHR-HEATR-PH_LOW,Industry,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
+Demand,PULP-ELC-PEF-PH_LOW,PULP-BURNR-PH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
+Demand,STEEL-ELC-PEF-PH_LOW,STEEL-HEATR-PH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
+Demand,WOOD-ELC-PEF-PH_LOW,WOOD-HPPH-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
+Demand,WOOD-ELC-PEF-PH_LOW,WOOD-BOILR-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
+Demand,WOOD-ELC-PEF-PH_LOW,WOOD-FURNC-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
+Demand,CNST-ELC-ICENG-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,MINE-ELC-ICENG-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,OTHR-ELC-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,CNST-H2R-ICENG-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,MINE-H2R-ICENG-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,OTHR-H2R-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,CNST-PET-PHEV-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
+Demand,MINE-PET-PHEV-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
+Demand,OTHR-PET-PHEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
+Demand,CNST-ELC-PHEV-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
+Demand,MINE-ELC-PHEV-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
+Demand,OTHR-ELC-PHEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
 Demand,ADCF-IRG-Irg-ELC,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation
 Demand,ADCF-IRG-IrgVSD-ELC,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation VSD
 Demand,ADCF-LT-LT-ELC,ADCF-LT,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Lighting,Electronics and Lights,Lights
@@ -599,23 +656,25 @@ Demand,AFISH-LT-LT-ELC,AFISH-LT,"Agriculture, Forestry, and Fishing","Fishing, H
 Demand,AFISH-RFGR-RF-ELC,AFISH-RFGR,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Heating/Cooling,Refrigeration,Heat/Cooling Devices,Refrigeration Systems
 Demand,AFISH-MoTP-Stat-Motor-ELC,AFISH-MoTP-Stat,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,AFISH-MoTP-Mob-Boat-DSL,AFISH-MoTP-Mob,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Sea Transport)
+Demand,AFISH-MoTP-Mob-HYBBoat-DSL,AFISH-MoTP-Mob,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Sea Transport)
 Demand,AFISH-MoTP-Mob-Boat-PET,AFISH-MoTP-Mob,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Sea Transport)
+Demand,AFISH-MoTP-Mob-HYBBoat-PET,AFISH-MoTP-Mob,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Sea Transport)
 Demand,AFORE-OTH-ELEC-ELC,AFORE-OTH,"Agriculture, Forestry, and Fishing",Forestry and Logging,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,AFORE-LT-LT-ELC,AFORE-LT,"Agriculture, Forestry, and Fishing",Forestry and Logging,Electronics and Lighting,Lighting,Electronics and Lights,Lights
 Demand,AFORE-MoTP-Stat-Motor-ELC,AFORE-MoTP-Stat,"Agriculture, Forestry, and Fishing",Forestry and Logging,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,AFORE-MoTP-Mob-CY-DSL,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Cable Yarding
 Demand,AFORE-MoTP-Mob-GB-DSL,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Ground Based
-Demand,AFORE-MoTP-Stat-Motor-DSL,AFORE-MoTP-Stat,"Agriculture, Forestry, and Fishing",Forestry and Logging,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+Demand,AFORE-MoTP-Stat-Engin-DSL,AFORE-MoTP-Stat,"Agriculture, Forestry, and Fishing",Forestry and Logging,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,AFORE-PH-Boiler-NGA,AFORE-PH,"Agriculture, Forestry, and Fishing",Forestry and Logging,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,AFORE-MoTP-Mob-Motor-PET,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,AFORE-MoTP-Stat-Motor-PET,AFORE-MoTP-Stat,"Agriculture, Forestry, and Fishing",Forestry and Logging,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+Demand,AFORE-MoTP-Mob-Bike-PET,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,AFORE-MoTP-Stat-Engin-PET,AFORE-MoTP-Stat,"Agriculture, Forestry, and Fishing",Forestry and Logging,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,AHORT-IRG-Irg-ELC,AHORT-IRG,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation
 Demand,AHORT-IRG-IrgVSD-ELC,AHORT-IRG,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation VSD
 Demand,AHORT-LT-LT-ELC,AHORT-LT,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Electronics and Lighting,Lighting,Electronics and Lights,Lights
 Demand,AHORT-MoTP-Mob-Trac-DSL,AHORT-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Tractor
 Demand,AHORT-MoTP-Mob-MTr-DSL,AHORT-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Truck
 Demand,AHORT-MoTP-Mob-Uti-DSL,AHORT-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Ute
-Demand,AHORT-MoTP-Stat-Motor-DSL,AHORT-MoTP-Stat,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+Demand,AHORT-MoTP-Stat-Engin-DSL,AHORT-MoTP-Stat,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,AINDC-LT-LT-ELC,AINDC-LT,"Agriculture, Forestry, and Fishing",Indoor Cropping,Electronics and Lighting,Lighting,Electronics and Lights,Lights
 Demand,AINDC-MoTP-Stat-Motor-ELC,AINDC-MoTP-Stat,"Agriculture, Forestry, and Fishing",Indoor Cropping,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,AINDC-SH-Boiler-COA,AINDC-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
@@ -628,11 +687,11 @@ Demand,ALIVE-LT-LT-ELC,ALIVE-LT,"Agriculture, Forestry, and Fishing",Livestock F
 Demand,ALIVE-MoTP-Mob-Trac-DSL,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Tractor
 Demand,ALIVE-MoTP-Mob-MTr-DSL,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Truck
 Demand,ALIVE-MoTP-Mob-Uti-DSL,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Ute
-Demand,ALIVE-MoTP-Mob-Motor-PET,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,ALIVE-MoTP-Mob-Bike-PET,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,AOTH-PH-RH-ELC,AOTH-PH,"Agriculture, Forestry, and Fishing",Other Agriculture,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Resistance Heater
 Demand,AOTH-PH-Furnace-DSL,AOTH-PH,"Agriculture, Forestry, and Fishing",Other Agriculture,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
 Demand,AOTH-SH-Burner-LPG,AOTH-SH,"Agriculture, Forestry, and Fishing",Other Agriculture,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct heat)
-Demand,AOTH-MoTP-Stat-Motor-PET,AOTH-MoTP-Stat,"Agriculture, Forestry, and Fishing",Other Agriculture,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+Demand,AOTH-MoTP-Stat-Engin-PET,AOTH-MoTP-Stat,"Agriculture, Forestry, and Fishing",Other Agriculture,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,ADCF-MoTP-Mob-Trac-ELC,ADCF-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,ADCF-MoTP-Mob-Trac-H2R,ADCF-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,ADCF-MoTP-Mob-MTr-ELC,ADCF-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
@@ -646,7 +705,6 @@ Demand,ALIVE-MoTP-Mob-MTr-ELC,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing
 Demand,ALIVE-MoTP-Mob-MTr-H2R,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,ALIVE-MoTP-Mob-Uti-ELC,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,ALIVE-MoTP-Mob-Uti-H2R,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,ALIVE-MoTP-Mob-Bike-PET,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,ALIVE-MoTP-Mob-Bike-ELC,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,AHORT-MoTP-Mob-Trac-ELC,AHORT-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,AHORT-MoTP-Mob-Trac-H2R,AHORT-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
@@ -663,4 +721,3 @@ Demand,AFORE-MoTP-Mob-GB-ELC,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing"
 Demand,AFORE-MoTP-Mob-GB-H2R,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,AFORE-MoTP-Mob-CY-ELC,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,AFORE-MoTP-Mob-CY-H2R,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,AFISH-MoTP-Mob-HYBBoat-DSL,AFISH-MoTP-Mob,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Sea Transport)
