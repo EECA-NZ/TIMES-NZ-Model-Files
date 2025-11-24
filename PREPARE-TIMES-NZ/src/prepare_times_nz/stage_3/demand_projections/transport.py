@@ -60,26 +60,18 @@ def get_transport_growth_indices():
         & (df["scenario"] == "Base_EV")
     ].copy()
 
-    # ---- NEW: aggregate VKT by veh_type & year ----
+    # Aggregate
     df = df.groupby(["veh_type", "year"], as_index=False, dropna=False)["vkt"].sum()
-    print(df)
 
     # Standardize names
     df = df.rename(columns={"veh_type": "Sector", "year": "Year"})
 
-    base_df = df[df["Year"] == BASE_YEAR]
+    # create index
+    base_df = df[df["Year"] == BASE_YEAR].copy()
     base_df = base_df.rename(columns={"vkt": "vkt_base"})
-    df = df.merge(base_df, on=["Sector", "Year"], how="left")
-
-    df["Index"] = df["vkt"] / df[""]
-
-    # Compute Index
-    df["Index"] = pd.NA
-    df.loc[df["Year"] == BASE_YEAR, "Index"] = 1.0
-    mask_later = df["Year"] > BASE_YEAR
-    df.loc[mask_later, "Index"] = (
-        df.loc[mask_later, "vkt"] / df.loc[mask_later, "vkt_prev"]
-    ).astype(float)
+    base_df = base_df.drop("Year", axis=1)
+    df = df.merge(base_df, on=["Sector"], how="left")
+    df["Index"] = df["vkt"] / df["vkt_base"]
 
     # After aggregating VKT but before computing indices
     # Create mapping for vehicle type renaming
@@ -112,9 +104,6 @@ def get_transport_growth_indices():
         .drop(columns="key")[["SectorGroup", "Sector", "Year", "Scenario", "Index"]]
         .sort_values(["Scenario", "Sector", "Year"], ascending=[True, True, True])
     )
-
-    print(df)
-
     return df
 
 
