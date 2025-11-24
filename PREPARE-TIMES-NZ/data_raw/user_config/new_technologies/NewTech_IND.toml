@@ -17,3 +17,81 @@ Description = "Defines technical parameters for future industry technologies"
 SheetName = "IND_NEW"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_ind/future_industry_parameters.csv"
+
+
+###############################################################################
+# Electric Arc Furnace
+###############################################################################
+
+
+[EAFProcessDefinitions]
+Description = "Declares new process to represent EAF (Electric Arc Furnace). Note that other settings assume this is available."
+SheetName = "IND_EAF"
+TagName = "FI_Process"
+# Data 
+Sets = "DMD"
+TechName = "STEEL-ELC-EAF"
+Tact = "PJ"
+Tcap = "GW"
+TsLvl = "DAYNITE"
+
+[EAFCommodityDefinitions]
+Description = "Declares new commodity for recycled steel from EAF"
+SheetName = "IND_EAF"
+TagName = "FI_Comm"
+# Data 
+CommName = "STEEL-FURNC-RSTEEL"
+Csets = "DEM"
+Unit = "PJ"
+CTSLvl = "DAYNITE"
+
+[EAFParameters]
+Description = "Specific settings for EAF, including install dates/size"
+SheetName = "IND_EAF"
+TagName = "FI_T"
+# Data 
+TechName = "STEEL-ELC-EAF"
+Comm-IN = "INDELC"
+Comm-Out = "STEEL-FURNC-RSTEEL"
+Start = 2026
+'NCAP_PASTI~2027' = 0.03
+Life = 50
+CAP2ACT = 31.536
+
+###############################################################################
+# New techs 
+###############################################################################
+
+# These are applied to the subres here but are only built when we set demand for the NEWTECH-DEM commodity 
+
+[NewDemandProcessDefinitions]
+Description = "Declares new process to represent 'New demand', representing additional electricity load in some scenarios."
+SheetName = "IND_NEWDEM"
+TagName = "FI_Process"
+# Data 
+Sets = "DMD"
+TechName = "NEWTECH"
+Tact = "PJ"
+Tcap = "GW"
+TsLvl = "DAYNITE"
+
+[NewDemandCommodityDefinitions]
+Description = "Declares new commodity for 'New demand'"
+SheetName = "IND_NEWDEM"
+TagName = "FI_Comm"
+# Data 
+CommName = "NEWTECH-DEM"
+Csets = "DEM"
+Unit = "PJ"
+CTSLvl = "DAYNITE"
+
+[NewDemandParameters]
+Description = "Basic parameters for 'New demand'. Note that these are very minimal: this is effectively an industrial electricity sink, defined in newtech demand scenario"
+SheetName = "IND_NEWDEM"
+TagName = "FI_T"
+# Data 
+TechName = "NEWTECH"
+Comm-IN = "INDELC"
+Comm-Out = "NEWTECH-DEM"
+Start = 2026
+CAP2ACT = 31.536

@@ -67,3 +67,8 @@ by half with initial EAF, then to 0 in full recycling scenario (trad/trans)
 
 
 """
+
+eaf_install_dates = [2026, 2036]
+
+
+# read in
