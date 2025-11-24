@@ -48,6 +48,7 @@ def get_transport_growth_indices():
 
     # Keep needed cols and coerce types
     df = df[["scenario", "veh_type", "year", "vkt"]].copy()
+
     df["vkt"] = pd.to_numeric(df["vkt"], errors="coerce")
     df["year"] = pd.to_numeric(df["year"], errors="coerce")
     df = df.dropna(subset=["vkt", "year"])
@@ -61,16 +62,16 @@ def get_transport_growth_indices():
 
     # ---- NEW: aggregate VKT by veh_type & year ----
     df = df.groupby(["veh_type", "year"], as_index=False, dropna=False)["vkt"].sum()
+    print(df)
 
     # Standardize names
     df = df.rename(columns={"veh_type": "Sector", "year": "Year"})
 
-    # Strict previous-year alignment per Sector
-    prev = df[["Sector", "Year", "vkt"]].copy()
-    prev["Year"] = prev["Year"] + 1
-    prev = prev.rename(columns={"vkt": "vkt_prev"})
+    base_df = df[df["Year"] == BASE_YEAR]
+    base_df = base_df.rename(columns={"vkt": "vkt_base"})
+    df = df.merge(base_df, on=["Sector", "Year"], how="left")
 
-    df = df.merge(prev, on=["Sector", "Year"], how="left")
+    df["Index"] = df["vkt"] / df[""]
 
     # Compute Index
     df["Index"] = pd.NA
@@ -111,6 +112,8 @@ def get_transport_growth_indices():
         .drop(columns="key")[["SectorGroup", "Sector", "Year", "Scenario", "Index"]]
         .sort_values(["Scenario", "Sector", "Year"], ascending=[True, True, True])
     )
+
+    print(df)
 
     return df
 

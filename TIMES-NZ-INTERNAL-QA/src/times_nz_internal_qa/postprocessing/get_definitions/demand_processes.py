@@ -18,6 +18,7 @@ We patch that now with a few additional concordance maps in
 
 # get data
 
+import numpy as np
 import pandas as pd
 from times_nz_internal_qa.utilities.filepaths import (
     COMMODITY_CONCORDANCES,
@@ -53,13 +54,37 @@ demand_process_categories = [
 def get_industrial_demand_processes():
     """
     Industrial process mapping extracted from prep module staging data.
+    Takes base year and new techs
     """
 
+    # Base year
+
     df = pd.read_csv(PREP_STAGE_2 / "industry/baseyear_industry_demand.csv")
+    # patch
+    df["Process"] = np.where(
+        df["Process"] == "UREA-NGA-REFRM-PH_HIGH",
+        "UREA-NGA-BOILR-PH_HIGH",
+        df["Process"],
+    )
+    df["Process"] = np.where(
+        df["Process"] == "METH-NGA-REFRM-PH_HIGH",
+        "METH-NGA-BOILR-PH_HIGH",
+        df["Process"],
+    )
     df["SectorGroup"] = "Industry"
     df["ProcessGroup"] = "Demand"
-
     df = df[demand_process_categories].drop_duplicates()
+
+    # new techs
+    df_new = pd.read_csv(
+        PREP_STAGE_4 / "subres_ind/future_industry_process_definitions.csv"
+    )
+    df_new["SectorGroup"] = "Industry"
+    df_new["ProcessGroup"] = "Demand"
+    df_new = df_new[demand_process_categories].drop_duplicates()
+
+    # combine and out
+    df = pd.concat([df, df_new]).drop_duplicates()
 
     return df
 
