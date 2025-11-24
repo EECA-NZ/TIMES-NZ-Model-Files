@@ -60,9 +60,13 @@ CAP2ACT = 31.536
 
 ###############################################################################
 # New techs 
+# This defines an abstract "NewTech" scenario, including subres components
+# the electricity demand for this sector allows us to create an abstract electricity sink
+# for some scenarios 
 ###############################################################################
 
-# These are applied to the subres here but are only built when we set demand for the NEWTECH-DEM commodity 
+# These are applied to the subres here but are only built when we set demand for the NEWTECH-DEM commodity
+
 
 [NewDemandProcessDefinitions]
 Description = "Declares new process to represent 'New demand', representing additional electricity load in some scenarios."
@@ -95,3 +99,12 @@ Comm-IN = "INDELC"
 Comm-Out = "NEWTECH-DEM"
 Start = 2026
 CAP2ACT = 31.536
+
+
+[NewDemandCommodityProjections]
+Description = "Commodity projections for new demand. Note these go into seperate SUPPXLS (scenario) file."
+WorkBookName = "SuppXLS/Scen_NewTechDemand"
+SheetName = "NewTech"
+TagName = "TFM_INS-TS"
+
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/newtech_demand.csv"
