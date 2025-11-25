@@ -638,12 +638,6 @@ def main() -> None:
     # --------------------------------------------------------------------- #
 
     save_output(base_year_gen, "base_year_electricity_supply.csv")
-
-    df = base_year_gen
-
-    df = df[df["FuelType"] == "Coal"]
-
-    print(df)
     save_checks(gen_comparison, "check_ele_gen_calibration.csv")
     save_checks(cap_comparison, "check_base_year_ele_cap_calibration.csv")
     save_checks(generic_generation, "check_ele_gen_generated_generics.csv")

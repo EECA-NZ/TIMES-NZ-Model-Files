@@ -85,6 +85,7 @@ def create_eaf_file(df, scenario, category):
     attribute = ""
     interp = ""
     type_varname = ""
+    limtype = ""
 
     if category == EAF_DEMAND_CODE:
         attribute = "Demand"
@@ -92,7 +93,8 @@ def create_eaf_file(df, scenario, category):
         type_varname = "Cset_CN"
 
     elif category == STEEL_COGEN_CODE:
-        attribute = "ACT_BND~FX"
+        attribute = "ACT_BND"
+        limtype = "FX"
         interp = "5"
         type_varname = "Pset_PN"
 
@@ -105,9 +107,10 @@ def create_eaf_file(df, scenario, category):
     df["TimeSlice"] = ""
     df["Region"] = "NI"
     df["Attribute"] = attribute
+    df["LimType"] = limtype
     df[type_varname] = category
 
-    index_vars = ["TimeSlice", "Region", "Attribute", type_varname, "0"]
+    index_vars = ["TimeSlice", "Region", "Attribute", "LimType", type_varname, "0"]
 
     # pivot years
     df = (

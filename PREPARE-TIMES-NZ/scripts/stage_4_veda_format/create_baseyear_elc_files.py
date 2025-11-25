@@ -309,7 +309,7 @@ def make_nzsteel_adjustments(input_df, nzsteel_techname="ELC_CoalCHP_GlenbrookSt
     # split out the steel
     logger.warning("Making manual NZSteel Adjustments")
     df = input_df[input_df["TechName"] == nzsteel_techname].copy()
-    df_no_steel = input_df[input_df["TechName"] == nzsteel_techname].copy()
+    df_no_steel = input_df[input_df["TechName"] != nzsteel_techname].copy()
 
     df["Comm-IN"] = "COA"
     df["ACT_BND~FX"] = df["ACT_BND~2023"]

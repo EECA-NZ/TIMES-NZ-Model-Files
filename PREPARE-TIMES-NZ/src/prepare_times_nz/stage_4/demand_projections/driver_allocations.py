@@ -134,7 +134,6 @@ def add_sector_indices(default_driver="Constant"):
 
     df["SectorDriver"] = df["SectorDriver"].fillna(default_driver)
 
-    print(df)
     return df
 
 

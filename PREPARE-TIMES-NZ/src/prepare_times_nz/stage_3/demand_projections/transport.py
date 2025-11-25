@@ -8,8 +8,12 @@ and Transformation scenarios.
 - Input data: data_raw/external_data/mot/VFM202405_outputs_summary_V3
 """
 
+import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
+from prepare_times_nz.stage_3.demand_projections.population_projections import (
+    get_national_population_growth_index,
+)
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import EXTERNAL_DATA, STAGE_3_DATA
 
@@ -107,12 +111,43 @@ def get_transport_growth_indices():
     return df
 
 
+def get_reduced_demand_index(scale=0.01):
+    """
+    Uses population projection index and reduces these by an annual rate of 1% a year
+    annual decline of per-capita demand can be adjusted via scale variable
+    This becomes our simple index of reduced VKT growth
+    """
+
+    df = get_national_population_growth_index("50th percentile (median)")
+
+    df = df.sort_values("Year").reset_index()
+    df["ReducedIndex"] = df["Index"] * ((1 - scale) ** df.index)
+    df = df[["Year", "ReducedIndex"]]
+
+    return df
+
+
 def main():
     """Script entrypoint"""
 
-    df_index = get_transport_growth_indices()
-    save_tra_proj_data(df_index, "transport_demand_index.csv", "Transport demand index")
+    df = get_transport_growth_indices()
+    # get reduced indexes
+    reduced_index = get_reduced_demand_index()
+    sectors_to_reduce = ["LCV", "LPV"]
+    df = df.merge(reduced_index, on="Year", how="left")
+
+    # apply the new index for selected cases
+
+    df["Index"] = np.where(
+        (df["Sector"].isin(sectors_to_reduce)) & (df["Scenario"] == "Transformation"),
+        df["ReducedIndex"],
+        df["Index"],
+    )
+
+    df = df.drop("ReducedIndex", axis=1)
+    save_tra_proj_data(df, "transport_demand_index.csv", "Transport demand index")
 
 
 if __name__ == "__main__":
+
     main()
