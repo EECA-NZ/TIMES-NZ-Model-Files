@@ -58,6 +58,45 @@ Start = 2026
 Life = 50
 CAP2ACT = 31.536
 
+
+# Demand projections for the EAF and activity reductions for cogen go in scenario files
+# NOTE: demand reductions for other steel activities are already baked into standard demand scenarios
+
+
+[EAFDemandProjectionsTraditional]
+Description = "Traditional scenario EAF electricity demand projections"
+WorkBookName = "SuppXLS/Scen_EAFDemand_Traditional"
+SheetName = "EAF"
+TagName = "TFM_INS-TS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/eaf_demand_traditional.csv"
+
+
+[EAFCogenReductionsTraditional]
+Description = "Traditional scenario EAF cogen output reductions"
+WorkBookName = "SuppXLS/Scen_EAFDemand_Traditional"
+SheetName = "EAF"
+TagName = "TFM_INS-TS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/steel_cogen_traditional.csv"
+
+
+
+[EAFDemandProjectionsTransformation]
+Description = "Transformation scenario EAF electricity demand projections"
+WorkBookName = "SuppXLS/Scen_EAFDemand_Transformation"
+SheetName = "EAF"
+TagName = "TFM_INS-TS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/eaf_demand_transformation.csv"
+
+
+[EAFCogenReductionsTransformation]
+Description = "Transformation scenario EAF cogen output reductions"
+WorkBookName = "SuppXLS/Scen_EAFDemand_Transformation"
+SheetName = "EAF"
+TagName = "TFM_INS-TS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/steel_cogen_transformation.csv"
+
+
+
 ###############################################################################
 # New techs 
 # This defines an abstract "NewTech" scenario, including subres components
