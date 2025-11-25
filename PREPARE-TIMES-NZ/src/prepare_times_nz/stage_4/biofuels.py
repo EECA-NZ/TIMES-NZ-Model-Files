@@ -247,23 +247,42 @@ def create_biofuel_supply_forecasts() -> pd.DataFrame:
 
     # Constant supply overrides
     supply_constants_all_years = {
-        "MINMNCWST01": 2.235,
-        "MINANMMNR00": 7.56,
+        "MINMNCWST01": {
+            "NI": 1.721,
+            "SI": 0.514,
+        },  # split based on population 77% NI, 23% SI
+        "MINANMMNR00": {
+            "NI": 4.234,
+            "SI": 3.326,
+        },  # split based on total pigs and DC numbers 56% NI, 44% SI
     }
 
     supply_constants_from_2026 = {
-        "MINOILWST00": 0.234,
-        "MINOILWST01": 6.240,
+        "MINOILWST00": {
+            "NI": 0.180,
+            "SI": 0.054,
+        },  # split based on population 77% NI, 23% SI
+        "MINOILWST01": {"NI": 0, "SI": 6.240},  # 100% in SI
     }
 
     # Apply constants
-    for tech, val in supply_constants_all_years.items():
-        mask = merged["TechName"] == tech
-        merged.loc[mask, year_cols_upto_2053] = val
+    for tech, region_vals in supply_constants_all_years.items():
+        mask_tech = merged["TechName"] == tech
 
-    for tech, val in supply_constants_from_2026.items():
-        mask = merged["TechName"] == tech
-        merged.loc[mask, year_cols_from_2026_to_2053] = val
+        # Apply separately for NI and SI rows
+        for region, constant_value in region_vals.items():
+            mask_region = merged["Region"] == region
+            merged.loc[mask_tech & mask_region, year_cols_upto_2053] = constant_value
+
+    # Apply constants for years >= 2026
+    for tech, region_vals in supply_constants_from_2026.items():
+        mask_tech = merged["TechName"] == tech
+
+        for region, constant_value in region_vals.items():
+            mask_region = merged["Region"] == region
+            merged.loc[mask_tech & mask_region, year_cols_from_2026_to_2053] = (
+                constant_value
+            )
 
     # Replace remaining zeros only in ACT_BND columns
     merged[year_cols] = merged[year_cols].replace(0, pd.NA)
