@@ -65,6 +65,23 @@ def main():
     df = create_newtech_demand()
     df = make_veda_newdemand(df)
 
+    # need to reshape this, Veda currently does not like it
+    # first, regions long:
+    df = df.melt(
+        value_vars=["NI", "SI"],
+        var_name="Region",
+        id_vars=["TimeSlice", "Attribute", "Cset_CN", "Year"],
+    )
+
+    # Then wide years
+    df = df.pivot(
+        columns="Year",
+        values="value",
+        index=["TimeSlice", "Attribute", "Cset_CN", "Region"],
+    ).reset_index()
+    # add interp
+    df["0"] = "2"
+
     _save_data(
         df,
         "newtech_demand.csv",
