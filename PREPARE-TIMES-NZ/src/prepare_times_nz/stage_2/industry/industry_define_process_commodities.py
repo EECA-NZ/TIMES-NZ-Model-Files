@@ -132,6 +132,18 @@ def define_process_commodities(df: pd.DataFrame) -> pd.DataFrame:
     """Add ``Process``, ``CommodityIn``, and ``CommodityOut`` columns to *df*."""
     original_columns: List[str] = list(df.columns)
 
+    # Custom tweak: change fuel code for Wood and Pulp& Paper when fuel = Wood
+    sectors_to_override = [
+        "Wood Products",
+        "Pulp and Paper",
+    ]
+
+    df["Fuel"] = np.where(
+        (df["Fuel"] == "Wood") & (df["Sector"].isin(sectors_to_override)),
+        "Onsite Wood",
+        df["Fuel"],
+    )
+
     # Attach TIMES codes
     df = add_times_codes(df, USE_CODES, "EndUse")
     df = add_times_codes(df, TECH_CODES, "Technology")

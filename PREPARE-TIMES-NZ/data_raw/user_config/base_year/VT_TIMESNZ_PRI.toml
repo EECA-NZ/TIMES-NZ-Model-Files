@@ -240,7 +240,7 @@ Description = "Declare biofuel energy commodities"
 SheetName = "Biofuels"
 TagName = "FI_Comm"
 Csets = ["NRG"] # (all energy commodities) 
-CommName = ["WODWST", "AGRWST", "MNCWST", "WOD", "INDOSWOD", "PLT", "ANMMNR", "OILWST", "PLT", "DID", "BDSL", "DIJ", "BIG"]
+CommName = ["WODWST", "AGRWST", "MNCWST", "ANMMNR", "WOD", "OSWOD", "BPLT", "BDSL", "BIL", "DID", "DIJ", "SAF", "BIG"]
 Unit = ["PJ"] # All PJ 
 LimType = ["FX"]
 
@@ -256,3 +256,9 @@ Description = "Biomass/biofuel supply and costs forecasts per region "
 SheetName = "Biofuels"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/biofuel_supply_forecasts.csv"
+
+[BiofuelParameterDeclarations]
+Description = "Declare conversion processes for biofuel. Sets investment and operation costs, annual availability, lifetime"
+SheetName = "Biofuels"
+TagName = "FI_T"
+DataLocation = "data_raw/coded_assumptions/biofuels/plant_processes.csv"
