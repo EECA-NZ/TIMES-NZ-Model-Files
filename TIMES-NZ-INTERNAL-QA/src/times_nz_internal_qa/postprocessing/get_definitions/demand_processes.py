@@ -18,7 +18,6 @@ We patch that now with a few additional concordance maps in
 
 # get data
 
-import numpy as np
 import pandas as pd
 from times_nz_internal_qa.utilities.filepaths import (
     COMMODITY_CONCORDANCES,
@@ -31,6 +30,7 @@ from times_nz_internal_qa.utilities.filepaths import (
 TRANSPORT_CONCORDANCES = CONCORDANCE_PATCHES / "transport"
 COMMERCIAL_CONCORDANCES = CONCORDANCE_PATCHES / "commercial"
 AGRICULTURE_CONCORDANCES = CONCORDANCE_PATCHES / "agriculture"
+INDUSTRY_CONCORDANCES = CONCORDANCE_PATCHES / "industry"
 
 # we basically want to form category files for all our attributes, processes, and commodities
 
@@ -60,17 +60,7 @@ def get_industrial_demand_processes():
     # Base year
 
     df = pd.read_csv(PREP_STAGE_2 / "industry/baseyear_industry_demand.csv")
-    # patch
-    df["Process"] = np.where(
-        df["Process"] == "UREA-NGA-REFRM-PH_HIGH",
-        "UREA-NGA-BOILR-PH_HIGH",
-        df["Process"],
-    )
-    df["Process"] = np.where(
-        df["Process"] == "METH-NGA-REFRM-PH_HIGH",
-        "METH-NGA-BOILR-PH_HIGH",
-        df["Process"],
-    )
+
     df["SectorGroup"] = "Industry"
     df["ProcessGroup"] = "Demand"
     df = df[demand_process_categories].drop_duplicates()
@@ -83,8 +73,15 @@ def get_industrial_demand_processes():
     df_new["ProcessGroup"] = "Demand"
     df_new = df_new[demand_process_categories].drop_duplicates()
 
+    # also get patch for EAF and the transformation newtech demand
+    # these are handled differently to the standard subres
+
     # combine and out
-    df = pd.concat([df, df_new]).drop_duplicates()
+    newtech_patch = pd.read_csv(INDUSTRY_CONCORDANCES / "newtech_patches.csv")
+
+    df = pd.concat([df, df_new, newtech_patch]).drop_duplicates()
+
+    print(df)
 
     return df
 

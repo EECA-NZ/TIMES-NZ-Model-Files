@@ -55,6 +55,7 @@ Comm-IN = "INDELC"
 Comm-Out = "STEEL-FURNC-RSTEEL"
 Start = 2026
 'NCAP_PASTI~2027' = 0.03
+EFF = 1
 Life = 50
 CAP2ACT = 31.536
 
@@ -136,6 +137,7 @@ TagName = "FI_T"
 TechName = "NEWTECH"
 Comm-IN = "INDELC"
 Comm-Out = "NEWTECH-DEM"
+EFF = 1
 Start = 2026
 CAP2ACT = 31.536
 

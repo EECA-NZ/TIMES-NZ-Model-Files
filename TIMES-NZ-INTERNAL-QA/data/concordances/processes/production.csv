@@ -9,3 +9,19 @@ Imports,IMPLPG,Imported LPG
 Imports,IMPLNG,Imported LNG
 Imports,IMPPET,Imported petrol
 Imports,IMPJET,Imported jet fuel
+Production,MINAGRWST00,Agricultural waste
+Production,MINAGRWST01,Agricultural waste
+Production,MINMNCWST00,Municipal Waste
+Production,MINWODSUPCUR00,Wood
+Production,MINWODSUPCUR01,Wood
+Production,MINWODSUPCUR02,Wood
+Production,MINWODSUPCUR03,Wood
+Production,MINWODWST00,Wood waste
+Production,MINWODWST01,Wood waste
+Production,MINWODWST02,Wood waste
+Production,MINWODWST03,Wood waste
+Production,MINWODWST04,Wood waste
+Production,MINWODWST05,Wood waste
+Production,MINWODWST06,Wood waste
+Production,MINWODWST07,Wood waste
+Production,MINWODWST08,Wood waste

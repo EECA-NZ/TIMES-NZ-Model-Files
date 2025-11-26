@@ -190,6 +190,8 @@ Demand,WOOD-MOTOR-MTV_STA,Industry,Wood Products,"Motive Power, Stationary"
 Demand,WOOD-PUMP-PUMP,Industry,Wood Products,Pumping
 Demand,ALUM-FURNC-PH_HIGH,Industry,Aluminium,"High Temperature Heat (>300 C), Process Requirements"
 Demand,MINE-SH_LOW,Industry,Mining,"Low Temperature Heat (<100 C), Space Heating"
+Demand,NEWTECH-DEM,Commercial,NewTechs,NewTechs
+Demand,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Recycled Steel
 Demand,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Irrigation
 Demand,ADCF-LT,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Lighting
 Demand,ADCF-RFGR,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Refrigeration

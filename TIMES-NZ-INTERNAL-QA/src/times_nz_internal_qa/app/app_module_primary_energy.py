@@ -59,7 +59,7 @@ pri_parameters = {
     "chart_id": "energy_prod",
     "sec_id": "energy-prod",
     "filters": pri_filters,
-    "section_title": "Fossil fuel production",
+    "section_title": "Primary energy production",
     "base_cols": base_cols,
     "group_options": pri_group_options,
 }

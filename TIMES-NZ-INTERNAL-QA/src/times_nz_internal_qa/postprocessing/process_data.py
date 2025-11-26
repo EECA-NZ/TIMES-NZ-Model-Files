@@ -239,6 +239,10 @@ def process_energy_demand(df):
 
     df = df[df["Process"].isin(demand_processes["Process"].unique())]
 
+    test = df[df["Process"] == "STEEL-ELC-EAF"]
+    test = test[test["Attribute"] == "VAR_FOut"]
+    print(test)
+
     df = df[df["Attribute"] == "VAR_FIn"]
 
     df = df.merge(demand_processes, on="Process", how="left")
@@ -276,6 +280,9 @@ def process_energy_demand(df):
     ]
 
     df = df[energy_demand_variables]
+
+    test = df[df["Process"] == "STEEL-ELC-EAF"]
+    print(test)
 
     save_data(df, "energy_demand.csv")
 
@@ -531,8 +538,6 @@ def main():
     process_electricity_demand_by_timeslice(df)
 
     get_esd_by_timeslice()
-
-    print("Done")
 
 
 if __name__ == "__main__":

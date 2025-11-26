@@ -14,10 +14,10 @@ def process_closures():
     """Defines which processes represent closures"""
 
     closure_processes = [
-        "UREA-NGA-BOILR-PH_HIGH-CLOSURE",
+        "UREA-NGA-REFRM-PH_HIGH-CLOSURE",
         "UREA-NGA-COMPR-MTV_STA-CLOSURE",
         "UREA-NGA-FDSTK-FDSTK-CLOSURE",
-        "METH-NGA-BOILR-PH_HIGH-CLOSURE",
+        "METH-NGA-REFRM-PH_HIGH-CLOSURE",
         "METH-NGA-FDSTK-FDSTK-CLOSURE",
     ]
 

@@ -494,7 +494,7 @@ Demand,MEAT-ELC-FRIDG-FRIDG,MEAT-FRIDG-FRIDG,Industry,Meat,Heating/Cooling,Refri
 Demand,MEAT-ELC-HEATR-WH_LOW,MEAT-HEATR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Resistance Heater
 Demand,MEAT-ELC-MOTOR-MTV_STA,MEAT-MOTOR-MTV_STA,Industry,Meat,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,METH-NGA-FDSTK-FDSTK,METH-FDSTK-FDSTK,Industry,Methanol,Feedstock,Feedstock,Feedstock,Feedstock
-Demand,METH-NGA-BOILR-PH_HIGH,METH-REFRM-PH_HIGH,Industry,Methanol,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Reformer
+Demand,METH-NGA-REFRM-PH_HIGH,METH-REFRM-PH_HIGH,Industry,Methanol,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Reformer
 Demand,MINE-ELC-ELCTR-ELCTR,MINE-ELCTR-ELCTR,Industry,Mining,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,MINE-ELC-LIGHT-LIGHT,MINE-LIGHT-LIGHT,Industry,Mining,Electronics and Lighting,Lighting,Electronics and Lights,Lights
 Demand,MINE-NGA-BOILR-PH_INT,MINE-BOILR-PH_INT,Industry,Mining,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
@@ -547,7 +547,7 @@ Demand,PULP-GEO-HEATX-PH_INT,PULP-HEATX-PH_INT,Industry,Pulp and Paper,Heating/C
 Demand,PULP-ELC-MOTOR-MTV_STA,PULP-MOTOR-MTV_STA,Industry,Pulp and Paper,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,PULP-ELC-PUMP-PUMP,PULP-PUMP-PUMP,Industry,Pulp and Paper,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
 Demand,UREA-NGA-FDSTK-FDSTK,UREA-FDSTK-FDSTK,Industry,Urea,Feedstock,Feedstock,Feedstock,Feedstock
-Demand,UREA-NGA-BOILR-PH_HIGH,UREA-REFRM-PH_HIGH,Industry,Urea,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Reformer
+Demand,UREA-NGA-REFRM-PH_HIGH,UREA-REFRM-PH_HIGH,Industry,Urea,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Reformer
 Demand,UREA-NGA-COMPR-MTV_STA,UREA-COMPR-MTV_STA,Industry,Urea,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Compressors
 Demand,WOOD-ELC-ACOMP-COMP_AIR,WOOD-ACOMP-COMP_AIR,Industry,Wood Products,Electronics and Lighting,Compressed Air,Electronics and Lights,Air Compressors
 Demand,WOOD-ELC-ELCTR-ELCTR,WOOD-ELCTR-ELCTR,Industry,Wood Products,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
@@ -637,6 +637,8 @@ Demand,OTHR-PET-PHEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other,Mobile Motive Pow
 Demand,CNST-ELC-PHEV-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
 Demand,MINE-ELC-PHEV-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
 Demand,OTHR-ELC-PHEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
+Demand,NEWTECH,NEWTECH-DEM,Commercial,NewTechs,NewTechs,NewTechs,NewTechs,NewTechs
+Demand,STEEL-ELC-EAF,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Iron & Steel,Recycled Steel,Heat/Cooling Devices,Electric Arc Furnace (EAF)
 Demand,ADCF-IRG-Irg-ELC,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation
 Demand,ADCF-IRG-IrgVSD-ELC,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation VSD
 Demand,ADCF-LT-LT-ELC,ADCF-LT,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Lighting,Electronics and Lights,Lights
