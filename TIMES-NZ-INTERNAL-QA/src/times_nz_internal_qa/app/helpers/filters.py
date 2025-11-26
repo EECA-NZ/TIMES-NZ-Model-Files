@@ -139,7 +139,9 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
                 iid,
                 fspec.get("label", col),
                 choices,
-                selected=choices[1],
+                selected=(
+                    choices[1] if len(choices) > 1 else choices[0] if choices else None
+                ),
             )
 
         return ui.div(

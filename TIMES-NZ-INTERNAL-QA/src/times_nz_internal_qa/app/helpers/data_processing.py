@@ -137,7 +137,7 @@ def get_filter_options_from_data(df: pl.DataFrame, filters: dict):
 
 # @lru_cache(maxsize=16)
 def make_chart_data(
-    lf: pl.LazyFrame, base_cols, group_col, scen_list, period_range=range(2023, 2051)
+    lf: pl.LazyFrame, _base_cols, group_col, scen_list, period_range=range(2023, 2051)
 ) -> dict:
     """
     A cached collection of a pandas df expected to go directly to plotly
@@ -148,18 +148,8 @@ def make_chart_data(
     Includes several additional parameters for the chart inputs.
     Outputs everything as a dict.
     """
-    # combine full list of group columns
-    all_group_cols = base_cols + [group_col]
-
-    # complete periods
-    lf = complete_periods(
-        # this ensures that we have 0 entries for all years
-        # if the data doesn't include those years.
-        # forces x-axis consistency among our charts.
-        lf,
-        period_list=period_range,
-        category_cols=[c for c in all_group_cols if c != "Period"],
-    )
+    # ensure lazy
+    lf = ensure_lazy(lf)
 
     # we might do other things here like adding totals, later
 
@@ -170,7 +160,6 @@ def make_chart_data(
     unit_list = pdf["Unit"].unique().tolist()
     # ensure only one (otherwise the chart is wrong)
     if len(unit_list) > 1:
-        print(pdf)
         raise ValueError(f"Multiple units found in data: {unit_list}")
 
     # Normalise types and ordering
@@ -187,6 +176,11 @@ def make_chart_data(
     )
 
     # identify unit
+    if not unit_list:
+        raise ValueError(
+            "No unit values found in input data. All charts require a valid unit."
+        )
+
     unit = unit_list[0]
 
     # return all components for the chart as a dict

@@ -86,6 +86,22 @@ def get_industrial_demand_processes():
     return df
 
 
+def get_industrial_newteck_demand_processes():
+    """
+    Industrial new tech process mapping extracted from prep module staging data.
+    """
+
+    df = pd.read_csv(
+        PREP_STAGE_4 / "subres_ind/future_industry_process_definitions.csv"
+    )
+    df["SectorGroup"] = "Industry"
+    df["ProcessGroup"] = "Demand"
+
+    df = df[demand_process_categories].drop_duplicates()
+
+    return df
+
+
 def get_residential_demand_processes():
     """
     Residential process mapping extracted from prep module staging data.
@@ -107,7 +123,9 @@ def get_commercial_demand_processes():
     Commercial process mapping extracted from prep module staging data.
     """
     df1 = pd.read_csv(PREP_STAGE_2 / "commercial/baseyear_commercial_demand.csv")
-    df2 = pd.read_csv(COMMERCIAL_CONCORDANCES / "commercial_process_patch.csv")
+    df2 = pd.read_csv(
+        PREP_STAGE_4 / "subres_com" / "future_commercial_process_definitions.csv"
+    )
 
     df = pd.concat([df1, df2], ignore_index=True)
 
@@ -163,7 +181,9 @@ def get_ag_demand_processes():
     df1 = pd.read_csv(
         PREP_STAGE_2 / "ag_forest_fish/baseyear_ag_forest_fish_demand.csv"
     )
-    df2 = pd.read_csv(AGRICULTURE_CONCORDANCES / "agriculture_process_patch.csv")
+    df2 = pd.read_csv(
+        PREP_STAGE_4 / "subres_agr" / "future_agriculture_process_definitions.csv"
+    )
 
     df = pd.concat([df1, df2], ignore_index=True)
     df["SectorGroup"] = "Agriculture, Forestry, and Fishing"
@@ -204,6 +224,7 @@ def main():
             get_transport_demand_processes(),
             get_residential_demand_processes(),
             get_industrial_demand_processes(),
+            get_industrial_newteck_demand_processes(),
             get_ag_demand_processes(),
         ]
     ).drop_duplicates()

@@ -4,11 +4,14 @@ Function factories for replicable server functions
 Mostly because we were repeating methods a lot
 """
 
+import altair as alt
+import pandas as pd
 from shiny import reactive, render
 from shinywidgets import render_altair
 from times_nz_internal_qa.app.helpers.charts import (
     build_grouped_bar,
     build_grouped_bar_timeslice,
+    build_grouped_line,
 )
 from times_nz_internal_qa.app.helpers.data_processing import (
     get_agg_data,
@@ -104,24 +107,71 @@ def register_server_functions_for_explorer(
         # if using altair, must touch the nav input to ensure rerendering
         _ = getattr(inputs, f"{page_id}_nav")()
         selected_group = getattr(inputs, f"{chart_id}_group")()
+
+        df_filtered = _df_filtered()
+
+        # FIX #3 – prevent empty-data crash
+        if df_filtered is None or df_filtered.height == 0:
+            return None  # chart renderers will handle this
+
         return make_chart_data(
-            _df_filtered(),
+            df_filtered,
             base_cols,
             selected_group,
             scenarios(),
         )
 
+    toggle_mode = reactive.Value("bar")  # default
+
+    @reactive.effect
+    @reactive.event(getattr(inputs, f"{chart_id}_show_bar"))
+    def _set_to_bar():
+        toggle_mode.set("bar")
+
+    @reactive.effect
+    @reactive.event(getattr(inputs, f"{chart_id}_show_line"))
+    def _set_to_line():
+        toggle_mode.set("line")
+
     # DRAW CHARTS
     @outputs(id=f"{chart_id}_chart")
     @render_altair
-    def _chart():
-        # if using altair, must touch the nav input to ensure rerendering
-        # _ = getattr(inputs, f"{page_id}_nav")()
+    def _chart_unified():
         params = _chart_df()
+
+        # Early exit 1: no chart data at all
+        if not params or params["pdf"].empty:
+            return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
+                text="No data available"
+            )
+
+        pdf = params["pdf"]
+
+        # Early exit 2: no non-zero values → infeasible or meaningless for line charts
+        if pdf["Value"].sum() == 0:
+            return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
+                text="No meaningful values to plot"
+            )
+
+        # Handle chart types
         if chart_type == "timeslice":
-            return build_grouped_bar_timeslice(**params)
-        # default
-        return build_grouped_bar(**params)
+            # unpack the params - we don't use period_range so just send everything else
+            return build_grouped_bar_timeslice(
+                pdf=params["pdf"],
+                unit=params["unit"],
+                group_col=params["group_col"],
+                scen_list=params["scen_list"],
+            )
+
+        mode = toggle_mode()
+
+        if mode == "bar":
+            return build_grouped_bar(**params)
+
+        if mode == "line":
+            return build_grouped_line(**params)
+
+        return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(text="No chart")
 
     # Setup downloads
     download_function_name = f"{chart_id}_chart_data_download"
