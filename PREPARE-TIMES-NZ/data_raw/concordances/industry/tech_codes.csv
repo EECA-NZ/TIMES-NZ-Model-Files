@@ -3,7 +3,7 @@ Air Compressors,ACOMP,Electronics and Lights
 Boiler Systems,BOILR,Heat/Cooling Devices
 Burner (Direct Heat),BURNR,Heat/Cooling Devices
 Compressors,COMPR,Stationary Motors
-Electric Furnace,FURNC,Heat/Cooling Devices
+Electric Furnace,EFURNC,Heat/Cooling Devices
 Electric Motor,MOTOR,Stationary Motors
 Electronics,ELCTR,Electronics and Lights
 Fan Systems,FAN,Electronics and Lights
