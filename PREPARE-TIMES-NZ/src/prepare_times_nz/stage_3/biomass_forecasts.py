@@ -89,6 +89,7 @@ def expand_year_range(colname: str) -> list[int]:
         return []
 
 
+# pylint: disable=too-many-locals
 def aggregate_all_files(data: dict[str, pd.DataFrame]) -> pd.DataFrame:
     """Aggregate all biomass CSVs by file name (ignore classification)."""
     all_records = []
@@ -127,7 +128,7 @@ def aggregate_all_files(data: dict[str, pd.DataFrame]) -> pd.DataFrame:
             "BiomassType": row["BiomassType"],
             "Region": row["Region"],
             "Year": int(y),
-            "Value": float(row["Value"]) if pd.notna(row["Value"]) else 0.0,
+            "Value": float(row["Value"]) if pd.notna(row["Value"]) else None,
         }
         for _, row in long_df.iterrows()
         for y in expand_year_range(str(row["YearRange"]))
@@ -135,11 +136,29 @@ def aggregate_all_files(data: dict[str, pd.DataFrame]) -> pd.DataFrame:
 
     expanded_df = pd.DataFrame(expanded_records)
     expanded_df["Value"] = expanded_df["Value"] / 1e6
+
+    all_years = expanded_df["Year"].unique()
+    all_regions = expanded_df["Region"].unique()
+    all_types = expanded_df["BiomassType"].unique()
+
+    # Create a full MultiIndex
+    full_index = pd.MultiIndex.from_product(
+        [all_types, all_regions, all_years], names=["BiomassType", "Region", "Year"]
+    )
+
+    # Reindex → missing years become NaN
+    expanded_df = (
+        expanded_df.set_index(["BiomassType", "Region", "Year"])
+        .reindex(full_index)
+        .reset_index()
+    )
+
     expanded_df["Unit"] = "PJ"
 
     expanded_df = expanded_df.sort_values(
         by=["BiomassType", "Region", "Year"]
     ).reset_index(drop=True)
+
     logger.info("Converted all energy values to PJ and added Unit column.")
     logger.info("Expanded year ranges into %d rows total.", len(expanded_df))
     return expanded_df
