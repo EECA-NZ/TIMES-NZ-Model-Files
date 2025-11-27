@@ -34,7 +34,7 @@ FUTURE_COSTS_FILE: Path = (
 )
 
 # Constants for calculations
-START = 2025
+START = 2024
 INVCOST_0 = 5
 SCENARIO = ["Traditional", "Transformation"]
 
