@@ -314,7 +314,7 @@ def make_nzsteel_adjustments(input_df, nzsteel_techname="ELC_CoalCHP_GlenbrookSt
     df["Comm-IN"] = "COA"
     df["ACT_BND~FX"] = df["ACT_BND~2023"]
     df["ACT_BND~0"] = 5
-    df["NCAP_TLife"] = 100
+    df["NCAP_TLIFE"] = 100
 
     out = pd.concat([df, df_no_steel])
 
