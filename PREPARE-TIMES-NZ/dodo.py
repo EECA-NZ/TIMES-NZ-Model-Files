@@ -263,8 +263,8 @@ STAGE_4: dict[str, list[str]] = {
     # settings
     "create_settings": ["sys_settings/active_periods.csv"],
     # scenario files
+    "create_standard_scenarios": ["scen_carbon_prices/carbon_price_traditional.csv"],
     "create_dem_proj_files": ["scen_demand/driver_allocations.csv"],
-    "create_carbon_prices": ["scen_carbon_prices/carbon_price_traditional.csv"],
     "create_load_curves": ["scen_com_fr/com_fr_industry.csv"],
 }
 

@@ -20,7 +20,7 @@ Description = "The model base year. Used by several scripts for downstream proce
 # The ActivePDef, as set below, will select the relevant milestone years for use in this model
 # This means we are flexible on period definitions in pre-processing, but will only ever send one to the Veda files
 Description = "Model Period Definition. Will be used to select period definitions"
-ActivePDef = ["Detail_to_2030"]
+ActivePDef = ["Detail_to_2050"]
 
 [TimePeriods]
 TagName = "TimePeriods"
