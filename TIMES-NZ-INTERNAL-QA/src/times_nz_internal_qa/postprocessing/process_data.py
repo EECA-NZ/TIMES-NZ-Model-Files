@@ -238,11 +238,6 @@ def process_energy_demand(df):
     energy_commodities = pd.read_csv(COMMODITY_CONCORDANCES / "energy.csv")
 
     df = df[df["Process"].isin(demand_processes["Process"].unique())]
-
-    test = df[df["Process"] == "STEEL-ELC-EAF"]
-    test = test[test["Attribute"] == "VAR_FOut"]
-    print(test)
-
     df = df[df["Attribute"] == "VAR_FIn"]
 
     df = df.merge(demand_processes, on="Process", how="left")
@@ -280,9 +275,6 @@ def process_energy_demand(df):
     ]
 
     df = df[energy_demand_variables]
-
-    test = df[df["Process"] == "STEEL-ELC-EAF"]
-    print(test)
 
     save_data(df, "energy_demand.csv")
 
@@ -375,7 +367,6 @@ def process_energy_service_demand(df):
     # auxiliary production etc
     esd = esd.merge(demand_processes, on="Process", how="left")
 
-    # print(demand_processes)
     # we now need to identify the unit. We'll do this based on the commodity unit
     com_units = com_units[com_units["csets"] == "DEM"]
     com_units = com_units.rename(
