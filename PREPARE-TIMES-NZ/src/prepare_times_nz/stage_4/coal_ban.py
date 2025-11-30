@@ -8,7 +8,6 @@ Saves a single veda file to ingest as a UC
 """
 
 import pandas as pd
-from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
 
@@ -98,7 +97,7 @@ def create_ban_veda(df):
 
     # Standard parameters
     df["UC_N"] = "COAL-BAN-" + df["PSet_CO"]
-    df["Year"] = BASE_YEAR
+    df["Year"] = "2025"
     df["LimType"] = "LO"
     df["UC_RHST"] = "0"
     df["UC_RHST~0"] = "5"

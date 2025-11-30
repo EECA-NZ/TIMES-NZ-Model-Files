@@ -65,6 +65,9 @@ def create_newtech_process_df(_cfg: dict) -> pd.DataFrame:
             Comm_IN="INDWOD",
         )
         .drop_duplicates(subset=["TechName", "Comm_OUT"]),
+        make_filtered(df, "WH_LOW", "-ELC-BOILR-WH_LOW", "INDELC"),
+        make_filtered(df, "WH_LOW", "-WOD-BOILR-WH_LOW", "INDWOD"),
+        make_filtered(df, "SH_LOW", "-ELC-BOILR-SH_LOW", "INDLEC"),
         make_filtered(df, "PH_INT", "-ELC-SGHP-PH_INT", "INDELC"),
         make_filtered(df, "PH_INT", "-ELC-MVR-PH_INT", "INDELC"),
         make_filtered(df, "PH_LOW", "-ELC-PEF-PH_LOW", "INDELC"),
