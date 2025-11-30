@@ -139,7 +139,7 @@ TRA = ["bVk", "000_Units", "bVk"]
 # It might be better to remove this from the import_settings file below, and instead write these directly in here so future developers have fewer files to switch between
 [ImportSettings]
 
-Description = "Veda control import settings. Currently vintage bounds are disabled and dummy processes are enabled."
+Description = "Standard Veda control import settings."
 SheetName = "ImportSettings"
 TagName = "ImpSettings"
 
@@ -155,6 +155,21 @@ Attribute = ["ACTCOST", "ACTCOST"] # the activity cost of the dummy processes
 Pset_SET = ["IRE", "IRE"] # dummy processes are apparently defined as IRE
 Pset_PN = ["IMP*Z", "IMPDEMZ"] # separate costs for demand dummy variables, unclear why 
 AllRegions = [10000,10000000] # very high values
+
+[DisableDummyVariables]
+Description = "Disables activity of dummy variables. Exclude this table (or change to LO) if you want to solve with infeasibilities."
+SheetName = "ImportSettings"
+TagName = "TFM_INS"
+
+Attribute = ["ACTCOST", "ACTCOST"] # activity bound 
+LimType = ["UP", ""] # upper bound. Set blank for interp input
+Pset_SET = ["IRE", "IRE"] # dummy processes are apparently defined as IRE
+Pset_PN = ["IMP*Z", "IMP*Z"] # all variables
+# Here we give blank year (so starts at base) and forward extrapolation.
+Year = ["", "0"]
+# Limit = 0, and extrapolation = 5 (forward extrapolation)
+AllRegions = ["0", "5"]
+
 
 ###############################################################################
 # Default interpolation/extrapolation rules
