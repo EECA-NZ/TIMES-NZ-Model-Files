@@ -65,7 +65,7 @@ Electricity generation,ELC_WindOn_WhiteHill,White Hill,Wind,Onshore wind,Electri
 Electricity generation,ELC_Rankine_HuntlyUnits14,Huntly Units 1-4,Thermal,Rankine,Electricity generation,Electricity generation,Electricity generation,Electricity generation
 Electricity generation,ELC_HydRR_BranchRiver,Branch River (Argyle + Wairau),Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
 Electricity generation,ELC_GasCHP_FonterraWhareroa,Fonterra Dairy - Whareroa,Thermal,Natural gas cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation
-Electricity generation,ELC_CoalCHP_GlenbrookSteel,Glenbrook Steel,,,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_CoalCHP_GlenbrookSteel,Glenbrook Steel,Thermal,Coal Cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation
 Electricity generation,ELC_GasCHP_Kapuni,Kapuni,Thermal,Natural gas cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation
 Electricity generation,ELC_Geo_Kawerau,Kawerau,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
 Electricity generation,ELC_WoodCHP_Kinleith,Kinleith,Thermal,Wood Cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation

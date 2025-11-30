@@ -620,6 +620,25 @@ Demand,MINE-COA-BOILR-SH_LOW,MINE-SH_LOW,Industry,Mining,Heating/Cooling,"Low Te
 Demand,OTHR-WOD-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,PULP-WOD-BOILR-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,WOOD-WOD-BOILR-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,DARY-ELC-BOILR-WH_LOW,DARY-BOILR-WH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,DARY-ELC-BOILR-WH_LOW,DARY-HEATX-WH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,FOOD-ELC-BOILR-WH_LOW,FOOD-BOILR-WH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,MEAT-ELC-BOILR-WH_LOW,MEAT-BOILR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,MEAT-ELC-BOILR-WH_LOW,MEAT-HEATR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,STEEL-ELC-BOILR-WH_LOW,STEEL-BOILR-WH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,DARY-WOD-BOILR-WH_LOW,DARY-BOILR-WH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,DARY-WOD-BOILR-WH_LOW,DARY-HEATX-WH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,FOOD-WOD-BOILR-WH_LOW,FOOD-BOILR-WH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,MEAT-WOD-BOILR-WH_LOW,MEAT-BOILR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,MEAT-WOD-BOILR-WH_LOW,MEAT-HEATR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,STEEL-WOD-BOILR-WH_LOW,STEEL-BOILR-WH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,CHEM-ELC-BOILR-SH_LOW,CHEM-SH_LOW,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,CNST-ELC-BOILR-SH_LOW,CNST-SH_LOW,Industry,Construction,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,DARY-ELC-BOILR-SH_LOW,DARY-SH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,FOOD-ELC-BOILR-SH_LOW,FOOD-SH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,MINE-ELC-BOILR-SH_LOW,MINE-SH_LOW,Industry,Mining,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,OTHR-ELC-BOILR-SH_LOW,OTHR-SH_LOW,Industry,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,PULP-ELC-BOILR-SH_LOW,PULP-SH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,CHEM-ELC-SGHP-PH_INT,CHEM-HEATR-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
 Demand,CHEM-ELC-SGHP-PH_INT,CHEM-FURNC-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
 Demand,DARY-ELC-SGHP-PH_INT,DARY-BOILR-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)

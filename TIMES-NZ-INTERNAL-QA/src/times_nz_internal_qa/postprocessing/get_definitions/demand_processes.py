@@ -81,8 +81,6 @@ def get_industrial_demand_processes():
 
     df = pd.concat([df, df_new, newtech_patch]).drop_duplicates()
 
-    print(df)
-
     return df
 
 
