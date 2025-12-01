@@ -28,9 +28,11 @@ PRI_FILE_LOCATION = FINAL_DATA / "primary_energy.parquet"
 # SET FILTER/GROUP OPTIONS
 
 pri_filters = [
+    {"col": "FuelGroup", "label": "Fuel group"},
     {"col": "Fuel"},
-    {"col": "ProcessGroup"},
-    {"col": "ProcessName"},
+    {"col": "Renewable"},
+    {"col": "Imported"},
+    {"col": "FuelDetail", "label": "Fuel detail"},
 ]
 
 # we add fuel to main
@@ -59,7 +61,7 @@ pri_parameters = {
     "chart_id": "energy_prod",
     "sec_id": "energy-prod",
     "filters": pri_filters,
-    "section_title": "Primary energy production",
+    "section_title": "Total primary energy",
     "base_cols": base_cols,
     "group_options": pri_group_options,
 }

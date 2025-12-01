@@ -387,9 +387,6 @@ Demand,T_P_CBEVELC_HIGH,T_P_Car,Transport,Road Transport,Light vehicles,Light Pa
 Demand,T_C_CBEVELC_LOW,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
 Demand,T_C_CBEVELC_MED,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
 Demand,T_C_CBEVELC_HIGH,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_C_CHYBDSL_LOW,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Hybrid Vehicle,Hybrid Vehicle (Diesel)
-Demand,T_C_CHYBDSL_MED,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Hybrid Vehicle,Hybrid Vehicle (Diesel)
-Demand,T_C_CHYBDSL_HIGH,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Hybrid Vehicle,Hybrid Vehicle (Diesel)
 Demand,T_P_CFCH2R_LOW,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Hydrogen Vehicle,Hydrogen Fuel Cell
 Demand,T_P_CFCH2R_MED,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Hydrogen Vehicle,Hydrogen Fuel Cell
 Demand,T_P_CFCH2R_HIGH,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Hydrogen Vehicle,Hydrogen Fuel Cell
