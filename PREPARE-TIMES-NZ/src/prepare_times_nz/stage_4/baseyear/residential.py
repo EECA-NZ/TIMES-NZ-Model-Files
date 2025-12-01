@@ -61,8 +61,10 @@ def save_residential_veda_file(df, name, label, filepath=OUTPUT_DIR):
 # Main input data =--------------------------------------------------------------
 
 
-def get_residential_veda_table(df, input_map):
-    """convert input table to veda format"""
+def get_residential_veda_table(df, input_map, enable_biogas=True):
+    """convert input table to veda format
+    Option to add biogas to input topology for specific processes
+    """
     df = df.drop(columns="Unit")
     # we work wide - pivot
     index_vars = [col for col in df.columns if col not in ["Variable", "Value"]]
@@ -71,6 +73,25 @@ def get_residential_veda_table(df, input_map):
     df["CAP2ACT"] = CAP2ACT
     # shape output
     res_df = select_and_rename(df, input_map)
+
+    if enable_biogas:
+
+        # if a tech could use these fuels, we say it can also use biogas
+        replaceable_fuels = ["RESNGA"]
+
+        # all other parameters remain the same
+        biogas_df = res_df[res_df["Comm-IN"].isin(replaceable_fuels)]
+        # tech can use biogas
+        biogas_df["Comm-IN"] = "RESBIG"
+        # set the base activity for these to 0
+        biogas_df["ACT_BND"] = 0
+
+        # add to main table
+        res_df = pd.concat([res_df, biogas_df])
+
+        # sort for clearer understanding
+
+        res_df = res_df.sort_values(["TechName", "Comm-IN"])
 
     return res_df
 
