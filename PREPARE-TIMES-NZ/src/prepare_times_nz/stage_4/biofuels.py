@@ -147,7 +147,7 @@ def create_biofuel_supply_forecasts() -> pd.DataFrame:
     recoverability_df.columns = recoverability_df.columns.str.strip()
 
     supply_df["Value"] = supply_df["Value"].astype(float)
-    supply_df.loc[supply_df["Value"] <= 0, "Value"] = pd.NA
+    # supply_df.loc[supply_df["Value"] <= 0, "Value"] = pd.NA
 
     # Map Region to Island
     supply_df = supply_df.merge(region_map, on="Region", how="left")
