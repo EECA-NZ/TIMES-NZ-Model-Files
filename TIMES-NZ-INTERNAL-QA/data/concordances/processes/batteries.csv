@@ -1,0 +1,4 @@
+Process,TechnologyGroup,Technology
+ELC_BAT_2H,Utility-scale battery,Utility battery (2 hour)
+ELC_BAT_8H,Utility-scale battery,Utility battery (8 hour)
+ELC_BAT_DIST,Distributed battery,Distributed battery (2 hour)

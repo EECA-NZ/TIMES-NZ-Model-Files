@@ -4,6 +4,7 @@ Orchestrates each component of postprocessing
 
 from times_nz_internal_qa.postprocessing.define_data import main as define_data
 from times_nz_internal_qa.postprocessing.get_data import main as get_data
+from times_nz_internal_qa.postprocessing.package_outputs import main as package_outputs
 from times_nz_internal_qa.postprocessing.process_data import main as process_data
 
 # SWITCHES
@@ -23,6 +24,8 @@ def main():
         get_data()
     # this is required to produce the app input files
     process_data()
+    # package everything into zip for user downloads
+    package_outputs()
 
 
 if __name__ == "__main__":

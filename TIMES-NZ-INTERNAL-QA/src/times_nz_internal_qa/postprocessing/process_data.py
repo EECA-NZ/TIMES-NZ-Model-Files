@@ -178,6 +178,18 @@ def process_generation_by_timeslice(df):
     save_data(df, "generation_by_timeslice.csv")
 
 
+def process_batteries(df):
+    """
+    Docstring for process_batteries
+
+    :param df: Description
+    """
+    print(df)
+
+    battery_processes = pd.read_csv(PROCESS_CONCORDANCES / "batteries.csv")
+    print(battery_processes)
+
+
 def process_electricity_demand_by_timeslice(df):
     """
     Load full scenario data for `scenario_name`
