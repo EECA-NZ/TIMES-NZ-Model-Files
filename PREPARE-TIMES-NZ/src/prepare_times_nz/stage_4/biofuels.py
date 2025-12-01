@@ -248,8 +248,8 @@ def create_biofuel_supply_forecasts() -> pd.DataFrame:
     # Constant supply overrides
     supply_constants_all_years = {
         "MINMNCWST01": {
-            "NI": 1.721,
-            "SI": 0.514,
+            "NI": 3.877,
+            "SI": 1.158,
         },  # split based on population 77% NI, 23% SI
         "MINANMMNR00": {
             "NI": 4.234,
