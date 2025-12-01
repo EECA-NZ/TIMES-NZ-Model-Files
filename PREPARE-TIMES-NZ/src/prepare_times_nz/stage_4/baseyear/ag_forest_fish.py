@@ -5,6 +5,10 @@ And a few other basic inputs defined in the constants section."""
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_4.common import (
+    add_extra_input_to_topology,
+    get_processes_with_input_commodity,
+)
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
 from prepare_times_nz.utilities.data_in_out import _save_data
@@ -63,7 +67,7 @@ def save_agr_veda_file(df, name, label, filepath=OUTPUT_DIR):
 # Main input data =--------------------------------------------------------------
 
 
-def get_agr_veda_table(df, input_map):
+def get_agr_veda_table(df, input_map, enable_biogas=True):
     """convert input table to veda format"""
     df = df.drop(columns="Unit")
     # we work wide - pivot
@@ -73,6 +77,11 @@ def get_agr_veda_table(df, input_map):
     df["CAP2ACT"] = CAP2ACT
     # shape output
     agr_df = select_and_rename(df, input_map)
+
+    if enable_biogas:
+        agr_nga_processes = get_processes_with_input_commodity(agr_df, "AGRNGA")
+        agr_df = add_extra_input_to_topology(agr_df, agr_nga_processes, "AGRBIG")
+
     return agr_df
 
 

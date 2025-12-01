@@ -5,6 +5,10 @@ And a few other basic inputs defined in the constants section."""
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_4.common import (
+    add_extra_input_to_topology,
+    get_processes_with_input_commodity,
+)
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
 from prepare_times_nz.utilities.helpers import select_and_rename
@@ -75,23 +79,9 @@ def get_residential_veda_table(df, input_map, enable_biogas=True):
     res_df = select_and_rename(df, input_map)
 
     if enable_biogas:
-
-        # if a tech could use these fuels, we say it can also use biogas
-        replaceable_fuels = ["RESNGA"]
-
-        # all other parameters remain the same
-        biogas_df = res_df[res_df["Comm-IN"].isin(replaceable_fuels)]
-        # tech can use biogas
-        biogas_df["Comm-IN"] = "RESBIG"
-        # set the base activity for these to 0
-        biogas_df["ACT_BND"] = 0
-
-        # add to main table
-        res_df = pd.concat([res_df, biogas_df])
-
-        # sort for clearer understanding
-
-        res_df = res_df.sort_values(["TechName", "Comm-IN"])
+        # if a tech could use nga, we say it can also use biogas
+        res_nga_processes = get_processes_with_input_commodity(res_df, "RESNGA")
+        res_df = add_extra_input_to_topology(res_df, res_nga_processes, "RESBIG")
 
     return res_df
 
