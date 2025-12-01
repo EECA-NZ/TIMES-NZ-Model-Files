@@ -50,7 +50,7 @@ def main():
             # default
             create_discount_rate_table("*", 0.1),
             # electricity too
-            create_discount_rate_table("*", 0.1, "ELC"),
+            create_discount_rate_table("ELC*", 0.1, "ELE"),
             # public (schools/healthcare)
             create_discount_rate_table("C_EDU*, C_HLTH*", 0.08),
         ]
@@ -67,9 +67,9 @@ def main():
             # default
             create_discount_rate_table("*", 0.08),
             # all green investments (electricity/biomass demand devices)
-            create_discount_rate_table("*ELC* *WOD*", 0.05),
+            create_discount_rate_table("*ELC*, *WOD*", 0.05),
             # and all elec plants
-            create_discount_rate_table("*", 0.05, "ELC"),
+            create_discount_rate_table("ELC*", 0.05, "ELE"),
             # public (schools/healthcare)
             create_discount_rate_table("C_EDU*, C_HLTH*", 0.02),
         ]
