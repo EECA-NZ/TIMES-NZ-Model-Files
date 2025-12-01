@@ -10,6 +10,9 @@ Like in a new subres,
 You may wish to enhance this method's ability to categorise the new additions
 """
 
+from times_nz_internal_qa.postprocessing.get_definitions.closure_processes import (
+    main as closures,
+)
 from times_nz_internal_qa.postprocessing.get_definitions.demand_processes import (
     main as demand_processes,
 )
@@ -45,6 +48,8 @@ def main():
     elec_processes()
     demand_processes()
     distribution_processes()
+    # closure processes
+    closures()
 
 
 if __name__ == "__main__":

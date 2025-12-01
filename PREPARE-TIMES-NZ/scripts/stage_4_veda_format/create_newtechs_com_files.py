@@ -12,7 +12,7 @@ from prepare_times_nz.stage_2.commercial.common import (
     COMMERCIAL_CONCORDANCES,
 )
 from prepare_times_nz.utilities.deflator import deflate_data
-from prepare_times_nz.utilities.filepaths import STAGE_4_DATA
+from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
 from prepare_times_nz.utilities.logger_setup import logger
 
 # ---------------------------------------------------------------------
@@ -63,6 +63,32 @@ def create_newtech_process_df(cfg: dict) -> pd.DataFrame:
         if col not in df.columns:
             df[col] = ""
     return df[cfg["Columns"]]
+
+
+def get_baseyear_com_processes():
+    """
+    Reads the baseyear commercial demand
+    Returns a list of all baseyear processes
+    These will be removed from the newtechs
+    """
+
+    df = pd.read_csv(STAGE_2_DATA / "commercial/baseyear_commercial_demand.csv")
+
+    base_processes = df["Process"].unique().tolist()
+
+    return base_processes
+
+
+def remove_baseyear_processes(df, process_var="TechName"):
+    """
+    Takes an input dataframe with process_var (defaults to TechName)
+    From this process_var, removes all base year processes
+    and returns the data
+    """
+
+    baseyear_processes = get_baseyear_com_processes()
+    df = df[~df[process_var].isin(baseyear_processes)]
+    return df
 
 
 def create_newtech_process_parameters_df(cfg: dict) -> pd.DataFrame:
@@ -177,6 +203,8 @@ def main() -> None:
         {"Columns": ["Sets", "TechName", "Tact", "Tcap", "TsLvl"]}
     )
 
+    processes = remove_baseyear_processes(processes)
+
     parameters = create_newtech_process_parameters_df(
         {
             "Columns": [
@@ -201,6 +229,10 @@ def main() -> None:
     )
 
     process_definitions = create_newtech_process_defintions({})
+
+    processes = remove_baseyear_processes(processes)
+    parameters = remove_baseyear_processes(parameters)
+    process_definitions = remove_baseyear_processes(process_definitions, "Process")
 
     processes.to_csv(OUTPUT_LOCATION / "future_commercial_processes.csv", index=False)
     parameters.to_csv(OUTPUT_LOCATION / "future_commercial_parameters.csv", index=False)

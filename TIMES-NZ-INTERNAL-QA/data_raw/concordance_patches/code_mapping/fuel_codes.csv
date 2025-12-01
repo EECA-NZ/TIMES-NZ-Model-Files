@@ -1,4 +1,10 @@
 CommodityCode,Commodity
+AGRWST,Agricultural waste
+ANMMNR,Animal manure
+MNCWST,Municipal waste
+OSWOD,Wood residuals (onsite)
+INDOSDWOD,Wood residuals (onsite industrial)
+WODWST,Wood waste
 BDSL,Biodiesel
 COA,Coal
 DID,Drop-in Diesel

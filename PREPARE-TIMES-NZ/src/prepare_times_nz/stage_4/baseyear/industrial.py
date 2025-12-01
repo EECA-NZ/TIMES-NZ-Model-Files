@@ -8,6 +8,10 @@ import pandas as pd
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
 from prepare_times_nz.stage_2.industry.common import _save_data
+from prepare_times_nz.stage_4.common import (
+    add_extra_input_to_topology,
+    get_processes_with_input_commodity,
+)
 from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
 from prepare_times_nz.utilities.helpers import select_and_rename
 
@@ -63,7 +67,7 @@ def save_industry_veda_file(df, name, label, filepath=OUTPUT_DIR):
 # Main input data =--------------------------------------------------------------
 
 
-def get_industry_veda_table(df, input_map):
+def get_industry_veda_table(df, input_map, enable_biogas=True):
     """convert input table to veda format"""
     df = df.drop(columns="Unit")
     # we work wide - pivot
@@ -76,6 +80,14 @@ def get_industry_veda_table(df, input_map):
     # set infinite life if blank life
     # we should probably change default t_life in the model somewhere
     ind_df["Life"] = ind_df["Life"].fillna(100)
+
+    if enable_biogas:
+        ind_nga_processes = get_processes_with_input_commodity(ind_df, "INDNGA")
+        ind_df = add_extra_input_to_topology(ind_df, ind_nga_processes, "INDBIG")
+
+        ind_lpg_processes = get_processes_with_input_commodity(ind_df, "INDLPG")
+        ind_df = add_extra_input_to_topology(ind_df, ind_lpg_processes, "INDBIG")
+
     return ind_df
 
 

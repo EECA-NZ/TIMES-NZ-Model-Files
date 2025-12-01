@@ -1,0 +1,3 @@
+﻿ProcessGroup,Process,CommodityOut,SectorGroup,Sector,EnduseGroup,EndUse,TechnologyGroup,Technology
+Demand,NEWTECH,NEWTECH-DEM,Commercial,NewTechs,NewTechs,NewTechs,NewTechs,NewTechs
+Demand,STEEL-ELC-EAF,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Iron & Steel,Recycled Steel,Heat/Cooling Devices,Electric Arc Furnace (EAF)

@@ -5,6 +5,10 @@ And a few other basic inputs defined in the constants section."""
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_4.common import (
+    add_extra_input_to_topology,
+    get_processes_with_input_commodity,
+)
 
 # _save_data should maybe go somewhere else if we're going to call it all the time
 from prepare_times_nz.utilities.data_in_out import _save_data
@@ -58,8 +62,10 @@ def save_commercial_veda_file(df, name, label, filepath=OUTPUT_DIR):
 # Main input data =--------------------------------------------------------------
 
 
-def get_commercial_veda_table(df, input_map):
-    """convert input table to veda format"""
+def get_commercial_veda_table(df, input_map, enable_biogas=True):
+    """convert input table to veda format
+    Option to add biogas to input topology for specific processes
+    """
     df = df.drop(columns="Unit")
     # we work wide - pivot
     index_vars = [col for col in df.columns if col not in ["Variable", "Value"]]
@@ -68,6 +74,13 @@ def get_commercial_veda_table(df, input_map):
     df["CAP2ACT"] = CAP2ACT
     # shape output
     com_df = select_and_rename(df, input_map)
+
+    if enable_biogas:
+        # if a tech could use these fuels, we say it can also use biogas
+
+        com_nga_processes = get_processes_with_input_commodity(com_df, "COMNGA")
+        com_df = add_extra_input_to_topology(com_df, com_nga_processes, "COMBIG")
+
     return com_df
 
 

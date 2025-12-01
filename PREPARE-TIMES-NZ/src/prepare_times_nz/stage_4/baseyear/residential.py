@@ -5,6 +5,10 @@ And a few other basic inputs defined in the constants section."""
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_4.common import (
+    add_extra_input_to_topology,
+    get_processes_with_input_commodity,
+)
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
 from prepare_times_nz.utilities.helpers import select_and_rename
@@ -61,8 +65,10 @@ def save_residential_veda_file(df, name, label, filepath=OUTPUT_DIR):
 # Main input data =--------------------------------------------------------------
 
 
-def get_residential_veda_table(df, input_map):
-    """convert input table to veda format"""
+def get_residential_veda_table(df, input_map, enable_biogas=True):
+    """convert input table to veda format
+    Option to add biogas to input topology for specific processes
+    """
     df = df.drop(columns="Unit")
     # we work wide - pivot
     index_vars = [col for col in df.columns if col not in ["Variable", "Value"]]
@@ -71,6 +77,11 @@ def get_residential_veda_table(df, input_map):
     df["CAP2ACT"] = CAP2ACT
     # shape output
     res_df = select_and_rename(df, input_map)
+
+    if enable_biogas:
+        # if a tech could use nga, we say it can also use biogas
+        res_nga_processes = get_processes_with_input_commodity(res_df, "RESNGA")
+        res_df = add_extra_input_to_topology(res_df, res_nga_processes, "RESBIG")
 
     return res_df
 

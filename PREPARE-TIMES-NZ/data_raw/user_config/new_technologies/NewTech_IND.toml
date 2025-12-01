@@ -17,3 +17,135 @@ Description = "Defines technical parameters for future industry technologies"
 SheetName = "IND_NEW"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_ind/future_industry_parameters.csv"
+
+
+###############################################################################
+# Electric Arc Furnace
+###############################################################################
+
+
+[EAFProcessDefinitions]
+Description = "Declares new process to represent EAF (Electric Arc Furnace). Note that other settings assume this is available."
+SheetName = "IND_EAF"
+TagName = "FI_Process"
+# Data 
+Sets = "DMD"
+TechName = "STEEL-ELC-EAF"
+Tact = "PJ"
+Tcap = "GW"
+TsLvl = "DAYNITE"
+
+[EAFCommodityDefinitions]
+Description = "Declares new commodity for recycled steel from EAF"
+SheetName = "IND_EAF"
+TagName = "FI_Comm"
+# Data 
+CommName = "STEEL-FURNC-RSTEEL"
+Csets = "DEM"
+Unit = "PJ"
+CTSLvl = "DAYNITE"
+
+[EAFParameters]
+Description = "Specific settings for EAF, including install dates/size"
+SheetName = "IND_EAF"
+TagName = "FI_T"
+# Data 
+TechName = "STEEL-ELC-EAF"
+Comm-IN = "INDELC"
+Comm-Out = "STEEL-FURNC-RSTEEL"
+Start = 2026
+'NCAP_PASTI~2027' = 0.03
+EFF = 1
+Life = 50
+CAP2ACT = 31.536
+
+
+# Demand projections for the EAF and activity reductions for cogen go in scenario files
+# NOTE: demand reductions for other steel activities are already baked into standard demand scenarios
+
+
+[EAFDemandProjectionsTraditional]
+Description = "Traditional scenario EAF electricity demand projections"
+WorkBookName = "SuppXLS/Scen_EAFDemand_Traditional"
+SheetName = "EAF"
+TagName = "TFM_INS-TS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/eaf_demand_traditional.csv"
+
+
+[EAFCogenReductionsTraditional]
+Description = "Traditional scenario EAF cogen output reductions"
+WorkBookName = "SuppXLS/Scen_EAFDemand_Traditional"
+SheetName = "EAF"
+TagName = "TFM_INS-TS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/steel_cogen_traditional.csv"
+
+
+
+[EAFDemandProjectionsTransformation]
+Description = "Transformation scenario EAF electricity demand projections"
+WorkBookName = "SuppXLS/Scen_EAFDemand_Transformation"
+SheetName = "EAF"
+TagName = "TFM_INS-TS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/eaf_demand_transformation.csv"
+
+
+[EAFCogenReductionsTransformation]
+Description = "Transformation scenario EAF cogen output reductions"
+WorkBookName = "SuppXLS/Scen_EAFDemand_Transformation"
+SheetName = "EAF"
+TagName = "TFM_INS-TS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/steel_cogen_transformation.csv"
+
+
+
+###############################################################################
+# New techs 
+# This defines an abstract "NewTech" scenario, including subres components
+# the electricity demand for this sector allows us to create an abstract electricity sink
+# for some scenarios 
+###############################################################################
+
+# These are applied to the subres here but are only built when we set demand for the NEWTECH-DEM commodity
+
+
+[NewDemandProcessDefinitions]
+Description = "Declares new process to represent 'New demand', representing additional electricity load in some scenarios."
+SheetName = "IND_NEWDEM"
+TagName = "FI_Process"
+# Data 
+Sets = "DMD"
+TechName = "NEWTECH"
+Tact = "PJ"
+Tcap = "GW"
+TsLvl = "DAYNITE"
+
+[NewDemandCommodityDefinitions]
+Description = "Declares new commodity for 'New demand'"
+SheetName = "IND_NEWDEM"
+TagName = "FI_Comm"
+# Data 
+CommName = "NEWTECH-DEM"
+Csets = "DEM"
+Unit = "PJ"
+CTSLvl = "DAYNITE"
+
+[NewDemandParameters]
+Description = "Basic parameters for 'New demand'. Note that these are very minimal: this is effectively an industrial electricity sink, defined in newtech demand scenario"
+SheetName = "IND_NEWDEM"
+TagName = "FI_T"
+# Data 
+TechName = "NEWTECH"
+Comm-IN = "INDELC"
+Comm-Out = "NEWTECH-DEM"
+EFF = 1
+Start = 2026
+CAP2ACT = 31.536
+
+
+[NewDemandCommodityProjections]
+Description = "Commodity projections for new demand. Note these go into seperate SUPPXLS (scenario) file."
+WorkBookName = "SuppXLS/Scen_NewTechDemand"
+SheetName = "NewTech"
+TagName = "TFM_INS-TS"
+
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/newtech_demand.csv"

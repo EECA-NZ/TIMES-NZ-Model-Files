@@ -121,8 +121,9 @@ Demand,STEEL-LIGHT-LIGHT,Industry,Iron & Steel,Lighting
 Demand,STEEL-FDSTK-FDSTK,Industry,Iron & Steel,Feedstock
 Demand,STEEL-BOILR-WH_LOW,Industry,Iron & Steel,"Low Temperature Heat (<100 C), Water Heating"
 Demand,STEEL-BURNR-PH_INT,Industry,Iron & Steel,"Intermediate Heat (100-300 C), Process Requirements"
-Demand,STEEL-FURNC-ISTEEL,Industry,Iron & Steel,Iron and Steel Manufacturing
+Demand,STEEL-EFURNC-ISTEEL,Industry,Iron & Steel,Iron and Steel Manufacturing
 Demand,STEEL-FURNC-PH_HIGH,Industry,Iron & Steel,"High Temperature Heat (>300 C), Process Requirements"
+Demand,STEEL-FURNC-ISTEEL,Industry,Iron & Steel,Iron and Steel Manufacturing
 Demand,STEEL-IOVEN-PH_HIGH,Industry,Iron & Steel,"High Temperature Heat (>300 C), Process Requirements"
 Demand,STEEL-FRIDG-FRIDG,Industry,Iron & Steel,Refrigeration
 Demand,STEEL-HEATR-PH_LOW,Industry,Iron & Steel,"Low Temperature Heat (<100 C), Process Requirements"
@@ -154,6 +155,7 @@ Demand,OTHR-LIGHT-LIGHT,Industry,Other,Lighting
 Demand,OTHR-BOILR-PH_INT,Industry,Other,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,OTHR-BOILR-PH_LOW,Industry,Other,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,OTHR-SH_LOW,Industry,Other,"Low Temperature Heat (<100 C), Space Heating"
+Demand,OTHR-EFURNC-PH_HIGH,Industry,Other,"High Temperature Heat (>300 C), Process Requirements"
 Demand,OTHR-FURNC-PH_HIGH,Industry,Other,"High Temperature Heat (>300 C), Process Requirements"
 Demand,OTHR-HEATR-PH_INT,Industry,Other,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,OTHR-HEATR-PH_LOW,Industry,Other,"Low Temperature Heat (<100 C), Process Requirements"
@@ -188,8 +190,10 @@ Demand,WOOD-HEATX-PH_INT,Industry,Wood Products,"Intermediate Heat (100-300 C), 
 Demand,WOOD-HPPH-PH_LOW,Industry,Wood Products,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,WOOD-MOTOR-MTV_STA,Industry,Wood Products,"Motive Power, Stationary"
 Demand,WOOD-PUMP-PUMP,Industry,Wood Products,Pumping
-Demand,ALUM-FURNC-PH_HIGH,Industry,Aluminium,"High Temperature Heat (>300 C), Process Requirements"
+Demand,ALUM-EFURNC-PH_HIGH,Industry,Aluminium,"High Temperature Heat (>300 C), Process Requirements"
 Demand,MINE-SH_LOW,Industry,Mining,"Low Temperature Heat (<100 C), Space Heating"
+Demand,NEWTECH-DEM,Commercial,NewTechs,NewTechs
+Demand,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Recycled Steel
 Demand,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Irrigation
 Demand,ADCF-LT,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Lighting
 Demand,ADCF-RFGR,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Refrigeration

@@ -62,7 +62,7 @@ def deflate_value(current_year, base_year, current_value, method="cpi"):
     idx_base = idx_df.loc[idx_df["Year"] == base_year, idx_col]
 
     if idx_cur.empty or idx_base.empty or pd.isna(current_value):
-        logging.warning(
+        logging.debug(
             "%s missing for %s->%s; returning NaN", label, current_year, base_year
         )
         return np.nan

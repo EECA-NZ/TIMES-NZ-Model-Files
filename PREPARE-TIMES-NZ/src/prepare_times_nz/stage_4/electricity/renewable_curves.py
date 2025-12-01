@@ -93,7 +93,9 @@ def generate_baseload_file():
     # labelling
     df["NI"] = df["CapacityFactor"]
     df["SI"] = df["CapacityFactor"]
-    df["LimType"] = "FX"
+
+    # everything fixed, except coalchp, because we're curving this off for EAF
+    df["LimType"] = np.where(df["Tech_TIMES"] == "CoalCHP", "UP", "FX")
     df["Attribute"] = "NCAP_AF"
 
     # pset generation

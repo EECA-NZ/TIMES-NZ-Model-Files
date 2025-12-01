@@ -60,23 +60,22 @@ def check_process_coverage(df, scenario_name):
     dist_processes = pd.read_csv(PROCESS_CONCORDANCES / "distribution.csv")
     dummy_processes = pd.read_csv(PROCESS_CONCORDANCES / "dummies.csv")
     production_processes = pd.read_csv(PROCESS_CONCORDANCES / "production.csv")
+    closure_processes = pd.read_csv(PROCESS_CONCORDANCES / "closures.csv")
 
     # remove non-process data
     df = df[df["Process"] != "-"]
     # remove identified demand processes
     df = df[~df["Process"].isin(demand_processes["Process"].unique())]
-
     # remove identified elec processes
     df = df[~df["Process"].isin(elec_processes["Process"].unique())]
-
     # remove identified distribution processes
     df = df[~df["Process"].isin(dist_processes["Process"].unique())]
-
     # dummies
     df = df[~df["Process"].isin(dummy_processes["Process"].unique())]
-
     # production
     df = df[~df["Process"].isin(production_processes["Process"].unique())]
+    # closures
+    df = df[~df["Process"].isin(closure_processes["Process"].unique())]
 
     test_coverage(df, "Process", scenario_name=scenario_name)
 

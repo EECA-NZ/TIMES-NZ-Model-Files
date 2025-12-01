@@ -20,6 +20,7 @@ from prepare_times_nz.stage_4.baseyear.transport import (
 )
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
+    ASSUMPTIONS,
     CONCORDANCES,
     DATA_RAW,
     STAGE_3_DATA,
@@ -290,6 +291,28 @@ def get_gdp_index():
     return df
 
 
+def get_nzsteel_adjustments():
+    """
+    We have created a custom index called IND_STEEL_EAF_DMD
+    This custom index applies to base commodities which will be
+    replaced by the EAF
+
+    Here we effectively just read in the assumptions and label
+    These demand assumptions need to align with other EAF inputs
+
+    2026 for the initial construction,
+    and 2036 for full construction in transformation scenario
+    """
+
+    df = pd.read_csv(ASSUMPTIONS / "demand_projections/nzsteel_demand_adjustments.csv")
+
+    df["Region"] = "NI"
+    df["Driver"] = "IND_STEEL_EAF_DMD"
+
+    df = df[["Region", "Driver", "Scenario", "Year", "Index"]]
+    return df
+
+
 def get_all_demand_indices():
     """
     We want every possible index in the same table
@@ -305,8 +328,9 @@ def get_all_demand_indices():
     tra = get_transport_indexes()
     pop = get_population_index()
     gdp = get_gdp_index()
+    steel = get_nzsteel_adjustments()
 
-    df = pd.concat([ind, dc, agr, tra, gdp, pop])
+    df = pd.concat([ind, dc, agr, tra, gdp, pop, steel])
 
     return df
 

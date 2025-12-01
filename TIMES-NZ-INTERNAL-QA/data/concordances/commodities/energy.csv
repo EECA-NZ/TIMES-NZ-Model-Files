@@ -1,4 +1,6 @@
 Commodity,Fuel,CommodityGroup
+AGRAGRWST,Agricultural waste,Energy
+AGRANMMNR,Animal manure,Energy
 AGRBDSL,Biodiesel,Energy
 AGRBIG,Biogas,Energy
 AGRCOA,Coal,Energy
@@ -10,18 +12,26 @@ AGRFOL,Fuel oil,Energy
 AGRGEO,Geothermal,Energy
 AGRH2R,Hydrogen,Energy
 AGRHYD,Hydro,Energy
+AGRINDOSDWOD,Wood residuals (onsite industrial),Energy
 AGRJET,Jet fuel,Energy
 AGRLNG,LNG,Energy
 AGRLPG,LPG,Energy
+AGRMNCWST,Municipal waste,Energy
 AGRNGA,Natural gas,Energy
+AGROSWOD,Wood residuals (onsite),Energy
 AGRPET,Petrol,Energy
 AGRPLT,Wood Pellet,Energy
 AGRSOL,Solar,Energy
 AGRWIN,Wind,Energy
 AGRWOD,Wood,Energy
+AGRWODWST,Wood waste,Energy
+AGRWST,Agricultural waste,Energy
+ANMMNR,Animal manure,Energy
 BDSL,Biodiesel,Energy
 BIG,Biogas,Energy
 COA,Coal,Energy
+COMAGRWST,Agricultural waste,Energy
+COMANMMNR,Animal manure,Energy
 COMBDSL,Biodiesel,Energy
 COMBIG,Biogas,Energy
 COMCOA,Coal,Energy
@@ -33,19 +43,25 @@ COMFOL,Fuel oil,Energy
 COMGEO,Geothermal,Energy
 COMH2R,Hydrogen,Energy
 COMHYD,Hydro,Energy
+COMINDOSDWOD,Wood residuals (onsite industrial),Energy
 COMJET,Jet fuel,Energy
 COMLNG,LNG,Energy
 COMLPG,LPG,Energy
+COMMNCWST,Municipal waste,Energy
 COMNGA,Natural gas,Energy
+COMOSWOD,Wood residuals (onsite),Energy
 COMPET,Petrol,Energy
 COMPLT,Wood Pellet,Energy
 COMSOL,Solar,Energy
 COMWIN,Wind,Energy
 COMWOD,Wood,Energy
+COMWODWST,Wood waste,Energy
 DID,Drop-in Diesel,Energy
 DIJ,Drop-in Jet fuel,Energy
 DSL,Diesel,Energy
 ELC,Electricity,Energy
+ELCAGRWST,Agricultural waste,Energy
+ELCANMMNR,Animal manure,Energy
 ELCBDSL,Biodiesel,Energy
 ELCBIG,Biogas,Energy
 ELCCOA,Coal,Energy
@@ -59,19 +75,25 @@ ELCGEO,Geothermal,Energy
 ELCH2R,Hydrogen,Energy
 ELCHV,Electricity,Energy
 ELCHYD,Hydro,Energy
+ELCINDOSDWOD,Wood residuals (onsite industrial),Energy
 ELCJET,Jet fuel,Energy
 ELCLNG,LNG,Energy
 ELCLPG,LPG,Energy
+ELCMNCWST,Municipal waste,Energy
 ELCNGA,Natural gas,Energy
+ELCOSWOD,Wood residuals (onsite),Energy
 ELCPET,Petrol,Energy
 ELCPLT,Wood Pellet,Energy
 ELCSOL,Solar,Energy
 ELCWIN,Wind,Energy
 ELCWOD,Wood,Energy
+ELCWODWST,Wood waste,Energy
 FOL,Fuel oil,Energy
 GEO,Geothermal,Energy
 H2R,Hydrogen,Energy
 HYD,Hydro,Energy
+INDAGRWST,Agricultural waste,Energy
+INDANMMNR,Animal manure,Energy
 INDBDSL,Biodiesel,Energy
 INDBIG,Biogas,Energy
 INDCOA,Coal,Energy
@@ -83,21 +105,30 @@ INDFOL,Fuel oil,Energy
 INDGEO,Geothermal,Energy
 INDH2R,Hydrogen,Energy
 INDHYD,Hydro,Energy
+INDINDOSDWOD,Wood residuals (onsite industrial),Energy
 INDJET,Jet fuel,Energy
 INDLNG,LNG,Energy
 INDLPG,LPG,Energy
+INDMNCWST,Municipal waste,Energy
 INDNGA,Natural gas,Energy
+INDOSDWOD,Wood residuals (onsite industrial),Energy
+INDOSWOD,Wood residuals (onsite),Energy
 INDPET,Petrol,Energy
 INDPLT,Wood Pellet,Energy
 INDSOL,Solar,Energy
 INDWIN,Wind,Energy
 INDWOD,Wood,Energy
+INDWODWST,Wood waste,Energy
 JET,Jet fuel,Energy
 LNG,LNG,Energy
 LPG,LPG,Energy
+MNCWST,Municipal waste,Energy
 NGA,Natural gas,Energy
+OSWOD,Wood residuals (onsite),Energy
 PET,Petrol,Energy
 PLT,Wood Pellet,Energy
+RESAGRWST,Agricultural waste,Energy
+RESANMMNR,Animal manure,Energy
 RESBDSL,Biodiesel,Energy
 RESBIG,Biogas,Energy
 RESCOA,Coal,Energy
@@ -109,16 +140,22 @@ RESFOL,Fuel oil,Energy
 RESGEO,Geothermal,Energy
 RESH2R,Hydrogen,Energy
 RESHYD,Hydro,Energy
+RESINDOSDWOD,Wood residuals (onsite industrial),Energy
 RESJET,Jet fuel,Energy
 RESLNG,LNG,Energy
 RESLPG,LPG,Energy
+RESMNCWST,Municipal waste,Energy
 RESNGA,Natural gas,Energy
+RESOSWOD,Wood residuals (onsite),Energy
 RESPET,Petrol,Energy
 RESPLT,Wood Pellet,Energy
 RESSOL,Solar,Energy
 RESWIN,Wind,Energy
 RESWOD,Wood,Energy
+RESWODWST,Wood waste,Energy
 SOL,Solar,Energy
+TRAAGRWST,Agricultural waste,Energy
+TRAANMMNR,Animal manure,Energy
 TRABDSL,Biodiesel,Energy
 TRABIG,Biogas,Energy
 TRACOA,Coal,Energy
@@ -130,14 +167,19 @@ TRAFOL,Fuel oil,Energy
 TRAGEO,Geothermal,Energy
 TRAH2R,Hydrogen,Energy
 TRAHYD,Hydro,Energy
+TRAINDOSDWOD,Wood residuals (onsite industrial),Energy
 TRAJET,Jet fuel,Energy
 TRALNG,LNG,Energy
 TRALPG,LPG,Energy
+TRAMNCWST,Municipal waste,Energy
 TRANGA,Natural gas,Energy
+TRAOSWOD,Wood residuals (onsite),Energy
 TRAPET,Petrol,Energy
 TRAPLT,Wood Pellet,Energy
 TRASOL,Solar,Energy
 TRAWIN,Wind,Energy
 TRAWOD,Wood,Energy
+TRAWODWST,Wood waste,Energy
 WIN,Wind,Energy
 WOD,Wood,Energy
+WODWST,Wood waste,Energy
