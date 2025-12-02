@@ -184,10 +184,36 @@ def process_batteries(df):
 
     :param df: Description
     """
-    print(df)
 
     battery_processes = pd.read_csv(PROCESS_CONCORDANCES / "batteries.csv")
-    print(battery_processes)
+
+    df = df[df["Process"].isin(battery_processes["Process"])]
+    df = df.merge(battery_processes, on="Process", how="left")
+
+    df = df.rename(columns={"PV": "Value"})
+
+    df_cap = df[df["Attribute"] == "VAR_Cap"].copy()
+    df_cap["Variable"] = "Capacity"
+    df_cap["Unit"] = "GW"
+
+    battery_variables = [
+        "Scenario",
+        "TechnologyGroup",
+        "Technology",
+        "Region",
+        "Period",
+        "TimeSlice",
+        "Vintage",
+        "Variable",
+        "Unit",
+        "Value",
+    ]
+    df = pd.concat([df_cap])
+
+    df = df.reset_index()
+
+    df = df[battery_variables]
+    save_data(df, "batteries.csv")
 
 
 def process_electricity_demand_by_timeslice(df):
@@ -213,6 +239,7 @@ def process_electricity_demand_by_timeslice(df):
 
     # add year fractions
     df = df.merge(yrfr, on="TimeSlice", how="left")
+    df["Unit"] = "GW"
 
     # check annual timeslice methods
 
@@ -541,6 +568,8 @@ def main():
     process_emissions(df)
     process_generation_by_timeslice(df)
     process_electricity_demand_by_timeslice(df)
+
+    process_batteries(df)
 
     get_esd_by_timeslice()
 
