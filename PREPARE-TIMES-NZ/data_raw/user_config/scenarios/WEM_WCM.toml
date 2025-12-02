@@ -33,7 +33,7 @@ SheetName = "WCM"
 TagName = "TFM_INS"
 Attribute = ["COM_PKRSV","COM_PKRSV"]
 Year = [2023,0] # extrapolate
-NI = [0.05,5] # extrapoloate
+NI = [0.05,5] # 5%, extrapolate
 CSet_CN = ["ELC", "ELC"]
 
 
