@@ -49,7 +49,6 @@ DELIVERY_COST_ASSUMPTIONS = {
     # these are NZDm/PJ or NZD/GJ
     # anything not listed is assumed 0 (incl LPG)
     "RESNGA": 25,
-    "RESBIG": 9.35,
     "RESDSL": 0.92,
     "RESPET": 0.92,
     "RESWOD": 10,
