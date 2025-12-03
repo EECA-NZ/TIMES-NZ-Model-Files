@@ -28,12 +28,12 @@ AllRegions = [1]
 CSet_CN = "ELC"
 
 [PeakConstraintNIMargin]
-Description = "Sets 15% NI peak margin"
+Description = "Sets 5% NI peak margin"
 SheetName = "WCM"
 TagName = "TFM_INS"
 Attribute = ["COM_PKRSV","COM_PKRSV"]
 Year = [2023,0] # extrapolate
-NI = [0.15,5] # extrapoloate
+NI = [0.05,5] # 5%, extrapolate
 CSet_CN = ["ELC", "ELC"]
 
 

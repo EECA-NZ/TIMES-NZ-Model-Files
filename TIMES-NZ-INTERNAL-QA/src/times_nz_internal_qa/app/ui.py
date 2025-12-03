@@ -43,32 +43,13 @@ app_ui = ui.page_fluid(
             ),
             # right section (info buttons)
             ui.div(
-                ui.input_action_button(
-                    "info_btn_101",
+                ui.download_button(
+                    "all_results_zip",
                     ui.tags.span(
-                        ui.tags.i(
-                            class_="fa fa-circle-info", style="margin-right:6px;"
-                        ),
-                        "TIMES-NZ 101",
+                        ui.tags.i(class_="fa fa-download"),
+                        "  Download all results (.zip)",
                     ),
-                    class_="header-info-btn",
-                    title="TIMES-NZ 101",
-                ),
-                ui.input_action_button(
-                    "info_btn_use",
-                    ui.tags.span(
-                        ui.tags.i(
-                            class_="fa fa-circle-info", style="margin-right:6px;"
-                        ),
-                        "Using this app",
-                    ),
-                    class_="header-info-btn",
-                    title="Using this app",
-                ),
-                style=(
-                    "display:flex;"
-                    "flex-direction:column;"
-                    "align-items:flex-end; gap:6px;"
+                    class_="btn chart-download-btn",
                 ),
             ),
             style=(

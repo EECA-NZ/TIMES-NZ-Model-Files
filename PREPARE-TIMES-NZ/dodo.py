@@ -385,6 +385,7 @@ def task_stage_4_veda_csvs() -> Iterator[dict]:
             "file_dep": [script]
             + _files_in_stage(S3_DIR)
             + _files_in_stage(S2_DIR)
+            + STAGE_0_INPUTS
             + ASSUMPTION_INPUTS
             + CONCORDANCE_INPUTS,
             "targets": [_intermediate_out(rel, S4_DIR) for rel in rel_outs],

@@ -30,6 +30,7 @@ ID_PREFIX = "elec"
 # data location
 ELE_GEN_FILE_LOCATION = FINAL_DATA / "elec_generation.parquet"
 ELE_GEN_BY_SLICE_FILE = FINAL_DATA / "generation_by_timeslice.parquet"
+ELE_BAT_FILE_LOCATION = FINAL_DATA / "batteries.parquet"
 
 # define base columns that we must always group by
 # Might even make these standard across everything?
@@ -51,9 +52,6 @@ ele_core_group_options = [
 # different group options for some charts
 ele_fuel_group_options = ele_core_group_options + ["Fuel"]
 
-
-#
-
 # configure filter options
 core_filters = [
     {"col": "TechnologyGroup", "label": "Technology Group"},
@@ -71,14 +69,19 @@ ele_gen_curve_filters = [
     {"col": "PlantName", "label": "Plant"},
 ]
 
+
+battery_filters = [
+    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "Technology"},
+    {"col": "Region"},
+]
+
 ele_gen_filters = create_filter_dict("ele_gen", core_filters)
 ele_cap_filters = create_filter_dict("ele_cap", core_filters)
 ele_use_filters = create_filter_dict("ele_use", core_filters + [{"col": "Fuel"}])
 ele_gen_curve_filters = create_filter_dict("ele_gen_curve", ele_gen_curve_filters)
+bat_cap_filters = create_filter_dict("bat_cap", battery_filters)
 
-
-# all groups combined: used for processing main datasets
-ele_all_group_options = ele_base_cols + ele_core_group_options + ["Fuel"]
 
 # Define chart parameters
 # here, we define the standard dictionaries for each chart.
@@ -127,6 +130,19 @@ ele_gen_curve_parameters = {
     "chart_type": "timeslice",
 }
 
+bat_cap_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "bat_cap",
+    "sec_id": "bat-cap",
+    "filters": bat_cap_filters,
+    "section_title": "Battery capacity",
+    "base_cols": ele_base_cols,
+    "group_options": ["TechnologyGroup", "Technology", "Region"],
+}
+
+# all groups combined: used for processing main datasets
+ele_all_group_options = ele_base_cols + ele_core_group_options + ["Fuel"]
+bat_all_group_options = ele_base_cols + bat_cap_parameters["group_options"]
 gen_curve_all_groups = (
     ele_gen_curve_parameters["base_cols"] + ele_gen_curve_parameters["group_options"]
 )
@@ -198,6 +214,26 @@ def get_base_ele_gen_curve_df(scenarios, filepath=ELE_GEN_BY_SLICE_FILE):
     return df
 
 
+@lru_cache(maxsize=8)
+def get_base_bat_cap_df(scenarios, filepath=ELE_BAT_FILE_LOCATION):
+    """
+    Returns battery capacity data
+    Based on scenario selections
+    Caches results for quick switching
+    """
+    print("HI")
+    df = read_data_pl(filepath, scenarios)
+    test = df.collect()
+    print(test)
+    df = aggregate_by_group(df, bat_all_group_options)
+    test = df.collect()
+    print(test)
+    column_names = df.columns
+    print(column_names)
+    df = filter_df_for_variable(df, "Capacity", collect=True)
+    return df
+
+
 # SERVER ------------------------------------------------------------------------
 
 
@@ -234,6 +270,10 @@ def elec_server(inputs, outputs, session, selected_scens):
         session,
     )
 
+    register_server_functions_for_explorer(
+        bat_cap_parameters, get_base_bat_cap_df, scen_tuple, inputs, outputs, session
+    )
+
 
 # UI ------------------------------------------------
 
@@ -244,6 +284,7 @@ sections = [
     ele_use_parameters,
     ele_cap_parameters,
     ele_gen_curve_parameters,
+    bat_cap_parameters,
 ]
 
 elec_ui = make_explorer_page_ui(sections, ID_PREFIX)
