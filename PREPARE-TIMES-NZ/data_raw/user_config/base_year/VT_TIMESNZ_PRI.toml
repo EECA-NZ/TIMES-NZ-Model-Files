@@ -262,3 +262,41 @@ Description = "Declare conversion processes for biofuel. Sets investment and ope
 SheetName = "Biofuels"
 TagName = "FI_T"
 DataLocation = "data_raw/coded_assumptions/biofuels/plant_processes.csv"
+
+
+
+###########################################
+# Hydrogen 
+###########################################
+
+
+[DeclareHydrogenCommodity]
+Description = "Hydrogen commodity"
+SheetName = "Hydrogen"
+TagName = "FI_Comm"
+Csets = ["NRG"] # (all energy commodities) 
+CommName = ["H2R"] 
+Unit = ["PJ"] # All PJ 
+LimType = ["FX"]
+
+
+[HydrogenProcessDeclarations]
+Description = "Declare hydrogen production placeholder. We need to later build actual electrolysis."
+SheetName = "Hydrogen"
+TagName = "FI_Process"
+Sets = ["MIN"] 
+TechName = ["MINH2R_PLACEHOLDER"]
+Tact = "PJ"
+Tcap = "PJa"
+
+
+
+[HydrogenPlaceHolderParameterDeclarations]
+
+Description = "Placeholder hydrogen production process, just to ensure the model doesn't get free hydrogen before electrolysis added "
+SheetName = "Hydrogen"
+TagName = "FI_T"
+TechName = ["MINH2R_PLACEHOLDER"]
+Comm-Out = ["H2R"]
+Cost = [40] # place holder price
+
