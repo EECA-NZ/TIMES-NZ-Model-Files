@@ -1,176 +1,78 @@
-:root{
-  /* colours*/
-  --panel-bg:#eef1f4;   
-  --panel-text:#1f2937; 
-  --muted:#6b7280;      
-  --border:#d1d5db;     
-  /*sizes*/
-  --radius:12px;
-  --gap:12px;
+/* =========================================================
+   1. Global variables & base layout
+   ========================================================= */
+
+:root {
+  /* colours */
+  --bg: #fbfbfb;
+  --panel-bg: #e8ecee; /*#eef1f4;*/
+  --panel-text: #000000; /*#1f2937;*/
+  --muted: #6b7280;
+  --border: #d1d5db;
+  --bs-primary: #0072B3;
+
+  /* sizes */
+  --radius: 4px;
+  --gap: 12px;
   --chart-panel-h: 520px;
 }
 
-
-/* CHART SIDE PANEL */
-
-.chart-control-panel{
-  
-  background:var(--panel-bg);
-  color:var(--panel-text);  
-  border-radius:var(--radius);
-  padding:16px;
-  display:flex;
-  flex-direction:column;
-  gap:var(--gap);
+body {
+  background: var(--bg);
+  color: var(--panel-text);
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-
-.chart-with-title .chart-header{  
+/* Top-level Shiny container */
+body > .container-fluid {
+  min-height: 100vh;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--panel-bg);
-  border-radius: var(--radius);
-  padding: 8px 16px;
+  flex-direction: column;
+  padding: 0;
 }
 
-.chart-with-title {  
-  min-height: var(--chart-panel-h);
+
+/* =========================================================
+   2. Chart side panels, filters & headers
+   ========================================================= */
+
+.chart-control-panel {
   background: var(--panel-bg);
+  color: var(--panel-text);
   border-radius: var(--radius);
   padding: 16px;
+  margin-right: -8px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
 }
-  
 
 .filter-section-title {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 650;
   text-transform: uppercase;
   margin: 4px 0;
-  color:var(--muted);
+  color: var(--muted);
 }
 
 .chart-control-panel .individual-filter .form-group {
-    display: inline;        
-    margin-bottom: 0px;
-    width: 100%;
+  display: inline;
+  margin-bottom: 0;
+  width: 100%;
 }
 
-/* Individual filter labels  */
+/* Individual filter labels */
 .chart-control-panel .individual-filter label {
-    flex: 0 0 90px;   
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-    margin: 0;
-}
-
-
-
-/* Download button */
-.chart-with-title .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
+  flex: 0 0 90px;
   font-size: 13px;
-  
-  border-radius: 8px;
-  background: white;
-  color: var(--panel-text);
-  width: auto; /* not full width */
-}
-/* subtle hover effect */
-.chart-with-title .btn:hover {
-  background: #f3f4f6;
-  border-color: #cbd5e1;
-}
-/* NAV CARDS */
-/* Making radio buttons look a bit nicer */
-/* space between items */
-.nav-cards .radio { margin-bottom:8px; }
-
-/* hide native circle */
-.nav-cards .radio input[type="radio"] {
-  position:absolute; opacity:0; pointer-events:none;
+  font-weight: 550;
+  color: var(--muted);
+  margin: 0;
 }
 
-/* make the span the clickable card */
-.nav-cards .radio label {
-  display:block; padding:10px 12px; border:1px solid #e5e7eb; border-radius:10px;
-  background:#fff; color:#111827; cursor:pointer; user-select:none;
-  transition:background .15s, border-color .15s, box-shadow .15s;
-}
-
-/* hover */
-.nav-cards .radio label:hover { background:#f9fafb; border-color:#cbd5e1; }
-
-/* selected */
-.nav-cards .radio label:has(input:checked) {
-  background:var(--panel-bg); 
-}
-
-
-/* MODALS */
-
-   
-.modal-dialog { 
-  /* set modal width */
-  max-width: 900px !important;
-  /* distance from top*/
-  margin-top: 5vh !important;   
-  }
-.modal-body p {
-  /* control paragraph spacing */
-  margin-bottom: 0.75rem;        
-  }
-
-/* INFO BUTTONS */
-
-.info-btn {
-  padding: 0 .35rem;
-  border: none;
-  border-radius: 50%;
-  font-weight: 700;
-  line-height: 1;
-  margin-left: .35rem;
-  background: transparent;
-  color:  #a7a7a7;
-  font-size: 1rem; 
-  cursor: pointer;
-  transition: color .15s ease;
-}
-
-.info-btn:hover {
-  color: #2d8db9;        /* highlight color */
-  background: transparent; /* remove background highlight */
-}
-
-.nav-tabs .nav-link .info-btn {
-  font-size: 1rem;       /* override if tab styles shrink it */
-  vertical-align: middle;
-}
-
-
-
-/* HEADER INFO */
-.header-info-btn {
-  background: transparent;
-  width: 160px;
-  border: 1px solid #aaa;
-  border-radius: 4px;
-  padding: 4px 8px;
-  cursor: pointer;  
-  box-sizing: border-box;
-}
-
-.header-info-btn:hover {
-  background: #2d8db9;
-}
-
-/*FILTER HEADER / BUTTONS */
-
-
+/* Filter header row (title + clear button) */
 .filter-header {
   display: flex;
   align-items: center;
@@ -190,4 +92,530 @@
 }
 
 
+/* =========================================================
+   3. Chart cards, titles & download controls
+   ========================================================= */
 
+/* Chart card wrapper */
+.chart-with-title {
+  min-height: var(--chart-panel-h);
+  background: var(--panel-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: left;
+}
+
+/* Generic chart header: vertical stack (title + controls row) */
+.chart-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+/* Header styling when used inside chart cards */
+.chart-with-title .chart-header {
+  background: var(--panel-bg);
+  border-radius: var(--radius);
+  padding: 8px 16px;
+}
+
+/* Chart title alignment */
+.chart-section .chart-header h3.chart-title {
+  text-align: left;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* Second line of header: controls row */
+.chart-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+/* Left side: selector + toggles */
+.chart-header-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Group/selector blocks: label stacked above select */
+.chart-header-group,
+.chart-toggle-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.chart-toggle-header {
+  margin-top: 0;
+  margin-left: 12px;
+}
+
+.chart-header-group .filter-section-title,
+.chart-toggle-header .filter-section-title {
+  margin-top: 0;
+  margin-bottom: -4px;
+}
+
+.chart-toggle-bar {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.chart-toggle-bar .btn {
+  margin-right: 2px;
+}
+
+/* Download button base style inside chart cards */
+.chart-with-title .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px 4px;
+  font-size: 14px;
+  line-height: 1.6;
+  border-radius: 4px;
+  border-color: var(--border);
+  background: #fff;
+  color: var(--panel-text);
+  width: auto;
+  font-weight: 400;
+}
+
+.chart-with-title .btn span {
+  padding-top: 2px; /* align icon + text */
+}
+
+.chart-download-btn {
+  margin-top: 12px;
+}
+
+.chart-download-btn span > i.fa-download {
+  margin-right: 6px;
+}
+
+/* Download button position + wrapping in header row */
+.chart-header-row .chart-download-btn {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* Download hover */
+.chart-with-title .btn:hover {
+  background: #f3f4f6;
+  border-color: #cbd5e1;
+}
+
+
+/* =========================================================
+   4. Full-height chart layout & Altair/Vega sizing
+   ========================================================= */
+
+/* Panel viewport is a flex column */
+.panel-viewport {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Each conditional panel wrapper inside panel-viewport */
+.panel-viewport > div {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Top-level chart section */
+.chart-section {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Optional grid element spacing inside chart sections */
+.chart-section .grid {
+  margin-bottom: 16px;
+}
+
+/* Bootstrap row fills the chart-section */
+.chart-section > .row {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+}
+
+/* Both columns stretch vertically */
+.chart-section > .row > [class*="col-"] {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Right-hand (chart) column: header + chart area */
+.chart-section .chart-with-title {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Header: natural height */
+.chart-section .chart-header {
+  flex: 0 0 auto;
+}
+
+.chart-section .chart-header .shiny-input-container {
+  margin: 8px 0;
+}
+
+/* Chart row takes the rest */
+.chart-section .chart-single {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+}
+
+/* Chart container fills whatever is left */
+.chart-section .chart-container {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
+/* Shiny Altair output fills container */
+.chart-container .shiny-ipywidget-output {
+  width: 100%;
+  height: 100%;
+}
+
+/* Vega / widget wrappers fill container */
+.chart-container .lm-Widget,
+.chart-container .vega-embed,
+.chart-container .chart-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+/* Canvas fills wrapper */
+.chart-container canvas.marks {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+
+/* =========================================================
+   5. Tabs, navset layout & scrollable content
+   ========================================================= */
+
+/* Tab content borders / background */
+.tab-content {
+  background-color: #fff;
+  border-left: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-top: 0 solid #fff;
+  border-radius: 0 0 4px 4px;
+}
+
+/* Tabs + content expand to fill space */
+.navset-large {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.navset-large > .tab-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.navset-large > .tab-content > .tab-pane {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.navset-large > .tab-content > .tab-pane.active {
+  display: flex;              /* overrides Bootstrap's display:block, but only for active */
+  flex-direction: column;
+}
+
+/* Panel viewport inside a flex layout is handled above */
+
+
+/* =========================================================
+   6. Navigation cards (primary & secondary)
+   ========================================================= */
+
+/* Generic radio cards (e.g. main nav) */
+.nav-cards .radio {
+  margin-bottom: 8px;
+}
+
+/* Hide native radio across nav cards */
+.nav-cards input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Card-style label */
+.nav-cards .radio label {
+  display: block;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  color: #111827;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+/* Hover for main nav cards */
+.nav-cards .radio label:hover {
+  background: #f9fafb;
+  border-color: #cbd5e1;
+}
+
+/* Selected state using :has() */
+.nav-cards .radio label:has(input:checked) {
+  background: var(--panel-bg);
+}
+
+/* Secondary nav: pill-style inline options */
+.secondary-nav-bar.nav-cards {
+  margin: 1rem 0 0.5rem;
+}
+
+.secondary-nav-bar.nav-cards .shiny-options-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Each option wrapper */
+.secondary-nav-bar.nav-cards .radio-inline {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Secondary nav buttons styled like the compare pill */
+.secondary-nav-bar.nav-cards .radio-inline span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.9rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background-color: #fff;
+  color: var(--bs-primary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 450;
+  margin: 0 6px 0 0;
+  min-height: 37px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03);
+  user-select: none;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* Hover state – same feel as compare pill hover */
+.secondary-nav-bar.nav-cards .radio-inline:hover span {
+  background-color: var(--panel-bg);
+  border-color: var(--border);
+}
+
+/* Selected state – same as checked compare pill */
+.secondary-nav-bar.nav-cards
+  .radio-inline input[type="radio"]:checked + span {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: #fff;
+}
+
+/* Focus ring for keyboard users */
+.secondary-nav-bar.nav-cards
+  .radio-inline input[type="radio"]:focus-visible + span {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   7. Compare toggle pill
+   ========================================================= */
+
+/* Hide the native switch while keeping it functional */
+#compare_on.form-check-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Container for the compare toggle */
+.form-group.shiny-input-container:has(#compare_on) {
+  flex: 0 0 auto;      /* don't grow, width based on content */
+  width: auto;         /* override any width: 100% from Shiny/bslib */
+  display: inline-flex;
+  margin-bottom: 0;
+  margin-top: 16px;    /* nudge down slightly relative to the selects */
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+/* Remove the old switch-style padding & margin */
+.form-check.bslib-input-switch.form-switch:has(#compare_on) {
+  width: auto;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+/* Label styled as a pill / input-like box */
+#compare_on + label.form-check-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.9rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background-color: #fff;
+  color: var(--bs-primary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 450;
+  margin: 0;
+  min-height: 37px;                  /* similar to selectize height */
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03);
+}
+
+/* Optional: tweak inner text, if you want */
+#compare_on + label.form-check-label span {
+  line-height: 1.2;
+}
+
+/* Hover state */
+#compare_on:hover + label.form-check-label {
+  background-color: var(--panel-bg);
+}
+
+/* Active / checked state */
+#compare_on:checked + label.form-check-label {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: white;
+}
+
+/* Focus outline for keyboard users */
+#compare_on:focus-visible + label.form-check-label {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   8. Modals & info buttons
+   ========================================================= */
+
+.modal-dialog {
+  max-width: 900px !important;
+  margin-top: 5vh !important;
+}
+
+.modal-body p {
+  margin-bottom: 0.75rem;
+}
+
+/* Inline info button (e.g. "i" icon) */
+.info-btn {
+  padding: 0 0.35rem;
+  border: none;
+  border-radius: 50%;
+  font-weight: 700;
+  line-height: 1;
+  margin-left: 0.35rem;
+  background: transparent;
+  color: #a7a7a7;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.info-btn:hover {
+  color: #2d8db9;
+  background: transparent;
+}
+
+.nav-tabs .nav-link {
+  color: var(--bs-primary);
+  font-weight: 450;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-tabs .nav-link.active {
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+.nav-tabs .nav-link .info-btn {
+  font-size: 1rem;
+  vertical-align: middle;
+  color: #aaa;
+}
+
+
+/* =========================================================
+   9. Header info buttons (page-level)
+   ========================================================= */
+
+.header-info-btn {
+  background: #fff;
+  width: 160px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  box-sizing: border-box;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.header-info-btn:hover {
+  background: var(--panel-bg);
+  border-color: var(--border);
+  color: #000;
+}
+
+
+/* =========================================================
+   10. Shiny selectize inputs
+   ========================================================= */
+
+.shiny-input-select {
+  border-color: var(--border);
+  border-radius: 4px;
+}
+
+.shiny-input-select .selectize-input {
+  border-color: var(--border);
+  border-radius: 4px;
+}
