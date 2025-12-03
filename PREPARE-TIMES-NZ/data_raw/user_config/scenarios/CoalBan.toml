@@ -1,0 +1,15 @@
+# File sets a single user constraint to limit coal use for low/int process heat to 0 by 2037
+
+
+
+WorkBookName = "SuppXLS/Scen_ProcessHeatCoalBan"
+
+[ProcessHeatCoalBan]
+Description = "A user constraint the limits coal to 0 for process heat by 2037"
+SheetName = "CoalBan"
+TagName = "UC_T"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_coal_ban/coal_ban_process_heat.csv"
+# define uc_sets here
+[ProcessHeatCoalBan.UCSets]
+  R_S = "AllRegions"
+  T_S = ""

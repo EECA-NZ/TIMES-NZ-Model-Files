@@ -5,7 +5,6 @@ Defines the ui for the internal app
 # Libraries
 from shiny import ui
 from times_nz_internal_qa.app.app_module_demand import demand_ui
-from times_nz_internal_qa.app.app_module_dummies import dummy_ui
 from times_nz_internal_qa.app.app_module_elec import elec_ui
 from times_nz_internal_qa.app.app_module_emissions import emissions_ui
 from times_nz_internal_qa.app.app_module_esd import esd_ui
@@ -111,7 +110,7 @@ app_ui = ui.page_fluid(
             ui.nav_panel(tab_title("Electricity generation", "info_elc"), elec_ui),
             ui.nav_panel(tab_title("Emissions", "info_ems"), emissions_ui),
             ui.nav_panel(tab_title("Energy service demand", "info_esd"), esd_ui),
-            ui.nav_panel(tab_title("Infeasibilities", "info_dum"), dummy_ui),
+            # ui.nav_panel(tab_title("Infeasibilities", "info_dum"), dummy_ui),
         ),
         class_="navset-large",
     ),

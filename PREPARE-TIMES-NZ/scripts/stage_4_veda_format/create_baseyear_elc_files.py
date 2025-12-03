@@ -297,6 +297,30 @@ def define_generation_capacity(df):
     save_elc_data(existing_techs_capacity, "existing_tech_capacity.csv")
 
 
+def make_nzsteel_adjustments(input_df, nzsteel_techname="ELC_CoalCHP_GlenbrookSteel"):
+    """
+    Add a few adjustments to NZSteel. These include:
+    a) using coal rather than ELCCOA (no energy emissions)
+    b) locking activity static for the full period
+
+    splits out the steel, modifies, then reattaches
+    """
+
+    # split out the steel
+    logger.warning("Making manual NZSteel Adjustments")
+    df = input_df[input_df["TechName"] == nzsteel_techname].copy()
+    df_no_steel = input_df[input_df["TechName"] != nzsteel_techname].copy()
+
+    df["Comm-IN"] = "COA"
+    df["ACT_BND~FX"] = df["ACT_BND~2023"]
+    df["ACT_BND~0"] = 5
+    df["NCAP_TLIFE"] = 100
+
+    out = pd.concat([df, df_no_steel])
+
+    return out
+
+
 def define_generation_parameters(df):
     """
     Parameters of existing technologies
@@ -317,8 +341,7 @@ def define_generation_parameters(df):
                 "FuelDelivCost": "FLO_DELIV",
                 "Generation": f"ACT_BND~{BASE_YEAR}",
                 "PeakContribution": "NCAP_PKCNT",
-                # trying Life instead of NCAP_TLIFE - will Veda default to infinite rather than 10?
-                "PlantLife": "Life",
+                "PlantLife": "NCAP_TLIFE",
                 "VarOM": "ACTCOST",
                 "FixOM": "NCAP_FOM",
                 "FuelEfficiency": "EFF",
@@ -327,7 +350,7 @@ def define_generation_parameters(df):
     )
 
     # additional hard-coded parameters
-    # standard cap2act method (should this not go in FI_Process?)
+    # standard cap2act method
     existing_techs_parameters["CAP2ACT"] = CAP2ACT_PJGW
     # no extrapolation of activity bound
     existing_techs_parameters["ACT_BND~0"] = 1
@@ -354,6 +377,9 @@ def define_generation_parameters(df):
         np.nan,
         existing_techs_parameters["ACT_BND~2023"],
     )
+
+    # adjustments for NZSTeel
+    existing_techs_parameters = make_nzsteel_adjustments(existing_techs_parameters)
 
     save_elc_data(existing_techs_parameters, "existing_tech_parameters.csv")
 

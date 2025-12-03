@@ -27,6 +27,8 @@ baseyear_techs_to_ban = {
     "RES*COA**": "Residential coal",
     "RES*WOD*": "Residential wood",
     "T_F*PET*": "Light petrol trucks",
+    "T_P_B*PET*": "Petrol buses",
+    "T_P_B*LPG*": "LPG buses",
 }
 
 

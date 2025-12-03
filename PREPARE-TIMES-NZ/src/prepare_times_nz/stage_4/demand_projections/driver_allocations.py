@@ -13,6 +13,8 @@ but maybe it's all just fine
 
 """
 
+import numpy as np
+
 # IMPORT LIBRARIES
 import pandas as pd
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
@@ -131,6 +133,32 @@ def add_sector_indices(default_driver="Constant"):
             logger.warning("         %s: %s - %s", i, row["SectorGroup"], row["Sector"])
 
     df["SectorDriver"] = df["SectorDriver"].fillna(default_driver)
+
+    return df
+
+
+def modify_steel_drivers(df):
+    """
+    For some steel commodities, we distinguish the driver
+    This allows us to curve off demand as the steel moves to recycling
+
+    these commodities will have demand projections adjusted down
+    in line with the EAF construction
+    """
+
+    df = df.copy()
+    recyclable_commodities = [
+        "STEEL-MOTOR-ISTEEL",
+        "STEEL-FURNC-ISTEEL",
+        "STEEL-FDSTK-FDSTK",
+    ]
+
+    df["SectorDriver"] = np.where(
+        df["CommodityOut"].isin(recyclable_commodities),
+        "IND_STEEL_EAF_DMD",
+        df["SectorDriver"],
+    )
+
     return df
 
 
@@ -185,6 +213,7 @@ def create_helper_series(start_year=BASE_YEAR, end_year=2060):
 def main():
     """Entrypoint"""
     commodity_indices = add_sector_indices()
+    commodity_indices = modify_steel_drivers(commodity_indices)
     df = format_allocations_for_veda(commodity_indices)
     save_data(df, "driver_allocations.csv", "Saving driver Allocations")
     helper_series = create_helper_series()

@@ -93,7 +93,7 @@ DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery
 Description = "Adds cost curves to battery technologies"
 SheetName = "ELC_Batteries"
 TagName = "FI_T"
-DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_costs.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_costs_transformation.csv"
 
 [BatteryAvailability]
 Description = "Ensures batteries available on either island"

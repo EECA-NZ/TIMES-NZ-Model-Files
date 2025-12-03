@@ -28,6 +28,9 @@ from times_nz_internal_qa.utilities.filepaths import (
 )
 
 TRANSPORT_CONCORDANCES = CONCORDANCE_PATCHES / "transport"
+COMMERCIAL_CONCORDANCES = CONCORDANCE_PATCHES / "commercial"
+AGRICULTURE_CONCORDANCES = CONCORDANCE_PATCHES / "agriculture"
+INDUSTRY_CONCORDANCES = CONCORDANCE_PATCHES / "industry"
 
 # we basically want to form category files for all our attributes, processes, and commodities
 
@@ -51,13 +54,32 @@ demand_process_categories = [
 def get_industrial_demand_processes():
     """
     Industrial process mapping extracted from prep module staging data.
+    Takes base year and new techs
     """
 
+    # Base year
+
     df = pd.read_csv(PREP_STAGE_2 / "industry/baseyear_industry_demand.csv")
+
     df["SectorGroup"] = "Industry"
     df["ProcessGroup"] = "Demand"
-
     df = df[demand_process_categories].drop_duplicates()
+
+    # new techs
+    df_new = pd.read_csv(
+        PREP_STAGE_4 / "subres_ind/future_industry_process_definitions.csv"
+    )
+    df_new["SectorGroup"] = "Industry"
+    df_new["ProcessGroup"] = "Demand"
+    df_new = df_new[demand_process_categories].drop_duplicates()
+
+    # also get patch for EAF and the transformation newtech demand
+    # these are handled differently to the standard subres
+
+    # combine and out
+    newtech_patch = pd.read_csv(INDUSTRY_CONCORDANCES / "newtech_patches.csv")
+
+    df = pd.concat([df, df_new, newtech_patch]).drop_duplicates()
 
     return df
 

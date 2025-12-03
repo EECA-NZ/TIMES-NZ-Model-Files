@@ -147,7 +147,7 @@ def create_biofuel_supply_forecasts() -> pd.DataFrame:
     recoverability_df.columns = recoverability_df.columns.str.strip()
 
     supply_df["Value"] = supply_df["Value"].astype(float)
-    supply_df.loc[supply_df["Value"] <= 0, "Value"] = pd.NA
+    # supply_df.loc[supply_df["Value"] <= 0, "Value"] = pd.NA
 
     # Map Region to Island
     supply_df = supply_df.merge(region_map, on="Region", how="left")
@@ -248,8 +248,8 @@ def create_biofuel_supply_forecasts() -> pd.DataFrame:
     # Constant supply overrides
     supply_constants_all_years = {
         "MINMNCWST01": {
-            "NI": 1.721,
-            "SI": 0.514,
+            "NI": 3.877,
+            "SI": 1.158,
         },  # split based on population 77% NI, 23% SI
         "MINANMMNR00": {
             "NI": 4.234,

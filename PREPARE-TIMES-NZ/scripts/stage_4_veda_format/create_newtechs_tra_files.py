@@ -34,7 +34,7 @@ FUTURE_COSTS_FILE: Path = (
 )
 
 # Constants for calculations
-START = 2025
+START = 2024
 INVCOST_0 = 5
 SCENARIO = ["Traditional", "Transformation"]
 
@@ -192,7 +192,6 @@ def create_newtech_process_df(cfg):
 
     # Add new tech names
     add_technames = [
-        "T_C_CHYBDSL",
         "T_P_CFCH2R",
         "T_C_CFCH2R",
         "T_P_CPHEVDSL",
@@ -279,7 +278,6 @@ def create_newtech_process_parameters_df(cfg):
 
     # Mapping of new techs with their Comm-In / Comm-Out roots
     add_newtechnames = [
-        {"TechName": "T_C_CHYBDSL", "Comm-In": "TRADSL", "Comm-Out": "T_C_Car"},
         {
             "TechName": "T_P_CFCH2R",
             "Comm-In": "TRAH2R",
