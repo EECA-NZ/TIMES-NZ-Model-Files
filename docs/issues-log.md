@@ -16,8 +16,7 @@ This log refers only to issues or missing features in the model itself. This exc
 
 ## Natural gas 
 - Kapuni gas is underutilised, presumably due to higher carbon costs. This points to a minor imbalance in the demand sector - in reality, Kapuni natural gas is in high demand. 
- - Not an issue, per se, but LNG outputs are not realistic unless using MIP solution methods (to disable partial LNG port builds). This is only a problem because MIP is much less computationally efficient than standard linear solutions, so this limits our ability to perform quick model runs unless significantly limiting the number of years we solve for. 
- - The model representation of gas network maintenance costs leads to unintended outcomes. Currently, these are assigned based on real-world delivery costs on a per-unit basis. The model, then, optimises maintenance costs by quickly and significantly reducing residential natural gas demand, as this is the highest maintenance cost on a per-unit basis. This is not realistic, as a reduction in natural gas demand does not reduce maintenance costs (unless the network is abandoned). We likely need to rebuild the cost model from scratch to represent it in a more realistic way.
+ - The model representation of gas network maintenance costs leads to unintended outcomes. Currently, these are assigned based on real-world delivery costs on a per-unit basis. The model, then, optimises maintenance costs by quickly and significantly reducing residential natural gas demand, as this is the highest maintenance cost on a per-unit basis. This is not realistic, as a reduction in natural gas demand does not reduce maintenance costs but should raise them for other users. 
 
 ## Other supply side 
 
