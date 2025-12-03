@@ -9,6 +9,7 @@ from times_nz_internal_qa.app.helpers.filters import (
 )
 
 
+
 # pylint:disable = too-many-positional-arguments, too-many-arguments, duplicate-code
 def section_block(parameters):
     """
@@ -49,37 +50,55 @@ def section_block(parameters):
     toggle_block = None
     if parameters.get("chart_type") != "timeslice":
         toggle_block = ui.div(
-            ui.input_action_button(
-                f"{chart_id}_show_bar",
-                ui.tags.i(class_="fa fa-bar-chart"),
-                class_="chart-toggle-btn",
-                title="Show bar chart",
+            ui.tags.h4("Chart type:", class_="filter-section-title"),
+            ui.div(
+                ui.input_action_button(
+                    f"{chart_id}_show_bar",
+                    ui.tags.i(class_="fa fa-bar-chart"),
+                    class_="chart-toggle-btn",
+                    title="Show bar chart",
+                ),
+                ui.input_action_button(
+                    f"{chart_id}_show_line",
+                    ui.tags.i(class_="fa fa-line-chart"),
+                    class_="chart-toggle-btn",
+                    title="Show line chart",
+                ),
+                class_="chart-toggle-bar",
             ),
-            ui.input_action_button(
-                f"{chart_id}_show_line",
-                ui.tags.i(class_="fa fa-line-chart"),
-                class_="chart-toggle-btn",
-                title="Show line chart",
-            ),
-            class_="chart-toggle-bar",
+            class_="chart-toggle-header",
         )
 
     chart_header = ui.div(
-        ui.tags.h3(title, id=sec_id),  # 1. Title
+        # Line 1: title on its own
+        ui.tags.h3(title, id=sec_id, class_="chart-title"),
+
+        # Line 2: left (group + toggles) and right (download)
         ui.div(
-            ui.tags.h4("Grouped by:", class_="filter-section-title"),
-            ui.input_select(group_input_id, label=None, choices=group_options),
-            class_="chart-header-group",
-        ),  # 2. Group selector
-        toggle_block,  # 3. Toggle buttons (or None)
-        ui.download_button(  # 4. Download button
-            f"{chart_id}_chart_data_download",
-            ui.tags.span(ui.tags.i(class_="fa fa-download"), " Download chart data"),
-            class_="btn chart-download-btn",
+            ui.div(
+                # left block: group selector + toggle buttons
+                ui.div(
+                    ui.tags.h4("Grouped by:", class_="filter-section-title"),
+                    ui.input_select(group_input_id, label=None, choices=group_options),
+                    class_="chart-header-group",
+                ),
+                toggle_block,
+                class_="chart-header-left",
+            ),
+            # right block: download button
+            ui.download_button(
+                f"{chart_id}_chart_data_download",
+                ui.tags.span(
+                    ui.tags.i(class_="fa fa-download"),
+                    " Download chart data",
+                ),
+                class_="btn chart-download-btn",
+            ),
+            class_="chart-header-row",
         ),
         class_="chart-header",
     )
-
+    
     chart_columns = ui.layout_columns(
         ui.div(
             output_widget(f"{chart_id}_chart"),
@@ -99,7 +118,7 @@ def section_block(parameters):
         ui.layout_columns(
             chart_control_panel,
             chart_with_title,
-            col_widths=(2, 10),
+            col_widths=(3, 9),
         ),
         class_="chart-section",
     )
@@ -107,14 +126,16 @@ def section_block(parameters):
 
 def make_explorer_page_ui(sections, id_prefix):
     """
-    Creates the explorer page, including navbar, composed of sections
-    Each section is a dictionary of input params, and sections is a list of these dicts
-
+    Creates the explorer page, including a 'second tier' horizontal navbar
+    for subsections. Each section is a dictionary of input params, and 
+    sections are a list of these dicts.
     """
 
+    # Map sec_id -> label
     choices = {s["sec_id"]: s["section_title"] for s in sections}
     first_sec_id = sections[0]["sec_id"]
 
+    # The main content area: only one section visible at a time
     main = ui.div(
         *[
             ui.panel_conditional(
@@ -126,25 +147,23 @@ def make_explorer_page_ui(sections, id_prefix):
         class_="panel-viewport",
     )
 
-    # only open the side bar if it's useful (ie if we have multiple charts)
-    if len(choices) > 1:
-        nav_open_status = "open"
-    else:
-        nav_open_status = "closed"
+    # Horizontal second-level nav bar
+    nav_bar = ui.div(
+        ui.input_radio_buttons(
+            f"{id_prefix}_nav",
+            None,
+            choices=choices,
+            selected=first_sec_id,
+            inline=True,          # <- makes choices render horizontally
+        ),
+        class_="secondary-nav-bar nav-cards",  # reuse your nav-cards styling if you like
+    )
 
     out_ui = ui.page_fluid(
-        ui.layout_sidebar(
-            ui.sidebar(
-                ui.div(
-                    ui.input_radio_buttons(
-                        f"{id_prefix}_nav", None, choices=choices, selected=first_sec_id
-                    ),
-                    class_="nav-cards",
-                ),
-                open=nav_open_status,
-            ),
-            main,
-        )
+        # [horizontal nav bar]
+        nav_bar,
+        # [section content (which itself can have a sidebar+main)]
+        main,
     )
 
     return out_ui

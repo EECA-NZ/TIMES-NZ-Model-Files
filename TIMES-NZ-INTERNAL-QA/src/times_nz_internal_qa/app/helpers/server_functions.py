@@ -141,37 +141,63 @@ def register_server_functions_for_explorer(
 
         # Early exit 1: no chart data at all
         if not params or params["pdf"].empty:
-            return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
+            chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
                 text="No data available"
             )
+            return chart.properties(width="container", height="container")
 
         pdf = params["pdf"]
 
         # Early exit 2: no non-zero values → infeasible or meaningless for line charts
         if pdf["Value"].sum() == 0:
-            return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
+            chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
                 text="No meaningful values to plot"
             )
+            return chart.properties(width="container", height="container")
 
         # Handle chart types
         if chart_type == "timeslice":
-            # unpack the params - we don't use period_range so just send everything else
-            return build_grouped_bar_timeslice(
+            chart = build_grouped_bar_timeslice(
                 pdf=params["pdf"],
                 unit=params["unit"],
                 group_col=params["group_col"],
                 scen_list=params["scen_list"],
             )
 
-        mode = toggle_mode()
+        else:
+            mode = toggle_mode()
 
-        if mode == "bar":
-            return build_grouped_bar(**params)
+            if mode == "bar":
+                chart = build_grouped_bar(**params)
+            elif mode == "line":
+                chart = build_grouped_line(**params)
+            else:
+                chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
+                    text="No chart"
+                )
+                
+        # Global-ish styling: font sizes etc.
+        chart = (
+            chart
+            .configure_axis(
+                labelFontSize=13,
+                titleFontSize=14,
+                titleFontWeight="normal",
+            )
+            .configure_legend(
+                labelFontSize=13,
+                titleFontSize=14,
+            )
+            .configure_title(
+                fontSize=14,
+            )
+        )
 
-        if mode == "line":
-            return build_grouped_line(**params)
-
-        return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(text="No chart")
+        # Single place where sizing is applied for *all* chart types
+        return chart.properties(
+            width="container",
+            height="container",  # or a fixed number if height="container" is fussy
+        )
 
     # Setup downloads
     download_function_name = f"{chart_id}_chart_data_download"

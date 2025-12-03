@@ -20,25 +20,47 @@ global_css = ASSETS / "styles.css"
 # UI
 
 app_ui = ui.page_fluid(
-    ui.head_content(ui.include_css(global_css)),
-    ui.tags.link(
-        rel="stylesheet",
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
+
+    ui.head_content(
+        # Google Fonts
+        ui.tags.link(rel="preconnect", href="https://fonts.googleapis.com"),
+        ui.tags.link(
+            rel="preconnect",
+            href="https://fonts.gstatic.com",
+            crossorigin="anonymous",
+        ),
+        ui.tags.link(
+            rel="stylesheet",
+            href=(
+                "https://fonts.googleapis.com/css2?"
+                "family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+            ),
+        ),
+
+        # Font Awesome
+        ui.tags.link(
+            rel="stylesheet",
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
+        ),
+
+        # Your global CSS (last so it can override everything)
+        ui.include_css(global_css),
     ),
+    
     # HEADER PANEL
     ui.div(
         # top line
-        ui.div(
-            ui.h1("TIMES-NZ 3.0 Explorer: Internal QA"),
-            ui.h1("NOT FOR RELEASE - WIP", style="color:red; font-weight:bold;"),
-            style="display:flex; align-items:center; justify-content:space-between;",
-        ),
+        # ui.div(
+        #    ui.h1("TIMES-NZ 3.0 Explorer: Internal QA"),
+        #    ui.h1("NOT FOR RELEASE - WIP", style="color:red; font-weight:bold;"),
+        #    style="display:flex; align-items:center; justify-content:space-between;",
+        # ),
         # bottom line
         ui.div(
             # left section (scenario controls)
             ui.div(
-                ui.input_switch("compare_on", "Compare scenarios"),
                 ui.output_ui("select_scenario_a_ui"),
+                ui.input_switch("compare_on", "Compare with..."),
                 ui.output_ui("select_scenario_b_ui"),
                 style="display:flex; align-items:center; gap:10px;",
             ),
@@ -79,7 +101,7 @@ app_ui = ui.page_fluid(
                 "margin-top:8px;"
             ),
         ),
-        style="padding:10px 20px; border-bottom:1px solid #ccc;",
+        #style="padding:10px 20px; border-bottom:1px solid #ccc;",
     ),
     # EXPLORER NAVSET PAGES
     ui.div(
