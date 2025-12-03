@@ -68,6 +68,7 @@ app_ui = ui.page_fluid(
                             ui.tags.i(class_="fa fa-question"),
                         ),
                         class_="btn info-btn",
+                        title="Using this app",
                     ),
                     ui.download_button(
                         "all_results_zip",
@@ -75,6 +76,7 @@ app_ui = ui.page_fluid(
                             ui.tags.i(class_="fa fa-download"),
                         ),
                         class_="btn info-btn",
+                        title="Download all results (.zip)",
                     ),
                     # GitHub button (styled the same, but works as a link)
                     ui.tags.a(
@@ -84,6 +86,7 @@ app_ui = ui.page_fluid(
                         href="https://github.com/EECA-NZ/TIMES-NZ-Model-Files",
                         target="_blank",
                         class_="btn info-btn",
+                        title="Github",
                         role="button",
                     ),
                 )
