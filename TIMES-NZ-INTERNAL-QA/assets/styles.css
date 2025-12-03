@@ -27,7 +27,6 @@ body {
 
 /* Top-level Shiny container */
 body > .container-fluid {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   padding: 0;
