@@ -19,7 +19,6 @@ global_css = ASSETS / "styles.css"
 # UI
 
 app_ui = ui.page_fluid(
-
     ui.head_content(
         # Google Fonts
         ui.tags.link(rel="preconnect", href="https://fonts.googleapis.com"),
@@ -35,17 +34,14 @@ app_ui = ui.page_fluid(
                 "family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
             ),
         ),
-
         # Font Awesome
         ui.tags.link(
             rel="stylesheet",
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
         ),
-
         # Your global CSS (last so it can override everything)
         ui.include_css(global_css),
     ),
-    
     # HEADER PANEL
     ui.div(
         # top line
@@ -65,14 +61,35 @@ app_ui = ui.page_fluid(
             ),
             # right section (info buttons)
             ui.div(
-                ui.download_button(
-                    "all_results_zip",
-                    ui.tags.span(
-                        ui.tags.i(class_="fa fa-download"),
-                        "  Download all results (.zip)",
+                ui.span(
+                    ui.input_action_button(
+                        "info_btn_use",
+                        ui.tags.span(
+                            ui.tags.i(class_="fa fa-question"),
+                        ),
+                        class_="btn info-btn",
+                        title="Using this app",
                     ),
-                    class_="btn chart-download-btn",
-                ),
+                    ui.download_button(
+                        "all_results_zip",
+                        ui.tags.span(
+                            ui.tags.i(class_="fa fa-download"),
+                        ),
+                        class_="btn info-btn",
+                        title="Download all results (.zip)",
+                    ),
+                    # GitHub button (styled the same, but works as a link)
+                    ui.tags.a(
+                        ui.tags.span(
+                            ui.tags.i(class_="fa fa-github"),
+                        ),
+                        href="https://github.com/EECA-NZ/TIMES-NZ-Model-Files",
+                        target="_blank",
+                        class_="btn info-btn",
+                        title="Github",
+                        role="button",
+                    ),
+                )
             ),
             style=(
                 "display:flex;"
@@ -81,7 +98,7 @@ app_ui = ui.page_fluid(
                 "margin-top:8px;"
             ),
         ),
-        #style="padding:10px 20px; border-bottom:1px solid #ccc;",
+        # style="padding:10px 20px; border-bottom:1px solid #ccc;",
     ),
     # EXPLORER NAVSET PAGES
     ui.div(

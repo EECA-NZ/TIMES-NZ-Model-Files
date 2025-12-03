@@ -128,6 +128,11 @@ def define_fuel_commodities(df, filename, label):
     Also add activity and capacity units just for clarity"""
 
     fuels = df["Comm-IN"].dropna().unique().tolist()
+
+    # patch: addhydrogen
+    if "AGRH2R" not in fuels:
+        fuels.append("AGRH2R")
+    # capture co2 also
     if "AGRCO2" not in fuels:
         fuels.append("AGRCO2")
 
@@ -145,6 +150,8 @@ def define_fuel_commodities(df, filename, label):
         lambda x: "DAYNITE" if x == "AGRELC" else ""
     )
 
+    print(fuel_df)
+
     save_agr_veda_file(fuel_df, name=filename, label=label)
 
 
@@ -157,7 +164,11 @@ def define_fuel_delivery(df: pd.DataFrame) -> None:
     Expands multi-input fuels (e.g. AGRDSL -> DSL + DID) and applies cost assumptions.
     """
 
-    fuels = pd.Series(df["Comm-IN"]).dropna().unique()
+    fuels = pd.Series(df["Comm-IN"]).dropna().unique().tolist()
+
+    # patch: add hydrogen
+    if "AGRH2R" not in fuels:
+        fuels.append("AGRH2R")
 
     fuel_deliv_parameters = pd.DataFrame({"Comm-OUT": fuels})
 

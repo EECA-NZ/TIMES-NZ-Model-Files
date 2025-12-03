@@ -1,23 +1,31 @@
-This app is designed to explore all result outputs of TIMES-NZ 3.0. 
+This explorer is a QA tool, designed by EECA's modelling team to explore the results of TIMES-NZ model results for QA purposes.
 
-For every chart, you can select the way the bars are grouped, and filter the data based on the underlying structure.
+Each tab contains one or more charts, and each of these can be filtered and grouped in multiple ways. The filter options will update based on your current selection. For example, selecting the Sector Group "Industry" means that the Sector field will only contain industrial sector options. 
 
-Filter options update based on your current selection. For example, if you select the "Industrial" sector group, then only Industral subsectors will be available in the Sector filter options. 
+It is possible to download the full data for each chart, or download all results data bundled as a zip file. You can also change the scenario displayed, or compare scenarios for any given chart. 
 
-Select any available scenario from the dropdown to explore, or optionally compare two different scenarios in any chart.
+Note that data is not available for every year for performance reasons. We have included as many as practical, but each additional solution year exponentially increases model solve times. 
 
 
 ### Explorer tabs 
 
-TIMES outputs have been organised into specific sections for ease of use. These include: 
+TIMES-NZ outputs have been organised into specific sections for ease of use. These include: 
 
  - Production (Primary energy production and imports)
- - Electricity generation (conversion of one form of energy into electricity)
- - Other transformation (conversion of one form of energy into another, excluding electricity)
+ - Electricity generation
  - Energy demand (end use of energy, including non-energy use)
  - Emissions (energy emissions from all sources)
  - "Energy service demand", (final demanded output, such as distance travelled or rooms heated) 
- - Infeasibilities (developer-facing items for debugging)
 
+
+### Time slices 
+
+TIMES-NZ 3.0 models energy supply and demand across different "TimeSlices", or periods of the year. We break the year down into:
+
+ - 4 seasons (spring, summer, autumn, winter)
+ - 2 types of day (weekend and weekday)
+ - 3 times of day (day, night, peak). Here, peak refers to the hour between 6 and 7pm.
+
+In this initial release, these are referred to by their internal codes. For example, SUM-WE-P would refer to summer weekend peak times. You can see detailed timeslice information on tabs where applicable, such as electricity consumption.
 
 

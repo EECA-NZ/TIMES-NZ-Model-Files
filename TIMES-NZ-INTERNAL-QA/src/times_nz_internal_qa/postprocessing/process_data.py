@@ -560,6 +560,21 @@ def main():
     print("Processing all scenario files...")
     df = load_scenario_results(current_scenarios)
 
+    excess_years = [
+        "2051",
+        "2052",
+        "2053",
+        "2054",
+        "2055",
+        "2056",
+        "2057",
+        "2058",
+        "2059",
+        "2060",
+    ]
+
+    df = df[~df["Period"].isin(excess_years)]
+
     process_primary_energy(df)
     process_energy_service_demand(df)
     process_energy_demand(df)
