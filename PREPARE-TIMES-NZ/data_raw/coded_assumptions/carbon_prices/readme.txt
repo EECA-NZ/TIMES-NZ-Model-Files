@@ -10,3 +10,5 @@ CCC updated demo path:
 
 https://www.climatecommission.govt.nz/assets/Advice-to-govt-docs/ERP2/draft-erp2/supporting-documents/ERP2-supporting-spreadsheet-Updated-demonstration-path-and-CPR-2022.xlsx
 
+We have modified the early years of the demo path to align with the ERP2 baseline. 
+This means that the base year through 2025 have equivalent carbon prices, and carbon only diverges later. 
