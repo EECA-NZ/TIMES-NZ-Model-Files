@@ -8,6 +8,7 @@ These are not currently adjusted per scenario, but probably should be
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.stage_4.electricity.common import (
     CAP2ACT,
     SETS_STG,
@@ -79,6 +80,7 @@ def create_battery_main_file():
     # we max out at 1 (not possible to have ratios above 24)
     df["NCAP_AFC"] = np.minimum(df["NCAP_AFC"] / 24, 1)
     df["CAP2ACT"] = CAP2ACT
+    df["START"] = BASE_YEAR + 2
 
     return df
 
