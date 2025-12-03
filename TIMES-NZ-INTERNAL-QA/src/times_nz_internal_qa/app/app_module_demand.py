@@ -31,7 +31,19 @@ ELC_DEM_CURVE_FILE = FINAL_DATA / "electricity_demand_by_timeslice.parquet"
 
 # SET FILTER/GROUP OPTIONS
 
-dem_filters_raw = [
+dem_filters = [
+    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "Sector"},
+    {"col": "Fuel"},
+    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "Technology"},
+    {"col": "EnduseGroup"},
+    {"col": "EndUse"},
+    {"col": "Region"},
+]
+
+
+elc_dem_filters = [
     {"col": "SectorGroup", "label": "Sector Group"},
     {"col": "Sector"},
     {"col": "TechnologyGroup", "label": "Technology Group"},
@@ -39,9 +51,7 @@ dem_filters_raw = [
     {"col": "EnduseGroup"},
     {"col": "EndUse"},
     {"col": "Region"},
-    {"col": "Process"},
 ]
-
 
 elc_dem_curve_filters = [
     {"col": "Period", "multiple": False, "label": "Year"},
@@ -52,12 +62,11 @@ elc_dem_curve_filters = [
     {"col": "EnduseGroup"},
     {"col": "EndUse"},
     {"col": "Region"},
-    {"col": "Process"},
 ]
 # we add fuel to main
-dem_filters = dem_filters_raw + [{"col": "Fuel"}]
+
 dem_filters = create_filter_dict("energy_dem", dem_filters)
-elc_dem_filters = create_filter_dict("elc_dem", dem_filters_raw)
+elc_dem_filters = create_filter_dict("elc_dem", elc_dem_filters)
 elc_dem_curve_filters = create_filter_dict("elc_dem_curve", elc_dem_curve_filters)
 
 dem_group_options = [d["col"] for d in dem_filters]

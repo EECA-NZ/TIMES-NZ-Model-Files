@@ -50,7 +50,7 @@ def info_server(inputs, outputs, session):
 
     # header info buttons
     attach_info("info_btn_101", readme_times_101, "TIMES-NZ 101")
-    attach_info("info_btn_use", readme_app_use, "TIMES-NZ Alpha App")
+    attach_info("info_btn_use", readme_app_use, "Using the TIMES-NZ QA explorer")
     # Map each tab to its markdown doc
     attach_info("info_elc", info_elc_doc, "Electricity generation")
     attach_info("info_pri", info_elc_doc, "Electricity generation")

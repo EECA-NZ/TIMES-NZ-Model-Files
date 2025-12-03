@@ -42,7 +42,7 @@ ems_filters_raw = [
     {"col": "EnduseGroup"},
     {"col": "EndUse"},
     {"col": "Region"},
-    {"col": "Process"},
+    # {"col": "Process"},
     # {"col": "PlantName"},
 ]
 # build filter dict

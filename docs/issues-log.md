@@ -16,7 +16,7 @@ This log refers only to issues or missing features in the model itself. This exc
 
 ## Natural gas 
 - Kapuni gas is underutilised, presumably due to higher carbon costs. This points to a minor imbalance in the demand sector - in reality, Kapuni natural gas is in high demand. 
- - The model representation of gas network maintenance costs leads to unintended outcomes. Currently, these are assigned based on real-world delivery costs on a per-unit basis. The model, then, optimises maintenance costs by quickly and significantly reducing residential natural gas demand, as this is the highest maintenance cost on a per-unit basis. This is not realistic, as a reduction in natural gas demand does not reduce maintenance costs but should raise them for other users. 
+ - The model representation of gas network maintenance costs leads to unintended outcomes. Currently, these are assigned based on real-world delivery costs on a per-unit basis. The model, then, optimises maintenance costs by quickly and significantly reducing residential natural gas demand, as this is the highest maintenance cost on a per-unit basis. This is not realistic, as a reduction in natural gas demand does not reduce maintenance costs but should raise them for other users. It would be better to represent maintenance/delivery costs as a fixed capacity cost, which will capture behaviour better but also capture the "death spiral". 
 
 ## Other supply side 
 
