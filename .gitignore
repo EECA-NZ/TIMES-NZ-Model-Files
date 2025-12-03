@@ -151,3 +151,5 @@ Thumbs.db
 PREPARE-TIMES-NZ/data_intermediate/
 PREPARE-TIMES-NZ/output/
 PREPARE-TIMES-NZ/analysis/results/
+
+TIMES-NZ-INTERNAL-QA/data/*.zip

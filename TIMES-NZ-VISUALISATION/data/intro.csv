@@ -1,9 +1,0 @@
-step;text
-1;Use this toggle to switch between  <b> Key Insights </b> and  <b> Assumptions  </b> 
-2;Use these buttons to select the type of chart <br> <br> <i class="fa fa-line-chart" aria-hidden="true"></i> Line chart <br> <i class='fa fa-bar-chart'></i> Column chart <br> <i class='fa fa-area-chart'></i> Area chart <br> <i class='fa fa-percent'></i> Column percent chart <br>
-3;Use this toggle to switch between <b>Plot by Fuels</b> and <b>Plot by Technologies.</b>
-4;Use this dropdown to select between Fuels or Technologies in groups or separated.
-5;Use these dropboxes to refine your selection.
-6;Use this dropbox to select the metric.
-7;The graphs are interactive. <br> <br> Hover your mouse over them to see more information.  <br><br> Click on the tabs (eg Residential, Industrial) at the top of the tool to select the sector you want to explore. <br><br> Click on the categories in the legend to remove them from the graph. <br>  
-
