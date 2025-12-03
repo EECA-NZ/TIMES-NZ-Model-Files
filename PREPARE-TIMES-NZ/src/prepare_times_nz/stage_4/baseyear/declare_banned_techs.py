@@ -29,7 +29,7 @@ baseyear_techs_to_ban = {
     "T_F*PET*": "Light petrol trucks",
     "T_P_B*PET*": "Petrol buses",
     "T_P_B*LPG*": "LPG buses",
-    "C_WSR-SH-DirectH-GEO": "Commercial geothermal",
+    "C_WSR-*-DirectH-GEO": "Commercial geothermal",
 }
 
 

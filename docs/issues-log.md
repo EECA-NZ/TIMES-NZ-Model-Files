@@ -12,10 +12,12 @@ This log refers only to issues or missing features in the model itself. This exc
 
  - Residential load curves currently assume all use follows the same curve. This is the TIMES 2.0 method. However, it is a problem, because space heating is the key driver of peak load, limiting overall system uptake, so we should represent this load curve separately, allowing more efficient space heating techs to have the correct impact on peak.
  - Residential demand flex and the Tiwai demand flex contract are not currently modelled. This is especially important for residential hot water ripple control.
+ - Modelling homes as blocks per region allows model consumers to switch between heating devices, only using less efficient resistance heaters when heat pump capacity is already fully utilised. We should instead assign availability curves per time of day for all heating technologies, as real consumers often cannot choose which technology to use on an hourly basis. 
 
 ## Natural gas 
 - Kapuni gas is underutilised, presumably due to higher carbon costs. This points to a minor imbalance in the demand sector - in reality, Kapuni natural gas is in high demand. 
  - Not an issue, per se, but LNG outputs are not realistic unless using MIP solution methods (to disable partial LNG port builds). This is only a problem because MIP is much less computationally efficient than standard linear solutions, so this limits our ability to perform quick model runs unless significantly limiting the number of years we solve for. 
+ - The model representation of gas network maintenance costs leads to unintended outcomes. Currently, these are assigned based on real-world delivery costs on a per-unit basis. The model, then, optimises maintenance costs by quickly and significantly reducing residential natural gas demand, as this is the highest maintenance cost on a per-unit basis. This is not realistic, as a reduction in natural gas demand does not reduce maintenance costs (unless the network is abandoned). We likely need to rebuild the cost model from scratch to represent it in a more realistic way.
 
 ## Other supply side 
 

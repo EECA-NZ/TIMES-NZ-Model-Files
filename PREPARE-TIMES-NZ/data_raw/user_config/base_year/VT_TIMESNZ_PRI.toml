@@ -298,5 +298,5 @@ SheetName = "Hydrogen"
 TagName = "FI_T"
 TechName = ["MINH2R_PLACEHOLDER"]
 Comm-Out = ["H2R"]
-Cost = [40] # place holder price
+Cost = [40] # place holder price - high, but not insanely so
 
