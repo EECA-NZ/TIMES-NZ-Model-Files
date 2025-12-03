@@ -560,6 +560,8 @@ def main():
     print("Processing all scenario files...")
     df = load_scenario_results(current_scenarios)
 
+    df = df[df["Period"] != "2055"]
+
     process_primary_energy(df)
     process_energy_service_demand(df)
     process_energy_demand(df)
