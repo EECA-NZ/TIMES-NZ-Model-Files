@@ -618,3 +618,16 @@ body > .container-fluid {
   border-color: var(--border);
   border-radius: 4px;
 }
+
+
+
+/* =========================================================
+   11. App 
+   ========================================================= */
+
+
+#app-parent {
+  width: 100vw;
+  height: 100vh;
+  overflow: visible;
+}

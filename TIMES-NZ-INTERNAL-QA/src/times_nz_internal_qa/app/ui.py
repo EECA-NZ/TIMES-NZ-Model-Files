@@ -39,6 +39,11 @@ app_ui = ui.page_fluid(
             rel="stylesheet",
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
         ),
+        ui.tags.script(
+            # pylint: disable=line-too-long
+            src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.contentWindow.min.js",
+            type="text/javascript",
+        ),
         # Your global CSS (last so it can override everything)
         ui.include_css(global_css),
     ),
@@ -112,4 +117,13 @@ app_ui = ui.page_fluid(
         ),
         class_="navset-large",
     ),
+)
+
+
+app_ui = ui.div(
+    ui.div(ui.div(class_="loader"), id="page-loader-parent"),
+    app_ui,
+    # Inserts a tag to enable the iframe to dynamically resize to this point.
+    ui.HTML("<div data-iframe-height></div>"),
+    id="app-parent",
 )
