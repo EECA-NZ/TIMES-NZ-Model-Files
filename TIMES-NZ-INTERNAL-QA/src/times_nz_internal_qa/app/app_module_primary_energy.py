@@ -36,8 +36,8 @@ pri_filters = [
 ]
 
 # we add fuel to main
-
-pri_filters = create_filter_dict("prd", pri_filters)
+# NOTE: this should be chart ID not page ID
+pri_filters = create_filter_dict("energy_prod", pri_filters)
 
 
 pri_group_options = [d["col"] for d in pri_filters]
