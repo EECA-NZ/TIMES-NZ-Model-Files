@@ -1,0 +1,23 @@
+Technology,Technology_TIMES,TechGroup
+Electronics,ELEC,Electronics and Lights
+Lights (Incandescent),INC,Electronics and Lights
+Lights (Fluorescent),FLU,Electronics and Lights
+Lights (LED),LED,Electronics and Lights
+Boiler Systems,Boiler,Heat/Cooling Devices
+Burner (Direct Heat),Burner,Heat/Cooling Devices
+Heat Pump (for Heating),AIRHP,Heat/Cooling Devices
+Heat Pump (for Cooling),AIRHP,Heat/Cooling Devices
+Resistance Heater,RH,Heat/Cooling Devices
+Hot Water Cylinder,Cylinder,Heat/Cooling Devices
+Internal Combustion Engine (Land Transport),MPM,Mobile Motors
+Electric Motor,MPS,Stationary Motors
+Stationary Engine,MPS,Stationary Motors
+Refrigeration Systems,Refriger,Heat/Cooling Devices
+Direct Heat,DirectH,Heat/Cooling Devices
+Cooking Elements,CK,Heat/Cooling Devices
+Cooking Ovens,Ovens,Heat/Cooling Devices
+"Pump Systems (for Fluids, etc.)",PUMP,Stationary Motors
+Cooking Inductions,CK-Induction,Heat/Cooling Devices
+Heat Pump Ground Source (for Cooling),GHP,Heat/Cooling Devices
+Heat Pump Ground Source (for Heating),GHP,Heat/Cooling Devices
+Instantaneous Water Heater,Instant,Heat/Cooling Devices

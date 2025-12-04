@@ -1,0 +1,34 @@
+﻿Imported,Process,Renewable,FuelGroup,FuelDetail,SectorGroup,Sector,TechnologyGroup,Technology,EnduseGroup,EndUse,Note
+Domestic production,MINNGA-KAP,Non-renewable,Natural gas,Natural gas fields (Kapuni),Fugitive emissions,Natural gas fugitive emissions,Domestic gas fields,Gas fields (Kapuni),Gas Production,Gas Production,Add demand categories if needed for emissions charts
+Domestic production,MINNGA-OTH,Non-renewable,Natural gas,Natural gas fields (Other),Fugitive emissions,Natural gas fugitive emissions,Domestic gas fields,Gas fields (except Kapuni),Gas Production,Gas Production,Add demand categories if needed for emissions charts
+Domestic production,MINCOA,Non-renewable,Coal,Domestic coal production,,,,,,,
+Imports,IMPCOA,Non-renewable,Coal,Imported coal,,,,,,,
+Imports,IMPDSL,Non-renewable,Oil products,Diesel,,,,,,,
+Imports,IMPFOL,Non-renewable,Oil products,Fuel oil ,,,,,,,
+Imports,IMPLPG,Non-renewable,Oil products,LPG,,,,,,,
+Imports,IMPLNG,Non-renewable,Natural gas,LNG,,,,,,,
+Imports,IMPPET,Non-renewable,Oil products,Petrol,,,,,,,
+Imports,IMPJET,Non-renewable,Oil products,Jet Fuel,,,,,,,
+Imports,IMPSAF,Renewable,Biofuels,SAF,,,,,,,
+Domestic production,MINAGRWST00,Renewable,Agricultural waste,Straw & stover residues,,,,,,,
+Domestic production,MINAGRWST01,Renewable,Agricultural waste,Orchard & viticulture residues,,,,,,,
+Domestic production,MINANMMNR00,Renewable,Agricultural waste,Animal manure,,,,,,,
+Domestic production,MINMNCWST00,Renewable,Municipal waste,Municipal wood waste,,,,,,,
+Domestic production,MINMNCWST01,Renewable,Municipal waste,Municipal solid waste & wastewater,,,,,,,
+Domestic production,MINWODSUPCUR00,Renewable,Woody biomass,Pulp logs,,,,,,,
+Domestic production,MINWODSUPCUR01,Renewable,Woody biomass,A-grade logs,,,,,,,
+Domestic production,MINWODSUPCUR02,Renewable,Woody biomass,K-grade logs,,,,,,,
+Domestic production,MINWODSUPCUR03,Renewable,Woody biomass,Douglas-fir production thinnings,,,,,,,
+Domestic production,MINWODSUPOSWOD,Renewable,Woody biomass,Wood processing residues,,,,,,,
+Domestic production,MINWODWST00,Renewable,Woody biomass,In-forest residues (Landings),,,,,,,
+Domestic production,MINWODWST01,Renewable,Woody biomass,In-forest residues (Hauler/ground-based cutover),,,,,,,
+Domestic production,MINWODWST02,Renewable,Woody biomass,Waste thinnings,,,,,,,
+Domestic production,MINWODWST03,Renewable,Woody biomass,Pruning residues,,,,,,,
+Domestic production,MINWODWST04,Renewable,Woody biomass,Production thinnings,,,,,,,
+Domestic production,MINWODWST05,Renewable,Woody biomass,Port bark,,,,,,,
+Domestic production,MINWODWST06,Renewable,Woody biomass,Sawmill chip,,,,,,,
+Domestic production,MINWODWST07,Renewable,Woody biomass,Shelterbelt turnover residuals,,,,,,,
+Domestic production,MINWODWST08,Renewable,Woody biomass,Wood waste residuals (ALERT - ITEM REMOVED),,,,,,,
+Domestic production,FTE_ELCHYD,Renewable,Hydro,Hydro,,,,,,,Required here to flow through to primary energy chart
+Domestic production,FTE_ELCGEO,Renewable,Geothermal,Geothermal,,,,,,,Required here to flow through to primary energy chart
+Domestic production,FTE_ELCSOL,Renewable,Solar,Solar,,,,,,,Required here to flow through to primary energy chart

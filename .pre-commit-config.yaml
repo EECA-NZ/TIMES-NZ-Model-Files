@@ -1,0 +1,60 @@
+---
+# This file defines pre-commit and pre-push hooks.
+# Includes a virtual environment check and basic
+# tooling (black, isort, pylint, pip-audit, yamllint).
+default_language_version:
+  python: python3.12
+
+repos:
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+        types: [python]
+        files:  ^(PREPARE-TIMES-NZ|TIMES-NZ-INTERNAL-QA)/.*\.py$
+        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
+
+  - repo: https://github.com/pycqa/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort
+        args: ["--profile=black"]
+        types: [python]
+        files: ^(PREPARE-TIMES-NZ|TIMES-NZ-INTERNAL-QA)/.*\.py$
+        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
+
+  - repo: local
+    hooks:
+      - id: pylint-prep
+        name: pylint via Poetry (PREPARE-TIMES-NZ)
+        language: system
+        entry: poetry --directory PREPARE-TIMES-NZ run python ../tools/pylint_precommit.py
+        types: [python]
+        files: ^PREPARE-TIMES-NZ/.*\.py$
+        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
+
+      - id: pylint-qa
+        name: pylint via Poetry (TIMES-NZ-INTERNAL-QA)
+        language: system
+        entry: poetry --directory TIMES-NZ-INTERNAL-QA run python ../tools/pylint_precommit.py
+        types: [python]
+        files: ^TIMES-NZ-INTERNAL-QA/.*\.py$
+        exclude: ^TIMES-NZ-INTERNAL-QA/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        files: ^PREPARE-TIMES-NZ/.*\.(?:yml|yaml)$
+
+  - repo: local
+    hooks:
+      - id: pip-audit-poetry
+        name: pip-audit via Poetry (PREPARE-TIMES-NZ)
+        language: system
+        entry: poetry --directory PREPARE-TIMES-NZ run pip-audit
+        args:
+          - --progress-spinner=off
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]

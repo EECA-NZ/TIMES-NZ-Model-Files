@@ -1,0 +1,32 @@
+Technology,Fuel,Efficiency,Notes
+Boiler Systems,Coal,0.75,TIMES-NZ 2.0
+Boiler Systems,Diesel,0.85,TIMES-NZ 2.0
+Boiler Systems,LPG,0.85,TIMES-NZ 2.0
+Boiler Systems,Natural Gas,0.85,TIMES-NZ 2.0
+Boiler Systems,Wood,0.85,Typical industry value
+Burner (Direct Heat),Coal,0.77,TIMES-NZ 2.0
+Burner (Direct Heat),LPG,0.8,TIMES-NZ 2.0
+Burner (Direct Heat),Natural Gas,0.8,TIMES-NZ 2.0
+Burner (Direct Heat),Biogas,0.8,Relative to Natural Gas
+Heat Pump (for Cooling),Electricity,3.5,TIMES-NZ 2.0
+Heat Pump (for Heating),Electricity,2.5,TIMES-NZ 2.0
+Resistance Heater,Electricity,0.99,TIMES-NZ 2.0
+Direct Heat,Geothermal,1,TIMES-NZ 2.0
+Hot Water Cylinder,Electricity,1,TIMES-NZ 2.0
+Hot Water Cylinder,Natural Gas,0.8,TIMES-NZ 2.0
+Lights (Incandescent) ,Electricity,0.15,TIMES-NZ 3.0 Residential
+Lights (Fluorescent) ,Electricity,0.68,TIMES-NZ 3.0 Residential
+Lights (LED),Electricity,0.95,TIMES-NZ 3.0 Residential
+Internal Combustion Engine (Land Transport),Diesel,0.2,https://www.researchgate.net/publication/343138786_Estimation_of_tank-to-wheel_efficiency_functions_based_on_type_approval_data
+Internal Combustion Engine (Land Transport),LPG,0.12,https://www.researchgate.net/publication/350712005_Comparison_of_the_Overall_Energy_Efficiency_for_Internal_Combustion_Engine_Vehicles_and_Electric_Vehicles
+Internal Combustion Engine (Land Transport),Petrol,0.2,Similar to diesel above.
+Internal Combustion Engine (Land Transport),Natural Gas,0.12,Relative to LPG.
+Electric Motor,Electricity,0.9,https://www.eeca.govt.nz/assets/EECA-Resources/Research-papers-guides/Technology-Scan-of-Electric-Motor-Applications_EECA.pdf
+Stationary Engine,Petrol,0.14,https://www.eeca.govt.nz/assets/EECA-Resources/Research-papers-guides/Technology-Scan-of-Electric-Motor-Applications_EECA.pdf
+Refrigeration Systems,Electricity,1.8,TIMES-NZ 2.0
+Electronics,Electricity,0.9,TIMES-NZ 2.0
+Cooking Elements,Electricity,0.74,https://www.energystar.gov/products/commercial_food_service_equipment/commercial_ovens/key_product_criteria
+Cooking Ovens,Electricity,0.76,https://www.energystar.gov/products/commercial_food_service_equipment/commercial_ovens/key_product_criteria
+Cooking Ovens,LPG,0.49,Similar to Natural gas below.
+Cooking Ovens,Natural Gas,0.49,https://www.energystar.gov/products/commercial_food_service_equipment/commercial_ovens/key_product_criteria
+"Pump Systems (for Fluids, etc.)",Electricity,0.9,Similar to Electric Motor

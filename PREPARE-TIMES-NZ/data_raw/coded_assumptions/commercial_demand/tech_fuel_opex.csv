@@ -1,0 +1,32 @@
+Technology,Fuel,OPEX,PriceBaseYear,Notes
+Boiler Systems,Coal,15,2018,TIMES-NZ 2.0
+Boiler Systems,Diesel,3,2018,TIMES-NZ 2.0
+Boiler Systems,LPG,2,2018,TIMES-NZ 2.0
+Boiler Systems,Natural Gas,2,2018,TIMES-NZ 2.0
+Boiler Systems,Wood,,,TBD
+Burner (Direct Heat),Coal,,,TBD
+Burner (Direct Heat),LPG,,,TBD
+Burner (Direct Heat),Natural Gas,,,TBD
+Burner (Direct Heat),Biogas,,,TBD
+Heat Pump (for Cooling),Electricity,,,TBD
+Heat Pump (for Heating),Electricity,,,TBD
+Resistance Heater,Electricity,,,TBD
+Direct Heat,Geothermal,,,TBD
+Hot Water Cylinder,Electricity,,,TBD
+Hot Water Cylinder,Natural Gas,,,TBD
+Lights (Incandescent) ,Electricity,,,TBD
+Lights (Fluorescent) ,Electricity,,,TBD
+Lights (LED),Electricity,,,TBD
+Internal Combustion Engine (Land Transport),Diesel,7,2018,TIMES-NZ 2.0
+Internal Combustion Engine (Land Transport),LPG,7,2018,TIMES-NZ 2.0
+Internal Combustion Engine (Land Transport),Natural Gas,7,2018,Similar to LPG above
+Internal Combustion Engine (Land Transport),Petrol,7,2018,TIMES-NZ 2.0
+Electric Motor,Electricity,,,TBD
+Stationary Engine,Petrol,5,2018,TIMES-NZ 2.0
+Refrigeration Systems,Electricity,5,2018,TIMES-NZ 2.0
+Electronics,Electricity,,,TBD
+Cooking Elements,Electricity,,,TBD
+Cooking Ovens,Electricity,,,TBD
+Cooking Ovens,LPG,,,TBD
+Cooking Ovens,Natural Gas,,,TBD
+"Pump Systems (for Fluids, etc.)",Electricity,,,TBD

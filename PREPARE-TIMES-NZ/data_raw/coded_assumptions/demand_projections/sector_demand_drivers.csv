@@ -1,0 +1,42 @@
+SectorGroup,Sector,SectorDriver
+Commercial,Data Centre,COM_DATA_DMD
+Commercial,Education,POP
+Commercial,Healthcare,POP
+Commercial,Office Blocks,GDP
+Commercial,Other,GDP
+Commercial,WSR,GDP
+Industry,Aluminium,IND_ALUM_DMD
+Industry,Chemicals (excl. Urea and Methanol),IND_CHEM_DMD
+Industry,Construction,IND_CNST_DMD
+Industry,Dairy,IND_DARY_DMD
+Industry,Food and Beverage,IND_FOOD_DMD
+Industry,Iron & Steel,IND_STEEL_DMD
+Industry,Meat,IND_MEAT_DMD
+Industry,Methanol,IND_METH_DMD
+Industry,Mining,IND_MINE_DMD
+Industry,Non-Metallic Mineral Product Manufacturing,IND_MNRL_DMD
+Industry,Other,IND_OTHR_DMD
+Industry,Pulp and Paper,IND_PULP_DMD
+Industry,Urea,IND_UREA_DMD
+Industry,Wood Products,IND_WOOD_DMD
+Residential,Residential,POP
+"Agriculture, Forestry and Fishing",Dairy Cattle Farming,AGR_ADCF_DMD
+"Agriculture, Forestry and Fishing","Fishing, Hunting and Trapping",AGR_AFISH_DMD
+"Agriculture, Forestry and Fishing",Forestry and Logging,AGR_AFORE_DMD
+"Agriculture, Forestry and Fishing",Horticulture (Outdoor),AGR_AHORT_DMD
+"Agriculture, Forestry and Fishing",Indoor Cropping,AGR_AINDC_DMD
+"Agriculture, Forestry and Fishing",Livestock Farming,AGR_ALIVE_DMD
+"Agriculture, Forestry and Fishing",Other Agriculture,AGR_AOTH_DMD
+Transport,LPV,TRA_LPV_DEM
+Transport,LCV,TRA_LCV_DEM
+Transport,Motorcycle,TRA_MCY_DEM
+Transport,Bus,TRA_BUS_DEM
+Transport,Light Truck,TRA_LTRK_DEM
+Transport,Medium Truck,TRA_MTRK_DEM
+Transport,Heavy Truck,TRA_HTRK_DEM
+Transport,Rail Freight,GDP
+Transport,Passenger Rail,GDP
+Transport,Domestic Shipping,GDP
+Transport,International Shipping,GDP
+Transport,Domestic Aviation,POP
+Transport,International Aviation,POP

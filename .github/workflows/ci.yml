@@ -1,0 +1,146 @@
+---
+name: CI Pipeline
+
+on:
+  push:
+    branches-ignore:
+      - gh-pages
+  pull_request:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+env:
+  PYTHON_VERSION: "3.12"
+
+# Linting, testing and security audit steps
+jobs:
+  lint:
+    name: Lint (black / isort / pylint / yamllint)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-in-project: true
+          virtualenvs-create: true
+
+      - name: Cache Poetry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pypoetry
+            ~/.cache/pip
+          key: ${{ runner.os }}-poetry-${{ hashFiles('PREPARE-TIMES-NZ/poetry.lock') }}
+
+      - name: Install dependencies (with dev extras)
+        working-directory: PREPARE-TIMES-NZ
+        run: poetry install --no-interaction --with dev
+
+      - name: Run linters
+        working-directory: PREPARE-TIMES-NZ
+        run: |
+          poetry run black --check --diff src tests scripts
+          poetry run isort --profile black --check-only src tests scripts
+          poetry run pylint src/prepare_times_nz scripts
+          poetry run yamllint .
+
+  test:
+    name: Unit tests + coverage
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - uses: snok/install-poetry@v1
+        with:
+          virtualenvs-in-project: true
+          virtualenvs-create: true
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pypoetry
+            ~/.cache/pip
+          key: ${{ runner.os }}-poetry-${{ hashFiles('PREPARE-TIMES-NZ/poetry.lock') }}
+
+      - name: Install deps
+        working-directory: PREPARE-TIMES-NZ
+        run: poetry install --no-interaction --with dev
+
+      - name: Run tests & build HTML coverage
+        working-directory: PREPARE-TIMES-NZ
+        run: |
+          poetry run coverage run -m pytest
+          poetry run coverage html
+
+      - name: Publish coverage to gh-pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: PREPARE-TIMES-NZ/htmlcov
+
+      - name: Coverage summary
+        working-directory: PREPARE-TIMES-NZ
+        run: poetry run coverage report
+
+  audit:
+    name: pip-audit (Poetry env)
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - uses: snok/install-poetry@v1
+        with:
+          virtualenvs-in-project: true
+          virtualenvs-create: true
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pypoetry
+            ~/.cache/pip
+          key: ${{ runner.os }}-poetry-${{ hashFiles('PREPARE-TIMES-NZ/poetry.lock') }}
+
+      - name: Install deps
+        working-directory: PREPARE-TIMES-NZ
+        run: poetry install --no-interaction --with dev
+
+      - name: Run pip-audit
+        working-directory: PREPARE-TIMES-NZ
+        # pip vuln to be fixed in 25.3 (not yet available)
+        # this vuln is safe to ignore assuming python version is >=3.12. See: 
+        # https://github.com/pypa/pip/issues/13607
+        run: poetry run pip-audit --skip-editable --ignore-vuln GHSA-4xh5-x5gv-qwph 
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: ${{ success() && github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') }}
+    needs: [test]
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

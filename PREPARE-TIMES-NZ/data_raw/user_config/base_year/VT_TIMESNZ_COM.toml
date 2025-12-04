@@ -1,0 +1,65 @@
+# Base year commercial sector settings for TIMES-NZ.
+
+WorkBookName = "VT_TIMESNZ_COM"
+
+###############################################################################
+# Sector Fuels 
+###############################################################################
+
+[CommercialFuelCommodityDefinitions]
+Description = "Defines commodities that are used to meet commercial demand (eg COMCOA)"
+SheetName = "COM_Fuels"
+TagName = "FI_Comm"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_com/fuel_commodity_definitions.csv"
+
+[CommercialFuelProcessDefinitions]
+Description = "Defines the processes that can convert other TIMES Commodities into these fuels (eg COA -> COMCOA)"
+# Note that these are effectively dummy processes for modelling, and so should not contain technical parameters. 
+# The processes are defined with 'PRE' settings (meaning 'generic process') 
+SheetName = "COM_Fuels"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_com/fuel_delivery_definitions.csv"
+
+[CommercialFuelProcessParameters]
+Description = "Defines technical parameters for dummy commercial fuel processes (barely used)"
+SheetName = "COM_Fuels"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_com/fuel_delivery_parameters.csv"
+
+###############################################################################
+# Existing Technologies
+###############################################################################
+
+[CommercialCommodityDefinitions]
+Description = "Defines commodities that are in the existing commercial sector"
+SheetName = "COM_Demand"
+TagName = "FI_Comm"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_com/enduse_commodity_definitions.csv"
+
+[CommercialProcessDefinitions]
+Description = "Defines all existing technologies capable for commercial demand"
+SheetName = "COM_Demand"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_com/demand_process_definitions.csv"
+
+[CommercialProcessParameters]
+Description = "Technical parameters for existing commercial technologies"
+SheetName = "COM_Demand"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_com/commercial_baseyear_demand.csv"
+
+[CommercialProcessParameters2]
+Description = "Summary of commercial demand for existing commercial technologies by commodity"
+SheetName = "COM_Demand"
+TagName = "FI_T: Demand"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_com/commercial_baseyear_demand2.csv"
+
+###############################################################################
+# Emissions Factors 
+###############################################################################
+
+[CommercialEmissionsFactors]
+Description = "Defines emissions factors for commercial fuels"
+SheetName = "COM_Emissions"  
+TagName = "COMEMI"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_com/commercial_emission_factors.csv"

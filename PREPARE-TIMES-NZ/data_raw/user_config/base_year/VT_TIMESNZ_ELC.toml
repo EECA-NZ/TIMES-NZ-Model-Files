@@ -1,0 +1,157 @@
+# Base year electricity sector settings for TIMES-NZ
+
+WorkBookName = "VT_TIMESNZ_ELC"
+
+###############################################################################
+# Sector Fuels 
+###############################################################################
+
+[ElectricityFuelCommodityDefinitions]
+Description = "Defines commodities that can be used for electricity generation (eg ELCNGA)"
+SheetName = "Sector_Fuels_ELC"
+TagName = "FI_Comm"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/elc_input_commodity_definitions.csv"
+
+[ElectricityFuelProcessDefinitions]
+Description = "Defines the processes that can convert other TIMES Commodities into these fuels (eg NGA -> ELCNGA)"
+# Note that these are effectively dummy processes for modelling, and so should not contain technical parameters. 
+# The processes are defined with 'PRE' settings (meaning 'miscellaneous') 
+SheetName = "Sector_Fuels_ELC"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/elc_dummy_fuel_process_definitions.csv"
+
+[ElectricityFuelProcessParameters]
+Description = "Defines technical parameters for dummy electricity fuel processes (barely used)"
+# NOTE: it is possible to add a VAROM to these processes to represent fuel delivery costs.
+#  However, these are now set to each electricity generating process separately 
+# (some plants have higher delivery costs than others)
+# by setting VAR_FLO costs on the process itself - this is the approach we have used, given the MBIE data on delivery costs.
+SheetName = "Sector_Fuels_ELC"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/elc_dummy_fuel_process_parameters.csv"
+
+###############################################################################
+# Existing Technologies
+###############################################################################
+
+
+[JustDefiningElectricity]
+Description = "Defines ELC and ELCCO2 (should these just be added to [ElectricityCommodityDefinitions]?)"
+SheetName = "Existing Technologies"
+TagName = "FI_Comm"
+# We will just put the relevant data in here for now. Copies specs from TIMES 2.0.
+# Alternatively could put a csv in data_raw and read that in to match the original. Not sure what's best. 
+[JustDefiningElectricity.Data]
+
+Csets =    ["NRG", "ENV"]
+CommName = ["ELC", "ELCCO2"]
+Unit =     ["PJ",  "kt"]
+LimType =  ["FX",  ""]
+CTSLvl =   ["DAYNITE",  "ANNUAL"]
+PeakTS =   ["",  ""]
+Ctype =    ["ELC",  ""]
+
+
+[ElectricityProcessDefinitions]
+Description = "Defines all existing technologies capable of generating electricity"
+SheetName = "Existing Technologies"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_process_definitions.csv"
+
+
+[ElectricityProcessParameters]
+Description = "Technical parameters for existing electricity generation technologies"
+SheetName = "Existing Technologies"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_parameters.csv"
+
+
+[ElectricityProcessAgeDistributions]
+Description = "Adds age distributions for each plant or plant type (either NCAP_PASTI when lifetime is known, or PRC_RESID to represent a capacity stock of mixed lifetimes otherwise)"
+SheetName = "Existing Technologies"
+TagName = "FI_T"
+# Some floating point errors creeping through into the generated data - need to check this.
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_capacity.csv"
+
+
+
+[ElectricityProcessSpecificCapacityFactors]
+Description = "Locking specific capacity factors for plants where we have precise data, to ensure alignment."
+SheetName = "Existing Technologies"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/base_year_capacity_factors.csv"
+
+###############################################################################
+# Distribution
+# Note: this sheet used to be called "Demand and Distribution". 
+# It contained a crude representation of own use which had been disabled from TIMES 2.0.
+# Since we use net generation this own use representation is not actually needed, so now the sheet is just called "Distribution".
+###############################################################################
+
+
+[DistributionProcessDefinitions]
+Description = "Defines all processes involved in distribution (eg Processes that convert ELC to ELCHV)"
+SheetName = "Distribution"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_processes.csv"
+
+[DitributionCommodityDefinitions]
+Description = "Defines electricity distribution subprocessses (eg ELCHV, ELCMV, ELCDD)"
+SheetName = "Distribution"  
+TagName = "FI_Comm"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_commodities.csv"
+
+
+[DistributionProcessParameters]
+Description = "Sets technical parameters for distribution processes (eg losses, capacity, etc)" 
+SheetName = "Distribution"  
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_parameters.csv"
+
+###############################################################################
+# Emission Factors 
+
+# This sheet applies emission factors to each electricity commodity. 
+
+# Note that geothermal emission factors are slightly different. These are defined based on the field output in kWh. 
+# This means they are not directly comparable to other fuel factors. 
+# In the model, we apply them to the activity (output flow) of the process, rather than the commodity use. 
+
+# Key sources: 
+
+# https://environment.govt.nz/publications/measuring-emissions-a-guide-for-organisations-2024-detailed-guide/
+# https://www.nzgeothermal.org.nz/geothermal-in-nz/what-is-geothermal/ 
+
+# Finally, we assume some emissions from Ngawha in the base year, and that these fall to zero by 2026. 
+# This is hardcoded below.
+
+###############################################################################
+
+# Source: MEG 
+
+[ElectricityEmissionFactors]
+Description = "Defines co2e kt/PJ emission factors for electricity generation (input basis)."
+SheetName = "Emission Factors"  
+TagName = "COMEMI"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/emission_factors_elc_fuels.csv"
+
+
+[GeothermalEmissionFactors]
+Description = "Defines co2e kt/PJ emission factors for geothermal electricity generation per field (output basis). Median value applied if plant data unavailable." 
+SheetName = "Emission Factors"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/emission_factors_geo.csv"
+
+[NgawhaEmissionFactorAdjustments]
+Description = "Manual adjustments to reduce Ngawha emissions to 0 by 2026. Note these are hardcoded assumptions in config file." 
+# Source: https://www.energyawards.co.nz/article/awards-finalist-ng%C4%81wh%C4%81-generation
+SheetName = "Emission Factors"
+TagName = "FI_T"
+# Define parameters: 
+[NgawhaEmissionFactorAdjustments.Data]
+# For these specific processes (NOTE hardcoding to match generated process names)
+TechName =  ["ELC_Geothermal_GEO_Ngawha(oec1-3)", "ELC_Geothermal_GEO_Ngawha(oec4)"]
+# Set both to 0 by 2026 (must wrap variable in quotes when using ~)
+"ENV_ACT~ELCCO2~2026" = [0,0]
+# set standard linear interpolation and extrapolation
+"ENV_ACT~ELCCO2~0" = [5,5]

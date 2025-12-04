@@ -1,0 +1,17 @@
+﻿Residue type,TechName,Recoverability  factor 1  (% of gross),Recoverability  factor  2  (% of gross)
+In-forest residues – landings,MINWODWST00,0.8,0.65
+In-forest residues - cutover,MINWODWST01,0.7,0.55
+Wood processing residues,MINWODSUPOSWOD,0.95,0.9
+Municipal wood waste,MINMNCWST00,0.8,0.6
+Port bark,MINWODWST05,0.8,0.7
+Horticultural residues,MINAGRWST01,0.8,0.65
+Straw and Stover*,MINAGRWST00,0.7,0.6
+Shelter belt residuals,MINWODWST07,0.8,0.6
+Production thinnings residuals,MINWODWST04,0.8,0.5
+Waste thinnings,MINWODWST02,0.5,0.25
+Prunings,MINWODWST03,0.3,0.15
+Pulp log,MINWODSUPCUR00,0.95,0.9
+Sawmill chip,MINWODWST06,0.75,0.5
+K grade logs,MINWODSUPCUR02,0.95,0.8
+A grade logs,MINWODSUPCUR01,0.9,0.8
+Douglas-fir production thinnings,MINWODSUPCUR03,0.8,0.5

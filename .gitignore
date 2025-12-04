@@ -1,3 +1,4 @@
+# Project-specific paths
 .env
 utils/*.pkl
 .venv/
@@ -5,33 +6,97 @@ utils/*.pkl
 __pycache__/
 TIMES-NZ/ParScen_BackUp
 TIMES-NZ/SuppXLS/ParScenFiles
+utils/*.pkl
+raw_tables.pkl
 TIMES-NZ/ParScen_BackUp
 TIMES-NZ/SuppXLS/ParScenFiles
 TIMES-NZ/AppData/ExResLayout.json
 TIMES-NZ/AppData/MasterFormFormSettings.json
 TIMES-NZ/AppData/ResultsFormSettings.json
 TIMES-NZ/AppData/Settings.json
-TIMES-NZ/AppData/Cases.json
-TIMES-NZ/AppData/Groups.json
-TIMES-NZ/AppData/BrowseFormSettings.json
-TIMES-NZ/AppData/Cases.json
-TIMES-NZ/AppData/Groups.json
+# TIMES-NZ/AppData/Cases.json
+# TIMES-NZ/AppData/Groups.json
 TIMES-NZ/AppData/BrowseFormSettings.json
 raw_tables.pkl
 TIMES-NZ/Exported_files/
 TIMES-NZ-GAMS/GAMSSAVE/
-
+TIMES-NZ/SyncLogs/
+.coverage
+PREPARE-TIMES-NZ/data_intermediate/
+PREPARE-TIMES-NZ/output/
 
 # Ignore all generated files
-*.lst
+# Note: keeping the Veda data for easier checking
+# *.lst
 *.gdx
-*.vd
-*.vde
-*.vds
-*.vdt
-*.log
+
+# *.vd
+# *.vde
+# *.vds
+# *.vdt
+# *.log
+
 *_run_log.txt
 *.exe
+
+# Ignoring local development notebooks
+# Python artefacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+*.sage.py
+
+# Virtual-envs
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Packaging / build
+PREPARE-TIMES-NZ/.cache/doit/db*
+db.bak
+db.dir
+.Python
+build/
+dist/
+sdist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+share/python-wheels/
+wheelhouse/
+pip-wheel-metadata/
+*.egg
+*.egg-info/
+.installed.cfg
+MANIFEST
+
+# Tools / IDEs / notebooks
+.vscode/
+.idea/
+.Rproj.user
+.spyderproject
+.spyproject
+.ropeproject
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+.pytest_cache/
+.hypothesis/
+.typecheck/
+.tox/
+.nox/
+.ipynb_checkpoints
+*.ipynb
 
 # Ignore specific directories
 GAMSSAVE/
@@ -39,7 +104,52 @@ GAMSSAVE/
 # Additional ignores
 END_GAMS
 .Rproj.user
-.pylintrc
+.vscode/
+
+# Logs / coverage / profiling
+.log
+*_run_log.txt
+pip-log.txt
+pip-delete-this-directory.txt
+.coverage*
+coverage.xml
+htmlcov/
+.prof
+
+# Binary / temporary / misc
+*.exe
+*.dll
+*.manifest
+*.spec
+*.tmp
+*.temp
+tmp/
+temp/
+cache/
+cython_debug/
 
 # R deployment artifacts
 rsconnect
+
+# Docs / static / translations / data
+docs/_build/
+docs/_static/
+docs/_autoapi/
+doc/build/
+static/
+*.dat
+*.db
+*.sqlite3
+*.mo
+*.pot
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Some spare processing locations
+PREPARE-TIMES-NZ/data_intermediate/
+PREPARE-TIMES-NZ/output/
+PREPARE-TIMES-NZ/analysis/results/
+
+TIMES-NZ-INTERNAL-QA/data/*.zip

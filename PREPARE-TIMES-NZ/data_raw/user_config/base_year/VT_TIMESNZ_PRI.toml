@@ -1,0 +1,302 @@
+# Base year primary energy supply for TIMES:
+
+# Gas 
+# Oil 
+# Coal
+# Other Later probably (renewables) 
+
+WorkBookName = "VT_TIMESNZ_PRI"
+
+###########################################
+# Gas
+###########################################
+
+
+[GasSupplyCommodityDefinitions]
+Description = "Declare natural gas and fugitive emissions commodities (North Island only). Hardcoded in user config."
+SheetName = "Natural Gas"
+TagName = "FI_Comm"
+Csets = ["NRG", "ENV"]
+Region = ["NI", "NI"]
+CommName = ["NGA", "GASCO2"]
+Unit = ["PJ", "kt"]
+
+[GasSupplyProcessDefinitions]
+Description = "Declare natural gas production processes"
+SheetName = "Natural Gas"
+TagName = "FI_Process"
+Sets = ["MIN", "MIN"] # this actually doesn't need to dupe - rows inherit so "MIN" would also be fine
+TechName = ["MINNGA-KAP", "MINNGA-OTH"] # All other fields and Kapuni
+Tact = ["PJ","PJ"]
+Tcap = ["PJa","PJa"]
+
+
+[GasSupplyParameters]
+Description = "Production costs and fugitive emissions for domestic gas fields, and output commodity declaration."
+SheetName = "Natural Gas"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/natural_gas_production_parameters.csv"
+
+[GasSupplyForecasts]
+Description = "Add natural gas production forecast limits. Excludes contingent - only the 2P reserves."
+# Note contingent reserves are specified as a separate/optional scenario table
+SheetName = "Natural Gas"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/deliverability_forecasts_2p.csv"
+
+# this will include costs and activity bounds 
+# cost will be a linear interpolation, but activity bound needs to be annual inputs from reserves 
+# the process definitions can be pulled from this as per normal 
+# later might need to mess with this a bit to standardise for reporting 
+
+###########################################
+# LNG
+# NOTE: LNG goes into SUBRES files here 
+# BUT some parts need to go into a scenario file for lumpy investment
+# kept in this config file for tidiness (it's small) 
+# we do not limit this to the north island, because the south island can't do anything with NGA
+# so this shouldnt' matter (but to keep an eye on that)
+###########################################
+
+[LNGSupplyCommodityDefinitions]
+WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
+Description = "Declare LNG commodity"
+SheetName = "LNG"
+TagName = "FI_Comm"
+Csets = ["NRG"]
+Region = ["NI"]
+CommName = ["LNG"]
+Unit = ["PJ"]
+
+
+[LNGSupplyProcessDefinitions]
+WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
+Description = "Declare LNG production/regasification processes"
+SheetName = "LNG"
+TagName = "FI_Process"
+
+# setting discrete investments on the LNG ports
+# actual values are set in the scenario file
+Sets = ["IMP", "PRE, DISCINV", "PRE, DISCINV"] 
+
+TechName = ["IMPLNG", # just import the commodity
+            "LNGPORTSML", # small-scale configuration
+            "LNGPORTSTD" # standard configuration
+            ]
+
+Tact = "PJ"
+Tcap = ["PJa", "SmallScalePort", "StandardPort"] # we are defining abstract units for these ports to work around
+
+
+[LNGCommodityCosts]
+WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
+Description = "Defines costs for LNG import (Just the commodity, not infrastructure or delivery)"
+SheetName = "LNG"
+TagName = "FI_T"
+TechName = "IMPLNG"
+Comm-IN = ""
+Comm-OUT = "LNG"
+COST = 18 # NZD/GJ
+
+[LNGImportConfigurations]
+WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
+Description = "Defines parameters for different LNG configurations. These are integers, calling MIP."
+SheetName = "LNG"
+TagName = "FI_T"           
+
+[LNGImportConfigurations.Data]
+TechName = ["LNGPORTSML", "LNGPORTSTD"]
+Comm-IN = ["LNG","LNG"]
+Comm-OUT = ["NGA","NGA"]
+INVCOST = [295,800] # again, this is total per "port" unit. We can only build one port unit, and this is the price NZDm
+CAP2ACT = [9,40] # ie, the small port can produce 9 a year, and the big port 40: now all our capacity unit is "port" so everything simpler 
+Eff = [1,1] # this is by default anyway, but we'll make explicit
+AFA = [1,1] # defaults, but explicit - can run at max capacity 
+"AFA~LO" = [1,0] # force the small port to always run at max capacity, as per the reporting on these setups. You buy LNG ahead of time and must deliver. 
+FIXOM = [10, 90] # operating costs per capacity unit (NZDm per port setup excl capex) 
+FLO_DELIV = [2.55,0] # delivery costs NZD/GJ (penalty for small-scale, no penalty for standard) 
+
+
+[LNGImportBuildOptions]
+# this is basically straight from section 3.1.2 of the Part IV model docs. Would be good to make it a little cleaner if possible. 
+WorkBookName = "SuppXLS/Scen_LNG_build_timing"
+Description = "Integer settings for building discrete LNG ports. This is included in a scenario file which is apparently needed for discrete builds?"
+SheetName = "LNG"
+TagName = "TFM_INS"
+
+[LNGImportBuildOptions.Data]
+Attribute = ["NCAP_DISC","NCAP_DISC", "NCAP_DISC","NCAP_DISC"]
+Pset_PN =["LNGPORTSML","LNGPORTSTD", "LNGPORTSML","LNGPORTSTD"]
+Year = [2027,2028,0,0 ] # 0s for interp 
+AllRegions = [1,1,5,5] # ie : one unit available for each unit, and 2 5s for interp (can be built any time)
+Other_Indexes = [1,1,1,1] # I have no idea what this is doing and should test a run removing it 
+            
+
+###########################################
+# Oil
+###########################################
+
+[OilSupplyCommodityDefinitions]
+Description = "Define Oil and oil product commodities"
+SheetName = "Oil"
+TagName = "FI_Comm"
+Csets = ["NRG"] # (all energy commodities) 
+CommName = ["OILI",
+            "LPG",
+            "PET",
+            "PET",
+            "DSL",
+            "FOL",
+            "JET",]
+Unit = ["PJ"] # All PJ 
+
+[OilProcessDeclarations]
+Description = "Declare oil and oil product supply processes (mining, imports). Include exports"
+SheetName = "Oil"
+TagName = "FI_Process"
+DataLocation = "data_raw/coded_assumptions/oil_and_gas/oil_process_definitions.csv"
+
+[OilSupplyProcessParameters]
+
+Description = "Set base year activity and cost assumptions for oil product imports. Note extremely simple imports used directly"
+SheetName = "Oil"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/imported_fuel_costs.csv"
+
+
+###########################################
+# Coal
+###########################################
+
+# declaring that coal exists - very minimal input here 
+
+
+[CoalCommodityDeclarations]
+Description = "Declare coal commodity"
+SheetName = "Coal"
+TagName = "FI_Comm"
+Csets = ["NRG"] # (all energy commodities) 
+CommName = ["COA"]
+Unit = ["PJ"] # All PJ 
+
+[CoalProcessDeclarations]
+Description = "Declare coal processes (mining and importing)"
+SheetName = "Coal"
+TagName = "FI_Process"
+Sets = ["MIN", "IMP"] 
+TechName = ["MINCOA", "IMPCOA"]
+Tact = "PJ"
+Tcap = "PJa"
+
+[CoalParameterDeclarations]
+
+Description = "Declare coal processes (mining and importing). Sets coal price (sans carbon) and annual availability . Very simple approach"
+SheetName = "Coal"
+TagName = "FI_T"
+TechName = ["MINCOA", "IMPCOA"]
+Comm-Out = ["COA", "COA"]
+Cost = [7,7]
+ACT_BND = [25,15] # not sure if this is necessary. Not very precise. Roughly equivalent to values in TIMES 2.0. 
+
+
+
+###########################################
+# TotalCO2
+###########################################
+
+[TOTCO2CommodityDefinition]
+
+Description = "Declares TOTCO2 commodity. In old TIMES, all other emissions were re-declared here (not necessary)"
+SheetName = "Total CO2"
+TagName = "FI_Comm"
+Csets = "ENV"
+CommName = "TOTCO2"
+Unit = "kt"
+
+[TOTCO2AggregationDefinition]
+
+Description = "Defines TOTCO2 as the sum of all other emissions commodities. No refinery."
+SheetName = "Total CO2"
+TagName = "COMAGG"
+CommName = "TOTCO2"
+ELCCO2 = 1
+TRACO2 = 1
+RESCO2 = 1
+INDCO2 = 1
+COMCO2 = 1
+AGRCO2 = 1
+GASCO2 = 1
+
+
+###########################################
+# Bio energy 
+###########################################
+
+
+# Declaring biofuels - these are fake entries and we can tidy up later when biomass module done 
+
+[DeclareBiofuels]
+Description = "Declare biofuel energy commodities"
+SheetName = "Biofuels"
+TagName = "FI_Comm"
+Csets = ["NRG"] # (all energy commodities) 
+CommName = ["WODWST", "AGRWST", "MNCWST", "ANMMNR", "WOD", "OSWOD", "BPLT", "BDSL", "BIL", "DID", "DIJ", "SAF", "BIG"]
+Unit = ["PJ"] # All PJ 
+LimType = ["FX"]
+
+
+[BiofuelProcessDeclarations]
+Description = "Declare biomass/biofuel processes, including raw production and transformation"
+SheetName = "Biofuels"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/biofuel_supply_process_declarations.csv"
+
+[BiofuelSupplyForecasts]
+Description = "Biomass/biofuel supply and costs forecasts per region "
+SheetName = "Biofuels"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/biofuel_supply_forecasts.csv"
+
+[BiofuelParameterDeclarations]
+Description = "Declare conversion processes for biofuel. Sets investment and operation costs, annual availability, lifetime"
+SheetName = "Biofuels"
+TagName = "FI_T"
+DataLocation = "data_raw/coded_assumptions/biofuels/plant_processes.csv"
+
+
+
+###########################################
+# Hydrogen 
+###########################################
+
+
+[DeclareHydrogenCommodity]
+Description = "Hydrogen commodity"
+SheetName = "Hydrogen"
+TagName = "FI_Comm"
+Csets = ["NRG"] # (all energy commodities) 
+CommName = ["H2R"] 
+Unit = ["PJ"] # All PJ 
+LimType = ["FX"]
+
+
+[HydrogenProcessDeclarations]
+Description = "Declare hydrogen production placeholder. We need to later build actual electrolysis."
+SheetName = "Hydrogen"
+TagName = "FI_Process"
+Sets = ["MIN"] 
+TechName = ["MINH2R_PLACEHOLDER"]
+Tact = "PJ"
+Tcap = "PJa"
+
+
+
+[HydrogenPlaceHolderParameterDeclarations]
+
+Description = "Placeholder hydrogen production process, just to ensure the model doesn't get free hydrogen before electrolysis added "
+SheetName = "Hydrogen"
+TagName = "FI_T"
+TechName = ["MINH2R_PLACEHOLDER"]
+Comm-Out = ["H2R"]
+Cost = [40] # place holder price - high, but not insanely so
+

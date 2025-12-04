@@ -1,0 +1,17 @@
+EEUD,TIMES,Notes
+"Education and Training: Pre-School, Primary and Secondary",Education,1.1 match
+Education and Training: Tertiary Education and Other Education,Education,1.1 match
+Health Care and Social Assistance,Healthcare,1.1 match
+"Financing, Insurance, Real Estate and Business Services",Office Blocks,Most appropriate
+Information Media and Telecommunications,Office Blocks,Most appropriate
+Local Government Administration,Office Blocks,Most appropriate
+Public Administration and Safety,Office Blocks,Most appropriate
+Accommodation and Food Services,WSR,Most appropriate
+Retail Trade - Food,WSR,Most appropriate
+"Transport, Postal and Warehousing (Commercial - Non-Transport)",WSR,Most appropriate
+Wholesale and Retail Trade - Non Food,WSR,Most appropriate
+Wholesale Trade - Food,WSR,Most appropriate
+"Arts, Recreational and Other Services",Other,Miscellaneous bucket
+"Building Cleaning, Pest Control and Other Support Services",Other,Miscellaneous bucket
+Defence,Office Blocks,Miscellaneous bucket
+NULL,NULL,To be allocated to the above sectors based on sector and fuel splits.

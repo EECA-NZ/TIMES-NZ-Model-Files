@@ -1,0 +1,165 @@
+TechName,Utilisation,Technology,TechnologyGroup
+T_P_CICEPET_LOW,Low,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_CICEPET_MED,Medium,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_CICEPET_HIGH,High,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_CICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_P_CICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_P_CICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_P_CBEVNEW_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CBEVNEW_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CBEVNEW_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CBEVUSD_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CBEVUSD_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CBEVUSD_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CICELPG_LOW,Low,Internal Combustion Engine (LPG),Internal Combustion Engine
+T_P_CICELPG_MED,Medium,Internal Combustion Engine (LPG),Internal Combustion Engine
+T_P_CICELPG_HIGH,High,Internal Combustion Engine (LPG),Internal Combustion Engine
+T_P_CHYBPET_LOW,Low,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_P_CHYBPET_MED,Medium,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_P_CHYBPET_HIGH,High,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_P_CPHEVPET_LOW,Low,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
+T_P_CPHEVBEV_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CPHEVPET_MED,Medium,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
+T_P_CPHEVBEV_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CPHEVPET_HIGH,High,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
+T_P_CPHEVBEV_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_C_CICEPET_LOW,Low,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_C_CICEPET_MED,Medium,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_C_CICEPET_HIGH,High,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_C_CICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_C_CICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_C_CICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_C_CBEVNEW_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_C_CBEVNEW_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_C_CBEVNEW_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_C_CICELPG_LOW,Low,Internal Combustion Engine (LPG),Internal Combustion Engine
+T_C_CICELPG_MED,Medium,Internal Combustion Engine (LPG),Internal Combustion Engine
+T_C_CICELPG_HIGH,High,Internal Combustion Engine (LPG),Internal Combustion Engine
+T_P_MICEPET_LOW,Low,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_MICEPET_MED,Medium,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_MICEPET_HIGH,High,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_MBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_MBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_MBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_BICEPET_LOW,Low,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_BICEPET_MED,Medium,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_BICEPET_HIGH,High,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_BICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_P_BICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_P_BICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_P_BICELPG_LOW,Low,Internal Combustion Engine (LPG),Internal Combustion Engine
+T_P_BICELPG_MED,Medium,Internal Combustion Engine (LPG),Internal Combustion Engine
+T_P_BICELPG_HIGH,High,Internal Combustion Engine (LPG),Internal Combustion Engine
+T_P_BBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_BBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_BBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_LTICEPET_LOW,Low,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_F_LTICEPET_MED,Medium,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_F_LTICEPET_HIGH,High,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_F_LTICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_LTICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_LTICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_LTBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_LTBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_LTBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_MTICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_MTICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_MTICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_MTBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_MTBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_MTBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_HTICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_HTICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_HTICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_HTBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_HTBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_HTBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_DSHIPP,All,Ship,Ship
+T_F_ISHIPP,All,Ship,Ship
+T_O_FuelJet,All,Jet,Jet
+T_O_FuelJet_Int,All,Jet,Jet
+T_R_RailDSL,All,Rail,Rail
+T_R_RailELC,All,Rail,Rail
+T_P_RailDSL,All,Rail,Rail
+T_P_RailELC,All,Rail,Rail
+T_P_CICEPET_LOW,Low,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_CICEPET_MED,Medium,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_CICEPET_HIGH,High,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_CICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_P_CICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_P_CICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_P_CBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CHYBPET_LOW,Low,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_P_CHYBPET_MED,Medium,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_P_CHYBPET_HIGH,High,Hybrid Vehicle (Petrol),Hybrid Vehicle
+T_P_CPHEVPET_LOW,Low,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
+T_P_CPHEVPET_MED,Medium,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
+T_P_CPHEVPET_HIGH,High,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
+T_P_CPHEVBEV_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CPHEVBEV_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CPHEVBEV_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_C_CICEPET_LOW,Low,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_C_CICEPET_MED,Medium,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_C_CICEPET_HIGH,High,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_C_CICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_C_CICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_C_CICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_C_CBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_C_CBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_C_CBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_MICEPET_LOW,Low,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_MICEPET_MED,Medium,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_MICEPET_HIGH,High,Internal Combustion Engine (Petrol),Internal Combustion Engine
+T_P_MBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_MBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_MBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_BICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_P_BICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_P_BICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_P_BBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_BBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_BBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_LTICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_LTICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_LTICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_LTBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_LTBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_LTBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_MTICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_MTICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_MTICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_MTBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_MTBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_MTBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_HTICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_HTICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_HTICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
+T_F_HTBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_HTBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_F_HTBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CFCH2R_LOW,Low,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_P_CFCH2R_MED,Medium,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_P_CFCH2R_HIGH,High,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_C_CFCH2R_LOW,Low,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_C_CFCH2R_MED,Medium,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_C_CFCH2R_HIGH,High,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_P_CPHEVDSL_LOW,Low,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+T_P_CPHEVDSL_MED,Medium,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+T_P_CPHEVDSL_HIGH,High,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+T_C_CPHEVDSL_LOW,Low,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+T_C_CPHEVDSL_MED,Medium,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+T_C_CPHEVDSL_HIGH,High,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+T_F_LTFCH2R_LOW,Low,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_LTFCH2R_MED,Medium,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_LTFCH2R_HIGH,High,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_MTFCH2R_LOW,Low,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_MTFCH2R_MED,Medium,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_MTFCH2R_HIGH,High,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_HTFCH2R_LOW,Low,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_HTFCH2R_MED,Medium,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_F_HTFCH2R_HIGH,High,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_P_BFCH2R_LOW,Low,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_P_BFCH2R_MED,Medium,Hydrogen Fuel Cell,Hydrogen Vehicle
+T_P_BFCH2R_HIGH,High,Hydrogen Fuel Cell,Hydrogen Vehicle

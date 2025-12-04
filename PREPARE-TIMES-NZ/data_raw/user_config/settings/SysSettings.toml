@@ -1,0 +1,223 @@
+# 
+
+WorkBookName = "SysSettings"
+
+###############################################################################
+# TimePeriods
+###############################################################################
+
+
+
+# Set Base Year - this will be used throughout the model
+[StartYear]
+StartYear = [2023]
+Description = "The model base year. Used by several scripts for downstream processing."
+
+
+[ActivePDef]
+# The current system here uses milestone year inputs from coded_assumptions/settings/milestone_years.csv 
+# THis file can host as many milestone years as we want.
+# The ActivePDef, as set below, will select the relevant milestone years for use in this model
+# This means we are flexible on period definitions in pre-processing, but will only ever send one to the Veda files
+Description = "Model Period Definition. Will be used to select period definitions"
+ActivePDef = ["Detail_to_2035"]
+
+[TimePeriods]
+TagName = "TimePeriods"
+Description = "These time periods are calculated based on the current ActivePDef and milestone year inputs in milestone_years.csv. Only the active definition will be used."
+DataLocation = "data_intermediate/stage_4_veda_format/sys_settings/active_periods.csv"
+
+
+
+###############################################################################
+# TIMESLICES 
+
+# significant overexplaining of timeslices below. 
+
+# TIMES understands Season, Weekly, and DayNite variables of TimeSlice. 
+# Each can be added to the model. TIMES will then combine all TimeSlices together. 
+
+# So, in the case below, it will automatically create SUM-WK-D, FAL-WK-D, and all other combinations. 
+# With three seasons, two week types, and three DayNite variables, we get a combined 24 (4*2*3) slices. 
+
+# The order of the categories matter, but are fixed. TIMES will be automatically consider "parent timeslices" in several equations. 
+# (eg Season is parent to Weekly) 
+# The order of the variables WITHIN the categories also matter. TIMES can consider subsequent/previous timeslices in several equations also. 
+# (eg Spring comes after winter)
+
+# The Season/Weekly/DayNite names are set within TIMES. However, the names of the internal variables (eg D/N/P) can be anything you want. 
+# There can be any number of categories within a timeslice category - the only limit is computational performance. 
+
+# We can assign meaning to them through other variables in the model structure: 
+
+#  - - - the YRFR (year fraction) variables (ie what percentage of the year do these represent) 
+#  - - - the COM_FR (commodity fraction) variables (ie what percentage of a commodity's demand falls within this timeslice)
+#  - - - and a few others 
+
+
+# Finally, it is also possible to have an asymmetric timeslice structure (eg more children slices in one parent slice)
+# but this method will not be explained here. 
+
+###############################################################################
+[TimeSlices]
+
+SheetName = "TimeSlices"
+Description = "Timeslice categories. Changing these will require changes to other settings input files and load curve methods."
+Season = ["SUM-", "FAL-", "WIN-", "SPR-"]
+Weekly = ["WK-", "WE-"]
+DayNite = ["D", "N", "P"]
+
+
+[YearFractions]
+SheetName = "TimeSlices"
+TagName = "TFM_INS"
+Description = "Year fractions as calculated based on the number of hours in each slice. Currently calculated in stage 2 load curve processing."
+# Note: year fractions are calculated in the load curve scropts based on the half-hourly data which is already mapped to timeslices on load. 
+# So that mapping would need to be updated if we wanted to change timeslices ever (possibly unlikely, but want to make this easier over time) 
+# There is also a timeslice map file in the concordances - this is currently unused, a vestige of development process.
+DataLocation = "data_intermediate/stage_4_veda_format/sys_settings/yrfr.csv"
+
+
+
+###############################################################################
+# BOOKREGION NAMES
+
+#This setting simply links the baseyear file booknames to regions. 
+
+# Base year booknames must follow the following format: 
+
+# VT_[BOOKNAME]_[SECTORNAME]_[VERSIONNUMBER].xlsx 
+
+# A common (but not compulsory) convention is to make a new workbook per region. We won't be doing that, so the below maps a single BookName to both Regions
+
+# This means our booknames for base year files will be VT_TIMESNZ_[SECTORNAME].xlsx
+
+###############################################################################
+
+[BookRegions_Map]
+Description = "Map books to regions. In the current version, all region information is contained within a single book."
+BookName = ["TIMESNZ"]
+Region = ["NI", "SI"]
+
+
+###############################################################################
+# Defaults
+###############################################################################
+
+[Currencies]
+Description = "Default currency unit"
+Currency = "MioNZDollar"
+
+[DefaultUnits]
+Description = "Default activity units for each sector. We should be definined the units for all processes and commodities individually anyway, so this may be redundant."
+TagName = "DefUnits"					
+Option = ["Process_ActUnit", "Process_CapUnit", "Commodity_Unit"]
+PRI = ["PJ", "PJa", "PJ"]
+# AGR = ["PJ", "GW", "PJ"] # doesn't exist yet 
+COM = ["PJ", "GW", "PJ"]
+RES = ["PJ", "GW", "PJ"]
+ELC = ["PJ", "GW", "PJ"]
+TRA = ["bVk", "000_Units", "bVk"]
+
+
+###############################################################################
+# Import Settings
+###############################################################################
+# used to define some settings for the synchronization process
+
+# - Dummy Imports:
+#  one can control the creation of dummy imports in the table shown above.  
+# These backstop dummy processes are introduced in the model in order to avoid infeasibilities that may arise if not enough energy carrier or demand can be supplied.
+
+# - Vintage Bounds: VEDA can automatically generate bounds to prohibit investments in processes when a newer vintage becomes available, 
+# assuming that the last two characters of the process name are used for the first year of availability.
+
+# chkDoTAGSQC Validates the tag names upon import so will check for unexpected tags on sync
+
+# DumVarforUC - I couldn't find documentation on this but assume it creates dummy imports to make user constraints feasible? Disabled in any case
+
+# It might be better to remove this from the import_settings file below, and instead write these directly in here so future developers have fewer files to switch between
+[ImportSettings]
+
+Description = "Standard Veda control import settings."
+SheetName = "ImportSettings"
+TagName = "ImpSettings"
+
+DataLocation = "data_raw/user_config/settings/import_settings.csv"
+
+[DummyVariableCosts]
+
+Description = "Define costs for generated dummy variables. These should be very high so the model only uses them when there are no other options"
+SheetName = "ImportSettings"
+TagName = "TFM_UPD"
+
+Attribute = ["ACTCOST", "ACTCOST"] # the activity cost of the dummy processes 
+Pset_SET = ["IRE", "IRE"] # dummy processes are apparently defined as IRE
+Pset_PN = ["IMP*Z", "IMPDEMZ"] # separate costs for demand dummy variables, unclear why 
+AllRegions = [10000,10000000] # very high values
+
+[DisableDummyVariables]
+Description = "Disables activity of dummy variables. Exclude this table (or change to LO) if you want to solve with infeasibilities."
+SheetName = "ImportSettings"
+TagName = "TFM_INS"
+
+Attribute = ["ACTCOST", "ACTCOST"] # activity bound 
+LimType = ["UP", ""] # upper bound. Set blank for interp input
+Pset_SET = ["IRE", "IRE"] # dummy processes are apparently defined as IRE
+Pset_PN = ["IMP*Z", "IMP*Z"] # all variables
+# Here we give blank year (so starts at base) and forward extrapolation.
+Year = ["", "0"]
+# Limit = 0, and extrapolation = 5 (forward extrapolation)
+AllRegions = ["0", "5"]
+
+
+###############################################################################
+# Default interpolation/extrapolation rules
+###############################################################################
+
+[InterpolExtrapol]
+Description = "Default interpolation/extrapolation rules. These may need adjusting."
+SheetName = "ImportSettings"
+TagName = "TFM_MIG" # TFM_MIG is an uncommon tag designed to update pre-existing data
+DataLocation = "data_raw/user_config/settings/interpolation_extrapolation.csv"
+
+###############################################################################
+# Constants
+###############################################################################
+
+[DiscountRates]
+Description = "Default discount rate. Need to figure out how to adjust this in scenarios"
+TagName = "TFM_INS"
+Attribute = ["G_DYEAR", "Discount"]
+AllRegions = [2015,0.1]
+
+
+
+###############################################################################
+# Rase year investment settings 
+###############################################################################
+
+# By default, Veda disables investment in any base year techs with PRC_RESID 
+# THis is not helpful for us, so this entry disables this
+# This definitely works in a separate BY_Trans.xlsx file, but I will also try putting it in SysSettings.xlsx
+
+[ReEnableBYInvestment]
+WorkBookName = "BY_Trans"
+Description = "Overrides Veda default settings which usually disable investment in BY techs"
+SheetName = "ImportSettings"
+TagName = "TFM_INS"
+Attribute = "NCAP_BND"
+attribu_cond = "RESID"
+PSet_Pn = "*"
+Year = 0 
+Value = 0
+LimType = "UP"
+
+# Further, we want to ensure no investment in any base year electricity generation.
+
+[BanSelectedBaseYearTechs]
+WorkBookName = "BY_Trans"
+Description = "Ensures no investment in selected baseyear techs."
+SheetName = "ImportSettings"
+TagName = "TFM_INS"
+DataLocation =  "data_intermediate/stage_4_veda_format/syssettings/banned_techs.csv"

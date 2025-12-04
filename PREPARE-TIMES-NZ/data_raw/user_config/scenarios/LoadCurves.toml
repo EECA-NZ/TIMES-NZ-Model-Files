@@ -1,0 +1,30 @@
+# Load Curves
+# Scenario file to electricity load curves for each sector.
+
+WorkBookName = "SuppXLS/Scen_LoadCurve_COM-FR"
+
+# Use unique top-level tables (arrays not supported by your normaliser)
+
+[LoadCurvesCOMFR_IND]
+Description  = "Defines annual electricity demand timeslices or load curve for industrial sub-sectors"
+SheetName    = "IND"
+TagName      = "TFM_INS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_industry.csv"
+
+[LoadCurvesCOMFR_AGR]
+Description  = "Defines annual electricity demand timeslices or load curve for agriculture sub-sectors and processes"
+SheetName    = "AGR"
+TagName      = "TFM_INS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_agriculture.csv"
+
+[LoadCurvesCOMFR_COM]
+Description  = "Defines annual electricity demand timeslices or load curve for commercial sub-sectors"
+SheetName    = "COM"
+TagName      = "TFM_INS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_commercial.csv"
+
+[LoadCurvesCOMFR_RES]
+Description  = "Defines annual electricity demand timeslices or load curve for residential sub-sectors"
+SheetName    = "RES"
+TagName      = "TFM_INS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_residential.csv"

@@ -1,0 +1,627 @@
+"""
+Outputs electricity tech files for Veda
+
+Organised separately for genstack, offshore, and distributed solar
+
+For genstack files, the outputs are a function of selected
+MBIE and NREL scenarios. So we output specific scenario files based on
+MBIE/NREL selected inputs. These can be adjusted quite easily as needed.
+
+For offshore/distributed solar, only the NREL scenario is relevant
+As these are excluded from the MBIE data. We currently just
+output every file for these (advanced/moderate/conservative),
+and the config file can select which to use for whatever TIMES scenario
+
+"""
+
+import numpy as np
+import pandas as pd
+from prepare_times_nz.stage_0.stage_0_settings import (
+    BASE_YEAR,
+    CAP2ACT_PJGW,
+    MILESTONE_YEAR_LIST,
+)
+from prepare_times_nz.stage_4.electricity.common import create_process_file
+from prepare_times_nz.utilities.data_in_out import _save_data
+from prepare_times_nz.utilities.filepaths import (
+    ASSUMPTIONS,
+    CONCORDANCES,
+    STAGE_3_DATA,
+    STAGE_4_DATA,
+)
+
+# Constants ----------------------------------------------------
+
+# Cost curve variables
+# Only these have cost curves applied, so are treated differently
+# Other variables get only one entry in the model which is assumed to carry forward
+
+CURVE_VARIABLES = ["CAPEX", "FOM"]
+
+# earliest year for non-fixed plants
+EARLIEST_YEAR = 2026
+
+# Set input data locations ----------------------------------------------------
+ELECTRICITY_DATA = STAGE_3_DATA / "electricity"
+
+ELC_ASSUMPTIONS = ASSUMPTIONS / "electricity_generation/future_techs"
+
+# Data
+
+genstack_file = ELECTRICITY_DATA / "genstack.csv"
+offshore_wind = ELECTRICITY_DATA / "offshore_wind.csv"
+residential_solar = ELECTRICITY_DATA / "residential_solar.csv"
+
+# Assumptions and concordances
+region_islands = CONCORDANCES / "region_island_concordance.csv"
+tech_assumptions = ELC_ASSUMPTIONS / "TechnologyAssumptions.csv"
+
+
+# Set output location --------------------------------------------------------
+
+
+OUTPUT_LOCATION = STAGE_4_DATA / "subres_elc"
+OFFSHORE_OUT = OUTPUT_LOCATION / "offshore"
+GENSTACK_OUT = OUTPUT_LOCATION / "genstack"
+DSTSOLAR_OUT = OUTPUT_LOCATION / "dist_solar"
+
+
+# ------------------------------------------------------------------------------------------
+# HELPERS ---------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------
+
+
+# I/O functions
+def save_offshore(df, name, filepath=OFFSHORE_OUT):
+    """Wrapper for offshore wind outputs"""
+    label = "New offshore techs"
+    _save_data(df, name, label, filepath=filepath)
+
+
+def save_dist_solar(df, name, filepath=DSTSOLAR_OUT):
+    """Wrapper for saving res solar files"""
+    label = "Saving solar data"
+    _save_data(df, name, label, filepath=filepath)
+
+
+def save_genstack(df, name, filepath=GENSTACK_OUT):
+    """Wrapper for genstack outputs"""
+    label = "Saving genstack data"
+    _save_data(df, name, label, filepath=filepath)
+
+
+# Data processing
+
+
+def add_islands(df):
+    """Add island variable, assuming Region avaiable"""
+    islands = pd.read_csv(region_islands)
+    df = df.merge(islands, on="Region", how="left")
+    return df
+
+
+def trim_cost_curves(df):
+    """
+    Current cost curve data is extended with a new row for every year
+
+    This is helpful for data manip,
+    but for Veda we save processing time/space by trimming redundant info
+
+    We can do this by filtering on the model's milestone years.
+    This means the data detail can expand/contract based on what we're processing
+    """
+
+    df = df[df["Year"].isin(MILESTONE_YEAR_LIST)]
+    return df
+
+
+def get_nrel_cost_curves(
+    df,
+    scenario="Moderate",
+):
+    """Simple function that renames CAPEX and FOM to Veda equivalents
+    Outputs as "Attribute" so can be sent directly to a Veda table after"""
+
+    # take the expected curve variables only
+    df = df[df["Variable"].isin(CURVE_VARIABLES)].copy()
+
+    # we take NREL scenarios OR plants with no cost curves (these have costs too)
+
+    df = df[(df["NRELScenario"] == scenario) | (df["NRELScenario"].isna())].copy()
+
+    # df = df[df["NRELScenario"] == scenario].copy()
+    # probably should have just called them this to start with
+    variable_map = {"CAPEX": "INVCOST", "FOM": "FIXOM"}
+
+    df["Attribute"] = df["Variable"].map(variable_map)
+
+    df = df[["TechName", "Attribute", "Year", "Value"]]
+
+    # removing redundant rows - TIMES will interpolate duplicate entries anyway!
+    # So this just saves time/space
+    df = trim_cost_curves(df)
+
+    # pivot values out so Veda understands the attribute names
+    # (better option - what column name can I use for "value" in these tables?? to research)
+    df = df.pivot(
+        index=["TechName", "Year"], columns="Attribute", values="Value"
+    ).reset_index()
+
+    # ensure years are integers
+    df["Year"] = df["Year"].astype(int)
+
+    return df
+
+
+def get_island_definitions(df):
+    """Creates the tables for regional availability of new techs"""
+
+    df = df[["TechName", "Island"]].drop_duplicates()
+    # labelling these as "region" by the TIMES definition,
+    # so in theory can expand to more regions if we ever do that
+    regions = df["Island"].unique()
+
+    for region in regions:
+        df[region] = np.where(df["Island"] == region, 1, 0)
+
+    df = df.drop("Island", axis=1)
+    # clarify these are process sets:
+    df = df.rename(columns={"TechName": "Pset_PN"})
+
+    return df
+
+
+def assume_available_all_islands(df):
+    """A simpler island definition table which just puts them on every island
+    Use this as a default table, like for distributed solar
+    """
+
+    df = df[["TechName"]].drop_duplicates()
+    df["AllRegions"] = "1"
+    df = df.rename(columns={"TechName": "Pset_PN"})
+    return df
+
+
+def add_assumptions(df):
+    """
+    Joining various assumptions on the Tech field from raw data
+    We are using the Tech_TIMES field, which should be propogated more
+    fully through the process
+    And everything else tied to that specific definition
+
+    Currently the base year and some future year code/assumptions
+    need a bit of refactoring to apply this method properly
+
+    Really we should assign Tech_TIMES to everything,
+    Then join assumptions onto that.
+
+    Currently we instead patch the "Tech" field into Tech_TIMES if it
+        is missing (as in some smaller tables)
+    """
+
+    # bring in additional assumptions
+    assumptions_df = pd.read_csv(tech_assumptions)
+
+    if "Tech_TIMES" not in df.columns:
+        df["Tech_TIMES"] = df["Tech"]
+
+    df = df.merge(assumptions_df, on="Tech_TIMES", how="left")
+
+    return df
+
+
+# misc cleaning functions
+
+
+# ------------------------------------------------------------------------------------------
+# Offshore wind ----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------
+
+
+def load_offshore():
+    """Loads and tidies the offshore data
+    Includes strict variable checking - this will need updating
+    if input data structure changes"""
+    # load
+    df = pd.read_csv(offshore_wind)
+    # strict filter to these
+    expected_vars = ["CAPEX", "FOM", "Capacity"]
+    df = df[df["Variable"].isin(expected_vars)].copy()
+
+    # additional metadata
+    df["TechName"] = "ELC_" + df["Tech"] + "_" + df["Region"]
+    df["Comm-IN"] = "ELCWIN"
+    df["Comm-Out"] = "ELC"  # ELC assumes going into grid rather than embedded
+
+    df = add_islands(df)
+    df["Region"] = df["Island"]
+
+    return df
+
+
+def get_offshore_base_file(df):
+    """Pulls offshore from main, builds Veda table from capacity variable"""
+    # base data on capacity only - we've saved the other stuff separately so just filter down
+    df = df[df["Variable"] == "Capacity"].copy()
+    # draw key assumptions
+    # earliest year
+    df["Start"] = df["CommissioningYear"]
+    # limit capacity to assumption inputs (as "Value" in this df since we filtered to capacity)
+    df["CAP_BND"] = df["Value"] / 1000  # convert GW
+    # NOTE: must extrapolate this as CAP_BND defaults to just being for a specific year:
+    df["CAP_BND~0"] = 5
+    # additional assumptions
+
+    df = add_assumptions(df)
+    df = df.rename(columns={"PlantLife": "Life", "PeakContribution": "NCAP_PKCNT"})
+
+    # filter to columns we want
+    df = df[
+        [
+            "TechName",
+            "Comm-IN",
+            "Comm-Out",
+            "Start",
+            "CAP_BND",
+            "CAP_BND~0",
+            "Life",
+            "NCAP_PKCNT",
+        ]
+    ]
+    return df
+
+
+def process_offshore_wind_data():
+    """Orchestrates all offshore wind Veda outputs"""
+
+    df = load_offshore()
+
+    base_file = get_offshore_base_file(df)
+    save_offshore(base_file, "base_file.csv")
+
+    process_definitions = create_process_file(base_file)
+    save_offshore(process_definitions, "process_definitions.csv")
+
+    island_definitions = get_island_definitions(df)
+    save_offshore(island_definitions, "island_definitions.csv")
+
+    # cost curves
+    # Advanced
+    cost_curves_advanced = get_nrel_cost_curves(df, "Advanced")
+    save_offshore(cost_curves_advanced, "cost_curves_advanced.csv")
+
+    # Moderate
+    cost_curves_moderate = get_nrel_cost_curves(df, "Moderate")
+    save_offshore(cost_curves_moderate, "cost_curves_moderate.csv")
+
+    # Conservative
+    cost_curves_conservative = get_nrel_cost_curves(df, "Conservative")
+    save_offshore(cost_curves_conservative, "cost_curves_conservative.csv")
+
+
+# ------------------------------------------------------------------------------------------
+# Genstack --------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------
+
+
+def load_genstack():
+    """Simply loads genstack data"""
+
+    df = pd.read_csv(genstack_file)
+
+    return df
+
+
+def tidy_genstack(df):
+    """
+
+    Moderate manipulation of the genstack data
+    This should probably be done in stage 3 instead for consistency.
+
+    Generates the distinct process name for genstack plants
+    Adds the island variable NI/SI
+    Removes the Huntly wood plant in MBIE's genstack as TIMES can just input different
+    fuels into the same plant, rather than being forced to
+    create new plants for different fuels
+
+    """
+    #  really this whole function should go in stage 3. the surfaced s3 data should be tidier
+    df = add_islands(df)
+
+    # MBIE includes Huntly black pellets as a separate plant.
+    # We will remove this because we can just feed different fuels to the rankines
+    plants_to_remove = ["Huntly Unit 1 (Wood)", "Huntly Unit 2 (Wood)"]
+    df = df[~df["Plant"].isin(plants_to_remove)]
+
+    return df
+
+
+def select_mbie_scenario(df, scenario):
+    """filters a df on MBIE scenario"""
+    df = df[df["Scenario"] == scenario]
+    return df
+
+
+def reshape_genstack(df):
+    """
+    Assumes an input file with scenario already filter for MBIE scenario
+    Then excludes all the curve variables (so all inputs are just for one year)
+    This means NREL scenario is not relevant here
+
+    Then just adds all the necessary variables per plant
+
+    This is our main data used by a few separate downstream functions
+    """
+
+    # no curve variables (these done separately)
+    df = df[~df["Variable"].isin(CURVE_VARIABLES)]
+
+    # pivot variables out again
+    index_vars = [
+        col
+        for col in df.columns
+        if col not in ["Variable", "Value", "Unit", "NRELScenario"]
+    ]
+    df = df.pivot(index=index_vars, columns="Variable", values="Value").reset_index()
+
+    # Some additional units to use
+    df["Efficiency"] = 3600 / df["HeatRate"]  # convert to GJ /GJ
+    df["CapacityGW"] = df["Capacity"] / 1000  # convert GW
+
+    # add assumptions and fuel concordances
+    df = add_assumptions(df)
+
+    # rename some vars
+    df = df.rename(
+        columns={
+            "CapacityGW": "CAP_BND",
+            "FuelDeliveryCost": "FLO_DELIV",
+            "Efficiency": "EFF",
+            "PeakContribution": "NCAP_PKCNT",
+            "PlantLife": "Life",
+            "VAROM": "VAROM",
+        }
+    )
+
+    df["CAP_BND~0"] = 5  # extrapolate the capacity bound through whole horizon
+
+    # add the start years.
+    # Note that plants with fixed commissioning dates will get a different table
+    df["NCAP_START"] = np.where(
+        df["CommissioningType"] == "Earliest year",
+        df["CommissioningYear"],
+        EARLIEST_YEAR,
+    ).astype(int)
+
+    # ensure earliest year is never base year or earlier
+    # (possible when earliest year in the data is earlier than base)
+    df["NCAP_START"] = np.where(
+        (df["CommissioningType"] == "Earliest year")
+        & (df["NCAP_START"] < EARLIEST_YEAR),
+        EARLIEST_YEAR,
+        df["NCAP_START"],
+    )
+
+    df["Comm-OUT"] = "ELC"
+    df["Comm-IN"] = "ELC" + df["Fuel_TIMES"]
+    df["CAP2ACT"] = CAP2ACT_PJGW
+
+    return df
+
+
+def select_veda_genstack_vars(df):
+    """
+    The main table has everything you need,
+    This just selects only the necessary variables for Veda"""
+
+    # Trim to only the Veda columns needed
+    df = df[
+        [
+            "TechName",
+            "Comm-IN",
+            "Comm-OUT",
+            "CAP2ACT",
+            "NCAP_START",
+            "FLO_DELIV",
+            "EFF",
+            "Life",
+            "NCAP_PKCNT",
+            "AFA",
+            "CAP_BND",
+            "CAP_BND~0",
+        ]
+    ]
+
+    return df
+
+
+def get_fixed_installation_dates(df):
+    """
+    Making a separate tagged table for plants with fixed installation years
+
+    Here, we need to input a few different parameters for NCAP_PASTI
+    To fix investment for future years
+
+    This means we pull the fixed plants,
+    and reshape the capacity and commissioning year
+    and output a separate tag for Veda
+    Its possible to also spam NCAP_PASTI~Year variables in the outputs
+    But that's a bit messy
+    """
+
+    df = df[df["CommissioningType"] == "Fixed"].copy()
+    df["NCAP_PASTI"] = df["CAP_BND"]
+    df["Year"] = df["CommissioningYear"].astype(int)
+
+    df = df[["TechName", "Year", "NCAP_PASTI"]]
+
+    return df
+
+
+def process_genstack_files(times_scenario, mbie_scenario, nrel_scenario):
+    """
+    Orchestrates the genstack files.
+
+    Uses "times_scenario" as an input,
+    which is literally just used to name the files
+
+    Then selects the mbie and nrel scenario to use for these,
+    and saves outputs based on the times scenario selected
+
+    Generates:
+
+    1) Process Declarations
+    2) Process basic parameters
+    3) Fixed installation dates (for relevant plants)
+    4) Cost curve tables
+    """
+    df = load_genstack()
+    df = select_mbie_scenario(df, scenario=mbie_scenario)
+    df = tidy_genstack(df)
+
+    df_veda = reshape_genstack(df)
+
+    island_definitions = get_island_definitions(df)
+
+    # for each, you need:
+    # a) the fi_process table
+    # b) the base file
+    # c) the NCAP_PASTI fixed installation file
+    # d) the cost curves
+    process_file = create_process_file(df_veda)
+    df_parameters = select_veda_genstack_vars(df_veda)
+
+    fixed_installs = get_fixed_installation_dates(df_veda)
+    cost_curves = get_nrel_cost_curves(df, scenario=nrel_scenario)
+
+    save_genstack(process_file, f"{times_scenario}_process.csv")
+    save_genstack(df_parameters, f"{times_scenario}_parameters.csv")
+    save_genstack(fixed_installs, f"{times_scenario}_fixed_installs.csv")
+    save_genstack(cost_curves, f"{times_scenario}_cost_curves.csv")
+    save_genstack(island_definitions, f"{times_scenario}_island_definitions.csv")
+
+
+# ------------------------------------------------------------------------------------------
+# Solar ------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------
+
+
+def load_solar():
+    """Just reads solar data and renames the TechName to meet standards"""
+    df = pd.read_csv(residential_solar)
+    # adjust techname to be a bit more sensible. Move to stage 3 probably
+    df["TechName"] = "ELC_" + df["Tech"] + "_Res"
+    return df
+
+
+def reshape_solar_file(df):
+    """Creates parameter file for dist solar"""
+
+    # we'll make a base file by removing the curve data
+
+    df = df[df["Variable"] == "Capacity"].copy()
+    # summarise regions
+    df = df.groupby(["Tech", "TechName", "Fuel_TIMES"])["Value"].sum().reset_index()
+    df["CAP_BND"] = df["Value"] / 1000  # convert GW
+
+    df = add_assumptions(df)
+
+    df["Comm-IN"] = "ELC" + df["Fuel_TIMES"]
+    df["Comm-OUT"] = "ELCDD"
+
+    df = df.rename(
+        columns={
+            "PeakContribution": "NCAP_PKCNT",
+            "PlantLife": "Life",
+        }
+    )
+
+    df["CAP_BND~0"] = 5  # extrapolate the capacity bound through whole horizon
+
+    df["EFF"] = 1
+    df["NCAP_START"] = BASE_YEAR + 1
+    df["CAP2ACT"] = CAP2ACT_PJGW
+
+    return df
+
+
+def get_solar_params(df):
+    """Just Selects whats needed for the solar parameters"""
+
+    df = df[
+        [
+            "TechName",
+            "Comm-IN",
+            "Comm-OUT",
+            "CAP2ACT",
+            "NCAP_START",
+            "EFF",
+            "Life",
+            "NCAP_PKCNT",
+            "AFA",
+            "CAP_BND",
+            "CAP_BND~0",
+        ]
+    ]
+    return df
+
+
+def process_solar_files():
+    """Orchestrates all distributed solar Veda outputs"""
+
+    df = load_solar()
+
+    base_file = reshape_solar_file(df)
+    params = get_solar_params(base_file)
+
+    save_dist_solar(params, "parameters.csv")
+
+    process_definitions = create_process_file(base_file)
+    save_dist_solar(process_definitions, "process_definitions.csv")
+
+    # island definitions
+    island_definitions = assume_available_all_islands(df)
+    # here, all the distributed solar plants can be on either island
+    # so the method is a bit different
+    save_dist_solar(island_definitions, "island_definitions.csv")
+
+    # cost curves
+    # Advanced
+    cost_curves_advanced = get_nrel_cost_curves(df, "Advanced")
+    save_dist_solar(cost_curves_advanced, "cost_curves_advanced.csv")
+
+    # Moderate
+    cost_curves_moderate = get_nrel_cost_curves(df, "Moderate")
+    save_dist_solar(cost_curves_moderate, "cost_curves_moderate.csv")
+
+    # Conservative
+    cost_curves_conservative = get_nrel_cost_curves(df, "Conservative")
+    save_dist_solar(cost_curves_conservative, "cost_curves_conservative.csv")
+
+
+# ------------------------------------------------------------------------------------------
+# Execute ----------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------
+
+
+def main():
+    """Wrapper for all functions
+    Note that here is where we define the MBIE/NREL scenarios used
+    for Traditional/Transformation
+    It would be straightforward to either adjust the scenarios used
+    Or create new ones by specifying new genstack processing"""
+
+    # offshore wind and dist solar outputs all cost curves
+    # can select options by changing inputs in config file
+    process_offshore_wind_data()
+    process_solar_files()
+    # Traditional settings for genstack:
+    # Reference MBIE + conservative NREL
+    process_genstack_files("Traditional", "Reference", "Conservative")
+    # Transformation settings for genstack:
+    # Innovation MBIE + Moderate NREL
+    process_genstack_files("Transformation", "Innovation", "Moderate")
+
+
+if __name__ == "__main__":
+    main()
