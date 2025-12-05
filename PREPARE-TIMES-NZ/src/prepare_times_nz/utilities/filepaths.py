@@ -36,6 +36,7 @@ CONCORDANCES = DATA_RAW / "concordances"
 
 # Data intermediate subfolders
 
+STAGE_0_DATA = DATA_INTERMEDIATE / "stage_0_config"
 STAGE_1_DATA = DATA_INTERMEDIATE / "stage_1_input_data"
 STAGE_2_DATA = DATA_INTERMEDIATE / "stage_2_baseyear_data"
 STAGE_3_DATA = DATA_INTERMEDIATE / "stage_3_scenario_data"

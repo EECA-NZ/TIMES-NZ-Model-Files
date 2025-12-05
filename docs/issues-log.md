@@ -3,6 +3,12 @@
 This log refers only to issues or missing features in the model itself. This excludes any potential issues related to post-processing or backend data management. 
 
 
+## Emissions 
+
+- Historical modelled emissions (2024/2025) do not align perfectly with historical data 
+- Would be good to add a sensitivity for a net zero scenario. Can make a new run with a single emisisons constraint to achieve this - in theory not much trouble but solution might be infeasible. 
+
+
 ## Electricity generation 
  - The generation stack needs expanding to: a) include diesel peakers, and b) allow natural gas plants to use biogas. 
  - Rankine black pellet use and lifetime may need review
