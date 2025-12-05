@@ -1,4 +1,4 @@
-[Back to Index](../model-structure.md)
+[Back to Model Structure Index](../model-structure.md)
 ## SuppXLS/Demands/Dem_Alloc+Series.xlsx
 ### WorkSheet: Series
 **HelperSeries**: 

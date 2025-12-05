@@ -1,4 +1,4 @@
-[Back to Index](../model-structure.md)
+[Back to Model Structure Index](../model-structure.md)
 ## SuppXLS/Trades/ScenTrade__Trade_Links.xlsx
 ### WorkSheet: Unilateral
 **UnilateralLPGTrade**: 

@@ -76,6 +76,7 @@ def generate_tag_markdown(df):
 
     # Some header text for the main document
 
+    index_text.append("[Back to Main Documentation](../README.md)")
     index_text.append("# TIMES-NZ model structure documentation")
     index_text.append("\n")
     index_text.append(
@@ -115,7 +116,9 @@ def generate_tag_markdown(df):
 
             workbook_text = []
 
-            workbook_text.append(f"[Back to Index](../{index_filename})")
+            workbook_text.append(
+                f"[Back to Model Structure Index](../{index_filename})"
+            )
 
             workbook_text.append(f"## {w}.xlsx")
 

@@ -1,4 +1,4 @@
-[Back to Index](../model-structure.md)
+[Back to Model Structure Index](../model-structure.md)
 ## SubRES_TMPL/SubRES_NewTech_LNG_Imports.xlsx
 ### WorkSheet: LNG
 **LNGSupplyProcessDefinitions**: 

@@ -1,4 +1,4 @@
-[Back to Index](../model-structure.md)
+[Back to Model Structure Index](../model-structure.md)
 ## SuppXLS/Trades/ScenTrade_TRADE_PARMS.xlsx
 ### WorkSheet: Parameters
 **LPGTradeCosts**: 

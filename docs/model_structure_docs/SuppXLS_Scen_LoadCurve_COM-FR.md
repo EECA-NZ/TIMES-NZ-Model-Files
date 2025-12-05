@@ -1,4 +1,4 @@
-[Back to Index](../model-structure.md)
+[Back to Model Structure Index](../model-structure.md)
 ## SuppXLS/Scen_LoadCurve_COM-FR.xlsx
 ### WorkSheet: COM
 **LoadCurvesCOMFR_COM**: 

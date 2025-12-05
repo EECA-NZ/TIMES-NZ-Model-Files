@@ -1,4 +1,4 @@
-[Back to Index](../model-structure.md)
+[Back to Model Structure Index](../model-structure.md)
 ## BY_Trans.xlsx
 ### WorkSheet: ImportSettings
 **ReEnableBYInvestment**: 

@@ -1,4 +1,4 @@
-[Back to Index](../model-structure.md)
+[Back to Model Structure Index](../model-structure.md)
 ## VT_TIMESNZ_IND.xlsx
 ### WorkSheet: Industry demand
 **IndustryEndUseCommodityDefinitions**: 

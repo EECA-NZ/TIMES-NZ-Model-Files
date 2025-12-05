@@ -1,4 +1,4 @@
-[Back to Index](../model-structure.md)
+[Back to Model Structure Index](../model-structure.md)
 ## SubRES_TMPL/SubRES_NewTechs_COM.xlsx
 ### WorkSheet: COM_NEW
 **CommercialNewTechParameters**: 

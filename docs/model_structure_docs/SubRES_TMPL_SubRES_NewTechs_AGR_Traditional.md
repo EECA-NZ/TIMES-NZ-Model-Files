@@ -1,4 +1,4 @@
-[Back to Index](../model-structure.md)
+[Back to Model Structure Index](../model-structure.md)
 ## SubRES_TMPL/SubRES_NewTechs_AGR_Traditional.xlsx
 ### WorkSheet: AGR_NEW
 **AgrifultureNewTechProcessDefinitions**: 

@@ -1,4 +1,4 @@
-[Back to Index](../model-structure.md)
+[Back to Model Structure Index](../model-structure.md)
 ## SuppXLS/Scen_LNG_build_timing.xlsx
 ### WorkSheet: LNG
 **LNGImportBuildOptions**: 
