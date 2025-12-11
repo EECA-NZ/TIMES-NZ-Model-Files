@@ -1,6 +1,4 @@
-
-
-## Load curves 
+# Load curves
 
 Load curves are calculated in `stage_2/settings/load_curves.py`. 
 

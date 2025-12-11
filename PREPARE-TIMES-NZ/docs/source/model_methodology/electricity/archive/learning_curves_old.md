@@ -1,4 +1,4 @@
-# Learning Curves and Other New Tech Data
+# Learning curves
 
 For the learning curves of each of the different generators, projection data from NREL was used. The data was from 2024 and projected costs from 2022 up to 2050. As this data was for the US we wanted to use these projected curves on data that we could obtain from New Zealand. The data provides three scenarios: advanced, moderate, and conservative. In TIMES 2.0 the projections of the moderate curve were used in the Kea scenario and the conservative curve was used for the Tui scenario. 
 
@@ -18,7 +18,7 @@ The MBIE data did not specify whether the future solar farms would be tracking o
 For wind, all of the MBIE data was for onshore wind projects and so the NREL data for onshore wind was used. The tech chosen was Class 2 which takes wind speeds between 8.8 and 9 m/s. 
 
 
-# Python Code Explanations
+## Python Code Explanations
 All of the functions used in these calculations and manipulations can be found in the dataprep.py file in the library.
 
 We also wanted to choose which of the MBIE GenStack data that we wanted to apply the learning curves to. First, we wanted to choose which scenario from the Gen Stack data that we wanted to use, and so the Reference scenario was chosen as each of the scenarios were found through scaling the costs from this scenario. We also didn’t care about any of the current plants so these were also filtered out in the code.

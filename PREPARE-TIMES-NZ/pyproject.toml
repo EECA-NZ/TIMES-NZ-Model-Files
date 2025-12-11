@@ -31,6 +31,7 @@ sphinx = "^8.0"
 myst-parser = "^4.0.1"
 sphinx-autobuild = "^2024.1"
 sphinx-book-theme = "^1.1.4"
+furo = "^2025.9.25"
 
 [[tool.poetry.include]]
 path = "prepare_times_nz/data/**/*.csv"
