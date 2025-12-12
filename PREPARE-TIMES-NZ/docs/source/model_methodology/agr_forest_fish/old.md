@@ -13,7 +13,7 @@ The reshaping script, which generates subtables used to generate the final excel
 
 The base year agriculture, forestry and fishing data is intended to reflect the distribution of 2023 energy end use across all sectors in New Zealand. These agriculture, forestry and fishing (AFF) technologies should be available to the model to meet future demand, but with enough information (efficiency, lifetime, availability factors, capital costs, etc.) that the model will retire technologies at appropriate points and can make least-cost decisions on fuel switching and utilisation across demand segments.
 
-# Raw data used hello
+## Raw data used
 
 ### EECA
 
@@ -21,7 +21,7 @@ Energy End Use Data 2023:
  - `eeca_data/eeud/Final EEUD Outputs 2017 - 2023 12032025.xlsx` | [Webpage](https://www.eeca.govt.nz/insights/data-tools/energy-end-use-database/) | [File](https://www.eeca.govt.nz/assets/EECA-Resources/Research-papers-guides/EEUD-Data-2017-2023.xlsx)
  - Used for estimating energy consumed (PJ) by most residential technologies
 
-# Assumptions used
+## Assumptions used
 
 All coded base agriculture assumptions are stored in `data_raw/coded_assumptions/ag_forest_fish_demand/`.
 
@@ -38,15 +38,15 @@ These include:
  - New technologies `new_techs_traditional.csv`, `new_techs_transformation.csv`. Includes future transport technologies with different cost curves for TIMES-NZ scenarios.
 
 
-# Detailed method
+## Detailed method
 
-## 1 Historic Demand
+### 1 Historic Demand
 
 The historic demand for agriculture, forestry and fishing sector was derived from EECA’s Energy End Use Database (EEUD). As there are some key differences in technologies and sub sector structure between TIMES-NZ 3.0 and the EEUD, the end-use energy in TIMES-NZ must be reconciled with the MBIE Energy Balance Tables. The key adjustments we made are to disaggregate 
  - the EEUD Non-Dairy Agriculture demand between TIMES-NZ sub sectors: Livestock Farming and Outdoor Horticulture & Arable Farming, and to disaggregate
   - the irrigation energy demand between Dairy Farming, Livestock Farming and Outdoor Horticulture & Arable Farming. Our approach is discussed below.
 
-### Livestock and 
+#### Livestock and horticulture
 
 Farm level data for livestock and horticulture are normalised to activity units that vary across subsectors:
  - Other livestock farming: stock units, with weightings for different animal types 
@@ -56,12 +56,12 @@ Expenditure data were available from both recent sources (post-2018) and older s
 
 The resulting bottom-up estimates are reconciled with EEUD Non-Dairy Agriculture data. This ensures consistency at the aggregate level while allowing for greater resolution in the distribution of energy use across farm activities.
 
-### Irrigation
+#### Irrigation
 
 Irrigation was included in the EEUD for dairy farming but not for other livestock farming and outdoor horticulture and arable farming. Irrigation application areas were obtained from Irrigation NZ  where the relative irrigation land use proportions for livestock farming, and outdoor horticulture and arable farming were multiplied by the energy use for pumping and motive power stationary in EEUD Non-Dairy Agriculture after reconciliation with MBIE electricity data. This assumes that the irrigation intensity (energy use per hectare) is constant throughout all sub-sectors. We would expect this to be suitable for pastoral livestock production because the irrigation requirement is similar for dairy pastures and, for arable and vegetable production as most irrigation systems such as for cereal growing have similar requirements to pasture. 
 
 
-## 2 Island split
+### 2 Island split
 
 Energy demand across the North and South Islands was allocated by ag, forest, fish subsector using appropriate proxy indicators:
 
@@ -74,14 +74,14 @@ Energy demand across the North and South Islands was allocated by ag, forest, fi
  - Other Agriculture (`NI`- 50%)
 
 
-## 3 Demand projections
+### 3 Demand projections
 
 Demand projections for the sector were based on the land use projections from the Second Emissions Reduction Plan. We used their Baseline scenario projections for TIMES-NZ Traditional scenario and the Baseline Low scenario projections for the Transformation scenario and calculated the demand growth indexes. For Indoor cropping sector we have applied the same growth index as Horticulture (Outdoor). For Fishing sector, the demand for energy is assumed to be constant throughout time as it’s heavily regulated and dominated by wild catch, and future activity is limited by the Fish Quota Management System (QMS). However, EECA Energy Transition Accelerator (ETA) reports suggest a future shift to aquaculture. Also, ETA reports suggest that the Forestry and Logging demand is tied to projected harvest volumes. 
 
 
-## 4 Future technologies
+### 4 Future technologies
 
-### Off-road vehicles
+#### Off-road vehicles
 Off-road vehicles, including tractors and other machinery, are assumed to be decarbonised through the adoption of alternative fuels, specifically renewable electricity and green hydrogen. Both options are available within the TIMES-NZ framework.
 For light-duty vehicles such as trucks (<10 tonnes), utility vehicles (Utes), and farm quads/bikes, assumptions were adopted from the transport sector. However, assumptions for electric or hydrogen tractors, ground-based forestry equipment, and cable-based forestry equipment were derived separately, as their operational profiles differ significantly from trucks. We have used the TIIMES-NZ 2.0 assumptions. 
 
@@ -100,11 +100,11 @@ Assumptions include:
  - Battery round-trip efficiency: 0.8
  - Hydrogen fuelling station cost: based on World Energy Council data, originally derived from the IEA .
 
-#### Battery/Fuel cell Costs
+##### Battery/Fuel cell Costs
 
 Battery costs were sourced from BloombergNEF (BNEF) projections up to 2030, after which they are assumed to remain constant due to long-term uncertainties in lithium and cobalt availability, and the potential emergence of alternative chemistries. It is also possible that as battery electric vehicles (BEVs) achieve cost parity with ICEs, innovation incentives may shift towards other technologies. These assumptions remain open to review.
 
-#### Non-Battery Costs
+##### Non-Battery Costs
 
 Additional system costs (includes all the extra equipment, integration, and control hardware required to make a battery or fuel cell propulsion system fully operational) were estimated using EECA’s internal data for electric tractors. These costs were normalised to a per unit power basis and reduced annually using rates derived from projected cost reductions for medium and heavy trucks.
 
@@ -115,7 +115,7 @@ The timing of cost reductions is assumed as follows:
  - Forestry (ground-based): 2035 (Kea), 2040 (Tui)
  - Forestry (cable yarding): 2040 (Kea), 2045 (Tui)
 
-#### Sizing the battery/fuel cell
+##### Sizing the battery/fuel cell
 
 Electrifying agricultural machinery presents challenges in the high kWh numbers needed to perform some duties, but exchangeable batteries packs are a much more workable solution than is available to road vehicles, and provide operational flexibility during charging. This constraint is less significant for hydrogen fuel cell systems.
 
@@ -125,7 +125,7 @@ Energy Requirement (kWh)=Maximum power (kW)×Maximum hours used per day×Load Fa
  - Oversize factor for batteries: 1.36 (36%), reflecting depth-of-discharge and efficiency considerations
  - Oversize factor for fuel cells: 1.55 (55%), accounting for lower fuel cell efficiency compared to batteries
 
-### Space Heating
+#### Space Heating
 
 The primary sub-sector requiring space heating is indoor cropping, particularly in heated greenhouses. Heat demand associated with grain drying is categorised under arable farming and outdoor horticulture. In line with the approach adopted in TIMES-NZ 2.0, the TIMES-NZ 3.0 model includes the following technology options for meeting space heating requirements:
  - Coal boiler
@@ -136,22 +136,22 @@ The primary sub-sector requiring space heating is indoor cropping, particularly 
 
 The cost, efficiency, and lifetime parameters for these technologies are primarily drawn from research undertaken by the University of Waikato on decarbonisation options for process heat . These values have been adjusted to reflect the specific characteristics of indoor cropping, where hot water rather than steam is sufficient to meet heating needs.
 
-### Fishing
+#### Fishing
 
 Decarbonisation technologies as identified are primarily around fuel-switching, in particular renewable diesel for the existing fleet, with LNG (mainly dual-fuel), ammonia and methanol possible options for new vessels, potentially via fuel-cell in combination with hybrid drives. Barriers to alternative fuels include both energy density and cost, since cleaner fuels have lower density the fuel tanks would be too large to fit into current ship designs, which would generally require new boats.
 
 
-## 5 Biofuels
+### 5 Biofuels
 
 Both biodiesel and drop-in diesel are allowed to be selected in TIMES-NZ 3.0 for all diesel consuming technologies within the agricultural technologies. 
 
 
-## 6 Constraints
+### 6 Constraints
 
 Off road electric vehicles were constrained in TIMES-NZ until 2025 due to supply limitations. This covers the fact that there are limited amounts of electric Utes available on the market, so having them enter the solution was implausible for the near-term. 
 
 
-## 7 Other Remarks
+### 7 Other Remarks
 
 Although aquaculture in New Zealand is experiencing rapid growth, its current energy demand remains minor in comparison with the wider fishing industry. Consequently, its contribution has been considered negligible within the present analysis. This assumption may, however, be revisited as sectoral growth continues.
 
@@ -162,7 +162,7 @@ Due to limited data availability, arable farming has been grouped with outdoor h
 The potential role of hydrogen as a fuel for ICE vehicles and machinery has not yet been incorporated into TIMES-NZ.
 
 
-## 8 Emissions factors
+### 8 Emissions factors
 
 Emissions factors for each thermal fuel are sourced from the Ministry for the Environment’s Measuring Emissions Guide 2025 . These are all converted to kt CO2e/PJ equivalents using gross calorific values from MfE’s data for use in modelling. The electricity supply portion of the model will handle the electricity emission factor for ag, forest, fish electricity. 
 

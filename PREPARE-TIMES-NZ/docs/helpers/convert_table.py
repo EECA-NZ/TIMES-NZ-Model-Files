@@ -25,9 +25,9 @@ def write_md_table(filepath):
         reader = csv.reader(f)
         rows = list(reader)
 
-    print("```{list-table}")
+    print("```{list-table} TABLE TITLE")
     print(":header-rows: 1")
-    print(":widths: auto\n")
+    print(":name: insert-table-name-here")
 
     for row in rows:
         cells = "\n  - ".join(row)

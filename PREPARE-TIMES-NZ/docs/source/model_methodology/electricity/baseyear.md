@@ -1,4 +1,5 @@
-# Base year generation
+# Existing plants
+
 The base year generation data is intended to reflect the distribution of 2023 generation across all generating New Zealand assets. These should be available to the model to meet future demand, but with enough information (region, technology, remaining life, etc.) that the model will retire plants at appropriate points and can make least-cost dispatch and peak decisions.
 
 TIMES-NZ requires detailed information on the existing generation stock, including: 
@@ -19,13 +20,26 @@ EECA has prepared a list of current plants for the base year generating stock[^e
 
 This list is not intended to capture all distributed or cogeneration facilities, which are instead represented by generic plants (see below). In general, plant status has been set to align with MBIE’s EDGS generation stack categories for 2023. This allows us to also use the MBIE generation stack for potential future generation assets without double-counting. For example, Kaiwera Downs Stage 1 is included in the base year, but the rest of the build is considered a future technology. This is because Kaiwera Downs was only partially operational by the end of 2023.
 
+
+[^energy_news]: Energy News: <https://www.energynews.co.nz/>
+[^ea_md_generation]: Generation by plant | EA: <https://www.emi.ea.govt.nz/Wholesale/Datasets/Generation/Generation_MD>
+[^eeca_plant_list]: The current version of this plant list can be viewed on our github [here](https://github.com/EECA-NZ/TIMES-NZ-Model-Files/blob/main/PREPARE-TIMES-NZ/data_raw/coded_assumptions/electricity_generation/GenerationFleet.csv).
+[^ea_dispatch_generationfleet]: Existing Generation Plants | EA: <https://www.emi.ea.govt.nz/Wholesale/Datasets/Generation/GenerationFleet/Existing>
+[^edgs_assumptions]: Electricity Demand and Generation Scenarios - Assumptions Data | MBIE: <https://www.mbie.govt.nz/assets/Data-Files/Energy/electricity-demand-generation-scenarios-2024-assumptions.xlsx>
+
+  
+
+
 ## Distributing base year generation using Electricity Authority data
 
-We use the Electricity Authority’s “Generation_MD”[^ea_md_generation] data to find estimates of generation for the current plant list. This bottom-up approach means we can assign known generation to plants, regions, and technologies. This data covers 93%[^eeca_plant_list] of total generation for 2023. For the remaining generation, we make some assumptions on the location and technology of distributed generation (cogeneration or otherwise) to calibrate final figures with historical generation and capacity data published by MBIE[^mbie_official_generation]. 
+We use the Electricity Authority’s “Generation_MD”[^ea_md_generation] data to find estimates of generation for the current plant list. This bottom-up approach means we can assign known generation to plants, regions, and technologies. This data covers 93%[^93_percent] of total generation for 2023. For the remaining generation, we make some assumptions on the location and technology of distributed generation (cogeneration or otherwise) to calibrate final figures with historical generation and capacity data published by MBIE[^mbie_official_generation]. 
 
 For plants where we include multiple stages, but there is only one reference in the Electricity Authority data (such as Ngāwhā or Turitea), generation is proportionally distributed by the stage’s capacity.
 
 We further test our final base year generation figures against MBIE’s official historical statistics to ensure accuracy. 
+
+[^93_percent]: 40,597 GWh in the EA’s dataset is 93% of the 43,494 GWh reported by MBIE for 2023.
+[^mbie_official_generation]: Electricity statistics | Ministry of Business, Innovation & Employment: <https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/electricity-statistics>
 
 
 ## Capacity factor estimates
@@ -41,7 +55,7 @@ Annual capacity factors for wind, solar, and hydro are not used in the model. In
 
 ```{list-table} Capacity factor assumptions
 :header-rows: 1
-:label: tab-capacity_factors
+:name: tab-capacity_factors
 * - Plant Type
   - Capacity Factor (%)
 * - Biogas
@@ -75,15 +89,15 @@ Annual capacity factors for wind, solar, and hydro are not used in the model. In
 
 ```
 
-
-
+[^geothermal_availability]: Geothermal capacity factors are set to remain at 93% across all time slices, rather than on average over a year. For all other plants without availability curve settings, the listed factors are annual limits, so these factors may be exceeded during specific time periods. 
 
 ## Availability curves
 Solar, wind, and hydro electricity generation is subject to seasonal or daily variation. In TIMES-NZ, we can limit the availability of specific plants during specific periods. For example, solar availability is zero during night periods and varies seasonally during day and peak periods. Onshore wind availability curves are based on analysis of the availability of New Zealand’s wind farms since 2020[^onshore_wind_availability]. 
 
 Offshore wind availability, for potential future installation, is based on similar seasonal patterns to onshore wind, but with an assumed increase to availability. Availability curves for hydro generation have been extracted from modelling done for TIMES-NZ 2.0. 
-Full availability curves for these technologies are available in the attached file `Availability Curves.xlsx`.[^MISSING_AV_CURVES]
+Full availability curves for these technologies are available on the project's github [here](https://github.com/EECA-NZ/TIMES-NZ-Model-Files/blob/main/PREPARE-TIMES-NZ/data_raw/coded_assumptions/electricity_generation/renewable_curves/RenewableCurves.csv).
 
+[^onshore_wind_availability]: Note that we have manually increased onshore wind farm availability slightly from historical levels. We assume new windfarms are likely to use more efficient technology and therefore achieve higher capacity factors than existing stock. 
 
 ## Huntly Rankine units
 
@@ -95,14 +109,20 @@ To estimate the split of coal and natural gas at the Huntly Rankine units, we as
 
    In February 2023, Genesis completed a biomass trial at the Rankine units. This means some small proportion of the generation was fuelled by imported wood pellets. These figures are negligible overall, and they are currently not included in the base year model.
 ```
+[^huntly_coal_use]: Calendar values of coal use at the Rankine Units can be found by compiling quarterly report values from <https://www.genesisenergy.co.nz/investor/results-and-reports/reports-and-presentations>
 
 ## Distributed solar generation
 The Electricity Authority does not provide figures on rooftop solar generation. However, distributed solar capacity data is available. We therefore create generic plant stocks intended to represent different levels of rooftop solar generation (residential, commercial, and industrial), and distribute MBIE’s official solar generation statistics according to region and island based on EMI distributed solar capacity data. 
+
 A stock model is applied to the existing stock of distributed solar generation to estimate the rate at which panels are retired from rooftops across the model horizon. Plants linearly retire according to the technical lifetime assumption for solar plants. 
 
+
 ## Adding generic plants
+
 After adding either Electricity Authority generation data or plant generation estimates based on capacity factors, we calibrate total figures against official MBIE generation data (broken down by cogeneration status and fuel type). We expect to still be missing some generation when comparing to official statistics, which reflects smaller embedded or other plants not available in our plant list or Electricity Authority solar capacity data. 
+
 We therefore add several “generic” existing plants. These have their capacities and generation figures for the base year generated automatically based on the missing generation data and capacity factor assumptions. In cases where they may be on either island (such as wind or hydro), they are distributed according to the known regional distribution of similar plants. In other cases (such as geothermal or natural gas plants) they are distributed only across the North Island. 
+
 
 ## Technical parameters from MBIE data
 Any generating asset in the model requires detailed technical parameters. The following are available in the MBIE generation stack for current plants:
@@ -119,10 +139,11 @@ Other required parameters are not included in MBIE’s data, so these are applie
 ### Peak contribution rate
 The peak contribution is the assumed proportion of capacity available to meet peak demand. These peak contribution rate assumptions are as follows: 
 
+
+
 ```{list-table} Peak contribution assumptions
 :header-rows: 1
-:widths: auto
-:label: tab-peak_contribution
+:name: tab-peak_contribution
 
 * - Plant Type
   - Peak contribution (%)
@@ -161,8 +182,7 @@ All generating assets are provided with their original commissioning date where 
 
 ```{list-table} Plant lifetime assumptions
 :header-rows: 1
-:widths: auto
-:label: tab-plant_lifetimes
+:name: tab-plant_lifetimes
 
 * - Plant Type
   - Technical lifetime (years)
@@ -190,15 +210,6 @@ Currently, decommissioning costs are not included. This was also true in TIMES-N
 
 
 
-[^eeca_plant_list]: TODO
-[^ea_dispatch_generationfleet]: TODO
-[^edgs_assumptions]: TODO
-[^edgs_assumptions]: TODO
-[^ea_md_generation]: TODO
-[^mbie_official_generation]: Electricity statistics | Ministry of Business, Innovation & Employment: <https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/electricity-statistics>
+[^huntly_life]:The Rankine units were commissioned across 1982-1985, and we have set the commissioning date to 1983. This lifetime assumption means they will be retired in the model in 2033.
 
-[^huntly_coal_use]: Calendar values of coal use at the Rankine Units can be found by compiling quarterly report values from <https://www.genesisenergy.co.nz/investor/results-and-reports/reports-and-presentations>
-[^onshore_wind_availability]: Note that we have manually increased onshore wind farm availability slightly from historical levels. We assume new windfarms are likely to use more efficient technology and therefore achieve higher capacity factors than existing stock. 
-[^energy_news]: Energy News: [https://www.energynews.co.nz/](https://www.energynews.co.nz/)
-[^geothermal_availability]: Geothermal capacity factors are set to remain at 93% across all time slices, rather than on average over a year. For all other plants without availability curve settings, the listed factors are annual limits, so these factors may be exceeded during specific time periods. 
-[^huntly_life]:The Rankine units were commissioned across 1982-1985, and we have set the commissioning date to 1983. This lifetime assumption means they will be retired in 2033.
+

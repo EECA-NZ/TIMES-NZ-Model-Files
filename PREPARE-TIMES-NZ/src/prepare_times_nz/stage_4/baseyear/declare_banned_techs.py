@@ -78,7 +78,7 @@ def main():
         df,
         name="banned_techs.csv",
         label="Saving banned base year techs",
-        filepath=STAGE_4_DATA / "syssettings",
+        filepath=STAGE_4_DATA / "sys_settings",
     )
 
 

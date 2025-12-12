@@ -10,7 +10,7 @@ We want to make sure everything is replicable and scalable while minimising comp
 2) Steps are broken down into clear stages. This means it is clear for future modellers exactly what should be happening and when. 
 3) It should be straightforward to add new data/methods/models/scenarios to future iterations of TIMES-NZ, without causing many breakages. 
 
-
+### Project stages
 To achieve this, we break the project down into stages. Each stage shares code and data, and follows the general guiding principles:
 
 - **Stage 0** is setup and configuration. The code here is minimal, mostly processing user config files. 
