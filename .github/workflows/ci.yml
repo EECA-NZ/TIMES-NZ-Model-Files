@@ -47,7 +47,7 @@ jobs:
 
       - name: Install dependencies (with dev extras)
         working-directory: PREPARE-TIMES-NZ
-        run: poetry install --no-interaction --with dev
+        run: poetry install --no-interaction --with dev, docs
 
       - name: Run linters
         working-directory: PREPARE-TIMES-NZ
@@ -84,20 +84,18 @@ jobs:
         working-directory: PREPARE-TIMES-NZ
         run: poetry install --no-interaction --with dev
 
-      - name: Run tests & build HTML coverage
+      - name: Run tests
         working-directory: PREPARE-TIMES-NZ
-        run: |
-          poetry run coverage run -m pytest
-          poetry run coverage html
+        run: poetry run pytest
 
-      - name: Publish coverage to gh-pages
+      - name: Build Sphinx docs
+        working-directory: PREPARE-TIMES-NZ
+        run: poetry run sphinx-build -b html docs docs/build/html
+
+      - name: Publish docs to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: PREPARE-TIMES-NZ/htmlcov
-
-      - name: Coverage summary
-        working-directory: PREPARE-TIMES-NZ
-        run: poetry run coverage report
+          path: PREPARE-TIMES-NZ/docs/build/html
 
   audit:
     name: pip-audit (Poetry env)
@@ -134,7 +132,7 @@ jobs:
 
   deploy:
     name: Deploy to GitHub Pages
-    if: ${{ success() && github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') }}
+    if: ${{ success() && github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/update_prep') }}
     needs: [test]
     runs-on: ubuntu-latest
     environment:
