@@ -47,7 +47,7 @@ jobs:
 
       - name: Install dependencies (with dev extras)
         working-directory: PREPARE-TIMES-NZ
-        run: poetry install --no-interaction --with dev, docs
+        run: poetry install --no-interaction --with dev
 
       - name: Run linters
         working-directory: PREPARE-TIMES-NZ
@@ -82,7 +82,7 @@ jobs:
 
       - name: Install deps
         working-directory: PREPARE-TIMES-NZ
-        run: poetry install --no-interaction --with dev
+        run: poetry install --no-interaction --with dev,docs
 
       - name: Run tests
         working-directory: PREPARE-TIMES-NZ
