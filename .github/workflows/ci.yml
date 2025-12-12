@@ -89,8 +89,8 @@ jobs:
         run: poetry run pytest
 
       - name: Build Sphinx docs
-        working-directory: PREPARE-TIMES-NZ
-        run: poetry run sphinx-build -b html docs docs/build/html
+        working-directory: PREPARE-TIMES-NZ/docs
+        run: poetry run sphinx-build -b html source build/html
 
       - name: Publish docs to GitHub Pages
         uses: actions/upload-pages-artifact@v3
