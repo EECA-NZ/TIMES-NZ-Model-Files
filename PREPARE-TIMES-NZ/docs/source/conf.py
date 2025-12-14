@@ -8,10 +8,10 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "PREPARE-TIMES-NZ"
-copyright = "2025, EECA"
 author = "Luke Searle, Achini Weerasinghe"
 release = "v3.0.0"
 
+html_show_copyright = False
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
