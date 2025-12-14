@@ -17,7 +17,7 @@ html_show_copyright = False
 
 extensions = ["myst_parser", "sphinx.ext.mathjax", "sphinx.ext.autosectionlabel"]
 
-myst_enable_extensions = ["colon_fence", "dollarmath", "auto_section_label"]
+myst_enable_extensions = ["colon_fence", "dollarmath"]
 
 templates_path = ["_templates"]
 
