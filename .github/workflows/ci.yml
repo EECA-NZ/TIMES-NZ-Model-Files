@@ -82,20 +82,22 @@ jobs:
 
       - name: Install deps
         working-directory: PREPARE-TIMES-NZ
-        run: poetry install --no-interaction --with dev,docs
+        run: poetry install --no-interaction --with dev
 
-      - name: Run tests
+      - name: Run tests & build HTML coverage
         working-directory: PREPARE-TIMES-NZ
-        run: poetry run pytest
+        run: |
+          poetry run coverage run -m pytest
+          poetry run coverage html
 
-      - name: Build Sphinx docs
-        working-directory: PREPARE-TIMES-NZ/docs
-        run: poetry run sphinx-build -b html source build/html
-
-      - name: Publish docs to GitHub Pages
+      - name: Publish coverage to gh-pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: PREPARE-TIMES-NZ/docs/build/html
+          path: PREPARE-TIMES-NZ/htmlcov
+
+      - name: Coverage summary
+        working-directory: PREPARE-TIMES-NZ
+        run: poetry run coverage report
 
   audit:
     name: pip-audit (Poetry env)
