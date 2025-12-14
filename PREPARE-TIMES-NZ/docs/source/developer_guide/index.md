@@ -9,7 +9,6 @@ In summary, the project:
 1. Outputs clean, machine-readable data for each key component. 
 1. Additionally, formats these into the excel tables intended to be read by Veda or XL2TIMES before sending to GAMS for solving. 
 
-
 Processing scripts are organised by sector (electricity generation, commercial demand, etc), and stage (raw data, base year processing, scenario processing, veda formatting)
 
 ```{toctree}
@@ -28,13 +27,4 @@ configuration_file_guide
 documentation_maintenance
 
 ```
-
-
-## Poetry environment switching 
-
-It's important to stick to the poetry env that's been designated for each module. The fastest way to approach this is to navigate to the package directory that you want to work in in the terminal, then: 
-
-1) `deactivate` disables whatever poetry env you previously had working 
-2) `poetry env activate` prints to console the command for activating that package's env. Just paste that into the terminal.
-
 
