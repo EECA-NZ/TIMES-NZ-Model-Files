@@ -184,8 +184,33 @@ Here's an example:
     | A                       | B                       |
     +-------------------------+-------------------------+
 ```
-You must tab-indent the table and `:name:`. The spacing is very particular. If anything is not placed precisely, the table will fail to render. This is often more trouble than it's worth. It might be better to just leave some cells null, like in {ref}`the battery page <storage-key-assumptions>`
+You must tab-indent the table and `:name:`. The spacing is very particular. If anything is not placed precisely, the table will fail to render. This is often more trouble than it's worth. It might be better to just leave some cells null, like in {ref}`the battery page <storage-key-assumptions>`.
 
+
+### Linking to headings 
+
+It's possible to add heading links, like the battery electricity example above. You need to first assign an ID to your target heading, then link to that ID in your text. 
+
+First, label the heading you want to link to. It's possible to autogenerate slugs for different headings, but with the volume of text planned for this documentation, that might not be robust. It's also convenient to identify headings that have links elsewhere. We therefore add link IDs only when needed, like so: 
+
+```
+(heading-example-id)=
+#### Example heading
+```
+This does nothing on its own - simply serves as an internal ID that ties to that heading. 
+
+Then, you can use a standard `{ref}` approach to reference your ID, like:
+
+```
+{ref}`See this heading for more info<heading-example-id>`
+```
+
+This renders like so: 
+
+{ref}`See this heading for more info<heading-example-id>`
+
+(heading-example-id)=
+#### Example heading
 
 ### Popup notes
 

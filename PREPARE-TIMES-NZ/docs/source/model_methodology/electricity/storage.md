@@ -90,7 +90,7 @@ Capital cost projections for utility scale batteries are taken from CSRIO GenCos
 
 ### Distributed residential capital costs
 
-Residential battery costs projections are not available in CSIRO data. We assume that distributed batteries are two times the cost of utility-scale batteries. This gives an estimated 2023 cost of $3,163/kW. Applying the CSIRO cost curve to this price gives 2025 prices of $2,579/kW, which is in line with currently advertised prices for home battery units, including installation. 
+Residential battery costs projections are not available in CSIRO data. We assume that distributed batteries are two times the cost of utility-scale batteries. This gives an estimated 2023 cost of 3,163 NZD/kW. Applying the CSIRO cost curve to this price gives 2025 prices of 2,579 NZD/kW, which is in line with currently advertised prices for home battery units, including installation. 
 ### Fixed maintenance costs
 
 Some maintenance costs are required to ensure that batteries maintain their operational capacity throughout the 15-year lifespan. We assume 1% of current capital costs are required in maintenance annually. This is on the lower end of possible fixed maintenance cost assumptions , as we do not assume capacity augmentation, but only simple maintenance covering repairs and servicing. We assume these maintenance costs remain fixed even as the technology costs improve over time. 
