@@ -17,7 +17,7 @@ We have improved on TIMES-NZ 2.0 by building a bottom-up, asset-based model of t
 
 Note that this does mean updating the base year will currently require a manual review of this existing asset list.
 
-# Raw data used 
+## Raw data used 
 
 All raw data from external sources is stored in `data_raw/external_data/`
 
@@ -67,7 +67,7 @@ Energy End Use Data 2023:
 Total Cost of Ownership (TCO):
  - `eeca_data/tcoe/vehicle_costs_2023.xlsx` | [Webpage](https://www.genless.govt.nz/for-business/vehicles-and-transport/vehicle-total-cost-of-ownership-calculator/) | [File](A curated list of top-selling models across multiple technology types and vehicle categories) - Used for estimating key cost components, including purchase price (capital cost), servicing costs, tyre costs, and a combined per-kilometre operating cost for each representative model
 
-# Assumptions used
+## Assumptions used
 
 All coded base transport assumptions are stored in `data_raw/coded_assumptions/transport_demand/`.
 
@@ -79,9 +79,9 @@ These include:
  - Splits for GVM classes to GCM bands `transporthelpers.py` <ARTIC_ALLOCATION_MATRIX> - split GVM classes into GCM bands (14-20t, 20-28t, 28-34t, 34-40t, 40-50t, 50-60t)
  - `fill on the total artic truck by GVM class (41%) and total trucks based on 2019 splits, and calculation of trucks into classes Medium, Heavy, Very Heavy (Rigid trucks by GVM class + artic truck by GCM bands)........`
 
-# Detailed method
+## Detailed method
 
-## 1 Existing transport asset List
+### 1 Existing transport asset List
 
 EECA has compiled a list of current transport technologies and fleet composition for the 2023 base year, reflecting the distribution of energy service demand across the New Zealand vehicle fleet. This list is grounded in data from the Ministry of Transport (MoT)’s Vehicle Fleet Model (VFM) (VFM202405 outputs summary V3: https://www.transport.govt.nz/statistics-and-insights/vehicle-fleet-model/sheet/updated-future-state-model-results), MoT’s Annual Fleet Statistics, and other reputable data sources, including KiwiRail and the Ministry of Business, Innovation and Employment (MBIE) Energy Balances.
 
@@ -91,7 +91,7 @@ The transport asset list does not aim to capture every variation or niche vehicl
 
 In this 3.0 release we have added another category of trucks, aiming to represent the high utilisation long haul vehicles in the fleet. The split point has been set at 30t GVM to capture just the heaviest vehicles. It should be noted that in 2.0 we used the terms Medium Trucks and Heavy Trucks, but to align with industry terminology we have added a Light Trucks category and moved the vehicles weights accordingly, rather than adding a ‘Very Heavy’ category. 
 
-## 2 Split between North and South Island data
+### 2 Split between North and South Island data
 
 The division of energy service demand between the North and South Islands is determined using a mix of proxies:
 
@@ -102,7 +102,7 @@ The division of energy service demand between the North and South Islands is det
  - Aviation International: Statistics NZ international arrival data and MoT International Arrivals/Departures data are used to estimate the fuel consumed by the airport | [Source](TIMES-NZ 2.0 inputs)
  - Shipping: We extracted the TIMES-NZ 2.0 splits for now and will be reviewed and updated for the current status based on any significant changes identified by the Assumption Working Group
 
-## 3 Distributing the base year transport demand 
+### 3 Distributing the base year transport demand 
 
 We used the MOT’s Annual Fleet Statistics and New Zealand Transport Agency’s (NZTA) Motor Vehicle Register (MVR) to estimate vehicle stock, Bvkt, and regional Bvkt for the 2023 base year. This bottom-up approach allows us to distribute existing transport demand across vehicle types, technologies, fuel types, and regions (North and South Islands). 
 
@@ -110,7 +110,7 @@ This dataset covers the majority of New Zealand's on-road transport energy deman
 
 In cases where the MOT provides vehicle categories in aggregated form, we disaggregate VKT, and vehicle counts by fuel type or technology class using market share estimates and registration data from the MVR data. Further disaggregation of VKT into utilisation tertiles (discussed below) was undertaken using extra VKT data provided by MoT for the purpose of improving the model.
 
-## 4 VKT disaggregation
+### 4 VKT disaggregation
 
 To try and better reflect that vehicle use will change the TCO equation, vehicle utilisation bands we created. For each vehicle class, vehicle counts are evenly split into low, medium, and high-utilisation tertiles. Each tertile of each vehicle class is given a conditional mean VKT using data provided by MoT. These figures are then balanced against the overall VKT figures given in the MoT Annual Fleet Statistics. 
 
@@ -122,7 +122,7 @@ Non-road modes (aviation, rail, shipping) are incorporated using available MBIE 
 
 We further validate the final 2023 transport sector demand distribution against MBIE’s energy balance tables and EEUD transport data to ensure the consistency and completeness of the base year representation. Aligning the classification and data treatment with MoT and MBIE sources also allows for seamless integration with forward-looking demand and technology scenarios, providing consistency across historical, current, and future transport sector modelling inputs.
 
-## 5 Productivity penalty 
+### 5 Productivity penalty 
 
 To represent the need for Heavy trucks to carry large payloads, we have applied a productivity penalty to BEV trucks due to the weight of their batteries. This is applied as a decrease in VKT per vehicle, resulting in the model needing to purchase more BEV trucks to do the same job as diesel or hydrogen. 
 
@@ -130,7 +130,7 @@ The weight difference was determined by removing the estimated weight of the pow
 
 Hydrogen trucks were assumed to be the same weight as their ICE counterparts. 
 
-## 6 Transport cost assumptions
+### 6 Transport cost assumptions
 
 Capital (CAPEX) and fixed operating and maintenance (FIXOM) costs for light vehicles in the model are primarily derived from EECA’s Total Cost of Ownership (TCO) Tool  using a curated list of top-selling models across multiple technology types and vehicle categories. Vehicles are classified by category (e.g. car, SUV, ute, van, bus, motorcycle, truck), use type (e.g. LPV, LCV, bus, motorcycle, light, medium, heavy truck), and technology (e.g. petrol ICE, diesel ICE, hybrid, plug-in hybrid, battery electric vehicle, and hydrogen fuel cell). For each representative model, key cost components are recorded, including purchase price (capital cost), servicing costs, tyre costs, and a combined per-kilometre operating cost.
 
@@ -142,7 +142,7 @@ TIMES-NZ 2.0 did not include the cost of domestic and international shipping. Fo
 
 There is also limited publicly available data for rail costs. One data point is from media releases relating to the Stadler and KiwiRail contract for 57 mainline locomotives .  Any other data of alternative technology costs and capabilities would be appreciated.
 
-## 6 Fuel efficiency
+### 6 Fuel efficiency
 
 Fuel efficiencies for the base year technologies were determined using the below equation and listed in Table 8. VKT figures come from our breakdowns discussed above, and fuel used from MBIE energy balance tables split per the EEUD. This method allows for simple balancing between these two data sets.
 
@@ -150,7 +150,7 @@ Fuel Efficiency =  (Vehicle kilometres travelled (Bvkt))/(Fuel Used (PJ))
 
 TSome technologies weren’t present in the data so were determined manually – for LCV Hybrids and ICE motorcycles we used the relativity in between ICE LPVs and the LPV version of their respective technology. Hydrogen trucks used publicly claimed fuel capacities and range to determine fuel consumption. For Medium trucks the Hyundai Xcient was used , for Heavy trucks the GBV Semi .
 
-## 7 Lifetime of transport technologies
+### 7 Lifetime of transport technologies
 
 To reflect differences in how vehicles exit the fleet over time, we allocated the total fleet across utilisation bands, referred to as tertiles based on their initial share and their expected survival as vehicles age. Each tertile’s base share is calculated from the overall fleet and adjusted using an age-based decay factor that models the likelihood of a vehicle remaining in the fleet as it gets older.
 
@@ -166,15 +166,15 @@ power of the tertile index, resulting in the following weighting formula:
 
 These weights are then normalised within each age group to preserve total fleet size while reflecting different survival patterns across tertiles. Using this weighted distribution, the scrappage age is calculated for each vehicle type and tertile. This is defined as the age by which 70% of vehicles in that group have exited the fleet, representing a higher than median estimate of fleet turnover. It reflects differences in how quickly vehicles are typically retired across segments and provides insight into the upper range of vehicle survival patterns.
 
-## 9 Mode and fuel shares
+### 9 Mode and fuel shares
 
 Other required parameters that are not included in the external data are applied by assumption. These assumptions on Vehicle max annual travel distance (000km) and Mode or fuel share have been extracted from TIMES-NZ 2.0, where available. The following fuel share figures have been assigned to some of the technologies.
 
-## 10 Demand projections
+### 10 Demand projections
 
 The existing demand projections for Kea and Tūī scenarios were also extracted from TIMES-NZ 2.0 and listed separately, these will be reviewed and updated based on any significant changes identified by the Narrative Working Group.
 
-## 11 Future transport technologies
+### 11 Future transport technologies
 
 The base of future transport technologies made available to the model is based on the MOT’s VFM, with adjustments for future capital and O&M costs derived from the National Renewable Energy Laboratory (NREL) Annual Technology Baseline (ATB) data . This includes a list of future vehicle types (ICE, BEV, PHEV, and FC), with detailed estimates of investment costs (CAPEX), fixed operating and maintenance costs (FIXOM), fuel efficiency, AFA, vehicle lifetime, and earliest availability years.
 
@@ -182,7 +182,7 @@ We made the following adjustments and additions to the baseline vehicle technolo
  - We included cost projections from NREL for advanced ICEs, BEVs, PHEVs, and hydrogen FC vehicles across light, medium, and heavy vehicle classes.
  - We used NREL learning curve assumptions to model CAPEX and FIXOM costs for future transport technologies in TIMES-NZ 3.0 scenarios over time.
 
-### Learning curves for transport technologies
+#### Learning curves for transport technologies
 
 Data from the NREL Annual Technology Baseline (ATB) was used to generate learning curves for key vehicle technologies, providing projections of CAPEX and FIXOM costs over time based on assumed technological advancement. The NREL projections extend from 2023 to 2050 across three scenarios, reflecting different rates of innovation and market development.
  - Conservative: Minor technology changes; low R&D investment.
@@ -197,7 +197,7 @@ Learning curves were applied to adjust CAPEX and FIXOM costs for vehicles meetin
 Technologies already widely available in the base year (e.g., ICE petrol vehicles) retain static costs across the model horizon.
 The NREL transport categories were mapped to TIMES-NZ vehicle types 
 
-### Cost application methodology
+#### Cost application methodology
 
 To apply the learning curves:
  - Percentage indices for changes in CAPEX were calculated relative to the base year, using NREL projections.
@@ -205,19 +205,19 @@ To apply the learning curves:
  - For projected CAPEX, the NREL-derived percentage indices were applied to the base capital cost.
  - FIXOM costs were extracted from NREL for the base year, where data is not available in the NZ context.
 
-### Potential vehicle deployment limits
+#### Potential vehicle deployment limits
 The future potential for the deployment of emerging technologies is constrained by the restraint on light EV uptake. The below EV import limits for LPVs were extracted from TIMES-NZ 2.0 and need to be reviewed and updated for the current status, or the possibility of introducing a supply constraint.
 
-## 12 Chargers
+### 12 Chargers
 For battery electric and plug-in hybrids, each vehicle has a charger cost added to their CAPEX, with prices from IDTechEX. Most vehicles are assumed to charge overnight and are assigned an appropriately sized charger for this. 
 The exception is for heavy trucks which we have assumed charge at the depot, sharing a 500kW charger between 5 trucks. This is to ensure that electric vehicles in this category are capable of completing high utilisation duty cycles, while also trying to reflect that chargers will be shared amongst vehicles to ensure their own utilisation. 
 In future iterations of the model, we would like to have a charging network made up of multiple nodes, however this is out of scope for this release.
 Cost of hydrogen infrastructure is considered by the model in determining the delivered cost of fuel, so is not included in any vehicle CAPEX figures.
 
-## 13 Emissions factors
+### 13 Emissions factors
 
 Emissions factors for each thermal fuel are sourced from the Ministry for the Environment’s Measuring Emissions Guide 2025 . These are all converted to kt CO2e/PJ equivalents using gross calorific values from MfE’s data for use in modelling. The electricity supply portion of the model will handle the electricity emission factor for transport electricity.
 
-## 14 Biofuel/Hydrogen supply
+### 14 Biofuel/Hydrogen supply
 This will be covered in a separate document at a later date. 
 

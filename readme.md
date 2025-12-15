@@ -30,8 +30,8 @@ The `TIMES-NZ-INTERNAL-QA` module pulls results from VEDA, labels and categorise
 
 ## Documentation
 
-
-- [Developer setup guide](docs/developer-setup-guide.md) for modellers or developers looking to update or fork the 
+- [Model structure documentation](docs/model-structure.md) for automatically generated documentation describing the entire TIMES model input structure.
+- [Developer setup guide](docs/developer-setup-guide.md) for modellers or developers looking to update or fork the code.
 - [GitHub Flow Guide](docs/github-flow-readme.md) for our Git workflow.
 - [Code Quality Infrastructure Setup](docs/code-quality-infra-readme.md) for linting, testing, and CI/CD configuration.
 - [Issues Log](docs/issues-log.md) for currently known issues or features not yet implemented.

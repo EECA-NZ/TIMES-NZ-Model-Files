@@ -29,6 +29,7 @@ from typing import List
 
 import pandas as pd
 import tomli_w
+from prepare_times_nz.stage_0.generate_documentation import main as document
 from prepare_times_nz.stage_0.toml_readers import parse_toml_file
 from prepare_times_nz.utilities.filepaths import DATA_INTERMEDIATE, DATA_RAW
 
@@ -111,6 +112,10 @@ def main() -> None:
         logger.info("Wrote metadata to %s", metadata_csv)
     else:
         logger.warning("No TOML files found in %s", RAW_DATA_LOCATION)
+
+    # generate documentation
+    document()
+    logger.info("Generating documentation")
 
 
 if __name__ == "__main__":

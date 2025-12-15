@@ -153,3 +153,7 @@ PREPARE-TIMES-NZ/output/
 PREPARE-TIMES-NZ/analysis/results/
 
 TIMES-NZ-INTERNAL-QA/data/*.zip
+
+# PREPARE-TIMES-NZ doc build
+PREPARE-TIMES-NZ/docs/build/
+PREPARE-TIMES-NZ/docs/*.csv
