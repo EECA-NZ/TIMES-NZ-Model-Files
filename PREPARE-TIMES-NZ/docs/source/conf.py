@@ -15,7 +15,12 @@ html_show_copyright = False
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["myst_parser", "sphinx.ext.mathjax", "sphinx.ext.autosectionlabel"]
+extensions = [
+    "myst_parser",
+    "sphinx.ext.mathjax",
+    "sphinx.ext.autosectionlabel",
+    "docxbuilder",
+]
 
 myst_enable_extensions = ["colon_fence", "dollarmath"]
 
@@ -40,3 +45,22 @@ html_theme_options = {
         "text": "PREPARE-TIMES-NZ",  # or a short title
     },
 }
+
+
+# -- Options for docx output -------------------------------------------------
+
+# template usage
+docx_style = "_templates/EECATemplate.docx"
+
+docx_documents = [
+    # (startdocname, targetname, docproperties, toctree_only)
+    (
+        "model_methodology/electricity/index",
+        "Electricity supply assumptions.docx",
+        {"title": "Electricity supply assumptions"},
+        True,
+    ),
+]
+
+# Make tables slightly nicer by avoiding spread across pages
+docx_table_options = {"in_single_page": True}

@@ -299,5 +299,44 @@ Some notes:
 - If a footnote contains a URL, you should make this clickable by wrapping it in `<>`: `<https://www.google.com/>` renders as <https://www.google.com/>
 
 
+## Document generation 
+
+### Setup
+
+Markdown documentation is the single source of truth. However, some users may want more traditional files, and so we use the same engine to generate Word or pdf documents. 
+
+To achieve this, our `conf.py` is also setup with the sphinx extension `docxbuilder`, which can generate Word files using the same design as the site. `docxbuilder` handles almost entirely everything, with a few additional plugins for things like the mathjax interpreter. 
+
+We include a few specific configuration options in `conf.py` in order to control these. First, we can select which `index.md` is used to build the word document in the `docx_document` list, and give the outputs a name and title:
+
+```python
+docx_documents = [
+    # (startdocname, targetname, docproperties, toctree_only)
+    ("model_methodology/electricity/index", 
+    "Electricity supply assumptions.docx", 
+    {"title": "Electricity supply assumptions"}, 
+    True),    
+]
+```
+
+We also include a Template as a source Word file, bundled in this repo. The Style settings in this Word document are inherited by all generated docs, using the `docx_style` setting. Adjusting the formatting of the outputs means adjusting the relevant styles in the template document. 
+
+You can see more information on this setup at the sphinx builder documentation page [here](https://docxbuilder.readthedocs.io/en/latest/docxbuilder.html#usage).
+
+### Building documents (and field updating)
+
+Building the word documents can be very simple: simply run (from `docs/`) the terminal command `sphinx-build -b docx source build/docx`. 
+
+This generates all the content and applies the template styles. However, this does not automatically update things like TOC page numbers, or other Field settings, such as the Date or Title. These are populated client-side. 
+
+We could manually open the files and update the fields, but this is tedious (especially if there are lots of documents) to do on every rebuild. 
+To ensure these update without manually interacting with these files, we add an additional script to instead build the Word documents to the Windows mount, open and update them in Powershell, then bring them back to our build directory.
+
+This can be achieved by running (again, from `docs/`) the bash script ` ./scripts/build-docx.sh`. This script runs the entire process: building the documents in Windows, updating the fields, then copying the results to the Linux build directory. It leaves some temporary files in `C:/tmp`.
+
+For simplicity, you can run the alternative script  `./scripts/build-docx-no-fields.sh`, which simply builds the files and applies styles, without the additional complexity of automatically updating the document's clientside fields. You can see this is the same as running `sphinx-build -b docx source build/docx`.
+
+
+
 
 
