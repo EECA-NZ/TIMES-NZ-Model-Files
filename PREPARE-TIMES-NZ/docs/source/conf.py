@@ -52,12 +52,15 @@ html_theme_options = {
 # template usage
 docx_style = "_templates/EECATemplate.docx"
 
+
+version_for_word = "TIMES-NZ 3.0.1"
+
 docx_documents = [
     # (startdocname, targetname, docproperties, toctree_only)
     (
         "model_methodology/electricity/index",
         "Electricity supply assumptions.docx",
-        {"title": "Electricity supply assumptions"},
+        {"title": "Electricity supply assumptions", "subject": version_for_word},
         True,
     ),
 ]
