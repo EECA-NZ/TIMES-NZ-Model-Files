@@ -23,7 +23,7 @@ Residential sector follows the below high-level approach:
 The TIMES-NZ model will then optimise the energy allocation to meet the service demand projections across the entire energy sector, taking into consideration other demand, electricity generation, fuel availability, and so on. 
 
 
-# Raw data used 
+## Raw data used 
 
 All raw data from external sources is stored in `data_raw/external_data/`
  
@@ -47,7 +47,7 @@ Energy End Use Data 2023:
  - `eeca_data/eeud/Final EEUD Outputs 2017 - 2023 12032025.xlsx` | [Webpage](https://www.eeca.govt.nz/insights/data-tools/energy-end-use-database/) | [File](https://www.eeca.govt.nz/assets/EECA-Resources/Research-papers-guides/EEUD-Data-2017-2023.xlsx)
  - Used for estimating energy consumed (PJ) by most residential technologies
 
-# Assumptions used
+## Assumptions used
 
 All coded base residential assumptions are stored in `data_raw/coded_assumptions/residential/`.
 
@@ -61,9 +61,9 @@ These include:
  - Residential dwelling floor area in each region `floor_area_per_dwelling.csv`. Used to model total heat demand for each region and dwelling type
 
 
-# Detailed method
+## Detailed method
 
-## 1 Regional space heating model
+### 1 Regional space heating model
 
 To model where space heating technologies and fuels from the EEUD are used, we spread known fuel demand using:
  - Census 2023 data on heating methods per region and dwelling type
@@ -74,7 +74,7 @@ To model where space heating technologies and fuels from the EEUD are used, we s
 
 We align with the method used for TIMES 2.0 and “Regional breakdown of New Zealand’s residential heat demand and associated emissions” , while simplifying slightly to model demand at a regional council level, rather than by district. 
 
-### Step 1: Model total heat demand for each region and dwelling type: 
+#### Step 1: Model total heat demand for each region and dwelling type: 
 
  - HeatDemand_(r,d)=  FloorArea_(r,d)*HDD_r*C
 
@@ -85,7 +85,7 @@ Where:
  - C_r is a constant which captures other drivers of a region’s heating demand, such as insulation properties or behavioural differences. We assume that these other drivers are the same between regions. 
  - Floor area assumptions are 171 m2 for detached dwellings, and 115 m2 for joined dwellings. 
 
-### Step 2: Disaggregate floor area heat demand by heating methods
+#### Step 2: Disaggregate floor area heat demand by heating methods
 
 We expand the floor area method of determining heat demand by breaking it down by share of heating method. 
 
@@ -96,32 +96,32 @@ Where:
 
 Heating method shares can be found using Census 2023 data. The census respondents could provide multiple answers, but it is not possible to distinguish dwellings using multiple heating methods. We therefore simplify the results to estimate shares of heating method per region and dwelling type.
  
-### Step 3: Convert heat demand into fuel demand 
+#### Step 3: Convert heat demand into fuel demand 
 
 Different heating technologies have different efficiencies, and so the input energy is different across different types. To appropriately disaggregate energy demand, rather than heating service demand, we apply efficiency assumptions for each technology: 
 
  - EnergyDemand_(r,d,h)= HeatDemand_(r,d,h)/FuelEfficency_h
 
-### Step 4: Apply modelled fuel demand shares to known residential fuel demand
+#### Step 4: Apply modelled fuel demand shares to known residential fuel demand
 
 We map the census technologies to known EEUD technologies and fuels. We then apply the modelled fuel demand shares to the EEUD results to estimate heat demand by technology, fuel, region, and dwelling type. 
  
 Note that total demand for joined dwellings is much lower than for detached dwellings, because standalone houses are much more common than apartments or joined townhouses in all areas of the country. 
 
 
-## 2 Other energy demand
+### 2 Other energy demand
 
 Other energy demand is disaggregated by population and dwelling type per region, without controlling for temperature. This includes water heating demand, which we assume is mostly driven by population rather than ground temperature.
 
 Again, natural gas use for other end use demand is distributed entirely across the north island, and demand reallocated for those end uses. This impacts cooking and water heating demand shares.
 
 
-## 3 Geothermal and solar demand 
+### 3 Geothermal and solar demand 
 
 The EEUD lists geothermal and direct solar energy use by residences but does not allocate these to specific uses or technologies. We assume that all geothermal residential use is for space heating through ground source heat pumps, and we assume all solar thermal use (which excludes rooftop solar for electricity generation) is used for water heating. Limited information is available on the use of these technologies , so we simply distribute the use according to population. The estimated energy values involved are very small. 
 
 
-## 4 Residential demand curves
+### 4 Residential demand curves
 
 TIMES-NZ models electricity demand in “timeslices” each year. These split the year into 4 seasons, 2 day types (weekends and weekdays), and three times of day (day, night, and peak), for a total of 24 different times of year. We define peak as the hour from 6-7pm. This is important for modelling the interaction between intermittent electricity supply and variable electricity demand.
 
@@ -130,12 +130,12 @@ To model the effective shape of residential demand according to these parameters
 Because our winter peak period still covers 66 hours (1 hour out of every weekday in winter), the average load during this period is lower than actual peak for any given year. To model peak more accurately, we include a residential peak ratio on top of this time slice method. We assume residential peak demand was close to 4GW during the 7.3GW peak on August 2nd, 2023. We therefore add a ratio of 50% for residential peak demand to accommodate for demand variance during these hours. This is additional to the 15% North Island margin included in the TIMES-NZ peaking equation . This residential peak ratio feature was not included in TIMES 2.0, which likely lead to an underestimate of peak demand in previous releases. 
 
 
-## 5 Future available technologies
+### 5 Future available technologies
 
 Technologies not modelled in the base year may be introduced to residences in future years. The model makes several new technologies available, which typically offer energy efficiency improvements for increased capital cost.
 
 
-## 6 Exogenous demand projections 
+### 6 Exogenous demand projections 
 
 We exogenously project energy service demand for each category (space heating, water heating, etc) based on median StatsNZ population projections . By default, we assume that each region’s share of population in joined/detached dwellings remains the same, and that the residents per dwelling remain the same. Every additional unit of population therefore is assumed to increase demand for all residential services based on the dwelling types and shares. 
 

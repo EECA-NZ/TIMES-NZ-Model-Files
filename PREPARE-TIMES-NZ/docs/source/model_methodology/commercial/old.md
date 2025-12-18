@@ -15,7 +15,7 @@ The base year commercial data is intended to reflect the distribution of 2023 en
 
 We have improved on TIMES-NZ 2.0 by adding data centre energy demand. This reflects how New Zealand keep face with data centre energy demand growth due to rising digital demand, cloud services, and AI computing workloads. Also revisited other adjustments to the EEUD data, equipment lifetime, capital costs, and operating and maintenance costs.
 
-# Raw data used 
+## Raw data used 
 
 All raw data from external sources is stored in `data_raw/external_data/`
  
@@ -53,7 +53,7 @@ Energy End Use Data 2023:
  - `eeca_data/eeud/Final EEUD Outputs 2017 - 2023 12032025.xlsx` | [Webpage](https://www.eeca.govt.nz/insights/data-tools/energy-end-use-database/) | [File](https://www.eeca.govt.nz/assets/EECA-Resources/Research-papers-guides/EEUD-Data-2017-2023.xlsx)
  - Used for estimating energy consumed (PJ) by most commercial technologies
 
-# Assumptions used
+## Assumptions used
 
 All coded base commercial assumptions are stored in `data_raw/coded_assumptions/commercial_demand/`.
 
@@ -70,9 +70,9 @@ These include:
  - Fuel emissions `emissions.csv`. 
 
 
-# Detailed method
+## Detailed method
 
-## 1 Historic Demand
+### 1 Historic Demand
 
 Fuel energy demand for the 2023 year has primarily been sourced from the Energy Efficiency and Conservation Authority’s (EECA) Energy End Use Database (EEUD), for the period ending 2023. 
 The EEUD’s stationary energy module uses a top-down approach: start with Ministry of Business, Innovation and Employment’s (MBIE) sector-by-fuel totals and then split them into finer categories using the best available information. In practice, for each combination of sector and fuel, EECA applies percentage splits (by subsector, end-use, and technology) to the MBIE total, yielding disaggregated estimates of delivered energy use. These percentage splits (the low-level detail) come from the modifier datasets, either recent sector studies (if available) or the 2007 baseline proportions as a default. Because many modifier inputs come from past years (e.g. 2007), EECA scales them to the current year’s level before deriving proportions. This is done using growth scalars that act as proxies for energy use growth in each sector. For commercial sector, inflation-adjusted GDP is used to scale energy use over time.  
@@ -86,7 +86,7 @@ Commercial categories in TIMES-NZ are defined combining a few EEUD categories to
  - `Other (to be allocated to the above)`: NULL (unallocated)
 
 
-## 2 Data centre energy demand
+### 2 Data centre energy demand
 
 MBIE/EEUD data does not recognise the energy use of Data Centres. The only known data available on data centre energy use is from NZTech  and MBIE’s Electricity Demand and Generation Scenarios (EDGS) 2024 model. 
 
@@ -96,7 +96,7 @@ TIMES-NZ 3.0 considered the NZTech’s approach which is built based on a bottom
 
 Further disaggregation of base year capacity, based on the end use energy profile (IT equipment load, cooling system, power infrastructure, and building services) was conducted when implementing it into the TIMES-NZ technologies. 
 
-## 3 Other adjustments to the EEUD data 
+### 3 Other adjustments to the EEUD data 
 
 EEUD includes some unallocated amounts of biogas, diesel, geothermal, and petrol energy use. We have allocated these unallocated quantities of biogas, diesel, and petrol energy use to the TIMES-NZ “Other” sector. For petrol and diesel, the end use technology is assumed to be non-transport “Motive Power, Mobile”. EECA identifies this as a significant stationary energy end-use category, largely covering off-road, or recreational uses (i.e., forklifts, grounds-keeping equipment, and recreational marine vehicles).
 
@@ -107,7 +107,7 @@ EEUD includes a large amount of unallocated geothermal, and this has been split 
 EEUD also includes some amount of natural gas within Transport, Postal and Warehousing (Commercial - Non-Transport) WSR sector, which has not been allocated to any end use or technology. Given the operation of this sector, the total amount of natural gas is assumed to be use for motive power, mobile. Tracing back to EEUD original version in 2006-2007 further clarifies this. Table 4 includes those adjusted fuel demand by TIMES sector, end use, and technology. Within the office sector, natural gas motive power (mobile) was merged with LPG, since it accounted for only a small portion of total demand.
 
 
-## 4 Island split
+### 4 Island split
 
 Energy demand across the North and South Islands was allocated by commercial subsector using appropriate proxy indicators:
 
@@ -118,7 +118,7 @@ Energy demand across the North and South Islands was allocated by commercial sub
  - Other: Population  (`NI`: 76.4% `SI`: 23.6%)
 
 
-## 5 Load curves
+### 5 Load curves
 
 The commercial load curves currently used are from the TIMES-NZ 2.0 model. These were developed using the EECA energy audit database as the primary source. Because the commercial subsectors are defined at a relatively broad level, each subsector’s load curve was constructed in a structured, multi-step process. Representative buildings were selected from audit data to capture typical demand behaviour for each subsector.
 
@@ -130,7 +130,7 @@ The commercial load curves currently used are from the TIMES-NZ 2.0 model. These
 
 Each representative building had an hourly or sub hourly electricity demand profile from audits. These raw profiles were grouped into a time-slice structure reflecting weekday/weekend and day/night/peak periods and expressed as a share of daily demand. These daily shares were then mapped onto the annual fraction of each time slice (YRFR) to scale the daily load shares into annual fractions for each building. The building-level profiles were averaged together, with weights reflecting each end-user’s share of energy use within the subsector (for example, retail contributes more to WSR demand than warehouses or supermarkets). The subsector COM_FR values were finally normalised so that all slices sum to 1.0, ensuring they represent a complete distribution of annual demand. In most commercial subsectors, all end-use technologies (computers, lights, heating/cooling) were assumed to follow the same subsector load curve, since they typically operate together during business hours. An exception was made for space heating and cooling in Healthcare and Other sectors, where seasonal adjustments were applied to capture climate-driven variations in heating and cooling demand.
 
-## 6 Demand projections
+### 6 Demand projections
 
 We assume increased energy service demand for data centres and professional services in the Transformation scenario. These will be reviewed and updated based on any significant changes identified by the Narrative Working Group.
 
@@ -138,11 +138,11 @@ Population growth assumptions remain the same in each scenario, following centra
 
 Data centre demand growth matches the EDGS 2024 Reference scenario.	Increased demand for AI and other new technologies means data centre utilisation increases. 
 
-## 7 Future commercial technologies
+### 7 Future commercial technologies
 
 New technologies are based on proven commercially available technology (TRL 7 and above) that have been, or will be, installed and commissioned in New Zealand through initiatives such as EECA’s technology demonstration fund and the Government Investment in Decarbonising Industry (GIDI) and haven’t been included in TIMES 2.0 existing technology. It is recommended that this list is reviewed regularly to ensure that all commercially available new technologies are considered in TIMES.
 
-## 8 Emissions factors
+### 8 Emissions factors
 
 Emissions factors for each thermal fuel are sourced from the Ministry for the Environment’s Measuring Emissions Guide 2025 . These are all converted to kt CO2e/PJ equivalents using gross calorific values from MfE’s data for use in modelling. The electricity supply portion of the model will handle the electricity emission factor for commercial electricity. 
 
