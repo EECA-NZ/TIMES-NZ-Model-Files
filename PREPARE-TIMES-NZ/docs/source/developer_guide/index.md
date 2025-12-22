@@ -16,8 +16,7 @@ Processing scripts are organised by sector (electricity generation, commercial d
 :caption: Key topics
 
 data_structures
-configuration_file_guide
-
+configuration_file_guide 
 ```
 
 ```{toctree}
@@ -25,6 +24,7 @@ configuration_file_guide
 :caption: Other topics
 
 documentation_maintenance
+editing_docs_directly_beginners
 
 ```
 
