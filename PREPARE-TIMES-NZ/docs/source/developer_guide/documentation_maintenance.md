@@ -334,6 +334,14 @@ To ensure these update without manually interacting with these files, we add an 
 
 This can be achieved by running (again, from `docs/`) the bash script ` ./scripts/build-docx.sh`. This script runs the entire process: building the documents in Windows, updating the fields, then copying the results to the Linux build directory. It leaves some temporary files in `C:/tmp`.
 
+You will need to make these scripts executable. You can do this with the following commands: 
+
+```
+chmod +x scripts/build-docx.sh
+chmod +x scripts/build-docx-no-fields.sh
+chmod +x scripts/update-docs-fields.sh
+```
+
 For simplicity, you can run the alternative script  `./scripts/build-docx-no-fields.sh`, which simply builds the files and applies styles, without the additional complexity of automatically updating the document's clientside fields. You can see this is the same as running `sphinx-build -b docx source build/docx`.
 
 
