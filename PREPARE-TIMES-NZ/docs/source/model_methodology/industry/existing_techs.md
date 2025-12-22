@@ -83,9 +83,6 @@ It is challenging to apply an availability to a piece of technology (e.g. medium
 
 
 
-
-
-
 A full list of energy efficiency assumptions can be found in Table 9. These assumptions are for standard technologies used across various sectors and not for specific bespoke technologies such as the furnaces used at New Zealand aluminium smelter and NZ steel.
 Energy efficiency for process heat devices came from the Cost Assessment Tool developed for the Resource Management Act (RMA) National Direction for Greenhouse Gas Emissions from Industrial Process Heat . The technology’s energy efficiency was taken as the middle range from the “lower efficiency bound” and the “upper efficiency bound”.
 Efficiencies for internal combustion engine (land transport), pump systems (for fluids), electric motors, and stationary engines were found using literature reviews.
