@@ -325,24 +325,41 @@ You can see more information on this setup at the sphinx builder documentation p
 
 ### Building documents (and field updating)
 
-Building the word documents can be very simple: simply run (from `docs/`) the terminal command `sphinx-build -b docx source build/docx`. 
+The Sphinx engine can build Word documents from our documentation pages. This uses two key additional parameters:
 
-This generates all the content and applies the template styles. However, this does not automatically update things like TOC page numbers, or other Field settings, such as the Date or Title. These are populated client-side. 
+1) Word Styles, which are stored in `source/_templates/EECATemplate.docx`. To change the look and feel of the output Word documents, change the inbuilt styles in this Word document. Note that this can be quite fiddly to modify, but once done it does not require any further changes. 
 
-We could manually open the files and update the fields, but this is tedious (especially if there are lots of documents) to do on every rebuild. 
-To ensure these update without manually interacting with these files, we add an additional script to instead build the Word documents to the Windows mount, open and update them in Powershell, then bring them back to our build directory.
+2) The document metadata, which is stored as a list called `docx_documents` in `source/conf.py`. Each new document is generated separately, and tied to an existing toctree file in the documentation. In this way we can generate multiple smaller documentation by selecting the relevant toctree's index file. This also contains additional metadata in the `docproperties` dict, which is used to populate the Word document's fields. See `conf.py` for examples of page setups. 
 
-This can be achieved by running (again, from `docs/`) the bash script ` ./scripts/build-docx.sh`. This script runs the entire process: building the documents in Windows, updating the fields, then copying the results to the Linux build directory. It leaves some temporary files in `C:/tmp`.
+Note that we currently use a powershell script to automatically populate the document's fields, such as Table of Contents page numbers or Date and Title. It is not possible to do this in the input XML, as these are Word client side settings, intended to be manually updated by users. To avoid manually updating everything each time you generate Word documentation, we use a bash and powershell scripts 
 
-You will need to make these scripts executable. You can do this with the following commands: 
+```{eval-rst}
+.. note::
+   This process assumes you are working in WSL. If you are working in Windows, this process would be simpler as you can invoke powershell directly without moving files to the Windows system. TIMES-NZ developers work in Linux, so the Windows-native process is not documented here.
+```
+### Running the bash scripts
+
+We use three scripts to fully automate the MSWord process: 
+
+```
+scripts/build-docx.sh
+scripts/update-docs-fields.sh
+scripts/update-fields.ps1
+```
+
+These build the Word documents to the Windows mount, open and update them in Word using Powershell, then bring them back to our build directory.
+
+You will first need to make the bash scripts executable. You can do this with the following commands (only required once on your machine): 
 
 ```
 chmod +x scripts/build-docx.sh
-chmod +x scripts/build-docx-no-fields.sh
 chmod +x scripts/update-docs-fields.sh
 ```
 
-For simplicity, you can run the alternative script  `./scripts/build-docx-no-fields.sh`, which simply builds the files and applies styles, without the additional complexity of automatically updating the document's clientside fields. You can see this is the same as running `sphinx-build -b docx source build/docx`.
+Then, simply run (again, from `docs/`) the bash script `./scripts/build-docx.sh`.
+
+For an alternative, simpler process, you can simply run: `sphinx-build -b docx source build/docx`, which does not require any scripts. This creates the Word documents as above, but does not update the TOC, Date, Title, or other fields. 
+
 
 
 
