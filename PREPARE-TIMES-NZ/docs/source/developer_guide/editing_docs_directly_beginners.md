@@ -74,6 +74,41 @@ When you have finished making changes, enter the following git commands:
  - Visit your branch on the [repo](https://github.com/EECA-NZ/TIMES-NZ-Model-Files) (you should be able to see it in the branch dropdown) and use the github UI to make a Pull Request. This will create a template where you can describe your changes and request a review. 
 
 
+## Optional: checking your changes locally 
+
+Any text or documentation you change in the main documents will be reflected in the final built version of the documentation site. It might be interesting or useful to see how the site changes as you change the source code, before you upload anything. We can build a local, test version of the documentation site which will update as you make changes. 
+
+To do this, you will need to have python installed. You then must install the environment for this project, which is managed with a tool called `poetry`. To do this, first install poetry using this terminal command: 
+
+```
+pip install poetry 
+```
+
+Then, navigate your terminal to `TIMES-NZ-Model-Files/PREPARE-TIMES-NZ` and run the following commands: 
+
+1) `poetry install --with docs`
+
+This installs the project environment, called a venv (or virtual environment) for all the relevant dependencies.
+
+2) `poetry env activate` 
+
+This creates a command which can be used to activate the venv. It's unique to your computer, and depends on where the venv was installed. Copy 
+
+3) `source [your_venv_location]/activate`
+
+Copy-paste and execute the command from step 2 here, which should look like the above. 
+
+4) `cd docs`
+
+Changes your terminal location to the docs directory 
+
+5) `sphinx-autobuild -E source build/html`
+
+This command builds the entire documentation site locally (it's stored in a folder called `build`.) It then hosts this on your browser at `http://127.0.0.1:8000/`, and should generate a clickable link for you to see. It is set to monitor the source files for changes and automatically rebuilds the site if any changes are saved. 
+
+You should be able to make any changes to the source documentation and see how this is reflected on the final site. 
+
+
 
 
 
