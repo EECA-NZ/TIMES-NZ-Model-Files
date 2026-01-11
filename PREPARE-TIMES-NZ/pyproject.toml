@@ -26,6 +26,7 @@ pyarrow = "^21.0"
 openpyxl = "^3.0"
 tomli-w = "^1.2"
 plotnine = "^0.15.0"
+urllib3 = ">=2.6.3,<3"
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^8.0"
