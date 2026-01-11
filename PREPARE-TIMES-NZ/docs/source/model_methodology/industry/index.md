@@ -11,6 +11,7 @@ This section details the assumptions, data and input used to model industrial de
 scenario_adjustments
 historic_demand
 existing_techs
+new_techs
 appendix
 
 ```

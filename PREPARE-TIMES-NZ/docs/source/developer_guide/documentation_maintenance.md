@@ -143,10 +143,10 @@ These table references work across the entire site, not just that page. So it's 
 
 Converting tables to `list-table` format manually is not a good idea, as it is tedious and annoying. Instead, recommended steps to convert a table are as follows: 
 
-1) Copy the table to convert into `docs/helpers/table_to_covert.csv`
+1) Copy the table to convert into `docs/helpers/table_to_covert.csv`. This file is not tracked or created by git, so you will need to create it first. 
 1) Execute the script `docs/helpers/convert_table.py`
 
-This prints the required text to your console and you can copy-paste into a markdown document. The `table_to_convert.csv` is gitignored - do anything you want with this. 
+This prints the required text to your console and you can copy-paste into a markdown document.
 
 ```{eval-rst}
 .. note::
