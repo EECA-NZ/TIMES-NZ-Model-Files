@@ -104,29 +104,4 @@ Changes your terminal location to the docs directory
 
 5) `sphinx-autobuild -E source build/html`
 
-This command builds the entire documentation site locally (it's stored in a folder called `build`.) It then hosts this on your browser at `http://127.0.0.1:8000/`, and should generate a clickable link for you to see. It is set to monitor the source files for changes and automatically rebuilds the site if any changes are saved. 
-
-You should be able to make any changes to the source documentation and see how this is reflected on the final site. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+This command builds the entire documentation site locally (it's stored in a folder called `build`.) It then hosts this on your browser at `http://127.0.0.1:8000/`, and should generate a clickable link for you to see. It is set to monitor the source files for changes and automatically rebuilds the site if any changes are saved. You should now be able to make any changes to the source documentation and see how this is reflected on the final site. 
