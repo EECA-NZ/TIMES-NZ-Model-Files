@@ -29,6 +29,7 @@ from prepare_times_nz.utilities.filepaths import (
     STAGE_3_DATA,
     STAGE_4_DATA,
 )
+from prepare_times_nz.utilities.logger_setup import logger
 
 # Constants ----------------------------------------------------
 
@@ -404,6 +405,29 @@ def reshape_genstack(df):
 
     df["Comm-OUT"] = "ELC"
     df["Comm-IN"] = "ELC" + df["Fuel_TIMES"]
+
+    # Clean identifiers to avoid mismatches (trim whitespace, ensure strings)
+    df["Comm-IN"] = df["Comm-IN"].astype(str).str.strip()
+    df["Tech_TIMES"] = df.get("Tech_TIMES", "")
+    df["Tech_TIMES"] = df["Tech_TIMES"].fillna("").astype(str)
+
+    # Duplicate comms for specific mappings used elsewhere in the pipeline:
+    # - ELCNGA -> ELCBIG
+    mask_ng = df["Comm-IN"] == "ELCNGA"
+    if mask_ng.any():
+        dup_ng = df[mask_ng].copy()
+        dup_ng["Comm-IN"] = "ELCBIG"
+        df = pd.concat([df, dup_ng], ignore_index=True)
+        logger.info(
+            "Duplicated %d genstack rows from ELCNGA to ELCBIG",
+            len(dup_ng),
+        )
+    else:
+        logger.debug(
+            "No genstack rows found for ELCNGA->ELCBIG duplication. Comm-IN uniques: %s",
+            df["Comm-IN"].unique()[:20],
+        )
+
     df["CAP2ACT"] = CAP2ACT_PJGW
 
     return df

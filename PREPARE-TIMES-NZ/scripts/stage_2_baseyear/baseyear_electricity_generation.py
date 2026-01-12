@@ -607,6 +607,32 @@ def main() -> None:
     # input commodity functin works on full df not per row
     base_year_gen = add_input_commodity(base_year_gen)
 
+    # Duplicate rows with input commodity 'ELCNGA' to create 'ELCBIG',
+    # but exclude plants where Tech_TIMES contains 'CCGT'. This preserves
+    # all other columns and will carry through to the long-format melt.
+    mask = (base_year_gen["Comm-IN"] == "ELCNGA") & ~base_year_gen["Tech_TIMES"].fillna(
+        ""
+    ).str.contains("CCGT")
+    if mask.any():
+        dup = base_year_gen[mask].copy()
+        dup["Comm-IN"] = "ELCBIG"
+        base_year_gen = pd.concat([base_year_gen, dup], ignore_index=True)
+        logger.info(
+            "Duplicated %d rows from ELCNGA to ELCBIG (excluding Tech_TIMES with CCGT)",
+            len(dup),
+        )
+
+    # Also duplicate rows with input commodity 'ELCCOA' to create 'ELCBPLT',
+    mask_coa = base_year_gen["Comm-IN"] == "ELCCOA"
+    if mask_coa.any():
+        dup_coa = base_year_gen[mask_coa].copy()
+        dup_coa["Comm-IN"] = "ELCBPLT"
+        base_year_gen = pd.concat([base_year_gen, dup_coa], ignore_index=True)
+        logger.info(
+            "Duplicated %d rows from ELCCOA to ELCBPLT",
+            len(dup_coa),
+        )
+
     # --------------------------------------------------------------------- #
     # Tidy to long-format with units
     # --------------------------------------------------------------------- #
