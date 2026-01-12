@@ -143,10 +143,10 @@ These table references work across the entire site, not just that page. So it's 
 
 Converting tables to `list-table` format manually is not a good idea, as it is tedious and annoying. Instead, recommended steps to convert a table are as follows: 
 
-1) Copy the table to convert into `docs/helpers/table_to_covert.csv`
+1) Copy the table to convert into `docs/helpers/table_to_covert.csv`. This file is not tracked or created by git, so you will need to create it first. 
 1) Execute the script `docs/helpers/convert_table.py`
 
-This prints the required text to your console and you can copy-paste into a markdown document. The `table_to_convert.csv` is gitignored - do anything you want with this. 
+This prints the required text to your console and you can copy-paste into a markdown document.
 
 ```{eval-rst}
 .. note::
@@ -184,8 +184,33 @@ Here's an example:
     | A                       | B                       |
     +-------------------------+-------------------------+
 ```
-You must tab-indent the table and `:name:`. The spacing is very particular. If anything is not placed precisely, the table will fail to render. This is often more trouble than it's worth. It might be better to just leave some cells null, like in {ref}`the battery page <storage-key-assumptions>`
+You must tab-indent the table and `:name:`. The spacing is very particular. If anything is not placed precisely, the table will fail to render. This is often more trouble than it's worth. It might be better to just leave some cells null, like in {ref}`the battery page <storage-key-assumptions>`.
 
+
+### Linking to headings 
+
+It's possible to add heading links, like the battery electricity example above. You need to first assign an ID to your target heading, then link to that ID in your text. 
+
+First, label the heading you want to link to. It's possible to autogenerate slugs for different headings, but with the volume of text planned for this documentation, that might not be robust. It's also convenient to identify headings that have links elsewhere. We therefore add link IDs only when needed, like so: 
+
+```
+(heading-example-id)=
+#### Example heading
+```
+This does nothing on its own - simply serves as an internal ID that ties to that heading. 
+
+Then, you can use a standard `{ref}` approach to reference your ID, like:
+
+```
+{ref}`See this heading for more info<heading-example-id>`
+```
+
+This renders like so: 
+
+{ref}`See this heading for more info<heading-example-id>`
+
+(heading-example-id)=
+#### Example heading
 
 ### Popup notes
 
@@ -272,6 +297,70 @@ Some notes:
 - The actual footnote details in your source documentation can be placed anywhere. It's best to put them close to the footnote source, to help keep things organised and make it easier to update/maintain these. 
 - Footnote details at the bottom of the page are ordered based on where they appear in the text.
 - If a footnote contains a URL, you should make this clickable by wrapping it in `<>`: `<https://www.google.com/>` renders as <https://www.google.com/>
+
+
+## Document generation 
+
+### Setup
+
+Markdown documentation is the single source of truth. However, some users may want more traditional files, and so we use the same engine to generate Word or pdf documents. 
+
+To achieve this, our `conf.py` is also setup with the sphinx extension `docxbuilder`, which can generate Word files using the same design as the site. `docxbuilder` handles almost entirely everything, with a few additional plugins for things like the mathjax interpreter. 
+
+We include a few specific configuration options in `conf.py` in order to control these. First, we can select which `index.md` is used to build the word document in the `docx_document` list, and give the outputs a name and title:
+
+```python
+docx_documents = [
+    # (startdocname, targetname, docproperties, toctree_only)
+    ("model_methodology/electricity/index", 
+    "Electricity supply assumptions.docx", 
+    {"title": "Electricity supply assumptions"}, 
+    True),    
+]
+```
+
+We also include a Template as a source Word file, bundled in this repo. The Style settings in this Word document are inherited by all generated docs, using the `docx_style` setting. Adjusting the formatting of the outputs means adjusting the relevant styles in the template document. 
+
+You can see more information on this setup at the sphinx builder documentation page [here](https://docxbuilder.readthedocs.io/en/latest/docxbuilder.html#usage).
+
+### Building documents (and field updating)
+
+The Sphinx engine can build Word documents from our documentation pages. This uses two key additional parameters:
+
+1) Word Styles, which are stored in `source/_templates/EECATemplate.docx`. To change the look and feel of the output Word documents, change the inbuilt styles in this Word document. Note that this can be quite fiddly to modify, but once done it does not require any further changes. 
+
+2) The document metadata, which is stored as a list called `docx_documents` in `source/conf.py`. Each new document is generated separately, and tied to an existing toctree file in the documentation. In this way we can generate multiple smaller documentation by selecting the relevant toctree's index file. This also contains additional metadata in the `docproperties` dict, which is used to populate the Word document's fields. See `conf.py` for examples of page setups. 
+
+Note that we currently use a powershell script to automatically populate the document's fields, such as Table of Contents page numbers or Date and Title. It is not possible to do this in the input XML, as these are Word client side settings, intended to be manually updated by users. To avoid manually updating everything each time you generate Word documentation, we use a bash and powershell scripts 
+
+```{eval-rst}
+.. note::
+   This process assumes you are working in WSL. If you are working in Windows, this process would be simpler as you can invoke powershell directly without moving files to the Windows system. TIMES-NZ developers work in Linux, so the Windows-native process is not documented here.
+```
+### Running the bash scripts
+
+We use three scripts to fully automate the MSWord process: 
+
+```
+scripts/build-docx.sh
+scripts/update-docs-fields.sh
+scripts/update-fields.ps1
+```
+
+These build the Word documents to the Windows mount, open and update them in Word using Powershell, then bring them back to our build directory.
+
+You will first need to make the bash scripts executable. You can do this with the following commands (only required once on your machine): 
+
+```
+chmod +x scripts/build-docx.sh
+chmod +x scripts/update-docs-fields.sh
+```
+
+Then, simply run (again, from `docs/`) the bash script `./scripts/build-docx.sh`.
+
+For an alternative, simpler process, you can simply run: `sphinx-build -b docx source build/docx`, which does not require any scripts. This creates the Word documents as above, but does not update the TOC, Date, Title, or other fields. 
+
+
 
 
 

@@ -157,3 +157,7 @@ TIMES-NZ-INTERNAL-QA/data/*.zip
 # PREPARE-TIMES-NZ doc build
 PREPARE-TIMES-NZ/docs/build/
 PREPARE-TIMES-NZ/docs/*.csv
+# the helper file for word table conversions doesn't need tracking 
+
+PREPARE-TIMES-NZ/docs/helpers/table_to_convert.csv
+

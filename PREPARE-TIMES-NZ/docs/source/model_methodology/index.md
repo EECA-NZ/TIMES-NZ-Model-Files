@@ -6,7 +6,7 @@ This section contains all assumptions, methodologies, and data source references
 :caption: Topics
 
 electricity/index
-
+industry/index
 
 
 
