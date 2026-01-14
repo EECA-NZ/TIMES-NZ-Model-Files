@@ -1,5 +1,26 @@
 [Back to Model Structure Index](../model-structure.md)
 ## SuppXLS/Scen_WEM_WCM.xlsx
+### WorkSheet: WCM
+**PeakConstraint**: 
+Enables peak constraint (the Winter Capacity Margin/WCM)
+
+
+ - Veda Tag: `~TFM_INS`
+
+
+ - Data Location: `WEM_WCM.toml`
+
+
+**PeakConstraintNIMargin**: 
+Sets 5% NI peak margin
+
+
+ - Veda Tag: `~TFM_INS`
+
+
+ - Data Location: `WEM_WCM.toml`
+
+
 ### WorkSheet: UC_WEM
 **UC_WEM**: 
 User constraint: ensures a national energy margin during winter
@@ -20,25 +41,4 @@ User constraint: ensures a south island energy margin during winter
 
 
  - Data Location: `data_intermediate/stage_3_scenario_data/wem_user_constraints/uc_wem_si.csv`
-
-
-### WorkSheet: WCM
-**PeakConstraint**: 
-Enables peak constraint (the Winter Capacity Margin/WCM)
-
-
- - Veda Tag: `~TFM_INS`
-
-
- - Data Location: `WEM_WCM.toml`
-
-
-**PeakConstraintNIMargin**: 
-Sets 5% NI peak margin
-
-
- - Veda Tag: `~TFM_INS`
-
-
- - Data Location: `WEM_WCM.toml`
 

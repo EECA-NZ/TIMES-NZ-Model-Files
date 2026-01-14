@@ -16,36 +16,37 @@ Documents are organised by broad category.
 ### Base year (Historical) data
 
 
- - [VT_TIMESNZ_ELC.xlsx](model_structure_docs/VT_TIMESNZ_ELC.md)
- - [VT_TIMESNZ_COM.xlsx](model_structure_docs/VT_TIMESNZ_COM.md)
- - [VT_TIMESNZ_RES.xlsx](model_structure_docs/VT_TIMESNZ_RES.md)
- - [VT_TIMESNZ_PRI.xlsx](model_structure_docs/VT_TIMESNZ_PRI.md)
  - [VT_TIMESNZ_AGR.xlsx](model_structure_docs/VT_TIMESNZ_AGR.md)
+ - [VT_TIMESNZ_COM.xlsx](model_structure_docs/VT_TIMESNZ_COM.md)
+ - [VT_TIMESNZ_ELC.xlsx](model_structure_docs/VT_TIMESNZ_ELC.md)
  - [VT_TIMESNZ_IND.xlsx](model_structure_docs/VT_TIMESNZ_IND.md)
+ - [VT_TIMESNZ_PRI.xlsx](model_structure_docs/VT_TIMESNZ_PRI.md)
+ - [VT_TIMESNZ_RES.xlsx](model_structure_docs/VT_TIMESNZ_RES.md)
  - [VT_TIMESNZ_TRA.xlsx](model_structure_docs/VT_TIMESNZ_TRA.md)
  - [BY_Trans.xlsx](model_structure_docs/BY_Trans.md)
 ### Standard scenario
 
 
- - [SuppXLS/Scen_LoadCurve_COM-FR.xlsx](model_structure_docs/SuppXLS_Scen_LoadCurve_COM-FR.md)
- - [SuppXLS/Scen_LNG_build_timing.xlsx](model_structure_docs/SuppXLS_Scen_LNG_build_timing.md)
- - [SuppXLS/Scen_EAFDemand_Transformation.xlsx](model_structure_docs/SuppXLS_Scen_EAFDemand_Transformation.md)
- - [SuppXLS/Scen_EAFDemand_Traditional.xlsx](model_structure_docs/SuppXLS_Scen_EAFDemand_Traditional.md)
- - [SuppXLS/Scen_DiscountRates_Transformation.xlsx](model_structure_docs/SuppXLS_Scen_DiscountRates_Transformation.md)
- - [SuppXLS/Scen_DiscountRates_Traditional.xlsx](model_structure_docs/SuppXLS_Scen_DiscountRates_Traditional.md)
- - [SuppXLS/Scen_WEM_WCM.xlsx](model_structure_docs/SuppXLS_Scen_WEM_WCM.md)
- - [SuppXLS/Scen_ContingentGas.xlsx](model_structure_docs/SuppXLS_Scen_ContingentGas.md)
- - [SuppXLS/Scen_Carbon_Transformation.xlsx](model_structure_docs/SuppXLS_Scen_Carbon_Transformation.md)
+ - [SuppXLS/Scen_Base_Constraints.xlsx](model_structure_docs/SuppXLS_Scen_Base_Constraints.md)
  - [SuppXLS/Scen_Carbon_Traditional.xlsx](model_structure_docs/SuppXLS_Scen_Carbon_Traditional.md)
- - [SuppXLS/Scen_ProcessHeatCoalBan.xlsx](model_structure_docs/SuppXLS_Scen_ProcessHeatCoalBan.md)
+ - [SuppXLS/Scen_Carbon_Transformation.xlsx](model_structure_docs/SuppXLS_Scen_Carbon_Transformation.md)
+ - [SuppXLS/Scen_ContingentGas.xlsx](model_structure_docs/SuppXLS_Scen_ContingentGas.md)
+ - [SuppXLS/Scen_DiscountRates_Traditional.xlsx](model_structure_docs/SuppXLS_Scen_DiscountRates_Traditional.md)
+ - [SuppXLS/Scen_DiscountRates_Transformation.xlsx](model_structure_docs/SuppXLS_Scen_DiscountRates_Transformation.md)
+ - [SuppXLS/Scen_EAFDemand_Traditional.xlsx](model_structure_docs/SuppXLS_Scen_EAFDemand_Traditional.md)
+ - [SuppXLS/Scen_EAFDemand_Transformation.xlsx](model_structure_docs/SuppXLS_Scen_EAFDemand_Transformation.md)
+ - [SuppXLS/Scen_LNG_build_timing.xlsx](model_structure_docs/SuppXLS_Scen_LNG_build_timing.md)
+ - [SuppXLS/Scen_LoadCurve_COM-FR.xlsx](model_structure_docs/SuppXLS_Scen_LoadCurve_COM-FR.md)
  - [SuppXLS/Scen_NewTechDemand.xlsx](model_structure_docs/SuppXLS_Scen_NewTechDemand.md)
+ - [SuppXLS/Scen_ProcessHeatCoalBan.xlsx](model_structure_docs/SuppXLS_Scen_ProcessHeatCoalBan.md)
  - [SuppXLS/Scen_Renewable_Availability.xlsx](model_structure_docs/SuppXLS_Scen_Renewable_Availability.md)
+ - [SuppXLS/Scen_WEM_WCM.xlsx](model_structure_docs/SuppXLS_Scen_WEM_WCM.md)
 ### Demand scenario
 
 
- - [SuppXLS/Demands/ScenDem_Transformation.xlsx](model_structure_docs/SuppXLS_Demands_ScenDem_Transformation.md)
  - [SuppXLS/Demands/Dem_Alloc+Series.xlsx](model_structure_docs/SuppXLS_Demands_Dem_Alloc+Series.md)
  - [SuppXLS/Demands/ScenDem_Traditional.xlsx](model_structure_docs/SuppXLS_Demands_ScenDem_Traditional.md)
+ - [SuppXLS/Demands/ScenDem_Transformation.xlsx](model_structure_docs/SuppXLS_Demands_ScenDem_Transformation.md)
 ### Inter-regional trade
 
 
@@ -54,15 +55,15 @@ Documents are organised by broad category.
 ### SubRES: Optional expansion of Reference Energy System
 
 
- - [SubRES_TMPL/SubRES_NewTechs_ELC_Transformation.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_ELC_Transformation.md)
- - [SubRES_TMPL/SubRES_NewTechs_COM.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_COM.md)
- - [SubRES_TMPL/SubRES_NewTechs_ELC_Transformation_trans.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_ELC_Transformation_trans.md)
- - [SubRES_TMPL/SubRES_SectorClosures.xlsx](model_structure_docs/SubRES_TMPL_SubRES_SectorClosures.md)
- - [SubRES_TMPL/SubRES_NewTechs_IND.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_IND.md)
- - [SubRES_TMPL/SubRES_NewTechs_TRA_Transformation.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_TRA_Transformation.md)
- - [SubRES_TMPL/SubRES_NewTechs_TRA_Traditional.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_TRA_Traditional.md)
- - [SubRES_TMPL/SubRES_NewTechs_ELC_Traditional.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_ELC_Traditional.md)
- - [SubRES_TMPL/SubRES_NewTechs_AGR_Transformation.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_AGR_Transformation.md)
- - [SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_trans.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_ELC_Traditional_trans.md)
- - [SubRES_TMPL/SubRES_NewTechs_AGR_Traditional.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_AGR_Traditional.md)
  - [SubRES_TMPL/SubRES_NewTech_LNG_Imports.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTech_LNG_Imports.md)
+ - [SubRES_TMPL/SubRES_NewTechs_AGR_Traditional.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_AGR_Traditional.md)
+ - [SubRES_TMPL/SubRES_NewTechs_AGR_Transformation.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_AGR_Transformation.md)
+ - [SubRES_TMPL/SubRES_NewTechs_COM.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_COM.md)
+ - [SubRES_TMPL/SubRES_NewTechs_ELC_Traditional.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_ELC_Traditional.md)
+ - [SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_trans.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_ELC_Traditional_trans.md)
+ - [SubRES_TMPL/SubRES_NewTechs_ELC_Transformation.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_ELC_Transformation.md)
+ - [SubRES_TMPL/SubRES_NewTechs_ELC_Transformation_trans.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_ELC_Transformation_trans.md)
+ - [SubRES_TMPL/SubRES_NewTechs_IND.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_IND.md)
+ - [SubRES_TMPL/SubRES_NewTechs_TRA_Traditional.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_TRA_Traditional.md)
+ - [SubRES_TMPL/SubRES_NewTechs_TRA_Transformation.xlsx](model_structure_docs/SubRES_TMPL_SubRES_NewTechs_TRA_Transformation.md)
+ - [SubRES_TMPL/SubRES_SectorClosures.xlsx](model_structure_docs/SubRES_TMPL_SubRES_SectorClosures.md)

@@ -1,16 +1,6 @@
 [Back to Model Structure Index](../model-structure.md)
 ## SubRES_TMPL/SubRES_NewTechs_IND.xlsx
 ### WorkSheet: IND_NEW
-**IndustryNewTechParameters**: 
-Defines technical parameters for future industry technologies
-
-
- - Veda Tag: `~FI_T`
-
-
- - Data Location: `data_intermediate/stage_4_veda_format/subres_ind/future_industry_parameters.csv`
-
-
 **IndustryNewTechProcessDefinitions**: 
 Defines processes for future industry technologies
 
@@ -19,6 +9,16 @@ Defines processes for future industry technologies
 
 
  - Data Location: `data_intermediate/stage_4_veda_format/subres_ind/future_industry_processes.csv`
+
+
+**IndustryNewTechParameters**: 
+Defines technical parameters for future industry technologies
+
+
+ - Veda Tag: `~FI_T`
+
+
+ - Data Location: `data_intermediate/stage_4_veda_format/subres_ind/future_industry_parameters.csv`
 
 
 ### WorkSheet: IND_EAF

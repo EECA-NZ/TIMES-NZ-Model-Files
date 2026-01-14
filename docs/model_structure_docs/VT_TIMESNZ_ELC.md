@@ -1,47 +1,37 @@
 [Back to Model Structure Index](../model-structure.md)
 ## VT_TIMESNZ_ELC.xlsx
-### WorkSheet: Distribution
-**DistributionProcessParameters**: 
-Sets technical parameters for distribution processes (eg losses, capacity, etc)
-
-
- - Veda Tag: `~FI_T`
-
-
- - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/distribution_parameters.csv`
-
-
-**DitributionCommodityDefinitions**: 
-Defines electricity distribution subprocessses (eg ELCHV, ELCMV, ELCDD)
+### WorkSheet: Sector_Fuels_ELC
+**ElectricityFuelCommodityDefinitions**: 
+Defines commodities that can be used for electricity generation (eg ELCNGA)
 
 
  - Veda Tag: `~FI_Comm`
 
 
- - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/distribution_commodities.csv`
+ - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/elc_input_commodity_definitions.csv`
 
 
-**DistributionProcessDefinitions**: 
-Defines all processes involved in distribution (eg Processes that convert ELC to ELCHV)
+**ElectricityFuelProcessDefinitions**: 
+Defines the processes that can convert other TIMES Commodities into these fuels (eg NGA -> ELCNGA)
 
 
  - Veda Tag: `~FI_Process`
 
 
- - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/distribution_processes.csv`
+ - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/elc_dummy_fuel_process_definitions.csv`
 
 
-### WorkSheet: Existing Technologies
-**ElectricityProcessParameters**: 
-Technical parameters for existing electricity generation technologies
+**ElectricityFuelProcessParameters**: 
+Defines technical parameters for dummy electricity fuel processes (barely used)
 
 
  - Veda Tag: `~FI_T`
 
 
- - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_parameters.csv`
+ - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/elc_dummy_fuel_process_parameters.csv`
 
 
+### WorkSheet: Existing Technologies
 **JustDefiningElectricity**: 
 Defines ELC and ELCCO2 (should these just be added to [ElectricityCommodityDefinitions]?)
 
@@ -62,14 +52,14 @@ Defines all existing technologies capable of generating electricity
  - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_process_definitions.csv`
 
 
-**ElectricityProcessSpecificCapacityFactors**: 
-Locking specific capacity factors for plants where we have precise data, to ensure alignment.
+**ElectricityProcessParameters**: 
+Technical parameters for existing electricity generation technologies
 
 
  - Veda Tag: `~FI_T`
 
 
- - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/base_year_capacity_factors.csv`
+ - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_parameters.csv`
 
 
 **ElectricityProcessAgeDistributions**: 
@@ -80,6 +70,47 @@ Adds age distributions for each plant or plant type (either NCAP_PASTI when life
 
 
  - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_capacity.csv`
+
+
+**ElectricityProcessSpecificCapacityFactors**: 
+Locking specific capacity factors for plants where we have precise data, to ensure alignment.
+
+
+ - Veda Tag: `~FI_T`
+
+
+ - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/base_year_capacity_factors.csv`
+
+
+### WorkSheet: Distribution
+**DistributionProcessDefinitions**: 
+Defines all processes involved in distribution (eg Processes that convert ELC to ELCHV)
+
+
+ - Veda Tag: `~FI_Process`
+
+
+ - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/distribution_processes.csv`
+
+
+**DitributionCommodityDefinitions**: 
+Defines electricity distribution subprocessses (eg ELCHV, ELCMV, ELCDD)
+
+
+ - Veda Tag: `~FI_Comm`
+
+
+ - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/distribution_commodities.csv`
+
+
+**DistributionProcessParameters**: 
+Sets technical parameters for distribution processes (eg losses, capacity, etc)
+
+
+ - Veda Tag: `~FI_T`
+
+
+ - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/distribution_parameters.csv`
 
 
 ### WorkSheet: Emission Factors
@@ -111,35 +142,4 @@ Manual adjustments to reduce Ngawha emissions to 0 by 2026. Note these are hardc
 
 
  - Data Location: `VT_TIMESNZ_ELC.toml`
-
-
-### WorkSheet: Sector_Fuels_ELC
-**ElectricityFuelCommodityDefinitions**: 
-Defines commodities that can be used for electricity generation (eg ELCNGA)
-
-
- - Veda Tag: `~FI_Comm`
-
-
- - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/elc_input_commodity_definitions.csv`
-
-
-**ElectricityFuelProcessParameters**: 
-Defines technical parameters for dummy electricity fuel processes (barely used)
-
-
- - Veda Tag: `~FI_T`
-
-
- - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/elc_dummy_fuel_process_parameters.csv`
-
-
-**ElectricityFuelProcessDefinitions**: 
-Defines the processes that can convert other TIMES Commodities into these fuels (eg NGA -> ELCNGA)
-
-
- - Veda Tag: `~FI_Process`
-
-
- - Data Location: `data_intermediate/stage_4_veda_format/base_year_elc/elc_dummy_fuel_process_definitions.csv`
 
