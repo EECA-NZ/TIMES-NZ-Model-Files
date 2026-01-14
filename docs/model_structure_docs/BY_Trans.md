@@ -18,5 +18,5 @@ Ensures no investment in selected baseyear techs.
  - Veda Tag: `~TFM_INS`
 
 
- - Data Location: `data_intermediate/stage_4_veda_format/syssettings/banned_techs.csv`
+ - Data Location: `data_intermediate/stage_4_veda_format/sys_settings/banned_techs.csv`
 

@@ -1,6 +1,16 @@
 [Back to Model Structure Index](../model-structure.md)
 ## SubRES_TMPL/SubRES_NewTechs_ELC_Transformation.xlsx
 ### WorkSheet: ELC_DistSolar
+**ResidentialSolarProcesses**: 
+Declares processes for new residential rooftop solar
+
+
+ - Veda Tag: `~FI_Process`
+
+
+ - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/dist_solar/process_definitions.csv`
+
+
 **ResidentialSolarDetails**: 
 Adds details for residential rooftop solar
 
@@ -21,55 +31,35 @@ Standard cost curve projections for residential rooftop solar (NREL Moderate)
  - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/dist_solar/cost_curves_moderate.csv`
 
 
-**ResidentialSolarProcesses**: 
-Declares processes for new residential rooftop solar
+### WorkSheet: ELC_OffshoreWind
+**OffshoreWindProcesses**: 
+Declares processes for offshore wind plants
 
 
  - Veda Tag: `~FI_Process`
 
 
- - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/dist_solar/process_definitions.csv`
+ - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/offshore/process_definitions.csv`
 
 
-### WorkSheet: ELC_GenerationStack
-**GenStackProcesses**: 
-Declares processes for plants from genstack (Transformation settings)
-
-
- - Veda Tag: `~FI_Process`
-
-
- - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_process.csv`
-
-
-**GenStackDetails**: 
-Adds details for new plants from genstack (Transformation settings)
+**OffshoreWindDetails**: 
+Provides key assumptions for offshore wind plants
 
 
  - Veda Tag: `~FI_T`
 
 
- - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_parameters.csv`
+ - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/offshore/base_file.csv`
 
 
-**GenStackCostCurves**: 
-Standard cost curve projections for applicable genstack plants (Transformation settings)
-
-
- - Veda Tag: `~FI_T`
-
-
- - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_cost_curves.csv`
-
-
-**GenStackCostFixedInstalls**: 
-Defines fixed install dates for genstack plants (Transformation settings)
+**OffshoreWindCostCurves**: 
+Advanced cost curve projections for offshore wind plants (NREL Moderate)
 
 
  - Veda Tag: `~FI_T`
 
 
- - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_fixed_installs.csv`
+ - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/offshore/cost_curves_moderate.csv`
 
 
 ### WorkSheet: ELC_Batteries
@@ -103,33 +93,43 @@ Adds cost curves to battery technologies
  - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/storage/battery_costs_transformation.csv`
 
 
-### WorkSheet: ELC_OffshoreWind
-**OffshoreWindCostCurves**: 
-Advanced cost curve projections for offshore wind plants (NREL Moderate)
-
-
- - Veda Tag: `~FI_T`
-
-
- - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/offshore/cost_curves_moderate.csv`
-
-
-**OffshoreWindDetails**: 
-Provides key assumptions for offshore wind plants
-
-
- - Veda Tag: `~FI_T`
-
-
- - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/offshore/base_file.csv`
-
-
-**OffshoreWindProcesses**: 
-Declares processes for offshore wind plants
+### WorkSheet: ELC_GenerationStack
+**GenStackProcesses**: 
+Declares processes for plants from genstack (Transformation settings)
 
 
  - Veda Tag: `~FI_Process`
 
 
- - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/offshore/process_definitions.csv`
+ - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_process.csv`
+
+
+**GenStackDetails**: 
+Adds details for new plants from genstack (Transformation settings)
+
+
+ - Veda Tag: `~FI_T`
+
+
+ - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_parameters.csv`
+
+
+**GenStackCostFixedInstalls**: 
+Defines fixed install dates for genstack plants (Transformation settings)
+
+
+ - Veda Tag: `~FI_T`
+
+
+ - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_fixed_installs.csv`
+
+
+**GenStackCostCurves**: 
+Standard cost curve projections for applicable genstack plants (Transformation settings)
+
+
+ - Veda Tag: `~FI_T`
+
+
+ - Data Location: `data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_cost_curves.csv`
 

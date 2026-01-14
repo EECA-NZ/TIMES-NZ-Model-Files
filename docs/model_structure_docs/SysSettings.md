@@ -1,31 +1,21 @@
 [Back to Model Structure Index](../model-structure.md)
 ## SysSettings.xlsx
 ### WorkSheet: SysSettings
-**ActivePDef**: 
-Model Period Definition. Will be used to select period definitions
-
-
- - Veda Tag: `~ActivePDef`
-
-
- - Data Location: `SysSettings.toml`
-
-
-**Currencies**: 
-Default currency unit
-
-
- - Veda Tag: `~Currencies`
-
-
- - Data Location: `SysSettings.toml`
-
-
 **StartYear**: 
 The model base year. Used by several scripts for downstream processing.
 
 
  - Veda Tag: `~StartYear`
+
+
+ - Data Location: `SysSettings.toml`
+
+
+**ActivePDef**: 
+Model Period Definition. Will be used to select period definitions
+
+
+ - Veda Tag: `~ActivePDef`
 
 
  - Data Location: `SysSettings.toml`
@@ -46,6 +36,16 @@ Map books to regions. In the current version, all region information is containe
 
 
  - Veda Tag: `~BookRegions_Map`
+
+
+ - Data Location: `SysSettings.toml`
+
+
+**Currencies**: 
+Default currency unit
+
+
+ - Veda Tag: `~Currencies`
 
 
  - Data Location: `SysSettings.toml`
@@ -93,14 +93,14 @@ Year fractions as calculated based on the number of hours in each slice. Current
 
 
 ### WorkSheet: ImportSettings
-**DisableDummyVariables**: 
-Disables activity of dummy variables. Exclude this table (or change to LO) if you want to solve with infeasibilities.
+**ImportSettings**: 
+Standard Veda control import settings.
 
 
- - Veda Tag: `~TFM_INS`
+ - Veda Tag: `~ImpSettings`
 
 
- - Data Location: `SysSettings.toml`
+ - Data Location: `data_raw/user_config/settings/import_settings.csv`
 
 
 **DummyVariableCosts**: 
@@ -108,6 +108,16 @@ Define costs for generated dummy variables. These should be very high so the mod
 
 
  - Veda Tag: `~TFM_UPD`
+
+
+ - Data Location: `SysSettings.toml`
+
+
+**DisableDummyVariables**: 
+Disables activity of dummy variables. Exclude this table (or change to LO) if you want to solve with infeasibilities.
+
+
+ - Veda Tag: `~TFM_INS`
 
 
  - Data Location: `SysSettings.toml`
@@ -121,14 +131,4 @@ Default interpolation/extrapolation rules. These may need adjusting.
 
 
  - Data Location: `data_raw/user_config/settings/interpolation_extrapolation.csv`
-
-
-**ImportSettings**: 
-Standard Veda control import settings.
-
-
- - Veda Tag: `~ImpSettings`
-
-
- - Data Location: `data_raw/user_config/settings/import_settings.csv`
 

@@ -53,7 +53,8 @@ def create_workbook_categories(df):
         )
         n += 1
 
-    df = df.sort_values("Order")
+    # sort by category, and alphabetically by workbookname within each category
+    df = df.sort_values(["Order", "WorkBookName"])
 
     return df
 

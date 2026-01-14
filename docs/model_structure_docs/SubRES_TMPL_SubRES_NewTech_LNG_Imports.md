@@ -1,6 +1,16 @@
 [Back to Model Structure Index](../model-structure.md)
 ## SubRES_TMPL/SubRES_NewTech_LNG_Imports.xlsx
 ### WorkSheet: LNG
+**LNGSupplyCommodityDefinitions**: 
+Declare LNG commodity
+
+
+ - Veda Tag: `~FI_Comm`
+
+
+ - Data Location: `VT_TIMESNZ_PRI.toml`
+
+
 **LNGSupplyProcessDefinitions**: 
 Declare LNG production/regasification processes
 
@@ -26,16 +36,6 @@ Defines parameters for different LNG configurations. These are integers, calling
 
 
  - Veda Tag: `~FI_T`
-
-
- - Data Location: `VT_TIMESNZ_PRI.toml`
-
-
-**LNGSupplyCommodityDefinitions**: 
-Declare LNG commodity
-
-
- - Veda Tag: `~FI_Comm`
 
 
  - Data Location: `VT_TIMESNZ_PRI.toml`

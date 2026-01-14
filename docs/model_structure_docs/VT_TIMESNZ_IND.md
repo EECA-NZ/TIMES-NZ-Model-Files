@@ -73,21 +73,21 @@ Sets parameters for industry fuel delivery processes (mostly delivery costs)
 
 
 ### WorkSheet: Emissions
-**IndustryEmissionsParameters**: 
-Defines emissions factors for industry fuels. Currently hardcoded and need a proper update. To do with all other demand emission factors for consistency
-
-
- - Veda Tag: `~COMEMI`
-
-
- - Data Location: `VT_TIMESNZ_IND.toml`
-
-
 **IndustryEmissionsDefinitions**: 
 Defines the industry emissions commodity
 
 
  - Veda Tag: `~FI_Comm`
+
+
+ - Data Location: `VT_TIMESNZ_IND.toml`
+
+
+**IndustryEmissionsParameters**: 
+Defines emissions factors for industry fuels. Currently hardcoded and need a proper update. To do with all other demand emission factors for consistency
+
+
+ - Veda Tag: `~COMEMI`
 
 
  - Data Location: `VT_TIMESNZ_IND.toml`
