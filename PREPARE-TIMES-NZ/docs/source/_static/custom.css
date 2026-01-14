@@ -1,0 +1,100 @@
+/* Custom css for documentation expandable tables */
+
+
+/* Default: make wide tables scroll instead of breaking layout */
+.expandable-table {
+  max-width: 100%;
+  overflow-x: auto;
+  position: relative;
+  margin: 0.75rem 0;
+}
+
+/* Ensure tables can be wider than the container while still filling when small */
+.expandable-table table {
+  width: max-content;
+  min-width: 100%;
+}
+
+/* PyData theme styling */
+.table-expand-btn {
+  position: sticky;
+  top: 0;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+
+  margin: 0 0 0.5rem 0;
+  padding: 0.35rem 0.6rem;
+
+  font-size: 0.875rem;
+  line-height: 1;
+
+  border: 1px solid var(--pst-color-border);
+  border-radius: 0.375rem;
+
+  background: var(--pst-color-surface);
+  color: var(--pst-color-text-base);
+
+  box-shadow: var(--pst-shadow-xs);
+  cursor: pointer;
+}
+
+.table-expand-btn:hover {
+  background: var(--pst-color-surface-hover);
+}
+
+.table-expand-btn:active {
+  transform: translateY(1px);
+}
+
+.table-expand-btn:focus-visible {
+  outline: 2px solid var(--pst-color-primary);
+  outline-offset: 2px;
+}
+
+/* Fullscreen */
+.expandable-table.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--pst-color-background, white);
+  padding: 2rem;
+  overflow: auto;
+
+  /* Dim backdrop */
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.35);
+}
+
+/* Prevent background scroll while fullscreen */
+html.table-no-scroll,
+body.table-no-scroll {
+  overflow: hidden;
+}
+
+/* Ensuring title always legible for expanded tables */ 
+/* Using the caption area for this so should hold across different themes */
+
+.expandable-table.fullscreen .caption,
+.expandable-table.fullscreen caption {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  background: var(--pst-color-background);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--pst-color-border);
+}
+
+/* CUSTOM MATHJAX - TO AVOID CLIPPING 
+
+/* Fix MathJax clipping (fractions/radicals) in pydata + Sphinx HTML */
+mjx-container {
+  overflow: visible !important;
+}
+
+/* For display math blocks specifically */
+mjx-container[display="true"] {
+  padding-top: 0.15em; /* gives the top of equation blocks a little breathing room */
+  margin: 1em 0;
+}

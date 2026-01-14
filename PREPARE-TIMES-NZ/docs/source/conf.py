@@ -46,6 +46,12 @@ html_theme_options = {
     },
 }
 
+# custom settings for table expansion
+
+html_static_path = ["_static"]
+html_css_files = ["custom.css"]
+html_js_files = ["table_expand.js"]
+
 
 # -- Options for docx output -------------------------------------------------
 
