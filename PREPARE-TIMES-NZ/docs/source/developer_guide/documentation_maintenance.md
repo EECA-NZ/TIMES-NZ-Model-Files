@@ -186,6 +186,34 @@ Here's an example:
 ```
 You must tab-indent the table and `:name:`. The spacing is very particular. If anything is not placed precisely, the table will fail to render. This is often more trouble than it's worth. It might be better to just leave some cells null, like in {ref}`the battery page <storage-key-assumptions>`.
 
+#### Expandable (large) tables 
+
+Sometimes we want to add a table but it doesn't quite fit in the theme's banner, and a user will have to scroll to see it all. 
+
+This is not ideal UX, so we added a custom class called 'expandable-table' for the Myst list tables. simply add the class to your list table, and it will render with the option to "pop out" and take up a full screen. 
+
+```
+```{list-table} Example Table (Expandable)
+:header-rows: 1
+:class: expandable-table
+:name: tab-example-expandable
+* - Heading 1
+  - Heading 2
+* - A
+  - B
+```
+
+```{list-table} Example Table (Expandable)
+:header-rows: 1
+:class: expandable-table
+:name: tab-example-expandable
+* - Heading 1
+  - Heading 2
+* - A
+  - B
+```
+
+It's usually only necessary to use this class if the table spills, generating a scroll bar. See {numref}`tab-final_island_shares` for a practical example.
 
 ### Linking to headings 
 

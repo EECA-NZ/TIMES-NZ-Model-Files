@@ -322,8 +322,7 @@ Finally, following the above assumptions, other fuels for a given use are re-all
 
 ```{list-table} North Island shares of fuel used per sector 
 :header-rows: 1
-    :class: wide-table
-    :widths: 300 10 10 10 10 10 10 10 10 10 10
+    :class: expandable-table
     :name: tab-final_island_shares
 * - Industrial sub-sector
   - Biogas
