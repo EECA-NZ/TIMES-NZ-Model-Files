@@ -14,7 +14,7 @@ These methods are detailed further below. The resulting residential demand model
 ## Regional space heating model 
 
 
-To model where space heating technologies and fuels from the EEUD[^eeud]are used, we spread known fuel demand using:
+To model where space heating technologies and fuels from the EEUD[^eeud] are used, we distribute known fuel demand using:
  - Census 2023 data on heating methods per region and dwelling type[^census_heating]
  - Census 2023 data on population per region and dwelling type
  - Assumptions on floor area per dwelling type
@@ -43,11 +43,14 @@ Where:
 
  - $HeatDemand_{r,d}$ is the residential space heating demand in each region $r$ and dwelling type $d$.
  - $FloorArea_{r,d}$ is the residential dwelling floor area in each region $r$ and dwelling type $d$.
- - $HDD$ are the heating-degree days[^HDD_explain] for the region $r$. We use the same assumptions on regional heating-degree days as TIMES 2.0. 
+ - $HDD$ are the heating-degree days[^HDD_explain] for the region $r$. We use the same assumptions on regional heating-degree days as TIMES 2.0. These are based on a typical meteorological year.
  - $C$ is a constant which captures other drivers of a region’s heating demand, such as insulation properties or behavioural differences. We assume that these other drivers are the same between regions.
 
 
-Floor area assumptions are **171** m<sup>2</sup> for detached dwellings, and **115** m<sup>2</sup> for joined dwellings. 
+Floor area assumptions are **171** m<sup>2</sup> for detached dwellings, and **115** m<sup>2</sup> for joined dwellings. \
+
+
+[^HDD_explain]: HDD is a measure of how often the area would heating to meet a defined temperature. A higher HDD effectively means a colder climate. HDD calculations done by [NIWA](https://www.building.govt.nz/assets/Uploads/getting-started/building-for-climate-change/niwa-client-report-weather-files-for-energy-modelling.pdf) for specific climate zones have been mapped to regional council areas for TIMES-NZ. 
 
 ### Step 2: Disaggregate floor area heat demand by heating methods 
 Equation {eq}`eq_floor_area_heating_demand`: Floor area heating demand 
@@ -63,7 +66,7 @@ HeatDemand_{r,d} = \sum_h{(FloorArea_{r,d} \cdot HeatingTypeShare_{r,d,h})} \cdo
 
 Where $HeatingTypeShare_{r,d,h}$ is the share of heating method $h$ used in dwelling type $d$ and region $r$.
 
-Heating method shares can be found using Census 2023 data[^census_2023_heating]. The census respondents could provide multiple answers, but it is not possible to distinguish dwellings using multiple heating methods. We therefore simplify the results to estimate shares of heating method per region and dwelling type. The resulting heating shares are detailed in {numref}`fig-heating-shares`. 
+Heating method shares can be found using Census 2023 data[^census_heating]. The census respondents could provide multiple answers, but it is not possible to distinguish dwellings using multiple heating methods. We therefore simplify the results to estimate shares of heating method per region and dwelling type. The resulting heating shares are detailed in {numref}`fig-heating-shares`. 
 
 
 
@@ -88,7 +91,7 @@ Different heating technologies have different efficiencies, and so the input ene
 EnergyDemand_{r,d,h} = \dfrac{HeatDemand_{r,d,h}}{FuelEfficency_h}
 ```
 
-Efficiency assumptions used for each heating technology are listed in {numref}`tab-heating-tech-efficiency-assumptions`
+Efficiency assumptions used for each heating technology are listed in {numref}`tab-heating-tech-efficiency-assumptions`.
 
 
 
