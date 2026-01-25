@@ -1,4 +1,4 @@
-# New Technologies
+# New technologies
 
 New technologies are based on proven commercially available technology (TRL 7 and above) that have been, or will be, installed and commissioned in New Zealand through initiatives such as EECA’s technology demonstration fund and the Government Investment in Decarbonising Industry (GIDI) and haven’t been included in TIMES 3.0 existing technology. This list will be reviewed regularly to ensure that all commercially available new technologies are considered in TIMES.
 

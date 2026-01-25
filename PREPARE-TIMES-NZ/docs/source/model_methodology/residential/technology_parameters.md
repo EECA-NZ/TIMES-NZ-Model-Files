@@ -1,4 +1,4 @@
-# Technology parameter assumptions 
+# Technology parameters 
 
 
 To model residential demand at the technology level, we include the following parameters for residential demand technologies: 

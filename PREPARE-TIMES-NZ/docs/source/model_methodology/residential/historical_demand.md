@@ -1,4 +1,4 @@
-# Demand disaggregation
+# Base year demand
 
 
 TIMES-NZ models residential demand across different regions, and also across different dwelling types (joined/detached), as these have different energy demand profiles. We disaggregate the EEUD demand data across regions and dwelling types to model residential demand in more detail.

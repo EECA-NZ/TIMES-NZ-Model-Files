@@ -1,6 +1,6 @@
-# Existing technologies
+# Technology parameters
 
-Existing technologies and their details, such as lifetimes, capacity factors, efficiencies are detailed here. 
+Existing technologies and their details, such as lifetimes, capacity factors, efficiencies are detailed here.
 
 ## Equipment lifetime and decommissioning
 

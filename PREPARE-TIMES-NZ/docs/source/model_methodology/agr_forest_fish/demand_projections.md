@@ -10,10 +10,8 @@ Demand projections for the sector were based on the land use projections from th
 
 
 ```{csv-table} Demand growth projections for Traditional and Transformation scenarios
-
 :header-rows: 1
 :name: tab_agr_demand_proj
-:class: expandable-table
 
 Subsector,Scenario,2023,2025,2030,2035,2040,2045,2050
 Dairy Cattle Farming,Traditional,1,0.9412,0.9412,0.9412,0.9412,0.9412,0.9412

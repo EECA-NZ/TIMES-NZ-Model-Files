@@ -5,15 +5,16 @@ This section details the assumptions, data and input used to model residential d
 ```{toctree}
 :maxdepth: 2
 :caption: Contents
+:numbered:
 
 
 overview
 scenario_adjustments
-demand_disaggregation
-technology_parameters
-residential_demand_curves
-new_techs
+historical_demand
 demand_projections
+technology_parameters
+new_techs
+residential_demand_curves
 appendix
 
 

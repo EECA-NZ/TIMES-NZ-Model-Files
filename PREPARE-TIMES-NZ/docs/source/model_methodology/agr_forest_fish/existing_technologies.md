@@ -157,3 +157,19 @@ Boat,1212,
 
 
 ## Emissions factors 
+
+Emissions factors for each thermal fuel are sourced from the Ministry for the Environment’s Measuring Emissions Guide 2025[^meg]. These are all converted to kt CO2e/PJ equivalents using gross calorific values from MfE’s data for use in modelling. Emissions associated with electricity generation are captured separately. The following figures are used in the model: 
+
+```{csv-table} Thermal fuel emission factors
+
+:header-rows: 1
+:name: tab_agr_efs
+Fuel,Unit,CV MJ/Unit,kg CO2e/unit,kt CO2e/PJ
+Coal,kg,25.62,2.11,82.37
+Natural Gas,GJ,,54.10,54.10
+Petrol,Litre,35.18,2.41,68.79
+Diesel,Litre,38.49,2.68,69.63
+LPG,kg,50,2.97,59.32
+```
+
+[^meg]: Measuring Emissions Guide: <https://environment.govt.nz/publications/measuring-emissions-guide-2025/>
