@@ -41,9 +41,14 @@ numfig_secnum_depth = 1
 html_theme = "pydata_sphinx_theme"
 html_theme_options = {
     "navbar_start": ["navbar-logo"],  # keep usual slots
+    "navbar_end": ["navbar-icon-links"],
     "logo": {
-        "text": "PREPARE-TIMES-NZ",  # or a short title
+        "text": "TIMES-NZ",  # or a short title
     },
+}
+
+html_context = {
+    "default_mode": "light",
 }
 
 # custom settings for table expansion

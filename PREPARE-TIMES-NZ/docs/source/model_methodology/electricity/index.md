@@ -5,6 +5,7 @@ This section provides a comprehensive overview of the methodologies, assumptions
 ```{toctree}
 :maxdepth: 2
 :caption: Contents
+:numbered:
 
 overview
 baseyear

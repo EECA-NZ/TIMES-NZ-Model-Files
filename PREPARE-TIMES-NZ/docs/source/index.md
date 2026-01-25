@@ -1,8 +1,10 @@
-# PREPARE-TIMES-NZ
+# TIMES-NZ documentation 
 
-Welcome to the documentation site for `PREPARE-TIMES-NZ`, the project which compiles all data and assumptions for TIMES-NZ. 
+Kia ora and welcome!
+This GitHub organisation is maitnained by the Energy Efficiency and Conservation Authority (EECA) to TIMES-NZ
 
-Whether you are a modeller working on changing or updating the model, or a user interested in how it works or what assumptions are used, this site is the central source of all key technical information.
+
+Please take a few minutes to read the notes below before creating or managing repositories.
 
 ```{toctree}
 :maxdepth: 2

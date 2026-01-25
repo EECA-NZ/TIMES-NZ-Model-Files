@@ -1,3 +1,19 @@
+/* Main theme css */
+
+/* Hide the built-in "Section Navigation" label */
+.bd-links__title {
+  display: none;
+}
+
+
+/* Light mode */
+html[data-theme="light"] {
+  --pst-color-primary: #3d6281;
+  --pst-color-secondary: #000000;
+  --pst-color-table-row-hover-bg: #8fbaddff;
+
+}
+
 /* Custom css for documentation expandable tables */
 
 

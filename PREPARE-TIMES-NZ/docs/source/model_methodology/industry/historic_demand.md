@@ -195,7 +195,7 @@ This method results in an implied feedstock share of 63.2% at Methanex in 2023, 
 
 Ballance and Methanex’s energy use of natural gas accounts for 94% of the gas use in the EEUD’s Petroleum, Basic Chemical and Rubber Product Manufacturing sector. The remaining 6% is assigned to the Chemicals sector (excluding Urea and Methanol) in TIMES-NZ. 
 
-[^gic_data]: GIC | Gas Production and Consumptiopn: <https://www.gasindustry.co.nz/data/gas-production-and-consumption/>
+[^gic_data]: GIC | Gas Production and Consumption: <https://www.gasindustry.co.nz/data/gas-production-and-consumption/>
 [^ballance_assumptions]: Accelerating renewable energy and energy efficiency submission by Ballance Agri-Nutrients (p6): <https://www.mbie.govt.nz/dmsdocument/11988-ballance-agri-nutrients-accelerating-renewable-energy-and-energy-efficiency-submission-pdf>
 [^compressor_note]: This compressor demand is referred to as “Pump System Technology” in the EEUD.
 

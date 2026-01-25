@@ -2,12 +2,26 @@
 This section contains all assumptions, methodologies, and data source references used to build TIMES-NZ. 
 
 ```{toctree}
-:maxdepth: 2
-:caption: Topics
+:maxdepth: 1
+:caption: Demand assumptions
 
-electricity/index
+agr_forest_fish/index
+commercial/index
 industry/index
 transport/index
+
+```
+
+```{toctree}
+:maxdepth: 1
+:caption: Supply & transformation assumptions
+
+electricity/index
+
+
+
+```
+
 
 
 

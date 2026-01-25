@@ -6,8 +6,6 @@ This section details the assumptions, data and input used to model industrial de
 :maxdepth: 2
 :caption: Contents
 
-
-
 scenario_adjustments
 historic_demand
 existing_techs

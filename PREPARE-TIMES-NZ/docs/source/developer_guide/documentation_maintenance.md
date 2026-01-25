@@ -371,20 +371,25 @@ We use three scripts to fully automate the MSWord process:
 
 ```
 scripts/build-docx.sh
-scripts/update-docs-fields.sh
+scripts/update-docx-fields.sh
 scripts/update-fields.ps1
 ```
 
 These build the Word documents to the Windows mount, open and update them in Word using Powershell, then bring them back to our build directory.
 
-You will first need to make the bash scripts executable. You can do this with the following commands (only required once on your machine): 
+You will first need to make the bash scripts executable. You can do this with the following commands: 
 
 ```
 chmod +x scripts/build-docx.sh
-chmod +x scripts/update-docs-fields.sh
+chmod +x scripts/update-docx-fields.sh
 ```
 
-Then, simply run (again, from `docs/`) the bash script `./scripts/build-docx.sh`.
+Then, simply run (again, from `docs/`): 
+
+```
+./scripts/build-docx.sh
+```
+Note that transfer between WSL and the Windows filesystem can be slow. Output files are stored in `docs/build/docx/`.
 
 For an alternative, simpler process, you can simply run: `sphinx-build -b docx source build/docx`, which does not require any scripts. This creates the Word documents as above, but does not update the TOC, Date, Title, or other fields. 
 

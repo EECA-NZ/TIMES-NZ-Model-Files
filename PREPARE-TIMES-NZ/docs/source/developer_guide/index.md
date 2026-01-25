@@ -23,8 +23,8 @@ configuration_file_guide
 :maxdepth: 1
 :caption: Other topics
 
+editing_docs_quickstart
 documentation_maintenance
-editing_docs_directly_beginners
 
 ```
 
