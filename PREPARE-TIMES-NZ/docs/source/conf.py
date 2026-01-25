@@ -18,7 +18,6 @@ html_show_copyright = False
 extensions = [
     "myst_parser",
     "sphinx.ext.mathjax",
-    "sphinx.ext.autosectionlabel",
     "docxbuilder",
 ]
 

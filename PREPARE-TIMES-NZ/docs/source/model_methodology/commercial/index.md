@@ -12,6 +12,7 @@ base_year_demand
 demand_projections
 technology_parameters
 future_technologies
+load_curves
 appendix
 ```
 

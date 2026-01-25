@@ -91,7 +91,7 @@ The main parameters underpinning the development of cost assumptions for electri
 
 ```{csv-table} Assumptions for decarbonising agricultural machinery by displacing diesel fuel with renewable electricity or green hydrogen
 :header-rows: 1
-:name: tab_agr_batt_costs
+:name: tab_agr_other
 
 Technology,"Load Factor[^california_air_resources_board]<sup>,</sup>[^harvesting_cost_factors]",Maximum usage hours per day,Average hours used per year,Number of Battery Packs (for electric),Engine power
 Dairy farm tractor,48%,4,800,112,84 kW
@@ -118,7 +118,7 @@ The primary sub-sector requiring space heating is indoor cropping, particularly 
  - Electric heat pump (Air to water)
  - Hydrogen boiler
 
-The cost, efficiency, and lifetime parameters for these technologies are primarily drawn from research undertaken by the University of Waikato on decarbonisation options for process heat . These values have been adjusted to reflect the specific characteristics of indoor cropping, where hot water rather than steam is sufficient to meet heating needs.
+The cost, efficiency, and lifetime parameters for these technologies are primarily drawn from research undertaken by the University of Waikato on decarbonisation options for process heat[^space_heating_decarb]. These values have been adjusted to reflect the specific characteristics of indoor cropping, where hot water rather than steam is sufficient to meet heating needs.
 
 [^space_heating_decarb]: Atkins, 2019, [Options to Reduce New Zealand’s Process Heat Emissions: Process Heat Options Draft Report](https://www.eeca.govt.nz/assets/EECA-Resources/Research-papers-guides/Options-to-Reduce-New-Zealands-Process-Heat-Emissions.pdf)
 

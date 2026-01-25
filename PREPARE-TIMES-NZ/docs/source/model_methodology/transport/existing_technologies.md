@@ -646,4 +646,4 @@ Emissions factors for each thermal fuel are sourced from the Ministry for the En
 ```
 
 
-[^meg]: MfE’s Measuring Emissions Guide 2025: <https://environment.govt.nz/publications/measuring-emissions-guide-2025/>
+[^meg]: MfE | Measuring Emissions Guide 2025: <https://environment.govt.nz/publications/measuring-emissions-guide-2025/>

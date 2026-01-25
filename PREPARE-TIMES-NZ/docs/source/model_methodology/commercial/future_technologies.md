@@ -6,7 +6,7 @@ Note the values provided below are preliminary and based on limited commercial k
 
 ```{csv-table} New technologies to be considered in TIMES-NZ 3.0
 :header-rows: 1
-:name: tab_com_efs
+:name: tab_com_newtechs
 
 Fuel,Technology/Use,Lifetime (years),Energy Efficiency,,Capital Cost ($/kW),
 ,,,2030,2050,2030,2050

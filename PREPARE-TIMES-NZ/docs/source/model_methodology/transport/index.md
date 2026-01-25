@@ -5,7 +5,7 @@ This section details the assumptions, data and input used to model transport dem
 ```{toctree}
 :maxdepth: 2
 :caption: Contents
-:numbered: 
+:numbered:
 
 overview
 baseyear_demand

@@ -16,14 +16,14 @@ Fuel energy demand for the 2023 year has primarily been sourced from the Energy 
 Additional data for non-energy uses of fuels is sourced from Ministry of Business, Innovation and Employment (MBIE) data[^mbie_balance_tables].  These include natural gas for methanol and urea production, and coal for steel production. These are important to include for modelling and balancing supply and demand of fuels.
 The TIMES-NZ model will be adjusted for any plant closures and major decarbonisation projects that have been commissioned between 1 Jan 2023 and 31 July 2025. The model will also be adjusted for high certainty future projects/closures that have publicly announced to happen after 31 July 2025, for example, NZ Steel’s electric arc furnace that is planned for early 2026. These projects are detailed in Appendix A.
 
-Industrial categories in TIMES-NZ are slightly different from those in the EEUD. For the purposes of the model, we combine some smaller categories, such as furniture manufacturing, into “Other”. We also model some larger industries separately, such as Aluminium or Methanol production. The TIMES-NZ industrial sectors and their relationships to EEUD industrial sectors are found in {numref}`tab-eeud_times_map`. 
+Industrial categories in TIMES-NZ are slightly different from those in the EEUD. For the purposes of the model, we combine some smaller categories, such as furniture manufacturing, into “Other”. We also model some larger industries separately, such as Aluminium or Methanol production. The TIMES-NZ industrial sectors and their relationships to EEUD industrial sectors are found in {numref}`tab_eeud_times_map`. 
 
 [^eeud]: EECA | EEUD: <https://www.eeca.govt.nz/insights/data-tools/energy-end-use-database/>
 [^mbie_balance_tables]: Energy statistics | Ministry of Business, Innovation & Employment: <https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics>
 
 ```{list-table} TIMES-NZ and EEUD sector mapping
 :header-rows: 1
-:name: tab-eeud_times_map
+:name: tab_eeud_times_map
 
 * - TIMES-NZ industrial sector
   - EEUD industrial sector
@@ -71,12 +71,12 @@ Industrial categories in TIMES-NZ are slightly different from those in the EEUD.
 
 Demand in the Urea and Methanol sectors have been calculated as a share of total Petroleum, Basic Chemical and Rubber Product Manufacturing use. The remaining demand in this sector is assigned to Chemicals in TIMES-NZ. Demand in the Iron & Steel and Aluminium sectors was calculated as a share of the Primary Metal and Metal Product Manufacturing sector. Methods for these calculations can be found under “Specific sectors and non-energy use” section below.
 
-For reference, each sector’s base year demand and share of total industrial demand can be found in {numref}`tab-ind_by_demand`. Note that this excludes non-energy use, such as Methanex feedstock demand, or coal used as reductant at NZ Steel.  
+For reference, each sector’s base year demand and share of total industrial demand can be found in {numref}`tab_ind_by_demand`. Note that this excludes non-energy use, such as Methanex feedstock demand, or coal used as reductant at NZ Steel.  
 
 
 ```{list-table} TIMES-NZ industrial sector 2023 base year demand
 :header-rows: 1
-:name: tab-ind_by_demand
+:name: tab_ind_by_demand
 * - Subsector
   - Demand 2023 PJ
   - Share of Industrial demand (%)
@@ -127,7 +127,7 @@ For reference, each sector’s base year demand and share of total industrial de
   - 100
 ```
 
-Note that the total demand shown in {numref}`tab-ind_by_demand` will be higher than that reported by the EEUD for 2023. This is due to additional biomass demand estimates added for TIMES-NZ. See “Industrial biomass demand” for more information. NEED TO ADD REFERENCE HERE 
+Note that the total demand shown in {numref}`tab_ind_by_demand` will be higher than that reported by the EEUD for 2023. This is due to additional biomass demand estimates added for TIMES-NZ. See “Industrial biomass demand” for more information. NEED TO ADD REFERENCE HERE 
 
 
 
@@ -164,11 +164,11 @@ To fully estimate the shares of Ballance and Methanex’s natural gas demand wit
 
 Any demand from the above end uses that is allocated to Methanex is relabelled as “Reformer” demand in TIMES-NZ. 
 
-This method results in an implied feedstock share of 63.2% at Methanex in 2023, which is somewhat lower than standard estimates of 70%. Results of the method are detailed in {numref}`tab-chem_demand_estimates`.
+This method results in an implied feedstock share of 63.2% at Methanex in 2023, which is somewhat lower than standard estimates of 70%. Results of the method are detailed in {numref}`tab_chem_demand_estimates`.
 
 ```{list-table} 2023 chemical demand estimates for specific sectors
 :header-rows: 1
-:name: tab-chem_demand_estimates
+:name: tab_chem_demand_estimates
 * - 
   - Ballance
   - Methanex
@@ -212,11 +212,11 @@ In addition to recategorising sectors, we make the following minor adjustments t
 
 EEUD demand data is based primarily on data from the MBIE energy balance tables . At the time of writing, this data’s coverage of biomass demand was incomplete, as it only captured biomass used for energy in the residential and wood processing sectors. Biomass demand in other industrial sectors, such as dairy or meat processing, was missing. 
 
-EECA currently maintain an internal database of known industrial and commercial consumers of biomass for energy use. To resolve this issue, we used this internal data to estimate existing biomass demand for the relevant sectors. We further make assumptions on the end use, depending on the sector involved. These assumptions and estimates are detailed in {numref}`tab-industry_biomass_demand` below. 
+EECA currently maintain an internal database of known industrial and commercial consumers of biomass for energy use. To resolve this issue, we used this internal data to estimate existing biomass demand for the relevant sectors. We further make assumptions on the end use, depending on the sector involved. These assumptions and estimates are detailed in {numref}`tab_industry_biomass_demand` below. 
 
 ```{list-table} Additional biomass demand estimates
 :header-rows: 1
-:name: tab-industry_biomass_demand
+:name: tab_industry_biomass_demand
 * - Industrial subsector
   - End use assumption
   - 2023 demand
@@ -249,13 +249,13 @@ These are estimates only, as EECA’s internal data may not fully capture all us
 ## Island demand shares 
 
 
-To model industrial demand, we need to estimate the share of demand in each island to better understand fuel availability and potential grid load. These fuel consumption island splits were estimated based on process heat data collected from the Regional Energy Transition Accelerator (RETA) Programme[^reta] and suported by other data as detailed in the notes section in {numref}`tab-ind_island_shares` below. 
+To model industrial demand, we need to estimate the share of demand in each island to better understand fuel availability and potential grid load. These fuel consumption island splits were estimated based on process heat data collected from the Regional Energy Transition Accelerator (RETA) Programme[^reta] and suported by other data as detailed in the notes section in {numref}`tab_ind_island_shares` below. 
 
 As most of the stationary energy used in industry is from process heat, we believe using RETA data for certain industrial sub-sectors (including dairy, meat, non-metallic mineral product manufacturing, other industry and food & beverage) is a fair representation. 
 
 ```{list-table} Industrial demand island share methods and data
 :header-rows: 1
-:name: tab-ind_island_shares
+:name: tab_ind_island_shares
 * - Industrial sub-sector
   - NI \%
   - Notes
@@ -317,13 +317,13 @@ We also make some adjustments to the regional splits for coal for some sectors, 
 
 This reflects that for some industries, coal use is predominantly in the South Island. Sectors not mentioned here have their coal use aligned with the broad sector North Island share assumptions. 
 
-Finally, following the above assumptions, other fuels for a given use are re-allocated to the appropriate island in the fuel splits. This ensures that the total sector use of each fuel and end use remains balanced. The final calculated North Island shares of each fuel use are detailed in {numref}`tab-final_island_shares`.
+Finally, following the above assumptions, other fuels for a given use are re-allocated to the appropriate island in the fuel splits. This ensures that the total sector use of each fuel and end use remains balanced. The final calculated North Island shares of each fuel use are detailed in {numref}`tab_final_island_shares`.
 
 
 ```{list-table} North Island shares of fuel used per sector 
 :header-rows: 1
     :class: expandable-table
-    :name: tab-final_island_shares
+    :name: tab_final_island_shares
 * - Industrial sub-sector
   - Biogas
   - Coal

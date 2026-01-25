@@ -1,7 +1,5 @@
 # Appendix
 
-Supplementary information for transport demand documentation
-
 ```{csv-table} Acronyms
 :header-rows: 1
 :name: tab-transport_acronyms

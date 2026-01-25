@@ -105,7 +105,7 @@ Cooking Ovens,Natural Gas,49%
 
 A full list of capital cost assumptions can be found in {numref}`tab_com_capex` below. These capital costs represent the upfront expenditure required to install each technology in a typical New Zealand commercial building context. Costs are expressed in NZD per kW of installed capacity and include both the equipment and standard installation. For example, capital cost of a gas boiler reflects the unit cost plus typical installation labour and materials. Operating costs (fuel, maintenance, servicing) are not included.
 
-The sources for these estimates include EECA research and case studies, government datasets, and New Zealand supplier price lists. For example, EECA’s industrial decarbonisation reports and hot water heat pump guidance[^hwhp_capex] provide comparative project costs, the New Zealand Geothermal Association provides costs of the geothermal direct heat for delivered energy[^nzga_heat_costs], and retail suppliers[^retail_supplier_capex] provide market-based prices for appliances and smaller equipment. 
+The sources for these estimates include EECA research and case studies, government datasets, and New Zealand supplier price lists. For example, EECA’s industrial decarbonisation reports and hot water heat pump guidance[^hwhp_capex]<sup>,</sup>[^hp_for_processheat] provide comparative project costs, the New Zealand Geothermal Association provides costs of the geothermal direct heat for delivered energy[^nzga_heat_costs], and retail suppliers[^retail_supplier_capex] provide market-based prices for appliances and smaller equipment. 
 
 Cost values are adjusted to 2023 New Zealand dollars using the most appropriate price index (CPI or CGPI).
 
@@ -115,7 +115,7 @@ Cost values are adjusted to 2023 New Zealand dollars using the most appropriate 
 
 [^nzga_heat_costs]: [NZGA | Action Plan 2024-2025](https://www.nzgeothermal.org.nz/downloads/2024-2025-Geoheat-Action-Plan.pdf)
 
-[^retail_supplier_capex]: Various prices pulled from retail sites, including: [Kiwi heat pumps](https://kiwiheatpumps.co.nz/compare-heat-pump-prices/), [Hot water cylinders](https://hotwatercylinders.nz/), [Mitre 10](https://www.mitre10.co.nz/shop/heating-cooling/heating/electrical-heating/c/RS2059?inStockNationwide=false&inStockSelectedStore=false&sort=RELEVANCY), [Bunnings](https://www.bunnings.co.nz/), and [OMC Power Equipment]((https://www.omcpowerequipment.co.nz/replacement-engines))
+[^retail_supplier_capex]: Various prices pulled from retail sites, including: [Kiwi heat pumps](https://kiwiheatpumps.co.nz/compare-heat-pump-prices/), [Hot water cylinders](https://hotwatercylinders.nz/), [Mitre 10](https://www.mitre10.co.nz/shop/heating-cooling/heating/electrical-heating/c/RS2059?inStockNationwide=false&inStockSelectedStore=false&sort=RELEVANCY), [Bunnings](https://www.bunnings.co.nz/), and [OMC Power Equipment](https://www.omcpowerequipment.co.nz/replacement-engines)
 
 
 ```{csv-table} Capital costs by technology 

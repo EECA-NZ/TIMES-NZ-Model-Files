@@ -47,14 +47,14 @@ Irrigation was included in the EEUD for dairy farming but not for other livestoc
 :header-rows: 1
 :name: tab_agr_eeud_mapping
 
-TIMES-NZ ,Inclusions,Energy data source,Other data references
-Dairy Cattle Farming,"Includes all dairy cattle and associated pasture required for feed. Also, includes the energy for irrigation.",EEUD[^eeud],
-Livestock Farming,"Includes all other farmed animals (e.g. sheep, beef, pig farming, other livestock (deer, horses etc.)) and associated pasture/crops grown for feed. Also, includes the energy for irrigation.","EEUD, MBIE[^mbie_energy_balance]","Stats NZ[^ag_production_statistics], Beef and lamb[^beef_and_lamb], MPI[^mpi_deer], Irrigation NZ[^inz_data]"
-Horticulture (Outdoor),"Includes all outdoor grown fruit (kiwifruit, wine grapes), vegetables and arable crops (excluding ones grown on livestock farms). Horticulture (fruit and vegetables) (broad category, fits here unless under covered cropping). Also, includes the energy for irrigation.","EEUD, MBIE","Stats NZ, MPI[^mpi_hort], Irrigation NZ[^inz_data]"
-Indoor Cropping,"All fruit, vegetables, flowers that are grown in both heated and unheated greenhouses (e.g., covered cropping, plant nursery / floriculture)",EEUD,
-Forestry and Logging,"All forest operations from planting, silviculture to harvesting trees, extracting logs and chipping wood residues",EEUD,
-"Fishing, Hunting and Trapping",Includes all commercial fishing and aquaculture,EEUD,
-Other Agriculture,EEUD and MBIE reconciliation,"EEUD, MBIE",
+Sector,Inclusions,Data sources,
+Dairy Cattle Farming,"Includes all dairy cattle and associated pasture required for feed. Also includes the energy for irrigation.",EEUD[^eeud]
+Livestock Farming,"Includes all other farmed animals (e.g. sheep, beef, pig farming, other livestock) and associated pasture/crops grown for feed. Also includes the energy for irrigation.","EEUD, MBIE[^mbie_energy_balance],Stats NZ[^ag_production_statistics], Beef and lamb[^beef_and_lamb], MPI[^mpi_deer], Irrigation NZ[^inz_data]"
+Horticulture (Outdoor),"Includes all outdoor grown fruit (kiwifruit, wine grapes), vegetables and arable crops (excluding ones grown on livestock farms). Horticulture (fruit and vegetables) (broad category, fits here unless under covered cropping). Also, includes the energy for irrigation.","EEUD, MBIE,Stats NZ, MPI[^mpi_hort], Irrigation NZ[^inz_data]"
+Indoor Cropping,"All fruit, vegetables, flowers that are grown in both heated and unheated greenhouses (e.g., covered cropping, plant nursery / floriculture)",EEUD
+Forestry and Logging,"All forest operations from planting, silviculture to harvesting trees, extracting logs and chipping wood residues",EEUD
+"Fishing, Hunting and Trapping",Includes all commercial fishing and aquaculture,EEUD
+Other Agriculture,EEUD and MBIE reconciliation,"EEUD, MBIE"
 ```
 
 [^mpi_deer]: MPI | [South Island deer model (.xlsx)](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fwww.mpi.govt.nz%2Fdmsdocument%2F1618-Key-parameters-financial-results-and-budget-for-the-South-Island-deer-model)
@@ -71,9 +71,10 @@ Other Agriculture,EEUD and MBIE reconciliation,"EEUD, MBIE",
 
 
 
-```{csv-table} Agriculture, forestry and fishing sector historic demand.
+```{csv-table} Agriculture, forestry and fishing sector historic demand 2023
 :header-rows: 1
 :name: tab_agr_demand_shares
+
 Sector,Energy (PJ),Energy share (%)
 Dairy Cattle Farming,10.26,35%
 Livestock Farming,7,24%
@@ -139,17 +140,16 @@ The island splits for irrigation were all derived from irrigated areas according
 :header-rows: 1
 :name: tab_agr_island_shares 
 
-
 Sub-Sector,Input Fuel Type,Technology,NI %
 Dairy Cattle Farming,Electricity,All (excluding Irrigator),59%
 Dairy Cattle Farming,Electricity,Irrigator,14%
 Dairy Cattle Farming,Diesel,All,58%
+Livestock Farming,Electricity,All (excluding Irrigator),44%
 Livestock Farming,Electricity,Irrigator,8%
 Livestock Farming,Diesel,All,44%
-Livestock Farming,Electricity,All (excluding Irrigator),44%
+Horticulture (Outdoor),Electricity,All (excluding Irrigator),45%
 Horticulture (Outdoor),Electricity,Irrigator,19%
 Horticulture (Outdoor),Diesel,All,45%
-Horticulture (Outdoor),Electricity,All (excluding Irrigator),45%
 Indoor Cropping,Coal,All,37%
 Indoor Cropping,Diesel,All,37%
 Indoor Cropping,Natural Gas,All,100%

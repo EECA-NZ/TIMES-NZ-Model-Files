@@ -1,10 +1,5 @@
 # Appendix
 
-Supplementary information for industrial demand information 
-
-## Acronyms
-
-
 ```{list-table} 
 :header-rows: 1
 

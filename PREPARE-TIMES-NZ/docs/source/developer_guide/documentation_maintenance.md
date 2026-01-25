@@ -136,7 +136,6 @@ Note:
     - ```See {numref}`tab_example` for details``` renders as "See {numref}`tab_example` for details".
     - ```See {ref}`tab_example` for details``` renders as "See {ref}`tab_example` for details".
 - Some tables were written using the `list-table` format. This is more complex to write and maintain so is not generally recommended.
-- The easiest way to convert any table to csv format is save it as a csv file, then inspect the csv with a code editor (rather than Excel). 
 
 These table references work across the entire site, not just that page. So it's good to keep clear variable names for each table's :name:, and they can be linked from anywhere else.
 

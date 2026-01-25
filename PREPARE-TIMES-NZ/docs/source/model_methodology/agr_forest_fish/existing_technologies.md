@@ -7,8 +7,7 @@ Equipment lifetimes are taken as estimated useful life (years) from the Inland R
 
 
 
-[^ird_deprates]: 
-IR | General depreciation rates August 2024: <https://www.ird.govt.nz/-/media/project/ir/home/documents/forms-and-guides/ir200—ir299/ir265/ir265-august-2024.pdf>
+[^ird_deprates]: IR | [General depreciation rates August 2024](https://www.ird.govt.nz/-/media/project/ir/home/documents/forms-and-guides/ir200—ir299/ir265/ir265-august-2024.pdf)
 
 [^lighting_industry_knowledge]: An incandescent bulb typically last around 2,000 hours, a  fluorescent lamp around 10,000 hours, and an LED lamp around 30,000 hours [Choosing a lamp and how you can save money on energy efficiency](https://www.level.org.nz/energy/lighting-design/lamp-selection/), [How to buy LED bulbs - Consumer NZ](https://www.consumer.org.nz/articles/led-bulb-buying-guide)
 
@@ -78,7 +77,6 @@ Energy efficiency by technology
 Energy efficiencies for agricultural demand technologies have been extracted from TIMES 2.0 assumptions.
 
 ```{csv-table} Energy efficiency by technology
-
 :header-rows: 1
 :name: tab_agr_energy_efficiency
 
@@ -123,7 +121,6 @@ A full list of capital and operation and maintenance costs assumptions can be fo
 
 
 ```{csv-table} Energy efficiency by technology
-
 :header-rows: 1
 :name: tab_agr_capex_opex
 
@@ -161,9 +158,9 @@ Boat,1212,
 Emissions factors for each thermal fuel are sourced from the Ministry for the Environment’s Measuring Emissions Guide 2025[^meg]. These are all converted to kt CO2e/PJ equivalents using gross calorific values from MfE’s data for use in modelling. Emissions associated with electricity generation are captured separately. The following figures are used in the model: 
 
 ```{csv-table} Thermal fuel emission factors
-
 :header-rows: 1
 :name: tab_agr_efs
+
 Fuel,Unit,CV MJ/Unit,kg CO2e/unit,kt CO2e/PJ
 Coal,kg,25.62,2.11,82.37
 Natural Gas,GJ,,54.10,54.10
@@ -172,4 +169,4 @@ Diesel,Litre,38.49,2.68,69.63
 LPG,kg,50,2.97,59.32
 ```
 
-[^meg]: Measuring Emissions Guide: <https://environment.govt.nz/publications/measuring-emissions-guide-2025/>
+[^meg]: MFE | Measuring Emissions Guide: <https://environment.govt.nz/publications/measuring-emissions-guide-2025/>

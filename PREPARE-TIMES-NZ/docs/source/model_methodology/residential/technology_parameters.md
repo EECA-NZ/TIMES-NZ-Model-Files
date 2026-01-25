@@ -261,7 +261,7 @@ Technologies that reach their technical lifetime are replaced in the model. We a
 ## Availability factors 
 
 
-Availability factors detail our assumptions on how often a particular technology might run to meet the energy service demand. These assumptions are detailed in {numref}`ab-res-af-assumptions`. While the percentage share is the direct model input for TIMES, we include the implied average running hours per week for each technology. This impacts the relationship between capacity and output, as it might be more cost-effective to upgrade technology that is used more often.
+Availability factors detail our assumptions on how often a particular technology might run to meet the energy service demand. These assumptions are detailed in {numref}`tab-res-af-assumptions`. While the percentage share is the direct model input for TIMES, we include the implied average running hours per week for each technology. This impacts the relationship between capacity and output, as it might be more cost-effective to upgrade technology that is used more often.
 
 ```{list-table} Availability factor assumptions
 :header-rows: 1
