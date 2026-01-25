@@ -1,4 +1,4 @@
-# Documentation editing: Quickstart guide
+# Quickstart guide: editing documentation
 
 This page is written for researchers and experts who wish to edit or comment on the documentation but have no experience with git or coding.
 
