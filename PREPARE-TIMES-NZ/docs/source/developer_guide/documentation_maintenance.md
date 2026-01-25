@@ -215,6 +215,24 @@ This is not ideal UX, so we added a custom class called 'expandable-table' for t
 
 It's usually only necessary to use this class if the table spills, generating a scroll bar. See {numref}`tab-final_island_shares` for a practical example.
 
+
+### Figures 
+
+You can insert figures or images by providing a `.png` file or similar, and using the `figure` admonition like so: 
+
+```
+```{figure} figures/your_image_here.png
+---
+name: fig-example name
+alt: Figure alt text 
+---
+Figure Title
+```
+
+The directory for the displayed asset is relative to the location of the relevant markdown file, not the project root. This makes it convenient and tidy to group a subject's figures with that subject's markdown documents.
+
+You can reference figures using the same `{numref}` method as with tables. 
+
 ### Linking to headings 
 
 It's possible to add heading links, like the battery electricity example above. You need to first assign an ID to your target heading, then link to that ID in your text. 

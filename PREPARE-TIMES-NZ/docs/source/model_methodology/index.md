@@ -8,6 +8,7 @@ This section contains all assumptions, methodologies, and data source references
 agr_forest_fish/index
 commercial/index
 industry/index
+residential/index
 transport/index
 
 ```
