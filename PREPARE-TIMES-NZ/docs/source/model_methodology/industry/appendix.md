@@ -1,6 +1,8 @@
 # Appendix
 
-```{list-table} 
+
+```{list-table} Acronyms
+:name: tab_industry_acronyms
 :header-rows: 1
 
 * - Acronym
@@ -20,7 +22,7 @@
 * - GJ
   - Gigajoule
 * - IEA
-  - Internal Energy Agency
+  - International Energy Agency
 * - MBIE
   - Ministry of Business, Innovation and Employment
 * - NI

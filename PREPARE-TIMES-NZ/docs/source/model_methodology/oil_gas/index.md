@@ -1,4 +1,4 @@
-# Oil and gas
+# Oil and gas supply
 
 This section details the assumptions, data and inputs used to model oil and gas supply in TIMES-NZ.
 

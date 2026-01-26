@@ -182,7 +182,7 @@ You must tab_indent the table and `:name:`. The spacing is very particular. If a
 
 Sometimes we want to add a table but it doesn't quite fit in the theme's banner, and a user will have to scroll to see it all. 
 
-This is not ideal UX, so we added a custom class called 'expandable-table' for the Myst list tables. simply add the class to your list table, and it will render with the option to "pop out" and take up a full screen. 
+This is not ideal UX, so we added a custom class called 'expandable-table' for the Myst tables. simply add the class to your table, and it will render with the option to "pop out" and take up a full screen. 
 
 ````
 ```{list-table} Example Table (Expandable)

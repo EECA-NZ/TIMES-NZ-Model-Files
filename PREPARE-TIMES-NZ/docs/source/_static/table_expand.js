@@ -6,7 +6,7 @@ function setExpanded(wrapper, expanded) {
   wrapper.classList.toggle("fullscreen", expanded);
 
   if (btn) {
-    btn.textContent = expanded ? "⤡ Close" : "⤢ Expand table";
+    btn.textContent = expanded ? "Close" : "Expand table";
     btn.setAttribute("aria-expanded", expanded ? "true" : "false");
   }
 

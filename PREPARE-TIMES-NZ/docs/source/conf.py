@@ -30,7 +30,7 @@ exclude_patterns = []
 myst_auto_section_label_prefix_document = True
 # Table numbering
 numfig = True
-numfig_secnum_depth = 1
+numfig_secnum_depth = 0
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

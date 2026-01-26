@@ -39,7 +39,7 @@ Small-scale contracts imply an ongoing term obligation to purchase LNG, so we co
 We assume that the lower capital investment required means that this option could be brought forward to the earliest possible installation year of 2028.
 
 
-## Assumptions reference
+## Assumptions summary
 
 
 ```{csv-table} LNG import option assumptions

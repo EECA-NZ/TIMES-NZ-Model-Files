@@ -1,4 +1,4 @@
-# Electricity
+# Electricity generation
 
 ```{toctree}
 :maxdepth: 2
