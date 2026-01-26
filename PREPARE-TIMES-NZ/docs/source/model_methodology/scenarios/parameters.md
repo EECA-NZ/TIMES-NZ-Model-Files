@@ -64,12 +64,12 @@ We further assume increased energy service demand for data centres and professio
 [^gas_voll]: These are the assumed wholesale prices at which these businesses may exit the market if alternative feedstocks cannot be sourced. TIMES-NZ makes no effort to estimate the cost pressures faced by individual businesses, so they are necessarily rough estimates. 
 
 
-We further assume increased energy service demand for data centres in the Transformation scenario, as described in {numref}`scen_parms_datacentre`.
+We further assume increased energy service demand for data centres in the Transformation scenario, as described in {numref}`tab_scen_parms_datacentre_demand`.
 
 
  
 ```{csv-table} Growth rates of energy service demand for datacentres
-:name: scen_parms_datacentre demand 
+:name: tab_scen_parms_datacentre_demand 
 :header-rows: 1 
 
 Traditional,Transformation

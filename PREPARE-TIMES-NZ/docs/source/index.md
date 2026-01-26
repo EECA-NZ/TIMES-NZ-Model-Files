@@ -1,20 +1,21 @@
 # TIMES-NZ documentation 
 
-Kia ora and welcome!
-This GitHub organisation is maitnained by the Energy Efficiency and Conservation Authority (EECA) to TIMES-NZ
 
+Welcome to the **TIMES-NZ documentation hub**, maintained by the **Energy Efficiency and Conservation Authority (EECA)**. 
 
-Please take a few minutes to read the notes below before creating or managing repositories.
+TIMES-NZ is a national energy system model for New Zealand, built using the [TIMES](https://iea-etsap.org/getting-started-withtimes-modelling/) modelling framework. 
+
+Any and all data, assumptions, and methods used to build the TIMES-NZ model are referenced here. 
+
 
 ```{toctree}
 :maxdepth: 2
 :caption: Contents
-
 model_methodology/index
-developer_guide/index
-
-
 ```
 
-
+```{toctree}
+:maxdepth: 1
+developer_guide/index
+```
 
