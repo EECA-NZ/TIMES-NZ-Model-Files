@@ -104,15 +104,11 @@ Annual energy output:
  - Energy content of biodiesel: 32.7 MJ/L[^biofuel_production]
 
 
- ```{math}
-E_{annual} = 32.7_{MJ/L} \cdot 4.5_{ML} = 147,150_{GJ}
- ```
-
-
 ```{math}
-
+E_{annual} = 32.7_{MJ/L} \cdot 4.5_{ML} = 147,150_{GJ}
+```
+```{math}
 Capacity = \dfrac{147,150 / 3600 }{8760} = 4.666_{MW}
-
 ```
 
 Total capital cost for a 4.5 ML/year facility comes to 5.625 NZDm, implying CAPEX of 1,206 NZD/kW
@@ -126,13 +122,54 @@ Total capital cost for a 4.5 ML/year facility comes to 5.625 NZDm, implying CAPE
 
 ## Wood waste to advanced or drop-in biofuels
 
-TODO 
+Emerging liquid biofuel technologies, particularly biocrude and SAF, are built on advanced thermochemical conversion methods. These include pyrolysis, hydrothermal liquefaction, and gasification, all of which take woody biomass and transform it into dense, energy-rich intermediates. Intermediates can then be refined into fuels capable of replacing fossil jet fuel or diesel[^purakau]. Conversion efficiency typically ranges from 45 to 60% of the original biomass energy, and energy demand is high. Geothermal resources or integrated steam recovery could reduce process energy intensity.
+
+These systems are capital-intensive, with estimated costs of NZD 8–15 million per ML of capacity and operating costs above NZD 1.50 per litre at demonstration scale. New Zealand currently operates only pilot and demonstration plants, with commercial operations anticipated after 2026. The central North Island offers the best combination of biomass supply and geothermal potential for future development.
+
+
+TIMES-NZ implements these processes using the following parameters: 
+
+ - Weighted energy content of produced drop-in fuels:
+    - Diesel = 35.87 MJ/L
+    - Biodiesel = 32.65 MJ/L
+    - Weighted share: 60% diesel, 40% biodiesel, meaning 34.58 MJ/L[review_sustainable_alt]
+
+
+```{math}
+E_{annual} = 34.58_{MJ/L} \cdot 1.0_{ML} = 34,580_{GJ}
+```
+```{math}
+Capacity = \dfrac{34,580 / 3600 }{8760} = 1.097_{MW}
+```
+
+A 1.097 MW plant at an estimated cost of 11.5 NZDm implies normalised capital costs of 10,483 NZD/kW.
+
+[^purakau]: In New Zealand, the most detailed exploration of domestic SAF production to date has come from Air New Zealand’s Project Pūrākau, a feasibility study analysing how domestic forestry residues could support a fully domestic SAF industry using an integrated set of technologies already proven overseas.
+
+[review_sustainable_alt]: Mahapatra, S., Kumar, D., Singh, B., & Sachan, P. K. (2021). Biofuels and their sources of production: A review on cleaner sustainable alternative against conventional fuel, in the framework of the food and energy nexus. Energy Nexus, 4, 100036.
+
+
 
 ## Wood to black pellets
 
-TODO 
+Torrefaction is an emerging thermochemical process that upgrades woody biomass into a high-quality solid biofuel known as black pellets. These pellets have superior energy density, hydrophobicity, and grindability compared with conventional white wood pellets, making them suitable for co-firing in industrial boilers or use as a coal substitute. In New Zealand torrefaction capacity is emerging through projects such as Foresta’s Kawerau facility[^kawerau_torrefaction], which will use woody feedstocks but could adapt to agricultural residues.
 
+Torrefaction facilities typically require NZD 150–300 per annual tonne of capacity (around NZD 10–20 million for a 65 kt/yr plant). Operating costs range from NZD 100–300/t processed, depending on feedstock and scale. Torrefaction achieves 75–95 percent energy yield with higher heating values of 20–24 MJ/kg. Dryers consume 2–3 GJ/t of heat and 80–200 kWh/t of electricity for grinding and pelletising, but most heat demand can be supplied internally from torrefaction gases.
 
+The North Island, particularly Kawerau and Bay of Plenty, offers cost and emissions advantages through geothermal process heat and access to industrial energy users. South Island opportunities exist in Nelson–Marlborough near ports, though higher transport costs reduce competitiveness.
 
+Example plant assumptions are as follows: 
+
+Electricity consumption = Drying + grinding + pelletisation = $140 + 695 = 835 kWh/t$
+
+Total electricity = $65,000_{t/yr} \cdot 835_{kWh/t} =54.275_{GWh/yr}$
+
+Average power = $\dfrac{54.275_{GWh}}{8760_{hours}}=6.196_{MW}$
+
+Capital cost per kW = $\dfrac{15_{NZDm}}{6.196_{MW}} = 2,421_{NZD/kW}$
+
+[^kawerau_torrefaction]: Foresta | [Planned plant to produce low emissions fuel to replace coal a step closer with agreement to lease Kawerau site](https://foresta.nz/planned-plant-to-produce-low-emissions-fuel-to-replace-coal-a-step-closer-with-agreement-to-lease-kawerau-site/)
+
+TIMES-NZ uses the midpoint of operating costs for torrefied pellet production of NZ$200/t and the black-pellet energy content of 22 GJ/t, giving an operating cost of 9.1 NZD/GJ.
 
 
