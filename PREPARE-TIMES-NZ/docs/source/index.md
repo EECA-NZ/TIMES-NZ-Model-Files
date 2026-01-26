@@ -1,11 +1,11 @@
 # TIMES-NZ documentation 
 
 
-Welcome to the **TIMES-NZ documentation hub**, maintained by the **Energy Efficiency and Conservation Authority (EECA)**. 
+Welcome to the **TIMES-NZ documentation site**, maintained by the **Energy Efficiency and Conservation Authority (EECA)**. 
 
 TIMES-NZ is a national energy system model for New Zealand, built using the [TIMES](https://iea-etsap.org/getting-started-withtimes-modelling/) modelling framework. 
 
-Any and all data, assumptions, and methods used to build the TIMES-NZ model are referenced here. 
+This site references all data, assumptions, and methods used to build the TIMES-NZ model.
 
 
 ```{toctree}

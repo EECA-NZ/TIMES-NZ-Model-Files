@@ -25,7 +25,7 @@ Climate policy is expanded, carbon prices rise, and individuals make more climat
 ```
 
 ```{csv-table} Narrative overview
-:namne: tab_scen_narratives
+:name: tab_scen_narratives
 :header-rows: 1
 
 Critical uncertainty,Traditional,Transformation
