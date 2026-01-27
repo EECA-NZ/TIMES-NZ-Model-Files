@@ -130,6 +130,7 @@ cython_debug/
 
 # R deployment artifacts
 rsconnect
+rsconnect-python
 
 # Docs / static / translations / data
 docs/_build/
