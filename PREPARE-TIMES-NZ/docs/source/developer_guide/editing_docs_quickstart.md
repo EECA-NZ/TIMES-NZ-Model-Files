@@ -1,6 +1,6 @@
-# Editing documentation (for non-developers)
+# Quickstart guide: editing documentation
 
-This page is written for researchers and experts who wish to edit or comment on the documentation, but they have no experience with git or coding. The process is very straightforward, but might be unfamiliar for some. 
+This page is written for researchers and experts who wish to edit or comment on the documentation but have no experience with git or coding.
 
 ```{eval-rst}
 .. admonition:: Alternative: working with Word files
@@ -14,7 +14,7 @@ This page is written for researchers and experts who wish to edit or comment on 
 
 ## Required software
 
-The necessary software is available on EECA's Company Portal for internal researchers. It's also just available free for anyone. 
+The necessary software is available on EECA's Company Portal for internal researchers. It's also available free for anyone. 
 
 Please install: 
 
@@ -86,22 +86,38 @@ pip install poetry
 
 Then, navigate your terminal to `TIMES-NZ-Model-Files/PREPARE-TIMES-NZ` and run the following commands: 
 
-1) `poetry install --with docs`
+1) Install the project environment, called a venv (or virtual environment) for all the relevant dependencies:
+```
+poetry install --with docs
+```
 
-This installs the project environment, called a venv (or virtual environment) for all the relevant dependencies.
 
-2) `poetry env activate` 
 
-This creates a command which can be used to activate the venv. It's unique to your computer, and depends on where the venv was installed. Copy 
+2) Creates a command which can be used to activate the venv: 
 
-3) `source [your_venv_location]/activate`
+```
+poetry env activate
+```
 
-Copy-paste and execute the command from step 2 here, which should look like the above. 
+The output is unique to your computer, and depends on where the venv was installed.
 
-4) `cd docs`
 
-Changes your terminal location to the docs directory 
 
-5) `sphinx-autobuild -E source build/html`
+3) Copy-paste and execute the command from step 2 here, which should look like the below: 
+
+```
+source [your_venv_location]/activate
+```
+
+4) Changes your terminal location to the docs directory:
+```
+cd docs
+```
+
+5) Create the local docsite: 
+
+```
+sphinx-autobuild -E source build/html
+```
 
 This command builds the entire documentation site locally (it's stored in a folder called `build`.) It then hosts this on your browser at `http://127.0.0.1:8000/`, and should generate a clickable link for you to see. It is set to monitor the source files for changes and automatically rebuilds the site if any changes are saved. You should now be able to make any changes to the source documentation and see how this is reflected on the final site. 

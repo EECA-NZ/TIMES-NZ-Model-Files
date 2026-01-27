@@ -40,7 +40,7 @@ The directory's `index.md` serves as the landing page for that directory, and sh
 
 An example toctree: 
 
-```
+````
 ```{toctree}
 :maxdepth: 2 
 :caption: Topics
@@ -52,6 +52,7 @@ subject_matter_2/index
 Custom Heading for document <document_actual_filename>
 
 ```
+````
 
 Note that: 
 
@@ -108,45 +109,35 @@ The following are some methods or features you might use when writing documentat
 
 ### Tables 
 
-Our documentation includes a lot of tables of figures. We display these in markdown using a `list-table`. 
+Our documentation includes a lot of tables of figures. We display these in markdown using a `csv-table`, which interprets a standard csv structure: 
 
-`list-table` code like this: 
+````
+```{csv-table} Example Table
+:header-rows: 1
+:name: tab_example
 
+Header1,Header2
+A,B
+C,D
 ```
-```{list-table} Example Table
+````
+```{csv-table} Example Table
 :header-rows: 1
-:name: tab-example
-* - Heading 1
-  - Heading 2
-* - A
-  - B
-```
-```{list-table} Example Table
-:header-rows: 1
-:name: tab-example
-* - Heading 1
-  - Heading 2
-* - A
-  - B
+:name: tab_example
+
+Header1,Header2
+A,B
+C,D
 ```
 
 Note: 
 - All tables are automatically given a number reference due to setting `numfig = True` in `conf.py`. The order of the table numbers depends on the order of each table's page in the toctree structure.
 - The `:name:` parameter does nothing by itself, but allows us to reference the table in the text using `{ref}` or `{numref}`. 
-    - ```See {numref}`tab-example` for details``` renders as "See {numref}`tab-example` for details".
-    - ```See {ref}`tab-example` for details``` renders as "See {ref}`tab-example` for details".
+    - ```See {numref}`tab_example` for details``` renders as "See {numref}`tab_example` for details".
+    - ```See {ref}`tab_example` for details``` renders as "See {ref}`tab_example` for details".
+- Some tables were written using the `list-table` format. This is more complex to write and maintain so is not generally recommended.
 
 These table references work across the entire site, not just that page. So it's good to keep clear variable names for each table's :name:, and they can be linked from anywhere else.
-
-
-#### Automatic table conversion
-
-Converting tables to `list-table` format manually is not a good idea, as it is tedious and annoying. Instead, recommended steps to convert a table are as follows: 
-
-1) Copy the table to convert into `docs/helpers/table_to_covert.csv`. This file is not tracked or created by git, so you will need to create it first. 
-1) Execute the script `docs/helpers/convert_table.py`
-
-This prints the required text to your console and you can copy-paste into a markdown document.
 
 ```{eval-rst}
 .. note::
@@ -158,10 +149,10 @@ This prints the required text to your console and you can copy-paste into a mark
 Sometimes, you might want to render a documentation table with merged cells. This is possible, but inelegant. You can use `rst` (or `{eval-rst}` in markdown) to accomplish this. Ensure it's declared as `.. table:` so that standard table features still apply.
 
 Here's an example: 
-```
+````
 ```{eval-rst}  
 .. table:: Example with merged cells
-    :name: tab-merged
+    :name: tab_merged
 
     +-------------------------+-------------------------+
     |   Main Heading (merged)                           |
@@ -171,10 +162,11 @@ Here's an example:
     | A                       | B                       |
     +-------------------------+-------------------------+
 ```
+````
 
 ```{eval-rst}  
 .. table:: Example with merged cells
-    :name: tab-merged
+    :name: tab_merged
 
     +-------------------------+-------------------------+
     |   Main Heading (merged)                           |
@@ -184,43 +176,44 @@ Here's an example:
     | A                       | B                       |
     +-------------------------+-------------------------+
 ```
-You must tab-indent the table and `:name:`. The spacing is very particular. If anything is not placed precisely, the table will fail to render. This is often more trouble than it's worth. It might be better to just leave some cells null, like in {ref}`the battery page <storage-key-assumptions>`.
+You must tab_indent the table and `:name:`. The spacing is very particular. If anything is not placed precisely, the table will fail to render. This is often more trouble than it's worth. It might be better to just leave some cells null, like in {ref}`the battery page <storage-key-assumptions>`.
 
 #### Expandable (large) tables 
 
 Sometimes we want to add a table but it doesn't quite fit in the theme's banner, and a user will have to scroll to see it all. 
 
-This is not ideal UX, so we added a custom class called 'expandable-table' for the Myst list tables. simply add the class to your list table, and it will render with the option to "pop out" and take up a full screen. 
+This is not ideal UX, so we added a custom class called 'expandable-table' for the Myst tables. simply add the class to your table, and it will render with the option to "pop out" and take up a full screen. 
 
-```
+````
 ```{list-table} Example Table (Expandable)
 :header-rows: 1
 :class: expandable-table
-:name: tab-example-expandable
+:name: tab_example-expandable
+* - Heading 1
+  - Heading 2
+* - A
+  - B
+```
+````
+
+```{list-table} Example Table (Expandable)
+:header-rows: 1
+:class: expandable-table
+:name: tab_example-expandable
 * - Heading 1
   - Heading 2
 * - A
   - B
 ```
 
-```{list-table} Example Table (Expandable)
-:header-rows: 1
-:class: expandable-table
-:name: tab-example-expandable
-* - Heading 1
-  - Heading 2
-* - A
-  - B
-```
-
-It's usually only necessary to use this class if the table spills, generating a scroll bar. See {numref}`tab-final_island_shares` for a practical example.
+It's usually only necessary to use this class if the table spills, generating a scroll bar. See {numref}`tab_final_island_shares` for a practical example.
 
 
 ### Figures 
 
 You can insert figures or images by providing a `.png` file or similar, and using the `figure` admonition like so: 
 
-```
+````
 ```{figure} figures/your_image_here.png
 ---
 name: fig-example name
@@ -228,6 +221,7 @@ alt: Figure alt text
 ---
 Figure Title
 ```
+````
 
 The directory for the displayed asset is relative to the location of the relevant markdown file, not the project root. This makes it convenient and tidy to group a subject's figures with that subject's markdown documents.
 
@@ -262,11 +256,12 @@ This renders like so:
 
 You can make popup notes using `rst` like this: 
 
-```
+````
 ```{eval-rst}
 .. note::
    This is a note
 ```
+````
 
 ```{eval-rst}
 .. note::
@@ -275,13 +270,14 @@ You can make popup notes using `rst` like this:
 
 If you want to change the title, you need to extend the functionality using an admonition with a note class, like this: 
 
-```
+````
 ```{eval-rst}
 .. admonition:: Custom note title
    :class: note
 
    This note has a custom title
 ```
+````
 
 ```{eval-rst}
 .. admonition:: Custom note title
@@ -304,7 +300,7 @@ This is calculated via: $PI_i=(Expense_i)/(Expense_{2023})$[^subscript_note]
 
 It's also possible to make standalone equations with `{math}` blocks, like: 
 
-```
+````
 ```{math}
 :label: eq-example
 
@@ -313,6 +309,7 @@ It's also possible to make standalone equations with `{math}` blocks, like:
     \sum_{r} CapacityDemand_{{AW}_{r}}
 
 ```
+````
 
 ```{math}
 :label: eq-example
@@ -389,20 +386,25 @@ We use three scripts to fully automate the MSWord process:
 
 ```
 scripts/build-docx.sh
-scripts/update-docs-fields.sh
+scripts/update-docx-fields.sh
 scripts/update-fields.ps1
 ```
 
 These build the Word documents to the Windows mount, open and update them in Word using Powershell, then bring them back to our build directory.
 
-You will first need to make the bash scripts executable. You can do this with the following commands (only required once on your machine): 
+You will first need to make the bash scripts executable. You can do this with the following commands: 
 
 ```
 chmod +x scripts/build-docx.sh
-chmod +x scripts/update-docs-fields.sh
+chmod +x scripts/update-docx-fields.sh
 ```
 
-Then, simply run (again, from `docs/`) the bash script `./scripts/build-docx.sh`.
+Then, simply run (again, from `docs/`): 
+
+```
+./scripts/build-docx.sh
+```
+Note that transfer between WSL and the Windows filesystem can be slow. Output files are stored in `docs/build/docx/`.
 
 For an alternative, simpler process, you can simply run: `sphinx-build -b docx source build/docx`, which does not require any scripts. This creates the Word documents as above, but does not update the TOC, Date, Title, or other fields. 
 

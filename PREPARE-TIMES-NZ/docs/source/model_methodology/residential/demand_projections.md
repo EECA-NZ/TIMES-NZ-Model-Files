@@ -1,6 +1,6 @@
-# Exogenous demand projections 
+# Demand projections 
 
-We exogenously project energy service demand for each category (space heating, water heating, etc) based on median StatsNZ population projections . By default, we assume that each region’s share of population in joined/detached dwellings remains the same, and that the residents per dwelling remain the same. Every additional unit of population therefore is assumed to increase demand for all residential services based on the dwelling types and shares. 
+We exogenously project energy service demand for each category (space heating, water heating, etc) based on median StatsNZ population projections[^snz_pop_projections]. By default, we assume that each region’s share of population in joined/detached dwellings remains the same, and that the residents per dwelling remain the same. Every additional unit of population therefore is assumed to increase demand for all residential services based on the dwelling types and shares. 
 
 ```{figure} figures/population_projections.png 
 ---

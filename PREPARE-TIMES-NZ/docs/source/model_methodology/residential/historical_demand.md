@@ -1,4 +1,4 @@
-# Demand disaggregation
+# Base year demand
 
 
 TIMES-NZ models residential demand across different regions, and also across different dwelling types (joined/detached), as these have different energy demand profiles. We disaggregate the EEUD demand data across regions and dwelling types to model residential demand in more detail.
@@ -47,7 +47,7 @@ Where:
  - $C$ is a constant which captures other drivers of a region’s heating demand, such as insulation properties or behavioural differences. We assume that these other drivers are the same between regions.
 
 
-Floor area assumptions are **171** m<sup>2</sup> for detached dwellings, and **115** m<sup>2</sup> for joined dwellings. \
+Floor area assumptions are **171** m<sup>2</sup> for detached dwellings, and **115** m<sup>2</sup> for joined dwellings.
 
 
 [^HDD_explain]: HDD is a measure of how often the area would heating to meet a defined temperature. A higher HDD effectively means a colder climate. HDD calculations done by [NIWA](https://www.building.govt.nz/assets/Uploads/getting-started/building-for-climate-change/niwa-client-report-weather-files-for-energy-modelling.pdf) for specific climate zones have been mapped to regional council areas for TIMES-NZ. 
@@ -146,4 +146,4 @@ Again, natural gas use for other end use demand is distributed entirely across t
 
 The EEUD lists geothermal and direct solar energy use by residences but does not allocate these to specific uses or technologies. We assume that all geothermal residential use is for space heating through ground source heat pumps, and we assume all solar thermal use (which excludes rooftop solar for electricity generation) is used for water heating. Limited information is available on the use of these technologies[^gns_database], so we simply distribute the use according to population. The estimated energy values involved are very small. 
 
-[^gns_database]: The GNS database of geothermal demand sites shows geothermal residential heating installations across both the North and South Islands: [GNS Science - New Zealand Geothermal Use Database](https://data.gns.cri.nz/geothermal/index.html)
+[^gns_database]: The GNS database of geothermal demand sites shows geothermal residential heating installations across both the North and South Islands: [GNS Science - New Zealand Geothermal Use Database](https://data.gns.cri.nz/geothermal/index.html). This is not currently incorporated in TIMES-NZ residential geothermal demand distribution.

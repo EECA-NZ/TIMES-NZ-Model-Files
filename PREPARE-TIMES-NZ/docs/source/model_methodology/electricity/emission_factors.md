@@ -44,7 +44,7 @@ The following figures are used in the model:
   - 1.52
 ```
 
-[^meg]: Measuring Emissions Guide: <https://environment.govt.nz/publications/measuring-emissions-guide-2025/>
+[^meg]: MFE | Measuring Emissions Guide: <https://environment.govt.nz/publications/measuring-emissions-guide-2025/>
 [^uk_ghgcf]: Greenhouse gas reporting: conversion factors 2022: <https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022> 
 
 ## Fugitive geothermal emission factors
@@ -139,7 +139,7 @@ Emission factors for existing plants during 2023 are sourced from New Zealand Ge
 
 ### Future geothermal plant emissions
 
-Emission factors for future geothermal plants depend on whether NCG reinjection has been signalled at these plants and is otherwise based on assumption. If good information is not available for these plants, we apply a default emission factor of 62 gCO2e/kWh in the first year of operation, with emissions declining over time (see {ref}`below <Field reductions over time>`). The emission factor assumptions for future geothermal plants are as follows: 
+Emission factors for future geothermal plants depend on whether NCG reinjection has been signalled at these plants and is otherwise based on assumption. If good information is not available for these plants, we apply a default emission factor of 62 gCO2e/kWh in the first year of operation, with emissions declining over time (see {ref}`'Field reductions over time' <heading-field-reductions>`). The emission factor assumptions for future geothermal plants are as follows: 
 
 ```{list-table} Emission factors for future geothermal plants
 :header-rows: 1
@@ -217,6 +217,8 @@ NCG reinjection has been signalled at TOPP2 and Te Huka Unit 3. We assume full r
 
 [^tauhara_no_ncg]: See table 5 at <https://www.worldgeothermal.org/pdf/IGAstandard/NZGW/2024//044.pdf>. Tauhara shares a field with Te Huka, but no reinjection has been signalled for this plant or its expansion.
 
+
+(heading-field-reductions)=
 ### Field reductions over time
 Emissions factors at geothermal fields tend to decline over time, as the greenhouse gas concentration in the fields falls. To include this impact in the model, we make the conservative assumption that the emission factor falls by 3% annually for the first 7 years of operation. This means the emissions factor stabilises at 50 gCO2e/kWh, which is the same as the median emissions factor of existing plants in 2023. This assumption is applied to any future geothermal plant with the default emissions factor, but not existing plants[^missing_method]. 
 

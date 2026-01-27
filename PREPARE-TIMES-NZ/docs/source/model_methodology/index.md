@@ -1,14 +1,36 @@
 # Assumptions
 This section contains all assumptions, methodologies, and data source references used to build TIMES-NZ. 
 
+
+
 ```{toctree}
 :maxdepth: 1
-:caption: Topics
+:caption: Demand assumptions
+
+agr_forest_fish/index
+commercial/index
+industry/index
+residential/index
+transport/index
+
+```
+
+```{toctree}
+:maxdepth: 1
+:caption: Supply & transformation assumptions
 
 electricity/index
-industry/index
-transport/index
-residential/index
+oil_gas/index
+biofuel_supply/index
+
+```
+```{toctree}
+:maxdepth: 1
+:caption: Scenario assumptions
+
+scenarios/index
+```
+
 
 
 

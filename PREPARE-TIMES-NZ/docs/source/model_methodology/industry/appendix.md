@@ -1,11 +1,8 @@
 # Appendix
 
-Supplementary information for industrial demand information 
 
-## Acronyms
-
-
-```{list-table} 
+```{list-table} Acronyms
+:name: tab_industry_acronyms
 :header-rows: 1
 
 * - Acronym
@@ -25,7 +22,7 @@ Supplementary information for industrial demand information
 * - GJ
   - Gigajoule
 * - IEA
-  - Internal Energy Agency
+  - International Energy Agency
 * - MBIE
   - Ministry of Business, Innovation and Employment
 * - NI

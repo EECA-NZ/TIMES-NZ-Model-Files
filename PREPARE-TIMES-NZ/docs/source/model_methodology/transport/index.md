@@ -1,13 +1,9 @@
 # Transport 
 
-This section details the assumptions, data and input used to model transport demand in TIMES-NZ.
-
-Note that the demand projections do not seem to be well explained here and this needs better udpating
-
-
 ```{toctree}
 :maxdepth: 2
 :caption: Contents
+:numbered:
 
 overview
 baseyear_demand
