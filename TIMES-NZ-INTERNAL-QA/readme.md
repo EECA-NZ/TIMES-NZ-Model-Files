@@ -71,7 +71,7 @@ Deploy to shinyapps.io by entering the following into the terminal:
 ```
 poetry run rsconnect deploy shiny . \
   --entrypoint app \
-  --title times-nz-3-alpha
+  --title times-nz-internal-explorer \  
 ```
 
 
