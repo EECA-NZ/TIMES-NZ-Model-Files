@@ -39,10 +39,18 @@ html[data-theme="light"] {
     z-index: 1080;
 }
 
+/*Additional links rethemed */
+
+
 .skip-link {
   background-color: var(--pst-color-border);
 }
 
+
+.form-control:focus {
+  box-shadow: var(--pst-color-secondary);
+
+}
 
 /* Custom css for documentation expandable tables */
 
