@@ -148,7 +148,7 @@ def register_server_functions_for_explorer(
 
         pdf = params["pdf"]
 
-        # Early exit 2: no non-zero values → infeasible or meaningless for line charts
+        # Early exit 2: no non-zero values = infeasible or meaningless for line charts
         if pdf["Value"].sum() == 0:
             chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
                 text="No meaningful values to plot"
@@ -175,11 +175,10 @@ def register_server_functions_for_explorer(
                 chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
                     text="No chart"
                 )
-                
+
         # Global-ish styling: font sizes etc.
         chart = (
-            chart
-            .configure_axis(
+            chart.configure_axis(
                 labelFontSize=13,
                 titleFontSize=14,
                 titleFontWeight="normal",

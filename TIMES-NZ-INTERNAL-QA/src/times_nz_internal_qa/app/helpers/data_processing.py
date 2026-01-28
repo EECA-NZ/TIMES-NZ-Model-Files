@@ -166,6 +166,8 @@ def make_chart_data(
 
     # Normalize dtypes and ordering once
     period_order = [str(p) for p in period_range]
+    # ensure we only take data that fits the range
+    pdf = pdf[pdf["Period"].isin(period_range)]
     pdf["Period"] = pd.Categorical(
         pdf["Period"].astype(str), categories=period_order, ordered=True
     )
