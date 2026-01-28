@@ -10,8 +10,39 @@
 html[data-theme="light"] {
   --pst-color-primary: #3d6281;
   --pst-color-secondary: #000000;
-  --pst-color-table-row-hover-bg: #8fbaddff;
+  --pst-color-table-row-hover-bg: #C0EBEB;  
 }
+/* that one hover button */ 
+
+
+#pst-back-to-top {
+    background-color: var(--pst-color-primary);
+    border: none;
+    color: white;
+    display: none;
+    left: 50vw;
+    position: fixed;
+    top: 90vh;
+    transform: translate(-50%);
+    z-index: 1080;
+}
+
+#pst-back-to-top:hover{
+    background-color: var(--pst-color-secondary);
+    border: none;
+    color: white;
+    display: none;
+    left: 50vw;
+    position: fixed;
+    top: 90vh;
+    transform: translate(-50%);
+    z-index: 1080;
+}
+
+.skip-link {
+  background-color: var(--pst-color-border);
+}
+
 
 /* Custom css for documentation expandable tables */
 
