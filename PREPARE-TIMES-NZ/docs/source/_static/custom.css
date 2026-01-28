@@ -48,7 +48,7 @@ html[data-theme="light"] {
 
 
 .form-control:focus {
-  box-shadow: var(--pst-color-secondary);
+  box-shadow: 0 0 0 .1875rem var(--pst-color-secondary);
 
 }
 
