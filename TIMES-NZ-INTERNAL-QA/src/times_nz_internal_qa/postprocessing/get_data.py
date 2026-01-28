@@ -61,6 +61,7 @@ def check_process_coverage(df, scenario_name):
     dummy_processes = pd.read_csv(PROCESS_CONCORDANCES / "dummies.csv")
     production_processes = pd.read_csv(PROCESS_CONCORDANCES / "production.csv")
     closure_processes = pd.read_csv(PROCESS_CONCORDANCES / "closures.csv")
+    battery_processes = pd.read_csv(PROCESS_CONCORDANCES / "batteries.csv")
 
     # remove non-process data
     df = df[df["Process"] != "-"]
@@ -76,6 +77,8 @@ def check_process_coverage(df, scenario_name):
     df = df[~df["Process"].isin(production_processes["Process"].unique())]
     # closures
     df = df[~df["Process"].isin(closure_processes["Process"].unique())]
+    # batteries
+    df = df[~df["Process"].isin(battery_processes["Process"].unique())]
 
     test_coverage(df, "Process", scenario_name=scenario_name)
 
