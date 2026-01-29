@@ -155,6 +155,12 @@ FTE_ELCSOL,Electricity generation,Solar,Distribution
 FTE_TRASOL,Transport,Solar,Distribution
 FTE_AGRSOL,Agriculture,Solar,Distribution
 FTE_COMSOL,Commercial,Solar,Distribution
+FTE_INDBPLT,Industry,Black Pellet,Distribution
+FTE_RESBPLT,Residential,Black Pellet,Distribution
+FTE_ELCBPLT,Electricity generation,Black Pellet,Distribution
+FTE_TRABPLT,Transport,Black Pellet,Distribution
+FTE_AGRBPLT,Agriculture,Black Pellet,Distribution
+FTE_COMBPLT,Commercial,Black Pellet,Distribution
 G_ELC_HV,Electricity distribution,Electricity,Distribution
 G_ELC_LV,Electricity distribution,Electricity,Distribution
 LNGPORTSML,LNG Ports,LNG,Distribution
