@@ -122,33 +122,37 @@ Cost values are adjusted to 2023 New Zealand dollars using the most appropriate 
 :header-rows: 1
 :name: tab_com_capex
 Technology,Fuel,Capital cost (NZD/kW)
-Boiler Systems,Coal,"1,654"
-Boiler Systems,Diesel,628
-Boiler Systems,LPG,712
-Boiler Systems,Natural Gas,513
-Burner (Direct Heat),Coal,"1,382"
-Burner (Direct Heat),LPG,691
-Burner (Direct Heat),Natural Gas,691
-Heat Pump Air Source,Electricity,712
-Heat Pump (Water Heating),Electricity,712
-Resistance Heater,Electricity,141
+Boiler Systems,Coal,"1,000"
+Boiler Systems,Diesel,380
+Boiler Systems,LPG,250
+Boiler Systems,Natural Gas,250
+Boiler Systems,Wood,"2,190"
+Burner (Direct Heat),Coal,600
+Burner (Direct Heat),LPG,300
+Burner (Direct Heat),Natural Gas,300
+Burner (Direct Heat),Biogas,300
+Heat Pump Air Source,Electricity,"3,000"
+Heat Pump (Water Heating),Electricity,"3,000"
+Resistance Heater,Electricity,50
 Direct Heat,Geothermal,150
-Hot Water Cylinder,Electricity,931
-Hot Water Cylinder,Natural Gas,307
+Hot Water Cylinder,Electricity,500
+Hot Water Cylinder,Natural Gas,100
 Incandescent Lamp,Electricity,15
 Fluorescent Lamp,Electricity,112
 LED Lamp,Electricity,500
-Internal Combustion Engine (Land Transport),Diesel,700
-Internal Combustion Engine (Land Transport),LPG,700
-Internal Combustion Engine (Land Transport),Petrol,700
-Electric Motor,Electricity,280
-Stationary Engine,Petrol,559
-Refrigerator,Electricity,"4,028"
-Electronics,Electricity,900
-Cooking Elements,Electricity,283
-Cooking Ovens,Electricity,283
-Cooking Ovens,LPG,262
-Cooking Ovens,Natural Gas,262
+Internal Combustion Engine (Land Transport),Diesel,200
+Internal Combustion Engine (Land Transport),LPG,200
+Internal Combustion Engine (Land Transport),Natural Gas,200
+Internal Combustion Engine (Land Transport),Petrol,222
+Electric Motor,Electricity,185
+Stationary Engine,Petrol,200
+Refrigerator,Electricity,"5,000"
+Electronics,Electricity,"5,000"
+Cooking Elements,Electricity,200
+Cooking Ovens,Electricity,250
+Cooking Ovens,LPG,200
+Cooking Ovens,Natural Gas,200
+Pumps,Electricity,185
 ```
 
 Some distinction between the costs of technologies were added, to represent the fact that some subsectors will pay significantly more than others for the same technology, due to their requirements or scale. For example, previous EECA projects have found that a school will pay 5-10x more per kW for their heating or lighting CAPEX than an equivalent office building. This is primarily due to the scaling of these organisations, schools are likely to span many small buildings over a relatively large area, each only needing a relatively small amount of heating. Office blocks can take advantage of their higher density, giving a more centralised area to heat, and a larger, more cost-effective heating option can be purchased.
@@ -170,6 +174,7 @@ Boiler Systems,Natural Gas,2
 Internal Combustion Engine (Land Transport),Diesel,7
 Internal Combustion Engine (Land Transport),LPG,7
 Internal Combustion Engine (Land Transport),Petrol,7
+Internal Combustion Engine (Land Transport),Natural Gas,7
 Stationary Engine,Petrol,5
 Refrigerator,Electricity,5
 ```
