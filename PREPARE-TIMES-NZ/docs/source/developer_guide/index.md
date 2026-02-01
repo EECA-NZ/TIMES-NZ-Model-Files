@@ -13,11 +13,20 @@ Processing scripts are organised by sector (electricity generation, commercial d
 
 ```{toctree}
 :maxdepth: 2
-:caption: Key topics
-
-data_structures
-configuration_file_guide
+:caption: Project setup
+developer-setup-guide
+github-flow-readme
 ```
+
+```{toctree}
+:maxdepth: 2
+:caption: PREPARE-TIMES-NZ structure
+
+configuration_file_guide
+data_structures
+model-structure
+```
+
 
 ```{toctree}
 :maxdepth: 1
@@ -25,6 +34,7 @@ configuration_file_guide
 
 editing_docs_quickstart
 documentation_maintenance
+changelog
 
 ```
 

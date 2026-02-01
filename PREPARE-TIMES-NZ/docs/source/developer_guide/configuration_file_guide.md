@@ -3,9 +3,6 @@
 
 `data_raw/user_config` contains all the toml files which outline the structure of the excel files that will be produced for TIMES/VEDA. These are effectively metadata describing what data should go into the excel sheets, and how it should be arranged.
 
-To modify or build new config files, 
-
-
 ## Key toml obects
 
 The `.toml` configuration files must contain the following objects.
@@ -116,8 +113,7 @@ It's however also possible to just insert the dictionary as a string, like:
   SheetName = "UserConstraints"
   TagName = "UC_T"
   DataLocation = "data_raw/constraints/some_constraints.csv"
-  UCSets = "{'R_S': 'Allregions', 'T_S': ''}" 
-            
+  UCSets = "{'R_S': 'Allregions', 'T_S': ''}"             
   ```
 
 

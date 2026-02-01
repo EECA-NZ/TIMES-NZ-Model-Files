@@ -8,13 +8,13 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.utilities.filepaths import STAGE_0_DATA, TIMES_LOCATION
+from prepare_times_nz.utilities.filepaths import PREP_LOCATION, STAGE_0_DATA
 
 # CONSTANTS
 
 
 input_file = STAGE_0_DATA / "config_metadata.csv"
-OUTPUT_LOCATION = TIMES_LOCATION / "docs/model_structure_docs"
+OUTPUT_LOCATION = PREP_LOCATION / "docs/source/developer_guide/model_structure_docs"
 
 
 def create_workbook_categories(df):
@@ -76,9 +76,7 @@ def generate_tag_markdown(df):
     categories = df["Category"].unique().tolist()
 
     # Some header text for the main document
-
-    index_text.append("[Back to Main Documentation](../README.md)")
-    index_text.append("# TIMES-NZ model structure documentation")
+    index_text.append("# Output file structure")
     index_text.append("\n")
     index_text.append(
         "This document describes every input for the TIMES-NZ model structure and topology."
@@ -93,12 +91,14 @@ def generate_tag_markdown(df):
         "It is intended to guide developers and users to better understand all TIMES-NZ input data."
     )
     index_text.append("\n")
+
     index_text.append("Documents are organised by broad category.")
 
     for category in categories:
 
-        index_text.append(f"### {category}")
-        index_text.append("\n")
+        index_text.append("```{toctree}")
+        index_text.append(":maxdepth: 1")
+        index_text.append(f":caption: {category}")
 
         df_c = df[df["Category"] == category]
         workbooks = df_c["WorkBookName"].unique().tolist()
@@ -108,18 +108,14 @@ def generate_tag_markdown(df):
             # data
             df_w = df_c[df_c["WorkBookName"] == w]
 
-            # filanem for this markdown file
+            # filename for this markdown file
             filename = f"{w}.md"
             filename = filename.replace("/", "_")
 
-            # add link to index file text
-            index_text.append(f" - [{w}.xlsx](model_structure_docs/{filename})")
+            # add filename to text
+            index_text.append(f"model_structure_docs/{filename}")
 
             workbook_text = []
-
-            workbook_text.append(
-                f"[Back to Model Structure Index](../{index_filename})"
-            )
 
             workbook_text.append(f"## {w}.xlsx")
 
@@ -152,6 +148,7 @@ def generate_tag_markdown(df):
             workbook_text = "\n".join(workbook_text)
             out_path.write_text(workbook_text, encoding="utf-8")
 
+        index_text.append("```")
     index_text = "\n".join(index_text)
     index_path = OUTPUT_LOCATION.parent / index_filename
 

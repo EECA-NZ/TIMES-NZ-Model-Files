@@ -1,3 +1,6 @@
+
+# Developer setup 
+
 ## Prerequisites
 
 While VEDA needs to be run in Windows, we recommend running the scripted data processing pipelines in a WSL Linux environment.
@@ -33,11 +36,21 @@ cd PREPARE-TIMES-NZ
 poetry install --with dev
 ```
 
+It's a good idea to execute:
+
+```bash
+poetry env activate
+```
+from within `PREPARE-TIMES-NZ` or other modules managed by poetry. This returns a command which you can copy-paste and execute to activate the poetry environment shell. Doing this allows your terminal to run directly from the poetry shell, meaning that `poetry run` prefixes are not required to run scripts, `doit`, or `pre-commit`.
+
+### Building model files
 Run the data preparation pipeline (`doit`):
 
 ```bash
 poetry run doit
 ```
+
+`doit` runs the entire data preparation method and creates TIMES model files in `PREPARE-TIMES-NZ/output`.
 
 Alternatively, run a specific script:
 
@@ -45,7 +58,7 @@ Alternatively, run a specific script:
 poetry run python scripts/prepare_times_nz.py
 ```
 
-### Running Tests
+#### Running Tests
 
 Run tests within `PREPARE-TIMES-NZ`:
 
@@ -53,18 +66,10 @@ Run tests within `PREPARE-TIMES-NZ`:
 poetry run pytest
 ```
 
-### Running from poetry shell
+Note that these are unit tests for code, not data validation tests.
 
-It's a good idea to execute:
-
-```bash
-poetry env activate
-```
-from within `PREPARE-TIMES-NZ` or other modules managed by poetry. This returns a command which you can copy-paste and execute to activate the poetry environment shell. Doing this allows your terminal to run directly from the poetry shell, meaning that `poetry run` prefixes are not required to run scripts,  `doit`, or `pre-commit`.
-
-### Poetry and VSCode
+#### Poetry and VSCode
 Poetry creates a virtual environment that may not be in your project directory, so VSCode might not pick it up automatically. We need to set the VSCode interpreter to align with Poetry.
-
 
 If VSCode fails to automatically register the env, `poetry env activate` from within the vscode terminal still works to move into the poetry shell. The VSCode python interpreter is slightly different, and should register automatically. It sometimes struggles if you are moving between different modules, like `PREPARE-TIMES-NZ` and `TIMES-NZ-INTERNAL-QA`. If so, you may need to follow the steps below: 
 
@@ -77,11 +82,11 @@ If VSCode fails to automatically register the env, `poetry env activate` from wi
 
 ### Step 2: Running the Model Using VEDA
 
-The excel files for VEDA are generated in `TIMES-NZ` by the `PREPARE-TIMES-NZ` module. At this stage, it's recommended that you move these to a separate area to work on in VEDA separately. Future iterations will hopefully automate this stage better. 
+The excel files for VEDA are generated in `TIMES-NZ` by the `PREPARE-TIMES-NZ` module by running `doit`. At this stage, it's recommended that you move these to a separate area to work on in VEDA separately. Future iterations will hopefully automate this stage better. 
 
 This project assumes your VEDA installation is stored in Windows, under `C:/Users/yourusername/Veda`. VEDA is currently used for synchronising files, running the TIMES model, and generating output `.vd` files. 
 
-### Step 3: result post-processing 
+### Step 3: Result post-processing 
 
 Assuming the VEDA installation is in the expected location, you can automatically retrive VEDA model results and apply post-processing using the below script: 
 
@@ -94,7 +99,7 @@ Note that some components of this script rely on data generated in `PREPARE-TIME
 
 If anything in the results is not defined, this will be flagged in the console. 
 
-### Step 5: Visualization (internal qa method )
+### Step 5: Visualization (internal qa method)
 
 Visualize using the TIMES-NZ visualization tools. 
 
