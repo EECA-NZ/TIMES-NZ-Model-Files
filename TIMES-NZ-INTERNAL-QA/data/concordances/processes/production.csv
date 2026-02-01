@@ -32,3 +32,11 @@ Domestic production,MINWODWST08,Renewable,Woody biomass,Wood waste residuals (AL
 Domestic production,FTE_ELCHYD,Renewable,Hydro,Hydro,,,,,,,Required here to flow through to primary energy chart
 Domestic production,FTE_ELCGEO,Renewable,Geothermal,Geothermal,,,,,,,Required here to flow through to primary energy chart
 Domestic production,FTE_ELCSOL,Renewable,Solar,Solar,,,,,,,Required here to flow through to primary energy chart
+Domestic production,CT_CWODBPL,Renewable,Woody biomass,,,,,,,,
+Domestic production,CT_CWODDID,Renewable,Woody biomass,,,,,,,,
+Domestic production,CT_CWODETH,Renewable,Woody biomass,,,,,,,,
+Domestic production,REF_ANDGST,Renewable,Woody biomass,,,,,,,,
+Domestic production,REF_ANDGST,Renewable,Agricultural waste,,,,,,,,
+Domestic production,REF_ANDGST,Renewable,Municipal waste,,,,,,,,
+Domestic production,WSTWOD2WOD,Renewable,Woody biomass,,,,,,,,
+Domestic production,MINH2R_PLACEHOLDER,Renewable,Hydrogen,,,,,,,,
