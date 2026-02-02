@@ -202,7 +202,7 @@ def generate_future_costs(year: int) -> pd.DataFrame:
     cost_df, nrel_df = load_data(year)
 
     # build projections for both scenarios → wide columns
-    for scenario, label in [("Conservative", "transformation"), ("Mid", "traditional")]:
+    for scenario, label in [("Conservative", "traditional"), ("Mid", "transformation")]:
         filtered = filter_nrel_data(nrel_df, scenario)
         pivot = build_nrel_cost_pivot(filtered)
         avg = compute_average_costs_by_category(pivot)

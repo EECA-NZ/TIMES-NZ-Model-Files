@@ -61,208 +61,9 @@ To apply the learning curves:
  - FIXOM costs were extracted from NREL for the base year, where data is not available in the NZ context.
 
 
-
-```{list-table} Road transport CAPEX projections - Traditional scenario (NZD2023)
+```{list-table} Road transport CAPEX projections - Traditional scenario (NZD2025)
 :header-rows: 1
 :name: tab_transport_capex_learning_curves_trad
-* - Type
-  - Technology
-  - Fuel
-  - 2030
-  - 2040
-  - 2050
-* - LPV
-  - ICE
-  - Petrol
-  - $39,406
-  - $41,350
-  - $41,043
-* - 
-  - ICE
-  - Diesel
-  - $54,734
-  - $54,730
-  - $54,581
-* - 
-  - BEV
-  - Electricity
-  - $41,604
-  - $37,137
-  - $34,476
-* - 
-  - ICE Hybrid
-  - Petrol
-  - $43,034
-  - $44,354
-  - $43,804
-* - 
-  - ICE Hybrid
-  - Diesel
-  - $59,773
-  - $58,707
-  - $58,252
-* - 
-  - PHEV
-  - Petrol/Electricity
-  - $47,985
-  - $45,106
-  - $43,275
-* - 
-  - PHEV
-  - Diesel/Electricity
-  - $66,651
-  - $59,702
-  - $57,548
-* - 
-  - FC
-  - Hydrogen
-  - $57,827
-  - $53,056
-  - $50,669
-* - LCV
-  - ICE
-  - Petrol
-  - $62,671
-  - $65,395
-  - $65,221
-* - 
-  - ICE
-  - Diesel
-  - $58,088
-  - $57,555
-  - $57,518
-* - 
-  - BEV
-  - Electricity
-  - $53,167
-  - $44,721
-  - $39,484
-* - 
-  - ICE Hybrid
-  - Petrol
-  - $58,704
-  - $60,130
-  - $59,552
-* - 
-  - ICE Hybrid
-  - Diesel
-  - $54,363
-  - $53,849
-  - $53,741
-* - 
-  - PHEV
-  - Petrol/Electricity
-  - $43,227
-  - $39,622
-  - $36,073
-* - 
-  - PHEV
-  - Diesel/Electricity
-  - $60,041
-  - $52,444
-  - $47,972
-* - 
-  - FC
-  - Hydrogen
-  - $95,932
-  - $83,724
-  - $78,801
-* - Light Truck
-  - ICE
-  - Diesel
-  - $79,445
-  - $78,679
-  - $78,521
-* - 
-  - BEV
-  - Electricity
-  - $89,954
-  - $74,588
-  - $65,349
-* - 
-  - FC
-  - Hydrogen
-  - $141,558
-  - $126,959
-  - $120,924
-* - Medium truck
-  - ICE
-  - Diesel
-  - $177,870
-  - $176,883
-  - $176,874
-* - 
-  - BEV
-  - Electricity
-  - $266,945
-  - $218,980
-  - $190,213
-* - 
-  - FC
-  - Hydrogen
-  - $329,044
-  - $301,247
-  - $290,025
-* - Heavy truck
-  - ICE
-  - Diesel
-  - $350,806
-  - $350,202
-  - $350,988
-* - 
-  - BEV
-  - Electricity
-  - $451,838
-  - $360,545
-  - $304,772
-* - 
-  - FC
-  - Hydrogen
-  - $616,491
-  - $555,807
-  - $530,458
-* - 
-  - DSLH2
-  - Diesel/Hydrogen
-  - $424,128
-  - $406,236
-  - $400,250
-* - Bus
-  - ICE
-  - Diesel
-  - $401,415
-  - $401,415
-  - $401,909
-* - 
-  - ICE
-  - Electricity
-  - $454,287
-  - $406,707
-  - $370,439
-* - 
-  - BEV
-  - Hydrogen
-  - $754,170
-  - $721,967
-  - $708,217
-* - Motorcycle
-  - ICE
-  - Petrol
-  - $5,106
-  - $5,335
-  - $5,316
-* - 
-  - BEV
-  - Electricity
-  - $6,916
-  - $6,092
-  - $5,609
-```
-
-
-```{list-table} Road transport CAPEX projections - Transformation scenario (NZD2023)
-:header-rows: 1
-:name: tab_transport_capex_learning_curves_transformation
 * - Type
   - Technology
   - Fuel
@@ -457,6 +258,203 @@ To apply the learning curves:
   - $6,608
 ```
 
+
+```{list-table} Road transport CAPEX projections - Transformation scenario (NZD2025)
+:header-rows: 1
+:name: tab_transport_capex_learning_curves_transformation
+* - Type
+  - Technology
+  - Fuel
+  - 2030
+  - 2040
+  - 2050
+* - LPV
+  - ICE
+  - Petrol
+  - $39,406
+  - $41,350
+  - $41,043
+* - 
+  - ICE
+  - Diesel
+  - $54,734
+  - $54,730
+  - $54,581
+* - 
+  - BEV
+  - Electricity
+  - $41,604
+  - $37,137
+  - $34,476
+* - 
+  - ICE Hybrid
+  - Petrol
+  - $43,034
+  - $44,354
+  - $43,804
+* - 
+  - ICE Hybrid
+  - Diesel
+  - $59,773
+  - $58,707
+  - $58,252
+* - 
+  - PHEV
+  - Petrol/Electricity
+  - $47,985
+  - $45,106
+  - $43,275
+* - 
+  - PHEV
+  - Diesel/Electricity
+  - $66,651
+  - $59,702
+  - $57,548
+* - 
+  - FC
+  - Hydrogen
+  - $57,827
+  - $53,056
+  - $50,669
+* - LCV
+  - ICE
+  - Petrol
+  - $62,671
+  - $65,395
+  - $65,221
+* - 
+  - ICE
+  - Diesel
+  - $58,088
+  - $57,555
+  - $57,518
+* - 
+  - BEV
+  - Electricity
+  - $53,167
+  - $44,721
+  - $39,484
+* - 
+  - ICE Hybrid
+  - Petrol
+  - $58,704
+  - $60,130
+  - $59,552
+* - 
+  - ICE Hybrid
+  - Diesel
+  - $54,363
+  - $53,849
+  - $53,741
+* - 
+  - PHEV
+  - Petrol/Electricity
+  - $43,227
+  - $39,622
+  - $36,073
+* - 
+  - PHEV
+  - Diesel/Electricity
+  - $60,041
+  - $52,444
+  - $47,972
+* - 
+  - FC
+  - Hydrogen
+  - $95,932
+  - $83,724
+  - $78,801
+* - Light Truck
+  - ICE
+  - Diesel
+  - $79,445
+  - $78,679
+  - $78,521
+* - 
+  - BEV
+  - Electricity
+  - $89,954
+  - $74,588
+  - $65,349
+* - 
+  - FC
+  - Hydrogen
+  - $141,558
+  - $126,959
+  - $120,924
+* - Medium truck
+  - ICE
+  - Diesel
+  - $177,870
+  - $176,883
+  - $176,874
+* - 
+  - BEV
+  - Electricity
+  - $266,945
+  - $218,980
+  - $190,213
+* - 
+  - FC
+  - Hydrogen
+  - $329,044
+  - $301,247
+  - $290,025
+* - Heavy truck
+  - ICE
+  - Diesel
+  - $350,806
+  - $350,202
+  - $350,988
+* - 
+  - BEV
+  - Electricity
+  - $451,838
+  - $360,545
+  - $304,772
+* - 
+  - FC
+  - Hydrogen
+  - $616,491
+  - $555,807
+  - $530,458
+* - 
+  - DSLH2
+  - Diesel/Hydrogen
+  - $424,128
+  - $406,236
+  - $400,250
+* - Bus
+  - ICE
+  - Diesel
+  - $401,415
+  - $401,415
+  - $401,909
+* - 
+  - ICE
+  - Electricity
+  - $454,287
+  - $406,707
+  - $370,439
+* - 
+  - BEV
+  - Hydrogen
+  - $754,170
+  - $721,967
+  - $708,217
+* - Motorcycle
+  - ICE
+  - Petrol
+  - $5,106
+  - $5,335
+  - $5,316
+* - 
+  - BEV
+  - Electricity
+  - $6,916
+  - $6,092
+  - $5,609
+```
 
 ## Vehicle deployment limits 
 
