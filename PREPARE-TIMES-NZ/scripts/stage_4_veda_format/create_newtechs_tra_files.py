@@ -496,21 +496,19 @@ def create_newtech_process_parameters_df(cfg):
     if "SCENARIO" not in cfg["Columns"]:
         cfg["Columns"].append("SCENARIO")
 
-    afa_2050 = {
-        "T_F_HTICEDSL": 1.55,
-        "T_F_HTBEVELC": 1.44,
-        "T_F_HTFCH2R": 1.55,
+    afa_2040 = {
+        "T_F_HTBEVELC_LOW": 0.2193740336462519 * 0.97,
+        "T_F_HTBEVELC_MED": 0.5568725469481779 * 0.97,
+        "T_F_HTBEVELC_HIGH": 0.9281209115802966 * 0.97,
     }
 
-    afa_2050_num = dict(afa_2050)
+    afa_2040_num = dict(afa_2040)
 
-    # 2) Map by base TechName (ignore _LOW/_MED/_HIGH suffix)
-    _base = out["TechName"].astype(str).str.replace(r"_(LOW|MED|HIGH)$", "", regex=True)
-    out["AFA~2050"] = _base.map(afa_2050_num)
+    out["AFA~2040"] = out["TechName"].map(afa_2040_num)
 
     # 3) Ensure it’s in your output columns
-    if "AFA~2050" not in cfg["Columns"]:
-        cfg["Columns"].append("AFA~2050")
+    if "AFA~2040" not in cfg["Columns"]:
+        cfg["Columns"].append("AFA~2040")
 
     # ---- Merge yeared costs (2030/2040/2050) by attributes + scenario ----
     # 2b) parse veh/fuel/tech for each row in `out` using your existing parser
@@ -634,7 +632,7 @@ def main() -> None:
                 "START",
                 "EFF",
                 "AFA",
-                "AFA~2050",
+                "AFA~2040",
                 "LIFE",
                 "INVCOST",
                 "INVCOST~2030",
