@@ -17,18 +17,9 @@ alt: Gas production profiles as reported from 1 January 2020 through 1 January 2
 ---
 Gas production profiles as reported from 1 January 2020 through 1 January 2025
 ```
-We assume that the wholesale price of natural gas continues to rise as supply approaches 0, reaching 35 NZD/GJ by 2050. In TIMES-NZ, this price signal will encourage fuel switching where possible, although supply limitations may have a greater effect. We assume prices follow the trend as described in {numref}`tab_gas_price_assumptions`.
 
-```{csv-table} Natural gas wholesale price assumptions[^mbie_prices]
-:name: tab_gas_price_assumptions
-:header-rows: 1
-
-,2023,2024,2030,2050
-NZD/GJ,9.3,12.03,25,35
-
-```
-
-Currently, these natural gas prices hold the same in both scenarios.
+### Natural gas prices
+We do not make assumptions about the wholesale price of natural gas and how this might increase over time. Instead, we assume that the extraction cost of domestic natural gas stays constant at 9.03 NZD/GJ. The marginal cost of natural gas will increase in the model as supply becomes constrained, and reflect the cost of replacing natural gas in the system.
 
 We note that the declining upstream natural gas market will likely have significant impacts on the downstream sector, particularly for feedstock use at Methanex and Ballance's Kapuni site. Demand assumptions for these and other sites are covered in the industry sector assumptions documentation. 
 

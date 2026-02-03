@@ -31,10 +31,6 @@ model-structure
 ```{toctree}
 :maxdepth: 1
 :caption: Other topics
-
-editing_docs_quickstart
 documentation_maintenance
-changelog
-
 ```
 
