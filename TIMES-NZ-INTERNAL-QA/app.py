@@ -16,16 +16,3 @@ from times_nz_internal_qa.app.server import server
 from times_nz_internal_qa.app.ui import app_ui
 
 app = App(app_ui, server)
-
-
-"""
-# from TIMES-NZ-INTERNAL-QA:
-
-refresh requirements.txt with: 
-poetry export -f requirements.txt -o requirements.txt --without-hashes
-
-deploy with: 
-poetry run rsconnect deploy shiny . \
-  --entrypoint app \
-  --title times-nz-3-alpha
-"""

@@ -71,8 +71,10 @@ Deploy to shinyapps.io by entering the following into the terminal:
 ```
 poetry run rsconnect deploy shiny . \
   --entrypoint app \
-  --title times-nz-internal-explorer \  
+  --app-id 16527158 
 ```
+
+Note that `16527158` is the app-id for `times-nz-internal-explorer`, which may be constantly changing and so is not for publication. Other relevant app-ids are available in the dashboard. 
 
 
 
