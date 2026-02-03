@@ -15,7 +15,6 @@ This avoids dumping 40MB into the repo
 # LIBRARIES -------------------------------------
 import pandas as pd
 from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
-from prepare_times_nz.utilities.logger_setup import logger
 
 # CONSTANTS -------------------------------------
 SAVE_CSV = False
@@ -34,7 +33,11 @@ def main():
     """Moves RBS data to staging dir"""
     OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
     df = pd.read_parquet(INPUT_FILE)
-    logger.info("Saving RBS data to %s", OUTPUT_FILE)
+    # logger.info("Saving RBS data to %s", OUTPUT_FILE)
+
+    df = df[df["Region"] == "NZ"]
+
+    print(df)
     df.to_parquet(OUTPUT_FILE, index=False)
 
 
