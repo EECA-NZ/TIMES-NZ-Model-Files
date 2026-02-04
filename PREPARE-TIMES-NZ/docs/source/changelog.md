@@ -8,7 +8,6 @@
 
 **Model fixes**
 - (Commerical) Resolved an error that led to some demand technologies being cheaper than intended.
-- (Natural gas) Resolved a methodological error that resulted in double-counting natural gas costs. 
 - (Transport) Ensured utilisation band constraints were properly fixed across model horizon.
 - (Transport) Resolved an error that led to electric heavy truck costs decreasing faster than intended in some scenarios. 
 - (Transport) Resolved an error that led to some vehicle types having unrealistic utilisation rates.
