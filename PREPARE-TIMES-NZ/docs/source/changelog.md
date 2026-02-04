@@ -4,7 +4,8 @@
 ## 3.0.1
 
 **Features**
-- Incorporated documentation into sphinx-based site for hosting on readthedocs.io
+- Incorporated documentation into sphinx-based site for hosting on readthedocs
+- Explorer now includes detailed transport demand, service, and capacity chart options
 
 **Model fixes**
 - (Commerical) Resolved an error that led to some demand technologies being cheaper than intended.
