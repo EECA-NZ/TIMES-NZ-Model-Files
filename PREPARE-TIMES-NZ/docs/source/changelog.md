@@ -1,6 +1,12 @@
 
 # Changelog 
 
+## 3.0.2
+
+**Model fixes**
+- (Natural gas) Fixed a methodological error that double-counted domestic natural gas costs 
+
+
 ## 3.0.1
 
 **Features**
@@ -8,7 +14,7 @@
 - Explorer now includes detailed transport demand, service, and capacity chart options
 
 **Model fixes**
-- (Commerical) Resolved an error that led to some demand technologies being cheaper than intended.
+- (Commercial) Resolved an error that led to some demand technologies being cheaper than intended.
 - (Transport) Ensured utilisation band constraints were properly fixed across model horizon.
 - (Transport) Resolved an error that led to electric heavy truck costs decreasing faster than intended in some scenarios. 
 - (Transport) Resolved an error that led to some vehicle types having unrealistic utilisation rates.
