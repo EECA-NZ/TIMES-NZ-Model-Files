@@ -553,6 +553,213 @@ def process_emissions(df):
     save_data(df_emissions, "emissions.csv")
 
 
+def process_transport_energy_demand(df):
+    """
+    Road transport sector-specific energy demand processing with utilization breakdown.
+
+    Filters energy demand for Road Transport only and extracts utilization
+    information (Low/Med/High) from process names to provide detailed breakdowns
+    by vehicle type and utilization level.
+
+    Key differences from process_energy_demand:
+    - Filters only Road Transport sector
+    - Extracts utilization level (LOW/MED/HIGH) from process identifiers
+    - Maintains detailed vehicle technology information for each mode
+    """
+
+    demand_processes = pd.read_csv(
+        PROCESS_CONCORDANCES / "demand.csv"
+    ).drop_duplicates()
+    energy_commodities = pd.read_csv(COMMODITY_CONCORDANCES / "energy.csv")
+
+    # Filter for Road Transport sector only
+    transport_processes = demand_processes[
+        (demand_processes["SectorGroup"] == "Transport")
+        & (demand_processes["Sector"] == "Road Transport")
+    ].copy()
+
+    # Get transport energy demand from the main dataframe
+    df_transport = df[df["Process"].isin(transport_processes["Process"].unique())]
+    df_transport = df_transport[df_transport["Attribute"] == "VAR_FIn"]
+
+    df_transport = df_transport.merge(transport_processes, on="Process", how="left")
+    df_transport = df_transport.merge(energy_commodities, on=["Commodity"], how="left")
+
+    # Extract utilization level from process name (LOW, MED, HIGH)
+    # Process names like T_P_CICEPET_LOW contain utilization info
+    df_transport["Utilisation"] = df_transport["Process"].str.extract(
+        r"(_LOW|_MED|_HIGH)$"
+    )
+    df_transport["Utilisation"] = (
+        df_transport["Utilisation"].str.lstrip("_").fillna("UNSPECIFIED")
+    )
+
+    # Add labels
+    df_transport["Variable"] = "Transport Energy Demand"
+    df_transport["Unit"] = "PJ"
+    df_transport["Value"] = df_transport["PV"]
+
+    # Order and select output variables with utilization breakdown
+    transport_energy_demand_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "Sector",
+        "ProcessGroup",
+        "Process",
+        "Utilisation",
+        "CommodityGroup",
+        "Commodity",
+        "Fuel",
+        "Period",
+        "Region",
+        "Vintage",
+        "TimeSlice",
+        "EnduseGroup",
+        "EndUse",
+        "TechnologyGroup",
+        "Technology",
+        "Unit",
+        "Value",
+    ]
+
+    df_transport = df_transport[transport_energy_demand_variables]
+
+    save_data(df_transport, "transport_energy_demand.csv")
+
+
+def process_transport_energy_service_demand(df):
+    """
+    Road transport sector-specific energy service demand processing with utilization breakdown.
+
+    ESD (Energy Service Demand) methods for Road Transport only.
+    Extracts utilization levels (Low/Med/High) to show how different vehicle
+    utilization scenarios impact service demand.
+
+    These outputs can be compared against transport demand constraints and show the
+    breakdown by vehicle type and utilization level, essential for understanding
+    technology deployment and modal choices.
+
+    All values are in BVkm (Billion Vehicle Kilometers).
+    """
+
+    demand_processes = pd.read_csv(
+        PROCESS_CONCORDANCES / "demand.csv"
+    ).drop_duplicates()
+    demand_commodities = pd.read_csv(COMMODITY_CONCORDANCES / "demand.csv")
+
+    # Filter for Road Transport sector only
+    transport_processes = demand_processes[
+        (demand_processes["SectorGroup"] == "Transport")
+        & (demand_processes["Sector"] == "Road Transport")
+    ].copy()
+
+    # Get the output of transport demand processes
+    tesd = df[df["Process"].isin(transport_processes["Process"].unique())].copy()
+    tesd = tesd[tesd["Commodity"].isin(demand_commodities["Commodity"].unique())]
+    tesd = tesd[tesd["Attribute"] == "VAR_FOut"]
+
+    # Include only demand commodity outputs
+    tesd = tesd.merge(transport_processes, on="Process", how="left")
+
+    # Extract utilization level from process name (LOW, MED, HIGH)
+    tesd["Utilisation"] = tesd["Process"].str.extract(r"(_LOW|_MED|_HIGH)$")
+    tesd["Utilisation"] = tesd["Utilisation"].str.lstrip("_").fillna("UNSPECIFIED")
+
+    # Variable adjustments - set unit to BVkm for all transport ESD
+    tesd["Unit"] = "BVkm"
+    tesd["Variable"] = "Transport Energy Service Demand"
+    tesd = tesd.rename(columns={"PV": "Value"})
+
+    esd_transport_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "Sector",
+        "ProcessGroup",
+        "Process",
+        "Utilisation",
+        "Commodity",
+        "Period",
+        "Region",
+        "Vintage",
+        "TimeSlice",
+        "EnduseGroup",
+        "EndUse",
+        "TechnologyGroup",
+        "Technology",
+        "Unit",
+        "Value",
+    ]
+
+    tesd = tesd[esd_transport_variables]
+
+    save_data(tesd, "transport_energy_service_demand.csv")
+
+
+def process_transport_capacity(df):
+    """
+    Road transport sector-specific capacity processing with utilization breakdown.
+
+    Processes transport capacity (VAR_CAP) for Road Transport only.
+    Extracts utilization levels (Low/Med/High) from process names to show how
+    different vehicle utilization scenarios affect fleet capacity requirements.
+
+    Essential for understanding technology deployment trajectories and vehicle
+    fleet composition evolution across different utilization scenarios.
+    """
+
+    demand_processes = pd.read_csv(
+        PROCESS_CONCORDANCES / "demand.csv"
+    ).drop_duplicates()
+
+    # Filter for Road Transport sector only
+    transport_processes = demand_processes[
+        (demand_processes["SectorGroup"] == "Transport")
+        & (demand_processes["Sector"] == "Road Transport")
+    ].copy()
+
+    # Get transport capacity data
+    tcap = df[df["Process"].isin(transport_processes["Process"].unique())].copy()
+    tcap = tcap[tcap["Attribute"] == "VAR_Cap"]
+
+    # Include only transport processes with labels
+    tcap = tcap.merge(transport_processes, on="Process", how="left")
+
+    # Extract utilization level from process name (LOW, MED, HIGH)
+    tcap["Utilisation"] = tcap["Process"].str.extract(r"(_LOW|_MED|_HIGH)$")
+    tcap["Utilisation"] = tcap["Utilisation"].str.lstrip("_").fillna("UNSPECIFIED")
+
+    # Variable adjustments
+    tcap["Variable"] = "Transport Capacity"
+    tcap["Unit"] = "000vehicles"
+    tcap = tcap.rename(columns={"PV": "Value"})
+
+    transport_capacity_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "Sector",
+        "ProcessGroup",
+        "Process",
+        "Utilisation",
+        "Period",
+        "Region",
+        "Vintage",
+        "TimeSlice",
+        "EnduseGroup",
+        "EndUse",
+        "TechnologyGroup",
+        "Technology",
+        "Unit",
+        "Value",
+    ]
+
+    tcap = tcap[transport_capacity_variables]
+
+    save_data(tcap, "transport_capacity.csv")
+
+
 def main():
     """
     Orchestrates processing for all relevant outputs.
@@ -585,6 +792,10 @@ def main():
     process_electricity_demand_by_timeslice(df)
 
     process_batteries(df)
+
+    process_transport_energy_demand(df)
+    process_transport_energy_service_demand(df)
+    process_transport_capacity(df)
 
     get_esd_by_timeslice()
 

@@ -1,0 +1,1 @@
+Module documentation is stored in `PREPARE-TIMES-NZ/docs/source`

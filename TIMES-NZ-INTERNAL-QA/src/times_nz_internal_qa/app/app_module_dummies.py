@@ -3,6 +3,7 @@ App processing for dummy processes
 """
 
 from functools import lru_cache
+from pathlib import Path
 
 import polars as pl
 from shiny import reactive
@@ -20,15 +21,16 @@ from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
 from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
 
 ## Quite messy input data processing
-
+# pylint:disable = duplicate-code
 
 # CONSTANTS ---------------------------------------
 
 ID_PREFIX = "dum"
 
 
-DUMMY_ENERGY_FILEPATH = FINAL_DATA / "dummy_energy.parquet"
-DUMMY_DEMAND_FILEPATH = FINAL_DATA / "dummy_demand.parquet"
+CLEAN_RESULTS = Path(FINAL_DATA).parent / "clean_results"
+DUMMY_ENERGY_FILEPATH = CLEAN_RESULTS / "dummy_energy.parquet"
+DUMMY_DEMAND_FILEPATH = CLEAN_RESULTS / "dummy_demand.parquet"
 
 dummy_energy_group_options = ["Fuel", "Commodity", "Region"]
 dummy_demand_group_options = [

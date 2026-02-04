@@ -11,6 +11,7 @@ pandas = "^2.2"
 numpy = "^2.0"
 doit = "^0.36"
 seaborn = "^0.13"
+filelock = "^3.20.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"
@@ -25,6 +26,15 @@ pyarrow = "^21.0"
 openpyxl = "^3.0"
 tomli-w = "^1.2"
 plotnine = "^0.15.0"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^8.0"
+myst-parser = "^4.0.1"
+sphinx-autobuild = "^2024.1"
+sphinx-book-theme = "^1.1.4"
+furo = "^2025.9.25"
+docxbuilder = {extras = ["math"], version = "^1.2.0"}
+roman-numerals = "^4.1.0"
 
 [[tool.poetry.include]]
 path = "prepare_times_nz/data/**/*.csv"
