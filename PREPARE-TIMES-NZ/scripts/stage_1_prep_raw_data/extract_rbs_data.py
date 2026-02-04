@@ -14,6 +14,7 @@ This avoids dumping 40MB into the repo
 
 # LIBRARIES -------------------------------------
 import pandas as pd
+from prepare_times_nz.utilities.data_cleaning import rename_columns_to_pascal
 from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
 
 # CONSTANTS -------------------------------------
@@ -41,5 +42,23 @@ def main():
     df.to_parquet(OUTPUT_FILE, index=False)
 
 
+def show_categories():
+    """testing function to list aavailbale categories in df"""
+
+    df = pd.read_parquet(INPUT_FILE)
+    df = df[df["Region"] == "NZ"]
+
+    df = rename_columns_to_pascal(df)
+
+    categories = df["EndUseCategory"].unique().tolist()
+
+    for cat in categories:
+
+        print(cat)
+
+
 if __name__ == "__main__":
+
+    # Get RBS data
     main()
+    show_categories()
