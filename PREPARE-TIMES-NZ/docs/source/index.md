@@ -17,5 +17,6 @@ model_methodology/index
 ```{toctree}
 :maxdepth: 1
 developer_guide/index
+changelog
 ```
 
