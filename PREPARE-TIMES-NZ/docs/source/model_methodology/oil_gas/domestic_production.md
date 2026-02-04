@@ -17,20 +17,9 @@ alt: Gas production profiles as reported from 1 January 2020 through 1 January 2
 ---
 Gas production profiles as reported from 1 January 2020 through 1 January 2025
 ```
-We assume that the wholesale price of natural gas continues to rise as supply approaches 0, reaching 35 NZD/GJ by 2050. In TIMES-NZ, this price signal will encourage fuel switching where possible, although supply limitations may have a greater effect. We assume prices follow the trend as described in {numref}`tab_gas_price_assumptions`.
+We make no assumptions regarding the wholesale price of natural gas in the model. Rather, we assume the production cost remains flat at 9.03 NZD/GJ, and allow the model to optimise how best to distribute the shrinking supply. As demand continues to outstrip supply, this effectively means that the marginal "system cost" of consuming an additional unit of natural gas is equivalent to the cost of replacing it - usually through fuel switching - elsewhere in the system. 
 
-```{csv-table} Natural gas wholesale price assumptions[^mbie_prices]
-:name: tab_gas_price_assumptions
-:header-rows: 1
-
-,2023,2024,2030,2050
-NZD/GJ,9.3,12.03,25,35
-
-```
-
-Currently, these natural gas prices hold the same in both scenarios.
-
-We note that the declining upstream natural gas market will likely have significant impacts on the downstream sector, particularly for feedstock use at Methanex and Ballance's Kapuni site. Demand assumptions for these and other sites are covered in the industry sector assumptions documentation. 
+We note that the declining upstream natural gas market will likely have significant impacts on the downstream sector, particularly for feedstock use at Methanex and Ballance's Kapuni site. We currently allow Methanex and Ballance to reduce their activity, effectively exiting the market, at an assumed system cost price. Further details for these and other sites are covered in the industry sector assumptions documentation. 
 
 
 [^mbie_reserves]: MBIE | [Petroleum reserves data](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/petroleum-reserves-data)
