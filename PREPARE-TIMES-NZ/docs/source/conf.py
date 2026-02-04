@@ -9,7 +9,7 @@
 
 project = "PREPARE-TIMES-NZ"
 author = "Luke Searle, Achini Weerasinghe"
-release = "v3.0.0"
+release = "v3.0.1"
 
 html_show_copyright = False
 # -- General configuration ---------------------------------------------------
@@ -64,7 +64,7 @@ html_js_files = ["table_expand.js"]
 docx_style = "_templates/EECATemplate.docx"
 
 
-version_for_word = "TIMES-NZ 3.0.1"
+version_for_word = f"TIMES-NZ {release}"
 
 docx_documents = [
     # (startdocname, targetname, docproperties, toctree_only)

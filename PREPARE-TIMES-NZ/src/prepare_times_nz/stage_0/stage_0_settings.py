@@ -10,7 +10,7 @@ c) Period definitions (PDef)
 
 NOTE: This was developed slightly late in the process.
 However, a lot of items should really be importing base and milestone years from here
-So some scripts should be refactored
+So some scripts should be refactored to import these rather than hardcoding
 
 Year fractions are processed separately in load curves so are not included here
 """
