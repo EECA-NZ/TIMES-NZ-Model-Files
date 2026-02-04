@@ -76,5 +76,11 @@ poetry run rsconnect deploy shiny . \
 
 Note that `16527158` is the app-id for `times-nz-internal-explorer`, which may be constantly changing and so is not for publication. Other relevant app-ids are available in the dashboard. 
 
+Alternatively, deploy a new version-specific build like so: 
 
-
+```
+poetry run rsconnect deploy shiny . \
+  --entrypoint app \
+  --title times-nz-internal-explorer-v301 \
+  --new
+```
