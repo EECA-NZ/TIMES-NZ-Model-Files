@@ -14,8 +14,8 @@ This script:
 2) Identifies residential GXPs and uses 2023 residential GXP demand per timeslice.
    This is only for forming COM_FR for residential demand. We do NOT adjust these
    per island. We will maintain these residential shares.
-
 Potential additional features (not yet implemented):
+
 
 1) Load RBS data to distinguish residential load curves more fully.
    These should be based on the base year, but distinguish commodities per timeslice.
@@ -40,11 +40,7 @@ Potential checking outputs:
   this shows the 6GW peak load we're representing.
 """
 
-from prepare_times_nz.stage_2 import load_curves
+from prepare_times_nz.stage_2.load_curves import national_curves
 
 if __name__ == "__main__":
-    load_curves.main()
-
-# Tests
-# load_curves.test_average_loads()
-# load_curves.estimate_res_real_peak()
+    national_curves.main()

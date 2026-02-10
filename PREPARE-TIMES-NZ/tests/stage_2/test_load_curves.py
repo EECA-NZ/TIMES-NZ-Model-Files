@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from prepare_times_nz.stage_2 import load_curves as lc
+from prepare_times_nz.stage_2.load_curves import national_curves as lc
 
 BASE_YEAR = 2023
 

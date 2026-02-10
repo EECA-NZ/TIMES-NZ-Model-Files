@@ -35,30 +35,12 @@ def main():
     OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
     df = pd.read_parquet(INPUT_FILE)
     # logger.info("Saving RBS data to %s", OUTPUT_FILE)
-
     df = df[df["Region"] == "NZ"]
-
-    print(df)
+    # tidy varnames
+    df = rename_columns_to_pascal(df)
     df.to_parquet(OUTPUT_FILE, index=False)
 
 
-def show_categories():
-    """testing function to list aavailbale categories in df"""
-
-    df = pd.read_parquet(INPUT_FILE)
-    df = df[df["Region"] == "NZ"]
-
-    df = rename_columns_to_pascal(df)
-
-    categories = df["EndUseCategory"].unique().tolist()
-
-    for cat in categories:
-
-        print(cat)
-
-
 if __name__ == "__main__":
-
     # Get RBS data
     main()
-    show_categories()

@@ -111,7 +111,11 @@ def build_residential_df() -> pd.DataFrame:
     """Build residential load-curve table."""
     path = LOAD_CURVE_DATA / "residential_curves.csv"
     logger.info("Reading residential curves from %s", path)
-    return _from_loadcurve(pd.read_csv(path), sector_default_cset_cn="JD*,DD*")
+
+    res_df = pd.read_csv(path)
+    res_df["Year"] = 2023
+    print(res_df)
+    return _from_loadcurve(res_df)
 
 
 def build_agriculture_df() -> pd.DataFrame:
