@@ -1,15 +1,14 @@
 
 # Changelog 
 
-
 ## 3.0.2
 
 **Features**
-- Added more detail to residential load curves by using RBS data for different demand profiles of different uses
+- Added more detail to residential load curves, allowing for different load profiles per use type.
 
 **Model fixes**
-- Resolved an error that undercounted space heating demand in detached dwellings.
-
+- (Residential) Resolved an error that undercounted space heating demand in detached dwellings.
+- (Natural gas) Fixed a methodological error that double-counted domestic natural gas costs.
 
 ## 3.0.1
 
@@ -18,7 +17,7 @@
 - Explorer now includes detailed transport demand, service, and capacity chart options
 
 **Model fixes**
-- (Commerical) Resolved an error that led to some demand technologies being cheaper than intended.
+- (Commercial) Resolved an error that led to some demand technologies being cheaper than intended.
 - (Transport) Ensured utilisation band constraints were properly fixed across model horizon.
 - (Transport) Resolved an error that led to electric heavy truck costs decreasing faster than intended in some scenarios. 
 - (Transport) Resolved an error that led to some vehicle types having unrealistic utilisation rates.
