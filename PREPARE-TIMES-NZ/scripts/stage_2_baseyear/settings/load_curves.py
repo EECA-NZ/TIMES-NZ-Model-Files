@@ -40,7 +40,8 @@ Potential checking outputs:
   this shows the 6GW peak load we're representing.
 """
 
-from prepare_times_nz.stage_2.load_curves import national_curves
+from prepare_times_nz.stage_2.load_curves import national_curves, residential_curves
 
 if __name__ == "__main__":
     national_curves.main()
+    residential_curves.main()

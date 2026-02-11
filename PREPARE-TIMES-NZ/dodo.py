@@ -197,6 +197,7 @@ STAGE_1: dict[str, list[str]] = {
     ],
     "extract_mbie_data": ["mbie/gen_stack.csv"],
     "extract_nrel_data": ["nrel/future_electricity_costs.csv"],
+    "extract_rbs_data": ["rbs/power_demand_by_tou.parquet.csv"],
     "extract_snz_data": ["statsnz/cpi.csv", "statsnz/cgpi.csv"],
     "extract_gic_data": ["gic/gic_production_consumption.csv"],
     "extract_mvr_fleet_data": ["fleet_vkt_pj/vehicle_counts_2023.csv"],
