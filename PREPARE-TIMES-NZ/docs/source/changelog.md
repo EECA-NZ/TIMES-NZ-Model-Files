@@ -1,6 +1,16 @@
 
 # Changelog 
 
+
+## 3.0.2
+
+**Features**
+- Added more detail to residential load curves by using RBS data for different demand profiles of different uses
+
+**Model fixes**
+- Resolved an error that undercounted space heating demand in detached dwellings.
+
+
 ## 3.0.1
 
 **Features**

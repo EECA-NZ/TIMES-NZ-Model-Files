@@ -9,7 +9,7 @@
 
 project = "PREPARE-TIMES-NZ"
 author = "Luke Searle, Achini Weerasinghe"
-release = "v3.0.1"
+release = "v3.0.2"
 
 html_show_copyright = False
 # -- General configuration ---------------------------------------------------
