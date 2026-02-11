@@ -14,6 +14,18 @@ from prepare_times_nz.utilities.filepaths import (
     STAGE_2_DATA,
 )
 
+# ASSUMPTIONS -----------------------------------------------
+
+RIPPLE_SHARE = 0.5
+
+# the share of space conditioning dedicated to heating each season
+HEATING_SHARE_ASSUMPTIONS = {
+    "Winter": 1,
+    "Summer": 0,
+    "Spring": 0.9,
+    "Autumn": 0.9,
+}
+
 # Filepaths ----------------------------------------
 
 LOAD_CURVE_DATA = STAGE_2_DATA / "settings/load_curves"
@@ -63,18 +75,12 @@ def split_space_conditioning(df):
     """
 
     # set assumptions
-    heating_share_assumptions = {
-        "Winter": 1,
-        "Summer": 0,
-        "Spring": 0.9,
-        "Autumn": 0.9,
-    }
 
     # split out space conditioning
     df_cond = df[df["EndUseCategory"] == "Space conditioning"].copy()
     # remove from main
     df_no_cond = df[df["EndUseCategory"] != "Space conditioning"].copy()
-    df_cond["HeatShare"] = df_cond["Season"].map(heating_share_assumptions)
+    df_cond["HeatShare"] = df_cond["Season"].map(HEATING_SHARE_ASSUMPTIONS)
 
     # calc heating
     df_heating = df_cond.copy()
@@ -225,7 +231,54 @@ def agg_years(df):
     return df
 
 
-def make_com_fr(df):
+def shift_ripple_water_heating(df, ripple_share=RIPPLE_SHARE):
+    """
+    Adjust ripple-controlled water heating to nighttime in each day period
+    Doing this based on the calculated GWh and an input share
+
+    Can slot this in before creating the com_fr from gwh
+
+    """
+
+    if not 0 <= ripple_share <= 1:
+        raise ValueError("ripple_share must be between 0 and 1.")
+
+    out = df.copy()
+    # get ts components
+    ts_prefix = out["TimeSlice"].str.rsplit("-", n=1).str[0]
+    ts_tod = out["TimeSlice"].str.rsplit("-", n=1).str[1]
+
+    # hotwater mapping
+    is_hw = out["EndUse"].eq("Low Temperature Heat (<100 C), Water Heating")
+    # id timeslices
+    hw_peak = is_hw & ts_tod.eq("P")
+    hw_night = is_hw & ts_tod.eq("N")
+
+    # amount to adjust
+    delta = out.loc[hw_peak, "GWh"] * ripple_share
+    # remove from hw peak
+    out.loc[hw_peak, "GWh"] = out.loc[hw_peak, "GWh"] - delta
+
+    # gather how much was added for each timeslice prefix group
+    add_by_prefix = (
+        pd.DataFrame({"_prefix": ts_prefix[hw_peak].values, "_add": delta.values})
+        .groupby("_prefix", as_index=False)["_add"]
+        .sum()
+    )
+
+    # add to the main df
+    out["_prefix"] = ts_prefix.values
+    out = out.merge(add_by_prefix, on="_prefix", how="left")
+    out["_add"] = out["_add"].fillna(0.0)
+    # use to add the delta to the night timeslice
+    out.loc[hw_night, "GWh"] = out.loc[hw_night, "GWh"] + out.loc[hw_night, "_add"]
+    # trim excess
+    out = out.drop(columns=["_prefix", "_add"])
+
+    return out
+
+
+def make_com_fr(df, adjust_hw_for_ripple=False, ripple_share=RIPPLE_SHARE):
     """
     Convert inputs to commodity fraction
 
@@ -234,6 +287,9 @@ def make_com_fr(df):
 
     If we take the GWh we'll double count
          unless we split up white goods and any other larger rbs categories
+
+
+    Adds optional method to shift a % of peak water heating demand to Night
     """
 
     df = df.copy()
@@ -250,6 +306,10 @@ def make_com_fr(df):
 
     df["MWh"] = df["AverageMW"] * df["YRFR"] * 365 * 24
     df["GWh"] = df["MWh"] / 1e3
+
+    if adjust_hw_for_ripple:
+
+        df = shift_ripple_water_heating(df, ripple_share)
 
     df["LoadCurve"] = df["GWh"] / df.groupby(["EndUse"])["GWh"].transform("sum")
 
@@ -290,6 +350,14 @@ def main():
     # save
     _save_data(
         com_fr, "residential_curves.csv", "Residential load curves", OUTPUT_LOCATION
+    )
+    # repeat with ripple adjustment for alternative approach
+    com_fr_adjust = make_com_fr(rbs_df, adjust_hw_for_ripple=True)
+    _save_data(
+        com_fr_adjust,
+        "residential_curves_with_ripple.csv",
+        "Residential load curves (rippled)",
+        OUTPUT_LOCATION,
     )
 
 
