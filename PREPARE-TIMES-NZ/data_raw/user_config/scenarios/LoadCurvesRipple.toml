@@ -1,7 +1,8 @@
-# Load Curves
+# Load Curves with Ripple
 # Scenario file to electricity load curves for each sector.
+# This alternative version shifts peak hot water demand to night timeslices 
 
-WorkBookName = "SuppXLS/Scen_LoadCurve_COM-FR"
+WorkBookName = "SuppXLS/Scen_LoadCurve_COM-FR_Rippled"
 
 [LoadCurvesCOMFR_IND]
 Description  = "Defines annual electricity demand timeslices or load curve for industrial sub-sectors"

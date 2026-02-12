@@ -201,6 +201,10 @@ def aggregate_dwelling_types(
     }
 
     df = df.copy()
+
+    ds = df["DwellingType"].unique()
+    for d in ds:
+        print(d)
     df["DwellingType"] = df["DwellingType"].map(dwelling_type_mapping)
 
     # Sum 'Value' by all columns except itself to aggregate new dwellings

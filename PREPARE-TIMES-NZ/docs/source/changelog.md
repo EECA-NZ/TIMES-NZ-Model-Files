@@ -3,9 +3,12 @@
 
 ## 3.0.2
 
-**Model fixes**
-- (Natural gas) Fixed a methodological error that double-counted domestic natural gas costs 
+**Features**
+- Added more detail to residential load curves, allowing for different load profiles per use type.
 
+**Model fixes**
+- (Residential) Resolved an error that undercounted space heating demand in detached dwellings.
+- (Natural gas) Fixed a methodological error that double-counted domestic natural gas costs.
 
 ## 3.0.1
 

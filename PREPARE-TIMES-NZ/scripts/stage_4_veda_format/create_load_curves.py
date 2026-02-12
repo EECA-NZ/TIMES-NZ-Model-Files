@@ -107,11 +107,15 @@ def build_industry_df() -> pd.DataFrame:
     return _coerce_and_order(df)
 
 
-def build_residential_df() -> pd.DataFrame:
+def build_residential_df(filepath) -> pd.DataFrame:
     """Build residential load-curve table."""
-    path = LOAD_CURVE_DATA / "residential_curves.csv"
+
+    path = LOAD_CURVE_DATA / filepath
     logger.info("Reading residential curves from %s", path)
-    return _from_loadcurve(pd.read_csv(path), sector_default_cset_cn="JD*,DD*")
+    res_df = pd.read_csv(path)
+    res_df["Year"] = 2023
+    print(res_df)
+    return _from_loadcurve(res_df)
 
 
 def build_agriculture_df() -> pd.DataFrame:
@@ -143,7 +147,10 @@ def main() -> None:
     """Generate and export COM_FR load-curve tables for each sector."""
     outputs = {
         "com_fr_industry.csv": build_industry_df(),
-        "com_fr_residential.csv": build_residential_df(),
+        "com_fr_residential.csv": build_residential_df("residential_curves.csv"),
+        "com_fr_residential_ripple.csv": build_residential_df(
+            "residential_curves_with_ripple.csv"
+        ),
         "com_fr_agriculture.csv": build_agriculture_df(),
         "com_fr_commercial.csv": build_commercial_df(),
     }

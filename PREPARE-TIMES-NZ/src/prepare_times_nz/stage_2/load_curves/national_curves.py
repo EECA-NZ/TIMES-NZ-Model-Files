@@ -1,19 +1,28 @@
+"""
+Compiles year fractions, timeslice defitions, and national load curves
+from half-hourly demand data
+
+can do residential-specific curves but we prefer rbs for this
+
+Check: are we using anything from this script at all anymore?
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_1_DATA, STAGE_2_DATA
 from prepare_times_nz.utilities.logger_setup import logger
 
-# CONSTANTS -------------------------------------------------------
-
-
-BASE_YEAR = 2023
 # FILEPATHS -------------------------------------------------------
 
 EA_DATA_DIR = STAGE_1_DATA / "electricity_authority"
 LOAD_CURVE_ASSUMPTIONS = ASSUMPTIONS / "load_curves"
 OUTPUT_LOCATION = STAGE_2_DATA / "settings/load_curves"
 CHECKS_LOCATION = OUTPUT_LOCATION / "checks"
+
+# settings --------------------------------------------------------------
+USE_EMI_RES_CURVES = False
 
 # INPUT DATA LOCATIONS -------------------------------------------------------
 GXP_SHARES_FILE = LOAD_CURVE_ASSUMPTIONS / "gxp_shares.csv"
@@ -226,9 +235,9 @@ def get_residential_total_demand():
         eeud_res.groupby(["Year", "SectorGroup", "Unit"])["Value"].sum().reset_index()
     )
     # convert TJ to GWh
-    TJ_TO_GWH = 1 / 3.6
+    tj_to_gwh = 1 / 3.6
     eeud_res["Unit"] = "GWh"
-    eeud_res["Value"] = eeud_res["Value"] * TJ_TO_GWH
+    eeud_res["Value"] = eeud_res["Value"] * tj_to_gwh
 
     return eeud_res
 
@@ -428,5 +437,14 @@ def main():
     yrfr = get_yrfr(national_timeslices)
     yrfr.to_csv(OUTPUT_LOCATION / "yrfr.csv", index=False)
 
-    residential_curves = get_residential_curves(emi_timeslice)
-    residential_curves.to_csv(OUTPUT_LOCATION / "residential_curves.csv", index=False)
+    if USE_EMI_RES_CURVES:
+        residential_curves = get_residential_curves(emi_timeslice)
+        residential_curves.to_csv(
+            OUTPUT_LOCATION / "residential_curves.csv", index=False
+        )
+    else:
+        logger.info("Not using EMI data for residential curves")
+
+
+if __name__ == "__main__":
+    main()
