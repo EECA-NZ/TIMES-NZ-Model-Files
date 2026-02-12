@@ -22,7 +22,7 @@ TagName      = "TFM_INS"
 DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_commercial.csv"
 
 [LoadCurvesCOMFR_RES]
-Description  = "Defines annual electricity demand timeslices or load curve for residential sub-sectors"
+Description  = "Defines annual electricity demand timeslices or load curve for residential sub-sectors, including ripple hot water."
 SheetName    = "RES"
 TagName      = "TFM_INS"
-DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_residential.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_residential_ripple.csv"
