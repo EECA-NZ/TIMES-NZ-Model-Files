@@ -14,7 +14,10 @@
 - Explorer now includes detailed transport demand, service, and capacity chart options
 
 **Model fixes**
+- (Biofuel) Ensured electricity demand was integrated into biofuel transformation processes.
 - (Commercial) Resolved an error that led to some demand technologies being cheaper than intended.
+- (Electricity) Ensured biogas and biomethane were made available as options for existing gas-fired plants.
+- (Electricity) Allowed Huntly Rankines to use black pellets. 
 - (Transport) Ensured utilisation band constraints were properly fixed across model horizon.
 - (Transport) Resolved an error that led to electric heavy truck costs decreasing faster than intended in some scenarios. 
 - (Transport) Resolved an error that led to some vehicle types having unrealistic utilisation rates.
