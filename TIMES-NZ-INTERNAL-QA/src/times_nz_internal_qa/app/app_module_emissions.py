@@ -46,7 +46,7 @@ ems_filters_raw = [
     # {"col": "PlantName"},
 ]
 # build filter dict
-ems_filters = create_filter_dict("emissions", ems_filters_raw)
+ems_filters = create_filter_dict(chart_id="ems", filters=ems_filters_raw)
 # base group options on defined filter options
 ems_group_options = [d["col"] for d in ems_filters_raw]
 
