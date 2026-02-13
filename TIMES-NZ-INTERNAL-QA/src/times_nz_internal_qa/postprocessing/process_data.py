@@ -390,6 +390,7 @@ def process_energy_service_demand(df):
     ESD methods, or the output of demand devices
     These should basically line up with our constraints so will be good to measure these
     We have to be quite careful with units both in processing and display
+    Excludes Road Transport which is handled separately in process_transport_energy_service_demand
     """
 
     demand_processes = pd.read_csv(
@@ -397,6 +398,14 @@ def process_energy_service_demand(df):
     ).drop_duplicates()
     demand_commodities = pd.read_csv(COMMODITY_CONCORDANCES / "demand.csv")
     com_units = pd.read_csv(COMMODITY_CONCORDANCES / "commodity_sets_and_units.csv")
+
+    # Exclude Road Transport sector processes (handled separately)
+    demand_processes = demand_processes[
+        ~(
+            (demand_processes["SectorGroup"] == "Transport")
+            & (demand_processes["Sector"] == "Road Transport")
+        )
+    ].copy()
 
     # get the output of all demand processes
     esd = df[df["Process"].isin(demand_processes["Process"].unique())].copy()
