@@ -26,15 +26,15 @@ Demand,C_OFFC-SH,Commercial,Office Blocks,"Low Temperature Heat (<100 C), Space 
 Demand,C_OFFC-WH,Commercial,Office Blocks,"Low Temperature Heat (<100 C), Water Heating"
 Demand,C_OFFC-MPS,Commercial,Office Blocks,"Motive Power, Stationary"
 Demand,C_OFFC-MPM,Commercial,Office Blocks,"Motive Power, Mobile"
-Demand,C_OTH-OTH,Commercial,Other,Electronics and Other Electrical Uses
-Demand,C_OTH-LT,Commercial,Other,Lighting
-Demand,C_OTH-SC,Commercial,Other,Space Cooling
-Demand,C_OTH-SH,Commercial,Other,"Low Temperature Heat (<100 C), Space Heating"
-Demand,C_OTH-WH,Commercial,Other,"Low Temperature Heat (<100 C), Water Heating"
-Demand,C_OTH-MPS,Commercial,Other,"Motive Power, Stationary"
-Demand,C_OTH-PUMP,Commercial,Other,Pumping
-Demand,C_OTH-MPM,Commercial,Other,"Motive Power, Mobile"
-Demand,C_OTH-PH,Commercial,Other,"Intermediate Heat (100-300 C), Process Requirements"
+Demand,C_OTH-OTH,Commercial,Other Commercial,Electronics and Other Electrical Uses
+Demand,C_OTH-LT,Commercial,Other Commercial,Lighting
+Demand,C_OTH-SC,Commercial,Other Commercial,Space Cooling
+Demand,C_OTH-SH,Commercial,Other Commercial,"Low Temperature Heat (<100 C), Space Heating"
+Demand,C_OTH-WH,Commercial,Other Commercial,"Low Temperature Heat (<100 C), Water Heating"
+Demand,C_OTH-MPS,Commercial,Other Commercial,"Motive Power, Stationary"
+Demand,C_OTH-PUMP,Commercial,Other Commercial,Pumping
+Demand,C_OTH-MPM,Commercial,Other Commercial,"Motive Power, Mobile"
+Demand,C_OTH-PH,Commercial,Other Commercial,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,C_WSR-OTH,Commercial,WSR,Electronics and Other Electrical Uses
 Demand,C_WSR-LT,Commercial,WSR,Lighting
 Demand,C_WSR-CK,Commercial,WSR,"Intermediate Heat (100-300 C), Cooking"
@@ -151,18 +151,18 @@ Demand,MNRL-FURNC-PH_HIGH,Industry,Non-Metallic Mineral Product Manufacturing,"H
 Demand,MNRL-FURNC-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,MNRL-MOTOR-MTV_STA,Industry,Non-Metallic Mineral Product Manufacturing,"Motive Power, Stationary"
 Demand,MNRL-PUMP-PUMP,Industry,Non-Metallic Mineral Product Manufacturing,Pumping
-Demand,OTHR-ELCTR-ELCTR,Industry,Other,Electronics and Other Electrical Uses
-Demand,OTHR-LIGHT-LIGHT,Industry,Other,Lighting
-Demand,OTHR-BOILR-PH_INT,Industry,Other,"Intermediate Heat (100-300 C), Process Requirements"
-Demand,OTHR-BOILR-PH_LOW,Industry,Other,"Low Temperature Heat (<100 C), Process Requirements"
-Demand,OTHR-SH_LOW,Industry,Other,"Low Temperature Heat (<100 C), Space Heating"
-Demand,OTHR-EFURNC-PH_HIGH,Industry,Other,"High Temperature Heat (>300 C), Process Requirements"
-Demand,OTHR-FURNC-PH_HIGH,Industry,Other,"High Temperature Heat (>300 C), Process Requirements"
-Demand,OTHR-HEATR-PH_INT,Industry,Other,"Intermediate Heat (100-300 C), Process Requirements"
-Demand,OTHR-HEATR-PH_LOW,Industry,Other,"Low Temperature Heat (<100 C), Process Requirements"
-Demand,OTHR-ICENG-MTV_MOB,Industry,Other,"Motive Power, Mobile"
-Demand,OTHR-MOTOR-MTV_STA,Industry,Other,"Motive Power, Stationary"
-Demand,OTHR-PUMP-PUMP,Industry,Other,Pumping
+Demand,OTHR-ELCTR-ELCTR,Industry,Other Industry,Electronics and Other Electrical Uses
+Demand,OTHR-LIGHT-LIGHT,Industry,Other Industry,Lighting
+Demand,OTHR-BOILR-PH_INT,Industry,Other Industry,"Intermediate Heat (100-300 C), Process Requirements"
+Demand,OTHR-BOILR-PH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,OTHR-SH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Space Heating"
+Demand,OTHR-EFURNC-PH_HIGH,Industry,Other Industry,"High Temperature Heat (>300 C), Process Requirements"
+Demand,OTHR-FURNC-PH_HIGH,Industry,Other Industry,"High Temperature Heat (>300 C), Process Requirements"
+Demand,OTHR-HEATR-PH_INT,Industry,Other Industry,"Intermediate Heat (100-300 C), Process Requirements"
+Demand,OTHR-HEATR-PH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,OTHR-ICENG-MTV_MOB,Industry,Other Industry,"Motive Power, Mobile"
+Demand,OTHR-MOTOR-MTV_STA,Industry,Other Industry,"Motive Power, Stationary"
+Demand,OTHR-PUMP-PUMP,Industry,Other Industry,Pumping
 Demand,PULP-ACOMP-COMP_AIR,Industry,Pulp and Paper,Compressed Air
 Demand,PULP-ELCTR-ELCTR,Industry,Pulp and Paper,Electronics and Other Electrical Uses
 Demand,PULP-FAN-FAN,Industry,Pulp and Paper,Fans

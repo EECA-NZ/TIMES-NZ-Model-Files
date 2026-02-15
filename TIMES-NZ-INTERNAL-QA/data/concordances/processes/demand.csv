@@ -64,26 +64,26 @@ Demand,C_OFFC-SH-Boiler-NGA,C_OFFC-SH,Commercial,Office Blocks,Heating/Cooling,"
 Demand,C_OFFC-SH-Burner-NGA,C_OFFC-SH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,C_OFFC-WH-Cylinder-NGA,C_OFFC-WH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
 Demand,C_OFFC-MPM-MPM-NGA,C_OFFC-MPM,Commercial,Office Blocks,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,C_OTH-OTH-ELEC-ELC,C_OTH-OTH,Commercial,Other,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
-Demand,C_OTH-LT-FLU-ELC,C_OTH-LT,Commercial,Other,Electronics and Lighting,Lighting,Electronics and Lights,Lights (Fluorescent)
-Demand,C_OTH-LT-INC-ELC,C_OTH-LT,Commercial,Other,Electronics and Lighting,Lighting,Electronics and Lights,Lights (Incandescent)
-Demand,C_OTH-LT-LED-ELC,C_OTH-LT,Commercial,Other,Electronics and Lighting,Lighting,Electronics and Lights,Lights (LED)
-Demand,C_OTH-SC-AIRHP-ELC,C_OTH-SC,Commercial,Other,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump (for Cooling)
-Demand,C_OTH-SH-AIRHP-ELC,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (for Heating)
-Demand,C_OTH-WH-Cylinder-ELC,C_OTH-WH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
-Demand,C_OTH-SH-RH-ELC,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Resistance Heater
-Demand,C_OTH-MPS-MPS-ELC,C_OTH-MPS,Commercial,Other,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
-Demand,C_OTH-PUMP-PUMP-ELC,C_OTH-PUMP,Commercial,Other,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
-Demand,C_OTH-SH-Boiler-COA,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-WH-Boiler-COA,C_OTH-WH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-SH-Boiler-DSL,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-MPM-MPM-DSL,C_OTH-MPM,Commercial,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,C_OTH-SH-Boiler-NGA,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-SH-Burner-NGA,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
-Demand,C_OTH-WH-Cylinder-NGA,C_OTH-WH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
-Demand,C_OTH-MPM-MPM-PET,C_OTH-MPM,Commercial,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,C_OTH-PH-Burner-BIG,C_OTH-PH,Commercial,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Burner (Direct Heat)
-Demand,C_OTH-WH-DirectH-GEO,C_OTH-WH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Direct Heat
+Demand,C_OTH-OTH-ELEC-ELC,C_OTH-OTH,Commercial,Other Commercial,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
+Demand,C_OTH-LT-FLU-ELC,C_OTH-LT,Commercial,Other Commercial,Electronics and Lighting,Lighting,Electronics and Lights,Lights (Fluorescent)
+Demand,C_OTH-LT-INC-ELC,C_OTH-LT,Commercial,Other Commercial,Electronics and Lighting,Lighting,Electronics and Lights,Lights (Incandescent)
+Demand,C_OTH-LT-LED-ELC,C_OTH-LT,Commercial,Other Commercial,Electronics and Lighting,Lighting,Electronics and Lights,Lights (LED)
+Demand,C_OTH-SC-AIRHP-ELC,C_OTH-SC,Commercial,Other Commercial,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump (for Cooling)
+Demand,C_OTH-SH-AIRHP-ELC,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (for Heating)
+Demand,C_OTH-WH-Cylinder-ELC,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
+Demand,C_OTH-SH-RH-ELC,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Resistance Heater
+Demand,C_OTH-MPS-MPS-ELC,C_OTH-MPS,Commercial,Other Commercial,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
+Demand,C_OTH-PUMP-PUMP-ELC,C_OTH-PUMP,Commercial,Other Commercial,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
+Demand,C_OTH-SH-Boiler-COA,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-WH-Boiler-COA,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-SH-Boiler-DSL,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-MPM-MPM-DSL,C_OTH-MPM,Commercial,Other Commercial,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,C_OTH-SH-Boiler-NGA,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-SH-Burner-NGA,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
+Demand,C_OTH-WH-Cylinder-NGA,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
+Demand,C_OTH-MPM-MPM-PET,C_OTH-MPM,Commercial,Other Commercial,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,C_OTH-PH-Burner-BIG,C_OTH-PH,Commercial,Other Commercial,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Burner (Direct Heat)
+Demand,C_OTH-WH-DirectH-GEO,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Direct Heat
 Demand,C_WSR-OTH-ELEC-ELC,C_WSR-OTH,Commercial,WSR,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,C_WSR-LT-FLU-ELC,C_WSR-LT,Commercial,WSR,Electronics and Lighting,Lighting,Electronics and Lights,Lights (Fluorescent)
 Demand,C_WSR-LT-INC-ELC,C_WSR-LT,Commercial,WSR,Electronics and Lighting,Lighting,Electronics and Lights,Lights (Incandescent)
@@ -201,27 +201,27 @@ Demand,C_WSR-MPS-MPS-H2R,C_WSR-MPS,Commercial,WSR,Stationary Motive Power,"Motiv
 Demand,C_WSR-MPS-MPS-H2R,C_WSR-MPS,Commercial,WSR,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,C_WSR-SC-GHP-ELC,C_WSR-SC,Commercial,WSR,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
 Demand,C_WSR-SC-GHP-ELC,C_WSR-SC,Commercial,WSR,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
-Demand,C_OTH-SH-Boiler-WOD,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-SH-Boiler-PLT,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-SH-Boiler-ELC,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-SH-Boiler-BIG,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-SH-Boiler-H2R,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-WH-Boiler-WOD,C_OTH-WH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-WH-Boiler-PLT,C_OTH-WH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-WH-Boiler-ELC,C_OTH-WH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-WH-Boiler-BIG,C_OTH-WH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-WH-Boiler-H2R,C_OTH-WH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-SH-GHP-ELC,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
-Demand,C_OTH-SH-GHP-ELC,C_OTH-SH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
-Demand,C_OTH-WH-AirHP-ELC,C_OTH-WH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",,
-Demand,C_OTH-WH-GHP-ELC,C_OTH-WH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
-Demand,C_OTH-WH-GHP-ELC,C_OTH-WH,Commercial,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
-Demand,C_OTH-MPM-MPM-ELC,C_OTH-MPM,Commercial,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,C_OTH-MPM-MPM-H2R,C_OTH-MPM,Commercial,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,C_OTH-MPS-MPS-H2R,C_OTH-MPS,Commercial,Other,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
-Demand,C_OTH-MPS-MPS-H2R,C_OTH-MPS,Commercial,Other,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
-Demand,C_OTH-SC-GHP-ELC,C_OTH-SC,Commercial,Other,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
-Demand,C_OTH-SC-GHP-ELC,C_OTH-SC,Commercial,Other,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+Demand,C_OTH-SH-Boiler-WOD,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-SH-Boiler-PLT,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-SH-Boiler-ELC,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-SH-Boiler-BIG,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-SH-Boiler-H2R,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-WH-Boiler-WOD,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-WH-Boiler-PLT,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-WH-Boiler-ELC,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-WH-Boiler-BIG,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-WH-Boiler-H2R,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-SH-GHP-ELC,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
+Demand,C_OTH-SH-GHP-ELC,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+Demand,C_OTH-WH-AirHP-ELC,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",,
+Demand,C_OTH-WH-GHP-ELC,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
+Demand,C_OTH-WH-GHP-ELC,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
+Demand,C_OTH-MPM-MPM-ELC,C_OTH-MPM,Commercial,Other Commercial,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,C_OTH-MPM-MPM-H2R,C_OTH-MPM,Commercial,Other Commercial,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,C_OTH-MPS-MPS-H2R,C_OTH-MPS,Commercial,Other Commercial,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
+Demand,C_OTH-MPS-MPS-H2R,C_OTH-MPS,Commercial,Other Commercial,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+Demand,C_OTH-SC-GHP-ELC,C_OTH-SC,Commercial,Other Commercial,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
+Demand,C_OTH-SC-GHP-ELC,C_OTH-SC,Commercial,Other Commercial,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
 Demand,C_DATA-SC-GHP-ELC,C_DATA-SC,Commercial,Data Centre,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
 Demand,C_DATA-SC-GHP-ELC,C_DATA-SC,Commercial,Data Centre,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
 Demand,T_P_CICEPET_LOW,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Internal Combustion Engine,Internal Combustion Engine (Petrol)
@@ -478,25 +478,25 @@ Demand,MNRL-NGA-FURNC-PH_HIGH,MNRL-FURNC-PH_HIGH,Industry,Non-Metallic Mineral P
 Demand,MNRL-NGA-FURNC-PH_INT,MNRL-FURNC-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
 Demand,MNRL-ELC-MOTOR-MTV_STA,MNRL-MOTOR-MTV_STA,Industry,Non-Metallic Mineral Product Manufacturing,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,MNRL-ELC-PUMP-PUMP,MNRL-PUMP-PUMP,Industry,Non-Metallic Mineral Product Manufacturing,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
-Demand,OTHR-ELC-ELCTR-ELCTR,OTHR-ELCTR-ELCTR,Industry,Other,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
-Demand,OTHR-ELC-LIGHT-LIGHT,OTHR-LIGHT-LIGHT,Industry,Other,Electronics and Lighting,Lighting,Electronics and Lights,Lights
-Demand,OTHR-BIG-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,OTHR-COA-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,OTHR-LPG-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,OTHR-NGA-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,OTHR-COA-BOILR-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,OTHR-NGA-BOILR-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,OTHR-NGA-BURNR-SH_LOW,OTHR-SH_LOW,Industry,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
-Demand,OTHR-ELC-EFURNC-PH_HIGH,OTHR-EFURNC-PH_HIGH,Industry,Other,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Electric Furnace
-Demand,OTHR-ELC-FURNC-PH_HIGH,OTHR-FURNC-PH_HIGH,Industry,Other,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
-Demand,OTHR-FOL-FURNC-PH_HIGH,OTHR-FURNC-PH_HIGH,Industry,Other,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
-Demand,OTHR-NGA-FURNC-PH_HIGH,OTHR-FURNC-PH_HIGH,Industry,Other,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
-Demand,OTHR-ELC-HEATR-PH_INT,OTHR-HEATR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Resistance Heater
-Demand,OTHR-ELC-HEATR-PH_LOW,OTHR-HEATR-PH_LOW,Industry,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Resistance Heater
-Demand,OTHR-DSL-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,OTHR-PET-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,OTHR-ELC-MOTOR-MTV_STA,OTHR-MOTOR-MTV_STA,Industry,Other,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
-Demand,OTHR-ELC-PUMP-PUMP,OTHR-PUMP-PUMP,Industry,Other,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
+Demand,OTHR-ELC-ELCTR-ELCTR,OTHR-ELCTR-ELCTR,Industry,Other Industry,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
+Demand,OTHR-ELC-LIGHT-LIGHT,OTHR-LIGHT-LIGHT,Industry,Other Industry,Electronics and Lighting,Lighting,Electronics and Lights,Lights
+Demand,OTHR-BIG-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,OTHR-COA-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,OTHR-LPG-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,OTHR-NGA-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,OTHR-COA-BOILR-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,OTHR-NGA-BOILR-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,OTHR-NGA-BURNR-SH_LOW,OTHR-SH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
+Demand,OTHR-ELC-EFURNC-PH_HIGH,OTHR-EFURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Electric Furnace
+Demand,OTHR-ELC-FURNC-PH_HIGH,OTHR-FURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
+Demand,OTHR-FOL-FURNC-PH_HIGH,OTHR-FURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
+Demand,OTHR-NGA-FURNC-PH_HIGH,OTHR-FURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
+Demand,OTHR-ELC-HEATR-PH_INT,OTHR-HEATR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Resistance Heater
+Demand,OTHR-ELC-HEATR-PH_LOW,OTHR-HEATR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Resistance Heater
+Demand,OTHR-DSL-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,OTHR-PET-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,OTHR-ELC-MOTOR-MTV_STA,OTHR-MOTOR-MTV_STA,Industry,Other Industry,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
+Demand,OTHR-ELC-PUMP-PUMP,OTHR-PUMP-PUMP,Industry,Other Industry,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
 Demand,PULP-ELC-ACOMP-COMP_AIR,PULP-ACOMP-COMP_AIR,Industry,Pulp and Paper,Electronics and Lighting,Compressed Air,Electronics and Lights,Air Compressors
 Demand,PULP-ELC-ELCTR-ELCTR,PULP-ELCTR-ELCTR,Industry,Pulp and Paper,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,PULP-ELC-FAN-FAN,PULP-FAN-FAN,Industry,Pulp and Paper,Electronics and Lighting,Fans,Electronics and Lights,Fan Systems
@@ -546,7 +546,7 @@ Demand,MEAT-WOD-BOILR-PH_INT,MEAT-BOILR-PH_INT,Industry,Meat,Heating/Cooling,"In
 Demand,MEAT-COA-BOILR-WH_LOW,MEAT-BOILR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,MINE-WOD-BOILR-PH_INT,MINE-BOILR-PH_INT,Industry,Mining,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,MINE-COA-BOILR-SH_LOW,MINE-SH_LOW,Industry,Mining,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,OTHR-WOD-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,OTHR-WOD-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,PULP-WOD-BOILR-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,WOOD-WOD-BOILR-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,DARY-ELC-BOILR-WH_LOW,DARY-BOILR-WH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
@@ -566,7 +566,7 @@ Demand,CNST-ELC-BOILR-SH_LOW,CNST-SH_LOW,Industry,Construction,Heating/Cooling,"
 Demand,DARY-ELC-BOILR-SH_LOW,DARY-SH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,FOOD-ELC-BOILR-SH_LOW,FOOD-SH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,MINE-ELC-BOILR-SH_LOW,MINE-SH_LOW,Industry,Mining,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,OTHR-ELC-BOILR-SH_LOW,OTHR-SH_LOW,Industry,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,OTHR-ELC-BOILR-SH_LOW,OTHR-SH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,PULP-ELC-BOILR-SH_LOW,PULP-SH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,CHEM-ELC-SGHP-PH_INT,CHEM-HEATR-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
 Demand,CHEM-ELC-SGHP-PH_INT,CHEM-FURNC-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
@@ -577,8 +577,8 @@ Demand,MEAT-ELC-SGHP-PH_INT,MEAT-BOILR-PH_INT,Industry,Meat,Heating/Cooling,"Int
 Demand,MINE-ELC-SGHP-PH_INT,MINE-BOILR-PH_INT,Industry,Mining,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
 Demand,MNRL-ELC-SGHP-PH_INT,MNRL-BOILR-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
 Demand,MNRL-ELC-SGHP-PH_INT,MNRL-FURNC-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,OTHR-ELC-SGHP-PH_INT,OTHR-BOILR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,OTHR-ELC-SGHP-PH_INT,OTHR-HEATR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,OTHR-ELC-SGHP-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
+Demand,OTHR-ELC-SGHP-PH_INT,OTHR-HEATR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
 Demand,PULP-ELC-SGHP-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
 Demand,PULP-ELC-SGHP-PH_INT,PULP-HEATX-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
 Demand,STEEL-ELC-SGHP-PH_INT,STEEL-BURNR-PH_INT,Industry,Iron & Steel,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
@@ -594,8 +594,8 @@ Demand,MEAT-ELC-MVR-PH_INT,MEAT-BOILR-PH_INT,Industry,Meat,Heating/Cooling,"Inte
 Demand,MINE-ELC-MVR-PH_INT,MINE-BOILR-PH_INT,Industry,Mining,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
 Demand,MNRL-ELC-MVR-PH_INT,MNRL-BOILR-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
 Demand,MNRL-ELC-MVR-PH_INT,MNRL-FURNC-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,OTHR-ELC-MVR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,OTHR-ELC-MVR-PH_INT,OTHR-HEATR-PH_INT,Industry,Other,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,OTHR-ELC-MVR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
+Demand,OTHR-ELC-MVR-PH_INT,OTHR-HEATR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
 Demand,PULP-ELC-MVR-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
 Demand,PULP-ELC-MVR-PH_INT,PULP-HEATX-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
 Demand,STEEL-ELC-MVR-PH_INT,STEEL-BURNR-PH_INT,Industry,Iron & Steel,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
@@ -605,8 +605,8 @@ Demand,WOOD-ELC-MVR-PH_INT,WOOD-BURNR-PH_INT,Industry,Wood Products,Heating/Cool
 Demand,DARY-ELC-PEF-PH_LOW,DARY-BOILR-PH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
 Demand,FOOD-ELC-PEF-PH_LOW,FOOD-BOILR-PH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
 Demand,MNRL-ELC-PEF-PH_LOW,MNRL-BOILR-PH_LOW,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
-Demand,OTHR-ELC-PEF-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
-Demand,OTHR-ELC-PEF-PH_LOW,OTHR-HEATR-PH_LOW,Industry,Other,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
+Demand,OTHR-ELC-PEF-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
+Demand,OTHR-ELC-PEF-PH_LOW,OTHR-HEATR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
 Demand,PULP-ELC-PEF-PH_LOW,PULP-BURNR-PH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
 Demand,STEEL-ELC-PEF-PH_LOW,STEEL-HEATR-PH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
 Demand,WOOD-ELC-PEF-PH_LOW,WOOD-HPPH-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
@@ -614,18 +614,18 @@ Demand,WOOD-ELC-PEF-PH_LOW,WOOD-BOILR-PH_LOW,Industry,Wood Products,Heating/Cool
 Demand,WOOD-ELC-PEF-PH_LOW,WOOD-FURNC-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
 Demand,CNST-ELC-ICENG-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,MINE-ELC-ICENG-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,OTHR-ELC-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,OTHR-ELC-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,CNST-H2R-ICENG-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,MINE-H2R-ICENG-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,OTHR-H2R-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
+Demand,OTHR-H2R-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,CNST-PET-PHEV-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
 Demand,MINE-PET-PHEV-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
-Demand,OTHR-PET-PHEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
+Demand,OTHR-PET-PHEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
 Demand,CNST-ELC-PHEV-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
 Demand,MINE-ELC-PHEV-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
-Demand,OTHR-ELC-PHEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
+Demand,OTHR-ELC-PHEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
 Demand,NEWTECH,NEWTECH-DEM,Commercial,NewTechs,NewTechs,NewTechs,NewTechs,NewTechs
-Demand,STEEL-ELC-EAF,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Iron & Steel,Recycled Steel,Heat/Cooling Devices,Electric Arc Furnace (EAF)
+Demand,STEEL-ELC-EAF,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Iron and Steel,Recycled Steel,Heat/Cooling Devices,Electric Arc Furnace (EAF)
 Demand,ADCF-IRG-Irg-ELC,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation
 Demand,ADCF-IRG-IrgVSD-ELC,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation VSD
 Demand,ADCF-LT-LT-ELC,ADCF-LT,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Lighting,Electronics and Lights,Lights
