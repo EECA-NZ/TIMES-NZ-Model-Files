@@ -1,6 +1,8 @@
 # Overview
 
 
+Bioenergy is currently represented primarily as a fuel supply input to demand technologies. It is not enabled to provide dispatchable electricity generation, firming capacity, or endogenous CHP competition within the electricity supply module. As a result, bioenergy competes mainly on marginal fuel cost rather than broader system services. These roles may be considered in future releases.
+
 TIMES-NZ demand sectors (e.g. industrial, residential, transport) and transformation sectors (e.g. electricity generation) determine fuel use and end-use efficiencies. Those parameters, and any demand-side retrofit costs, are specified in their respective assumptions documents. The purpose of this document is to ensure the TIMES-NZ bioenergy module reflects the latest information on feedstock potential, costs, and technology readiness across New Zealand’s bioenergy sector. The supply module clarifies:
 
 1)	Quantities of available bioenergy feedstocks and/or fuels by future year.
