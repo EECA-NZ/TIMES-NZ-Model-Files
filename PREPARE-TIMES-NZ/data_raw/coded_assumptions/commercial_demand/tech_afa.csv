@@ -81,27 +81,27 @@ WSR,"Intermediate Heat (100-300 C), Cooking",Cooking Elements,0.48,TIMES-NZ 2.0
 WSR,"Intermediate Heat (100-300 C), Cooking",Cooking Ovens,0.48,TIMES-NZ 2.0
 WSR,"Motive Power, Mobile",Internal Combustion Engine (Land Transport),0.1,TIMES-NZ 2.0
 WSR,"Motive Power, Stationary",Electric Motor,0.48,TIMES-NZ 2.0
-Other,Electronics and Other Electrical Uses,Electronics,0.55,TIMES-NZ 2.0
-Other,Lighting,Lights (Fluorescent),0.55,TIMES-NZ 2.0
-Other,Lighting,Lights (Incandescent),0.55,TIMES-NZ 2.0
-Other,Lighting,Lights (LED),0.55,TIMES-NZ 2.0
-Other,"Intermediate Heat (100-300 C), Process Requirements",Boiler Systems,0.55,TIMES-NZ 2.0
-Other,"Intermediate Heat (100-300 C), Process Requirements",Resistance Heater,0.55,TIMES-NZ 2.0
-Other,"Intermediate Heat (100-300 C), Process Requirements",Burner (Direct Heat),0.55,TIMES-NZ 2.0
-Other,"Low Temperature Heat (<100 C), Space Heating",Boiler Systems,0.1,TIMES-NZ 2.0
-Other,"Low Temperature Heat (<100 C), Space Heating",Resistance Heater,0.1,TIMES-NZ 2.0
-Other,"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),0.1,TIMES-NZ 2.0
-Other,"Low Temperature Heat (<100 C), Space Heating",Direct Heat,0.1,TIMES-NZ 2.0
-Other,"Low Temperature Heat (<100 C), Space Heating",Heat Pump (for Heating),0.1,TIMES-NZ 2.0
-Other,"Low Temperature Heat (<100 C), Water Heating",Boiler Systems,0.55,TIMES-NZ 2.0
-Other,"Low Temperature Heat (<100 C), Water Heating",Direct Heat,0.55,TIMES-NZ 2.0
-Other,"Low Temperature Heat (<100 C), Water Heating",Heat Pump (for Heating),0.55,TIMES-NZ 2.0
-Other,"Low Temperature Heat (<100 C), Water Heating",Hot Water Cylinder,0.55,TIMES-NZ 2.0
-Other,Space Cooling,Heat Pump (for Cooling),0.27,TIMES-NZ 2.0
-Other,"Motive Power, Mobile",Internal Combustion Engine (Land Transport),0.1,TIMES-NZ 2.0
-Other,"Motive Power, Stationary",Electric Motor,0.55,TIMES-NZ 2.0
-Other,"Motive Power, Stationary",Stationary Engine,0.55,TIMES-NZ 2.0
-Other,Pumping,"Pump Systems (for Fluids, etc.)",0.55,Similar to Electric Motor
+Other Commercial,Electronics and Other Electrical Uses,Electronics,0.55,TIMES-NZ 2.0
+Other Commercial,Lighting,Lights (Fluorescent),0.55,TIMES-NZ 2.0
+Other Commercial,Lighting,Lights (Incandescent),0.55,TIMES-NZ 2.0
+Other Commercial,Lighting,Lights (LED),0.55,TIMES-NZ 2.0
+Other Commercial,"Intermediate Heat (100-300 C), Process Requirements",Boiler Systems,0.55,TIMES-NZ 2.0
+Other Commercial,"Intermediate Heat (100-300 C), Process Requirements",Resistance Heater,0.55,TIMES-NZ 2.0
+Other Commercial,"Intermediate Heat (100-300 C), Process Requirements",Burner (Direct Heat),0.55,TIMES-NZ 2.0
+Other Commercial,"Low Temperature Heat (<100 C), Space Heating",Boiler Systems,0.1,TIMES-NZ 2.0
+Other Commercial,"Low Temperature Heat (<100 C), Space Heating",Resistance Heater,0.1,TIMES-NZ 2.0
+Other Commercial,"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),0.1,TIMES-NZ 2.0
+Other Commercial,"Low Temperature Heat (<100 C), Space Heating",Direct Heat,0.1,TIMES-NZ 2.0
+Other Commercial,"Low Temperature Heat (<100 C), Space Heating",Heat Pump (for Heating),0.1,TIMES-NZ 2.0
+Other Commercial,"Low Temperature Heat (<100 C), Water Heating",Boiler Systems,0.55,TIMES-NZ 2.0
+Other Commercial,"Low Temperature Heat (<100 C), Water Heating",Direct Heat,0.55,TIMES-NZ 2.0
+Other Commercial,"Low Temperature Heat (<100 C), Water Heating",Heat Pump (for Heating),0.55,TIMES-NZ 2.0
+Other Commercial,"Low Temperature Heat (<100 C), Water Heating",Hot Water Cylinder,0.55,TIMES-NZ 2.0
+Other Commercial,Space Cooling,Heat Pump (for Cooling),0.27,TIMES-NZ 2.0
+Other Commercial,"Motive Power, Mobile",Internal Combustion Engine (Land Transport),0.1,TIMES-NZ 2.0
+Other Commercial,"Motive Power, Stationary",Electric Motor,0.55,TIMES-NZ 2.0
+Other Commercial,"Motive Power, Stationary",Stationary Engine,0.55,TIMES-NZ 2.0
+Other Commercial,Pumping,"Pump Systems (for Fluids, etc.)",0.55,Similar to Electric Motor
 Data Centre,Electronics and Other Electrical Uses,Electronics,0.99,
 Data Centre,Space Cooling,Heat Pump (for Cooling),0.85,
 Data Centre,Lighting,Lights (Fluorescent),0.12,
