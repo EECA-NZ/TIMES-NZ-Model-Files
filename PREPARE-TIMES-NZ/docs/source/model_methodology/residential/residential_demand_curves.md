@@ -39,9 +39,11 @@ Electronics and other Electrical Uses,IT&HE
 Lighting,Lighting
 ```
 
-## Ripple control adjustments 
+## Ripple control adjustments and scenario differentiation 
 
 We modify the peak demand of hot water heating to allow for ripple controlled hot water. We assume that 50% of electric hot water cylinders are currently operating with ripple control[^ripple]. The relevant demand is shifted to night in the model.
+
+For the Transformation scenario, we assume that further investment in smart meters, time of use pricing, and other smart solutions increase this rate to 90% by 2050, further reducing peak load.
 
 [^rbs]: Energy Rating | [2021 Residential Baseline Study for Australia and New Zealand for 2000 to 2040](https://www.energyrating.gov.au/industry-information/publications/report-2021-residential-baseline-study-australia-and-new-zealand-2000-2040)
 

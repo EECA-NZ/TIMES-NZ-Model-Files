@@ -105,6 +105,7 @@ Parameter,Traditional,Transformation
 Carbon price,Reaches $52/tonne by 2035 then stabilises[^mfe_erp2_detail],"Reaches $260/tonne by 2050, matching the Climate Change Commission’s updated demonstration path[^ccc_demopath]."
 Consenting environment for electricity generation projects,"Some community resistance to new generation. The electricity generation pipeline is slightly constrained, using the EDGS Reference scenario[^genstack].","No community resistance to new generation. More plants made available to the pipeline, using the additional plants from the EDGS Innovation scenario[^genstack]."
 Travel mode shifting,Standard VKT demand projections (using MoT projections),Passenger VKT per capita decreases by 1% annually. This leads to roughly flat passenger VKT demand over time. 
+Residential hot water peak load shifts, 50% of peak demand can be shifted, Level of demand shift grows to 90% by 2050
 Low Emission Heavy Vehicle Fund,Ends in 2028,Continues to 2032
 Discount rate: Public sector[^tsy_discount],8%,2%
 Discount rate: Businesses[^firm_discount],10%,"8% default rate and 5% for green investments. This reflects a longer-term view being taken across the economy, and a focus of global finance on green investments."
