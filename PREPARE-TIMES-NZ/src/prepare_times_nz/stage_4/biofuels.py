@@ -98,8 +98,6 @@ def build_biofuel_processes() -> pd.DataFrame:
             "Tact": "PJ",
             "Tcap": "GWth",
             "TechName": [
-                "REF_ANDGST",  # Biogas from woody residues, agricultural residues,
-                # animal manure, municipal waste - Anaerobic Digestion (AD)
                 "CT_CWODBPL",  # Black pellets production - torrefaction
                 "CT_CWODETH",  # Ethanol from wood waste - gasification
                 "CT_COILBDS",  # Biodiesel from tallow and oil waste, pyrolosis
@@ -113,6 +111,9 @@ def build_biofuel_processes() -> pd.DataFrame:
             "Tact": "PJ",
             "Tcap": "PJa",
             "TechName": [
+                "REF_ANDGST",  # Biogas from woody residues, agricultural residues,
+                # animal manure, municipal waste - Anaerobic Digestion (AD)
+                "BIG2BIM",  # Biomethane from biogas - upgrading
                 "WSTWOD2WOD",  # Waste wood to fuel wood for current wood
                 # and  wood processing residues
             ],
@@ -136,6 +137,8 @@ def build_biofuel_processes() -> pd.DataFrame:
 
 
 # pylint: disable=too-many-locals
+# pylint: disable=too-many-statements
+# pylint: disable=too-many-branches
 def create_biofuel_supply_forecasts() -> pd.DataFrame:
     """Create base-year biofuel supply forecasts joined with prices and island mapping."""
 
@@ -218,10 +221,10 @@ def create_biofuel_supply_forecasts() -> pd.DataFrame:
 
     # Multiply all ACT_BND columns by the recoverability factor
     for col in year_cols:
-        merged[col] = merged[col] * merged["Recoverability  factor 1  (% of gross)"]
+        merged[col] = merged[col] * merged["Recoverability factor 2 (% of gross)"]
 
     # Clean up: Remove Recoverability column if not needed
-    merged = merged.drop(columns=["Recoverability  factor 1  (% of gross)"])
+    merged = merged.drop(columns=["Recoverability factor 2 (% of gross)"])
 
     # --- Duplicate missing-island techs across NI & SI ---
     missing_island = merged[merged["Island"].isna()].copy()
@@ -286,6 +289,32 @@ def create_biofuel_supply_forecasts() -> pd.DataFrame:
 
     # Replace remaining zeros only in ACT_BND columns
     merged[year_cols] = merged[year_cols].replace(0, pd.NA)
+
+    # --- Custom filtering: keep only ACT_BND~2024 for some TechNames, ACT_BND~2026 for others ---
+    keep_2024 = [
+        "MINMNCWST00",
+        "MINMNCWST01",
+        "MINAGRWST00",
+        "MINAGRWST01",
+        "MINANMMNR00",
+    ]
+    keep_2026 = ["MINOILWST00", "MINOILWST01"]
+    # Identify ACT_BND columns for all years
+    act_bnd_cols = [c for c in merged.columns if c.startswith("ACT_BND~")]
+    # For 2024 and 2026
+    col_2024 = "ACT_BND~2024"
+    col_2026 = "ACT_BND~2026"
+    # For each row, set all ACT_BND columns except the one to keep to NA
+    for tech in keep_2024:
+        mask = merged["TechName"] == tech
+        for col in act_bnd_cols:
+            if col != col_2024:
+                merged.loc[mask, col] = pd.NA
+    for tech in keep_2026:
+        mask = merged["TechName"] == tech
+        for col in act_bnd_cols:
+            if col != col_2026:
+                merged.loc[mask, col] = pd.NA
 
     return merged
 

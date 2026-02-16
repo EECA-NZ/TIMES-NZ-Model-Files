@@ -77,6 +77,7 @@ RESCOA = 92
 RESNGA = 53.96
 RESLPG = 60.43
 RESDSL = 69.69
+RESBIM = 19.00
 RESWOD = 4 # rough estimate - need to update with better residential wood calorific value assumptions!
 
 
