@@ -384,9 +384,13 @@ def define_generation_parameters(df):
     save_elc_data(existing_techs_parameters, "existing_tech_parameters.csv")
 
 
-def create_distribution_tables():
+def create_distribution_tables(sensitivity=True, sensitivity_factor=0.01):
     """
     Builds the distribution data csvs from raw table input and saves
+
+    Optionally adds an additional output to represent extremely low transmission costs
+
+    Saves this as a separate output which we can use to build comparisons
     """
 
     distribution_df = pd.read_csv(DISTRIBUTION_INPUT_FILE)
@@ -407,6 +411,12 @@ def create_distribution_tables():
         distribution_df_deflated, DISTRIBUTION_PARAMETERS_MAP
     )
     distribution_parameters["EFF~0"] = 0
+
+    if sensitivity:
+        sensitivity = distribution_parameters.copy()
+        sensitivity["INVCOST"] = sensitivity["INVCOST"] * sensitivity_factor
+        sensitivity["FIXOM"] = sensitivity["FIXOM"] * sensitivity_factor
+        save_elc_data(sensitivity, "distribution_parameters_sensitivity.csv")
 
     # ----- Save ---------------------------------------- #
 

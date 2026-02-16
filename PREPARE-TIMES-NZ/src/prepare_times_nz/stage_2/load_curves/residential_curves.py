@@ -16,7 +16,11 @@ from prepare_times_nz.utilities.filepaths import (
 
 # ASSUMPTIONS -----------------------------------------------
 
-RIPPLE_SHARE = 0.5
+# base year - 50% ripple
+RIPPLE_SHARE_BASE = 0.5
+
+# transformation future load - 90% load shifted
+RIPPLE_SHARE_FUTURE = 0.9
 
 # the share of space conditioning dedicated to heating each season
 HEATING_SHARE_ASSUMPTIONS = {
@@ -231,7 +235,7 @@ def agg_years(df):
     return df
 
 
-def shift_ripple_water_heating(df, ripple_share=RIPPLE_SHARE):
+def shift_ripple_water_heating(df, ripple_share=RIPPLE_SHARE_BASE):
     """
     Adjust ripple-controlled water heating to nighttime in each day period
     Doing this based on the calculated GWh and an input share
@@ -275,10 +279,12 @@ def shift_ripple_water_heating(df, ripple_share=RIPPLE_SHARE):
     # trim excess
     out = out.drop(columns=["_prefix", "_add"])
 
+    print(out)
+
     return out
 
 
-def make_com_fr(df, adjust_hw_for_ripple=False, ripple_share=RIPPLE_SHARE):
+def make_com_fr(df, adjust_hw_for_ripple=False, ripple_share=RIPPLE_SHARE_BASE):
     """
     Convert inputs to commodity fraction
 
@@ -349,13 +355,26 @@ def main():
     com_fr = make_com_fr(rbs_df)
     # save
     _save_data(
-        com_fr, "residential_curves.csv", "Residential load curves", OUTPUT_LOCATION
+        com_fr,
+        "residential_curves_no_ripple.csv",
+        "Residential load curves (default)",
+        OUTPUT_LOCATION,
     )
     # repeat with ripple adjustment for alternative approach
     com_fr_adjust = make_com_fr(rbs_df, adjust_hw_for_ripple=True)
     _save_data(
         com_fr_adjust,
-        "residential_curves_with_ripple.csv",
+        "residential_curves_ripple_50.csv",
+        "Residential load curves (rippled)",
+        OUTPUT_LOCATION,
+    )
+
+    com_fr_adjust = make_com_fr(
+        rbs_df, adjust_hw_for_ripple=True, ripple_share=RIPPLE_SHARE_FUTURE
+    )
+    _save_data(
+        com_fr_adjust,
+        "residential_curves_ripple_90.csv",
         "Residential load curves (rippled)",
         OUTPUT_LOCATION,
     )
