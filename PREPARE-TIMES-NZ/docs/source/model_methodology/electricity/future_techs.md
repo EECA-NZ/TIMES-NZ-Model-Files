@@ -22,7 +22,8 @@ NREL projections consider three different scenarios: Conservative, Moderate, and
  - Moderate: Innovation in the market is more widespread with current levels of investment in public and private research and development.
  - Advanced: Innovation in the market is widespread with an increase of investment in public and private research and development.
 
-For the Traditional scenario we apply the Conservative projections, and Moderate scenario projections for Transformation. The Advanced scenario was not used, as the values are for the United States, where improvements in installation costs are already more advanced than New Zealand. 
+For the Traditional scenario we apply the Moderate projections, and for Transformation we use Advanced.
+
 Learning curves were applied to reduce the future capital cost (CAPEX) and fixed operating and maintenance costs (FOM) to plants that met the following criteria: 
 
 Only solar, wind, and geothermal plants have had reduced future costs applied

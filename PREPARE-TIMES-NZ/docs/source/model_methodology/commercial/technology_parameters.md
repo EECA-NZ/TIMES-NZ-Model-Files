@@ -121,6 +121,7 @@ Cost values are adjusted to 2023 New Zealand dollars using the most appropriate 
 ```{csv-table} Capital costs by technology 
 :header-rows: 1
 :name: tab_com_capex
+
 Technology,Fuel,Capital cost (NZD/kW)
 Boiler Systems,Coal,"1,000"
 Boiler Systems,Diesel,380
@@ -131,8 +132,8 @@ Burner (Direct Heat),Coal,600
 Burner (Direct Heat),LPG,300
 Burner (Direct Heat),Natural Gas,300
 Burner (Direct Heat),Biogas,300
-Heat Pump Air Source,Electricity,"3,000"
-Heat Pump (Water Heating),Electricity,"3,000"
+Heat Pump Air Source[^hp_install_caveat],Electricity,"1,200"
+Heat Pump (Water Heating),Electricity,"1,200"
 Resistance Heater,Electricity,50
 Direct Heat,Geothermal,150
 Hot Water Cylinder,Electricity,500
@@ -154,6 +155,8 @@ Cooking Ovens,LPG,200
 Cooking Ovens,Natural Gas,200
 Pumps,Electricity,185
 ```
+
+[^hp_install_caveat]: Commercial heatpump installation costs include estimated costs of replacing existing commercial heating solutions. Costs for new builds may vary.
 
 Some distinction between the costs of technologies were added, to represent the fact that some subsectors will pay significantly more than others for the same technology, due to their requirements or scale. For example, previous EECA projects have found that a school will pay 5-10x more per kW for their heating or lighting CAPEX than an equivalent office building. This is primarily due to the scaling of these organisations, schools are likely to span many small buildings over a relatively large area, each only needing a relatively small amount of heating. Office blocks can take advantage of their higher density, giving a more centralised area to heat, and a larger, more cost-effective heating option can be purchased.
 

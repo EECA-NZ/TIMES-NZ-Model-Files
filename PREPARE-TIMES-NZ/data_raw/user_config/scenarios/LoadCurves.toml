@@ -1,7 +1,7 @@
 # Load Curves
 # Scenario file to electricity load curves for each sector.
 
-WorkBookName = "SuppXLS/Scen_LoadCurve_COM-FR"
+WorkBookName = "SuppXLS/Scen_LoadCurve"
 
 [LoadCurvesCOMFR_IND]
 Description  = "Defines annual electricity demand timeslices or load curve for industrial sub-sectors"
@@ -25,4 +25,11 @@ DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_commerc
 Description  = "Defines annual electricity demand timeslices or load curve for residential sub-sectors, including ripple hot water."
 SheetName    = "RES"
 TagName      = "TFM_INS"
-DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_residential_ripple.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_residential_50.csv"
+
+[LoadCurvesCOMFR_RES_Transformation]
+WorkBookName = "SuppXLS/Scen_LoadCurve_Transformation"
+Description  = "Additional future residential curves for transformation scenario, to represent load shifting away from peaks"
+SheetName    = "RES"
+TagName      = "TFM_INS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_residential_90.csv"

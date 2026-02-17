@@ -88,7 +88,7 @@ Geopolitical forces that influence global commodity demand, such as export deman
 :header-rows: 1
 
 Parameter,Traditional,Transformation
-"Generation technology (offshore/onshore wind, solar) and electric vehicle costs","Generation technology and BEV/Hybrid vehicle costs follow expected trends (Using NREL Conservative scenario)",Generation technology and electric vehicle costs reduce faster (Using NREL Moderate scenario) 
+"Generation technology (offshore/onshore wind, solar) and electric vehicle costs","Generation technology and BEV/Hybrid vehicle costs follow expected trends (Using NREL Moderate scenario)",Generation technology and electric vehicle costs reduce faster (Using NREL Advanced scenario) 
 Utility-scale and distributed battery technology,"Costs follow expected trends, following the CSRIO Current Policy scenario","Battery costs reduce faster, following the CSIRO NZE by 2050 scenario"
 Process heat demand technologies,Existing process heat technology costs remain constant in real terms. New process heat technology costs reduce.,Same as Traditional
 ```
@@ -105,6 +105,7 @@ Parameter,Traditional,Transformation
 Carbon price,Reaches $52/tonne by 2035 then stabilises[^mfe_erp2_detail],"Reaches $260/tonne by 2050, matching the Climate Change Commission’s updated demonstration path[^ccc_demopath]."
 Consenting environment for electricity generation projects,"Some community resistance to new generation. The electricity generation pipeline is slightly constrained, using the EDGS Reference scenario[^genstack].","No community resistance to new generation. More plants made available to the pipeline, using the additional plants from the EDGS Innovation scenario[^genstack]."
 Travel mode shifting,Standard VKT demand projections (using MoT projections),Passenger VKT per capita decreases by 1% annually. This leads to roughly flat passenger VKT demand over time. 
+Residential hot water peak load shifts, 50% of peak demand can be shifted, Level of demand shift grows to 90% by 2050
 Low Emission Heavy Vehicle Fund,Ends in 2028,Continues to 2032
 Discount rate: Public sector[^tsy_discount],8%,2%
 Discount rate: Businesses[^firm_discount],10%,"8% default rate and 5% for green investments. This reflects a longer-term view being taken across the economy, and a focus of global finance on green investments."
