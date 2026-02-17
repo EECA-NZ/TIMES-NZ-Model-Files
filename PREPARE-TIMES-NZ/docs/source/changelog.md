@@ -6,12 +6,11 @@
 **Features**
 - Added more detail to residential load curves, allowing for different load profiles per use type.
 - Added an additional bioefuel supply forecasts scenario with AD feedstock growth and higher recoverability of biomass.
+- Separated biogas and biomethane modelling commodities, including a specific process for carbon scrubbing.
 
 **Model fixes**
 - (Residential) Resolved an error that undercounted space heating demand in detached dwellings.
 - (Natural gas) Fixed a methodological error that double-counted domestic natural gas costs.
-- (Residential) Ensured biomethane was available as options for existing gas used technologies.
-- (Commercial) Ensured biomethane was available as options for existing gas used technologies.
 
 ## 3.0.1
 
