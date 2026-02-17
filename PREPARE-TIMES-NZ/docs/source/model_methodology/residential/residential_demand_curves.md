@@ -55,7 +55,7 @@ For the Transformation scenario, we assume that further investment in smart mete
 The resulting average demand curves for weekday loads are demonstrated in {numref}`fig_res_loadcurves`.
 
 
-```{figure} figures/res_rbs_weekday_ripple.png 
+```{figure} figures/res_rbs_weekday_ripple.png
 ---
 name: fig_res_loadcurves
 alt: Residential weekday load curves 2023
@@ -66,7 +66,7 @@ Residential weekday load curves 2023
 
 ## Residential space heating peaks 
 
-Because our winter peak period still covers 66 hours (1 hour out of every weekday in winter), the average load during this period is lower than actual peak for any given year. To model the impact of possible cold snaps, we include a residential space heating factor. This increases the demand for residential space heating by 40% in the peaking constraint. Note that this demand-side factor of the peaking constraint is additional to other components of the TIMES-NZ peaking equation[^times_nz_elc]. This residential peak ratio feature was not included in TIMES 2.0, which likely lead to an underestimate of peak demand in previous releases. 
+Because our winter peak period still covers 66 hours (1 hour out of every weekday in winter), the average load during this period is around lower than actual peak for any given year. We assume the actual residential peak demand is closer to 4GW, allowing for the possibility of increased space heating demand due to cold snaps. We therefore include a residential space heating factor by assumption: increasing the demand for space heating by 25% when calculating the model's peak constraint. Note that this demand-side factor of the peaking constraint is additional to other components of the model constraint, such as the peak capacity contributions[^times_nz_elc]. 
 
 
 [^times_nz_elc]: See the TIMES-NZ 3.0 electricity assumptions documentation for more information on peak constraint modelling.

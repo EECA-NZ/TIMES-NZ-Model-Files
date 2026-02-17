@@ -4,6 +4,12 @@ Builds a charts of the residential load curves from model results
 Uses post-processed times results for a given scenario!
 
 Not part of workflow, just some testing
+
+
+psudo code:
+
+1) get residential baseyear demand from eeud data
+2) get load curve parameters
 """
 
 # libraries
@@ -12,10 +18,27 @@ import pandas as pd
 # pylint: disable = unused-import, unused-wildcard-import, wildcard-import
 from plotnine import *
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
-from prepare_times_nz.utilities.filepaths import ANALYSIS, TIMES_LOCATION
+from prepare_times_nz.utilities.filepaths import (
+    ANALYSIS,
+    STAGE_1_DATA,
+    STAGE_2_DATA,
+    TIMES_LOCATION,
+)
 
 RESULTS_LOCATION = TIMES_LOCATION / "TIMES-NZ-INTERNAL-QA" / "data" / "clean_results"
 
+
+# Get data
+
+EEUD_FILE = STAGE_1_DATA / "eeud/eeud.csv"
+LOAD_CURVE_DATA = STAGE_2_DATA / "settings/load_curves/"
+
+RES_DEMAND_FILE = STAGE_2_DATA / "residential/baseyear_residential_demand.csv"
+
+YRFR_FILE = STAGE_2_DATA / "settings/load_curves/yrfr.csv"
+
+
+PJ_TO_GWH = 1000 / 3.6
 
 # constants
 
@@ -37,6 +60,27 @@ chart_cols = [
     eeca_colours["coral"],
     eeca_colours["emerald"],
 ]
+
+
+def get_res_demand():
+    """Returns total residential electricity demand for baseyear"""
+
+    df = pd.read_csv(RES_DEMAND_FILE)
+
+    df = df[df["Variable"] == "InputEnergy"]
+    df = df[df["Fuel"] == "Electricity"]
+
+    # should be already filtered to baseyear but we just make sure
+
+    df = df[df["Year"] == BASE_YEAR]
+
+    # input value per demand commodity
+
+    df = df.groupby("CommodityOut")["Value"].sum().reset_index()
+
+    df = df.rename(columns={"CommodityOut": "Commodity", "Value": "PJ"})
+
+    return df
 
 
 def split_timeslices(df, make_nice_labels=True):
@@ -72,17 +116,33 @@ def split_timeslices(df, make_nice_labels=True):
     return df
 
 
-def get_res_baseyear_load(scenario=SCENARIO):
+def get_load_curves(filename="residential_curves_ripple_50.csv"):
     """
-    Loads the scenario results for res baseyear demand
+    Pull in load curve data
     """
-    df = pd.read_parquet(RESULTS_LOCATION / "electricity_demand_by_timeslice.parquet")
 
-    df = df[df["Scenario"] == scenario]
-    df = df[df["SectorGroup"] == "Residential"]
-    df = df[df["Period"] == str(BASE_YEAR)]
+    df = pd.read_csv(LOAD_CURVE_DATA / filename)
 
-    # better mapping of uses
+    # validate! each Commodity should add to 1
+    # test = df.groupby("Commodity")["LoadCurve"].sum().reset_index()
+    # print(test)
+
+    # before aggregating, we convert to GWh based on our demand
+
+    # only need these to join on
+    df = df[["TimeSlice", "Commodity", "EndUse", "LoadCurve"]]
+
+    # add the demand
+
+    res_demand = get_res_demand()
+
+    df = df.merge(res_demand, how="left", on="Commodity")
+
+    # split demand by commodity and timeslice
+    df["PJ"] = df["PJ"] * df["LoadCurve"]
+
+    # aggregate by use group
+    # broad end use mapping
 
     use_map = {
         "Low Temperature Heat (<100 C), Clothes Drying": "Other",
@@ -97,9 +157,43 @@ def get_res_baseyear_load(scenario=SCENARIO):
         "Lighting": "Other",
     }
 
-    df["EndUseChart"] = df["EndUse"].map(use_map)
+    df["EndUse"] = df["EndUse"].map(use_map)
 
+    # aggregate demand by slice and broad grouyp
+    df = df.groupby(["TimeSlice", "EndUse"])["PJ"].sum().reset_index()
+
+    # make nicer timeslices
     df = split_timeslices(df)
+
+    return df
+
+
+def convert_pj_to_average_load(df):
+    """
+    Docstring for convert_pj_to_average_load
+
+    expects an input df with "PJ" and "TimeSlice" variables
+
+    uses year fraction data to define the timeslice length
+    converts the PJ to GWh
+
+    uses GWh and TimeSlice length to infer average GW load per slice
+
+    Can do this on any aggregation assuming PJ aggregation
+    """
+
+    # load year fractions
+
+    yrfr_data = pd.read_csv(YRFR_FILE)
+    # create hours per slice
+
+    df = df.merge(yrfr_data, on="TimeSlice", how="left")
+
+    df["Hours"] = 8760 * df["YRFR"]
+
+    # create average GW
+    df["GWh"] = df["PJ"] * PJ_TO_GWH
+    df["GW"] = df["GWh"] / df["Hours"]
 
     return df
 
@@ -110,27 +204,46 @@ def make_chart(df):
     """
     chart_df = df[df["DayType"] == "Weekday"]
 
-    # totals = chart_df.groupby(["Season", "DayType", "TimeOfDay"])["GW"].sum().reset_index()
+    print(chart_df)
+
+    totals = (
+        chart_df.groupby(["Season", "DayType", "TimeOfDay"])["GW"].sum().reset_index()
+    )
     # print(totals)
 
     chart = (
-        ggplot(chart_df, aes(y="GW", x="TimeOfDay", fill="EndUseChart"))
+        ggplot(chart_df, aes(y="GW", x="TimeOfDay", fill="EndUse"))
         + geom_col()
         + facet_wrap("~Season")
         + scale_fill_manual(values=chart_cols)
-        + labs(x="TimeOfDay", y="GW", fill="Use Type", title="")
+        + labs(y="GW", x="Time of day", fill="Use type")
         + theme_minimal()
-        + theme(title=element_blank())
+        + theme(plot_title=element_blank())
+        + geom_text(
+            totals,
+            aes(x="TimeOfDay", y="GW", label="round(GW, 1)"),
+            inherit_aes=False,
+            va="bottom",
+            size=11,
+        )
+        + scale_y_continuous(expand=(0, 0.5))
     )
 
     chart.save(OUTPUT_LOCATION / "res_rbs_weekday_ripple.png")
+    chart.save(OUTPUT_LOCATION / "res_rbs_weekday_ripple.pdf")
 
 
 def main():
     """entrypoint"""
 
-    df = get_res_baseyear_load()
-    make_chart(df)
+    # df = get_res_baseyear_load()
+    # make_chart(df)
+
+    curves = get_load_curves()
+
+    load_df = convert_pj_to_average_load(curves)
+
+    make_chart(load_df)
 
 
 if __name__ == "__main__":

@@ -62,4 +62,4 @@ Natural gas,57
 In the current TIMES-NZ model, biogas and biomethane pathways are modelled with zero combustion and production emissions, meaning no explicit CO2, CH4, or fugitive emissions are assigned to either the combustion technologies or the biogas production.
 
 
-[^gic_gtp_biogas]: Gas Industry Co | [Gas Transition Plan - Biogas Research Report] (https://www.gasindustry.co.nz/assets/CoverDocument/Gas-Transition-Plan-Biogas-Research-Report-February-2023.pdf)
+[^gic_gtp_biogas]: Gas Industry Co | [Gas Transition Plan - Biogas Research Report](https://www.gasindustry.co.nz/assets/CoverDocument/Gas-Transition-Plan-Biogas-Research-Report-February-2023.pdf)
