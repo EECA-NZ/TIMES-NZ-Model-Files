@@ -81,7 +81,7 @@ def get_residential_veda_table(df, input_map, enable_biogas=True):
     if enable_biogas:
         # if a tech could use nga, we say it can also use biogas
         res_nga_processes = get_processes_with_input_commodity(res_df, "RESNGA")
-        res_df = add_extra_input_to_topology(res_df, res_nga_processes, "RESBIG")
+        res_df = add_extra_input_to_topology(res_df, res_nga_processes, "RESBIM")
 
     return res_df
 

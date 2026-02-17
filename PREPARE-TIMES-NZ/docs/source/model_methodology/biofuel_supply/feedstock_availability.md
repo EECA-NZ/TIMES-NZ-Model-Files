@@ -33,23 +33,23 @@ TIMES-NZ applies the below recoverability factors depending on residue type.
 :name: tab_bio_residue_recoverable
 :header-rows: 1 
 
-Residue type,Recoverability factor 1 (% of gross)
-In-forest residues – landings,0.8
-In-forest residues - cutover,0.7
-Wood processing residues,0.95
-Municipal wood waste,0.8
-Port bark,0.8
-Horticultural residues,0.8
-Straw and Stover,0.7
-Shelter belt residuals,0.8
-Production thinnings residuals,0.8
-Waste thinnings,0.5
-Prunings,0.3
-Pulp log,0.95
-Sawmill chip,0.75
-K grade logs,0.95
-A grade logs,0.9
-Douglas-fir production thinnings,0.8
+Residue type,Recoverability factor 1 (% of gross),Recoverability factor 2 (% of gross)
+In-forest residues – landings,0.8,0.65
+In-forest residues - cutover,0.7,0.55
+Wood processing residues,0.95,0.9
+Municipal wood waste,0.8,0.6
+Port bark,0.8,0.7
+Horticultural residues,0.8,0.65
+Straw and Stover,0.7,0.6
+Shelter belt residuals,0.8,0.6
+Production thinnings residuals,0.8,0.5
+Waste thinnings,0.5,0.25
+Prunings,0.3,0.15
+Pulp log,0.95,0.9
+Sawmill chip,0.75,0.5
+K grade logs,0.95,0.8
+A grade logs,0.9,0.8
+Douglas-fir production thinnings,0.8,0.5
 ```
 
 The estimated costs of producing fuel from wood residue, municipal wood waste, and slash are shown in {numref}`tab_bio_biomass_cost_estimates`. These figures are estimates and indicate production costs, not actual market prices, which could be higher. The estimates are based on operating costs as of January 2022. The total costs include a payment to the owner of the residual biomass, which varies depending on the type of material. They also include transport costs, assuming an average transport distance of 90 kilometres from the source of the residue to the end user.
@@ -79,6 +79,8 @@ Stumps,$25,$145,$21.07
 ```
 
 [^straw_wet]: Straw is assumed to have a “green” moisture content of 15% wet basis
+
+Delivered wood fuel costs are assumed to remain broadly stable in real terms over time. This reflects increasing market maturity, additional suppliers entering the sector, and economies of scale in biomass processing. The model does not assume structural upward price pressure beyond standard cost escalation factors.
 
 The available quantities reflect long-term supply projections, which reach their lowest point between 2036 and 2040. The overall deficit is around 8% of the total demand.
 
@@ -164,4 +166,4 @@ Animal Manure,56%,44%,Based on total pigs and dairy cattle numbers
 Waste Cooking Oil,77%,23%,Based on regional population
 Tallow Waste,,100%,100% SI assumption
 ```
-
+While biomethane could technically contribute to dispatchable generation (e.g. gas peakers), bioenergy technologies are not currently enabled to compete as firming or peak-serving capacity in the electricity supply module. This modelling boundary should be considered when interpreting relative electrification and bioenergy outcomes.
