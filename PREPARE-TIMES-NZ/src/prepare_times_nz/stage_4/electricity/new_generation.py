@@ -641,10 +641,10 @@ def main():
     process_solar_files()
     # Traditional settings for genstack:
     # Reference MBIE + conservative NREL
-    process_genstack_files("Traditional", "Reference", "Conservative")
+    process_genstack_files("Traditional", "Reference", "Moderate")
     # Transformation settings for genstack:
     # Innovation MBIE + Moderate NREL
-    process_genstack_files("Transformation", "Innovation", "Moderate")
+    process_genstack_files("Transformation", "Innovation", "Advanced")
 
 
 if __name__ == "__main__":

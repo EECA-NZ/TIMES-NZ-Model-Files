@@ -88,7 +88,7 @@ Geopolitical forces that influence global commodity demand, such as export deman
 :header-rows: 1
 
 Parameter,Traditional,Transformation
-"Generation technology (offshore/onshore wind, solar) and electric vehicle costs","Generation technology and BEV/Hybrid vehicle costs follow expected trends (Using NREL Conservative scenario)",Generation technology and electric vehicle costs reduce faster (Using NREL Moderate scenario) 
+"Generation technology (offshore/onshore wind, solar) and electric vehicle costs","Generation technology and BEV/Hybrid vehicle costs follow expected trends (Using NREL Moderate scenario)",Generation technology and electric vehicle costs reduce faster (Using NREL Advanced scenario) 
 Utility-scale and distributed battery technology,"Costs follow expected trends, following the CSRIO Current Policy scenario","Battery costs reduce faster, following the CSIRO NZE by 2050 scenario"
 Process heat demand technologies,Existing process heat technology costs remain constant in real terms. New process heat technology costs reduce.,Same as Traditional
 ```
