@@ -116,10 +116,7 @@ def trim_cost_curves(df):
     return df
 
 
-def get_nrel_cost_curves(
-    df,
-    scenario="Moderate",
-):
+def get_nrel_cost_curves(df, scenario="Moderate"):
     """Simple function that renames CAPEX and FOM to Veda equivalents
     Outputs as "Attribute" so can be sent directly to a Veda table after"""
 
@@ -482,7 +479,9 @@ def get_fixed_installation_dates(df):
     return df
 
 
-def process_genstack_files(times_scenario, mbie_scenario, nrel_scenario):
+def process_genstack_files(
+    times_scenario, mbie_scenario, nrel_scenario, sensitivity=True
+):
     """
     Orchestrates the genstack files.
 
@@ -523,6 +522,16 @@ def process_genstack_files(times_scenario, mbie_scenario, nrel_scenario):
     save_genstack(fixed_installs, f"{times_scenario}_fixed_installs.csv")
     save_genstack(cost_curves, f"{times_scenario}_cost_curves.csv")
     save_genstack(island_definitions, f"{times_scenario}_island_definitions.csv")
+
+    # optionally add a sensitivity output
+    if sensitivity:
+        sens_df = cost_curves.copy()
+        for var in ["FIXOM", "INVCOST"]:
+            sens_df[var] = sens_df[var] * 0.01
+
+        save_genstack(sens_df, f"{times_scenario}_cost_curves_sensitivity.csv")
+
+    # print(cost_curves)
 
 
 # ------------------------------------------------------------------------------------------
