@@ -1,14 +1,11 @@
 WorkBookName = "SuppXLS/Scen_TransmissionSensitivity"
 
-
 # A sensitivity scenario with 100 times cheaper transmission distribution 
-
-
 
 [DistributionSensitivityTest]
 Description = "Optional scenario file to reduce grid costs to 1% of original" 
 SheetName = "Distribution"  
-TagName = "FI_T"
+TagName = "TFM_UPD"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_parameters_sensitivity.csv"
 
 

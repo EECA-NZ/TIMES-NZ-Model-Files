@@ -1,6 +1,6 @@
 # New electricity sector technologies for TIMES-NZ
 
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_LowCost"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_TradLowCost"
 
 # The standard scenario uses the MBIE reference scenario and the NREL conserative price paths 
 
@@ -38,7 +38,7 @@ DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/cost
 [ResidentialSolarIslandDefinitions] 
 Description = "Ensure solar plants are available on either island. This is necesssary due to subres transformation usage."
 SheetName = "AVA"
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_LowCost_trans"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_TradLowCost_trans"
 TagName = "TFM_AVA"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/island_definitions.csv"
 
@@ -67,7 +67,7 @@ TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/cost_curves_conservative.csv"
 
 [OffshoreWindIslandDefinitions]
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_LowCost_trans"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_TradLowCost_trans"
 Description = "SubRES Transformation - ensure offshore wind built in correct islands. Idea: test adding this to main subres instead?"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/island_definitions.csv"
 SheetName = "AVA"
@@ -100,7 +100,7 @@ DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery
 [BatteryAvailability]
 Description = "Ensures batteries available on either island"
 SheetName = "AVA"
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_LowCost_trans"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_TradLowCost_trans"
 TagName = "TFM_AVA"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_availability.csv"
 
@@ -137,6 +137,6 @@ DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Tradit
 [GenStackIslandDefinitions] 
 Description = "Ensure genstack plants end up in the right island(Traditional settings)"
 SheetName = "AVA"
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Traditional_LowCost_trans"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_TradLowCost_trans"
 TagName = "TFM_AVA"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Traditional_island_definitions.csv"

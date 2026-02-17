@@ -456,9 +456,14 @@ def create_additional_bioenergy_supply_forecasts() -> pd.DataFrame:
             out[region] = pd.NA
 
     out["Attribute"] = "ACT_BND"
-    return out[["TechName", "Year", "NI", "SI", "Attribute"]].sort_values(
+    out = out[["TechName", "Year", "NI", "SI", "Attribute"]].sort_values(
         ["TechName", "Year"]
     )
+    # remove rows with null SI and NI
+
+    out = out[~(out["SI"].isna() & out["NI"].isna())]
+
+    return out
 
 
 # ----------------------------------------------------------------------------
