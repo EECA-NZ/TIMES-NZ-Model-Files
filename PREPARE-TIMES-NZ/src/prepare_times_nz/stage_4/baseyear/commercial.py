@@ -218,7 +218,7 @@ def emission_factors_df(emi_df, filename, label):
     emi_df["COMLPG"] = [59.32]
     emi_df["COMDSL"] = [69.63]
     emi_df["COMBIG"] = [None]
-    emi_df["COMBIM"] = [19.00]
+    emi_df["COMBIM"] = [None]
     emi_df["COMGEO"] = [None]
     emi_df["COMPET"] = [68.79]
     emi_df["COMWOD"] = [None]
