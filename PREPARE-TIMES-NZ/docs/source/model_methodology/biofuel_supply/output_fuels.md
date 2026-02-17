@@ -6,7 +6,7 @@ Bioenergy outputs vary widely in how easily they substitute into existing energy
 
 Biogas is produced through the anaerobic digestion of organic waste, a biological process that generates three primary outputs: methane (CH₄), carbon dioxide (CO₂), and digestate. The methane component can be combusted to produce heat or electricity. Captured CO₂ may be utilised in various industrial applications, including horticultural enrichment and food and beverage manufacturing. The digestate serves as a nutrient-rich fertiliser and can substitute for synthetic alternatives. In New Zealand, biogas production is currently concentrated in landfills and wastewater treatment facilities, where it is primarily combusted on-site for electricity generation.
 
-Biomethane can be produced from upgrading biogas by removing CO2 and other impurities. It is chemically identical to fossil gas which is transmitted across the North Island in pipelines. Upgrading biogas to biomethane incurs costs. Note that biogas cannot commercially be upgraded to LPG fuel, which is a mix of propane and butane. In New Zealand there is just one facility producing biomethane and injecting into the gas pipeline network – Ecogas in Reporoa, with a second under development in Christchurch, which is expected to become operational at the end of 2026. 
+Biomethane can be produced from upgrading biogas by removing CO2 and other impurities. It is chemically identical to fossil gas which is transmitted across the North Island in pipelines. Upgrading biogas to biomethane incurs costs. Note that biogas cannot commercially be upgraded to LPG fuel, which is a mix of propane and butane. In New Zealand there is just one facility producing biomethane and injecting into the gas pipeline network – Ecogas in Reporoa, with a second biogas facility under development in Christchurch, which is expected to become operational at the end of 2026. 
 
 In a New Zealand context, this means injection into the North Island gas grid or use in industrial boilers and process heat applications at food processors, pulp and paper mills, or dairy plants.
 
@@ -36,6 +36,8 @@ A Central Queensland University study tested ternary blends – 10% biodiesel, 1
 Because ethanol production in New Zealand relies mainly on whey and other sugar-rich by-products, feedstock availability is concentrated in the North Island. Capital costs are similar to biodiesel but operating costs are more energy-intensive because of distillation and drying requirements.
 
 ### Overall perspective
+
+Fuel switching is represented through discrete technology replacement. Partial or staged substitution pathways (e.g. incremental biomethane blending or mixed-fuel systems) are only included where explicitly defined. Hybrid transition configurations are limited in the current formulation.
 
 In the near term, biodiesel offers the most practical drop-in pathway for reducing fossil-diesel use. Bioethanol blends provide additional emissions reductions where blending infrastructure exists, but they depend on co-solvents or minor fuel-handling changes. Advanced drop-ins like SAF promise seamless substitution in the long run but will require major capital investment and scaling before they become cost competitive.
 

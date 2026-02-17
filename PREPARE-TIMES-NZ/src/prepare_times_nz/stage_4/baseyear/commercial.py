@@ -79,7 +79,7 @@ def get_commercial_veda_table(df, input_map, enable_biogas=True):
         # if a tech could use these fuels, we say it can also use biogas
 
         com_nga_processes = get_processes_with_input_commodity(com_df, "COMNGA")
-        com_df = add_extra_input_to_topology(com_df, com_nga_processes, "COMBIG")
+        com_df = add_extra_input_to_topology(com_df, com_nga_processes, "COMBIM")
 
     return com_df
 
@@ -218,6 +218,7 @@ def emission_factors_df(emi_df, filename, label):
     emi_df["COMLPG"] = [59.32]
     emi_df["COMDSL"] = [69.63]
     emi_df["COMBIG"] = [None]
+    emi_df["COMBIM"] = [None]
     emi_df["COMGEO"] = [None]
     emi_df["COMPET"] = [68.79]
     emi_df["COMWOD"] = [None]

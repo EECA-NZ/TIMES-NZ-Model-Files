@@ -29,24 +29,42 @@ We assume that SAF can be imported, and that global markets will supply enough t
 TIMES-NZ includes anaerobic digestion (AD) as the transformation pathway for converting wood waste, agriculture residues, municipal waste, and animal manure into biogas. 
 AD is a commercially demonstrated technology that biologically converts organic material into a mixture of methane, carbon dioxide, and nutrient-rich digestate. AD systems can accept a range of feedstocks, including food waste, crops residues, and manures, provided that nutrient and moisture balances are maintained. In practice, most operating facilities blend multiple waste streams to optimise biological performance. Biogas can be used directly for heat or power, while upgraded biomethane can substitute for fossil gas in pipeline or industrial applications. The North Island offers better opportunities due to proximity to large waste streams, existing gas network connections, and easier distribution of biomethane. In contrast, South Island systems would likely serve local heat or vehicle-fuel markets because of higher transport costs for gas or digestate.
 
-A medium-scale anaerobic digestion facility with biogas upgrading and injection capability has an estimated total capital investment of NZD 22 million. (Including the cost of anaerobic digester, biogas upgrading system, grid connection infrastructure, and CO₂ recovery) Based on an indicative annual biogas output of 0.16 PJ, the resulting capital cost intensity is:
+A medium-scale anaerobic digestion facility processing around 12,000 tonnes of food waste annually has an estimated capital investment of NZD 16 million. Biogas upgrading and injection capability introduce an additional capital investment of NZD 6 million. (Including the cost of biogas upgrading system, grid connection infrastructure, and CO₂ recovery) Based on an indicative annual biogas output of 0.16 PJ, the resulting capital cost intensity for anaerobic digester is:
 
 ```{math}
 
-\frac{\text{22 million NZD}}{\text{0.16 PJ/a}} = 137.5 \text{million NZD per PJ/a}
+\frac{\text{16 million NZD}}{\text{0.16 PJ/a}} = 100 \text{million NZD per PJ/a}
 ```
 
-
-
-This value is applied in TIMES-NZ as the representative capital cost per unit of new biogas production capacity. Only commercially established AD and upgrading technologies are included in the modelling.
-
-Annual operating and maintenance costs for a facility of this size are approximately NZD 1.2 million per year, including energy use for digestion, pumping, mixing, gas upgrading, and general plant operation. Expressed per unit of annual biogas output, this corresponds to:
+The resulting capital cost intensity for upgrading to biomethane is:
 
 ```{math}
 
-VAROM = \dfrac{\text{1.2 million NZD/a}}{\text {0.16 PJ/a}} = \text{7.52 NZD per PJ} 
+\frac{\text{6 million NZD}}{\text{0.16 PJ/a}} = 37.5 \text{million NZD per PJ/a}
+```
+
+These values are applied in TIMES-NZ as the representative capital costs per unit of new biogas production capacity. Only commercially established AD and upgrading technologies are included in the modelling.
+
+Annual operating and maintenance costs for a facility of this size are approximately NZD 1.2 million per year, including energy use for digestion, pumping, mixing, gas upgrading, and general plant operation. Expressed per unit of annual biogas output, for an anaerobic digester this corresponds to:
+
+
+```{math}
+
+VAROM = \dfrac{\text{1 million NZD/a}}{\text {0.16 PJ/a}} = \text{6.25 NZD per PJ} 
 
 ```
+and for biomethane upgrading this corresponds to:
+
+```{math}
+
+VAROM = \dfrac{\text{0.2 million NZD/a}}{\text {0.16 PJ/a}} = \text{1.25 NZD per PJ} 
+
+```
+
+Biogas and biomethane are represented as distinct pathways in TIMES-NZ 3.0. Biogas may be used directly on-site for heat or CHP without upgrading. Biomethane requires an additional upgrading step and may substitute for natural gas where grid access exists.
+
+Upgrading is modelled as an optional, costed process and is assumed to be economically viable primarily at larger aggregated or municipal waste sources.
+
 ## Woody biomass transformation
 
 Woody biomass transformation generally includes several pre-treatment pathways such as chipping, drying, and pelletising. These processes convert forestry residues and sawmill by-products into more uniform fuels with defined efficiencies, energy inputs, and handling characteristics. Only commercially demonstrated technologies are considered. Moisture content is a key determinant of energy value for all wood fuels.

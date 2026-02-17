@@ -240,7 +240,7 @@ Description = "Declare biofuel energy commodities"
 SheetName = "Biofuels"
 TagName = "FI_Comm"
 Csets = ["NRG"] # (all energy commodities) 
-CommName = ["WODWST", "AGRWST", "MNCWST", "ANMMNR", "WOD", "OSWOD", "BPLT", "BDSL", "BIL", "DID", "DIJ", "SAF", "BIG"]
+CommName = ["WODWST", "AGRWST", "MNCWST", "ANMMNR", "WOD", "OSWOD", "BPLT", "BDSL", "BIL", "DID", "DIJ", "SAF", "BIG", "BIM"]
 Unit = ["PJ"] # All PJ 
 LimType = ["FX"]
 
