@@ -7,10 +7,12 @@
 - Added more detail to residential load curves, allowing for different load profiles per use type.
 - Added an additional bioefuel supply forecasts scenario with AD feedstock growth and higher recoverability of biomass.
 - Separated biogas and biomethane modelling commodities, including a specific process for carbon scrubbing.
+- Added demand flex options for residential water heating, including splits between scenarios
 
 **Model fixes**
 - (Residential) Resolved an error that undercounted space heating demand in detached dwellings.
 - (Natural gas) Fixed a methodological error that double-counted domestic natural gas costs.
+- (Commercial) Resolved an error that left commercial heatpumps more expensive than intended.
 
 ## 3.0.1
 
