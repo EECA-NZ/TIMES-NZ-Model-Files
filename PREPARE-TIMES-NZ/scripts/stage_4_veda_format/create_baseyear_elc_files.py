@@ -412,17 +412,37 @@ def create_distribution_tables(sensitivity=True, sensitivity_factor=0.01):
     )
     distribution_parameters["EFF~0"] = 0
 
-    if sensitivity:
-        sensitivity = distribution_parameters.copy()
-        sensitivity["INVCOST"] = sensitivity["INVCOST"] * sensitivity_factor
-        sensitivity["FIXOM"] = sensitivity["FIXOM"] * sensitivity_factor
-        save_elc_data(sensitivity, "distribution_parameters_sensitivity.csv")
-
     # ----- Save ---------------------------------------- #
 
     save_elc_data(distribution_commodities, "distribution_commodities.csv")
     save_elc_data(distribution_processes, "distribution_processes.csv")
     save_elc_data(distribution_parameters, "distribution_parameters.csv")
+
+    # Optionally, create a separate cost sensitivity file
+
+    if sensitivity:
+        sensitivity = distribution_parameters.copy()
+        sensitivity["INVCOST"] = sensitivity["INVCOST"] * sensitivity_factor
+        sensitivity["FIXOM"] = sensitivity["FIXOM"] * sensitivity_factor
+
+        sensitivity = sensitivity[["TechName", "Region", "FIXOM", "INVCOST"]]
+
+        # pivot long attribute
+        sensitivity = sensitivity.melt(
+            id_vars=["TechName", "Region"],
+            value_vars=["FIXOM", "INVCOST"],
+            var_name="Attribute",
+            value_name="Value",
+        )
+
+        # pivot wide regions
+        sensitivity = sensitivity.pivot(
+            index=["TechName", "Attribute"],  # rows
+            columns="Region",  # spread Region wide
+            values="Value",  # values to fill
+        ).reset_index()
+
+        save_elc_data(sensitivity, "distribution_parameters_sensitivity.csv")
 
 
 def create_elc_fuel_emissions(df):

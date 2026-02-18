@@ -2,7 +2,7 @@
 
 
 # if you update this at all, use find and replace to also ensure you update the transformation file names
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Transformation_LowCost" 
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_TransLowCost" 
 
 # Due to the way subres files are processed in Veda, it is required that each sheet begin with the sector
 # As defined in the BY Files
@@ -37,7 +37,7 @@ DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/cost
 [ResidentialSolarIslandDefinitions] 
 Description = "Ensure solar plants are available on either island. This is necesssary due to subres transformation usage"
 SheetName = "AVA"
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Transformation_LowCost_trans"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_TransLowCost_trans"
 TagName = "TFM_AVA"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/dist_solar/island_definitions.csv"
 
@@ -65,7 +65,7 @@ TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/cost_curves_moderate.csv"
 
 [OffshoreWindIslandDefinitions]
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Transformation_LowCost_trans"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_TransLowCost_trans"
 Description = "SubRES Transformation - ensure offshore wind built in correct islands"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/offshore/island_definitions.csv"
 SheetName = "AVA"
@@ -98,7 +98,7 @@ DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery
 [BatteryAvailability]
 Description = "Ensures batteries available on either island"
 SheetName = "AVA"
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Transformation_LowCost_trans"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_TransLowCost_trans"
 TagName = "TFM_AVA"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_availability.csv"
 
@@ -136,7 +136,7 @@ DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Transf
 [GenStackIslandDefinitions] 
 Description = "Ensure genstack plants end up in the right island(Transformation settings)"
 SheetName = "AVA"
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_Transformation_LowCost_trans"
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_ELC_TransLowCost_trans"
 TagName = "TFM_AVA"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/genstack/Transformation_island_definitions.csv"
 

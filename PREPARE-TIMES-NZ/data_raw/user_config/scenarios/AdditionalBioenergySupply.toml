@@ -7,5 +7,5 @@ WorkBookName = "SuppXLS/Scen_AdditionalBioenergySupply"
 
 Description = "Add increased bioenergy supply forecast limits."
 SheetName = "Biofuels"
-TagName = "TFM_UPD" # TFM tags for scenario files
+TagName = "TFM_INS" # TFM tags for scenario files
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/additional_bioenergy_supply_forecasts.csv"
