@@ -33,6 +33,7 @@ pri_filters = [
     {"col": "Renewable"},
     {"col": "Imported"},
     {"col": "FuelDetail", "label": "Fuel detail"},
+    {"col": "Process"},
 ]
 
 # we add fuel to main

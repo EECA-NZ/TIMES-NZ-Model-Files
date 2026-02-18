@@ -34,7 +34,6 @@ Demand,C_OTH-WH,Commercial,Other Commercial,"Low Temperature Heat (<100 C), Wate
 Demand,C_OTH-MPS,Commercial,Other Commercial,"Motive Power, Stationary"
 Demand,C_OTH-PUMP,Commercial,Other Commercial,Pumping
 Demand,C_OTH-MPM,Commercial,Other Commercial,"Motive Power, Mobile"
-Demand,C_OTH-PH,Commercial,Other Commercial,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,C_WSR-OTH,Commercial,WSR,Electronics and Other Electrical Uses
 Demand,C_WSR-LT,Commercial,WSR,Lighting
 Demand,C_WSR-CK,Commercial,WSR,"Intermediate Heat (100-300 C), Cooking"
@@ -44,6 +43,7 @@ Demand,C_WSR-WH,Commercial,WSR,"Low Temperature Heat (<100 C), Water Heating"
 Demand,C_WSR-RF,Commercial,WSR,Refrigeration
 Demand,C_WSR-MPS,Commercial,WSR,"Motive Power, Stationary"
 Demand,C_WSR-MPM,Commercial,WSR,"Motive Power, Mobile"
+Demand,C_OTH-PH,Commercial,Other Commercial,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,T_P_Car,Transport,Road Transport,Light Passenger Vehicle
 Demand,T_C_Car,Transport,Road Transport,Light Commercial Vehicle
 Demand,T_P_Mcy,Transport,Road Transport,Motorcycle

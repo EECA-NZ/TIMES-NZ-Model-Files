@@ -119,6 +119,12 @@ FTE_ELCBIG,Electricity generation,Biogas,Distribution
 FTE_TRABIG,Transport,Biogas,Distribution
 FTE_AGRBIG,Agriculture,Biogas,Distribution
 FTE_COMBIG,Commercial,Biogas,Distribution
+FTE_INDBIM,Industry,Biomethane,Distribution
+FTE_RESBIM,Residential,Biomethane,Distribution
+FTE_ELCBIM,Electricity generation,Biomethane,Distribution
+FTE_TRABIM,Transport,Biomethane,Distribution
+FTE_AGRBIM,Agriculture,Biomethane,Distribution
+FTE_COMBIM,Commercial,Biomethane,Distribution
 FTE_INDWOD,Industry,Wood,Distribution
 FTE_RESWOD,Residential,Wood,Distribution
 FTE_ELCWOD,Electricity generation,Wood,Distribution
