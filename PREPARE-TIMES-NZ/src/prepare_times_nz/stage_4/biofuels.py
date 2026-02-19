@@ -163,7 +163,10 @@ def finalise_supply_forecast(
         out = out.rename(columns={island_col: "Region"})
 
     keep = [c for c in out_cols if c in out.columns] + year_cols
-    return out[keep]
+
+    out = out[keep]
+    out["ACT_BND~0"] = "3"
+    return out
 
 
 # ----------------------------------------------------------------------------
