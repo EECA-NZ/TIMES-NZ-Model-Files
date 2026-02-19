@@ -51,9 +51,17 @@ def generate_ren_af_file():
     # (or that solar/geo don't spill)
     fixed_af_techs = ["SolarDist", "SolarTrack", "SolarFixed"]
 
+    # seasonal techs are those where we want flex within parent slices
+    seasonal_af_techs = ["HydSC"]
+    #
+
     # additional requirements
     df["LimType"] = np.where(df["TechCode"].isin(fixed_af_techs), "FX", "UP")
-    df["Attribute"] = "NCAP_AF"
+
+    # generate AFs (AFS for seasonal techs)
+    df["Attribute"] = np.where(
+        df["TechCode"].isin(seasonal_af_techs), "NCAP_AFS", "NCAP_AF"
+    )
 
     # generate wildcards
     df["Pset_PN"] = "ELC_" + df["TechCode"] + "_*"
@@ -70,7 +78,6 @@ def generate_baseload_file():
     This means baseload, effectively
     We'll do it for geo too
 
-
     """
 
     yrfr = pd.read_csv(STAGE_2_DATA / "settings/load_curves/yrfr.csv")
@@ -82,12 +89,15 @@ def generate_baseload_file():
 
     codes = tc.merge(cf, on=["TechnologyCode", "FuelType"])
 
-    # only cogen capfactors
-    codes = codes[codes["TechnologyCode"] == "COG"]
+    # only cogen or geo capfactors
+    codes = codes[(codes["TechnologyCode"] == "COG") | (codes["Tech_TIMES"] == "Geo")]
+
     codes = codes[["Tech_TIMES", "CapacityFactor"]].drop_duplicates()
 
     # expand to all timeslices
-
+    #   note: reasonably sure this works the same if we don't expand
+    #   and just leave timeslice blank, then each child slice inherits
+    #   but making explicit for now just in case
     df = codes.merge(slices, how="cross")
 
     # labelling
@@ -104,6 +114,14 @@ def generate_baseload_file():
     # select key vars
     df = df[["TimeSlice", "LimType", "Attribute", "NI", "SI", "Pset_PN"]]
 
+    # wildcard adjustment - want to ensure the geochp doesn't get confused
+    # without this it seems to think ELC_Geo_* applies to ELC_Geo_CHP_*
+    # which causes infeasibilities (both 80% and 95% availability constraints)
+    # this is a bit hardcoded sorry
+
+    df["Pset_PN"] = np.where(
+        df["Pset_PN"] == "ELC_Geo_*", "ELC_Geo_*, -ELC_GeoCHP_*", df["Pset_PN"]
+    )
     return df
 
 
