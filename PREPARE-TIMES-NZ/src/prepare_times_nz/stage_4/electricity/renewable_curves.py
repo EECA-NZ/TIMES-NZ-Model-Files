@@ -17,6 +17,7 @@ and we don't want to be updating this every time we switch a scenario run
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
@@ -125,6 +126,33 @@ def generate_baseload_file():
     return df
 
 
+def adjust_starting_year(df, year):
+    """
+    The renewable availability curves may be different from our
+    Base year generation for various reasons
+    We force the afs to start from a specific year
+    and extrapolate forwards (not backwards)
+
+    Usually this would just be for baseyear+1
+    """
+    # define value columns to apply extrapolation with later
+    value_cols = ["NI", "SI"]
+
+    interp_code = 5  # forward but not back
+
+    df_main = df.copy()
+    df_main["Year"] = year
+
+    # interpolation/extrapolation
+    df_ie = df.copy()
+    df_ie["Year"] = 0
+    for col in value_cols:
+        df_ie[col] = interp_code
+
+    out = pd.concat([df_main, df_ie])
+    return out
+
+
 def main():
     """script wrapper"""
     df_ren = generate_ren_af_file()
@@ -132,8 +160,12 @@ def main():
 
     df = pd.concat([df_ren, df_baseload])
 
+    out = adjust_starting_year(df, BASE_YEAR + 1)
+
+    print(out)
+
     _save_data(
-        df,
+        out,
         "renewable_availability.csv",
         "Renewable availability curves",
         OUTPUT_LOCATION,
