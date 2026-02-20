@@ -82,7 +82,7 @@ curve_filters = [
 
 esd_filters = create_filter_dict("esd", core_filters)
 esd_curve_filters = create_filter_dict("esd_curve", curve_filters)
-# Group options (all filters except Sector/SectorGroup, which is in core groups)
+# Group options (combine core and options)
 esd_group_options = [d["col"] for d in core_filters]
 esd_all_group_options = base_cols + esd_group_options
 
