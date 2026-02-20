@@ -31,6 +31,7 @@ baseyear_techs_to_ban = {
     "T_P_B*LPG*": "LPG buses",
     "C_WSR-*-DirectH-GEO": "Commercial geothermal",
     "C*-NGA*": "Commercial natural gas",
+    "C*-DSL*": "Commercial diesel",
 }
 
 
