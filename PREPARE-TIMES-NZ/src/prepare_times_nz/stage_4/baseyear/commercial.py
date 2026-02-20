@@ -34,7 +34,7 @@ COMMERCIAL_DEMAND_VARIABLE_MAP = {
     "CommodityOut": "Comm-OUT",
     "Island": "Region",
     "Capacity": "PRC_RESID",
-    "AFA": "AF",
+    "AFA": "AFA",
     "CAPEX": "INVCOST",
     "OPEX": "FIXOM",
     "Efficiency": "EFF",
