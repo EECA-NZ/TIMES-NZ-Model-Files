@@ -39,8 +39,6 @@ TRANSPORT_ESD_FILE = FINAL_DATA / "transport_energy_service_demand.parquet"
 base_cols = [
     "Scenario",
     "Variable",
-    "SectorGroup",
-    "Sector",
     "Period",
     "Unit",
 ]
@@ -49,19 +47,16 @@ base_cols = [
 esd_curve_base_cols = [
     "Scenario",
     "Variable",
-    "SectorGroup",
     "TimeSlice",
     "Period",
-    "Sector",
     "Unit",
 ]
 
 
 # Filter options
 core_filters = [
-    # need to have Sector be at the top and not allow multiselect
-    # have added optional multiple parameter (defaults to true)
-    {"col": "Sector", "multiple": False},
+    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "Sector"},
     {"col": "EnduseGroup", "label": "End Use Group"},
     {"col": "EndUse", "label": "End Use"},
     {"col": "TechnologyGroup", "label": "Technology Group"},
@@ -75,7 +70,8 @@ curve_filters = [
     # need to have Sector be at the top and not allow multiselect
     # have added optional multiple parameter (defaults to true)
     {"col": "Period", "multiple": False, "label": "Year"},
-    {"col": "Sector", "multiple": False},
+    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "Sector"},
     {"col": "EnduseGroup", "label": "End Use Group"},
     {"col": "EndUse", "label": "End Use"},
     {"col": "TechnologyGroup", "label": "Technology Group"},
@@ -86,8 +82,8 @@ curve_filters = [
 
 esd_filters = create_filter_dict("esd", core_filters)
 esd_curve_filters = create_filter_dict("esd_curve", curve_filters)
-# Group options (all filters except Sector, which is in core groups)
-esd_group_options = [d["col"] for d in core_filters if d["col"] != "Sector"]
+# Group options (all filters except Sector/SectorGroup, which is in core groups)
+esd_group_options = [d["col"] for d in core_filters]
 esd_all_group_options = base_cols + esd_group_options
 
 # PARAMETER DICTIONARIES
@@ -97,7 +93,7 @@ esd_parameters = {
     "chart_id": "esd",
     "sec_id": "esd-total",
     "filters": esd_filters,
-    "section_title": "Energy service demand",
+    "section_title": "Energy service demand PJ",
     "base_cols": base_cols,
     "group_options": esd_group_options,
 }
@@ -131,12 +127,11 @@ transport_esd_base_cols = [
 
 # configure filter options
 transport_esd_filters_list = [
-    {"col": "Sector", "label": "Transport Sector"},
-    {"col": "Utilisation"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
-    {"col": "Technology"},
     {"col": "EnduseGroup", "label": "End Use Group"},
     {"col": "EndUse", "label": "End Use"},
+    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "Technology"},
+    {"col": "Utilisation"},
     {"col": "Region"},
 ]
 
@@ -151,7 +146,7 @@ transport_esd_parameters = {
     "chart_id": "transport_esd",
     "sec_id": "transport-esd",
     "filters": transport_esd_filters,
-    "section_title": "Transport Energy Service Demand",
+    "section_title": "Energy service demand VKT",
     "base_cols": transport_esd_base_cols,
     "group_options": transport_esd_group_options,
 }
