@@ -42,7 +42,6 @@ Demand,C_HLTH-WH-Boiler-COA,C_HLTH-WH,Commercial,Healthcare,Heating/Cooling,"Low
 Demand,C_HLTH-SH-Boiler-DSL,C_HLTH-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-MPM-MPM-DSL,C_HLTH-MPM,Commercial,Healthcare,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,C_HLTH-SH-Boiler-NGA,C_HLTH-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_HLTH-PH-Burner-BIG,C_HLTH-PH,Commercial,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,C_HLTH-SH-DirectH-GEO,C_HLTH-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Direct Heat
 Demand,C_HLTH-SH-Boiler-WOD,C_HLTH-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OFFC-OTH-ELEC-ELC,C_OFFC-OTH,Commercial,Office Blocks,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
@@ -82,7 +81,6 @@ Demand,C_OTH-SH-Boiler-NGA,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,
 Demand,C_OTH-SH-Burner-NGA,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,C_OTH-WH-Cylinder-NGA,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
 Demand,C_OTH-MPM-MPM-PET,C_OTH-MPM,Commercial,Other Commercial,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,C_OTH-PH-Burner-BIG,C_OTH-PH,Commercial,Other Commercial,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,C_OTH-WH-DirectH-GEO,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Direct Heat
 Demand,C_WSR-OTH-ELEC-ELC,C_WSR-OTH,Commercial,WSR,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,C_WSR-LT-FLU-ELC,C_WSR-LT,Commercial,WSR,Electronics and Lighting,Lighting,Electronics and Lights,Lights (Fluorescent)
@@ -112,13 +110,15 @@ Demand,C_WSR-WH-Cylinder-NGA,C_WSR-WH,Commercial,WSR,Heating/Cooling,"Low Temper
 Demand,C_WSR-MPM-MPM-NGA,C_WSR-MPM,Commercial,WSR,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,C_WSR-SH-DirectH-GEO,C_WSR-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Direct Heat
 Demand,C_WSR-WH-DirectH-GEO,C_WSR-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Direct Heat
+Demand,C_HLTH-PH-Burner-BIG,C_HLTH-PH,Commercial,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Burner (Direct Heat)
+Demand,C_OTH-PH-Burner-BIG,C_OTH-PH,Commercial,Other Commercial,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,C_EDU-SH-Boiler-PLT,C_EDU-SH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_EDU-SH-Boiler-ELC,C_EDU-SH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_EDU-SH-Boiler-BIG,C_EDU-SH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_EDU-SH-Boiler-BIM,C_EDU-SH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_EDU-SH-Boiler-H2R,C_EDU-SH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_EDU-WH-Boiler-WOD,C_EDU-WH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_EDU-WH-Boiler-PLT,C_EDU-WH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_EDU-WH-Boiler-BIG,C_EDU-WH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_EDU-WH-Boiler-BIM,C_EDU-WH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_EDU-WH-Boiler-H2R,C_EDU-WH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_EDU-SH-GHP-ELC,C_EDU-SH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
 Demand,C_EDU-SH-GHP-ELC,C_EDU-SH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
@@ -134,16 +134,16 @@ Demand,C_EDU-SC-GHP-ELC,C_EDU-SC,Commercial,Education,Heating/Cooling,Space Cool
 Demand,C_EDU-SC-GHP-ELC,C_EDU-SC,Commercial,Education,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
 Demand,C_HLTH-SH-Boiler-PLT,C_HLTH-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-SH-Boiler-ELC,C_HLTH-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_HLTH-SH-Boiler-BIG,C_HLTH-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_HLTH-SH-Boiler-BIM,C_HLTH-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-SH-Boiler-H2R,C_HLTH-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-WH-Boiler-WOD,C_HLTH-WH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-WH-Boiler-PLT,C_HLTH-WH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-WH-Boiler-ELC,C_HLTH-WH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_HLTH-WH-Boiler-BIG,C_HLTH-WH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_HLTH-WH-Boiler-BIM,C_HLTH-WH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-WH-Boiler-H2R,C_HLTH-WH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-PH-Boiler-WOD,C_HLTH-PH,Commercial,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-PH-Boiler-PLT,C_HLTH-PH,Commercial,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,C_HLTH-PH-Boiler-BIG,C_HLTH-PH,Commercial,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,C_HLTH-PH-Boiler-BIM,C_HLTH-PH,Commercial,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-PH-Boiler-H2R,C_HLTH-PH,Commercial,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-SH-GHP-ELC,C_HLTH-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
 Demand,C_HLTH-SH-GHP-ELC,C_HLTH-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
@@ -160,12 +160,12 @@ Demand,C_HLTH-SC-GHP-ELC,C_HLTH-SC,Commercial,Healthcare,Heating/Cooling,Space C
 Demand,C_OFFC-SH-Boiler-WOD,C_OFFC-SH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OFFC-SH-Boiler-PLT,C_OFFC-SH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OFFC-SH-Boiler-ELC,C_OFFC-SH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OFFC-SH-Boiler-BIG,C_OFFC-SH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OFFC-SH-Boiler-BIM,C_OFFC-SH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OFFC-SH-Boiler-H2R,C_OFFC-SH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OFFC-WH-Boiler-WOD,C_OFFC-WH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OFFC-WH-Boiler-PLT,C_OFFC-WH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OFFC-WH-Boiler-ELC,C_OFFC-WH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OFFC-WH-Boiler-BIG,C_OFFC-WH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OFFC-WH-Boiler-BIM,C_OFFC-WH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OFFC-WH-Boiler-H2R,C_OFFC-WH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OFFC-SH-GHP-ELC,C_OFFC-SH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
 Demand,C_OFFC-SH-GHP-ELC,C_OFFC-SH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
@@ -183,12 +183,12 @@ Demand,C_WSR-CK-Ovens-H2R,C_WSR-CK,Commercial,WSR,Heating/Cooling,"Intermediate 
 Demand,C_WSR-SH-Boiler-WOD,C_WSR-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_WSR-SH-Boiler-PLT,C_WSR-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_WSR-SH-Boiler-ELC,C_WSR-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_WSR-SH-Boiler-BIG,C_WSR-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_WSR-SH-Boiler-BIM,C_WSR-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_WSR-SH-Boiler-H2R,C_WSR-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_WSR-WH-Boiler-WOD,C_WSR-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_WSR-WH-Boiler-PLT,C_WSR-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_WSR-WH-Boiler-ELC,C_WSR-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_WSR-WH-Boiler-BIG,C_WSR-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_WSR-WH-Boiler-BIM,C_WSR-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_WSR-WH-Boiler-H2R,C_WSR-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_WSR-SH-GHP-ELC,C_WSR-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
 Demand,C_WSR-SH-GHP-ELC,C_WSR-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)
@@ -204,12 +204,12 @@ Demand,C_WSR-SC-GHP-ELC,C_WSR-SC,Commercial,WSR,Heating/Cooling,Space Cooling,He
 Demand,C_OTH-SH-Boiler-WOD,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OTH-SH-Boiler-PLT,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OTH-SH-Boiler-ELC,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-SH-Boiler-BIG,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-SH-Boiler-BIM,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OTH-SH-Boiler-H2R,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OTH-WH-Boiler-WOD,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OTH-WH-Boiler-PLT,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OTH-WH-Boiler-ELC,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-WH-Boiler-BIG,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,C_OTH-WH-Boiler-BIM,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OTH-WH-Boiler-H2R,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OTH-SH-GHP-ELC,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Cooling)
 Demand,C_OTH-SH-GHP-ELC,C_OTH-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump Ground Source (for Heating)

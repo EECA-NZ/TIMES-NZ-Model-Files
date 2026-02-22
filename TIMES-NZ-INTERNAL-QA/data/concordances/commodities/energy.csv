@@ -3,6 +3,7 @@ AGRAGRWST,Agricultural waste,Energy
 AGRANMMNR,Animal manure,Energy
 AGRBDSL,Biodiesel,Energy
 AGRBIG,Biogas,Energy
+AGRBIM,Biomethane,Energy
 AGRBPLT,Black Pellet,Energy
 AGRCOA,Coal,Energy
 AGRDID,Drop-in Diesel,Energy
@@ -30,12 +31,14 @@ AGRWST,Agricultural waste,Energy
 ANMMNR,Animal manure,Energy
 BDSL,Biodiesel,Energy
 BIG,Biogas,Energy
+BIM,Biomethane,Energy
 BPLT,Black Pellet,Energy
 COA,Coal,Energy
 COMAGRWST,Agricultural waste,Energy
 COMANMMNR,Animal manure,Energy
 COMBDSL,Biodiesel,Energy
 COMBIG,Biogas,Energy
+COMBIM,Biomethane,Energy
 COMBPLT,Black Pellet,Energy
 COMCOA,Coal,Energy
 COMDID,Drop-in Diesel,Energy
@@ -67,6 +70,7 @@ ELCAGRWST,Agricultural waste,Energy
 ELCANMMNR,Animal manure,Energy
 ELCBDSL,Biodiesel,Energy
 ELCBIG,Biogas,Energy
+ELCBIM,Biomethane,Energy
 ELCBPLT,Black Pellet,Energy
 ELCCOA,Coal,Energy
 ELCDD,Electricity,Energy
@@ -100,6 +104,7 @@ INDAGRWST,Agricultural waste,Energy
 INDANMMNR,Animal manure,Energy
 INDBDSL,Biodiesel,Energy
 INDBIG,Biogas,Energy
+INDBIM,Biomethane,Energy
 INDBPLT,Black Pellet,Energy
 INDCOA,Coal,Energy
 INDDID,Drop-in Diesel,Energy
@@ -136,6 +141,7 @@ RESAGRWST,Agricultural waste,Energy
 RESANMMNR,Animal manure,Energy
 RESBDSL,Biodiesel,Energy
 RESBIG,Biogas,Energy
+RESBIM,Biomethane,Energy
 RESBPLT,Black Pellet,Energy
 RESCOA,Coal,Energy
 RESDID,Drop-in Diesel,Energy
@@ -164,6 +170,7 @@ TRAAGRWST,Agricultural waste,Energy
 TRAANMMNR,Animal manure,Energy
 TRABDSL,Biodiesel,Energy
 TRABIG,Biogas,Energy
+TRABIM,Biomethane,Energy
 TRABPLT,Black Pellet,Energy
 TRACOA,Coal,Energy
 TRADID,Drop-in Diesel,Energy
