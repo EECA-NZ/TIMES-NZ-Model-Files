@@ -176,7 +176,6 @@ def build_bioenergy_supply_forecast_df(
     recoverability_col: str,
     *,
     return_long_format: bool = False,
-    apply_custom_filtering: bool = False,
 ) -> pd.DataFrame:
     """
     Common logic for creating bioenergy supply forecast DataFrame.
@@ -184,7 +183,6 @@ def build_bioenergy_supply_forecast_df(
     Args:
         recoverability_col: Which recoverability factor column to use.
         return_long_format: If True, returns long-format table with Island.
-        apply_custom_filtering: If True, apply ACT_BND year filtering by TechName.
     """
     prices_df = pd.read_csv(biomass_prices)
     supply_df = pd.read_csv(biomass_supply_pj)
@@ -266,23 +264,7 @@ def build_bioenergy_supply_forecast_df(
         merged = merged[merged["Island"].notna()]
         merged = pd.concat([merged, ni_rows, si_rows], ignore_index=True)
 
-    # Keep only ACT_BND~2024 for some TechNames, ACT_BND~2026 for others
-    if apply_custom_filtering:
-        act_bnd_cols = [c for c in merged.columns if c.startswith("ACT_BND~")]
-        keep_year_by_tech = {
-            "MINMNCWST00": 2024,
-            "MINMNCWST01": 2024,
-            "MINAGRWST00": 2024,
-            "MINAGRWST01": 2024,
-            "MINANMMNR00": 2024,
-            "MINOILWST00": 2026,
-            "MINOILWST01": 2026,
-        }
-
-        for tech, keep_year in keep_year_by_tech.items():
-            keep_col = f"ACT_BND~{keep_year}"
-            drop_cols = [c for c in act_bnd_cols if c != keep_col]
-            merged.loc[merged["TechName"] == tech, drop_cols] = pd.NA
+    # ...existing code...
 
     if return_long_format:
         act_bnd_cols = [c for c in merged.columns if c.startswith("ACT_BND~")]
@@ -392,7 +374,6 @@ def create_biofuel_supply_forecasts() -> pd.DataFrame:
     base = build_bioenergy_supply_forecast_df(
         recoverability_col="Recoverability factor 2 (% of gross)",
         return_long_format=False,
-        apply_custom_filtering=True,  # <- ONLY here
     )
 
     # Apply constant supply overrides using shared module-level dicts
@@ -421,14 +402,17 @@ def create_additional_bioenergy_supply_forecasts() -> pd.DataFrame:
     wide_base = build_bioenergy_supply_forecast_df(
         recoverability_col="Recoverability factor 1 (% of gross)",
         return_long_format=False,
-        apply_custom_filtering=False,
     )
 
-    # Apply the same constants
+    # Apply the constants, but multiply SUPPLY_CONSTANTS_ALL_YEARS by 4 for this scenario
+    supply_constants_4x = {
+        tech: {region: val * 4 for region, val in region_vals.items()}
+        for tech, region_vals in SUPPLY_CONSTANTS_ALL_YEARS.items()
+    }
     wide_base = apply_supply_constants(
         wide_base,
         region_col="Island",
-        constants_all_years=SUPPLY_CONSTANTS_ALL_YEARS,
+        constants_all_years=supply_constants_4x,
         constants_from_year=2026,
         constants_from_year_map=SUPPLY_CONSTANTS_FROM_2026,
     )
