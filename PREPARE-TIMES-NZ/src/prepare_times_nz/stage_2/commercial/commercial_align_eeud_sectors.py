@@ -17,7 +17,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
@@ -46,7 +45,12 @@ group_cols = [
     "Unit",
 ]
 
-DC_ENERGY_DEMAND = 0.856  # PJ, from NZTech data centre report
+DC_ENERGY_DEMAND = 0.492
+# PJ, from NZTech data centre report is 0.856 >> 104 MW.
+# However, this is the estimated demand for 2025.
+# The market data support that 2023 demand is around 60 MW,
+# with CDC hyperscale opens and DCI AKL01 completed.
+# With the completion of Microsoft Azure and AWS NZ region this will rise to 104 MW.
 
 # Be tolerant of Windows-encoded source CSVs
 READ_OPTS = {"encoding": "cp1252", "encoding_errors": "replace"}
@@ -67,7 +71,6 @@ TIMES_EEUD_CATS = CONCORDANCES / "times_eeud_commercial_categories.csv"
 SPLITS_FILE = (
     COMMERCIAL_ASSUMPTIONS / "fuel_splits_by_sector_enduse.csv"
 )  # Sector, Fuel, Enduse, Share
-LIGHT_SPLITS_FILE = COMMERCIAL_ASSUMPTIONS / "light_splits.csv"
 SPLITS_DATA_CENTRES = COMMERCIAL_ASSUMPTIONS / "data_centre_demand.csv"
 
 # Output names
@@ -207,64 +210,6 @@ def _load_splits() -> pd.DataFrame:
 
     splits["Share"] = pd.to_numeric(splits["Share"], errors="coerce").fillna(0.0)
     return splits
-
-
-def _load_light_splits() -> pd.DataFrame:
-    """
-    Load light_splits.csv and return normalized splits with shares summing to 1
-    per (TechnologyGroup, EndUse, EnduseGroup, Fuel).
-    Expected columns (case/spacing tolerant):
-        TechnologyGroup, Technology, Fuel, Enduse, EnduseGroup, Share
-    """
-    if not LIGHT_SPLITS_FILE.exists():
-        logger.info(
-            "Lights split file not found → %s (skipping)", blue_text(LIGHT_SPLITS_FILE)
-        )
-        return pd.DataFrame()
-
-    ls = pd.read_csv(
-        LIGHT_SPLITS_FILE,
-        encoding="utf-8-sig",
-        **{k: v for k, v in READ_OPTS.items() if k != "encoding"},
-    )
-
-    cmap = {_norm_header(c): c for c in ls.columns}
-    required = [
-        "technologygroup",
-        "technology",
-        "fuel",
-        "enduse",
-        "endusegroup",
-        "share",
-    ]
-    missing = [r for r in required if r not in cmap]
-    if missing:
-        raise KeyError(
-            f"light_splits.csv missing columns {missing}. "
-            f"Found: {list(ls.columns)} File: {LIGHT_SPLITS_FILE}"
-        )
-
-    ls = ls[
-        [
-            cmap["technologygroup"],
-            cmap["technology"],
-            cmap["fuel"],
-            cmap["enduse"],
-            cmap["endusegroup"],
-            cmap["share"],
-        ]
-    ].rename(
-        columns={
-            cmap["technologygroup"]: "TechnologyGroup",
-            cmap["technology"]: "TechnologyNew",
-            cmap["fuel"]: "Fuel",
-            cmap["enduse"]: "EndUse",
-            cmap["endusegroup"]: "EnduseGroup",
-            cmap["share"]: "Share",
-        }
-    )
-
-    return ls
 
 
 # ----------------------------------------------------------------------------
@@ -509,90 +454,24 @@ def apply_light_splits(
     df: pd.DataFrame, *, base_technology: str = "Lights"
 ) -> pd.DataFrame:
     """
-    Split rows where Technology == base_technology into specific lighting techs
-    using light_splits.csv. Match on (TechnologyGroup, EndUse, EnduseGroup, Fuel).
-    Applies across all sectors (add Sector to the key if you want sector-specific splits).
+    100% LED assumption: assign all lighting rows to LED.
     """
-    ls = _load_light_splits()
-    if ls.empty:
-        return df
-
-    key = ["TechnologyGroup", "EndUse", "EnduseGroup", "Fuel"]
 
     mask = df["Technology"].astype(str).str.strip().eq(base_technology)
     if not mask.any():
-        logger.info("No '%s' rows to split; skipping lights split", base_technology)
+        logger.info("No '%s' rows to split", base_technology)
         return df
 
     base_rows = df[mask].copy()
     keep_rows = df[~mask].copy()
 
-    # Give each base row a unique id so we can conserve totals per-row
-    base_rows["_rid"] = base_rows.index
+    # Assign LED to all lighting rows
+    base_rows["Technology"] = "Lights (LED)"
 
-    # (Optional but recommended) clean split keys
-    for c in key:
-        if c in ls.columns:
-            ls[c] = (
-                ls[c]
-                .astype(str)
-                .str.replace("\ufeff", "", regex=False)
-                .str.replace(r"\s+", " ", regex=True)
-                .str.strip()
-            )
-    for c in key:
-        if c in base_rows.columns:
-            base_rows[c] = (
-                base_rows[c]
-                .astype(str)
-                .str.replace("\ufeff", "", regex=False)
-                .str.replace(r"\s+", " ", regex=True)
-                .str.strip()
-            )
-
-    joined = base_rows.merge(ls[key + ["TechnologyNew", "Share"]], on=key, how="left")
-
-    matched = joined["Share"].notna()
-    # --- 1) keep unmatched base-technology rows AS-IS (no loss)
-    # If a base row has no matches at all, it will appear exactly once with Share NaN
-    unmatched_rows = joined[~matched].copy()
-    # Reduce unmatched back to the original base rows (drop split columns)
-    if not unmatched_rows.empty:
-        unmatched_rows = unmatched_rows.drop(
-            columns=["TechnologyNew", "Share"], errors="ignore"
-        ).drop_duplicates(subset=["_rid"])
-
-    # --- 2) split matched rows (renormalize shares per _rid to preserve totals)
-    split_rows = joined[matched].copy()
-    if not split_rows.empty:
-        # Ensure numeric Value
-        split_rows["Value"] = pd.to_numeric(split_rows["Value"], errors="coerce")
-
-        # Sum of shares per original row
-        share_sum = split_rows.groupby("_rid")["Share"].transform("sum")
-
-        # Avoid divide-by-zero; where share_sum is 0/NaN, fall back to 1 (will keep Value unchanged)
-        share_sum_safe = share_sum.where(share_sum > 0, 1.0)
-
-        # Scale so split Values sum exactly to the original Value per _rid
-        split_rows["Value"] = split_rows["Value"] * (
-            split_rows["Share"] / share_sum_safe
-        )
-
-        # Assign new technologies and drop helper columns
-        split_rows["Technology"] = split_rows["TechnologyNew"]
-        split_rows = split_rows.drop(columns=["TechnologyNew", "Share"])
-
-    # combine and re-aggregate
-    # Note: exclude helper _rid from grouping
+    # Combine and re-aggregate
     grouping_cols = [c for c in df.columns if c != "Value"]
-    # Ensure we drop the helper _rid before final groupby
-    for tmp in (keep_rows, unmatched_rows, split_rows):
-        if "_rid" in tmp.columns:
-            tmp.drop(columns="_rid", inplace=True, errors="ignore")
-
     out = (
-        pd.concat([keep_rows, unmatched_rows, split_rows], ignore_index=True)
+        pd.concat([keep_rows, base_rows], ignore_index=True)
         .groupby(grouping_cols, as_index=False, dropna=False)["Value"]
         .sum()
     )
@@ -600,26 +479,9 @@ def apply_light_splits(
     # optional: tame tiny float drift
     out["Value"] = out["Value"].round(12)
 
-    # sanity check: totals before vs after for the base tech
-    before_total = df.loc[mask, "Value"].sum(skipna=True)
-    after_total = out.loc[
-        out["Technology"].str.startswith("Lights", na=False), "Value"
-    ].sum(skipna=True)
-    if (
-        not pd.isna(before_total)
-        and not pd.isna(after_total)
-        and not np.isclose(before_total, after_total, rtol=0, atol=1e-9)
-    ):
-        logger.warning(
-            "Lighting split total changed: before=%s after=%s (diff=%s)",
-            before_total,
-            after_total,
-            after_total - before_total,
-        )
-
     # optional: keep your existing check output
     chk = (
-        out[out["Technology"].str.startswith("Lights", na=False)]
+        out[out["Technology"] == "Lights (LED)"]
         .groupby(
             ["TechnologyGroup", "Technology", "Fuel", "EndUse", "EnduseGroup"],
             as_index=False,
@@ -688,7 +550,7 @@ def main() -> None:
     logger.info("Allocating Data Centre demand and deducting from ANZSIC J…")
     df = allocate_data_centre_demand(df)
 
-    logger.info("Applying lighting technology splits (Incandescent/Fluorescent/LED)…")
+    logger.info("Applying lighting technology splits (LED)…")
     df = apply_light_splits(df, base_technology="Lights")
 
     logger.info("Writing checks (shares by sector)…")
