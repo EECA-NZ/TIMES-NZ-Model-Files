@@ -1,0 +1,12 @@
+Group,EndUse,EndUseCategory
+Heating/Cooling,Refrigeration,White goods
+Heating/Cooling,Space Cooling,Space cooling
+Heating/Cooling,"Low Temperature Heat (<100 C), Clothes Drying",White goods
+Heating/Cooling,"Low Temperature Heat (<100 C), Clothes Washing",White goods
+Heating/Cooling,"Low Temperature Heat (< 100 C), Dishwashers",White goods
+Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Space heating
+Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Water heating
+Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Cooking
+Electronics and Lighting,Electronics and other Electrical Uses,IT&HE
+Electronics and Lighting,Lighting,Lighting
+Mobile Motive Power,Mobile Motive Power,Other Equipment

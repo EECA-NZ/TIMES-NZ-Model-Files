@@ -1,0 +1,89 @@
+#This file contains a list of changes we've made to EEUD categories 
+
+# add more by creating another [[rule]] block, then listing its conditions and updates. 
+# Recommend you also add a name and justification - these will be reported by the scrips.
+# These should also all be documented in the TIMES docs (Currently under "Other Changes to the EEUD")
+
+[[rule]]
+Name = "Geothermal Heat Exchangers"
+Justification = "Redefining Geothermal Boilers as Heat Exchangers"
+
+  [rule.conditions]
+  Fuel = "Geothermal"
+  Technology = "Boiler Systems"
+
+  [rule.updates]
+  Technology = "Heat Exchangers"
+
+
+
+[[rule]]
+Name = "Ballance Compressors"
+Justification = "Declaring Ballance's pumps as Compressors for clarity"
+
+  [rule.conditions]  
+  Sector = "Urea"
+  Fuel = "Natural Gas"
+  Technology = "Pump Systems (for Fluids, etc.)"
+
+  [rule.updates]
+  Technology = "Compressors"
+
+
+
+[[rule]]
+Name = "Labelling all the Methanex use as reforming"
+Justification = "We have allocated a lot of use to Methanex, but don't trust the implied share detail, so we call it all reforming"
+
+  [rule.conditions]  
+  Sector = "Methanol"
+  Fuel = "Natural Gas"
+  EndUse = "High Temperature Heat (>300 C), Process Requirements"  
+
+
+  [rule.updates]  
+  # note inconsistent pluralisation in the main data 
+  Technology = "Reformer"
+
+
+[[rule]]
+Name = "Removing high-temp use in wood sector"
+Justification = "There should not be high temp ele use in this sector - suspect miscategorisation. Recategorising as something more common."
+
+  [rule.conditions]  
+  Sector = "Wood Products"
+  Fuel = "Electricity"
+  EndUse = "High Temperature Heat (>300 C), Process Requirements"
+  Technology = "Burner (Direct Heat)"
+
+  [rule.updates]
+  EndUse = "Intermediate Heat (100-300 C), Process Requirements"
+  Technology = "Boiler Systems"
+
+
+[[rule]]
+Name = "Heat pumps for space heating"
+Justification = "We distinguish different technologies for heatpumps for space heating v space cooling"
+
+  [rule.conditions]     
+  
+  Technology = "Heat Pump (for Heating)"
+  EndUse = "Low Temperature Heat (<100 C), Space Heating"
+
+  [rule.updates]  
+  Technology = "Heat Pump (space heating)"
+
+
+  [[rule]]
+
+
+Name = "Heat pumps for process heating"
+Justification = "We distinguish different technologies for heatpumps for space heating v space cooling"
+
+  [rule.conditions]     
+  
+  Technology = "Heat Pump (for Heating)"
+  EndUse = "Low Temperature Heat (<100 C), Process Requirements"
+
+  [rule.updates]  
+  Technology = "Heat Pump (process heat)"

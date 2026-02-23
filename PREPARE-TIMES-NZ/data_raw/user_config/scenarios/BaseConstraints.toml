@@ -1,0 +1,16 @@
+# Base constraints for the model
+# Currently includes vehicle utilisation constraints in the transport sector
+
+
+WorkBookName = "SuppXLS/Scen_Base_Constraints"
+
+[VehicleUtilisationConstraints]
+Description = "Defines the utilisation of each group is at 33% stock."
+WorkBookName = "SuppXLS/Scen_Base_Constraints"
+SheetName = "VehicleUtilisation"
+TagName = "UC_T"
+DataLocation = "data_raw/coded_assumptions/transport_demand/tra_constraints.csv"
+# define uc_sets here
+[VehicleUtilisationConstraints.UCSets]
+  R_E = ""
+  T_E = ""

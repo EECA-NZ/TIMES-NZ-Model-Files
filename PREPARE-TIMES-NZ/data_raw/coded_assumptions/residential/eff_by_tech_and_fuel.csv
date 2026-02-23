@@ -1,0 +1,28 @@
+﻿Technology,Fuel,Efficiency,Note
+"Coal Heaters, Residential Only  ",Coal,0.55,From TIMES 2.0
+Resistance Heater,Electricity,1,From TIMES 2.0
+Burner (Direct Heat),Natural Gas,0.8,From TIMES 2.0
+Burner (Direct Heat),LPG,0.8,From TIMES 2.0
+Heat Pump (for Heating),Electricity,3.75,From TIMES 2.0
+Burner (Direct Heat),Wood,0.7,From TIMES 2.0
+"Burner, with Wetback",Wood,0.6,From TIMES 2.0. Not used for space heating in EEUD so no census space heating equivalent. In reality wetbacks do water + space - not represented properly in model! 
+Gas Water Heater,Natural Gas,0.8,From TIMES 2.0
+Gas Water Heater,LPG,0.8,From TIMES 2.0
+"Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",Natural Gas,0.4,From TIMES 2.0. Note must distinguish process tech for ele vs gas/lpg
+"Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",LPG,0.4,From TIMES 2.0. Note must distinguish process tech for ele vs gas/lpg
+"Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",Electricity,0.75,From TIMES 2.0. Note must distinguish process tech for ele vs gas/lpg
+Internal Combustion Engine (Recreational Marine)  ,Petrol,0.25,From TIMES 2.0. Not just rec marine (lawnmowers?)
+Internal Combustion Engine (Recreational Marine)  ,Diesel,0.25,From TIMES 2.0. Not just rec marine (lawnmowers?)
+Hot Water Cylinder,Electricity,1,From TIMES 2.0
+Heat Pump (for Cooling),Electricity,3.45,From TIMES 2.0
+Refrigeration Systems,Electricity,1.8,"From TIMES 2.0. Makes no difference to model results, just commodity demand, but fairly meaningless since no switching possible and output units unclear"
+IT and Entertainment,Electricity,0.9,"From TIMES 2.0. Makes no difference to model results, just commodity demand, but fairly meaningless since no switching possible and output units unclear"
+"Misc, Residential Only (Battery chargers, Pools, Pumps)  ",Electricity,1,"From TIMES 2.0. Makes no difference to model results, just commodity demand, but fairly meaningless since no switching possible and output units unclear"
+Fluorescent,Electricity,0.68,From TIMES 2.0
+Incandescent/Halogen,Electricity,0.15,From TIMES 2.0
+LED,Electricity,0.95,From TIMES 2.0
+Clothes Dryer,Electricity,0.25,"From TIMES 2.0. Makes no difference to model results, just commodity demand, but fairly meaningless since no switching possible and output units unclear"
+Clothes Washers,Electricity,0.25,"From TIMES 2.0. Makes no difference to model results, just commodity demand, but fairly meaningless since no switching possible and output units unclear"
+Dishwashers,Electricity,0.25,"From TIMES 2.0. Makes no difference to model results, just commodity demand, but fairly meaningless since no switching possible and output units unclear"
+Ground Source Heat Pump,Geothermal,0.4,From TIMES 2.0. Assuming all geo is space heating (GSHP)
+Hot Water Cylinder,Solar,0.6,From TIMES 2.0. Assuming all solar thermal is water heating

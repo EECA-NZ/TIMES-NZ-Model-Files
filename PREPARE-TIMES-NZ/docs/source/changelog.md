@@ -1,0 +1,48 @@
+
+# Changelog 
+
+## 3.0.2
+
+**Features**
+- Added more detail to residential load curves, allowing for different load profiles per use type.
+- Added an additional biofuel supply forecast scenario with AD feedstock growth and higher recoverability of biomass.
+- Separated biogas and biomethane modelling commodities, including a specific process for carbon scrubbing.
+- Added demand flex options for residential water heating, including splits between scenarios.
+
+**Model fixes**
+- (Residential) Resolved an error that undercounted space heating demand in detached dwellings.
+- (Natural gas) Fixed a methodological error that double-counted domestic natural gas costs.
+- (Commercial) Resolved an error that left commercial heatpumps more expensive and with worse efficiency than intended.
+- (Residential, Commercial) Fixed a methodological error that overly restricted demand device time flexibility.
+- (Electricity generation) Ensured geothermal plants operate as baseload.
+- (Electricity generation) Resolved an error that limited hydro dam output flexibility.
+
+**Assumption changes**
+- Adjusted Traditional and Transformation electricity generation NREL scenarios from Conservative and Moderate to Moderate and Advanced, respectively.
+- (Commercial, Residential) Increased heatpump lifetimes slightly.
+- (Industrial) Removed some load curve assumptions.
+
+## 3.0.1
+
+**Features**
+- Incorporated documentation into sphinx-based site for hosting on readthedocs.
+- Explorer now includes detailed transport demand, service, and capacity chart options.
+
+**Model fixes**
+- (Biofuel) Ensured electricity demand was integrated into biofuel transformation processes.
+- (Commercial) Resolved an error that led to some demand technologies being cheaper than intended.
+- (Electricity) Ensured biogas and biomethane were made available as options for existing gas-fired plants.
+- (Electricity) Allowed Huntly Rankines to use black pellets. 
+- (Transport) Ensured utilisation band constraints were properly fixed across model horizon.
+- (Transport) Resolved an error that led to electric heavy truck costs decreasing faster than intended in some scenarios. 
+- (Transport) Resolved an error that led to some vehicle types having unrealistic utilisation rates.
+
+## 3.0.0
+
+**Features**
+
+- Initial build of `PREPARE-TIMES-NZ` module, which creates TIMES-NZ model files based on hosted data and code.    
+    - All preprocessing methods migrated to python and open-sourced, to ensure replicability and tracability.     
+- Initial build of `TIMES-NZ-INTERNAL-QA` module, which allows for post-processing and interrogation of model results.
+    - Results hosted publicly and can be explored at the highest possible level of detail to ensure transparency. 
+- Rebuilt and updated model for base year 2023 and new Traditional and Transformation scenarios.

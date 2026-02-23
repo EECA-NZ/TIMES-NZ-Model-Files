@@ -1,0 +1,29 @@
+CommodityCode,Commodity
+AGRWST,Agricultural waste
+ANMMNR,Animal manure
+MNCWST,Municipal waste
+OSWOD,Wood residuals (onsite)
+INDOSDWOD,Wood residuals (onsite industrial)
+WODWST,Wood waste
+BDSL,Biodiesel
+COA,Coal
+DID,Drop-in Diesel
+DIJ,Drop-in Jet fuel
+DSL,Diesel
+ELC,Electricity
+FOL,Fuel oil
+H2R,Hydrogen
+JET,Jet fuel
+LNG,LNG
+LPG,LPG
+NGA,Natural gas
+PET,Petrol
+BIG,Biogas
+BIM,Biomethane
+WOD,Wood
+PLT,Wood Pellet
+GEO,Geothermal
+HYD,Hydro
+WIN,Wind
+SOL,Solar
+BPLT,Black Pellet

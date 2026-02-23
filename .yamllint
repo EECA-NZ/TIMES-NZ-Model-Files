@@ -1,0 +1,11 @@
+---
+extends: default
+
+ignore: |
+  .venv/
+  .git/
+  __pycache__/
+  .mypy_cache/
+  .pytest_cache/
+rules:
+  truthy: disable

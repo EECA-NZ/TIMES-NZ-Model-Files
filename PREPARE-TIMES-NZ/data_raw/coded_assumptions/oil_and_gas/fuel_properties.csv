@@ -1,0 +1,5 @@
+﻿Fuel,Fuel_TIMES,density_kgpl,ncv_mjpkg,Note
+Aviation Fuel,JET,0.79,43.35,Manual entry from MBIE oil tables fuel properties. Assume Jet A1
+Petrol,PET,0.74,44.01,Manual entry from MBIE oil tables fuel properties.
+Diesel,DSL,0.81,43.5,Manual entry from MBIE oil tables fuel properties.
+Fuel Oil,FOL,0.98,41.2,Manual entry from MBIE oil tables fuel properties.

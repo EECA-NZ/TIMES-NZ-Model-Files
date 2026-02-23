@@ -1,0 +1,29 @@
+Technology,Fuel,OPEX,PriceBaseYear,Notes
+Electric Motor,Electricity,14,2018,TIMES-NZ 2.0
+Electric Motor VSD,Electricity,14,2018,TIMES-NZ 2.0
+Irrigation,Electricity,917,2018,TIMES-NZ 2.0
+Irrigation VSD,Electricity,917,2018,TIMES-NZ 2.0
+Hot Water Cylinder,Electricity,18,2018,TIMES-NZ 2.0
+Heat Recovery System (Heating),Electricity,54,2018,TIMES-NZ 2.0
+Tractor,Diesel,39,2018,TIMES-NZ 2.0
+Truck,Diesel,70,2018,TIMES-NZ 2.0
+Ute,Diesel,12,2018,TIMES-NZ 2.0
+Internal Combustion Engine (Land Transport),Petrol,35,2018,TIMES-NZ 2.0
+"Pump Systems (for Fluids, etc.)",Electricity,31,2018,TIMES-NZ 2.0
+Refrigeration Systems,Electricity,58,2018,TIMES-NZ 2.0
+Heat Recovery System (Cooling),Electricity,84,2018,TIMES-NZ 2.0
+Lights,Electricity,,,
+Boiler Systems,Coal,11,2018,TIMES-NZ 2.0
+Boiler Systems,Diesel,1,2018,TIMES-NZ 2.0
+Boiler Systems,Natural Gas,4,2018,TIMES-NZ 2.0
+Boiler Systems,Geothermal,,,
+Burner (Direct heat),LPG,,,TBD
+Stationary Engine,Diesel,5,2023,
+Stationary Engine,Petrol,5,2023,
+Ground Based,Diesel,51,2018,TIMES-NZ 2.0
+Cable Yarding,Diesel,32,2018,TIMES-NZ 2.0
+Internal Combustion Engine (Sea Transport),Diesel,,,TBD
+Internal Combustion Engine (Sea Transport),Petrol,,,TBD
+Resistance Heater,Electricity,,,TBD
+Electronics,Electricity,,,TBD
+Furnace/Kiln,Diesel,,,TBD

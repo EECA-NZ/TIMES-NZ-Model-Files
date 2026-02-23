@@ -1,0 +1,65 @@
+# Base year ag, forest, fish sector settings for TIMES-NZ.
+
+WorkBookName = "VT_TIMESNZ_AGR"
+
+###############################################################################
+# Sector Fuels 
+###############################################################################
+
+[AgrFuelCommodityDefinitions]
+Description = "Defines commodities that are used to meet ag, forest, fish demand (eg AGRCOA)"
+SheetName = "AGR_Fuels"
+TagName = "FI_Comm"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_agr/fuel_commodity_definitions.csv"
+
+[AgrFuelProcessDefinitions]
+Description = "Defines the processes that can convert other TIMES Commodities into these fuels (eg COA -> COMCOA)"
+# Note that these are effectively dummy processes for modelling, and so should not contain technical parameters. 
+# The processes are defined with 'PRE' settings (meaning 'generic process') 
+SheetName = "AGR_Fuels"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_agr/fuel_delivery_definitions.csv"
+
+[AgrFuelProcessParameters]
+Description = "Defines technical parameters for dummy agr fuel processes (barely used)"
+SheetName = "AGR_Fuels"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_agr/fuel_delivery_parameters.csv"
+
+###############################################################################
+# Existing Technologies
+###############################################################################
+
+[AgrCommodityDefinitions]
+Description = "Defines commodities that are in the existing agr sector"
+SheetName = "AGR_Demand"
+TagName = "FI_Comm"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_agr/enduse_commodity_definitions.csv"
+
+[AgrProcessDefinitions]
+Description = "Defines all existing technologies capable for agr demand"
+SheetName = "AGR_Demand"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_agr/demand_process_definitions.csv"
+
+[AgrProcessParameters]
+Description = "Technical parameters for existing agr technologies"
+SheetName = "AGR_Demand"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_agr/agr_baseyear_demand.csv"
+
+[AgrProcessParameters2]
+Description = "Summary of agr demand for existing agr technologies by commodity"
+SheetName = "AGR_Demand"
+TagName = "FI_T: Demand"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_agr/agr_baseyear_demand2.csv"
+
+###############################################################################
+# Emissions Factors 
+###############################################################################
+
+[AgrEmissionsFactors]
+Description = "Defines emissions factors for agr fuels"
+SheetName = "AGR_Emissions"  
+TagName = "AGREMI"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_agr/agr_emission_factors.csv"

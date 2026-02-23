@@ -1,0 +1,11 @@
+# Additional Bioenergy Supply
+# Simple scenario file to optionally update the bioenergy supply projections that assume growth in Anaerobic Digestion feedstock availability and higher biomass recoverability
+
+WorkBookName = "SuppXLS/Scen_AdditionalBioenergySupply"
+
+[BioenergySupplyForecasts]
+
+Description = "Add increased bioenergy supply forecast limits."
+SheetName = "Biofuels"
+TagName = "TFM_INS" # TFM tags for scenario files
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/additional_bioenergy_supply_forecasts.csv"

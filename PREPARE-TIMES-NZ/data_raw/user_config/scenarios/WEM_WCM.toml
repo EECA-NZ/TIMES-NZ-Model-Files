@@ -1,0 +1,57 @@
+# WEM_WCM
+
+# this scenario file adds the winter energy margin and winter capacity margin constraints. 
+
+# The methods and rationale for these are documented more fully in the electricity docs. 
+
+
+# In a nutshell: 
+
+# The winter capacity margin declares the peaking equation, including a 15% NI margin.
+# The winter energy margin requires total energy capacity during winter to be able to meet margins nationally (16%) and in the south island (30%)
+
+# These are set by the EA several years back and Transpower reports on how well the system can meet them
+
+# While there are no market forces that dictate these must be met,
+# TIMES will optimise the system and some slack/margin is likely more realistic.
+# From this perspective the slack figures chosen are somewhat arbitrary. 
+
+WorkBookName = "SuppXLS/Scen_WEM_WCM"
+
+
+[PeakConstraint]
+Description = "Enables peak constraint (the Winter Capacity Margin/WCM)"
+SheetName = "WCM"
+TagName = "TFM_INS"
+Attribute = ["COM_PEAK"]
+AllRegions = [1]
+CSet_CN = "ELC"
+
+[PeakConstraintNIMargin]
+Description = "Sets 5% NI peak margin"
+SheetName = "WCM"
+TagName = "TFM_INS"
+Attribute = ["COM_PKRSV","COM_PKRSV"]
+Year = [2023,0] # extrapolate
+NI = [0.05,5] # 5%, extrapolate
+CSet_CN = ["ELC", "ELC"]
+
+
+[UC_WEM]
+Description = "User constraint: ensures a national energy margin during winter"
+SheetName = "UC_WEM"
+TagName = "UC_T"
+DataLocation = "data_intermediate/stage_3_scenario_data/wem_user_constraints/uc_wem.csv"
+[UC_WEM.UCSets]
+R_S = "NI, SI"
+TS_S = ""
+            
+
+[UC_WEM_SI]
+Description = "User constraint: ensures a south island energy margin during winter"
+SheetName = "UC_WEM_SI"
+TagName = "UC_T:SI"
+DataLocation = "data_intermediate/stage_3_scenario_data/wem_user_constraints/uc_wem_si.csv"
+[UC_WEM_SI.UCSets]
+R_E = "SI"
+TS_S = ""

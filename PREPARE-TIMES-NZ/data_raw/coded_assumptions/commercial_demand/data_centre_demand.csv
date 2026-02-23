@@ -1,0 +1,4 @@
+Sector,TechnologyGroup,Technology,Fuel,Enduse,EnduseGroup,Share
+Data Centre,Electronics and Lights,Electronics,Electricity,Electronics and Other Electrical Uses,Electronics and Lighting,0.83
+Data Centre,Heat/Cooling Devices,Heat Pump (for Cooling),Electricity,Space Cooling,Heating/Cooling,0.15
+Data Centre,Electronics and Lights,Lights,Electricity,Lighting,Electronics and Lighting,0.02

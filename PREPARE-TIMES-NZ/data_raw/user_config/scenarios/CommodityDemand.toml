@@ -1,0 +1,55 @@
+# Commodity Demand scenarios
+WorkBookName = "SuppXLS/Demands/Dem_Alloc+Series"
+
+# All commodity demand is done separately here. 
+# We make use of the Veda demand drivers and allocations to minimise complexity here
+# Note all actual demand driver tables need to go to their own scenario files (see below)
+
+##################################################################
+# DRIVER ALLOCATIONS 
+##################################################################
+
+[DriverAllocation]
+Description = "Allocates all commodities to a demand driver. These allocations are the same across all scenarios. The drivers themselves are adjusted."
+SheetName = "DriverAllocation"
+TagName = "DRVR_Allocation"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/driver_allocations.csv"
+
+# The allocation of the drivers and the parameters to the demand must be declared as shown in table ~DRVR_Allocation.
+# It is possible to build only one file called Dem_Alloc+Series.
+# The demand for each commodity will be projected by the appropriate driver as defined in the ScenDem_[SCENARIO_NAME] files
+# It is possible to also add calibrations and sensitivites to individual commodities, which can adjust their growth from the driver. 
+# Drivers are inserted as indices, but looking at the math it seems possible to insert these as raw inputs (eg population forecasts) and it still works the same
+
+# Potential to-do: Series 
+
+
+[HelperSeries]
+Description = "Provides helper series to support other index methods."
+SheetName = "Series"
+TagName = "Series"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/helper_series.csv"
+
+##################################################################
+# Traditional Scenario 
+##################################################################
+
+[TraditionalDemandScenario]
+Description = "Growth rates for all demand drivers (Traditional Scenario)"
+WorkBookName = "SuppXLS/Demands/ScenDem_Traditional"
+SheetName = "Driver"
+TagName = "DRVR_Table"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/demand_drivers_Traditional.csv"
+
+
+
+##################################################################
+# Transformation Scenario 
+##################################################################
+
+[TransformationDemandScenario]
+Description = "Growth rates for all demand drivers (Transformation Scenario)"
+WorkBookName = "SuppXLS/Demands/ScenDem_Transformation"
+SheetName = "Driver"
+TagName = "DRVR_Table"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/demand_drivers_Transformation.csv"

@@ -1,0 +1,7 @@
+﻿Option,Value
+Check #DIV/0 and #REF errors in Templates,1
+Create Dummy Imports for Energy and Material Commodities,0
+Create Dummy Imports for Demands,1
+Generate Vintage Bounds,0
+chkDoTAGSQC,1
+DumVarforUC,0

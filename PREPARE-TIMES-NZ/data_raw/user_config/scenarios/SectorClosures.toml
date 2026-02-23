@@ -1,0 +1,19 @@
+# Sector closure methods
+# This organised like a scenario, because conceptually it's more of a scenario modification.
+# but the workbook is actually a subres, because it introduces new technologies. 
+# The difference is that these new technologies are "fake", not intended to represent actual techs
+# but rather are dummy technologies intended to represent service demand declines
+
+WorkBookName = "SubRES_TMPL/SubRES_SectorClosures"
+
+[SectorClosureDeclarations]
+Description = "Declares processes used to close sectors by replacing their need for energy over a certain price point."
+SheetName = "SectorClosures"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/closure_declarations.csv"
+
+[SectorClosureParameters]
+Description = "Sets parameters for sector closures, including costs and possible start dates"
+SheetName = "SectorClosures"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/closure_parameters.csv"

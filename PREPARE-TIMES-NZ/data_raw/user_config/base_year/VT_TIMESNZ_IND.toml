@@ -1,0 +1,85 @@
+# Base year industry demand for TIMES-NZ 3.0.
+
+WorkBookName = "VT_TIMESNZ_IND"
+
+###########################################
+# BaseYear Demand 
+###########################################
+
+
+[IndustryEndUseCommodityDefinitions]
+Description = "Defines enduse industry commodities, such as space heating"
+SheetName = "Industry demand"
+TagName = "FI_Comm"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_ind/enduse_commodity_definitions.csv"
+
+[IndustryFuelCommodityDefinitions]
+Description = "Defines industry input fuel commodities, such as electricity (indELC)"
+SheetName = "Industry demand"
+TagName = "FI_Comm"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_ind/fuel_commodity_definitions.csv"
+
+[IndustryProcessDefinitions]
+Description = "Defines industry enduse processes, such as heatpumps"
+SheetName = "Industry demand"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_ind/demand_process_definitions.csv"
+
+[IndustryDemand]
+Description = "Industry base year demand topology and technical parameters"
+SheetName = "Industry demand"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_ind/industry_baseyear_details.csv"
+
+[IndustryDemand2]
+Description = "Industry total commodity demand (met by activity bound per process)"
+SheetName = "Industry demand"
+TagName = "FI_T: Demand"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_ind/industry_commodity_demand.csv"
+
+###############################################################################
+# Fuel Delivery
+###############################################################################
+
+[IndustryFuelProcessDefinitions]
+Description = "Defines industry fuel delivery processes that convert fuels (like NGA) into ind fuels (INDNGA)"
+SheetName = "Fuel Delivery"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_ind/fuel_delivery_definitions.csv"
+
+[IndustryFuelProcessParameters]
+Description = "Sets parameters for industry fuel delivery processes (mostly delivery costs)"
+SheetName = "Fuel Delivery"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_ind/fuel_delivery_parameters.csv"
+
+
+###############################################################################
+# Emissions
+###############################################################################
+
+
+[IndustryEmissionsDefinitions]
+Description = "Defines the industry emissions commodity"
+SheetName = "Emissions"
+TagName = "FI_Comm"
+Csets =    ["ENV"]
+CommName = ["INDCO2"]
+Unit =     ["kt"]
+CTSLvl =   ["ANNUAL"]
+
+[IndustryEmissionsParameters]
+Description = "Defines emissions factors for industry fuels. Currently hardcoded and need a proper update. To do with all other demand emission factors for consistency"
+SheetName = "Emissions"
+TagName = "COMEMI"
+CommName = "INDCO2"
+INDCOA = 92.65
+INDNGA = 54.11
+INDLPG = 59.32
+INDDSL = 69.45
+INDPET = 68.87
+INDFOL = 73.25
+INDGEO = 0
+INDWOD = 0
+
+

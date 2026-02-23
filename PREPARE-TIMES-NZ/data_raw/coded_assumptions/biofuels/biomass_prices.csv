@@ -1,0 +1,22 @@
+﻿ResidueType,TechName,Comm-OUT,Ownersfee$pergreentonne,Cost$pergreentonne,Cost$perGJ
+sustainable aviation fuel,IMPSAF,SAF,,,82
+straw and stover,MINAGRWST00,AGRWST,100,130,11.82
+horticultural residues,MINAGRWST01,AGRWST,10,26,3.77
+animal manure,MINANMMNR00,ANMMNR,,,21
+municipal wood wastes,MINMNCWST00,MNCWST,10,30,4.35
+municipal wastes,MINMNCWST01,MNCWST,,,21
+waste oil,MINOILWST00,OILWST,,,33.02
+tallow waste,MINOILWST01,OILWST,,,33.02
+pulp logs,MINWODSUPCUR00,WOD,59,59,8.55
+a grade logs,MINWODSUPCUR01,WOD,117,117,16.96
+k grade logs,MINWODSUPCUR02,WOD,95,95,13.77
+douglas-fir production thinnings,MINWODSUPCUR03,WOD,65,93,13.48
+wood processing residues,MINWODSUPOSWOD,OSWOD,20,48,7.02
+in-forests residues landings,MINWODWST00,WODWST,25,85,12.32
+in-forest residues cutover,MINWODWST01,WODWST,20,94,13.62
+waste thinnings,MINWODWST02,WODWST,20,105,15.22
+pruning residues,MINWODWST03,WODWST,5,120,17.39
+production thinnings,MINWODWST04,WODWST,20,95,13.77
+port bark,MINWODWST05,WODWST,5,21,3.04
+sawmill chip,MINWODWST06,WODWST,80,108,15.71
+shelterbelt turnover residuals,MINWODWST07,WODWST,20,36,3.27

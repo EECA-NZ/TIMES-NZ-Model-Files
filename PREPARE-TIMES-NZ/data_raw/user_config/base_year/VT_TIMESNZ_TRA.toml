@@ -1,0 +1,66 @@
+# Base year transport sector settings for TIMES-NZ
+
+WorkBookName = "VT_TIMESNZ_TRA"
+
+###############################################################################
+# Sector Fuels 
+###############################################################################
+
+[TransportFuelCommodityDefinitions]
+Description = "Defines commodities that are used to meet transport demand (eg TRAPET)"
+SheetName = "TRA_FuelSupply"
+TagName = "FI_Comm"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_tra/tra_fuel_commodity_definitions.csv"
+
+[TransportFuelProcessDefinitions]
+Description = "Defines the processes that can convert other TIMES Commodities into these fuels (eg PET -> TRAPET)"
+# Note that these are effectively dummy processes for modelling, and so should not contain technical parameters. 
+# The processes are defined with 'DISTR' settings (meaning 'distribution process') 
+SheetName = "TRA_FuelSupply"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_tra/tra_fuel_process_definitions.csv"
+
+[TransportFuelProcessParameters]
+Description = "Defines technical parameters for dummy transport fuel processes (barely used)"
+SheetName = "TRA_FuelSupply"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_tra/tra_fuel_process_parameters.csv"
+
+###############################################################################
+# Existing Technologies
+###############################################################################
+
+[TransportCommodityDefinitions]
+Description = "Defines commodities that are in the existing transport fleet"
+SheetName = "TRA_Demand-Vehicles"
+TagName = "FI_Comm"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_tra/tra_commodity_definitions.csv"
+
+[TransportProcessDefinitions]
+Description = "Defines all existing technologies capable for transport demand"
+SheetName = "TRA_Demand-Vehicles"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_tra/tra_process_definitions.csv"
+
+[TransportProcessParameters]
+Description = "Technical parameters for existing transport technologies"
+SheetName = "TRA_Demand-Vehicles"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_tra/tra_process_parameters.csv"
+
+[TransportProcessParameters2]
+Description = "Summary of transport demand for existing transport technologies by commodity"
+SheetName = "TRA_Demand-Vehicles"
+TagName = "FI_T: Demand"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_tra/tra_process_parameters2.csv"
+
+###############################################################################
+# Emissions Factors 
+###############################################################################
+
+[TransportEmissionsFactors]
+Description = "Defines emissions factors for transport fuels. Sources and references listed in config file. Excludes CH4 and N2O."
+SheetName = "TRA_Emissions"  
+TagName = "COMEMI"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_tra/tra_emission_factors.csv"
+

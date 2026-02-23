@@ -1,0 +1,5 @@
+Attribute,CommodityGroup,Variable
+VAR_Cap,,Demand device stock
+VAR_FIn,Energy,Energy demand
+VAR_FOut,Demand,Energy service demand
+VAR_FOut,Energy Emissions,Energy Emissions

@@ -1,0 +1,17 @@
+# Discount rate scenarios 
+
+WorkBookName = "SuppXLS/Scen_DiscountRates_Traditional"
+
+[DiscountRatesTraditional]
+Description = "Defines Traditional scenario discount rates. Note 10% default if not specified."
+WorkBookName = "SuppXLS/Scen_DiscountRates_Traditional"
+SheetName = "DiscountRates"
+TagName = "TFM_INS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_discount_rate/discount_rate_traditional.csv"
+
+[DiscountRatesTransformation]
+Description = "Defines Transformation scenario discount rates. Note 10% default if not specified."
+WorkBookName = "SuppXLS/Scen_DiscountRates_Transformation"
+SheetName = "DiscountRates"
+TagName = "TFM_INS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_discount_rate/discount_rate_transformation.csv"

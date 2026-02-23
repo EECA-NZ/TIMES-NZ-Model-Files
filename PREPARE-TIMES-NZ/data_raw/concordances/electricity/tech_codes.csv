@@ -1,0 +1,18 @@
+TechnologyCode,FuelType,MBIETechName,Fuel_TIMES,Tech_TIMES
+RNK,Coal,Coal,COA,Rankine
+RNK,Gas,Gas,NGA,Rankine
+COG,Gas,"Cogeneration, gas-fired",NGA,GasCHP
+COG,Wood,"Cogeneration, other",WOD,WoodCHP
+COG,Coal,"Cogeneration, other",COA,CoalCHP
+COG,Biogas,"Cogeneration, other",BIG,BiogasCHP
+GEO,Geothermal,Geothermal,GEO,Geo
+COG,Geothermal,Geothermal,GEO,GeoCHP
+BIG,Biogas,Reciprocating Biogas engine,BIG,BioRecip
+CCGT,Gas,Combined cycle gas turbine,NGA,CCGT
+OCGT,Gas,Open cycle gas turbine,NGA,GasPkr
+OCGT,Diesel,"Peaker, diesel-fired OCGT",DSL,DslPkr
+DSL,Diesel,"Peaker, diesel-fired OCGT",DSL,DslPkr
+SOL,Solar,Solar,SOL,SolarDist
+WIN,Wind,Wind,WIN,WindOn
+HYD,Hydro,"Hydro, schedulable",HYD,HydSC
+HYDRR,Hydro,"Hydro, run of river",HYD,HydRR

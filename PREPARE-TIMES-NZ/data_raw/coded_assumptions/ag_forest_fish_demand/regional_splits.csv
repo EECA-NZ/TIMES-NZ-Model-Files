@@ -1,0 +1,21 @@
+﻿Sector,Fuel,Technology ,NI_Share
+Dairy Cattle Farming,Electricity,,0.59
+Dairy Cattle Farming,Electricity,Irrigation,0.14
+Dairy Cattle Farming,Diesel,,0.58
+Dairy Cattle Farming,Petrol,,0.58
+Livestock Farming,Electricity,Irrigation,0.08
+Livestock Farming,Diesel,,0.44
+Livestock Farming,Petrol,,0.44
+Livestock Farming,Electricity,,0.44
+Horticulture (Outdoor),Electricity,,0.45
+Horticulture (Outdoor),Electricity,Irrigation,0.19
+Horticulture (Outdoor),Diesel,,0.45
+Indoor Cropping,Coal,,0.37
+Indoor Cropping,Diesel,,0.37
+Indoor Cropping,Natural Gas,,1
+Indoor Cropping,Geothermal,,1
+Indoor Cropping,Electricity,,0.64
+Forestry and Logging,,,0.74
+Forestry and Logging,Natural Gas,,1
+"Fishing, Hunting and Trapping",,,0.32
+Other Agriculture,,,0.5

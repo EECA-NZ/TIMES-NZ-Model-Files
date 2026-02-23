@@ -1,0 +1,24 @@
+﻿Sector,FuelGroup,Fuel,TechnologyGroup,Technology,EnduseGroup,EndUse,Share
+Dairy Cattle Farming,Fossil Fuels,Diesel,Mobile Motors,Ute,Mobile Motive Power,"Motive Power, Mobile",0.1
+Dairy Cattle Farming,Fossil Fuels,Diesel,Mobile Motors,Tractor,Mobile Motive Power,"Motive Power, Mobile",0.7
+Dairy Cattle Farming,Fossil Fuels,Diesel,Mobile Motors,Truck,Mobile Motive Power,"Motive Power, Mobile",0.2
+Dairy Cattle Farming,Electricity,Electricity,Electronics and Lights,Irrigation,Electronics and Lighting,Irrigation,0.75
+Dairy Cattle Farming,Electricity,Electricity,Electronics and Lights,Irrigation VSD,Electronics and Lighting,Irrigation,0.25
+Dairy Cattle Farming,Electricity,Electricity,Stationary Motors,Electric Motor,Stationary Motive Power,"Motive Power, Stationary",0.58
+Dairy Cattle Farming,Electricity,Electricity,Stationary Motors,Electric Motor VSD,Stationary Motive Power,"Motive Power, Stationary",0.42
+Dairy Cattle Farming,Electricity,Electricity,Heat/Cooling Devices,Hot Water Cylinder,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",0.62
+Dairy Cattle Farming,Electricity,Electricity,Heat/Cooling Devices,Heat Recovery System (Heating),Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",0.38
+Dairy Cattle Farming,Electricity,Electricity,Heat/Cooling Devices,Refrigeration Systems,Heating/Cooling,Refrigeration,0.62
+Dairy Cattle Farming,Electricity,Electricity,Heat/Cooling Devices,Heat Recovery System (Cooling),Heating/Cooling,Refrigeration,0.38
+Livestock Farming,Electricity,Electricity,Electronics and Lights,Irrigation,Electronics and Lighting,Irrigation,0.75
+Livestock Farming,Electricity,Electricity,Electronics and Lights,Irrigation VSD,Electronics and Lighting,Irrigation,0.25
+Livestock Farming,Fossil Fuels,Diesel,Mobile Motors,Ute,Mobile Motive Power,"Motive Power, Mobile",0.05
+Livestock Farming,Fossil Fuels,Diesel,Mobile Motors,Tractor,Mobile Motive Power,"Motive Power, Mobile",0.9
+Livestock Farming,Fossil Fuels,Diesel,Mobile Motors,Truck,Mobile Motive Power,"Motive Power, Mobile",0.05
+Horticulture (Outdoor),Fossil Fuels,Diesel,Mobile Motors,Ute,Mobile Motive Power,"Motive Power, Mobile",0.05
+Horticulture (Outdoor),Fossil Fuels,Diesel,Mobile Motors,Tractor,Mobile Motive Power,"Motive Power, Mobile",0.9
+Horticulture (Outdoor),Fossil Fuels,Diesel,Mobile Motors,Truck,Mobile Motive Power,"Motive Power, Mobile",0.05
+Horticulture (Outdoor),Electricity,Electricity,Electronics and Lights,Irrigation,Electronics and Lighting,Irrigation,0.75
+Horticulture (Outdoor),Electricity,Electricity,Electronics and Lights,Irrigation VSD,Electronics and Lighting,Irrigation,0.25
+Forestry and Logging,Fossil Fuels,Diesel,Mobile Motors,Cable Yarding,Mobile Motive Power,"Motive Power, Mobile",0.44
+Forestry and Logging,Fossil Fuels,Diesel,Mobile Motors,Ground Based,Mobile Motive Power,"Motive Power, Mobile",0.56

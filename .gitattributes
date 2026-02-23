@@ -1,0 +1,4 @@
+# Normalise all text files to LF in the repository
+* text=auto eol=lf
+PREPARE-TIMES-NZ/data_raw/external_data/nzta/Fleet-31Dec2023.csv filter=lfs diff=lfs merge=lfs -text
+PREPARE-TIMES-NZ/data_raw/external_data/nrel/NREL_vehicles_fuels_2023.csv filter=lfs diff=lfs merge=lfs -text

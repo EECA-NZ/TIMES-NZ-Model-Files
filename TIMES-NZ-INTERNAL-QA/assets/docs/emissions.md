@@ -1,0 +1,3 @@
+Covers energy emissions from all areas of the energy system. This includes fugitive emissions from geothermal electricity generation and natural gas production (venting/flaring).
+
+It currently does not include Industrial Process and Product Use (IPPU) emisisons. IPPU emissions are chiefly those from the Glenbrook steel mill, but can also include minor emissions from other activities, such as aluminium or methanol production.

@@ -1,0 +1,17 @@
+﻿vehicletype,fueltype,technology,cost_2023,operation_cost_2023,purchase_source,purchase_baseyear,operation_source,operation_baseyear
+Domestic Aviation,Av. Fuel/Kero,Turbine Engine,,,,,,
+International Aviation,Av. Fuel/Kero,Turbine Engine,,,,,,
+Domestic Shipping,Fuel Oil,ICE,4255140.00,21576516.00,Mærsk Mc-Kinney Møller Center for Zero Carbon Shipping,2025,Mærsk Mc-Kinney Møller Center for Zero Carbon Shipping,2025
+International Shipping,Fuel Oil,ICE,4255140.00,21576516.00,Mærsk Mc-Kinney Møller Center for Zero Carbon Shipping,2025,Mærsk Mc-Kinney Møller Center for Zero Carbon Shipping,2025
+Passenger Rail,Diesel,ICE,400000.00,,Stadler and KiwiRail ,2021,,
+Passenger Rail,Electricity,Electric Motor,400000.00,,Stadler and KiwiRail ,2021,,
+Rail Freight,Diesel,ICE,400000.00,,Stadler and KiwiRail ,2021,,
+Rail Freight,Electricity,Electric Motor,400000.00,,Stadler and KiwiRail ,2021,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,`,,,,

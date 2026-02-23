@@ -1,0 +1,73 @@
+# Trade Parameters 
+
+# This defines all possible inter-regional trade.
+# The most important items really are the HVDC, and the items missing (eg biomass) 
+# Note a key difference from TIMES 2.0: We now assume that in the absence of the refinery, the NI and SI can import their own fuel, so there is no inter-regional transit of PET, DSL, etc 
+# The trade parameters file expects a whole lot of different veda tags, so we write these directly in here.
+
+# Additional parameters are added in a separate book (to do: try combining these and see if that causes issues) 
+
+
+# Note: the links declared by ~TradeLinks tables will create TU_[Fuel] (unilateral) or TB_[Fuel] (bilateral) trade link processes
+
+# This means we want to modify those as they come up eg adding a TFM_INS table to TB_ELC will adjust the bilateral electricity trade process
+
+#########################################################################################################################
+# Trade Links
+#########################################################################################################################
+
+WorkBookName = "SuppXLS/Trades/ScenTrade__Trade_Links" # its interesting that the recommended version has two underscores, can this be changed? 
+
+[UnilateralLPGTrade]
+Description = "Declares LPG trade from NI -> SI"
+SheetName = "Unilateral"
+TagName = "TradeLinks"
+LPG = ["NI", "SI"] # NOTE: this must be the commodity code 
+NI = ["", ""]
+SI = ["1", ""]
+
+
+[BilateralCoalTrade]
+Description = "Declares Coal trade between NI/SI"
+SheetName = "Bilateral"
+TagName = "TradeLinks"
+COA = ["NI", "SI"] # NOTE: this must be the commodity code 
+NI = ["", "1"]
+SI = ["1", ""]
+
+[BilateralElectricityTrade]
+Description = "Declares Electricity trade (HVDC) between NI/SI"
+SheetName = "Bilateral"
+TagName = "TradeLinks"
+ELC = ["NI", "SI"] # NOTE: this must be the commodity code 
+NI = ["", "1"]
+SI = ["1", ""]
+
+
+#########################################################################################################################
+# Trade parameters 
+# These have to go into a separate file for tfm_ins tags
+#########################################################################################################################
+
+# Adding the HVDC data directly from an input file. Could alternatively process this through scripts
+# Note full documentation on this in electricity assumptions file 
+[HVDCParameters]
+Description = "Inserts parameters for HVDC (TB_ELC*) directly from raw input file. Could remove wildcard and change to direct insert?"
+WorkBookName = "SuppXLS/Trades/ScenTrade_TRADE_PARMS"
+SheetName = "Parameters"
+TagName = "TFM_INS"
+DataLocation = "data_raw/coded_assumptions/electricity_generation/HVDCAssumptions.csv"
+
+[LPGTradeCosts]
+Description = "Adds transit costs assumptions for other trade processes. Currently these are just from TIMES 2.0 and only includes LPG"
+WorkBookName = "SuppXLS/Trades/ScenTrade_TRADE_PARMS"
+TagName = "TFM_INS"
+SheetName = "Parameters"
+
+# LPG price data is based on a clean tanker rate of 109 NZD/tonne, converted to NZD/GJ is 0.00538
+Attribute = "ACTCOST"
+AllRegions = 0.00538
+Pset_PN = "TU_LPG*"
+
+
+

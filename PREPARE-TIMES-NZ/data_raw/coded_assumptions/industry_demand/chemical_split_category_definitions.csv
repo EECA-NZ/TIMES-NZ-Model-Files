@@ -1,0 +1,8 @@
+SectorGroup,Sector,SectorANZSIC,FuelGroup,Fuel,TechnologyGroup,Technology,EnduseGroup,EndUse,Transport,Unit,Lookup
+Industrial,Urea,C17-C19,Fossil Fuels,Natural Gas,Feedstock,Feedstock,Feedstock,Feedstock,Non-Transport,PJ,Ballance Feedstock
+Industrial,Urea,C17-C19,Fossil Fuels,Natural Gas,Heat/Cooling Devices,Reformer,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Non-Transport,PJ,Ballance Reforming
+Industrial,Urea,C17-C19,Fossil Fuels,Natural Gas,Stationary Motors,"Pump Systems (for Fluids, etc.)",Stationary Motive Power,"Motive Power, Stationary",Non-Transport,PJ,Ballance Pumps
+Industrial,Methanol,C17-C19,Fossil Fuels,Natural Gas,Feedstock,Feedstock,Feedstock,Feedstock,Non-Transport,PJ,Methanex Feedstock
+Industrial,Methanol,C17-C19,Fossil Fuels,Natural Gas,Heat/Cooling Devices,Reformer,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Non-Transport,PJ,Methanex Reforming
+Industrial,Methanol,C17-C19,Fossil Fuels,Natural Gas,Heat/Cooling Devices,Boiler Systems,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Non-Transport,PJ,Methanex Boilers
+Industrial,Methanol,C17-C19,Fossil Fuels,Natural Gas,Heat/Cooling Devices,Furnace/Kiln,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Non-Transport,PJ,Methanex Furnaces
