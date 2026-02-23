@@ -247,6 +247,9 @@ STAGE_3: dict[str, list[str]] = {
     ],
     # scenarios
     "electricity/wem_wcm": ["wem_user_constraints/uc_wem.csv"],
+    "electricity/distributed_solar_forecasts": [
+        "distributed_solar/traditional_distributed_solar_forecasts.csv"
+    ],
 }
 
 # Stage-4: VEDA-format CSVs. Single sentinel per script
