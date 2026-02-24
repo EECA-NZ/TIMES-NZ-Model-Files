@@ -14,8 +14,8 @@ OUTPUT_LOCATION = ANALYSIS / "results/wind_availability_factors"
 SI_WIND_PLANTS = {"KaiweraDowns", "white_hill"}
 DEFAULT_WIND_TECH_ASSUMPTIONS = {
     "WindOn": 0.38,
-    "WindFixOff": 0.38,
-    "WindFloatOff": 0.38,
+    "WindFixOff": 0.50,
+    "WindFloatOff": 0.50,
 }
 
 
@@ -305,15 +305,13 @@ def run_analysis() -> pl.DataFrame:
     result = make_island_timeslice_output(emi_wind)
     result = filter_to_ni_curves(result)
 
-    outputs = generate_curve_outputs(result, DEFAULT_WIND_TECH_ASSUMPTIONS)
-
-    print(outputs)
-
     OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
-
     result = result.sort(["Region", "Timeslice"])
-    print(result)
+
+    outputs = generate_curve_outputs(result, DEFAULT_WIND_TECH_ASSUMPTIONS)
     result.write_csv(OUTPUT_LOCATION / "emi_ts_cf_by_island.csv")
+    outputs.write_csv(OUTPUT_LOCATION / "wind_af_assumptions.csv")
+
     return result
 
 
