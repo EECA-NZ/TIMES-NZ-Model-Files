@@ -500,6 +500,12 @@ def main() -> None:
     ).astype(int)
 
     # other assumptions
+    # Set distributed solar TechNames to 100 years
+    base_year_gen["PlantLife"] = np.where(
+        base_year_gen["PlantName"].isin(["Commercial", "Industrial", "Residential"]),
+        100,
+        base_year_gen["PlantLife"],
+    )
 
     base_year_gen.rename(
         columns={"CapacityFactor": "ImpliedCapacityFactor"}, inplace=True

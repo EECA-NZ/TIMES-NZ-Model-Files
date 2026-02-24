@@ -1,7 +1,5 @@
 ﻿ProcessGroup,Process,CommodityOut,SectorGroup,Sector,EnduseGroup,EndUse,TechnologyGroup,Technology
 Demand,C_DATA-OTH-ELEC-ELC,C_DATA-OTH,Commercial,Data Centre,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
-Demand,C_DATA-LT-FLU-ELC,C_DATA-LT,Commercial,Data Centre,Electronics and Lighting,Lighting,Electronics and Lights,Lights (Fluorescent)
-Demand,C_DATA-LT-INC-ELC,C_DATA-LT,Commercial,Data Centre,Electronics and Lighting,Lighting,Electronics and Lights,Lights (Incandescent)
 Demand,C_DATA-LT-LED-ELC,C_DATA-LT,Commercial,Data Centre,Electronics and Lighting,Lighting,Electronics and Lights,Lights (LED)
 Demand,C_DATA-SC-AIRHP-ELC,C_DATA-SC,Commercial,Data Centre,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump (for Cooling)
 Demand,C_EDU-OTH-ELEC-ELC,C_EDU-OTH,Commercial,Education,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics

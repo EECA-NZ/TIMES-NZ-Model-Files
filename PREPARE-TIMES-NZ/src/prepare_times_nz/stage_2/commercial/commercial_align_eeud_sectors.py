@@ -46,7 +46,12 @@ group_cols = [
     "Unit",
 ]
 
-DC_ENERGY_DEMAND = 0.856  # PJ, from NZTech data centre report
+DC_ENERGY_DEMAND = 0.492
+# PJ, from NZTech data centre report is 0.856 >> 104 MW.
+# However, this is the estimated demand for 2025.
+# The market data support that 2023 demand is around 60 MW,
+# with CDC hyperscale opens and DCI AKL01 completed.
+# With the completion of Microsoft Azure and AWS NZ region this will rise to 104 MW.
 
 # Be tolerant of Windows-encoded source CSVs
 READ_OPTS = {"encoding": "cp1252", "encoding_errors": "replace"}
@@ -454,6 +459,9 @@ def allocate_data_centre_demand(df: pd.DataFrame) -> pd.DataFrame:
     for col in ["TechnologyGroup", "Technology", "EndUse", "EnduseGroup"]:
         dc_df[col] = dc_df[col].fillna("NA")
 
+    # Force all Data Centre lighting rows to LED
+    dc_df.loc[(dc_df["EndUse"] == "Lighting"), "Technology"] = "Lights (LED)"
+
     # Deduct from ANZSIC J (loosened matching for lighting splits)
     for _, r in dc_df.iterrows():
         mask = (
@@ -519,18 +527,20 @@ def apply_light_splits(
 
     key = ["TechnologyGroup", "EndUse", "EnduseGroup", "Fuel"]
 
+    # Exclude Data Centre rows from lighting split
     mask = df["Technology"].astype(str).str.strip().eq(base_technology)
-    if not mask.any():
-        logger.info("No '%s' rows to split; skipping lights split", base_technology)
-        return df
+    mask_dc = mask & (df["Sector"] == "Data Centre")
+    mask_non_dc = mask & (df["Sector"] != "Data Centre")
 
-    base_rows = df[mask].copy()
+    base_rows_dc = df[mask_dc].copy()
+    base_rows_non_dc = df[mask_non_dc].copy()
     keep_rows = df[~mask].copy()
 
-    # Give each base row a unique id so we can conserve totals per-row
-    base_rows["_rid"] = base_rows.index
+    # Data Centre lighting rows: keep as-is (100% LED already set)
 
-    # (Optional but recommended) clean split keys
+    # Non-Data Centre lighting rows: apply splits
+    base_rows_non_dc["_rid"] = base_rows_non_dc.index
+    key = ["TechnologyGroup", "EndUse", "EnduseGroup", "Fuel"]
     for c in key:
         if c in ls.columns:
             ls[c] = (
@@ -541,66 +551,52 @@ def apply_light_splits(
                 .str.strip()
             )
     for c in key:
-        if c in base_rows.columns:
-            base_rows[c] = (
-                base_rows[c]
+        if c in base_rows_non_dc.columns:
+            base_rows_non_dc[c] = (
+                base_rows_non_dc[c]
                 .astype(str)
                 .str.replace("\ufeff", "", regex=False)
                 .str.replace(r"\s+", " ", regex=True)
                 .str.strip()
             )
 
-    joined = base_rows.merge(ls[key + ["TechnologyNew", "Share"]], on=key, how="left")
+    joined = base_rows_non_dc.merge(
+        ls[key + ["TechnologyNew", "Share"]], on=key, how="left"
+    )
 
     matched = joined["Share"].notna()
-    # --- 1) keep unmatched base-technology rows AS-IS (no loss)
-    # If a base row has no matches at all, it will appear exactly once with Share NaN
     unmatched_rows = joined[~matched].copy()
-    # Reduce unmatched back to the original base rows (drop split columns)
     if not unmatched_rows.empty:
         unmatched_rows = unmatched_rows.drop(
             columns=["TechnologyNew", "Share"], errors="ignore"
         ).drop_duplicates(subset=["_rid"])
 
-    # --- 2) split matched rows (renormalize shares per _rid to preserve totals)
     split_rows = joined[matched].copy()
     if not split_rows.empty:
-        # Ensure numeric Value
         split_rows["Value"] = pd.to_numeric(split_rows["Value"], errors="coerce")
-
-        # Sum of shares per original row
         share_sum = split_rows.groupby("_rid")["Share"].transform("sum")
-
-        # Avoid divide-by-zero; where share_sum is 0/NaN, fall back to 1 (will keep Value unchanged)
         share_sum_safe = share_sum.where(share_sum > 0, 1.0)
-
-        # Scale so split Values sum exactly to the original Value per _rid
         split_rows["Value"] = split_rows["Value"] * (
             split_rows["Share"] / share_sum_safe
         )
-
-        # Assign new technologies and drop helper columns
         split_rows["Technology"] = split_rows["TechnologyNew"]
         split_rows = split_rows.drop(columns=["TechnologyNew", "Share"])
 
-    # combine and re-aggregate
-    # Note: exclude helper _rid from grouping
-    grouping_cols = [c for c in df.columns if c != "Value"]
-    # Ensure we drop the helper _rid before final groupby
-    for tmp in (keep_rows, unmatched_rows, split_rows):
+    for tmp in (keep_rows, base_rows_dc, unmatched_rows, split_rows):
         if "_rid" in tmp.columns:
             tmp.drop(columns="_rid", inplace=True, errors="ignore")
 
+    grouping_cols = [c for c in df.columns if c != "Value"]
     out = (
-        pd.concat([keep_rows, unmatched_rows, split_rows], ignore_index=True)
+        pd.concat(
+            [keep_rows, base_rows_dc, unmatched_rows, split_rows], ignore_index=True
+        )
         .groupby(grouping_cols, as_index=False, dropna=False)["Value"]
         .sum()
     )
 
-    # optional: tame tiny float drift
     out["Value"] = out["Value"].round(12)
 
-    # sanity check: totals before vs after for the base tech
     before_total = df.loc[mask, "Value"].sum(skipna=True)
     after_total = out.loc[
         out["Technology"].str.startswith("Lights", na=False), "Value"
@@ -617,7 +613,6 @@ def apply_light_splits(
             after_total - before_total,
         )
 
-    # optional: keep your existing check output
     chk = (
         out[out["Technology"].str.startswith("Lights", na=False)]
         .groupby(

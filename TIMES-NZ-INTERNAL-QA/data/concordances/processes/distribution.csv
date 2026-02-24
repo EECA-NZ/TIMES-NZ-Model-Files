@@ -167,6 +167,12 @@ FTE_ELCBPLT,Electricity generation,Black Pellet,Distribution
 FTE_TRABPLT,Transport,Black Pellet,Distribution
 FTE_AGRBPLT,Agriculture,Black Pellet,Distribution
 FTE_COMBPLT,Commercial,Black Pellet,Distribution
+FTE_INDBIL,Industry,Bioethanol,Distribution
+FTE_RESBIL,Residential,Bioethanol,Distribution
+FTE_ELCBIL,Electricity generation,Bioethanol,Distribution
+FTE_TRABIL,Transport,Bioethanol,Distribution
+FTE_AGRBIL,Agriculture,Bioethanol,Distribution
+FTE_COMBIL,Commercial,Bioethanol,Distribution
 G_ELC_HV,Electricity distribution,Electricity,Distribution
 G_ELC_LV,Electricity distribution,Electricity,Distribution
 LNGPORTSML,LNG Ports,LNG,Distribution

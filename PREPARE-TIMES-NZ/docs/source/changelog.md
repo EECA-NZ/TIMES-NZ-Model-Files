@@ -1,6 +1,11 @@
 
 # Changelog 
 
+## 3.0.3
+
+**Model fixes**
+- (Biofuel) Improved municipal waste production differences between scenarios.
+
 ## 3.0.2
 
 **Features**
