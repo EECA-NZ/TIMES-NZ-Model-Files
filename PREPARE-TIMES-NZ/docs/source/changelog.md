@@ -5,6 +5,7 @@
 
 **Model fixes**
 - (Biofuel) Improved municipal waste production differences between scenarios.
+- (Electricity generation) Fixed incorrect wind availability curve assumptions.  
 
 ## 3.0.2
 
