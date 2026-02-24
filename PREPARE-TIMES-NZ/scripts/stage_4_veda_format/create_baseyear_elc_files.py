@@ -270,6 +270,14 @@ def define_generation_capacity(df):
     ].copy()
 
     def _capacity_attribute(row: pd.Series) -> str:
+        # Force distributed solar TechNames to NCAP_PASTI
+        distributed_solar_techs = [
+            "ELC_SolarDist_Commercial",
+            "ELC_SolarDist_Industrial",
+            "ELC_SolarDist_Residential",
+        ]
+        if row["TechName"] in distributed_solar_techs:
+            return "NCAP_PASTI"
         return "PRC_RESID" if pd.isna(row["YearCommissioned"]) else "NCAP_PASTI"
 
     existing_techs_capacity["Attribute"] = existing_techs_capacity.apply(

@@ -45,29 +45,32 @@ def extract_and_save_distributed_solar():
     df = pd.read_excel(INPUT_DIR, sheet_name="Distributed solar PV")
 
     # Filter for Variable: Total capacity
-    df = df[df["Variable"] == "Total capacity"]
+    df = df[df["Variable"] == "Cumulative new capacity"]
 
-    # Map TimePeriod to Year, Variable to NCAP_BND~FX
+    # Map TimePeriod to Year
     df = df.rename(columns={"TimePeriod": "Year"})
-    # Filter only years from 2023 and ahead
-    df = df[df["Year"] >= 2023]
-    df["NCAP_BND~FX"] = df["Value"]
+    df = df[df["Year"] >= 2024]
 
     # Map sectors
     df["TechName"] = df["Sector"].map(SECTOR_MAP)
     df = df[df["TechName"].notnull()]
 
-    # Scenario mapping
-    # EDGS Reference -> TIMES-NZ Traditional (output: traditional CSV)
-    # EDGS Innovation -> TIMES-NZ Transformation (output: transformation CSV)
-    out_cols = ["TechName", "Year", "NCAP_BND~FX"]
+    # Sort for diff calculation
+    df = df.sort_values(["Scenario", "TechName", "Year"])
 
-    # Traditional/Innovation: filter Reference scenario
+    # Compute annual new capacity
+    df["NCAP_PASTI"] = (
+        df.groupby(["Scenario", "TechName"])["Value"].diff().fillna(df["Value"])
+    )
+
+    out_cols = ["TechName", "Year", "NCAP_PASTI"]
+
+    # Traditional: filter Reference scenario
     df_trad = df[df["Scenario"] == "Reference"]
     df_trad_out = df_trad[out_cols]
     df_trad_out.to_csv(TRADITIONAL_CSV, index=False)
 
-    # Transformation: filter Transformation scenario
+    # Transformation: filter Innovation scenario
     df_trans = df[df["Scenario"] == "Innovation"]
     df_trans_out = df_trans[out_cols]
     df_trans_out.to_csv(TRANSFORMATION_CSV, index=False)
