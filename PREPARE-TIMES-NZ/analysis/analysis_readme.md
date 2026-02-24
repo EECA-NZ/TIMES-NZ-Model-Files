@@ -1,1 +1,0 @@
-This directory contains scripts intended to be used as one-off pieces of analysis to support assumptions or other research.
