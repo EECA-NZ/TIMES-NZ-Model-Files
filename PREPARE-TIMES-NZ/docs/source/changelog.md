@@ -5,7 +5,7 @@
 
 **Model fixes**
 - (Biofuel) Improved municipal waste production differences between scenarios.
-- (Electricity generation) Resolved an incorrect version of wind availability curve assumptions, which were creating too much interday variance.
+- (Electricity generation) Fixed incorrect wind availability curve assumptions.  
 
 ## 3.0.2
 
