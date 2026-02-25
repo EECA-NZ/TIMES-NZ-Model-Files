@@ -1,0 +1,395 @@
+{
+  "version": 1,
+  "locale": "C.UTF-8",
+  "metadata": {
+    "appmode": "python-shiny",
+    "entrypoint": "app"
+  },
+  "python": {
+    "version": "3.12.3",
+    "package_manager": {
+      "name": "pip",
+      "version": "24.0",
+      "package_file": "requirements.txt"
+    }
+  },
+  "environment": {
+    "python": {
+      "requires": "~=3.1.0"
+    }
+  },
+  "files": {
+    "requirements.txt": {
+      "checksum": "a8ba73d71aa4f039f9eb1e2aaf5b1b7a"
+    },
+    ".env": {
+      "checksum": "09f0a90bcccf9e49b92b2da02103909b"
+    },
+    ".gitignore": {
+      "checksum": "f80ad6d3d0ab2b8019e1fc3977b173f6"
+    },
+    ".python-version": {
+      "checksum": "1f4e00506ff9fb5fe179f2ba1c60ff61"
+    },
+    ".rsconnectignore": {
+      "checksum": "9d29a718776eb949b2eddd066184cfbd"
+    },
+    "app.py": {
+      "checksum": "e47069bb0c9c6c850c399e102bbc6aaf"
+    },
+    "assets/app_use.md": {
+      "checksum": "f6c852d79e4e520c7a0bcdab6a230210"
+    },
+    "assets/docs/electricity_generation.md": {
+      "checksum": "06c8a97fe60609042fb15bbc04912f00"
+    },
+    "assets/docs/emissions.md": {
+      "checksum": "34994d1c9c437f44f353e1db8cc4b9a4"
+    },
+    "assets/docs/energy_demand.md": {
+      "checksum": "1840d6d336b7a9ef31c3e469fc1b0814"
+    },
+    "assets/docs/energy_service_demand.md": {
+      "checksum": "ed0847c4af2d05b1203b1d664341c80c"
+    },
+    "assets/docs/infeasibilities.md": {
+      "checksum": "f002a633967566932a57537cd184de54"
+    },
+    "assets/docs/primary_energy.md": {
+      "checksum": "8f62a657e098d134883b765a49bed158"
+    },
+    "assets/styles.css": {
+      "checksum": "8fe1f5b995c37065b29de76d30568260"
+    },
+    "assets/times_101.md": {
+      "checksum": "4d5247c1f317f159330af688eb959b64"
+    },
+    "data/clean_results/batteries.parquet": {
+      "checksum": "7ab77c763b614cf68399e064eecb01c5"
+    },
+    "data/clean_results/batteries.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/dummy_demand.parquet": {
+      "checksum": "7c55cb0685994cdaccde728ad9bbcf5b"
+    },
+    "data/clean_results/dummy_demand.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/dummy_energy.parquet": {
+      "checksum": "8506797398b316b4cedcf432faeab7ab"
+    },
+    "data/clean_results/dummy_energy.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/elec_generation.parquet": {
+      "checksum": "b728c6c6b776529ffcf8f04ff357a951"
+    },
+    "data/clean_results/elec_generation.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/electricity_demand_by_timeslice.parquet": {
+      "checksum": "3a5e6be4178e7b7d152f9e2b9c752880"
+    },
+    "data/clean_results/electricity_demand_by_timeslice.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/emissions.parquet": {
+      "checksum": "04348d9792f88ba2078fa0f4e265a4c5"
+    },
+    "data/clean_results/emissions.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/energy_demand.parquet": {
+      "checksum": "b8c5272cc6e7767400052d54d8d487d6"
+    },
+    "data/clean_results/energy_demand.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/energy_service_demand.parquet": {
+      "checksum": "f390d947bd4d60620f7539b08fa2cd9a"
+    },
+    "data/clean_results/energy_service_demand.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/esd_by_timeslice.parquet": {
+      "checksum": "6b5c1251e1e3e7d8ed58563c10472e77"
+    },
+    "data/clean_results/esd_by_timeslice.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/generation_by_timeslice.parquet": {
+      "checksum": "29f6edaa652d0ae1cf1ff40df87df8ba"
+    },
+    "data/clean_results/generation_by_timeslice.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/primary_energy.parquet": {
+      "checksum": "7a334f29d1b82f6200903aec45020715"
+    },
+    "data/clean_results/primary_energy.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/readme.txt": {
+      "checksum": "e6d732157addf9a77f4dc287c3171964"
+    },
+    "data/clean_results/transport_capacity.parquet": {
+      "checksum": "18ec7a1b1b9b5aaecc2012ccdc5dfe22"
+    },
+    "data/clean_results/transport_capacity.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/transport_energy_demand.parquet": {
+      "checksum": "b7d918ed90888d6d9a162d36749a82da"
+    },
+    "data/clean_results/transport_energy_demand.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/clean_results/transport_energy_service_demand.parquet": {
+      "checksum": "1f0bf3b7ab8804e9eac239eb864d3734"
+    },
+    "data/clean_results/transport_energy_service_demand.parquet:Zone.Identifier": {
+      "checksum": "cfca1aacd7f6564a550d570b410e11d0"
+    },
+    "data/concordances/commodities/commodity_sets_and_units.csv": {
+      "checksum": "5aa9096f118cb35286318fd4e9f204a0"
+    },
+    "data/concordances/commodities/currency.csv": {
+      "checksum": "d5904757bce295d5b416383f69e4efd5"
+    },
+    "data/concordances/commodities/demand.csv": {
+      "checksum": "28007aa9846a959020fc80f54253e5cf"
+    },
+    "data/concordances/commodities/emissions.csv": {
+      "checksum": "fd3e158da20317be7c65a365e81b0e42"
+    },
+    "data/concordances/commodities/energy.csv": {
+      "checksum": "e8a49cd9ae01009ace19bcec9d227639"
+    },
+    "data/concordances/processes/batteries.csv": {
+      "checksum": "907e3483c8f3f8da6dbb240b9edc30c5"
+    },
+    "data/concordances/processes/closures.csv": {
+      "checksum": "bbce26ce8635c6f50868fd072def874f"
+    },
+    "data/concordances/processes/demand.csv": {
+      "checksum": "9ef54313aaf2bd0240795d7b741fe462"
+    },
+    "data/concordances/processes/distribution.csv": {
+      "checksum": "439e4a4a4e36992334e292455ff5139a"
+    },
+    "data/concordances/processes/dummies.csv": {
+      "checksum": "1c357c99ac89799d4d8a9664ef37f8ab"
+    },
+    "data/concordances/processes/elec_generation.csv": {
+      "checksum": "227e42e2ab00ffdafd7dd7eab481a8a2"
+    },
+    "data/concordances/processes/process_sets_and_units.csv": {
+      "checksum": "9840c5d21e0669532c772c6aa189427a"
+    },
+    "data/concordances/processes/production.csv": {
+      "checksum": "26c33e09ae7fe2a3ff37caedae423e2d"
+    },
+    "data_raw/concordance_patches/attributes/attributes_for_ele_gen.csv": {
+      "checksum": "32980fd7797446722bb551e28968eee5"
+    },
+    "data_raw/concordance_patches/attributes/attributes_for_energy_demand.csv": {
+      "checksum": "309216183aed7eb6fec8e306ba7e73ab"
+    },
+    "data_raw/concordance_patches/biofuels/biofuel_techs.csv": {
+      "checksum": "f9c3be31c5f63593aa3544fe53bcd809"
+    },
+    "data_raw/concordance_patches/code_mapping/attributes.csv": {
+      "checksum": "5f1ee3e684b6f83ad89122249901a68a"
+    },
+    "data_raw/concordance_patches/code_mapping/fuel_codes.csv": {
+      "checksum": "7aabdeadecbbbed4f11788ba07575bc9"
+    },
+    "data_raw/concordance_patches/code_mapping/sector_codes.csv": {
+      "checksum": "47c9fb9b5379b141f2a85e184e7f85bc"
+    },
+    "data_raw/concordance_patches/distribution/ire.csv": {
+      "checksum": "95fad3135ae0c1b7d0b0febc78cb3dd3"
+    },
+    "data_raw/concordance_patches/electricity/tech_codes.csv": {
+      "checksum": "4aab64bee13b4d0fa72d82c9b744c779"
+    },
+    "data_raw/concordance_patches/industry/newtech_patches.csv": {
+      "checksum": "d0d1cbf5bbfd5304e4bc6405de7bb8f9"
+    },
+    "data_raw/concordance_patches/transport/commodities.csv": {
+      "checksum": "180b1d50e22bd4f3451fe3b3b15ecaa7"
+    },
+    "data_raw/concordance_patches/transport/processes.csv": {
+      "checksum": "c5f401e8c4190a04033fc85355bdcd2a"
+    },
+    "data_raw/concordance_patches/transport/readme.txt": {
+      "checksum": "f165a0d00e0b74e13ef512b632af8e6c"
+    },
+    "data_raw/scenario_files/readme.txt": {
+      "checksum": "742679f55450feed0a6dea26cadaaca7"
+    },
+    "poetry.lock": {
+      "checksum": "f1ebfe8dc54fddd31fc3b9866c5cc8b2"
+    },
+    "pyproject.toml": {
+      "checksum": "5242ee674080fcd872c805b05040df7a"
+    },
+    "readme.md": {
+      "checksum": "41ba0b795b028e83d752a0c87bd9a13d"
+    },
+    "run_local.py": {
+      "checksum": "715b4d3348f2463defd52186fc16433e"
+    },
+    "src/times_nz_internal_qa/__init__.py": {
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "src/times_nz_internal_qa/__pycache__/__init__.cpython-312.pyc": {
+      "checksum": "03f04248ebaf9484529d154baa70afc9"
+    },
+    "src/times_nz_internal_qa/__pycache__/config.cpython-312.pyc": {
+      "checksum": "24d60a59d477d48031a5cfe3b8ac89f6"
+    },
+    "src/times_nz_internal_qa/app/__pycache__/app_module_demand.cpython-312.pyc": {
+      "checksum": "58be326c64cd091d99bbf441c4b04bac"
+    },
+    "src/times_nz_internal_qa/app/__pycache__/app_module_dummies.cpython-312.pyc": {
+      "checksum": "826eebf515470a5e76667236730215bc"
+    },
+    "src/times_nz_internal_qa/app/__pycache__/app_module_elec.cpython-312.pyc": {
+      "checksum": "f2b9efbee05eb7b13b0a82f0204c363e"
+    },
+    "src/times_nz_internal_qa/app/__pycache__/app_module_emissions.cpython-312.pyc": {
+      "checksum": "b79c845dc4677671b44f6a05922f023c"
+    },
+    "src/times_nz_internal_qa/app/__pycache__/app_module_esd.cpython-312.pyc": {
+      "checksum": "9f38819e8b7352d5bef802207c7bd4ed"
+    },
+    "src/times_nz_internal_qa/app/__pycache__/app_module_primary_energy.cpython-312.pyc": {
+      "checksum": "b5a52f372721477d452c3f7687c32bed"
+    },
+    "src/times_nz_internal_qa/app/__pycache__/app_module_select_scenario.cpython-312.pyc": {
+      "checksum": "c6c4b4928b6c8d4df2143183e147b988"
+    },
+    "src/times_nz_internal_qa/app/__pycache__/app_module_utilities.cpython-312.pyc": {
+      "checksum": "93f996948548784bfafd098d43c8dfbf"
+    },
+    "src/times_nz_internal_qa/app/__pycache__/server.cpython-312.pyc": {
+      "checksum": "7b73df667bdba71bd2355d9ba43cc7ee"
+    },
+    "src/times_nz_internal_qa/app/__pycache__/ui.cpython-312.pyc": {
+      "checksum": "e451b89cdc6a9ca81c59dc5c227942c2"
+    },
+    "src/times_nz_internal_qa/app/app_module_demand.py": {
+      "checksum": "21b2d36c3cd1694dbf6f7557d1a053ee"
+    },
+    "src/times_nz_internal_qa/app/app_module_dummies.py": {
+      "checksum": "bd2cef284b7f13154b421e008c3192ba"
+    },
+    "src/times_nz_internal_qa/app/app_module_elec.py": {
+      "checksum": "00f3489ed74cfafb688cc29414c8b0b8"
+    },
+    "src/times_nz_internal_qa/app/app_module_emissions.py": {
+      "checksum": "d1f427bcd28f420556843aff876d9ae5"
+    },
+    "src/times_nz_internal_qa/app/app_module_esd.py": {
+      "checksum": "6736e35025dc541f34d3cd9a48785677"
+    },
+    "src/times_nz_internal_qa/app/app_module_primary_energy.py": {
+      "checksum": "03eeada39a5d2a73f8f90084d8d181c7"
+    },
+    "src/times_nz_internal_qa/app/app_module_select_scenario.py": {
+      "checksum": "46ab3cb4684842cf58608075a70ad654"
+    },
+    "src/times_nz_internal_qa/app/app_module_utilities.py": {
+      "checksum": "c196b40624d82c28877affa5d21341ba"
+    },
+    "src/times_nz_internal_qa/app/helpers/__pycache__/charts.cpython-312.pyc": {
+      "checksum": "5323938cc669b5521dc6b6f71bb63975"
+    },
+    "src/times_nz_internal_qa/app/helpers/__pycache__/data_processing.cpython-312.pyc": {
+      "checksum": "333777c6226fc155285e7d6a61105d1a"
+    },
+    "src/times_nz_internal_qa/app/helpers/__pycache__/filters.cpython-312.pyc": {
+      "checksum": "ae13a617c05b90cd9393fd4c5ae8c26e"
+    },
+    "src/times_nz_internal_qa/app/helpers/__pycache__/server_functions.cpython-312.pyc": {
+      "checksum": "2398fa16a5d417a440fdcab3cdbc2b4e"
+    },
+    "src/times_nz_internal_qa/app/helpers/__pycache__/ui_elements.cpython-312.pyc": {
+      "checksum": "43ee0a5bfc72586447f89ef21d44ce49"
+    },
+    "src/times_nz_internal_qa/app/helpers/charts.py": {
+      "checksum": "9bb8764252a9be3ae2ecd9ccdd968cb5"
+    },
+    "src/times_nz_internal_qa/app/helpers/data_processing.py": {
+      "checksum": "cadcb8bcaa8fda799840addb3b876ec1"
+    },
+    "src/times_nz_internal_qa/app/helpers/filters.py": {
+      "checksum": "962f5fbad1895b5240b4ca4ec9ed2706"
+    },
+    "src/times_nz_internal_qa/app/helpers/server_functions.py": {
+      "checksum": "06b39e510bd88676c8976590cc1e987f"
+    },
+    "src/times_nz_internal_qa/app/helpers/ui_elements.py": {
+      "checksum": "1e6e959884515df76dacb4ac8fa357c8"
+    },
+    "src/times_nz_internal_qa/app/server.py": {
+      "checksum": "dc6f485c7f324bc76776d57705f9cb71"
+    },
+    "src/times_nz_internal_qa/app/ui.py": {
+      "checksum": "abfee889572c1b7373791d047cd63f28"
+    },
+    "src/times_nz_internal_qa/config.py": {
+      "checksum": "db54677fdf734387200e8983622f31bd"
+    },
+    "src/times_nz_internal_qa/postprocessing/define_data.py": {
+      "checksum": "b6a53b8eb1002afd0b997719400b65ea"
+    },
+    "src/times_nz_internal_qa/postprocessing/get_data.py": {
+      "checksum": "2751c4ebc0f8eba0dd19e2228b36940d"
+    },
+    "src/times_nz_internal_qa/postprocessing/get_definitions/closure_processes.py": {
+      "checksum": "c31eb2fb6cbb4e361c935a08bb669a95"
+    },
+    "src/times_nz_internal_qa/postprocessing/get_definitions/demand_processes.py": {
+      "checksum": "7d235d0be919a70fa7e6201b67c595c6"
+    },
+    "src/times_nz_internal_qa/postprocessing/get_definitions/distribution_processes.py": {
+      "checksum": "763837d15700700d1f66349a2cc2a268"
+    },
+    "src/times_nz_internal_qa/postprocessing/get_definitions/elec_processes.py": {
+      "checksum": "ab991df8f544ab0d3ad8bf77e554c2a8"
+    },
+    "src/times_nz_internal_qa/postprocessing/get_definitions/energy_commodities.py": {
+      "checksum": "2836b5a5e41946b0882368c308789b18"
+    },
+    "src/times_nz_internal_qa/postprocessing/get_definitions/sets_and_units.py": {
+      "checksum": "d8d52bf95d85177e44e59039f00ffd10"
+    },
+    "src/times_nz_internal_qa/postprocessing/get_definitions/transport_patch.py": {
+      "checksum": "9370ecfe5ee0195e84b36c4c91735b25"
+    },
+    "src/times_nz_internal_qa/postprocessing/package_outputs.py": {
+      "checksum": "f44bb67390e36474281c81022a2971d1"
+    },
+    "src/times_nz_internal_qa/postprocessing/process_data.py": {
+      "checksum": "41c42d40cb1110d3bbd2624beb8ccff5"
+    },
+    "src/times_nz_internal_qa/postprocessing/run_all_postprocessing.py": {
+      "checksum": "008fb4d801f6876432bbef1e9b84be48"
+    },
+    "src/times_nz_internal_qa/utilities/__pycache__/filepaths.cpython-312.pyc": {
+      "checksum": "be88bb3e3f842663d3ea40d35acd7ffc"
+    },
+    "src/times_nz_internal_qa/utilities/data_formatting.py": {
+      "checksum": "c402b0d272b1fd540d8fdc8283f491e7"
+    },
+    "src/times_nz_internal_qa/utilities/filepaths.py": {
+      "checksum": "80076e7bd937e6d0874d48d3f972e7a9"
+    },
+    "www/js/pendo-analytics.js": {
+      "checksum": "2eca91a840f7fecb8381fe0e742dbc73"
+    }
+  }
+}
