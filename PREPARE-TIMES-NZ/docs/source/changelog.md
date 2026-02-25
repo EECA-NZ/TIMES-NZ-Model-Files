@@ -3,6 +3,10 @@
 
 ## 3.0.3
 
+**Assumption changes**
+ - Changed distributed solar process to use exogenous forecasts, providing more realistic results.
+
+
 **Model fixes**
 - (Biofuel) Improved municipal waste production differences between scenarios.
 - (Electricity generation) Fixed incorrect wind availability curve assumptions.  
