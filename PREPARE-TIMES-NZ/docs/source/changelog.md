@@ -1,6 +1,12 @@
 
 # Changelog 
 
+## 3.0.3
+
+**Model fixes**
+- (Biofuel) Improved municipal waste production differences between scenarios.
+- (Electricity generation) Fixed incorrect wind availability curve assumptions.  
+
 ## 3.0.2
 
 **Features**
@@ -12,10 +18,15 @@
 **Model fixes**
 - (Residential) Resolved an error that undercounted space heating demand in detached dwellings.
 - (Natural gas) Fixed a methodological error that double-counted domestic natural gas costs.
-- (Commercial) Resolved an error that left commercial heatpumps more expensive than intended.
+- (Commercial) Resolved an error that left commercial heatpumps more expensive and with worse efficiency than intended.
+- (Residential, Commercial) Fixed a methodological error that overly restricted demand device time flexibility.
+- (Electricity generation) Ensured geothermal plants operate as baseload.
+- (Electricity generation) Resolved an error that limited hydro dam output flexibility.
 
 **Assumption changes**
 - Adjusted Traditional and Transformation electricity generation NREL scenarios from Conservative and Moderate to Moderate and Advanced, respectively.
+- (Commercial, Residential) Increased heatpump lifetimes slightly.
+- (Industrial) Removed some load curve assumptions.
 
 ## 3.0.1
 

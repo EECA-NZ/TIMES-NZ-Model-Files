@@ -19,6 +19,7 @@ LPG,LPG
 NGA,Natural gas
 PET,Petrol
 BIG,Biogas
+BIM,Biomethane
 WOD,Wood
 PLT,Wood Pellet
 GEO,Geothermal
@@ -26,3 +27,4 @@ HYD,Hydro
 WIN,Wind
 SOL,Solar
 BPLT,Black Pellet
+BIL,Bioethanol

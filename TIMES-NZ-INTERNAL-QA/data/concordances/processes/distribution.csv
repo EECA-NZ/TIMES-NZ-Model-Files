@@ -119,6 +119,12 @@ FTE_ELCBIG,Electricity generation,Biogas,Distribution
 FTE_TRABIG,Transport,Biogas,Distribution
 FTE_AGRBIG,Agriculture,Biogas,Distribution
 FTE_COMBIG,Commercial,Biogas,Distribution
+FTE_INDBIM,Industry,Biomethane,Distribution
+FTE_RESBIM,Residential,Biomethane,Distribution
+FTE_ELCBIM,Electricity generation,Biomethane,Distribution
+FTE_TRABIM,Transport,Biomethane,Distribution
+FTE_AGRBIM,Agriculture,Biomethane,Distribution
+FTE_COMBIM,Commercial,Biomethane,Distribution
 FTE_INDWOD,Industry,Wood,Distribution
 FTE_RESWOD,Residential,Wood,Distribution
 FTE_ELCWOD,Electricity generation,Wood,Distribution
@@ -161,6 +167,12 @@ FTE_ELCBPLT,Electricity generation,Black Pellet,Distribution
 FTE_TRABPLT,Transport,Black Pellet,Distribution
 FTE_AGRBPLT,Agriculture,Black Pellet,Distribution
 FTE_COMBPLT,Commercial,Black Pellet,Distribution
+FTE_INDBIL,Industry,Bioethanol,Distribution
+FTE_RESBIL,Residential,Bioethanol,Distribution
+FTE_ELCBIL,Electricity generation,Bioethanol,Distribution
+FTE_TRABIL,Transport,Bioethanol,Distribution
+FTE_AGRBIL,Agriculture,Bioethanol,Distribution
+FTE_COMBIL,Commercial,Bioethanol,Distribution
 G_ELC_HV,Electricity distribution,Electricity,Distribution
 G_ELC_LV,Electricity distribution,Electricity,Distribution
 LNGPORTSML,LNG Ports,LNG,Distribution

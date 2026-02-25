@@ -9,7 +9,7 @@ Burner (Direct Heat),LPG,0.8,TIMES-NZ 2.0
 Burner (Direct Heat),Natural Gas,0.8,TIMES-NZ 2.0
 Burner (Direct Heat),Biogas,0.8,Relative to Natural Gas
 Heat Pump (for Cooling),Electricity,3.5,TIMES-NZ 2.0
-Heat Pump (for Heating),Electricity,2.5,TIMES-NZ 2.0
+Heat Pump (for Heating),Electricity,3.5,TIMES-NZ 2.0
 Resistance Heater,Electricity,0.99,TIMES-NZ 2.0
 Direct Heat,Geothermal,1,TIMES-NZ 2.0
 Hot Water Cylinder,Electricity,1,TIMES-NZ 2.0

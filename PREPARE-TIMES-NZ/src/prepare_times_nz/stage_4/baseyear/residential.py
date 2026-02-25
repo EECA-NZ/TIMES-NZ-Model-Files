@@ -35,7 +35,7 @@ RESIDENTIAL_DEMAND_VARIABLE_MAP = {
     "Island": "Region",
     "Capacity": "PRC_RESID",
     # converting to AF for any DAYNITE processes
-    "AFA": "AF",
+    "AFA": "AFA",
     "CAPEX": "INVCOST",
     "OPEX": "FIXOM",
     "Efficiency": "EFF",
