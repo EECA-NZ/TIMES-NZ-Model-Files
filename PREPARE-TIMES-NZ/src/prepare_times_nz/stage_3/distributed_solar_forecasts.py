@@ -160,6 +160,10 @@ def get_cumulative_build_projections():
         df.groupby(["Scenario", "TechName"])["Value"].diff().fillna(df["Value"])
     )
 
+    # convert GW
+    df["Value"] = df["Value"] / 1e3
+    df["Unit"] = "GW"
+
     return df
 
 

@@ -76,9 +76,17 @@ The earliest commissioning year for offshore wind farms was set to 2035, as all 
 
 ## Distributed rooftop solar
 
-Distributed rooftop solar was also not accounted for in the MBIE generation stack. Again, for this technology the learning curves for the CAPEX and the FOMs are taken from the NREL data. The current cost of solar can be found online, including cost of connection and installation.  This cost is usually around 2000 – 2500 NZD/kW, so for these calculations a value of 2200 NZD/kW was chosen. For FOM costs, it was assumed that there would be a cost of 30 NZD/kW/year. 
+We do not model distributed solar uptake in TIMES, and instead provide exogenous assumptions on rooftop solar uptake. 
 
-To find the potential future capacity of rooftop solar, Stats NZ data was used to find the number of dwellings in each region. It is then assumed that 60% of all dwellings are suitable for rooftop solar, i.e. being stand-alone houses rather than apartments, having roofs facing within 45 degrees of north, and in direct sunlight. We assume that these homes could install a 5 kW solar PV system, which represents current typical installation sizes. This acts as an upper limit on total capacity that could potentially be installed, but not necessarily the capacity installed in the model.
+This is because TIMES uses a system cost perspective when selecting optimal technologies. This often means that it will not invest in distributed solar, preferring the economies of scale of utility-scale solar. This is true even when considering the efficiency and grid maintenance benefits of off-grid generation[^distribution_note]. 
+
+Because it would not be realistic to assume no distributed solar installations, we instead use external forecasts of distributed solar installation from MBIE's EDGS scenarios[^edgs_solar]. We use the Reference projections for our Traditional scenario, and the Innovation projections for Transformation. This means that TIMES-NZ distributed solar uptake rates are not the product of any other model properties; they are hardcoded assumptions. 
+
+
+[^edgs_solar]: MBIE | [EDGS 2024 Assumptions](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-modelling/electricity-demand-and-generation-scenarios)
+[^distribution_note]: While distributed solar is often not selected in a system cost approach, this is not a universal rule for distributed assets. For example, we note that the model often chooses to build distributed batteries, despite the higher per-unit costs compared to grid-scale batteries, because of the benefits of reducing grid load during peak demand periods. For this reason, we still allow the model to choose the efficient level of distributed battery build, rather than using a fixed assumption. 
+
+
 
 ## New fuels in existing assets 
 
