@@ -40,10 +40,6 @@ OUTPUT_DIR = STAGE_3_DATA / "distributed_solar"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
-TRADITIONAL_CSV = OUTPUT_DIR / "traditional_distributed_solar_forecasts.csv"
-TRANSFORMATION_CSV = OUTPUT_DIR / "transformation_distributed_solar_forecasts.csv"
-
-
 # Mapping for sectors
 SECTOR_MAP = {
     "Commercial": "ELC_SolarDist_Commercial",
