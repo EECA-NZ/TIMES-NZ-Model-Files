@@ -16,8 +16,8 @@ Lights,Electricity,,,
 Boiler Systems,Coal,11,2018,TIMES-NZ 2.0
 Boiler Systems,Diesel,1,2018,TIMES-NZ 2.0
 Boiler Systems,Natural Gas,4,2018,TIMES-NZ 2.0
-Boiler Systems,Geothermal,,,
-Burner (Direct heat),LPG,,,TBD
+Heat Exchangers,Geothermal,,,
+Burner (Direct Heat),LPG,,,TBD
 Stationary Engine,Diesel,5,2023,
 Stationary Engine,Petrol,5,2023,
 Ground Based,Diesel,51,2018,TIMES-NZ 2.0

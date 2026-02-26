@@ -392,7 +392,7 @@ def fill_indoor_cropping_geothermal(
         "FuelGroup": "Renewables",
         "Fuel": "Geothermal",
         "TechnologyGroup": "Heat/Cooling Devices",
-        "Technology": "Direct Heat",
+        "Technology": "Heat Exchangers",
         "EnduseGroup": "Heating/Cooling",
         "EndUse": "Low Temperature Heat (<100 C), Space Heating",
         "Transport": "Non-Transport",

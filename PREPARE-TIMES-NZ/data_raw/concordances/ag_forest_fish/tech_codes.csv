@@ -34,6 +34,7 @@ Horticulture (Outdoor),Tractor,Trac,Mobile Motors
 Horticulture (Outdoor),Truck,MTr,Mobile Motors
 Horticulture (Outdoor),Ute,Uti,Mobile Motors
 Indoor Cropping,Boiler Systems,Boiler,Heat/Cooling Devices
+Indoor Cropping,Heat Exchangers,HEATX,Heat/Cooling Devices
 Indoor Cropping,Electric Motor,Motor,Stationary Motors
 Indoor Cropping,Lights,LT,Electronics and Lights
 Indoor Cropping,Heat Pump,HP,Heat/Cooling Devices
