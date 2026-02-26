@@ -29,10 +29,11 @@ baseyear_techs_to_ban = {
     "T_F*PET*": "Light petrol trucks",
     "T_P_B*PET*": "Petrol buses",
     "T_P_B*LPG*": "LPG buses",
-    "C_WSR-*-DirectH-GEO": "Commercial geothermal",
+    "C_*-DirectH-GEO": "Commercial geothermal",
     "C*-NGA*": "Commercial natural gas",
     "C*-DSL*": "Commercial diesel",
     "AFISH*-PET": "Fishing boat petrol",
+    "AINDC*-HEATX-GEO": "Agricultural geothermal",
 }
 
 
