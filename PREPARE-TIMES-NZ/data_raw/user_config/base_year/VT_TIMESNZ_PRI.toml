@@ -77,15 +77,14 @@ TagName = "FI_Process"
 
 # setting discrete investments on the LNG ports
 # actual values are set in the scenario file
-Sets = ["IMP", "PRE, DISCINV", "PRE, DISCINV"] 
+Sets = ["IMP", "PRE"] 
 
-TechName = ["IMPLNG", # just import the commodity
-            "LNGPORTSML", # small-scale configuration
+TechName = ["IMPLNG", # just import the commodity            
             "LNGPORTSTD" # standard configuration
             ]
 
 Tact = "PJ"
-Tcap = ["PJa", "SmallScalePort", "StandardPort"] # we are defining abstract units for these ports to work around
+Tcap = ["PJa", "StandardPort"] # we are defining abstract units for these ports to work around
 
 
 [LNGCommodityCosts]
@@ -100,36 +99,29 @@ COST = 18 # NZD/GJ
 
 [LNGImportConfigurations]
 WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
-Description = "Defines parameters for different LNG configurations. These are integers, calling MIP."
+Description = "Defines parameters for different LNG configurations"
 SheetName = "LNG"
 TagName = "FI_T"           
 
 [LNGImportConfigurations.Data]
-TechName = ["LNGPORTSML", "LNGPORTSTD"]
-Comm-IN = ["LNG","LNG"]
-Comm-OUT = ["NGA","NGA"]
-INVCOST = [295,800] # again, this is total per "port" unit. We can only build one port unit, and this is the price NZDm
-CAP2ACT = [9,40] # ie, the small port can produce 9 a year, and the big port 40: now all our capacity unit is "port" so everything simpler 
-Eff = [1,1] # this is by default anyway, but we'll make explicit
-AFA = [1,1] # defaults, but explicit - can run at max capacity 
-"AFA~LO" = [1,0] # force the small port to always run at max capacity, as per the reporting on these setups. You buy LNG ahead of time and must deliver. 
-FIXOM = [10, 90] # operating costs per capacity unit (NZDm per port setup excl capex) 
-FLO_DELIV = [2.55,0] # delivery costs NZD/GJ (penalty for small-scale, no penalty for standard) 
-
+TechName = ["LNGPORTSTD"]
+Comm-IN = ["LNG"]
+Comm-OUT = ["NGA"]
+INVCOST = [800] # again, this is total per "port" unit. We can only build one port unit, and this is the price NZDm
+CAP2ACT = [40] # ie, the small port can produce 9 a year, and the big port 40: now all our capacity unit is "port" so everything simpler 
+Eff = [1] # this is by default anyway, but we'll make explicit
+AFA = [1] # defaults, but explicit - can run at max capacity 
+"AFA~LO" = [0] # force the small port to always run at max capacity, as per the reporting on these setups. You buy LNG ahead of time and must deliver. 
+FIXOM = [90] # operating costs per capacity unit (NZDm per port setup excl capex) 
 
 [LNGImportBuildOptions]
-# this is basically straight from section 3.1.2 of the Part IV model docs. Would be good to make it a little cleaner if possible. 
 WorkBookName = "SuppXLS/Scen_LNG_build_timing"
-Description = "Integer settings for building discrete LNG ports. This is included in a scenario file which is apparently needed for discrete builds?"
+Description = "Build timing for LNG port, including single port unit build at 2027."
 SheetName = "LNG"
 TagName = "TFM_INS"
+DataLocation = "data_raw/coded_assumptions/oil_and_gas/lng_build_timing.csv"
 
-[LNGImportBuildOptions.Data]
-Attribute = ["NCAP_DISC","NCAP_DISC", "NCAP_DISC","NCAP_DISC"]
-Pset_PN =["LNGPORTSML","LNGPORTSTD", "LNGPORTSML","LNGPORTSTD"]
-Year = [2027,2028,0,0 ] # 0s for interp 
-AllRegions = [1,1,5,5] # ie : one unit available for each unit, and 2 5s for interp (can be built any time)
-Other_Indexes = [1,1,1,1] # I have no idea what this is doing and should test a run removing it 
+
             
 
 ###########################################
