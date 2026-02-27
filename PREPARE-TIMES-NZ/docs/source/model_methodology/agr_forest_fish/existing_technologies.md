@@ -31,7 +31,7 @@ Hot Water Cylinder,15.5
 Heat Recovery System,15.5
 Refrigerator,8
 Boiler,25
-Direct Heat,12.5
+Heat Exchanger,12.5
 Fishing Boat (Non-Hybrid),20
 ```
 
@@ -59,7 +59,7 @@ Heat Recovery System,23%
 Light,23%
 Frost Protection windmills,7%
 Boiler,27%
-Direct Heat,100%
+Heat Exchanger,100%
 Motive Power Stationery,15%
 Ground Based,15%
 Cable Yarding,15%
@@ -99,7 +99,7 @@ Frost Protection windmills,0.33
 Coal Boiler,0.75
 Diesel Boiler,0.85
 Natural Gas Boiler,0.85
-Direct Heat,1
+Heat Exchanger,1
 Electric Motor,0.9
 Stationary Engine (Diesel),0.3
 Ground Based,0.11
@@ -139,18 +139,15 @@ Transfer Pumps etc,1089,31
 Refrigerator,4028,58
 Heat Recovery System,2943,84
 Light,112,
-Frost Protection windmills,2948,
 Coal Boiler,1654,11
 Diesel Boiler,628,1
 Natural Gas Boiler,513,4
-Direct Heat – Geothermal,150,
-Electric Motor,280,
+Heat Exchanger – Geothermal,150,
 Stationary Engine - Diesel,559,
 Ground Based,1565,51
 Cable Yarding,990,32
 Boat,1212,
 ```
-
 
 
 ## Emissions factors 
