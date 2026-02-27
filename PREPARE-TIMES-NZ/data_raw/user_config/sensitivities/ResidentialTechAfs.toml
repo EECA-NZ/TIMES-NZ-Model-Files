@@ -42,7 +42,15 @@ WorkBookName = "SuppXLS/Scen_Sensitivity_RESAF_perslice"
 Description = "Sets Timeslice specific AFs for residential tests"
 SheetName = "ResidentialAFSliceSensitivity"
 TagName = "TFM_INS"
-DataLocation = "data_raw/coded_assumptions/sensitivities/af_testing/res_af_detailed.csv"
+DataLocation = "data_raw/coded_assumptions/sensitivities/af_testing/res_af_per_slice_08.csv"
+
+[Residential_Reset_AFA_for_TS_AF]
+WorkBookName = "SuppXLS/Scen_Sensitivity_RESAF_perslice" 
+Description = "Resets AFA to default after baseyear (for TS AF testing)"
+SheetName = "ResidentialAFSensitivity"
+TagName = "TFM_INS"
+DataLocation = "data_raw/coded_assumptions/sensitivities/af_testing/reset_afa_default.csv"
+
 
 
 
