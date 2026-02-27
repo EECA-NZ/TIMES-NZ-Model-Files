@@ -627,57 +627,55 @@ Demand,STEEL-ELC-EAF,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Iron and Steel,Rec
 Demand,ADCF-IRG-Irg-ELC,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation
 Demand,ADCF-IRG-IrgVSD-ELC,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation VSD
 Demand,ADCF-LT-LT-ELC,ADCF-LT,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Lighting,Electronics and Lights,Lights
-Demand,ADCF-RFGR-HRECSys-ELC,ADCF-RFGR,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Heating/Cooling,Refrigeration,Heat/Cooling Devices,Heat Recovery System (Cooling)
-Demand,ADCF-WH-Hreco-ELC,ADCF-WH,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Recovery System (Heating)
+Demand,ADCF-RFGR-HRECSys-ELC,ADCF-HRECSys-RFGR,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Heating/Cooling,Refrigeration,Heat/Cooling Devices,Heat Recovery System (Cooling)
+Demand,ADCF-WH-Hreco-ELC,ADCF-Hreco-WH,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Recovery System (Heating)
 Demand,ADCF-WH-Cylinder-ELC,ADCF-WH,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
-Demand,ADCF-RFGR-RF-ELC,ADCF-RFGR,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Heating/Cooling,Refrigeration,Heat/Cooling Devices,Refrigeration Systems
+Demand,ADCF-RFGR-RF-ELC,ADCF-RF-RFGR,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Heating/Cooling,Refrigeration,Heat/Cooling Devices,Refrigeration Systems
 Demand,ADCF-MoTP-Stat-VacP-ELC,ADCF-MoTP-Stat,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,ADCF-MoTP-Stat-VPVSD-ELC,ADCF-MoTP-Stat,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor VSD
 Demand,ADCF-PUMP-Pump-ELC,ADCF-PUMP,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
-Demand,ADCF-MoTP-Mob-Trac-DSL,ADCF-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Tractor
-Demand,ADCF-MoTP-Mob-MTr-DSL,ADCF-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Truck
-Demand,ADCF-MoTP-Mob-Uti-DSL,ADCF-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Ute
+Demand,ADCF-MoTP-Mob-Trac-DSL,ADCF-Trac-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Tractor
+Demand,ADCF-MoTP-Mob-MTr-DSL,ADCF-MTr-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Truck
+Demand,ADCF-MoTP-Mob-Uti-DSL,ADCF-Uti-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Ute
 Demand,ADCF-MoTP-Mob-Bike-PET,ADCF-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,AFISH-OTH-ELEC-ELC,AFISH-OTH,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,AFISH-LT-LT-ELC,AFISH-LT,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Electronics and Lighting,Lighting,Electronics and Lights,Lights
-Demand,AFISH-RFGR-RF-ELC,AFISH-RFGR,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Heating/Cooling,Refrigeration,Heat/Cooling Devices,Refrigeration Systems
+Demand,AFISH-RFGR-RF-ELC,AFISH-RF-RFGR,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Heating/Cooling,Refrigeration,Heat/Cooling Devices,Refrigeration Systems
 Demand,AFISH-MoTP-Stat-Motor-ELC,AFISH-MoTP-Stat,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,AFISH-MoTP-Mob-Boat-DSL,AFISH-MoTP-Mob,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Sea Transport)
-Demand,AFISH-MoTP-Mob-HYBBoat-DSL,AFISH-MoTP-Mob,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Sea Transport)
 Demand,AFISH-MoTP-Mob-Boat-PET,AFISH-MoTP-Mob,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Sea Transport)
-Demand,AFISH-MoTP-Mob-HYBBoat-PET,AFISH-MoTP-Mob,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Sea Transport)
 Demand,AFORE-OTH-ELEC-ELC,AFORE-OTH,"Agriculture, Forestry, and Fishing",Forestry and Logging,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,AFORE-LT-LT-ELC,AFORE-LT,"Agriculture, Forestry, and Fishing",Forestry and Logging,Electronics and Lighting,Lighting,Electronics and Lights,Lights
 Demand,AFORE-MoTP-Stat-Motor-ELC,AFORE-MoTP-Stat,"Agriculture, Forestry, and Fishing",Forestry and Logging,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
-Demand,AFORE-MoTP-Mob-CY-DSL,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Cable Yarding
-Demand,AFORE-MoTP-Mob-GB-DSL,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Ground Based
+Demand,AFORE-MoTP-Mob-CY-DSL,AFORE-CY-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Cable Yarding
+Demand,AFORE-MoTP-Mob-GB-DSL,AFORE-GB-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Ground Based
 Demand,AFORE-MoTP-Stat-Engin-DSL,AFORE-MoTP-Stat,"Agriculture, Forestry, and Fishing",Forestry and Logging,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
-Demand,AFORE-PH-Boiler-NGA,AFORE-PH,"Agriculture, Forestry, and Fishing",Forestry and Logging,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,AFORE-PH-Boiler-NGA,AFORE-Boiler-PH,"Agriculture, Forestry, and Fishing",Forestry and Logging,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,AFORE-MoTP-Mob-Bike-PET,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,AFORE-MoTP-Stat-Engin-PET,AFORE-MoTP-Stat,"Agriculture, Forestry, and Fishing",Forestry and Logging,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,AHORT-IRG-Irg-ELC,AHORT-IRG,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation
 Demand,AHORT-IRG-IrgVSD-ELC,AHORT-IRG,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation VSD
 Demand,AHORT-LT-LT-ELC,AHORT-LT,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Electronics and Lighting,Lighting,Electronics and Lights,Lights
-Demand,AHORT-MoTP-Mob-Trac-DSL,AHORT-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Tractor
-Demand,AHORT-MoTP-Mob-MTr-DSL,AHORT-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Truck
-Demand,AHORT-MoTP-Mob-Uti-DSL,AHORT-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Ute
+Demand,AHORT-MoTP-Mob-Trac-DSL,AHORT-Trac-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Tractor
+Demand,AHORT-MoTP-Mob-MTr-DSL,AHORT-MTr-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Truck
+Demand,AHORT-MoTP-Mob-Uti-DSL,AHORT-Uti-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Ute
 Demand,AHORT-MoTP-Stat-Engin-DSL,AHORT-MoTP-Stat,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,AINDC-LT-LT-ELC,AINDC-LT,"Agriculture, Forestry, and Fishing",Indoor Cropping,Electronics and Lighting,Lighting,Electronics and Lights,Lights
 Demand,AINDC-MoTP-Stat-Motor-ELC,AINDC-MoTP-Stat,"Agriculture, Forestry, and Fishing",Indoor Cropping,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
-Demand,AINDC-SH-Boiler-COA,AINDC-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,AINDC-SH-Boiler-DSL,AINDC-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,AINDC-SH-Boiler-NGA,AINDC-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,AINDC-SH-DH-GEO,AINDC-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Direct Heat
+Demand,AINDC-SH-Boiler-COA,AINDC-Boiler-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,AINDC-SH-Boiler-DSL,AINDC-Boiler-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,AINDC-SH-Boiler-NGA,AINDC-Boiler-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
+Demand,AINDC-SH-HEATX-GEO,AINDC-HEATX-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Exchangers
 Demand,ALIVE-IRG-Irg-ELC,ALIVE-IRG,"Agriculture, Forestry, and Fishing",Livestock Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation
 Demand,ALIVE-IRG-IrgVSD-ELC,ALIVE-IRG,"Agriculture, Forestry, and Fishing",Livestock Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation VSD
 Demand,ALIVE-LT-LT-ELC,ALIVE-LT,"Agriculture, Forestry, and Fishing",Livestock Farming,Electronics and Lighting,Lighting,Electronics and Lights,Lights
-Demand,ALIVE-MoTP-Mob-Trac-DSL,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Tractor
-Demand,ALIVE-MoTP-Mob-MTr-DSL,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Truck
-Demand,ALIVE-MoTP-Mob-Uti-DSL,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Ute
+Demand,ALIVE-MoTP-Mob-Trac-DSL,ALIVE-Trac-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Tractor
+Demand,ALIVE-MoTP-Mob-MTr-DSL,ALIVE-MTr-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Truck
+Demand,ALIVE-MoTP-Mob-Uti-DSL,ALIVE-Uti-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Ute
 Demand,ALIVE-MoTP-Mob-Bike-PET,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,AOTH-PH-RH-ELC,AOTH-PH,"Agriculture, Forestry, and Fishing",Other Agriculture,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Resistance Heater
-Demand,AOTH-PH-Furnace-DSL,AOTH-PH,"Agriculture, Forestry, and Fishing",Other Agriculture,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
-Demand,AOTH-SH-Burner-LPG,AOTH-SH,"Agriculture, Forestry, and Fishing",Other Agriculture,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct heat)
+Demand,AOTH-PH-Furnace-DSL,AOTH-Furnace-PH,"Agriculture, Forestry, and Fishing",Other Agriculture,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
+Demand,AOTH-SH-Burner-LPG,AOTH-SH,"Agriculture, Forestry, and Fishing",Other Agriculture,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,AOTH-MoTP-Stat-Engin-PET,AOTH-MoTP-Stat,"Agriculture, Forestry, and Fishing",Other Agriculture,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,ADCF-MoTP-Mob-Trac-ELC,ADCF-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Tractor
 Demand,ADCF-MoTP-Mob-Trac-H2R,ADCF-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Tractor
@@ -708,3 +706,4 @@ Demand,AFORE-MoTP-Mob-GB-ELC,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing"
 Demand,AFORE-MoTP-Mob-GB-H2R,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Ground Based
 Demand,AFORE-MoTP-Mob-CY-ELC,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Cable Yarding
 Demand,AFORE-MoTP-Mob-CY-H2R,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Cable Yarding
+Demand,AFORE-MoTP-Mob-Bike-ELC,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
