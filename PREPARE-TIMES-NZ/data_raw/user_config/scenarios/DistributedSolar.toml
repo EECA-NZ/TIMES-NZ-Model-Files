@@ -14,7 +14,7 @@ WorkBookName = "SuppXLS/Scen_DistributedSolar_Traditional"
 Description = "Add exogenous distributed solar forecasts"
 SheetName = "DistributedSolar"
 TagName = "TFM_INS" # TFM tags for scenario files
-DataLocation = "data_intermediate/stage_3_scenario_data/distributed_solar/traditional_distributed_solar_forecasts.csv"
+DataLocation = "data_intermediate/stage_3_scenario_data/distributed_solar/distributed_solar_Traditional.csv"
 
 
 ##################################################################
@@ -27,4 +27,4 @@ WorkBookName = "SuppXLS/Scen_DistributedSolar_Transformation"
 Description = "Add exogenous distributed solar forecasts"
 SheetName = "DistributedSolar"
 TagName = "TFM_INS" # TFM tags for scenario files
-DataLocation = "data_intermediate/stage_3_scenario_data/distributed_solar/transformation_distributed_solar_forecasts.csv"
+DataLocation = "data_intermediate/stage_3_scenario_data/distributed_solar/distributed_solar_Transformation.csv"

@@ -91,7 +91,7 @@ poetry run rsconnect deploy shiny . \
   --new
 ```
 
-If there is an existing development build that you wish to overwrite, the following command can be used. The <APP-ID> must be replaced the with the appropriate deployed development application id, which can be found on shinyapps.io.
+If there is an existing development build that you wish to overwrite, the following command can be used. The <APP-ID> must be replaced the with the appropriate deployed development application id, which can be found on shinyapps.io or below.
 ```
 poetry run rsconnect deploy shiny . \
   --entrypoint app \
@@ -102,4 +102,5 @@ Some app-ids:
 - `times-nz-internal-explorer`: 16527158
 - `times-nz-internal-explorer-v301`: 16588202
 - `times-nz-internal-explorer-v302`: 16596189
+- `times-nz-internal-explorer-v303`: 16757346
 
