@@ -10,7 +10,12 @@
 
 **Model fixes**
 - (Biofuel) Improved municipal waste production differences between scenarios.
-- (Electricity generation) Fixed incorrect wind availability curve assumptions.  
+- (Electricity generation) Fixed incorrect wind availability curve assumptions. 
+- (Agriculture) Improved modelling of geothermal heating for indoor cropping
+- (Agriculture) Fixed a bug that meant agricultural energy emissions were counted incorrectly 
+- (Agriculture) Added greater distinction for refrigeration, offroad transport, and heating technologies
+- (Agriculture) Resolved an issue that meant petrol-powered boats and farm bikes were more efficient than intended
+- (Agriculture) Minor adjustments to capital costs for heating technologies following review
 
 ## 3.0.2
 
