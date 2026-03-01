@@ -5,6 +5,7 @@
 
 **Assumption changes**
  - Changed distributed solar process to use exogenous forecasts, providing more realistic results.
+ - Adjusted LNG terminal to fixed installation date in 2027 for Traditional scenario. LNG remains excluded from Transformation.
 
 
 **Model fixes**

@@ -4,3 +4,4 @@ data_raw/scenario_files/*.csv
 data_raw/scenario_files/*.vsd
 data/*.zip
 rsconnect-python/*
+.env
