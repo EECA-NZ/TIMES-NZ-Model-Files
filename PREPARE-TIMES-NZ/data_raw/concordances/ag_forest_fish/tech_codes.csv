@@ -16,7 +16,6 @@ Dairy Cattle Farming,Ute,Uti,Mobile Motors
 "Fishing, Hunting and Trapping",Electric Motor,Motor,Stationary Motors
 "Fishing, Hunting and Trapping",Electronics,ELEC,Electronics and Lights
 "Fishing, Hunting and Trapping",Internal Combustion Engine (Sea Transport),Boat,Mobile Motors
-"Fishing, Hunting and Trapping",Internal Combustion Engine (Sea Transport),HYBBoat,Mobile Motors
 "Fishing, Hunting and Trapping",Lights,LT,Electronics and Lights
 "Fishing, Hunting and Trapping",Refrigeration Systems,RF,Heat/Cooling Devices
 Forestry and Logging,Boiler Systems,Boiler,Heat/Cooling Devices
@@ -35,7 +34,7 @@ Horticulture (Outdoor),Tractor,Trac,Mobile Motors
 Horticulture (Outdoor),Truck,MTr,Mobile Motors
 Horticulture (Outdoor),Ute,Uti,Mobile Motors
 Indoor Cropping,Boiler Systems,Boiler,Heat/Cooling Devices
-Indoor Cropping,Direct Heat,DH,Heat/Cooling Devices
+Indoor Cropping,Heat Exchangers,HEATX,Heat/Cooling Devices
 Indoor Cropping,Electric Motor,Motor,Stationary Motors
 Indoor Cropping,Lights,LT,Electronics and Lights
 Indoor Cropping,Heat Pump,HP,Heat/Cooling Devices
@@ -46,7 +45,7 @@ Livestock Farming,Lights,LT,Electronics and Lights
 Livestock Farming,Tractor,Trac,Mobile Motors
 Livestock Farming,Truck,MTr,Mobile Motors
 Livestock Farming,Ute,Uti,Mobile Motors
-Other Agriculture,Burner (Direct heat),Burner,Heat/Cooling Devices
+Other Agriculture,Burner (Direct Heat),Burner,Heat/Cooling Devices
 Other Agriculture,Furnace/Kiln,Furnace,Heat/Cooling Devices
 Other Agriculture,Resistance Heater,RH,Heat/Cooling Devices
 Other Agriculture,Stationary Engine,Engin,Stationary Motors

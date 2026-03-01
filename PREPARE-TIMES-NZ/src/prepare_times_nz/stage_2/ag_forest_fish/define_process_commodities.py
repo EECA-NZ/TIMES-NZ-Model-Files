@@ -55,6 +55,27 @@ def define_process_commodities(df: pd.DataFrame, run_tests=RUN_TESTS) -> pd.Data
     )
     df["CommodityIn"] = "AGR" + df[["Fuel_TIMES"]].agg("-".join, axis=1)
     df["CommodityOut"] = df[["Sector_TIMES", "EndUse_TIMES"]].agg("-".join, axis=1)
+    commodity_out_with_tech = df[
+        ["Sector_TIMES", "Technology_TIMES", "EndUse_TIMES"]
+    ].agg("-".join, axis=1)
+    df.loc[
+        df["Technology_TIMES"].isin(
+            [
+                "MTr",
+                "Trac",
+                "Uti",
+                "GB",
+                "CY",
+                "Furnace",
+                "Boiler",
+                "HEATX",
+                "RF",
+                "HRECSys",
+                "Hreco",
+            ]
+        ),
+        "CommodityOut",
+    ] = commodity_out_with_tech
 
     return df[["Process", "CommodityIn", "CommodityOut"] + original_columns]
 
