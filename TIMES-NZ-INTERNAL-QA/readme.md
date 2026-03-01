@@ -61,34 +61,46 @@ Note that all the categorised data is available for download from the public ver
 A few adjustments are made to our standard poetry structure to enable the app to build on shinyapps.io: 
 
 1) app.py in root includes a line adding `src` to the system path. This enables shinyapps to identify the src modules and the usual imports work. Locally, this isn't necessary, because `src` is identified by the pylint dependencies in `pyproject.toml`. 
-2) Shinyapps.io uses the `requirements.txt` file to install the necessary packages. Again, we don't usually do this with poetry. If you have added packages, you need to refresh requirements.txt by exporting your poetry requirements using `poetry export -f requirements.txt -o requirements.txt --without-hashes`
+2) Shinyapps.io uses the `requirements.txt` file to install the necessary packages. Again, we don't usually do this with poetry. If you have added packages, you need to refresh requirements.txt by exporting your poetry requirements using `poetry export -f requirements.txt -o requirements.txt --without-hashes`.
 
-In general, you can deploy the app locally by simply running the script `run_local.py`
+In general, you can deploy the app locally by simply running the script `run_local.py`.
 
+### Production Deployment
 
-Deploy to shinyapps.io by entering the following into the terminal: 
+When deploying to the production app on shinyapps.io (the one that will be presented on the EECA website for public use), use the following terminal command:
+```
+poetry run rsconnect deploy shiny . .env \
+  --entrypoint app \
+  --app-id <PRODUCTION_APP_ID>
+```
+Before deployment, ensure you have created a `.env` file in the TIMES-NZ-INTERNAL-QA directory. This is so that the Pendo Analytics script can run on the production dashboard, allowing us to gather insights into how the dashboard is used. Note that the .env file must not be committed to Git. If the production deployment does not include a valid PENDO_API_KEY, Pendo analytics will not initialise.
 
+Ensure that the `.env` contains the following line:
+```
+PENDO_API_KEY="<KEY>"
+```
+Replace `<KEY>` with the production Pendo API key. The production Pendo key is stored in the Data and Analytics 1Password vault. If you do not have access, contact the Data and Analytics or Data Products team.
+
+### Development Deployments
+
+Alternatively, you can deploy a new version-specific development build like so: 
 ```
 poetry run rsconnect deploy shiny . \
   --entrypoint app \
-  --app-id 16757346 
+  --title times-nz-internal-explorer-v<VERSION> \
+  --new
 ```
 
-Some app-ids: 
+If there is an existing development build that you wish to overwrite, the following command can be used. The <APP-ID> must be replaced the with the appropriate deployed development application id, which can be found on shinyapps.io or below.
+```
+poetry run rsconnect deploy shiny . \
+  --entrypoint app \
+  --app-id <APP-ID>
+```
 
+Some app-ids:
 - `times-nz-internal-explorer`: 16527158
 - `times-nz-internal-explorer-v301`: 16588202
 - `times-nz-internal-explorer-v302`: 16596189
 - `times-nz-internal-explorer-v303`: 16757346
 
- 
-
-Other relevant app-ids are available in the dashboard. 
-
-Alternatively, deploy a new version-specific build like so: 
-```
-poetry run rsconnect deploy shiny . \
-  --entrypoint app \
-  --title times-nz-internal-explorer-v303 \
-  --new
-```

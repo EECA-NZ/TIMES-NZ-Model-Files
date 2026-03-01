@@ -3,7 +3,12 @@ Defines the ui for the internal app
 """
 
 # Libraries
+from dotenv import load_dotenv, find_dotenv
+import json
+import os
+from pathlib import Path
 from shiny import ui
+
 from times_nz_internal_qa.app.app_module_demand import demand_ui
 from times_nz_internal_qa.app.app_module_dummies import dummy_ui
 from times_nz_internal_qa.app.app_module_elec import elec_ui
@@ -17,10 +22,16 @@ from times_nz_internal_qa.utilities.filepaths import ASSETS
 
 global_css = ASSETS / "styles.css"
 
+# Secrets
+
+load_dotenv(dotenv_path=Path.cwd() / ".env")  # find_dotenv(".env", usecwd=True))
+PENDO_API_KEY = os.getenv("PENDO_API_KEY", "")
+
 # UI
 
 app_ui = ui.page_fluid(
     ui.head_content(
+        ui.tags.title("TIMES-NZ 3.0 Explorer"),
         # Google Fonts
         ui.tags.link(rel="preconnect", href="https://fonts.googleapis.com"),
         ui.tags.link(
@@ -43,6 +54,15 @@ app_ui = ui.page_fluid(
         ui.tags.script(
             # pylint: disable=line-too-long
             src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.contentWindow.min.js",
+            type="text/javascript",
+        ),
+        # Pendo
+        ui.tags.script(
+            f"window.PENDO_API_KEY = {json.dumps(PENDO_API_KEY)};",
+            type="text/javascript",
+        ),
+        ui.tags.script(
+            src="js/pendo-analytics.js",
             type="text/javascript",
         ),
         # Your global CSS (last so it can override everything)
