@@ -32,6 +32,7 @@ baseyear_techs_to_ban = {
     "C_WSR-*-DirectH-GEO": "Commercial geothermal",
     "C*-NGA*": "Commercial natural gas",
     "C*-DSL*": "Commercial diesel",
+    "AFISH*-PET": "Fishing boat petrol",
 }
 
 

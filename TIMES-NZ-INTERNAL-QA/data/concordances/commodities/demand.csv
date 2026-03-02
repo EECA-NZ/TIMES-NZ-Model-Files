@@ -197,31 +197,47 @@ Demand,NEWTECH-DEM,Commercial,NewTechs,NewTechs
 Demand,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Recycled Steel
 Demand,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Irrigation
 Demand,ADCF-LT,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Lighting
-Demand,ADCF-RFGR,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Refrigeration
+Demand,ADCF-HRECSys-RFGR,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Refrigeration
+Demand,ADCF-Hreco-WH,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,"Low Temperature Heat (<100 C), Water Heating"
 Demand,ADCF-WH,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,"Low Temperature Heat (<100 C), Water Heating"
+Demand,ADCF-RF-RFGR,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Refrigeration
 Demand,ADCF-MoTP-Stat,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,"Motive Power, Stationary"
 Demand,ADCF-PUMP,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Pumping
+Demand,ADCF-Trac-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,"Motive Power, Mobile"
+Demand,ADCF-MTr-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,"Motive Power, Mobile"
+Demand,ADCF-Uti-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,"Motive Power, Mobile"
 Demand,ADCF-MoTP-Mob,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,"Motive Power, Mobile"
 Demand,AFISH-OTH,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Electronics and Other Electrical Uses
 Demand,AFISH-LT,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Lighting
-Demand,AFISH-RFGR,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Refrigeration
+Demand,AFISH-RF-RFGR,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",Refrigeration
 Demand,AFISH-MoTP-Stat,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping","Motive Power, Stationary"
 Demand,AFISH-MoTP-Mob,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping","Motive Power, Mobile"
 Demand,AFORE-OTH,"Agriculture, Forestry, and Fishing",Forestry and Logging,Electronics and Other Electrical Uses
 Demand,AFORE-LT,"Agriculture, Forestry, and Fishing",Forestry and Logging,Lighting
 Demand,AFORE-MoTP-Stat,"Agriculture, Forestry, and Fishing",Forestry and Logging,"Motive Power, Stationary"
+Demand,AFORE-CY-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,"Motive Power, Mobile"
+Demand,AFORE-GB-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,"Motive Power, Mobile"
+Demand,AFORE-Boiler-PH,"Agriculture, Forestry, and Fishing",Forestry and Logging,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,AFORE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Forestry and Logging,"Motive Power, Mobile"
-Demand,AFORE-PH,"Agriculture, Forestry, and Fishing",Forestry and Logging,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,AHORT-IRG,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Irrigation
 Demand,AHORT-LT,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),Lighting
-Demand,AHORT-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),"Motive Power, Mobile"
+Demand,AHORT-Trac-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),"Motive Power, Mobile"
+Demand,AHORT-MTr-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),"Motive Power, Mobile"
+Demand,AHORT-Uti-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),"Motive Power, Mobile"
 Demand,AHORT-MoTP-Stat,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),"Motive Power, Stationary"
 Demand,AINDC-LT,"Agriculture, Forestry, and Fishing",Indoor Cropping,Lighting
 Demand,AINDC-MoTP-Stat,"Agriculture, Forestry, and Fishing",Indoor Cropping,"Motive Power, Stationary"
-Demand,AINDC-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,"Low Temperature Heat (<100 C), Space Heating"
+Demand,AINDC-Boiler-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,"Low Temperature Heat (<100 C), Space Heating"
+Demand,AINDC-HEATX-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,"Low Temperature Heat (<100 C), Space Heating"
 Demand,ALIVE-IRG,"Agriculture, Forestry, and Fishing",Livestock Farming,Irrigation
 Demand,ALIVE-LT,"Agriculture, Forestry, and Fishing",Livestock Farming,Lighting
+Demand,ALIVE-Trac-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,"Motive Power, Mobile"
+Demand,ALIVE-MTr-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,"Motive Power, Mobile"
+Demand,ALIVE-Uti-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,"Motive Power, Mobile"
 Demand,ALIVE-MoTP-Mob,"Agriculture, Forestry, and Fishing",Livestock Farming,"Motive Power, Mobile"
 Demand,AOTH-PH,"Agriculture, Forestry, and Fishing",Other Agriculture,"Intermediate Heat (100-300 C), Process Requirements"
+Demand,AOTH-Furnace-PH,"Agriculture, Forestry, and Fishing",Other Agriculture,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,AOTH-SH,"Agriculture, Forestry, and Fishing",Other Agriculture,"Low Temperature Heat (<100 C), Space Heating"
 Demand,AOTH-MoTP-Stat,"Agriculture, Forestry, and Fishing",Other Agriculture,"Motive Power, Stationary"
+Demand,AHORT-MoTP-Mob,"Agriculture, Forestry, and Fishing",Horticulture (Outdoor),"Motive Power, Mobile"
+Demand,AINDC-SH,"Agriculture, Forestry, and Fishing",Indoor Cropping,"Low Temperature Heat (<100 C), Space Heating"
