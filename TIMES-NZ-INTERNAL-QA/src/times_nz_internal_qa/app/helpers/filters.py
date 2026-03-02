@@ -131,14 +131,14 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
 
         if allows_multiple:
             ui_filter = ui.input_selectize(
-                iid, fspec.get("label", col), choices, multiple=True
+                iid, fspec.get("label", col), choices, multiple=True,
+                options={"plugins": ["auto_position"]},
             )
 
         else:
-            ui_filter = ui.input_select(
-                iid,
-                fspec.get("label", col),
-                choices,
+            ui_filter = ui.input_selectize(
+                iid, fspec.get("label", col), choices, multiple=False,
+                options={"plugins": ["auto_position"]},
                 selected=(
                     choices[1] if len(choices) > 1 else choices[0] if choices else None
                 ),

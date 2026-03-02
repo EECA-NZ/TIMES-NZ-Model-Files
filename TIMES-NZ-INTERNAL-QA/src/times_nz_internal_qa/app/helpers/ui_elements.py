@@ -79,7 +79,8 @@ def section_block(parameters):
                 # left block: group selector + toggle buttons
                 ui.div(
                     ui.tags.h4("Grouped by:", class_="filter-section-title"),
-                    ui.input_select(group_input_id, label=None, choices=group_options),
+                    ui.input_selectize(group_input_id, label=None, multiple=False, 
+                        choices=group_options, options={"plugins": ["auto_position"]},),
                     class_="chart-header-group",
                 ),
                 toggle_block,
