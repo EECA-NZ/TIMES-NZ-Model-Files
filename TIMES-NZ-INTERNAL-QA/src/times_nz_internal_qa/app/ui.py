@@ -56,6 +56,11 @@ app_ui = ui.page_fluid(
             src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.contentWindow.min.js",
             type="text/javascript",
         ),
+        # IFrame resizer
+        ui.tags.script(
+            src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@latest",
+            type="text/javascript",
+        ),
         # Pendo
         ui.tags.script(
             f"window.PENDO_API_KEY = {json.dumps(PENDO_API_KEY)};",
@@ -65,6 +70,7 @@ app_ui = ui.page_fluid(
             src="js/pendo-analytics.js",
             type="text/javascript",
         ),
+        # Selectizer auto-position dropdowns
         ui.tags.script(
             src="js/auto-position.js",
             type="text/javascript",
