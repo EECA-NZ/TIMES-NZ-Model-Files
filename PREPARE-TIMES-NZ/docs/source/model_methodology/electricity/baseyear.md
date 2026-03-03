@@ -163,7 +163,23 @@ All generating assets are provided with their original commissioning date where 
 Currently, decommissioning costs are not included. This was also true in TIMES-NZ 2.0. We instead assume that plants always retire at the end of their technical lifetime without incurring decommissioning costs. We also assume hydro plants are maintained through the entire model horizon; hence the technical lifetimes are `N/A`. We assume the cost of turbine replacements are spread across their operating and maintenance costs each year.
 
 
+### Lifetime adjustments 
 
+The above lifetime assumptions apply broadly to all technology types. However, we make a few manual adjustments to some plants to force specific closure dates when these don't align with the technology lifetime assumption. These are as follows: 
+
+```{csv-table} Plant lifetime adjustments
+:header-rows: 1
+:name: tab_plant_lifetime_adjustments
+
+Plant, Adjusted closure year
+Te Rapa, 2024
+Wairākei, 2027
+Whareroa, 2030[^whareroa]
+```
+
+All other plants will retire when their age exceeds their technical lifetime based on initial commissioning date. Note that we have also extended the lifetime of the Tararua wind farm to 30 years based on observed reliability.
+
+[^whareroa]: The Whareroa plant at Hāwera has had its lifetime extended, but 2030 is assumption only.  
 [^huntly_life]:The Rankine units were commissioned across 1982-1985, and we have set the commissioning date to 1983. This lifetime assumption means they will be retired in the model in 2033.
 
 

@@ -73,8 +73,6 @@ TagName = "FI_T"
 # Some floating point errors creeping through into the generated data - need to check this.
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_capacity.csv"
 
-
-
 [ElectricityProcessSpecificCapacityFactors]
 Description = "Locking specific capacity factors for plants where we have precise data, to ensure alignment."
 SheetName = "Existing Technologies"
