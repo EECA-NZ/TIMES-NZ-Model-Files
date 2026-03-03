@@ -10,6 +10,8 @@ Like in a new subres,
 You may wish to enhance this method's ability to categorise the new additions
 """
 
+import shutil
+
 from times_nz_internal_qa.postprocessing.get_definitions.closure_processes import (
     main as closures,
 )
@@ -31,6 +33,29 @@ from times_nz_internal_qa.postprocessing.get_definitions.sets_and_units import (
 from times_nz_internal_qa.postprocessing.get_definitions.transport_patch import (
     main as transport_patch,
 )
+from times_nz_internal_qa.utilities.filepaths import DATA, PREP_LOCATION
+
+DOCUMENTATION_LOOKUP_CODES_DIR = PREP_LOCATION / "docs/source/developer_guide/data"
+SOURCE_CODES_DIR = DATA / "concordances"
+
+
+def add_codes_to_documentation(target_dir=DOCUMENTATION_LOOKUP_CODES_DIR):
+    """
+    Copies the entire contents of data/concordances to the target dir.
+
+    Overwrites existing files but does not wipe target dir.
+    """
+
+    source_dir = SOURCE_CODES_DIR
+    target_dir.mkdir(parents=True, exist_ok=True)
+
+    for source_path in source_dir.rglob("*"):
+        if source_path.is_dir():
+            continue
+        relative_path = source_path.relative_to(source_dir)
+        destination_path = target_dir / relative_path
+        destination_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source_path, destination_path)
 
 
 def main():
@@ -50,6 +75,10 @@ def main():
     distribution_processes()
     # closure processes
     closures()
+
+    # finally, also copy everything to our doco assets folder
+
+    add_codes_to_documentation()
 
 
 if __name__ == "__main__":

@@ -24,6 +24,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.utilities.data_cleaning import pascal_case, remove_diacritics
 from prepare_times_nz.utilities.deflator import deflate_data
 from prepare_times_nz.utilities.filepaths import (
@@ -37,10 +38,13 @@ from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # CONSTANTS ----------------------------------------------------------------
 
-BASE_YEAR = 2023
 # set the expansion to 2050.
 # this will likely just align with the last NREL year anyway.
 years_used = list(range(BASE_YEAR, 2051))
+
+
+region_islands = CONCORDANCES / "region_island_concordance.csv"
+
 
 # USD to NZD exchange rate
 EXCHANGE_RATE_USD = 0.62
@@ -560,6 +564,32 @@ def recalculate_capex(df):
     return df
 
 
+def add_islands(df):
+    """Add island variable, assuming Region avaiable"""
+    islands = pd.read_csv(region_islands)
+    df = df.merge(islands, on="Region", how="left")
+    return df
+
+
+def tidy_genstack(df):
+    """
+    Moderate manipulation of the genstack data
+    Adds the island variable NI/SI
+    Removes the Huntly wood plant in MBIE's genstack as TIMES can just input different
+    fuels into the same plant, rather than being forced to
+    create new plants for different fuels
+    """
+    #  really this whole function should go in stage 3. the surfaced s3 data should be tidier
+    df = add_islands(df)
+
+    # MBIE includes Huntly black pellets as a separate plant.
+    # We will remove this because we can just feed different fuels to the rankines
+    plants_to_remove = ["Huntly Unit 1 (Wood)", "Huntly Unit 2 (Wood)"]
+    df = df[~df["Plant"].isin(plants_to_remove)]
+
+    return df
+
+
 def distinguish_tracking_solar(df):
     """
     Changes the Tech and TechName field for solar plants
@@ -646,6 +676,7 @@ def get_genstack():
     df = recalculate_capex(df)
     df = distinguish_tracking_solar(df)
     df = add_times_codes(df)
+    df = tidy_genstack(df)
     return df
 
 
