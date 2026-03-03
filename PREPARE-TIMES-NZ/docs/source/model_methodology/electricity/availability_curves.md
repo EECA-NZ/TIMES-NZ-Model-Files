@@ -14,7 +14,6 @@ Plant Type,Capacity Factor (%)
 Biogas,75
 Diesel (peakers),2
 Huntly Rankine units,37
-Natural gas (cogeneration),55
 Natural gas (CCGT),65
 Natural gas (OCGT),33
 ```
@@ -31,13 +30,11 @@ Plant Type,Capacity Factor (%)
 Biomass (cogeneration),55
 Coal (cogeneration),55
 Natural gas (cogeneration),55
-Natural gas (CCGT),65
-Natural gas (OCGT),33
 Geothermal (cogeneration),80
 Geothermal (electricity),88 
 ```
 
-These plants will never flex generation up or down depending on demand. 
+In the model, these plants will not flex generation up or down depending on demand.
 
 ## Solar 
 
