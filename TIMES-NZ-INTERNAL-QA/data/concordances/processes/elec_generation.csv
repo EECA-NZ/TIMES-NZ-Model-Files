@@ -338,8 +338,6 @@ Electricity generation,ELC_SolarFixed_GenericSolar72,Generic solar (200MW+): 72,
 Electricity generation,ELC_SolarFixed_GenericSolar73,Generic solar (101-200MW): 73,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_GenericSolar8,Generic solar (200MW+): 8,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_GenericSolar88,Generic solar (200MW+): 88,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_Wood_HuntlyUnit1Wood,Huntly Unit 1 (Wood),,
-Electricity generation,ELC_Wood_HuntlyUnit2Wood,Huntly Unit 2 (Wood),,
 Electricity generation,ELC_WindFixOff_Southland,Offshore wind (Fixed) - Southland,Wind,Fixed Offshore Wind
 Electricity generation,ELC_WindFixOff_Taranaki,Offshore wind (Fixed) - Taranaki,Wind,Fixed Offshore Wind
 Electricity generation,ELC_WindFixOff_Waikato,Offshore wind (Fixed) - Waikato,Wind,Fixed Offshore Wind
