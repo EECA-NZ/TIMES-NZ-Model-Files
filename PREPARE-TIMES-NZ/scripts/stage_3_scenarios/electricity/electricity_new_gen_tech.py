@@ -19,6 +19,7 @@ earliest commissioning year or if it is able to be commissioned at any time.
 
 
 import re
+import tomllib
 from pathlib import Path
 
 import numpy as np
@@ -47,6 +48,25 @@ EXCHANGE_RATE_USD = 0.62
 # Filepath shortcuts
 FUTURE_TECH_ASSUMPTIONS = ASSUMPTIONS / "electricity_generation/future_techs"
 OUTPUT_LOCATION = STAGE_3_DATA / "electricity"
+GENSTACK_PATCH_FILES = [
+    FUTURE_TECH_ASSUMPTIONS / "GenstackPatches.toml",
+    FUTURE_TECH_ASSUMPTIONS / "GenStackPatches.toml",
+]
+
+# manual mapping of raw genstack variable names to model variable names and units
+GENSTACK_VARS = {
+    "Capacity (MW)": ["Capacity", "MW"],
+    "Heat Rate (GJ/GWh)": ["HeatRate", "GJ/GWh"],
+    "Variable operating costs (NZD/MWh)": ["VAROM", "NZD/MWh"],
+    "Fixed operating costs (NZD/kW/year)": ["FOM", "NZD/kW/year"],
+    "Fuel delivery costs (NZD/GJ)": ["FuelDeliveryCost", "NZD/GJ"],
+    "Capital cost (NZD/kW)": ["CAPEX", "NZD/kW"],
+    "Connection cost (NZD $m)": ["ConnectionCost", "NZD $m"],
+    "Total Capital costs (NZD $m)": ["CAPEX_incl_connection", "NZD $m"],
+}
+GENSTACK_VAR_TO_RAW = {
+    new_name: raw_name for raw_name, (new_name, _) in GENSTACK_VARS.items()
+}
 
 # script settings
 pd.set_option("future.no_silent_downcasting", True)
@@ -133,6 +153,200 @@ def load_genstack():
     return df
 
 
+def _find_genstack_patch_file():
+    """Returns the first available genstack patch file path."""
+    for filepath in GENSTACK_PATCH_FILES:
+        if filepath.exists():
+            return filepath
+    return GENSTACK_PATCH_FILES[0]
+
+
+def _empty_patch_df():
+    """Empty patch DataFrame with the expected columns."""
+    return pd.DataFrame(columns=["Plant", "Variable", "Value", "Scenario"])
+
+
+def _patch_rows_from_list(raw_patches):
+    """Build patch rows from [[patches]] TOML list format."""
+    patch_rows = []
+
+    for entry in raw_patches:
+        if not isinstance(entry, dict):
+            continue
+
+        if "Variable" in entry and "Value" in entry:
+            patch_rows.append(
+                {
+                    "Plant": entry.get("Plant"),
+                    "Variable": entry.get("Variable"),
+                    "Value": entry.get("Value"),
+                    "Scenario": entry.get("Scenario"),
+                }
+            )
+            continue
+
+        plant = entry.get("Plant")
+        scenario = entry.get("Scenario")
+        for variable, value in entry.items():
+            if variable in {"Plant", "Scenario"}:
+                continue
+            patch_rows.append(
+                {
+                    "Plant": plant,
+                    "Variable": variable,
+                    "Value": value,
+                    "Scenario": scenario,
+                }
+            )
+
+    return patch_rows
+
+
+def _patch_rows_from_dict(raw_patches):
+    """Build patch rows from [patches.\"Plant\"] TOML dict format."""
+    patch_rows = []
+
+    for plant, vars_to_patch in raw_patches.items():
+        if not isinstance(vars_to_patch, dict):
+            continue
+        scenario = vars_to_patch.get("Scenario")
+        for variable, value in vars_to_patch.items():
+            if variable == "Scenario":
+                continue
+            patch_rows.append(
+                {
+                    "Plant": plant,
+                    "Variable": variable,
+                    "Value": value,
+                    "Scenario": scenario,
+                }
+            )
+
+    return patch_rows
+
+
+def _build_patch_dataframe(patch_rows):
+    """Apply common validation/cleaning for parsed patch rows."""
+    patches_df = pd.DataFrame(patch_rows)
+    if patches_df.empty:
+        return _empty_patch_df()
+
+    # Keep only complete rows.
+    # Value can be numeric or text (for example CommissioningType).
+    patches_df = patches_df.dropna(subset=["Plant", "Variable", "Value"])
+    patches_df = patches_df[
+        ~patches_df["Value"].apply(lambda value: isinstance(value, (dict, list)))
+    ]
+
+    return patches_df
+
+
+def load_genstack_patches(filepath=None):
+    """
+    Loads patch instructions from TOML and returns a tidy patch table:
+    columns = Plant, Variable, Value, [Scenario]
+
+    Supported TOML structures:
+      1) [[patches]]
+            Plant = "Plant Name"
+            Variable = "CAPEX"
+            Value = 1234
+            Scenario = "Reference"  # optional
+         or:
+            [[patches]]
+            Plant = "Plant Name"
+            Scenario = "Reference"  # optional
+            CAPEX = 1234
+            CommissioningType = "Fixed"
+      2) [patches."Plant Name"]
+            CAPEX = 1234
+            FOM = 45
+    """
+    filepath = filepath or _find_genstack_patch_file()
+    if not filepath.exists():
+        logger.info(
+            "No genstack patch file found at %s - skipping patches",
+            ", ".join(str(path) for path in GENSTACK_PATCH_FILES),
+        )
+        return _empty_patch_df()
+
+    with open(filepath, "rb") as file_obj:
+        patch_config = tomllib.load(file_obj)
+
+    raw_patches = patch_config.get("patches")
+    if isinstance(raw_patches, list):
+        patch_rows = _patch_rows_from_list(raw_patches)
+    elif isinstance(raw_patches, dict):
+        patch_rows = _patch_rows_from_dict(raw_patches)
+    else:
+        logger.warning(
+            "Invalid patch structure in %s. Expected [patches] table or [[patches]] list.",
+            filepath,
+        )
+        return _empty_patch_df()
+
+    return _build_patch_dataframe(patch_rows)
+
+
+def apply_genstack_patches(df):
+    """
+    Applies TOML-defined patch values to raw (wide) genstack data.
+    Patches are matched by Plant and variable column, with optional Scenario.
+
+    Variable names in TOML can be either:
+      - raw MBIE column names (e.g. "Capacity (MW)")
+      - mapped model names (e.g. "Capacity")
+    """
+    patches_df = load_genstack_patches()
+    if patches_df.empty:
+        return df
+
+    required_cols = {"Plant", "Variable", "Value"}
+    missing_cols = required_cols - set(patches_df.columns)
+    if missing_cols:
+        raise KeyError(f"Patch table requires columns: {sorted(required_cols)}")
+
+    patched = df.copy()
+    applied_rows = 0
+    unmatched_rows = 0
+    unknown_variables = set()
+
+    for row in patches_df.itertuples(index=False):
+        variable = row.Variable
+        if variable not in patched.columns:
+            variable = GENSTACK_VAR_TO_RAW.get(variable)
+
+        if variable not in patched.columns:
+            unknown_variables.add(row.Variable)
+            continue
+
+        mask = patched["Plant"] == row.Plant
+        if "Scenario" in patched.columns and pd.notna(row.Scenario):
+            mask = mask & (patched["Scenario"] == row.Scenario)
+
+        matched = int(mask.sum())
+        if matched == 0:
+            unmatched_rows += 1
+            continue
+
+        patched.loc[mask, variable] = row.Value
+        applied_rows += matched
+
+    if unknown_variables:
+        logger.warning(
+            "Skipping genstack patches for unknown variables: %s",
+            sorted(unknown_variables),
+        )
+    if unmatched_rows:
+        logger.warning(
+            "Skipped %d genstack patches with no matching rows", unmatched_rows
+        )
+    if applied_rows:
+        logger.info("Applied %d genstack patch row updates", applied_rows)
+
+    return patched
+
+
 def reshape_genstack(df):
     """
 
@@ -142,19 +356,7 @@ def reshape_genstack(df):
     """
     # pivot and rename
 
-    # manual mapping of genstack variable names to new variable names and units
-    genstack_vars = {
-        "Capacity (MW)": ["Capacity", "MW"],
-        "Heat Rate (GJ/GWh)": ["HeatRate", "GJ/GWh"],
-        "Variable operating costs (NZD/MWh)": ["VAROM", "NZD/MWh"],
-        "Fixed operating costs (NZD/kW/year)": ["FOM", "NZD/kW/year"],
-        "Fuel delivery costs (NZD/GJ)": ["FuelDeliveryCost", "NZD/GJ"],
-        "Capital cost (NZD/kW)": ["CAPEX", "NZD/kW"],
-        "Connection cost (NZD $m)": ["ConnectionCost", "NZD $m"],
-        "Total Capital costs (NZD $m)": ["CAPEX_incl_connection", "NZD $m"],
-    }
-
-    values_to_pivot = genstack_vars.keys()
+    values_to_pivot = GENSTACK_VARS.keys()
 
     id_vars = [col for col in df.columns if col not in values_to_pivot]
 
@@ -166,7 +368,7 @@ def reshape_genstack(df):
     )
 
     # map the units and variables to the original variable name
-    df[["Variable", "Unit"]] = df["OriginalVariable"].map(genstack_vars).tolist()
+    df[["Variable", "Unit"]] = df["OriginalVariable"].map(GENSTACK_VARS).tolist()
     # no longer needed
     df = df.drop("OriginalVariable", axis=1)
     # we don't need this - will recreate later.
@@ -437,7 +639,7 @@ def get_genstack():
     """
 
     df = load_genstack()
-
+    df = apply_genstack_patches(df)
     df = reshape_genstack(df)
     df = define_genstack_learning_curves(df)
     df = apply_learning_curves(df)

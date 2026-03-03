@@ -1,0 +1,12 @@
+
+[[patches]]
+Plant = "Kawerau (TOPP2)"
+CommissioningType = "Fixed"
+CommissioningYear = 2025
+
+
+
+[[patches]]
+Plant = "Kaiwaikawe"
+CommissioningType = "Fixed"
+CommissioningYear = 2025
