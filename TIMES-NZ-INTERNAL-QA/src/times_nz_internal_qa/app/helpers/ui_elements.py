@@ -34,8 +34,8 @@ def section_block(parameters):
             ui.tags.h4("Filter:", class_="filter-section-title"),
             ui.input_action_button(
                 f"{chart_id}_chart_clear_filters",
-                None,  # no text
-                icon=ui.tags.i(class_="fa fa-times"),  # font-awesome "X"
+                label="Clear",  # None = no text
+                icon=ui.tags.i(class_="fa fa-eraser"),  # font-awesome eraser
                 class_="btn btn-sm clear-filters",
                 title="Clear all filters",  # hover text
             ),
