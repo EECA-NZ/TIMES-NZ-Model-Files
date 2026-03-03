@@ -8,10 +8,12 @@
  - Adjusted LNG terminal to fixed installation date in 2027 for Traditional scenario. LNG remains excluded from Transformation.
     - Also removed MIP functionality as this is no longer required.
  - Minor adjustments to capital costs for agricultural heating technologies following review.
+ - Decreased average geothermal generation assumption slightly to align better with base year data. 
 
 **Model fixes**
 - (Biofuel) Improved municipal waste production differences between scenarios.
-- (Electricity generation) Fixed incorrect wind availability curve assumptions. 
+- (Electricity generation) Fixed incorrect wind availability curve assumptions.
+- (Electricity generation) Fixed dispatchable hydro and wind peak contribution factors not aligning with documentation.
 - (Agriculture) Improved modelling of geothermal heating for indoor cropping.
 - (Agriculture) Fixed a bug that meant agricultural energy emissions were counted incorrectly.
 - (Agriculture) Added greater distinction for refrigeration, offroad transport, and heating technologies.
@@ -35,7 +37,7 @@
 - (Electricity generation) Resolved an error that limited hydro dam output flexibility.
 
 **Assumption changes**
-- Adjusted Traditional and Transformation electricity generation NREL scenarios from Conservative and Moderate to Moderate and Advanced, respectively.
+- (Electricity generation) Adjusted Traditional and Transformation NREL scenarios from Conservative and Moderate to Moderate and Advanced, respectively.
 - (Commercial, Residential) Increased heatpump lifetimes slightly.
 - (Industrial) Removed some load curve assumptions.
 

@@ -1,9 +1,9 @@
 TechnologyCode,PlantLife,PeakContribution
-HYD,200,0.98
+HYD,200,0.80
 HYDRR,200,0.72
 OCGT,25,0.97
 CCGT,28,0.97
-WIN,25,0.25
+WIN,25,0.1
 SOL,20,0
 DSL,30,0.66
 RNK,50,0.97
