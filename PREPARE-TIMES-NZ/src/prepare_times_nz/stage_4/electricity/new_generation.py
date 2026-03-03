@@ -310,30 +310,6 @@ def load_genstack():
     return df
 
 
-def tidy_genstack(df):
-    """
-
-    Moderate manipulation of the genstack data
-    This should probably be done in stage 3 instead for consistency.
-
-    Generates the distinct process name for genstack plants
-    Adds the island variable NI/SI
-    Removes the Huntly wood plant in MBIE's genstack as TIMES can just input different
-    fuels into the same plant, rather than being forced to
-    create new plants for different fuels
-
-    """
-    #  really this whole function should go in stage 3. the surfaced s3 data should be tidier
-    df = add_islands(df)
-
-    # MBIE includes Huntly black pellets as a separate plant.
-    # We will remove this because we can just feed different fuels to the rankines
-    plants_to_remove = ["Huntly Unit 1 (Wood)", "Huntly Unit 2 (Wood)"]
-    df = df[~df["Plant"].isin(plants_to_remove)]
-
-    return df
-
-
 def select_mbie_scenario(df, scenario):
     """filters a df on MBIE scenario"""
     df = df[df["Scenario"] == scenario]
@@ -500,7 +476,6 @@ def process_genstack_files(
     """
     df = load_genstack()
     df = select_mbie_scenario(df, scenario=mbie_scenario)
-    df = tidy_genstack(df)
 
     df_veda = reshape_genstack(df)
 
