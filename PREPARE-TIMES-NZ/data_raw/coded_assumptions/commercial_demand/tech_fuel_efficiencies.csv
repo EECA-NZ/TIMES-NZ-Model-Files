@@ -11,7 +11,7 @@ Burner (Direct Heat),Biogas,0.8,Relative to Natural Gas
 Heat Pump (for Cooling),Electricity,3.5,TIMES-NZ 2.0
 Heat Pump (for Heating),Electricity,3.5,TIMES-NZ 2.0
 Resistance Heater,Electricity,0.99,TIMES-NZ 2.0
-Direct Heat,Geothermal,1,TIMES-NZ 2.0
+Heat Exchangers,Geothermal,1,TIMES-NZ 2.0
 Hot Water Cylinder,Electricity,1,TIMES-NZ 2.0
 Hot Water Cylinder,Natural Gas,0.8,TIMES-NZ 2.0
 Lights (Incandescent) ,Electricity,0.15,TIMES-NZ 3.0 Residential
