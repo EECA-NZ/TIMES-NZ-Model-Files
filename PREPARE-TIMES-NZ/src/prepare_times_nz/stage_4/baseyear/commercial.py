@@ -45,7 +45,6 @@ COMMERCIAL_DEMAND_VARIABLE_MAP = {
 
 DELIVERY_COST_ASSUMPTIONS = {
     # NZDm/PJ or NZD/GJ
-    "COMNGA": 9.35,
     "COMDSL": 0.92,
     "COMPET": 0.92,
 }
@@ -144,7 +143,6 @@ def define_fuel_commodities(df, filename, label):
     fuel_df["TsLvl"] = fuel_df["CommName"].apply(
         lambda x: "DAYNITE" if x == "COMELC" else ""
     )
-
     save_commercial_veda_file(fuel_df, name=filename, label=label)
 
 
@@ -173,10 +171,11 @@ def define_fuel_delivery(df):
         DELIVERY_COST_ASSUMPTIONS
     )
 
-    # Ensure this uses only distributed electricity
+    # Ensure this uses only distributed electricity, gas, or biomethanol
+    dist_fuels = ["ELC", "NGA", "BIM"]
     fuel_deliv_parameters["Comm-IN"] = np.where(
-        fuel_deliv_parameters["Comm-IN"] == "ELC",
-        "ELCDD",
+        fuel_deliv_parameters["Comm-IN"].isin(dist_fuels),
+        fuel_deliv_parameters["Comm-IN"] + "DD",
         fuel_deliv_parameters["Comm-IN"],
     )
 

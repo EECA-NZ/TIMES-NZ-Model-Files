@@ -48,7 +48,6 @@ DELIVERY_COST_ASSUMPTIONS = {
     # put me in an assumptions file!!
     # these are NZDm/PJ or NZD/GJ
     # anything not listed is assumed 0 (incl LPG)
-    "RESNGA": 25,
     "RESDSL": 0.92,
     "RESPET": 0.92,
     "RESWOD": 10,
@@ -174,10 +173,11 @@ def define_fuel_delivery(df):
         DELIVERY_COST_ASSUMPTIONS
     )
 
-    # Ensure this uses only distributed electricity
+    # Ensure this uses only distributed electricity, gas, or biomethanol
+    dist_fuels = ["ELC", "NGA", "BIM"]
     fuel_deliv_parameters["Comm-IN"] = np.where(
-        fuel_deliv_parameters["Comm-IN"] == "ELC",
-        "ELCDD",
+        fuel_deliv_parameters["Comm-IN"].isin(dist_fuels),
+        fuel_deliv_parameters["Comm-IN"] + "DD",
         fuel_deliv_parameters["Comm-IN"],
     )
 

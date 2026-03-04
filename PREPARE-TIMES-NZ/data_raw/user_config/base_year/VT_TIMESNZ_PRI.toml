@@ -49,6 +49,60 @@ DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/deliverabili
 # the process definitions can be pulled from this as per normal 
 # later might need to mess with this a bit to standardise for reporting 
 
+
+
+# Distribution network 
+
+
+[GasDistributionCommodities]
+Description = "Defines distributed gas commodities"
+# Note contingent reserves are specified as a separate/optional scenario table
+SheetName = "Gas Distribution"
+TagName = "FI_Comm"
+CSets = ["NRG", "NRG"]
+CommName = ["NGADD", "BIMDD"]
+Unit = ["PJ", "PJ"]
+LimType = ["FX", "FX"]
+
+
+[GasDistributionNetworkDeclaration]
+Description = "Defines gas distribution network"
+# Note contingent reserves are specified as a separate/optional scenario table
+SheetName = "Gas Distribution"
+TagName = "FI_Process"
+Sets = "PRE"
+TechName = "G_NGA_DIST"
+Tact = "PJ"
+Tcap = "Pja"
+
+
+[GasDistributionNetworkParameters]
+Description = "Defines gas distribution network"
+# Note contingent reserves are specified as a separate/optional scenario table
+SheetName = "Gas Distribution"
+TagName = "FI_Process"
+Sets = "PRE"
+TechName = "G_NGA_DIST"
+Region = "NI"
+NCAP_PASTI = 150 # this doesn't really matter - just enough to meet demand
+CAP2ACT = 1 # just PJa capacity 
+FIXOM = 200 # placeholder value. To determine correctly later. Note only important for objective function unless we're allowing the network to shrink.
+Life = 100
+[GasDistributionNetworkTopology]
+
+
+Description = "Defines In/Out for network. Note that flo_eff must be set in base constraints or this will turn gas into biomethane for free"
+# Note contingent reserves are specified as a separate/optional scenario table
+SheetName = "Gas Distribution"
+TagName = "FI_T"
+
+TechName = ["G_NGA_DIST", "G_NGA_DIST"]
+Comm-IN = ["NGA", "BIM"] # natural gas or biomethane. Note must add new fuels here and base constraints for additional blending 
+Comm-OUT = ["NGADD", "BIMDD"] 
+Ceff = [1,1] # might not need this? but had weird results without it in early testing where input commodities weren't needed. test removing.
+Region = ["NI", "NI"]
+
+
 ###########################################
 # LNG
 # NOTE: LNG goes into SUBRES files here 
