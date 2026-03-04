@@ -25,6 +25,7 @@ def main():
     # this is required to produce the app input files
     process_data()
     # package everything into zip for user downloads
+    print("Packaging outputs..")
     package_outputs()
 
 
