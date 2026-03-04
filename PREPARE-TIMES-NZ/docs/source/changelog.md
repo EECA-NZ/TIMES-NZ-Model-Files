@@ -18,6 +18,10 @@
 - (Agriculture) Added greater distinction for refrigeration, offroad transport, and heating technologies.
 - (Agriculture) Resolved an issue that meant petrol-powered boats and farm bikes were more efficient than intended.
 - (Agriculture) Minor adjustments to capital costs for heating technologies following review.
+- (Commercial) Added greater distinction for boilers, burners, and resistance heaters.
+- (Commercial) Improved modelling of geothermal heating for education, healthcare, WSR, and other commercial sectors.
+- (Commercial) Resolved an error that led to some technologies being switching to LPG, natural gas, diesel, and petrol than intended. 
+
 
 ## 3.0.2
 
