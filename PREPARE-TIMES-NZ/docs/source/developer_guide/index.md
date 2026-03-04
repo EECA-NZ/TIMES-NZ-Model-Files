@@ -25,6 +25,7 @@ github-flow-readme
 configuration_file_guide
 data_structures
 model-structure
+code-lookups
 ```
 
 

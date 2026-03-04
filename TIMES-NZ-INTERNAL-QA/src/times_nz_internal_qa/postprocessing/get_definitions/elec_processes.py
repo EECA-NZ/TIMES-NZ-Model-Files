@@ -75,6 +75,7 @@ def get_elc_dist_solar():
     """
     Read all dist solar processes from staging data
     Return codes and categories
+    Note that we have changed the solar structure so this should no longer be needed.
     """
     df = pd.read_csv(PREP_STAGE_3 / "electricity/residential_solar.csv")
     df = df[["TechName", "Tech_TIMES"]].drop_duplicates()
@@ -108,10 +109,10 @@ def main():
     df = df.merge(tech_codes, on="Tech_TIMES", how="left")
 
     # just some placeholders if we ever want to combine these with demand processes
-    df["EnduseGroup"] = PROCESS_GROUP
-    df["EndUse"] = PROCESS_GROUP
-    df["SectorGroup"] = PROCESS_GROUP
-    df["Sector"] = PROCESS_GROUP
+    # df["EnduseGroup"] = PROCESS_GROUP
+    # df["EndUse"] = PROCESS_GROUP
+    # df["SectorGroup"] = PROCESS_GROUP
+    # df["Sector"] = PROCESS_GROUP
 
     df = df[
         [
@@ -120,10 +121,10 @@ def main():
             "PlantName",
             "TechnologyGroup",
             "Technology",
-            "SectorGroup",
-            "Sector",
-            "EnduseGroup",
-            "EndUse",
+            # "SectorGroup",
+            # "Sector",
+            # "EnduseGroup",
+            # "EndUse",
         ]
     ]
 
