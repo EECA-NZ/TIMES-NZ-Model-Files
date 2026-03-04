@@ -169,6 +169,11 @@ def define_fuel_delivery(df):
     fuel_deliv_parameters["Comm-IN"] = fuel_deliv_parameters[
         "Comm-OUT"
     ].str.removeprefix("IND")
+
+    fuel_deliv_parameters["Comm-IN"] = fuel_deliv_parameters[
+        "Comm-IN"
+    ].str.removeprefix("FSTK")
+
     fuel_deliv_parameters["TechName"] = "FTE_" + fuel_deliv_parameters["Comm-OUT"]
 
     fuel_deliv_parameters["LIFE"] = 100  # pretty sure we don't need this
@@ -191,7 +196,6 @@ def define_fuel_delivery(df):
         fuel_deliv_parameters["Comm-IN"] + "DD",
         fuel_deliv_parameters["Comm-IN"],
     )
-
     # with the structure defined, we also define the new processes in a separate file (FI_Process)
     fuel_deliv_definitions = pd.DataFrame(
         {

@@ -29,6 +29,7 @@ Sets = ["MIN", "MIN"] # this actually doesn't need to dupe - rows inherit so "MI
 TechName = ["MINNGA-KAP", "MINNGA-OTH"] # All other fields and Kapuni
 Tact = ["PJ","PJ"]
 Tcap = ["PJa","PJa"]
+Region = ["NI", "NI"]
 
 
 [GasSupplyParameters]
@@ -102,81 +103,7 @@ Comm-OUT = ["NGADD", "BIMDD"]
 Ceff = [1,1] # might not need this? but had weird results without it in early testing where input commodities weren't needed. test removing.
 Region = ["NI", "NI"]
 
-
-###########################################
-# LNG
-# NOTE: LNG goes into SUBRES files here 
-# BUT some parts need to go into a scenario file for lumpy investment
-# kept in this config file for tidiness (it's small) 
-# we do not limit this to the north island, because the south island can't do anything with NGA
-# so this shouldnt' matter (but to keep an eye on that)
-###########################################
-
-[LNGSupplyCommodityDefinitions]
-WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
-Description = "Declare LNG commodity"
-SheetName = "LNG"
-TagName = "FI_Comm"
-Csets = ["NRG"]
-Region = ["NI"]
-CommName = ["LNG"]
-Unit = ["PJ"]
-
-
-[LNGSupplyProcessDefinitions]
-WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
-Description = "Declare LNG production/regasification processes"
-SheetName = "LNG"
-TagName = "FI_Process"
-
-# setting discrete investments on the LNG ports
-# actual values are set in the scenario file
-Sets = ["IMP", "PRE"] 
-
-TechName = ["IMPLNG", # just import the commodity            
-            "LNGPORTSTD" # standard configuration
-            ]
-
-Tact = "PJ"
-Tcap = ["PJa", "StandardPort"] # we are defining abstract units for these ports to work around
-
-
-[LNGCommodityCosts]
-WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
-Description = "Defines costs for LNG import (Just the commodity, not infrastructure or delivery)"
-SheetName = "LNG"
-TagName = "FI_T"
-TechName = "IMPLNG"
-Comm-IN = ""
-Comm-OUT = "LNG"
-COST = 18 # NZD/GJ
-
-[LNGImportConfigurations]
-WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
-Description = "Defines parameters for different LNG configurations"
-SheetName = "LNG"
-TagName = "FI_T"           
-
-[LNGImportConfigurations.Data]
-TechName = ["LNGPORTSTD"]
-Comm-IN = ["LNG"]
-Comm-OUT = ["NGA"]
-INVCOST = [800] # again, this is total per "port" unit. We can only build one port unit, and this is the price NZDm
-CAP2ACT = [40] # ie, the small port can produce 9 a year, and the big port 40: now all our capacity unit is "port" so everything simpler 
-Eff = [1] # this is by default anyway, but we'll make explicit
-AFA = [1] # defaults, but explicit - can run at max capacity 
-"AFA~LO" = [0] # force the small port to always run at max capacity, as per the reporting on these setups. You buy LNG ahead of time and must deliver. 
-FIXOM = [90] # operating costs per capacity unit (NZDm per port setup excl capex) 
-
-[LNGImportBuildOptions]
-WorkBookName = "SuppXLS/Scen_LNG_build_timing"
-Description = "Build timing for LNG port, including single port unit build at 2027."
-SheetName = "LNG"
-TagName = "TFM_INS"
-DataLocation = "data_raw/coded_assumptions/oil_and_gas/lng_build_timing.csv"
-
-
-            
+           
 
 ###########################################
 # Oil
