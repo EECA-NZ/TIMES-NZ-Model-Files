@@ -23,6 +23,40 @@ from times_nz_internal_qa.utilities.filepaths import (
     SCENARIO_FILES,
 )
 
+BASE_YEAR = 2023
+MAX_YEAR = 2050
+
+
+def coerce_period_to_int(df):
+    """
+    Ensure Period is numeric and stored as nullable integer.
+    Reports attributes where invalid years show up
+    To do: list the attributes where this is acceptable
+        and throw loud error if it happens to attributes that need a period
+        currently judgement is required.
+    """
+    period_numeric = pd.to_numeric(df["Period"], errors="coerce")
+    invalid_mask = period_numeric.isna() & df["Period"].notna()
+
+    if invalid_mask.any():
+        invalid_attributes = (
+            df.loc[invalid_mask, "Attribute"]
+            .dropna()
+            .astype(str)
+            .sort_values()
+            .unique()
+        )
+        print("Note: the following attributes contain some invalid years.")
+        print(
+            "Please ensure these are not attributes that should have valid years for every entry:"
+        )
+        for atty in invalid_attributes:
+            print("       -", atty)
+
+    df = df.copy()
+    df["Period"] = period_numeric.astype("Int64")
+    return df
+
 
 def save_data(df, name, method="parquet"):
     """Save final outputs to <repo>/data (creates folder if missing)."""
@@ -47,6 +81,7 @@ def load_scenario_results(scenarios):
         result_list.append(df)
 
     df_all = pd.concat(result_list)
+    df_all = coerce_period_to_int(df_all)
     return df_all
 
 
@@ -107,6 +142,8 @@ def process_electricity_generation(df):
     ]
 
     df = df[ele_variables]
+
+    df = df[df["Period"] != BASE_YEAR]
     # save
     save_data(df, "elec_generation.csv")
 
@@ -174,6 +211,8 @@ def process_generation_by_timeslice(df):
     ]
 
     df = df[ele_variables]
+    # remove base year from timeslice data
+    df = df[df["Period"] != BASE_YEAR]
 
     save_data(df, "generation_by_timeslice.csv")
 
@@ -261,8 +300,10 @@ def process_electricity_demand_by_timeslice(df):
     df["Unit"] = "GW"
     df["Value"] = df["GW"]
 
-    # order and select output variables
+    # remove base year from timeslice data
+    df = df[df["Period"] != BASE_YEAR]
 
+    # order and select output variables
     save_data(df, "electricity_demand_by_timeslice.csv")
 
 
@@ -486,6 +527,10 @@ def get_data_by_timeslice(filename):
     df["Variable"] = "Average output"
     df["Unit"] = "GW"
     df["Value"] = df["GW"]
+
+    # remove BY from this
+    df = coerce_period_to_int(df)
+    df = df[df["Period"] != BASE_YEAR]
 
     return df
 
@@ -776,20 +821,7 @@ def main():
     print("Processing all scenario files...")
     df = load_scenario_results(current_scenarios)
 
-    excess_years = [
-        "2051",
-        "2052",
-        "2053",
-        "2054",
-        "2055",
-        "2056",
-        "2057",
-        "2058",
-        "2059",
-        "2060",
-    ]
-
-    df = df[~df["Period"].isin(excess_years)]
+    df = df[(df["Period"] <= MAX_YEAR).fillna(False)]
 
     process_primary_energy(df)
     process_energy_service_demand(df)
