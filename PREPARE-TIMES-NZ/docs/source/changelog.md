@@ -6,8 +6,9 @@
 **Assumption changes**
  - Changed distributed solar process to use exogenous forecasts, providing more realistic results.
  - Adjusted LNG terminal to fixed installation date in 2027 for Traditional scenario. LNG remains excluded from Transformation.
- - Decreased average geothermal generation assumption slightly to align better with base year data.
-
+    - Also removed MIP functionality as this is no longer required.
+ - Minor adjustments to capital costs for agricultural heating technologies following review.
+ - Decreased average geothermal generation assumption slightly to align better with base year data. 
 
 **Model fixes**
 - (Biofuel) Improved municipal waste production differences between scenarios.
@@ -17,7 +18,12 @@
 - (Agriculture) Fixed a bug that meant agricultural energy emissions were counted incorrectly.
 - (Agriculture) Added greater distinction for refrigeration, offroad transport, and heating technologies.
 - (Agriculture) Resolved an issue that meant petrol-powered boats and farm bikes were more efficient than intended.
+- (Residential) Fixed an issue allowing too much flexibility in space heating technologies.
 - (Agriculture) Minor adjustments to capital costs for heating technologies following review.
+- (Commercial) Added greater distinction for boilers, burners, and resistance heaters.
+- (Commercial) Improved modelling of geothermal heating for education, healthcare, WSR, and other commercial sectors.
+- (Commercial) Resolved an error that led to some technologies being switching to LPG, natural gas, diesel, and petrol than intended. 
+
 
 ## 3.0.2
 

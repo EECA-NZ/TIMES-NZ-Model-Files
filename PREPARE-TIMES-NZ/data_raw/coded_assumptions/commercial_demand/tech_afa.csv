@@ -8,10 +8,11 @@ Education,"Intermediate Heat (100-300 C), Process Requirements",Resistance Heate
 Education,"Low Temperature Heat (<100 C), Space Heating",Boiler Systems,0.1,TIMES-NZ 2.0
 Education,"Low Temperature Heat (<100 C), Space Heating",Resistance Heater,0.1,TIMES-NZ 2.0
 Education,"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),0.1,TIMES-NZ 2.0
-Education,"Low Temperature Heat (<100 C), Space Heating",Direct Heat,0.1,TIMES-NZ 2.0
+Education,"Low Temperature Heat (<100 C), Space Heating",Heat Exchangers,0.1,TIMES-NZ 2.0
 Education,"Low Temperature Heat (<100 C), Space Heating",Heat Pump (for Heating),0.1,TIMES-NZ 2.0
 Education,"Low Temperature Heat (<100 C), Water Heating",Boiler Systems,0.22,TIMES-NZ 2.0
-Education,"Low Temperature Heat (<100 C), Water Heating",Direct Heat,0.22,TIMES-NZ 2.0
+Education,"Low Temperature Heat (<100 C), Space Heating",Heat Exchangers,0.1,TIMES-NZ 2.0
+Education,"Low Temperature Heat (<100 C), Water Heating",Heat Exchangers,0.22,TIMES-NZ 2.0
 Education,"Low Temperature Heat (<100 C), Water Heating",Heat Pump (for Heating),0.22,TIMES-NZ 2.0
 Education,"Low Temperature Heat (<100 C), Water Heating",Hot Water Cylinder,0.22,TIMES-NZ 2.0
 Education,Space Cooling,Heat Pump (for Cooling),0.11,TIMES-NZ 2.0
@@ -29,10 +30,10 @@ Healthcare,"Intermediate Heat (100-300 C), Process Requirements",Burner (Direct 
 Healthcare,"Low Temperature Heat (<100 C), Space Heating",Boiler Systems,0.34,TIMES-NZ 2.0
 Healthcare,"Low Temperature Heat (<100 C), Space Heating",Resistance Heater,0.34,TIMES-NZ 2.0
 Healthcare,"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),0.34,TIMES-NZ 2.0
-Healthcare,"Low Temperature Heat (<100 C), Space Heating",Direct Heat,0.34,TIMES-NZ 2.0
+Healthcare,"Low Temperature Heat (<100 C), Space Heating",Heat Exchangers,0.34,TIMES-NZ 2.0
 Healthcare,"Low Temperature Heat (<100 C), Space Heating",Heat Pump (for Heating),0.34,TIMES-NZ 2.0
 Healthcare,"Low Temperature Heat (<100 C), Water Heating",Boiler Systems,0.46,TIMES-NZ 2.0
-Healthcare,"Low Temperature Heat (<100 C), Water Heating",Direct Heat,0.46,TIMES-NZ 2.0
+Healthcare,"Low Temperature Heat (<100 C), Water Heating",Heat Exchangers,0.46,TIMES-NZ 2.0
 Healthcare,"Low Temperature Heat (<100 C), Water Heating",Heat Pump (for Heating),0.46,TIMES-NZ 2.0
 Healthcare,"Low Temperature Heat (<100 C), Water Heating",Hot Water Cylinder,0.46,TIMES-NZ 2.0
 Healthcare,Space Cooling,Heat Pump (for Cooling),0.23,TIMES-NZ 2.0
@@ -49,10 +50,10 @@ Office Blocks,"Intermediate Heat (100-300 C), Process Requirements",Resistance H
 Office Blocks,"Low Temperature Heat (<100 C), Space Heating",Boiler Systems,0.1,TIMES-NZ 2.0
 Office Blocks,"Low Temperature Heat (<100 C), Space Heating",Resistance Heater,0.1,TIMES-NZ 2.0
 Office Blocks,"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),0.1,TIMES-NZ 2.0
-Office Blocks,"Low Temperature Heat (<100 C), Space Heating",Direct Heat,0.1,TIMES-NZ 2.0
+Office Blocks,"Low Temperature Heat (<100 C), Space Heating",Heat Exchangers,0.1,TIMES-NZ 2.0
 Office Blocks,"Low Temperature Heat (<100 C), Space Heating",Heat Pump (for Heating),0.1,TIMES-NZ 2.0
 Office Blocks,"Low Temperature Heat (<100 C), Water Heating",Boiler Systems,0.45,TIMES-NZ 2.0
-Office Blocks,"Low Temperature Heat (<100 C), Water Heating",Direct Heat,0.45,TIMES-NZ 2.0
+Office Blocks,"Low Temperature Heat (<100 C), Water Heating",Heat Exchangers,0.45,TIMES-NZ 2.0
 Office Blocks,"Low Temperature Heat (<100 C), Water Heating",Heat Pump (for Heating),0.45,TIMES-NZ 2.0
 Office Blocks,"Low Temperature Heat (<100 C), Water Heating",Hot Water Cylinder,0.45,TIMES-NZ 2.0
 Office Blocks,Space Cooling,Heat Pump (for Cooling),0.22,TIMES-NZ 2.0
@@ -69,10 +70,10 @@ WSR,"Intermediate Heat (100-300 C), Process Requirements",Resistance Heater,0.48
 WSR,"Low Temperature Heat (<100 C), Space Heating",Boiler Systems,0.1,TIMES-NZ 2.0
 WSR,"Low Temperature Heat (<100 C), Space Heating",Resistance Heater,0.1,TIMES-NZ 2.0
 WSR,"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),0.1,TIMES-NZ 2.0
-WSR,"Low Temperature Heat (<100 C), Space Heating",Direct Heat,0.1,TIMES-NZ 2.0
+WSR,"Low Temperature Heat (<100 C), Space Heating",Heat Exchangers,0.1,TIMES-NZ 2.0
 WSR,"Low Temperature Heat (<100 C), Space Heating",Heat Pump (for Heating),0.1,TIMES-NZ 2.0
 WSR,"Low Temperature Heat (<100 C), Water Heating",Boiler Systems,0.48,TIMES-NZ 2.0
-WSR,"Low Temperature Heat (<100 C), Water Heating",Direct Heat,0.48,TIMES-NZ 2.0
+WSR,"Low Temperature Heat (<100 C), Water Heating",Heat Exchangers,0.48,TIMES-NZ 2.0
 WSR,"Low Temperature Heat (<100 C), Water Heating",Heat Pump (for Heating),0.48,TIMES-NZ 2.0
 WSR,"Low Temperature Heat (<100 C), Water Heating",Hot Water Cylinder,0.48,TIMES-NZ 2.0
 WSR,Space Cooling,Heat Pump (for Cooling),0.24,TIMES-NZ 2.0
@@ -91,10 +92,10 @@ Other Commercial,"Intermediate Heat (100-300 C), Process Requirements",Burner (D
 Other Commercial,"Low Temperature Heat (<100 C), Space Heating",Boiler Systems,0.1,TIMES-NZ 2.0
 Other Commercial,"Low Temperature Heat (<100 C), Space Heating",Resistance Heater,0.1,TIMES-NZ 2.0
 Other Commercial,"Low Temperature Heat (<100 C), Space Heating",Burner (Direct Heat),0.1,TIMES-NZ 2.0
-Other Commercial,"Low Temperature Heat (<100 C), Space Heating",Direct Heat,0.1,TIMES-NZ 2.0
+Other Commercial,"Low Temperature Heat (<100 C), Space Heating",Heat Exchangers,0.1,TIMES-NZ 2.0
 Other Commercial,"Low Temperature Heat (<100 C), Space Heating",Heat Pump (for Heating),0.1,TIMES-NZ 2.0
 Other Commercial,"Low Temperature Heat (<100 C), Water Heating",Boiler Systems,0.55,TIMES-NZ 2.0
-Other Commercial,"Low Temperature Heat (<100 C), Water Heating",Direct Heat,0.55,TIMES-NZ 2.0
+Other Commercial,"Low Temperature Heat (<100 C), Water Heating",Heat Exchangers,0.55,TIMES-NZ 2.0
 Other Commercial,"Low Temperature Heat (<100 C), Water Heating",Heat Pump (for Heating),0.55,TIMES-NZ 2.0
 Other Commercial,"Low Temperature Heat (<100 C), Water Heating",Hot Water Cylinder,0.55,TIMES-NZ 2.0
 Other Commercial,Space Cooling,Heat Pump (for Cooling),0.27,TIMES-NZ 2.0
@@ -104,6 +105,4 @@ Other Commercial,"Motive Power, Stationary",Stationary Engine,0.55,TIMES-NZ 2.0
 Other Commercial,Pumping,"Pump Systems (for Fluids, etc.)",0.55,Similar to Electric Motor
 Data Centre,Electronics and Other Electrical Uses,Electronics,0.99,
 Data Centre,Space Cooling,Heat Pump (for Cooling),0.85,
-Data Centre,Lighting,Lights (Fluorescent),0.12,
-Data Centre,Lighting,Lights (Incandescent),0.12,
 Data Centre,Lighting,Lights (LED),0.12,

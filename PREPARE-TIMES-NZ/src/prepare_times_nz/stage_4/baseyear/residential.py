@@ -34,7 +34,6 @@ RESIDENTIAL_DEMAND_VARIABLE_MAP = {
     "CommodityOut": "Comm-OUT",
     "Island": "Region",
     "Capacity": "PRC_RESID",
-    # converting to AF for any DAYNITE processes
     "AFA": "AFA",
     "CAPEX": "INVCOST",
     "OPEX": "FIXOM",
@@ -107,9 +106,7 @@ def define_demand_processes(df, filename, label):
     demand_df["Sets"] = "DMD"
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
-    demand_df["Tslvl"] = np.where(
-        demand_df["TechName"].str.contains("ELC"), "DAYNITE", ""
-    )
+    demand_df["Tslvl"] = "DAYNITE"
 
     save_residential_veda_file(demand_df, name=filename, label=label)
 
