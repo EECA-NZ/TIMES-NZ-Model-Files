@@ -27,6 +27,23 @@ SheetName    = "RES"
 TagName      = "TFM_INS"
 DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_residential_50.csv"
 
+## Additional: Fixed tech demand curves 
+
+[Residential_AF_Slice]
+Description = "Forces space heating demand devices to match COM_FR, meaning the model can no longer swap heating techs during high-cost slices"
+SheetName = "RES_TechAFs"
+TagName = "TFM_INS"
+DataLocation = "data_raw/coded_assumptions/residential/fixed_heating_curves/res_af_per_slice_08.csv"
+
+[Residential_Reset_AFA_for_TS_AF]
+Description = "Resets AFA to default after baseyear for techs where we have added slice AFs, to ensure no clashes"
+SheetName = "RES_TechAFs"
+TagName = "TFM_INS"
+DataLocation = "data_raw/coded_assumptions/residential/fixed_heating_curves/reset_afa_default.csv"
+
+
+## Optional: Reduced water heating peak load
+
 [LoadCurvesCOMFR_RES_Transformation]
 WorkBookName = "SuppXLS/Scen_LoadCurve_Transformation"
 Description  = "Additional future residential curves for transformation scenario, to represent load shifting away from peaks"
