@@ -66,6 +66,8 @@ def define_process_commodities(df: pd.DataFrame, run_tests=RUN_TESTS) -> pd.Data
                 "Uti",
                 "GB",
                 "CY",
+                "Bike",
+                "Boat",
                 "Furnace",
                 "Boiler",
                 "HEATX",
