@@ -142,8 +142,6 @@ def process_electricity_generation(df):
     ]
 
     df = df[ele_variables]
-
-    df = df[df["Period"] != BASE_YEAR]
     # save
     save_data(df, "elec_generation.csv")
 
@@ -812,6 +810,19 @@ def process_transport_capacity(df):
     tcap = tcap[transport_capacity_variables]
 
     save_data(tcap, "transport_capacity.csv")
+
+
+def check_df(df):
+    """scratch function"""
+
+    df = df.copy()
+
+    df = df[df["Attribute"] == "VAR_FOut"]
+    df = df[df["Commodity"] == "ELC"]
+    df = df[df["Period"] == 2023]
+
+    df = df.groupby(["Period", "Scenario"])["PV"].sum().reset_index()
+    print(df)
 
 
 def main():
