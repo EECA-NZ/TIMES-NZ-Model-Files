@@ -45,10 +45,16 @@ def get_closure_data(
     df = pd.read_csv(closure_file)
     by_data = pd.read_csv(by_file)
 
+    shares = get_output_shares(by_data)
+
     by_data = by_data[["Sector", "Process", "CommodityOut"]].drop_duplicates()
     df = df.merge(by_data, on="Sector", how="left")
 
-    df["Process"] = df["Process"] + "-CLOSURE"
+    df["Process"] = df["Sector"] + "-CLOSURE"
+
+    # add usage shares
+
+    df = df.merge(shares, on="CommodityOut", how="left")
 
     return df
 
@@ -63,6 +69,7 @@ def format_closure_data(df, default_start=BASE_YEAR + 1):
             "ClosurePrice": "ACTCOST",
             "Process": "TechName",
             "CommodityOut": "Comm-Out",
+            "ShareOfSectorTotal": "FLO_SHAR",
         }
     )
 
@@ -78,7 +85,25 @@ def format_closure_data(df, default_start=BASE_YEAR + 1):
 
     # select only relevant
 
-    df = df[["TechName", "Comm-Out", "ACTCOST", "START", "LIFE"]]
+    df = df[["TechName", "Comm-Out", "FLO_SHAR", "ACTCOST", "START", "LIFE"]]
+
+    return df
+
+
+def get_output_shares(df):
+    """
+    Returns each commodity's share of total output energy (ESD)
+    per sector
+    expects baseyear input data as df
+    """
+
+    df = df[df["Variable"] == "OutputEnergy"].copy()
+
+    df = df.groupby(["Sector", "CommodityOut"])["Value"].sum().reset_index()
+    df["SectorTotalPJ"] = df.groupby("Sector")["Value"].transform("sum")
+    df["ShareOfSectorTotal"] = df["Value"] / df["SectorTotalPJ"]
+
+    df = df[["CommodityOut", "ShareOfSectorTotal"]]
 
     return df
 
@@ -93,7 +118,7 @@ def get_process_declarations(df):
     df["Tact"] = "PJ"
     df["Tcap"] = "PJa"
 
-    df = df[["Sets", "TechName", "Tact", "Tcap"]]
+    df = df[["Sets", "TechName", "Tact", "Tcap"]].drop_duplicates()
 
     return df
 
