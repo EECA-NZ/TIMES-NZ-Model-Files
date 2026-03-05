@@ -3,15 +3,21 @@
 
 ## 3.0.3
 
-**Assumption changes**
+**Features** 
  - Changed distributed solar process to use exogenous forecasts, providing more realistic results.
+ - Rebuilt gas distribution network to allow for biomethane blending and more accurately represent maintenance costs as fixed, rather than per unit of throughput.
+
+
+**Assumption changes**
  - Adjusted LNG terminal to fixed installation date in 2027 for Traditional scenario. LNG remains excluded from Transformation.
     - Also removed MIP functionality as this is no longer required.
  - Minor adjustments to capital costs for agricultural heating technologies following review.
  - Decreased average geothermal generation assumption slightly to align better with base year data. 
+ - Removed contingent gas from Traditional scenario. 
 
 **Model fixes**
 - (Biofuel) Improved municipal waste production differences between scenarios.
+- (Gas supply) Fixed historical domestic field output levels. 
 - (Electricity generation) Fixed incorrect wind availability curve assumptions.
 - (Electricity generation) Fixed dispatchable hydro and wind peak contribution factors not aligning with documentation.
 - (Agriculture) Improved modelling of geothermal heating for indoor cropping.
@@ -21,8 +27,9 @@
 - (Residential) Fixed an issue allowing too much flexibility in space heating technologies.
 - (Agriculture) Minor adjustments to capital costs for heating technologies following review.
 - (Commercial) Added greater distinction for boilers, burners, and resistance heaters.
-- (Commercial) Improved modelling of geothermal heating for education, healthcare, WSR, and other commercial sectors.
-- (Commercial) Resolved an error that led to some technologies being switching to LPG, natural gas, diesel, and petrol than intended. 
+- (Commercial) Fixed modelling of geothermal heating for education, healthcare, WSR, and other commercial sectors.
+- (Commercial) Resolved an error that led to some LPG, natural gas, diesel, and petrol technologies being cheaper than intended.
+- (Industry) Resolved an error that allowed Methanol and Urea to close different parts of their business at different rates. 
 
 
 ## 3.0.2
