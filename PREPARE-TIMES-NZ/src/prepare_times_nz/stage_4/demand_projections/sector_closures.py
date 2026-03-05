@@ -69,7 +69,7 @@ def format_closure_data(df, default_start=BASE_YEAR + 1):
             "ClosurePrice": "ACTCOST",
             "Process": "TechName",
             "CommodityOut": "Comm-Out",
-            "ShareOfSectorTotal": "FLO_SHAR",
+            "ShareOfSectorTotal": "Share-O",
         }
     )
 
@@ -85,7 +85,9 @@ def format_closure_data(df, default_start=BASE_YEAR + 1):
 
     # select only relevant
 
-    df = df[["TechName", "Comm-Out", "FLO_SHAR", "ACTCOST", "START", "LIFE"]]
+    df = df[["TechName", "Comm-Out", "Share-O", "ACTCOST", "START", "LIFE"]]
+    # interp
+    df["Share-O~0"] = 5
 
     return df
 

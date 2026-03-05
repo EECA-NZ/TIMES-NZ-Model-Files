@@ -19,6 +19,8 @@ def process_closures():
         "UREA-NGA-FDSTK-FDSTK-CLOSURE",
         "METH-NGA-REFRM-PH_HIGH-CLOSURE",
         "METH-NGA-FDSTK-FDSTK-CLOSURE",
+        "Methanol-CLOSURE",
+        "Urea-CLOSURE",
     ]
 
     df = pd.DataFrame()
