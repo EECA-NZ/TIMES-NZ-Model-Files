@@ -1,0 +1,11 @@
+# This config file is used to generate new industrial technologies and define what existing uses/techs they might replace
+
+[newtechs]
+TechCode = "HTHP"
+Technology = "High Temperature Heat Pump"
+TechnologyGroup = "Heat/Cooling Devices"
+EndUse = ["PH_INT"] # intermediate process heat
+ReplacedTechs = ["BOILR"] # just boiler use (could expand to furnace/kiln possibly?)
+InputFuel = ["ELC"]
+Sectors = ["DARY", "MEAT", "WOOD", "PULP", "OTHR", "FOOD"]
+
