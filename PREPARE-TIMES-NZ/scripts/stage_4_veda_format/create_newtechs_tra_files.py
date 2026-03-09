@@ -242,7 +242,7 @@ def create_newtech_process_parameters_df(cfg):
         "EFF",
         "LIFE",
         "CAP2ACT",
-        "AFA",
+        "AFA~2024",
         "INVCOST",
         "FIXOM",
         "Share",
@@ -403,36 +403,37 @@ def create_newtech_process_parameters_df(cfg):
 
     # 1) fill by exact (Comm-In, Comm-Out, Level)
     fill_exact = out.groupby([out["Comm-In"], out["Comm-Out"], _level])[
-        "AFA"
+        "AFA~2024"
     ].transform(first_nonnull)
-    out["AFA"] = out["AFA"].fillna(fill_exact)
+    out["AFA~2024"] = out["AFA~2024"].fillna(fill_exact)
 
-    # --- NEW: for H2R rows still missing AFA, use AFA from TRADSL with same Comm-Out & Level ---
+    # --- NEW: for H2R rows still missing AFA~2024, use AFA~2024
+    # from TRADSL with same Comm-Out & Level ---
     # make level a temporary column so we can join on it
     out = out.assign(_level=_level)
 
-    # build reference AFA from TRADSL rows
+    # build reference AFA~2024 from TRADSL rows
     ref = (
         out.loc[
             out["Comm-In"].astype(str).str.contains(r"^TRADSL$", na=False),
-            ["Comm-Out", "_level", "AFA"],
+            ["Comm-Out", "_level", "AFA~2024"],
         ]
-        .dropna(subset=["AFA"])
+        .dropna(subset=["AFA~2024"])
         .drop_duplicates(subset=["Comm-Out", "_level"], keep="first")
-        .rename(columns={"AFA": "AFA_ref"})
+        .rename(columns={"AFA~2024": "AFA~2024_ref"})
     )
 
     # left-join the reference onto all rows
     out = out.merge(ref, how="left", on=["Comm-Out", "_level"])
 
     # fill only H2R rows that are still missing
-    mask_h2r_missing = out["AFA"].isna() & out["Comm-In"].astype(str).str.contains(
+    mask_h2r_missing = out["AFA~2024"].isna() & out["Comm-In"].astype(str).str.contains(
         "H2R", na=False
     )
-    out.loc[mask_h2r_missing, "AFA"] = out.loc[mask_h2r_missing, "AFA_ref"]
+    out.loc[mask_h2r_missing, "AFA~2024"] = out.loc[mask_h2r_missing, "AFA~2024_ref"]
 
     # clean up temp columns
-    out = out.drop(columns=["AFA_ref", "_level"])
+    out = out.drop(columns=["AFA~2024_ref", "_level"])
 
     # --- LIFE fill by (Comm-Out, Level) with robust keys and alignment ---
 
@@ -497,9 +498,9 @@ def create_newtech_process_parameters_df(cfg):
         cfg["Columns"].append("SCENARIO")
 
     afa_2040 = {
-        "T_F_HTBEVELC_LOW": 0.2193740336462519 * 0.97,
-        "T_F_HTBEVELC_MED": 0.5568725469481779 * 0.97,
-        "T_F_HTBEVELC_HIGH": 0.9281209115802966 * 0.97,
+        "T_F_HTBEVELC_LOW": 0.25 * 0.97,
+        "T_F_HTBEVELC_MED": 0.65 * 0.97,
+        "T_F_HTBEVELC_HIGH": 1.1 * 0.97,
     }
 
     afa_2040_num = dict(afa_2040)
@@ -631,7 +632,7 @@ def main() -> None:
                 "SCENARIO",
                 "START",
                 "EFF",
-                "AFA",
+                "AFA~2024",
                 "AFA~2040",
                 "LIFE",
                 "INVCOST",
