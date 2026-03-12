@@ -1,6 +1,17 @@
 
 # Changelog 
 
+## 3.0.4
+
+**Assumption changes**
+
+ - Adjusted lightbulb lifetimes in residential and commercial sectors according to usage assumptions.
+
+**Model fixes**
+
+ - Corrected implementation of new technologies for industrial applications.
+ - Removed incorrect petrol engines from industrial offroad usage applications.
+
 ## 3.0.3
 
 **Assumption changes**

@@ -40,6 +40,8 @@ baseyear_techs_to_ban = {
     "C*MPM-NGA*": "Commercial Mobile motive power natural gas",
     "C*Boiler-DSL*": "Commercial diesel boilers",
     "AFISH*-PET": "Fishing boat petrol",
+    "*PET-ICENG-MTV_MOB": "Industrial petrol mobile motive power",
+    "*NGA-ICENG-MTV_MOB": "Industrial natural gas mobile motive power",
 }
 
 

@@ -214,6 +214,8 @@ Demand,WOOD-MOTOR-MTV_STA,Industry,Wood Products,"Motive Power, Stationary"
 Demand,WOOD-PUMP-PUMP,Industry,Wood Products,Pumping
 Demand,ALUM-EFURNC-PH_HIGH,Industry,Aluminium,"High Temperature Heat (>300 C), Process Requirements"
 Demand,MINE-SH_LOW,Industry,Mining,"Low Temperature Heat (<100 C), Space Heating"
+Demand,MEAT-BOILR-PH_LOW,Industry,Meat,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,PULP-BOILR-PH_LOW,Industry,Pulp and Paper,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,NEWTECH-DEM,Commercial,NewTechs,NewTechs
 Demand,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Recycled Steel
 Demand,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Irrigation
