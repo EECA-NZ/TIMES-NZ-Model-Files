@@ -513,17 +513,11 @@ Demand,MEAT-COA-BOILR-WH_LOW,MEAT-BOILR-WH_LOW,Industry,Meat,Heating/Cooling,"Lo
 Demand,MINE-WOD-BOILR-PH_INT,MINE-BOILR-PH_INT,Industry,Mining,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,MINE-COA-BOILR-SH_LOW,MINE-SH_LOW,Industry,Mining,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,DARY-ELC-HTHP-PH_INT,DARY-BOILR-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
-Demand,DARY-ELC-HTHP-PH_LOW,DARY-BOILR-PH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
 Demand,MEAT-ELC-HTHP-PH_INT,MEAT-BOILR-PH_INT,Industry,Meat,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
-Demand,MEAT-ELC-HTHP-PH_LOW,MEAT-BOILR-PH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
 Demand,WOOD-ELC-HTHP-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
-Demand,WOOD-ELC-HTHP-PH_LOW,WOOD-BOILR-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
 Demand,PULP-ELC-HTHP-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
-Demand,PULP-ELC-HTHP-PH_LOW,PULP-BOILR-PH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
 Demand,OTHR-ELC-HTHP-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
-Demand,OTHR-ELC-HTHP-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
 Demand,FOOD-ELC-HTHP-PH_INT,FOOD-BOILR-PH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
-Demand,FOOD-ELC-HTHP-PH_LOW,FOOD-BOILR-PH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
 Demand,NEWTECH,NEWTECH-DEM,Commercial,NewTechs,NewTechs,NewTechs,NewTechs,NewTechs
 Demand,STEEL-ELC-EAF,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Iron and Steel,Recycled Steel,Heat/Cooling Devices,Electric Arc Furnace (EAF)
 Demand,ADCF-IRG-Irg-ELC,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation

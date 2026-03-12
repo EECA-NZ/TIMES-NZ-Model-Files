@@ -34,6 +34,7 @@ BDSL,Biodiesel,Energy
 BIG,Biogas,Energy
 BIL,Bioethanol,Energy
 BIM,Biomethane,Energy
+BIMDD,Biomethanol,Energy
 BPLT,Black Pellet,Energy
 COA,Coal,Energy
 COMAGRWST,Agricultural waste,Energy
@@ -101,6 +102,8 @@ ELCWIN,Wind,Energy
 ELCWOD,Wood,Energy
 ELCWODWST,Wood waste,Energy
 FOL,Fuel oil,Energy
+FSTKCOA,Coal,Energy
+FSTKNGA,Natural gas,Energy
 GEO,Geothermal,Energy
 H2R,Hydrogen,Energy
 HYD,Hydro,Energy
@@ -139,6 +142,7 @@ LNG,LNG,Energy
 LPG,LPG,Energy
 MNCWST,Municipal waste,Energy
 NGA,Natural gas,Energy
+NGADD,Natural gas,Energy
 OSWOD,Wood residuals (onsite),Energy
 PET,Petrol,Energy
 PLT,Wood Pellet,Energy
