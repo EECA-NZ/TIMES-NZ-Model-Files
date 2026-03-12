@@ -162,7 +162,7 @@ def define_process_commodities(df: pd.DataFrame) -> pd.DataFrame:
 
     # Feedstock tweak – no industrial fuel commodity
     df["CommodityIn"] = np.where(
-        df["EndUse"] == "Feedstock", df["Fuel_TIMES"], df["CommodityIn"]
+        df["EndUse"] == "Feedstock", "FSTK" + df["Fuel_TIMES"], df["CommodityIn"]
     )
     logger.info("Adjusting feedstock to not use industrial fuel commodities")
 

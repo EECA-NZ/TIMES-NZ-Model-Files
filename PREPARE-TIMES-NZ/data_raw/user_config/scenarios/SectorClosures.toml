@@ -17,3 +17,14 @@ Description = "Sets parameters for sector closures, including costs and possible
 SheetName = "SectorClosures"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/closure_parameters.csv"
+
+
+[SectorClosureIslands]
+WorkBookName = "SubRES_TMPL/SubRES_SectorClosures_trans"
+Description = "Locks closures to NI for Methanol/Ballance"
+SheetName = "AVA"
+TagName = "TFM_AVA"       
+Pset_PN = ["Methanol-CLOSURE", "Urea-CLOSURE"]
+SI = [0,0]
+NI = [1,1]
+
