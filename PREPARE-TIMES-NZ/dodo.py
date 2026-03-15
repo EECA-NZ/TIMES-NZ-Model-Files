@@ -298,6 +298,7 @@ def task_stage_0_parse_tomls():
     return {
         "actions": [_run(str(script))],
         "file_dep": STAGE_0_INPUTS + [script],
+        "uptodate": [False],
         "targets": [CONFIG_META_CSV],
         "clean": True,
     }
