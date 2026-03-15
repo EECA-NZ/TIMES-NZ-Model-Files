@@ -74,13 +74,15 @@ def clean_eeud_data(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def add_biomass_patch_to_eeud(df: pd.DataFrame) -> pd.DataFrame:
-    """Add missing biomass demand to outputs"""
+def add_patch_to_eeud(df: pd.DataFrame, patch_filename) -> pd.DataFrame:
+    """
+    A generic function to add custom additional data to the EEUD
+    This is for demand data that is exlcuded from the existing database
+    CUrrently this is unallocated electricity demand and some industrial/commercial biomass
+    """
 
     # load patch
-    patch_df = pd.read_csv(
-        ASSUMPTIONS / "biomass_demand_patch/biomass_demand_patch.csv"
-    )
+    patch_df = pd.read_csv(ASSUMPTIONS / f"eeud_patches/{patch_filename}")
 
     # identify key structure of input file
     current_years = df["Year"].drop_duplicates()
@@ -116,7 +118,9 @@ def main() -> None:
 
     raw_df = read_eeud(INPUT_DIR, EEUD_FILENAME)
     tidy_df = clean_eeud_data(raw_df)
-    patched_df = add_biomass_patch_to_eeud(tidy_df)
+    patched_df = tidy_df.copy()
+    patched_df = add_patch_to_eeud(patched_df, "biomass_demand_patch.csv")
+    patched_df = add_patch_to_eeud(patched_df, "unallocated_demand_patch.csv")
 
     save_eeud(tidy_df, "eeud_no_patch.csv")
     save_eeud(patched_df, "eeud.csv")

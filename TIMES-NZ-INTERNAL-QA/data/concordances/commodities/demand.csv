@@ -184,6 +184,7 @@ Demand,OTHR-HEATR-PH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C),
 Demand,OTHR-ICENG-MTV_MOB,Industry,Other Industry,"Motive Power, Mobile"
 Demand,OTHR-MOTOR-MTV_STA,Industry,Other Industry,"Motive Power, Stationary"
 Demand,OTHR-PUMP-PUMP,Industry,Other Industry,Pumping
+Demand,OTHR-UNALC-UNALC,Industry,Other Industry,Unallocated
 Demand,PULP-ACOMP-COMP_AIR,Industry,Pulp and Paper,Compressed Air
 Demand,PULP-ELCTR-ELCTR,Industry,Pulp and Paper,Electronics and Other Electrical Uses
 Demand,PULP-FAN-FAN,Industry,Pulp and Paper,Fans
