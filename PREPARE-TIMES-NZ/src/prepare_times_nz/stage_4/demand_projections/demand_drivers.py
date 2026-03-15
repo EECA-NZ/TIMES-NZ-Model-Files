@@ -60,8 +60,6 @@ def get_industry_indexes():
 
     test = df[df["Sector_TIMES"].isna()]
 
-    print(test)
-
     if len(test) > 0:
         sectors = test["Sector"].unique().tolist()
         logger.warning("ALERT: FAILED SECTOR JOIN")

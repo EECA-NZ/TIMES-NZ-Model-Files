@@ -6,11 +6,13 @@
 **Assumption changes**
 
  - Adjusted lightbulb lifetimes in residential and commercial sectors according to usage assumptions.
+ - Ensured realistic minimum utilisation of peaking plants.
 
 **Model fixes**
 
  - Corrected implementation of new technologies for industrial applications.
- - Removed incorrect petrol engines from industrial offroad usage applications.
+ - Resolved a bug in implementation of 2037 coal boiler ban for intermediate process heat. 
+ - Resolved an issue that made industrial petrol engines more efficient than intended.
 
 ## 3.0.3
 
@@ -36,7 +38,6 @@
 - (Agriculture) Added greater distinction for refrigeration, offroad transport, and heating technologies.
 - (Agriculture) Resolved an issue that meant petrol-powered boats and farm bikes were more efficient than intended.
 - (Residential) Fixed an issue allowing too much flexibility in space heating technologies.
-- (Agriculture) Minor adjustments to capital costs for heating technologies following review.
 - (Commercial) Added greater distinction for boilers, burners, and resistance heaters.
 - (Commercial) Fixed modelling of geothermal heating for education, healthcare, WSR, and other commercial sectors.
 - (Commercial) Resolved an error that led to some LPG, natural gas, diesel, and petrol technologies being cheaper than intended.

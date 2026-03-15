@@ -408,6 +408,7 @@ def task_stage_5_build_excel():
     script = STAGE_4_SCRIPTS / "write_excel.py"
     return {
         "actions": [_run(str(script))],
+        "uptodate": [False],
         "file_dep": [script]
         + STAGE_0_INPUTS
         + _files_in_stage(S4_DIR)
