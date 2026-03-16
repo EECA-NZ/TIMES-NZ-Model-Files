@@ -19,7 +19,8 @@ def scenario_select_server(inputs, outputs, session):
     @render.ui
     def select_scenario_a_ui():
         opts = current_scenarios
-        return ui.input_selectize("scenario_a", "Main scenario", choices=opts)
+        return ui.input_selectize("scenario_a", "Main scenario", choices=opts,
+            options={"plugins": ["auto_position"]})
 
     @render.ui
     def select_scenario_b_ui():
@@ -28,7 +29,8 @@ def scenario_select_server(inputs, outputs, session):
         # a = current selected main scenario
         a = inputs.scenario_a()
         opts = [s for s in current_scenarios if s != a] if a else current_scenarios
-        return ui.input_selectize("scenario_b", "　", choices=opts)
+        return ui.input_selectize("scenario_b", "　", choices=opts, 
+            options={"plugins": ["auto_position"]})
 
     @reactive.calc
     def is_comparison():
