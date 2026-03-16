@@ -7,9 +7,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "PREPARE-TIMES-NZ"
+project = "TIMES-NZ"
 author = "Luke Searle, Achini Weerasinghe"
-release = "v3.0.2"
+release = "v3.0.3"
 
 html_show_copyright = False
 # -- General configuration ---------------------------------------------------
@@ -43,7 +43,7 @@ html_theme_options = {
     "navbar_end": ["navbar-icon-links"],
     "logo": {
         # "image_light": "_static/eeca.png",
-        "text": "TIMES-NZ documentation",  # or a short title
+        "text": "TIMES-NZ documentation",
     },
 }
 

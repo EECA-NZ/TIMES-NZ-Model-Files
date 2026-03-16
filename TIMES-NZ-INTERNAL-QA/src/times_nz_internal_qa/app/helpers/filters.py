@@ -136,12 +136,20 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
             )
 
         else:
+<<<<<<< bugfix/chart-and-filter-fixes
             ui_filter = ui.input_selectize(
                 iid, fspec.get("label", col), choices, multiple=False,
                 options={"plugins": ["auto_position"]},
                 selected=(
                     choices[1] if len(choices) > 1 else choices[0] if choices else None
                 ),
+=======
+            ui_filter = ui.input_select(
+                iid,
+                fspec.get("label", col),
+                choices,
+                selected=(choices[0] if choices else None),
+>>>>>>> dev
             )
 
         return ui.div(

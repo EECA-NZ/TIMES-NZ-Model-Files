@@ -3,19 +3,34 @@
 
 ## 3.0.3
 
-**Assumption changes**
+**Features** 
  - Changed distributed solar process to use exogenous forecasts, providing more realistic results.
- - Adjusted LNG terminal to fixed installation date in 2027 for Traditional scenario. LNG remains excluded from Transformation.
+ - Rebuilt gas distribution network to allow for biomethane blending and more accurately represent maintenance costs as fixed, rather than per unit of throughput.
 
+
+**Assumption changes**
+ - Adjusted LNG terminal to fixed installation date in 2027 for Traditional scenario. LNG remains excluded from Transformation.
+    - Also removed MIP functionality as this is no longer required.
+ - Minor adjustments to capital costs for agricultural heating technologies following review.
+ - Decreased average geothermal generation assumption slightly to align better with base year data. 
+ - Removed contingent gas from Traditional scenario. 
 
 **Model fixes**
 - (Biofuel) Improved municipal waste production differences between scenarios.
-- (Electricity generation) Fixed incorrect wind availability curve assumptions. 
-- (Agriculture) Improved modelling of geothermal heating for indoor cropping
-- (Agriculture) Fixed a bug that meant agricultural energy emissions were counted incorrectly 
-- (Agriculture) Added greater distinction for refrigeration, offroad transport, and heating technologies
-- (Agriculture) Resolved an issue that meant petrol-powered boats and farm bikes were more efficient than intended
-- (Agriculture) Minor adjustments to capital costs for heating technologies following review
+- (Gas supply) Fixed historical domestic field output levels. 
+- (Electricity generation) Fixed incorrect wind availability curve assumptions.
+- (Electricity generation) Fixed dispatchable hydro and wind peak contribution factors not aligning with documentation.
+- (Agriculture) Improved modelling of geothermal heating for indoor cropping.
+- (Agriculture) Fixed a bug that meant agricultural energy emissions were counted incorrectly.
+- (Agriculture) Added greater distinction for refrigeration, offroad transport, and heating technologies.
+- (Agriculture) Resolved an issue that meant petrol-powered boats and farm bikes were more efficient than intended.
+- (Residential) Fixed an issue allowing too much flexibility in space heating technologies.
+- (Agriculture) Minor adjustments to capital costs for heating technologies following review.
+- (Commercial) Added greater distinction for boilers, burners, and resistance heaters.
+- (Commercial) Fixed modelling of geothermal heating for education, healthcare, WSR, and other commercial sectors.
+- (Commercial) Resolved an error that led to some LPG, natural gas, diesel, and petrol technologies being cheaper than intended.
+- (Industry) Resolved an error that allowed Methanol and Urea to close different parts of their business at different rates. 
+
 
 ## 3.0.2
 
@@ -34,7 +49,7 @@
 - (Electricity generation) Resolved an error that limited hydro dam output flexibility.
 
 **Assumption changes**
-- Adjusted Traditional and Transformation electricity generation NREL scenarios from Conservative and Moderate to Moderate and Advanced, respectively.
+- (Electricity generation) Adjusted Traditional and Transformation NREL scenarios from Conservative and Moderate to Moderate and Advanced, respectively.
 - (Commercial, Residential) Increased heatpump lifetimes slightly.
 - (Industrial) Removed some load curve assumptions.
 

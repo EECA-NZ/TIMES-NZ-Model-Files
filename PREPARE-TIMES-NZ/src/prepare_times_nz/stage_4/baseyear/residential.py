@@ -34,7 +34,6 @@ RESIDENTIAL_DEMAND_VARIABLE_MAP = {
     "CommodityOut": "Comm-OUT",
     "Island": "Region",
     "Capacity": "PRC_RESID",
-    # converting to AF for any DAYNITE processes
     "AFA": "AFA",
     "CAPEX": "INVCOST",
     "OPEX": "FIXOM",
@@ -48,7 +47,6 @@ DELIVERY_COST_ASSUMPTIONS = {
     # put me in an assumptions file!!
     # these are NZDm/PJ or NZD/GJ
     # anything not listed is assumed 0 (incl LPG)
-    "RESNGA": 25,
     "RESDSL": 0.92,
     "RESPET": 0.92,
     "RESWOD": 10,
@@ -108,9 +106,7 @@ def define_demand_processes(df, filename, label):
     demand_df["Sets"] = "DMD"
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
-    demand_df["Tslvl"] = np.where(
-        demand_df["TechName"].str.contains("ELC"), "DAYNITE", ""
-    )
+    demand_df["Tslvl"] = "DAYNITE"
 
     save_residential_veda_file(demand_df, name=filename, label=label)
 
@@ -174,10 +170,11 @@ def define_fuel_delivery(df):
         DELIVERY_COST_ASSUMPTIONS
     )
 
-    # Ensure this uses only distributed electricity
+    # Ensure this uses only distributed electricity, gas, or biomethanol
+    dist_fuels = ["ELC", "NGA", "BIM"]
     fuel_deliv_parameters["Comm-IN"] = np.where(
-        fuel_deliv_parameters["Comm-IN"] == "ELC",
-        "ELCDD",
+        fuel_deliv_parameters["Comm-IN"].isin(dist_fuels),
+        fuel_deliv_parameters["Comm-IN"] + "DD",
         fuel_deliv_parameters["Comm-IN"],
     )
 

@@ -29,13 +29,19 @@ def get_energy_commodities():
     df = df.rename(columns={"CommodityCode": "Commodity", "Commodity": "Fuel"})
 
     #  add distribution commodities manually
-
     df_elc_dist = pd.DataFrame()
-
     df_elc_dist["Commodity"] = ["ELCDD", "ELCHV"]
     df_elc_dist["Fuel"] = ["Electricity", "Electricity"]
 
-    df = pd.concat([df, df_elc_dist])
+    df_gas_dist = pd.DataFrame()
+    df_gas_dist["Commodity"] = ["NGADD", "BIMDD"]
+    df_gas_dist["Fuel"] = ["Natural gas", "Biomethanol"]
+
+    df_fstk = pd.DataFrame()
+    df_fstk["Commodity"] = ["FSTKNGA", "FSTKCOA"]
+    df_fstk["Fuel"] = ["Natural gas", "Coal"]
+
+    df = pd.concat([df, df_elc_dist, df_gas_dist, df_fstk])
 
     df = df.sort_values("Commodity")
     df["CommodityGroup"] = "Energy"

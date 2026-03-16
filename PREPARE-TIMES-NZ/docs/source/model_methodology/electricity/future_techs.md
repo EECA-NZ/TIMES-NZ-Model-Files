@@ -26,7 +26,7 @@ For the Traditional scenario we apply the Moderate projections, and for Transfor
 
 Learning curves were applied to reduce the future capital cost (CAPEX) and fixed operating and maintenance costs (FOM) to plants that met the following criteria: 
 
-Only solar, wind, and geothermal plants have had reduced future costs applied
+ - Only solar, wind, and geothermal plants have had reduced future costs applied.
  - The plant status must be less advanced than “Fully Consented” or “Under Construction”.
  - Plants must have an earliest or fixed commissioning year no earlier than 2030, or no information on commissioning year. 
 

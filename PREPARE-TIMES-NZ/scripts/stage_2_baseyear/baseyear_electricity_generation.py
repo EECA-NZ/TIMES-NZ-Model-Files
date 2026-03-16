@@ -485,10 +485,17 @@ def main() -> None:
         base_year_gen["PlantLife"],
     ).astype(int)
 
-    # whareroa closure - not sure when - set 2027. closes too early otherwise
+    # whareroa closure - not sure when - set 2030. closes too early otherwise
     base_year_gen["PlantLife"] = np.where(
         base_year_gen["PlantName"] == "Fonterra Dairy - Whareroa",
-        (2027 - base_year_gen["YearCommissioned"]),
+        (20303 - base_year_gen["YearCommissioned"]),
+        base_year_gen["PlantLife"],
+    ).astype(int)
+
+    # te rapa closure - set to 2024
+    base_year_gen["PlantLife"] = np.where(
+        base_year_gen["PlantName"] == "Te Rapa",
+        (2024 - base_year_gen["YearCommissioned"]),
         base_year_gen["PlantLife"],
     ).astype(int)
 

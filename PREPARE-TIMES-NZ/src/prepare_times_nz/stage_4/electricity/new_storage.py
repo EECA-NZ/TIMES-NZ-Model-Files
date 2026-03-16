@@ -76,6 +76,8 @@ def create_battery_main_file():
         }
     )
 
+    df["Comm-IN"] = df["Comm-OUT"]
+
     # availability curve set as a fraction of 24 hours
     # we max out at 1 (not possible to have ratios above 24)
     df["NCAP_AFC"] = np.minimum(df["NCAP_AFC"] / 24, 1)
