@@ -51,11 +51,6 @@ app_ui = ui.page_fluid(
             rel="stylesheet",
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
         ),
-        ui.tags.script(
-            # pylint: disable=line-too-long
-            src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.contentWindow.min.js",
-            type="text/javascript",
-        ),
         # IFrame resizer
         ui.tags.script(
             src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@latest",
