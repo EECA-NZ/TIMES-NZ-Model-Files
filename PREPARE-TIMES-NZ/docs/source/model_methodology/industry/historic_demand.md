@@ -127,7 +127,7 @@ For reference, each sector’s base year demand and share of total industrial de
   - 100
 ```
 
-Note that the total demand shown in {numref}`tab_ind_by_demand` will be higher than that reported by the EEUD for 2023. This is due to additional biomass demand estimates added for TIMES-NZ. See “Industrial biomass demand” for more information. NEED TO ADD REFERENCE HERE 
+Note that the total demand shown in {numref}`tab_ind_by_demand` will be higher than that reported by the EEUD for 2023. This is due to additional biomass demand estimates added for TIMES-NZ. See “Industrial biomass demand” for more information. 
 
 
 
@@ -199,18 +199,14 @@ Ballance and Methanex’s energy use of natural gas accounts for 94% of the gas 
 [^ballance_assumptions]: Accelerating renewable energy and energy efficiency submission by Ballance Agri-Nutrients (p6): <https://www.mbie.govt.nz/dmsdocument/11988-ballance-agri-nutrients-accelerating-renewable-energy-and-energy-efficiency-submission-pdf>
 [^compressor_note]: This compressor demand is referred to as “Pump System Technology” in the EEUD.
 
-## Other adjustments to the EEUD
-
-In addition to recategorising sectors, we make the following minor adjustments to technology definitions in mapping EEUD data to TIMES-NZ:
- - Boiler technologies using geothermal steam as energy are renamed to “Heat Exchangers”.
- - Pump system technologies using natural gas at Ballance are renamed to “Compressors”. 
- - All direct use of natural gas at Methanex is labelled “Reformers”.
- - The EEUD shows that there is some high temperature (over 300°C) process heat use in the wood processing sector. This uses electricity, and the total demand is very low; roughly 3TJ in 2023. As there should be no process heat over 300°C in this sector, we believe this may be a category error, and recategorise it as intermediate heat (100°C-300°C) provided by electric boilers.
 
 
-## Industrial biomass demand 
 
-EEUD demand data is based primarily on data from the MBIE energy balance tables . At the time of writing, this data’s coverage of biomass demand was incomplete, as it only captured biomass used for energy in the residential and wood processing sectors. Biomass demand in other industrial sectors, such as dairy or meat processing, was missing. 
+## EEUD missing demand data
+
+### Biomass
+
+EEUD demand data is based primarily on data from the MBIE energy balance tables[^energy_balance]. At the time of writing, this data’s coverage of biomass demand was incomplete, as it only captured biomass used for energy in the residential and wood processing sectors. Biomass demand in other industrial sectors, such as dairy or meat processing, was missing. 
 
 EECA currently maintain an internal database of known industrial and commercial consumers of biomass for energy use. To resolve this issue, we used this internal data to estimate existing biomass demand for the relevant sectors. We further make assumptions on the end use, depending on the sector involved. These assumptions and estimates are detailed in {numref}`tab_industry_biomass_demand` below. 
 
@@ -245,6 +241,23 @@ EECA currently maintain an internal database of known industrial and commercial 
 
 
 These are estimates only, as EECA’s internal data may not fully capture all users throughout the sector. Note that this additional demand raises total industrial demand by 1.4%. This means that TIMES-NZ base year demand data will not perfectly align with the EEUD or energy balance tables.
+
+
+### Unallocated electricity demand
+
+The EEUD excludes the unallocated onsite generation which is reported MBIE's electricity generation and demand data[^mbie_official_generation]. This means it falls slightly short of total electricity demand, and without this the model system becomes slightly unbalanced. 
+
+We currently assume all unallocated onsite generation is consumed by industrial sites. For TIMES-NZ, this is included in "Other Industry". This means that other parameters related to Other Industry, such as regional share assumptions or demand growth rates, will also apply to this unallocated demand.
+
+[^mbie_official_generation]: Electricity statistics | Ministry of Business, Innovation & Employment: <https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/electricity-statistics>
+
+## Other adjustments to the EEUD
+
+In addition to recategorising sectors and adding some missing demand, we make the following minor adjustments to technology definitions in mapping EEUD data to TIMES-NZ:
+ - Boiler technologies using geothermal steam as energy are renamed to “Heat Exchangers”.
+ - Pump system technologies using natural gas at Ballance are renamed to “Compressors”. 
+ - All direct use of natural gas at Methanex is labelled “Reformers”.
+ - The EEUD shows that there is some high temperature (over 300°C) process heat use in the wood processing sector. This uses electricity, and the total demand is very low; roughly 3TJ in 2023. As there should be no process heat over 300°C in this sector, we believe this may be a category error, and recategorise it as intermediate heat (100°C-300°C) provided by electric boilers.
 
 ## Island demand shares 
 

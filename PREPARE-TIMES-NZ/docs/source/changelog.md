@@ -4,15 +4,14 @@
 ## 3.0.4
 
 **Assumption changes**
-
  - Adjusted lightbulb lifetimes in residential and commercial sectors according to usage assumptions.
  - Ensured realistic minimum utilisation of peaking plants.
 
 **Model fixes**
-
  - Corrected implementation of new technologies for industrial applications.
  - Resolved a bug in implementation of 2037 coal boiler ban for intermediate process heat. 
  - Resolved an issue that made industrial petrol engines more efficient than intended.
+ - Added unallocated onsite generation to total system demand, ensuring system balance.
 
 ## 3.0.3
 
