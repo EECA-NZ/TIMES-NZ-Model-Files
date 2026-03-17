@@ -6,6 +6,7 @@
 **Assumption changes**
  - Adjusted lightbulb lifetimes in residential and commercial sectors according to usage assumptions.
  - Ensured realistic minimum utilisation of peaking plants.
+ - Slightly increased conservative hydro peaking contribution assummption to 90%.
 
 **Model fixes**
  - Corrected implementation of new technologies for industrial applications.
