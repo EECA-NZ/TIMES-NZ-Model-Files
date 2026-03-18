@@ -60,7 +60,7 @@ WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports_trans"
 Description = "Locks LNG processes to NI"
 SheetName = "AVA"
 TagName = "TFM_AVA"       
-Pset_PN = ["LNGPORTSTD", "INPLNG"]
+Pset_PN = ["LNGPORTSTD", "IMPLNG"]
 SI = [0,0]
 NI = [1,1]
 
