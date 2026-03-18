@@ -103,4 +103,8 @@ def emissions_server(inputs, outputs, session, selected_scens):
 # UI ---------------------------------------------------------------
 
 sections = [ems_parameters]
-emissions_ui = make_explorer_page_ui(sections, ID_PREFIX)
+emissions_ui = make_explorer_page_ui(
+    sections,
+    ID_PREFIX,
+    page_info_button_id="info_ems",
+)

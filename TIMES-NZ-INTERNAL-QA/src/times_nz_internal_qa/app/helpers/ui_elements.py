@@ -9,6 +9,50 @@ from times_nz_internal_qa.app.helpers.filters import (
 )
 
 
+def chart_download_dropdown(chart_id):
+    """Download menu shared by explorer charts."""
+    menu_button_id = f"{chart_id}_download_menu_btn"
+
+    return ui.div(
+        ui.tags.button(
+            ui.tags.i(class_="fa fa-download"),
+            " Download data ",
+            type="button",
+            id=menu_button_id,
+            class_="btn chart-download-btn dropdown-toggle",
+            **{"data-bs-toggle": "dropdown", "aria-expanded": "false"},
+        ),
+        ui.tags.ul(
+            ui.tags.li(
+                ui.download_link(
+                    f"{chart_id}_chart_data_download",
+                    "Download chart data",
+                    class_="dropdown-item",
+                )
+            ),
+            ui.tags.li(
+                ui.download_link(
+                    f"{chart_id}_unfiltered_data_download",
+                    "Download unfiltered data",
+                    class_="dropdown-item",
+                )
+            ),
+            class_="dropdown-menu dropdown-menu-end",
+            **{"aria-labelledby": menu_button_id},
+        ),
+        class_="btn-group chart-download-group",
+    )
+
+
+def tab_page_info_icon(btn_id: str):
+    """Clickable help icon shown beside the page-level section selector."""
+    return ui.input_action_button(
+        btn_id,
+        ui.tags.i(class_="fa fa-question-circle"),
+        class_="tab-page-info-btn",
+        title="About this tab",
+    )
+
 
 # pylint:disable = too-many-positional-arguments, too-many-arguments, duplicate-code
 def section_block(parameters):
@@ -35,7 +79,7 @@ def section_block(parameters):
             ui.input_action_button(
                 f"{chart_id}_chart_clear_filters",
                 label="Clear",  # None = no text
-                icon=ui.tags.i(class_="fa fa-eraser"),  # font-awesome eraser
+                icon=ui.tags.i(class_="fa fa-times"),  # font-awesome eraser
                 class_="btn btn-sm clear-filters",
                 title="Clear all filters",  # hover text
             ),
@@ -52,17 +96,13 @@ def section_block(parameters):
         toggle_block = ui.div(
             ui.tags.h4("Chart type:", class_="filter-section-title"),
             ui.div(
-                ui.input_action_button(
-                    f"{chart_id}_show_bar",
-                    ui.tags.i(class_="fa fa-bar-chart"),
-                    class_="chart-toggle-btn",
-                    title="Show bar chart",
-                ),
-                ui.input_action_button(
-                    f"{chart_id}_show_line",
-                    ui.tags.i(class_="fa fa-line-chart"),
-                    class_="chart-toggle-btn",
-                    title="Show line chart",
+                ui.input_radio_buttons(
+                    f"{chart_id}_chart_type",
+                    label=None,
+                    choices={"bar": "Bar", "line": "Line"},
+                    selected="bar",
+                    inline=True,
+                    width="auto",
                 ),
                 class_="chart-toggle-bar",
             ),
@@ -86,15 +126,8 @@ def section_block(parameters):
                 toggle_block,
                 class_="chart-header-left",
             ),
-            # right block: download button
-            ui.download_button(
-                f"{chart_id}_chart_data_download",
-                ui.tags.span(
-                    ui.tags.i(class_="fa fa-download"),
-                    " Download chart data",
-                ),
-                class_="btn chart-download-btn",
-            ),
+            # right block: download dropdown
+            chart_download_dropdown(chart_id),
             class_="chart-header-row",
         ),
         class_="chart-header",
@@ -125,7 +158,7 @@ def section_block(parameters):
     )
 
 
-def make_explorer_page_ui(sections, id_prefix):
+def make_explorer_page_ui(sections, id_prefix, page_info_button_id=None):
     """
     Creates the explorer page, including a 'second tier' horizontal navbar
     for subsections. Each section is a dictionary of input params, and 
@@ -150,14 +183,18 @@ def make_explorer_page_ui(sections, id_prefix):
 
     # Horizontal second-level nav bar
     nav_bar = ui.div(
-        ui.input_radio_buttons(
-            f"{id_prefix}_nav",
-            None,
-            choices=choices,
-            selected=first_sec_id,
-            inline=True,          # <- makes choices render horizontally
+        ui.div(
+            ui.input_radio_buttons(
+                f"{id_prefix}_nav",
+                None,
+                choices=choices,
+                selected=first_sec_id,
+                inline=True,          # <- makes choices render horizontally
+            ),
+            class_="secondary-nav-bar nav-cards",
         ),
-        class_="secondary-nav-bar nav-cards",  # reuse your nav-cards styling if you like
+        tab_page_info_icon(page_info_button_id) if page_info_button_id else None,
+        class_="tab-page-toolbar",
     )
 
     out_ui = ui.page_fluid(
@@ -168,16 +205,3 @@ def make_explorer_page_ui(sections, id_prefix):
     )
 
     return out_ui
-
-
-def tab_title(label: str, btn_id: str):
-    """Small helper to add an info button to section headers"""
-    return ui.tags.span(
-        label,
-        ui.input_action_button(
-            btn_id,
-            ui.tags.i(class_="fa fa-question-circle"),
-            class_="info-btn",
-            title="About this tab",
-        ),
-    )

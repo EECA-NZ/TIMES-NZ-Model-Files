@@ -109,4 +109,8 @@ def pri_server(inputs, outputs, session, selected_scens):
 sections = [pri_parameters]
 
 
-primary_energy_ui = make_explorer_page_ui(sections, ID_PREFIX)
+primary_energy_ui = make_explorer_page_ui(
+    sections,
+    ID_PREFIX,
+    page_info_button_id="info_pri",
+)

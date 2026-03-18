@@ -21,6 +21,7 @@ from times_nz_internal_qa.app.helpers.data_processing import (
     write_polars_to_csv,
 )
 from times_nz_internal_qa.app.helpers.filters import (
+    apply_filters,
     register_all_filters_and_clear,
 )
 
@@ -101,6 +102,10 @@ def register_server_functions_for_explorer(
         df = get_agg_data(_df(), filters, inputs, group_vars)
         return df
 
+    @reactive.calc
+    def _df_chart_download():
+        return apply_filters(_df(), filters, inputs)
+
     # Create chart data
     @reactive.calc
     def _chart_df():
@@ -120,18 +125,6 @@ def register_server_functions_for_explorer(
             selected_group,
             scenarios(),
         )
-
-    toggle_mode = reactive.Value("bar")  # default
-
-    @reactive.effect
-    @reactive.event(getattr(inputs, f"{chart_id}_show_bar"))
-    def _set_to_bar():
-        toggle_mode.set("bar")
-
-    @reactive.effect
-    @reactive.event(getattr(inputs, f"{chart_id}_show_line"))
-    def _set_to_line():
-        toggle_mode.set("line")
 
     # DRAW CHARTS
     @outputs(id=f"{chart_id}_chart")
@@ -165,7 +158,7 @@ def register_server_functions_for_explorer(
             )
 
         else:
-            mode = toggle_mode()
+            mode = getattr(inputs, f"{chart_id}_chart_type")()
 
             if mode == "bar":
                 chart = build_grouped_bar(**params)
@@ -199,6 +192,22 @@ def register_server_functions_for_explorer(
         )
 
     # Setup downloads
-    download_function_name = f"{chart_id}_chart_data_download"
-    download_filename = f"times_nz_{to_snake_case(section_title)}.csv"
-    register_download(outputs, download_function_name, download_filename, _df)
+    chart_download_function_name = f"{chart_id}_chart_data_download"
+    chart_download_filename = f"times_nz_{to_snake_case(section_title)}_chart_data.csv"
+    register_download(
+        outputs,
+        chart_download_function_name,
+        chart_download_filename,
+        _df_chart_download,
+    )
+
+    unfiltered_download_function_name = f"{chart_id}_unfiltered_data_download"
+    unfiltered_download_filename = (
+        f"times_nz_{to_snake_case(section_title)}_unfiltered_data.csv"
+    )
+    register_download(
+        outputs,
+        unfiltered_download_function_name,
+        unfiltered_download_filename,
+        _df,
+    )

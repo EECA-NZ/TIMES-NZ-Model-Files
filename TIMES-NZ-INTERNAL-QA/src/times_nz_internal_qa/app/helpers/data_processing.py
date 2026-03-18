@@ -200,6 +200,9 @@ def write_polars_to_csv(df):
     We need to encode the buffer with utf-bom
     so that our generated downloads include macrons properly
     """
+    if isinstance(df, pl.LazyFrame):
+        df = df.collect()
+
     # df = df.sort(["Scenario", "Variable", "Period"])
     # make a buffer
     t = io.StringIO()
