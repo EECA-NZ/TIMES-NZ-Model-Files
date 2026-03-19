@@ -80,22 +80,39 @@ def read_newtech_config(config_file=NEW_TECHS_CONFIG):
     with open(config_path, "rb") as file:
         raw_config = tomllib.load(file)
 
-    item = raw_config.get("newtechs", {})
-    if not isinstance(item, dict) or not item:
-        logger.warning("No [newtechs] entries found in %s", config_path)
+    config_items = [
+        (name, item)
+        for name, item in raw_config.items()
+        if name.lower().startswith("newtechs")
+    ]
+    if not config_items:
+        logger.warning("No [newtechs*] entries found in %s", config_path)
         return pd.DataFrame()
 
     required_fields = ["TechCode", "ReplacedTechs", "EndUse", "InputFuel", "Sectors"]
-    missing_fields = [field for field in required_fields if field not in item]
-    if missing_fields:
-        logger.warning(
-            "Skipping config in %s; missing required fields: %s",
-            config_path,
-            ", ".join(missing_fields),
-        )
-        return pd.DataFrame()
+    rows: list[dict] = []
+    for table_name, item in config_items:
+        if not isinstance(item, dict) or not item:
+            logger.warning(
+                "Skipping [%s] in %s; section is empty or invalid",
+                table_name,
+                config_path,
+            )
+            continue
+        missing_fields = [field for field in required_fields if field not in item]
+        if missing_fields:
+            logger.warning(
+                "Skipping [%s] in %s; missing required fields: %s",
+                table_name,
+                config_path,
+                ", ".join(missing_fields),
+            )
+            continue
+        rows.extend(_expand_newtech_rows(item))
 
-    return pd.DataFrame(_expand_newtech_rows(item))
+    if not rows:
+        return pd.DataFrame()
+    return pd.DataFrame(rows)
 
 
 def add_parameters(df):

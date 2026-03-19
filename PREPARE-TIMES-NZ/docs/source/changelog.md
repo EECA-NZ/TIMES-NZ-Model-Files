@@ -9,6 +9,7 @@
  - Slightly increased conservative hydro peaking contribution assummption to 90%.
  - Create "two-tier" LNG market, limiting its use to electricity generation.
 
+
 **Model fixes**
  - Corrected implementation of new technologies for industrial applications.
  - Resolved a bug in implementation of 2037 coal boiler ban for intermediate process heat. 
@@ -16,6 +17,7 @@
  - Resolved a bug leading to infeasible coal and biogas usage. 
  - Added unallocated onsite generation to total system demand, ensuring system balance.
  - Add missing residential petrol emissions.
+ - Allowed some industrial subsectors to electrify water heating using technologies already found in other subsectors.
 
 ## 3.0.3
 
