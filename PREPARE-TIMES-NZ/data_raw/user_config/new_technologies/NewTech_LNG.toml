@@ -45,7 +45,7 @@ TagName = "FI_T"
 [LNGImportConfigurations.Data]
 TechName = ["LNGPORTSTD"]
 Comm-IN = ["LNG"]
-Comm-OUT = ["NGA"]
+Comm-OUT = ["ELCNGA"]
 INVCOST = [800] # again, this is total per "port" unit. We can only build one port unit, and this is the price NZDm
 CAP2ACT = [40] # ie, the small port can produce 9 a year, and the big port 40: now all our capacity unit is "port" so everything simpler 
 Eff = [1] # this is by default anyway, but we'll make explicit

@@ -7,12 +7,15 @@
  - Adjusted lightbulb lifetimes in residential and commercial sectors according to usage assumptions.
  - Ensured realistic minimum utilisation of peaking plants.
  - Slightly increased conservative hydro peaking contribution assummption to 90%.
+ - Create "two-tier" LNG market, limiting its use to electricity generation.
 
 **Model fixes**
  - Corrected implementation of new technologies for industrial applications.
  - Resolved a bug in implementation of 2037 coal boiler ban for intermediate process heat. 
  - Resolved an issue that made industrial petrol engines more efficient than intended.
+ - Resolved a bug leading to infeasible coal and biogas usage. 
  - Added unallocated onsite generation to total system demand, ensuring system balance.
+ - Add missing residential petrol emissions.
 
 ## 3.0.3
 

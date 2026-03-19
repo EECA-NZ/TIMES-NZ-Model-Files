@@ -56,7 +56,7 @@ Installation date, 2027
 ```
 
 
-Note that we assume that LNG consumption will be subject to the same emissions factor as domestic natural gas. Additional emissions factors associated with regasification or leakage of LNG are not currently included. 
+Note that we assume that LNG consumption will be subject to the same emissions factor as domestic natural gas. Additional emissions factors associated with regasification or leakage of LNG are not currently included. We also assume that LNG is only used for electricity generation, and explicitly limit it to this. 
 
 Because we currently set fixed install dates for terminals, assuming a single terminal is installed in 2027, the modelling solution is straightforward. Note that if you wished to expand the method to allow the model to choose optimal installation dates for the terminal, a Mixed Integer Programming[^mip] solution would be required to ensure that no partial terminals could be constructed.
 
