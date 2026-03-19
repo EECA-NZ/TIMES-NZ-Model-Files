@@ -51,9 +51,9 @@ app_ui = ui.page_fluid(
             rel="stylesheet",
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
         ),
+        # IFrame resizer
         ui.tags.script(
-            # pylint: disable=line-too-long
-            src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.contentWindow.min.js",
+            src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@latest",
             type="text/javascript",
         ),
         # Pendo
@@ -63,6 +63,11 @@ app_ui = ui.page_fluid(
         ),
         ui.tags.script(
             src="js/pendo-analytics.js",
+            type="text/javascript",
+        ),
+        # Selectizer auto-position dropdowns
+        ui.tags.script(
+            src="js/auto-position.js",
             type="text/javascript",
         ),
         # Your global CSS (last so it can override everything)

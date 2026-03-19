@@ -87,7 +87,8 @@ body > .container-fluid {
   border: none;
   color: #666;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 13px;
+  font-weight: 650;
 }
 
 
