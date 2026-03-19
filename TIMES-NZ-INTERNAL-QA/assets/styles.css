@@ -579,7 +579,7 @@ body > .container-fluid {
   padding: 0;
   border: none;
   background: transparent;
-  color: #a7a7a7;
+  color: #000000;
   font-size: 1rem;
   line-height: 1;
   transition: color 0.15s ease;

@@ -61,7 +61,7 @@ core_filters = [
     {"col": "EndUse", "label": "End Use"},
     {"col": "TechnologyGroup", "label": "Technology Group"},
     {"col": "Technology"},
-    {"col": "Process"},
+    #{"col": "Process"},
     {"col": "Region"},
 ]
 
@@ -76,7 +76,7 @@ curve_filters = [
     {"col": "EndUse", "label": "End Use"},
     {"col": "TechnologyGroup", "label": "Technology Group"},
     {"col": "Technology"},
-    {"col": "Process"},
+    #{"col": "Process"},
     {"col": "Region"},
 ]
 
