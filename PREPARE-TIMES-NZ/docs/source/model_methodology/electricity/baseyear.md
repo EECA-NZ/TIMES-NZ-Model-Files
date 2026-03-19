@@ -102,7 +102,7 @@ The peak contribution is the assumed proportion of capacity available to meet pe
 * - Plant Type
   - Peak contribution (%)
 * - Hydro (dispatchable)
-  - 80
+  - 90
 * - Hydro run-of-river
   - 72
 * - Peakers (all fuels)
@@ -127,7 +127,7 @@ The peak contribution is the assumed proportion of capacity available to meet pe
   - 66
 ```
 
-For intermittent generation, such as wind and solar, peak contribution rates are based on the lower likelihoods of availability during peak hours (winter 6pm-7pm). Onshore wind peak contribution rates are based on the 10th percentile of historical wind availability during peak hours (winter 6pm-7pm). This figure comes to around 10%. Offshore wind peak availability is by assumption, but we expect that offshore wind resource will be more reliable than onshore. We assume solar is not available when it is dark. Dispatchable hydro peak contribution rates are 80%. This accounts for consenting and reserve capacity requirements and the possibility of reduced hydro availability during peak periods.
+For intermittent generation, such as wind and solar, peak contribution rates are based on the lower likelihoods of availability during peak hours (winter 6pm-7pm). Onshore wind peak contribution rates are based on the 10th percentile of historical wind availability during peak hours (winter 6pm-7pm). This figure comes to around 10%. Offshore wind peak availability is by assumption, but we expect that offshore wind resource will be more reliable than onshore. We assume solar is not available when it is dark. Dispatchable hydro peak contribution rates are 990%. This accounts for consenting and reserve capacity requirements and the possibility of reduced hydro availability during peak periods.
 
 Other peak contribution rates are assumptions extracted from previous iterations of TIMES-NZ. 
 

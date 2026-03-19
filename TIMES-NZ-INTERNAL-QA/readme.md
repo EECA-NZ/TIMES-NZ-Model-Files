@@ -103,4 +103,5 @@ Some app-ids:
 - `times-nz-internal-explorer-v301`: 16588202
 - `times-nz-internal-explorer-v302`: 16596189
 - `times-nz-internal-explorer-v303`: 16757346
+- `times-nz-internal-explorer-v304`: 16904540
 

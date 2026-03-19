@@ -401,6 +401,11 @@ def reshape_genstack(df):
             df["Comm-IN"].unique()[:20],
         )
 
+    # add lower-bound outputs for selected techs
+
+    df["AFA~LO"] = np.nan
+    df["AFA~LO"] = np.where(df["Tech"].isin(["GasPkr", "OCGT"]), 0.02, df["AFA~LO"])
+
     df["CAP2ACT"] = CAP2ACT_PJGW
 
     return df
@@ -424,6 +429,7 @@ def select_veda_genstack_vars(df):
             "Life",
             "NCAP_PKCNT",
             "AFA",
+            "AFA~LO",
             "CAP_BND",
             "CAP_BND~0",
         ]

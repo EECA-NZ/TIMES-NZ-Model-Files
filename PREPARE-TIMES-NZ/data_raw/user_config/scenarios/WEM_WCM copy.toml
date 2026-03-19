@@ -1,0 +1,11 @@
+# Limit Residential Fossil Fuels
+# An optional scenario file which reduces coal, LPG, natural gas, and LPG in the residential sector 
+
+WorkBookName = "SuppXLS/Scen_LimitResidentialFossil"
+
+
+[LimitResidentialFossil]
+Description = "Removes fossil fuels from residential space heating. Hardcoded table - adjust in assumptions file if needed."
+SheetName = "LimitResidentialFossil"
+TagName = "TFM_INS"
+DataLocation = "data_raw/coded_assumptions/residential/limit_fossils.csv"

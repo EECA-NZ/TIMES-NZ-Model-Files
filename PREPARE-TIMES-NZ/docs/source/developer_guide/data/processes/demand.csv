@@ -463,6 +463,7 @@ Demand,OTHR-DSL-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile 
 Demand,OTHR-PET-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,OTHR-ELC-MOTOR-MTV_STA,OTHR-MOTOR-MTV_STA,Industry,Other Industry,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,OTHR-ELC-PUMP-PUMP,OTHR-PUMP-PUMP,Industry,Other Industry,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
+Demand,OTHR-ELC-UNALC-UNALC,OTHR-UNALC-UNALC,Industry,Other Industry,Unallocated,Unallocated,Unallocated,Unallocated
 Demand,PULP-ELC-ACOMP-COMP_AIR,PULP-ACOMP-COMP_AIR,Industry,Pulp and Paper,Electronics and Lighting,Compressed Air,Electronics and Lights,Air Compressors
 Demand,PULP-ELC-ELCTR-ELCTR,PULP-ELCTR-ELCTR,Industry,Pulp and Paper,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,PULP-ELC-FAN-FAN,PULP-FAN-FAN,Industry,Pulp and Paper,Electronics and Lighting,Fans,Electronics and Lights,Fan Systems
@@ -512,84 +513,23 @@ Demand,MEAT-WOD-BOILR-PH_INT,MEAT-BOILR-PH_INT,Industry,Meat,Heating/Cooling,"In
 Demand,MEAT-COA-BOILR-WH_LOW,MEAT-BOILR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,MINE-WOD-BOILR-PH_INT,MINE-BOILR-PH_INT,Industry,Mining,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,MINE-COA-BOILR-SH_LOW,MINE-SH_LOW,Industry,Mining,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,OTHR-WOD-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,PULP-WOD-BOILR-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,WOOD-WOD-BOILR-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,DARY-ELC-HTHP-PH_INT,DARY-BOILR-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
+Demand,DARY-ELC-HTHP-PH_LOW,DARY-BOILR-PH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
+Demand,MEAT-ELC-HTHP-PH_INT,MEAT-BOILR-PH_INT,Industry,Meat,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
+Demand,MEAT-ELC-HTHP-PH_LOW,MEAT-BOILR-PH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
+Demand,WOOD-ELC-HTHP-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
+Demand,WOOD-ELC-HTHP-PH_LOW,WOOD-BOILR-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
+Demand,PULP-ELC-HTHP-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
+Demand,PULP-ELC-HTHP-PH_LOW,PULP-BOILR-PH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
+Demand,OTHR-ELC-HTHP-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
+Demand,OTHR-ELC-HTHP-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
+Demand,FOOD-ELC-HTHP-PH_INT,FOOD-BOILR-PH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
+Demand,FOOD-ELC-HTHP-PH_LOW,FOOD-BOILR-PH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,High Temperature Heat Pump
 Demand,DARY-ELC-BOILR-WH_LOW,DARY-BOILR-WH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,DARY-ELC-BOILR-WH_LOW,DARY-HEATX-WH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,FOOD-ELC-BOILR-WH_LOW,FOOD-BOILR-WH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,MEAT-ELC-BOILR-WH_LOW,MEAT-BOILR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,MEAT-ELC-BOILR-WH_LOW,MEAT-HEATR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,STEEL-ELC-BOILR-WH_LOW,STEEL-BOILR-WH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,DARY-WOD-BOILR-WH_LOW,DARY-BOILR-WH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,DARY-WOD-BOILR-WH_LOW,DARY-HEATX-WH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,FOOD-WOD-BOILR-WH_LOW,FOOD-BOILR-WH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,MEAT-WOD-BOILR-WH_LOW,MEAT-BOILR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,MEAT-WOD-BOILR-WH_LOW,MEAT-HEATR-WH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,STEEL-WOD-BOILR-WH_LOW,STEEL-BOILR-WH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,CHEM-ELC-BOILR-SH_LOW,CHEM-SH_LOW,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,CNST-ELC-BOILR-SH_LOW,CNST-SH_LOW,Industry,Construction,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,DARY-ELC-BOILR-SH_LOW,DARY-SH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,FOOD-ELC-BOILR-SH_LOW,FOOD-SH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,MINE-ELC-BOILR-SH_LOW,MINE-SH_LOW,Industry,Mining,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,OTHR-ELC-BOILR-SH_LOW,OTHR-SH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,PULP-ELC-BOILR-SH_LOW,PULP-SH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
-Demand,CHEM-ELC-SGHP-PH_INT,CHEM-HEATR-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,CHEM-ELC-SGHP-PH_INT,CHEM-FURNC-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,DARY-ELC-SGHP-PH_INT,DARY-BOILR-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,DARY-ELC-SGHP-PH_INT,DARY-HEATX-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,FOOD-ELC-SGHP-PH_INT,FOOD-BOILR-PH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,MEAT-ELC-SGHP-PH_INT,MEAT-BOILR-PH_INT,Industry,Meat,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,MINE-ELC-SGHP-PH_INT,MINE-BOILR-PH_INT,Industry,Mining,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,MNRL-ELC-SGHP-PH_INT,MNRL-BOILR-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,MNRL-ELC-SGHP-PH_INT,MNRL-FURNC-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,OTHR-ELC-SGHP-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,OTHR-ELC-SGHP-PH_INT,OTHR-HEATR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,PULP-ELC-SGHP-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,PULP-ELC-SGHP-PH_INT,PULP-HEATX-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,STEEL-ELC-SGHP-PH_INT,STEEL-BURNR-PH_INT,Industry,Iron & Steel,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,WOOD-ELC-SGHP-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,WOOD-ELC-SGHP-PH_INT,WOOD-HEATX-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,WOOD-ELC-SGHP-PH_INT,WOOD-BURNR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Steam Generating Heat Pump (process heat)
-Demand,CHEM-ELC-MVR-PH_INT,CHEM-HEATR-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,CHEM-ELC-MVR-PH_INT,CHEM-FURNC-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,DARY-ELC-MVR-PH_INT,DARY-BOILR-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,DARY-ELC-MVR-PH_INT,DARY-HEATX-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,FOOD-ELC-MVR-PH_INT,FOOD-BOILR-PH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,MEAT-ELC-MVR-PH_INT,MEAT-BOILR-PH_INT,Industry,Meat,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,MINE-ELC-MVR-PH_INT,MINE-BOILR-PH_INT,Industry,Mining,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,MNRL-ELC-MVR-PH_INT,MNRL-BOILR-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,MNRL-ELC-MVR-PH_INT,MNRL-FURNC-PH_INT,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,OTHR-ELC-MVR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,OTHR-ELC-MVR-PH_INT,OTHR-HEATR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,PULP-ELC-MVR-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,PULP-ELC-MVR-PH_INT,PULP-HEATX-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,STEEL-ELC-MVR-PH_INT,STEEL-BURNR-PH_INT,Industry,Iron & Steel,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,WOOD-ELC-MVR-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,WOOD-ELC-MVR-PH_INT,WOOD-HEATX-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,WOOD-ELC-MVR-PH_INT,WOOD-BURNR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Mechanical Vapour Recompression (MVR)
-Demand,DARY-ELC-PEF-PH_LOW,DARY-BOILR-PH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
-Demand,FOOD-ELC-PEF-PH_LOW,FOOD-BOILR-PH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
-Demand,MNRL-ELC-PEF-PH_LOW,MNRL-BOILR-PH_LOW,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
-Demand,OTHR-ELC-PEF-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
-Demand,OTHR-ELC-PEF-PH_LOW,OTHR-HEATR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
-Demand,PULP-ELC-PEF-PH_LOW,PULP-BURNR-PH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
-Demand,STEEL-ELC-PEF-PH_LOW,STEEL-HEATR-PH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
-Demand,WOOD-ELC-PEF-PH_LOW,WOOD-HPPH-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
-Demand,WOOD-ELC-PEF-PH_LOW,WOOD-BOILR-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
-Demand,WOOD-ELC-PEF-PH_LOW,WOOD-FURNC-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Pulsed Electric Field
-Demand,CNST-ELC-ICENG-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,MINE-ELC-ICENG-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,OTHR-ELC-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,CNST-H2R-ICENG-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,MINE-H2R-ICENG-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,OTHR-H2R-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,CNST-PET-PHEV-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
-Demand,MINE-PET-PHEV-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
-Demand,OTHR-PET-PHEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
-Demand,CNST-ELC-PHEV-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
-Demand,MINE-ELC-PHEV-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
-Demand,OTHR-ELC-PHEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (PHEV)
+Demand,OTHR-ELC-BOILR-WH_LOW,OTHR-BOILR-WH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,FOOD-ELC-BOILR-WH_LOW,FOOD-BOILR-WH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
+Demand,MINE-ELC-BOILR-WH_LOW,MINE-BOILR-WH_LOW,Industry,Mining,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,NEWTECH,NEWTECH-DEM,Commercial,NewTechs,NewTechs,NewTechs,NewTechs,NewTechs
 Demand,STEEL-ELC-EAF,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Iron and Steel,Recycled Steel,Heat/Cooling Devices,Electric Arc Furnace (EAF)
 Demand,ADCF-IRG-Irg-ELC,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation
