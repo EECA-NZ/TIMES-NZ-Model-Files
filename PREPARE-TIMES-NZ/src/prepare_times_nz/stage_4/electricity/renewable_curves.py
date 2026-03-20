@@ -162,8 +162,6 @@ def main():
 
     out = adjust_starting_year(df, BASE_YEAR + 1)
 
-    print(out)
-
     _save_data(
         out,
         "renewable_availability.csv",

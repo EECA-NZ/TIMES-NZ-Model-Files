@@ -1,0 +1,22 @@
+Code,Label
+ELC_*,All electricity
+RES*COA**,Residential coal
+RES*WOD*,Residential wood
+T_F*PET*,Light petrol trucks
+T_P_B*PET*,Petrol buses
+T_P_B*LPG*,LPG buses
+C_*-HEATX-GEO,Commercial geothermal
+C*CK*-LPG*,Commercial cooking LPG
+C*CK*-NGA*,Commercial cooking natural gas
+C*SH-Boiler-LPG*,Commercial space heating LPG
+C*SH-Boiler-NGA*,Commercial space heating natural gas
+C*WH*-NGA*,Commercial water heating natural gas
+C*MPM-PET*,Commercial Mobile motive power petrol
+C*MPM-LPG*,Commercial Mobile motive power LPG
+C*MPM-NGA*,Commercial Mobile motive power natural gas
+C*Boiler-DSL*,Commercial diesel boilers
+AFISH*-PET,Fishing boat petrol
+*PET-ICENG-MTV_MOB,Industrial petrol mobile motive power
+*NGA-ICENG-MTV_MOB,Industrial natural gas mobile motive power
+*PET-ENGIN-MTV_STA,Industrial petrol stationary motive power
+C_*INC*,Commercial incandescent lighting

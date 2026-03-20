@@ -4,9 +4,9 @@ Electronics and Other Electrical Uses,"Misc, Residential Only (Battery chargers,
 "Intermediate Heat (100-300 C), Cooking","Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",Electricity,13,from TIMES 2.0
 "Intermediate Heat (100-300 C), Cooking","Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",LPG,13,from TIMES 2.0
 "Intermediate Heat (100-300 C), Cooking","Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",Natural Gas,13,from TIMES 2.0
-Lighting,Fluorescent,Electricity,7,from TIMES 2.0
-Lighting,Incandescent/Halogen,Electricity,1,from TIMES 2.0
-Lighting,LED,Electricity,14,from TIMES 2.0
+Lighting,Fluorescent,Electricity,5,from TIMES 2.0
+Lighting,Incandescent/Halogen,Electricity,5,from TIMES 2.0
+Lighting,LED,Electricity,15,from TIMES 2.0
 "Low Temperature Heat (< 100 C), Dishwashers",Dishwashers,Electricity,15,from TIMES 2.0
 "Low Temperature Heat (<100 C), Clothes Drying",Clothes Dryer,Electricity,15,from TIMES 2.0
 "Low Temperature Heat (<100 C), Clothes Washing",Clothes Washers,Electricity,15,from TIMES 2.0

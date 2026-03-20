@@ -221,9 +221,6 @@ def main() -> None:
                 "INVCOST~2050",
                 "FIXOM",
                 "AF",
-                "FLO_MARK~2030",
-                "FLO_MARK~2050",
-                "FLO_MARK~0",
             ]
         }
     )
