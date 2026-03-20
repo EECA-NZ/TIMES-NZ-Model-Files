@@ -6,6 +6,10 @@ import altair as alt
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.colors import qualitative
+from times_nz_internal_qa.app.helpers.timeslices import (
+    add_timeslice_chart_columns,
+    get_timeslice_label_order,
+)
 
 alt.data_transformers.disable_max_rows()
 
@@ -117,15 +121,28 @@ def build_grouped_bar_timeslice(
         .str.cat(pdf["Unit"].astype(str), sep=" ")
     )
 
+    pdf = add_timeslice_chart_columns(pdf)
+
     # category orders
-    # period_order = [str(p) for p in period_range]
     base_scen = scen_list[0] if scen_list else None
 
     chart = (
         alt.Chart(pdf)
         .mark_bar()
         .encode(
-            x=alt.X("TimeSlice:N", title="Timeslice"),
+            x=alt.X(
+                "TimeSliceLabel:N",
+                title="Timeslice",
+                sort=get_timeslice_label_order(),
+                axis=alt.Axis(
+                    labelExpr="split(datum.label, '|')",
+                    labelAngle=-90,
+                    labelBaseline="line-bottom",
+                    labelLineHeight=12,
+                    labelLimit=0,
+                    labelFontSize=11,
+                ),
+            ),
             xOffset=alt.XOffset("Scenario:N", sort=scen_list),
             y=alt.Y("Value:Q", stack="zero", title=unit),
             color=alt.Color(
@@ -138,6 +155,7 @@ def build_grouped_bar_timeslice(
             tooltip=[
                 alt.Tooltip("Scenario:N", title="Scenario"),
                 alt.Tooltip("Period:N", title="Year"),
+                alt.Tooltip("TimeSliceLongLabel:N", title="Timeslice"),
                 alt.Tooltip(f"{group_col}:N", title=group_col),
                 alt.Tooltip("ValueTooltip:N", title="Value"),
                 alt.Tooltip("TotalTooltip:N", title="Total"),

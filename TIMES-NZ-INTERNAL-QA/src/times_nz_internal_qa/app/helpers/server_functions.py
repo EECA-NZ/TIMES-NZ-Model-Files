@@ -24,6 +24,7 @@ from times_nz_internal_qa.app.helpers.filters import (
     apply_filters,
     register_all_filters_and_clear,
 )
+from times_nz_internal_qa.utilities.value_mappings import remap_values
 
 
 def register_download(outputs, out_id, filename, df_reactive):
@@ -123,7 +124,7 @@ def register_server_functions_for_explorer(
             df_filtered,
             base_cols,
             selected_group,
-            scenarios(),
+            remap_values("Scenario", scenarios()),
         )
 
     # DRAW CHARTS

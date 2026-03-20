@@ -6,6 +6,7 @@ For now, the target is to just provide a main dropdown list,
 
 from shiny import reactive, render, ui
 from times_nz_internal_qa.config import current_scenarios
+from times_nz_internal_qa.utilities.value_mappings import get_choice_labels
 
 
 # pylint:disable = unused-argument
@@ -18,7 +19,7 @@ def scenario_select_server(inputs, outputs, session):
 
     @render.ui
     def select_scenario_a_ui():
-        opts = current_scenarios
+        opts = get_choice_labels("Scenario", current_scenarios)
         return ui.input_selectize("scenario_a", "Main scenario", choices=opts,
             options={"plugins": ["auto_position"]})
 
@@ -28,7 +29,8 @@ def scenario_select_server(inputs, outputs, session):
             return None  # hide when toggle is off
         # a = current selected main scenario
         a = inputs.scenario_a()
-        opts = [s for s in current_scenarios if s != a] if a else current_scenarios
+        scenario_options = [s for s in current_scenarios if s != a] if a else current_scenarios
+        opts = get_choice_labels("Scenario", scenario_options)
         return ui.input_selectize("scenario_b", "　", choices=opts, 
             options={"plugins": ["auto_position"]})
 

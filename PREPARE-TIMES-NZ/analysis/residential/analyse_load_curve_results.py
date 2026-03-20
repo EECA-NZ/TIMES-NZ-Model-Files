@@ -61,6 +61,27 @@ chart_cols = [
     eeca_colours["emerald"],
 ]
 
+SEASON_ORDER = ["SUM", "FAL", "WIN", "SPR"]
+DAY_TYPE_ORDER = ["WK", "WE"]
+TIME_OF_DAY_ORDER = ["D", "P", "N"]
+
+SEASON_LABELS = {
+    "SUM": "Summer",
+    "WIN": "Winter",
+    "FAL": "Autumn",
+    "SPR": "Spring",
+}
+DAY_TYPE_LABELS = {"WE": "Weekend", "WK": "Weekday"}
+DAY_TYPE_AXIS_LABELS = {"WE": "Wknd.", "WK": "Week"}
+TIME_OF_DAY_LABELS = {"D": "Day", "N": "Night", "P": "Peak"}
+
+TIMESLICE_ORDER = [
+    f"{season}-{day_type}-{time_of_day}"
+    for season in SEASON_ORDER
+    for day_type in DAY_TYPE_ORDER
+    for time_of_day in TIME_OF_DAY_ORDER
+]
+
 
 def get_res_demand():
     """Returns total residential electricity demand for baseyear"""
@@ -97,21 +118,29 @@ def split_timeslices(df, make_nice_labels=True):
 
     df = df.copy()
 
-    df["TimeOfDay"] = df["TimeSlice"].str.rsplit("-", n=1).str[1]
-    df["DayType"] = (
-        df["TimeSlice"].str.rsplit("-", n=1).str[0].str.rsplit("-", n=1).str[1]
-    )
-    df["Season"] = df["TimeSlice"].str.rsplit("-", n=2).str[0]
+    parts = df["TimeSlice"].astype(str).str.split("-", expand=True)
+    df["SeasonCode"] = parts[0]
+    df["DayTypeCode"] = parts[1]
+    df["TimeOfDayCode"] = parts[2]
+    df["TimeOfDay"] = df["TimeOfDayCode"]
+    df["DayType"] = df["DayTypeCode"]
+    df["Season"] = df["SeasonCode"]
 
     if make_nice_labels:
+        df["DayType"] = df["DayType"].map(DAY_TYPE_LABELS)
+        df["TimeOfDay"] = df["TimeOfDay"].map(TIME_OF_DAY_LABELS)
+        df["Season"] = df["Season"].map(SEASON_LABELS)
 
-        df["DayType"] = df["DayType"].map({"WE": "Weekend", "WK": "Weekday"})
-
-        df["TimeOfDay"] = df["TimeOfDay"].map({"D": "Day", "N": "Night", "P": "Peak"})
-
-        df["Season"] = df["Season"].map(
-            {"SUM": "Summer", "WIN": "Winter", "FAL": "Autumn", "SPR": "Spring"}
-        )
+    df["TimeSliceLabel"] = (
+        df["SeasonCode"].map(SEASON_LABELS)
+        + "\n"
+        + df["DayTypeCode"].map(DAY_TYPE_AXIS_LABELS)
+        + " "
+        + df["TimeOfDayCode"].map(TIME_OF_DAY_LABELS)
+    )
+    df["TimeSlice"] = pd.Categorical(
+        df["TimeSlice"], categories=TIMESLICE_ORDER, ordered=True
+    )
 
     return df
 

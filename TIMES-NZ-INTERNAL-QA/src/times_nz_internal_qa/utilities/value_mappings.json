@@ -1,0 +1,12 @@
+{
+  "column_value_mappings": {
+    "Region": {
+      "NI": "North Island",
+      "SI": "South Island"
+    },
+    "Scenario": {
+      "traditional-v3_0_2": "Traditional",
+      "transformation-v3_0_2": "Transformation"
+    }
+  }
+}

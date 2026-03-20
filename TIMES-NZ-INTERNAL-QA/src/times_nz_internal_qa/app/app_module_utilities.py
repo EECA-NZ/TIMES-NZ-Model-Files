@@ -10,7 +10,8 @@ Loads in all the markdown as objects for reactives to pull from
 
 # Libraries
 from shiny import reactive, render, ui
-from times_nz_internal_qa.utilities.filepaths import ASSETS, DATA
+from times_nz_internal_qa.postprocessing.package_outputs import build_outputs_zip_bytes
+from times_nz_internal_qa.utilities.filepaths import ASSETS, FINAL_DATA
 
 # Load markdown inputs
 
@@ -63,6 +64,4 @@ def info_server(inputs, outputs, session):
     # full results download zip
     @render.download(filename="times_nz_3_wip_all_results.zip")
     def all_results_zip():
-        # Yield the bytes of the existing zip file
-        with open(DATA / "times_nz_3_wip_all_results.zip", "rb") as f:
-            yield f.read()
+        yield build_outputs_zip_bytes(FINAL_DATA)
