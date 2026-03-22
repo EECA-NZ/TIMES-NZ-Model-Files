@@ -326,4 +326,8 @@ sections = [
 ]
 
 
-demand_ui = make_explorer_page_ui(sections, ID_PREFIX)
+demand_ui = make_explorer_page_ui(
+    sections,
+    ID_PREFIX,
+    page_info_button_id="info_dem",
+)

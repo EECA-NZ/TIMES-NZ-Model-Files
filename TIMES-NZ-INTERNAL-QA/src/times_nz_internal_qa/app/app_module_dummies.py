@@ -149,4 +149,8 @@ def dummy_server(inputs, outputs, session, selected_scens):
 sections = [dummy_demand_parameters, dummy_energy_parameters]
 
 
-dummy_ui = make_explorer_page_ui(sections, ID_PREFIX)
+dummy_ui = make_explorer_page_ui(
+    sections,
+    ID_PREFIX,
+    page_info_button_id="info_dum",
+)

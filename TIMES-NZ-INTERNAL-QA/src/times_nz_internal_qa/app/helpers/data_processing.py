@@ -15,6 +15,7 @@ import io
 import pandas as pd
 import polars as pl
 from times_nz_internal_qa.app.helpers.filters import apply_filters
+from times_nz_internal_qa.utilities.value_mappings import apply_value_mappings_pl
 
 
 def show_df_size(df):
@@ -88,7 +89,7 @@ def read_data_pl(file_location, scenarios) -> pl.LazyFrame:
         .filter(pl.col("Scenario").is_in(scenarios))
     )
 
-    return df
+    return apply_value_mappings_pl(df)
 
 
 def filter_df_for_variable(
@@ -200,6 +201,9 @@ def write_polars_to_csv(df):
     We need to encode the buffer with utf-bom
     so that our generated downloads include macrons properly
     """
+    if isinstance(df, pl.LazyFrame):
+        df = df.collect()
+
     # df = df.sort(["Scenario", "Variable", "Period"])
     # make a buffer
     t = io.StringIO()

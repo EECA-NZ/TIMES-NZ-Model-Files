@@ -61,7 +61,7 @@ core_filters = [
     {"col": "EndUse", "label": "End Use"},
     {"col": "TechnologyGroup", "label": "Technology Group"},
     {"col": "Technology"},
-    {"col": "Process"},
+    #{"col": "Process"},
     {"col": "Region"},
 ]
 
@@ -76,7 +76,7 @@ curve_filters = [
     {"col": "EndUse", "label": "End Use"},
     {"col": "TechnologyGroup", "label": "Technology Group"},
     {"col": "Technology"},
-    {"col": "Process"},
+    #{"col": "Process"},
     {"col": "Region"},
 ]
 
@@ -240,4 +240,8 @@ sections = [
     esd_curve_parameters,
     transport_esd_parameters,
 ]
-esd_ui = make_explorer_page_ui(sections, ID_PREFIX)
+esd_ui = make_explorer_page_ui(
+    sections,
+    ID_PREFIX,
+    page_info_button_id="info_esd",
+)

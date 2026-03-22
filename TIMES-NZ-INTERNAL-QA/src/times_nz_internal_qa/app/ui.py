@@ -15,7 +15,6 @@ from times_nz_internal_qa.app.app_module_elec import elec_ui
 from times_nz_internal_qa.app.app_module_emissions import emissions_ui
 from times_nz_internal_qa.app.app_module_esd import esd_ui
 from times_nz_internal_qa.app.app_module_primary_energy import primary_energy_ui
-from times_nz_internal_qa.app.helpers.ui_elements import tab_title
 from times_nz_internal_qa.utilities.filepaths import ASSETS
 
 # Constants
@@ -90,38 +89,6 @@ app_ui = ui.page_fluid(
                 ui.output_ui("select_scenario_b_ui"),
                 style="display:flex; align-items:center; gap:10px;",
             ),
-            # right section (info buttons)
-            ui.div(
-                ui.span(
-                    ui.input_action_button(
-                        "info_btn_use",
-                        ui.tags.span(
-                            ui.tags.i(class_="fa fa-question"),
-                        ),
-                        class_="btn info-btn",
-                        title="Using this app",
-                    ),
-                    ui.download_button(
-                        "all_results_zip",
-                        ui.tags.span(
-                            ui.tags.i(class_="fa fa-download"),
-                        ),
-                        class_="btn info-btn",
-                        title="Download all results (.zip)",
-                    ),
-                    # GitHub button (styled the same, but works as a link)
-                    ui.tags.a(
-                        ui.tags.span(
-                            ui.tags.i(class_="fa fa-github"),
-                        ),
-                        href="https://github.com/EECA-NZ/TIMES-NZ-Model-Files",
-                        target="_blank",
-                        class_="btn info-btn",
-                        title="Github",
-                        role="button",
-                    ),
-                )
-            ),
             style=(
                 "display:flex;"
                 "align-items:center;"
@@ -134,12 +101,12 @@ app_ui = ui.page_fluid(
     # EXPLORER NAVSET PAGES
     ui.div(
         ui.navset_tab(
-            ui.nav_panel(tab_title("Primary energy", "info_pri"), primary_energy_ui),
-            ui.nav_panel(tab_title("Energy demand", "info_dem"), demand_ui),
-            ui.nav_panel(tab_title("Electricity generation", "info_elc"), elec_ui),
-            ui.nav_panel(tab_title("Emissions", "info_ems"), emissions_ui),
-            ui.nav_panel(tab_title("Energy service demand", "info_esd"), esd_ui),
-            ui.nav_panel(tab_title("Infeasibilities", "info_dum"), dummy_ui),
+            ui.nav_panel("Primary energy", primary_energy_ui),
+            ui.nav_panel("Energy demand", demand_ui),
+            ui.nav_panel("Electricity generation", elec_ui),
+            ui.nav_panel("Emissions", emissions_ui),
+            ui.nav_panel("Energy service demand", esd_ui),
+            #ui.nav_panel("Infeasibilities", dummy_ui),
         ),
         class_="navset-large",
     ),

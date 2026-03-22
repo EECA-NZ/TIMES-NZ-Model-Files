@@ -15,6 +15,7 @@
   --radius: 4px;
   --gap: 12px;
   --chart-panel-h: 520px;
+  --header-control-h: 36px;
 }
 
 body {
@@ -162,13 +163,80 @@ body > .container-fluid {
   margin-bottom: -4px;
 }
 
-.chart-toggle-bar {
-  margin-top: 8px;
-  margin-bottom: 8px;
+.chart-toggle-bar .shiny-input-radiogroup {
+  margin: 0;
 }
 
-.chart-toggle-bar .btn {
-  margin-right: 2px;
+.chart-toggle-bar .shiny-options-group {
+  margin-top: 0px !important;
+}
+
+.chart-toggle-bar .control-label.shiny-label-null {
+  display: none;
+}
+
+.chart-toggle-bar .shiny-options-group {
+  display: inline-flex;
+  font-size: 14px;
+  height: var(--header-control-h) !important;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: #fff;
+  gap: 0;
+  margin-left: 0;
+}
+
+.chart-toggle-bar .radio-inline {
+  display: inline-flex;
+  align-items: stretch;
+  height: 100%;
+  margin: 0;
+  padding: 0 !important;
+  margin-right: 0 !important;
+}
+
+.chart-toggle-bar input[type="radio"] {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.chart-toggle-bar .radio-inline span {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+  background: #fff;
+  color: var(--panel-text);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.chart-toggle-bar .radio-inline + .radio-inline span {
+  border-left: 1px solid var(--border);
+}
+
+.chart-toggle-bar .radio-inline:hover span {
+  background: #f3f4f6;
+}
+
+.chart-toggle-bar .radio-inline input[type="radio"]:checked + span {
+  background: var(--bs-primary);
+  color: #fff;
+}
+
+.chart-toggle-bar .radio-inline input[type="radio"]:focus-visible + span {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: -2px;
 }
 
 /* Download button base style inside chart cards */
@@ -176,11 +244,13 @@ body > .container-fluid {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 10px 4px;
+  height: var(--header-control-h);
+  padding: 0 10px;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.4;
   border-radius: 4px;
   border-color: var(--border);
+  box-sizing: border-box;
   background: #fff;
   color: var(--panel-text);
   width: auto;
@@ -195,12 +265,30 @@ body > .container-fluid {
   margin-top: 12px;
 }
 
-.chart-download-btn span > i.fa-download {
+.chart-download-btn > i.fa-download {
   margin-right: 6px;
 }
 
+.chart-header-group .shiny-input-container {
+  margin: 8px 0;
+}
+
+.chart-header-group .control-label.shiny-label-null {
+  display: none;
+}
+
+.chart-header-group .form-select {
+  height: var(--header-control-h);
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  border-color: var(--border);
+  box-sizing: border-box;
+}
+
 /* Download button position + wrapping in header row */
-.chart-header-row .chart-download-btn {
+.chart-header-row .chart-download-group {
   margin-left: auto;
   white-space: nowrap;
 }
@@ -209,6 +297,21 @@ body > .container-fluid {
 .chart-with-title .btn:hover {
   background: #f3f4f6;
   border-color: #cbd5e1;
+}
+
+.chart-download-group .dropdown-menu {
+  min-width: 0;
+  width: max-content;
+  padding: 6px 0;
+}
+
+.chart-download-group .dropdown-item {
+  font-size: 14px;
+  color: var(--panel-text);
+}
+
+.chart-download-group .dropdown-item:hover {
+  background: #f3f4f6;
 }
 
 
@@ -457,6 +560,38 @@ body > .container-fluid {
   .radio-inline input[type="radio"]:focus-visible + span {
   outline: 2px solid var(--bs-primary);
   outline-offset: 2px;
+}
+
+.tab-page-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tab-page-toolbar .secondary-nav-bar {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.tab-page-info-btn {
+  flex: 0 0 auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #000000;
+  font-size: 1rem;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+.tab-page-info-btn:hover,
+.tab-page-info-btn:focus,
+.tab-page-info-btn:active {
+  color: #2d8db9;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 
