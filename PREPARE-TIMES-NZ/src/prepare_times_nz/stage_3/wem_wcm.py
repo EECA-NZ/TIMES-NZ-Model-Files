@@ -38,6 +38,7 @@ from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAG
 OUTPUT_LOCATION = STAGE_3_DATA / "wem_user_constraints"
 
 yrfr_data = STAGE_2_DATA / "settings/load_curves/yrfr.csv"
+generated_renewable_curves = STAGE_3_DATA / "electricity/renewable_curves.csv"
 
 
 # Helpers -----------------------------------------------
@@ -108,10 +109,13 @@ def get_af_curves():
     Load ren_af assumptions
 
     """
+    if not generated_renewable_curves.exists():
+        raise FileNotFoundError(
+            "Missing generated renewable curves at "
+            f"{generated_renewable_curves}. Run the stage-3 solar build first."
+        )
 
-    df = pd.read_csv(
-        ASSUMPTIONS / "electricity_generation/renewable_curves/RenewableCurves.csv"
-    )
+    df = pd.read_csv(generated_renewable_curves)
 
     if "TechCode" in df.columns:
         df = df.rename(columns={"TechCode": "Tech_TIMES"})

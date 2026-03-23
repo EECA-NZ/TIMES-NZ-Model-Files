@@ -23,11 +23,12 @@ from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
     CONCORDANCES,
     STAGE_2_DATA,
+    STAGE_3_DATA,
     STAGE_4_DATA,
 )
 
-input_file = ASSUMPTIONS / "electricity_generation/renewable_curves/RenewableCurves.csv"
 cap_factors = ASSUMPTIONS / "electricity_generation/CapacityFactors.csv"
+generated_curves_file = STAGE_3_DATA / "electricity/renewable_curves.csv"
 
 tech_codes = CONCORDANCES / "electricity/tech_codes.csv"
 
@@ -45,7 +46,16 @@ def generate_ren_af_file():
     """
 
     # read data
-    df = pd.read_csv(input_file)
+    if not generated_curves_file.exists():
+        raise FileNotFoundError(
+            "Missing generated renewable curves at "
+            f"{generated_curves_file}. Run the stage-3 solar build first."
+        )
+
+    df = pd.read_csv(generated_curves_file)
+
+    if "TechCode" in df.columns:
+        df = df.rename(columns={"TechCode": "Tech_TIMES"})
 
     # define all the techs with fixed af codes - other techs get "upper" (ie wind/hydro)
     # this is another way of saying we expect wind to spill first if we're in a spill situation
@@ -57,15 +67,15 @@ def generate_ren_af_file():
     #
 
     # additional requirements
-    df["LimType"] = np.where(df["TechCode"].isin(fixed_af_techs), "FX", "UP")
+    df["LimType"] = np.where(df["Tech_TIMES"].isin(fixed_af_techs), "FX", "UP")
 
     # generate AFs (AFS for seasonal techs)
     df["Attribute"] = np.where(
-        df["TechCode"].isin(seasonal_af_techs), "NCAP_AFS", "NCAP_AF"
+        df["Tech_TIMES"].isin(seasonal_af_techs), "NCAP_AFS", "NCAP_AF"
     )
 
     # generate wildcards
-    df["Pset_PN"] = "ELC_" + df["TechCode"] + "_*"
+    df["Pset_PN"] = "ELC_" + df["Tech_TIMES"] + "_*"
 
     # trim to necessary columns
     df = df[["TimeSlice", "LimType", "Attribute", "NI", "SI", "Pset_PN"]]
