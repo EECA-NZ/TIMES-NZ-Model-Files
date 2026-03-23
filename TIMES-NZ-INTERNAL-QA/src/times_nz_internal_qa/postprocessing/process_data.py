@@ -583,6 +583,11 @@ def process_emissions(df):
     ele_generation_concordance = pd.read_csv(
         PROCESS_CONCORDANCES / "elec_generation.csv"
     )
+
+    # for all-purpose emissions, we add extra labels to electricity generation
+    for label in ["SectorGroup", "Sector", "EnduseGroup", "EndUse"]:
+        ele_generation_concordance[label] = "Electricity generation"
+
     production_concordance = pd.read_csv(PROCESS_CONCORDANCES / "production.csv")
 
     conc = pd.concat(
@@ -597,10 +602,14 @@ def process_emissions(df):
     # remove TOTCO2 (not helpful)
     df_emissions = df_emissions[df_emissions["Commodity"] != "TOTCO2"]
 
-    # some labels
+    # add labels
     df_emissions["Unit"] = "kt CO2e"
     df_emissions = df_emissions.rename(columns={"PV": "Value"})
     df_emissions = df_emissions.merge(conc, on="Process", how="left")
+
+    # remove international transport from emissions
+    uses_to_remove = ["International Shipping", "International Aviation"]
+    df_emissions = df_emissions[~df_emissions["EndUse"].isin(uses_to_remove)]
 
     save_data(df_emissions, "emissions.csv")
 
