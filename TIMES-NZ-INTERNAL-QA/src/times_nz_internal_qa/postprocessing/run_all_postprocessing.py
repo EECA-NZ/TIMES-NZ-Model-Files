@@ -13,7 +13,7 @@ from times_nz_internal_qa.postprocessing.process_data import main as process_dat
 REDEFINE_DATA = True
 # this expects a Veda installation with scenario results in your windows mount under your username
 # You would rerun this if you had run the model and needed to refresh your results
-IMPORT_FROM_VEDA = True
+IMPORT_FROM_VEDA = False
 
 
 def main():
