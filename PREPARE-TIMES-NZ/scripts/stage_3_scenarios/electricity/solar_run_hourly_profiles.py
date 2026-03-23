@@ -8,9 +8,9 @@ import csv
 import json
 from typing import Any
 
-import numpy as np
 import pandas as pd
-from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, DATA_RAW, STAGE_3_DATA
+from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_3_DATA
+from prepare_times_nz.utilities.timeslices import create_timeslices
 
 # pylint: disable=wrong-import-order
 from PySAM import Pvwattsv8
@@ -18,7 +18,6 @@ from PySAM import Pvwattsv8
 SOLAR_SCENARIOS_FILE = (
     ASSUMPTIONS / "electricity_generation/renewable_curves/SolarPvScenarios.csv"
 )
-TIME_OF_DAY_FILE = DATA_RAW / "user_config/settings/time_of_day_types.csv"
 
 OUTPUT_ROOT = STAGE_3_DATA / "electricity/solar_af"
 PREPARED_EPW_DIR = OUTPUT_ROOT / "prepared_epw"
@@ -250,69 +249,6 @@ def discover_epw_files(epw_dir):
         raise FileNotFoundError(f"Missing EPW files for zones: {', '.join(missing)}")
 
     return discovered
-
-
-def convert_hour_to_timeofday(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Match the project time-of-day mapping used in extract_ea_data.py.
-    """
-    time_of_day_types = pd.read_csv(TIME_OF_DAY_FILE)
-    hour_to_time = dict(
-        zip(time_of_day_types["Hour"], time_of_day_types["Time_Of_Day"])
-    )
-    df["Time_Of_Day"] = df["Hour"].map(hour_to_time)
-    df["Time_Of_Day"] = df["Time_Of_Day"].fillna("N")
-    return df
-
-
-def convert_date_to_daytype(
-    df: pd.DataFrame, date_col: str = "Trading_Date"
-) -> pd.DataFrame:
-    """
-    Match the project weekday/weekend mapping used in extract_ea_data.py.
-    """
-    df[date_col] = pd.to_datetime(df[date_col])
-    weekday = df[date_col].dt.weekday
-    df["Day_Type"] = np.select(
-        [weekday.isin([5, 6]), weekday.isin([0, 1, 2, 3, 4])],
-        ["WE-", "WK-"],
-        default="ERROR",
-    )
-    return df
-
-
-def convert_date_to_season(
-    df: pd.DataFrame, date_col: str = "Trading_Date"
-) -> pd.DataFrame:
-    """
-    Match the project season mapping used in extract_ea_data.py.
-    """
-    df[date_col] = pd.to_datetime(df[date_col])
-    month = df[date_col].dt.month
-
-    df["Season"] = np.select(
-        [
-            month.isin([12, 1, 2]),
-            month.isin([3, 4, 5]),
-            month.isin([6, 7, 8]),
-            month.isin([9, 10, 11]),
-        ],
-        ["SUM-", "FAL-", "WIN-", "SPR-"],
-        default="ERROR",
-    )
-    return df
-
-
-def create_timeslices(df: pd.DataFrame, date_col: str = "Trading_Date") -> pd.DataFrame:
-    """
-    Create project-style timeslices using the same logic as extract_ea_data.py.
-    """
-    df = convert_hour_to_timeofday(df)
-    df = convert_date_to_daytype(df, date_col)
-    df = convert_date_to_season(df, date_col)
-    df["TimeSlice"] = df["Season"] + df["Day_Type"] + df["Time_Of_Day"]
-    df = df.drop(columns=["Season", "Day_Type", "Time_Of_Day"])
-    return df
 
 
 def build_time_index(epw_files):
