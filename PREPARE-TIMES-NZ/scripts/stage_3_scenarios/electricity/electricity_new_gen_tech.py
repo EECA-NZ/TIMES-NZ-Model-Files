@@ -84,7 +84,6 @@ census_dwellings = pd.read_csv(
 )
 region_to_island = pd.read_csv(CONCORDANCES / "region_island_concordance.csv")
 new_tech = pd.read_csv(FUTURE_TECH_ASSUMPTIONS / "NewTechnology.csv")
-tracked_solar = pd.read_csv(FUTURE_TECH_ASSUMPTIONS / "TrackingSolarPlants.csv")
 future_tech_codes = pd.read_csv(CONCORDANCES / "electricity/future_tech_codes.csv")
 
 
@@ -592,27 +591,10 @@ def tidy_genstack(df):
 
 def distinguish_tracking_solar(df):
     """
-    Changes the Tech and TechName field for solar plants
-    Uses an assumption file as input which contains names of Tracking plants
-
-    The rest are defined as Fixed solar
-
+    Changes all future utility solar plants to tracking solar.
     """
-
-    tracked_solar_plants = tracked_solar["Plant"].unique()
-
-    # Update tracking plants
-    df.loc[df["Plant"].isin(tracked_solar_plants), "Tech"] = "SolarTrack"
-    df.loc[df["Plant"].isin(tracked_solar_plants), "TechName"] = "Solar (Tracking)"
-
-    # Update the remaining solar plants to fixed
-    df.loc[
-        (df["Tech"] == "Solar") & (~df["Plant"].isin(tracked_solar_plants)), "Tech"
-    ] = "SolarFixed"
-    df.loc[
-        (df["TechName"] == "Solar") & (~df["Plant"].isin(tracked_solar_plants)),
-        "TechName",
-    ] = "Solar (Fixed)"
+    df.loc[df["Tech"] == "Solar", "Tech"] = "SolarTrack"
+    df.loc[df["TechName"] == "Solar", "TechName"] = "Solar (Tracking)"
 
     return df
 
