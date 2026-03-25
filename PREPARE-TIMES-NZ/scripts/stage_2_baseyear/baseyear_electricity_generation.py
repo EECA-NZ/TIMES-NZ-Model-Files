@@ -48,6 +48,7 @@ CHECK_DIR = OUTPUT_DIR / "checks"
 
 
 TECH_CODES = CONCORDANCES / "electricity/tech_codes.csv"
+SOLAR_TECH_TYPES = CUSTOM_ELE_ASSUMPTIONS / "SolarTechTypes.csv"
 
 pd.set_option("display.float_format", lambda x: f"{x:.6f}")
 
@@ -109,7 +110,7 @@ def generate_techname(df):
     A reminder that it's recommended no techname is above 27 characters,
     and certainly can't exceed 32
     """
-    df["TechName"] = (  # Alert! this is going to break something downstream!
+    df["TechName"] = (
         "ELC_"
         + df["Tech_TIMES"]
         + "_"
@@ -151,6 +152,45 @@ def generate_techname(df):
     return df
 
 
+def apply_solar_tech_overrides(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Override base-year solar Tech_TIMES codes using keyed assumptions.
+    """
+    if not SOLAR_TECH_TYPES.exists():
+        logger.warning("Solar tech override file not found: %s", SOLAR_TECH_TYPES)
+        return df
+
+    solar_map = pd.read_csv(SOLAR_TECH_TYPES)
+    required_cols = ["FuelType", "PlantName", "Tech_TIMES_Override"]
+    missing_cols = set(required_cols).difference(solar_map.columns)
+    if missing_cols:
+        raise ValueError(
+            f"Missing required columns in {SOLAR_TECH_TYPES}: {sorted(missing_cols)}"
+        )
+
+    solar_map = solar_map[required_cols].copy()
+    for col in required_cols:
+        solar_map[col] = solar_map[col].astype(str).str.strip()
+
+    if solar_map[["FuelType", "PlantName"]].duplicated().any():
+        duplicates = solar_map.loc[
+            solar_map[["FuelType", "PlantName"]].duplicated(), ["FuelType", "PlantName"]
+        ]
+        raise ValueError(
+            f"Duplicate FuelType/PlantName entries in {SOLAR_TECH_TYPES}: "
+            f"{duplicates.to_dict(orient='records')}"
+        )
+
+    out = df.copy()
+    out["FuelType"] = out["FuelType"].astype(str).str.strip()
+    out["PlantName"] = out["PlantName"].astype(str).str.strip()
+
+    out = out.merge(solar_map, on=["FuelType", "PlantName"], how="left")
+    out["Tech_TIMES"] = out["Tech_TIMES_Override"].fillna(out["Tech_TIMES"])
+    out = out.drop(columns=["Tech_TIMES_Override"])
+    return out
+
+
 # --------------------------------------------------------------------------- #
 # Main routine
 # --------------------------------------------------------------------------- #
@@ -158,6 +198,8 @@ def generate_techname(df):
 
 # Suppress pylint warnings (big, but minimal-change refactor)
 # pylint: disable=too-many-locals,too-many-statements
+
+
 def main() -> None:
     """Entry-point wrapping the original procedural script."""
     # --------------------------------------------------------------------- #
@@ -507,7 +549,7 @@ def main() -> None:
     ).astype(int)
 
     # other assumptions
-    # Set distributed solar TechNames to 100 years
+    # Set distributed solar TechNames to 100 years (this is so that TIMES doesn't throw them away)
     base_year_gen["PlantLife"] = np.where(
         base_year_gen["PlantName"].isin(["Commercial", "Industrial", "Residential"]),
         100,
@@ -573,12 +615,17 @@ def main() -> None:
         )
     )
 
+    # add main tech codes
     tech_codes = pd.read_csv(TECH_CODES)
+
     base_year_gen = base_year_gen.merge(
         tech_codes, on=["FuelType", "TechnologyCode"], how="left"
     )
-    # this is literally the only thing the techname is used for
-    # perhaps should clarify it's the MBIE techname
+
+    # distinguish different solar techs using the sector-specific override file
+    base_year_gen = apply_solar_tech_overrides(base_year_gen)
+
+    # merge parameters on MBIE tech name (MBIE tech-based parameters)
     base_year_gen = base_year_gen.merge(
         genstack_avg_parameters, on="MBIETechName", how="left"
     )

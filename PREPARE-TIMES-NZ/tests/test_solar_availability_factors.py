@@ -29,7 +29,7 @@ def test_aggregate_island_curves_uses_configured_zone_weights():
     module = load_solar_build_curves()
     zone_factors = pd.DataFrame(
         {
-            "Tech_TIMES": ["SolarDist"] * 4,
+            "Tech_TIMES": ["SolarDistSmall"] * 4,
             "ZoneCode": ["AK", "HN", "CC", "DN"],
             "Region": ["Auckland", "Hamilton", "Christchurch", "Dunedin"],
             "TimeSlice": ["SUM-WK-D"] * 4,
@@ -53,7 +53,7 @@ def test_aggregate_island_curves_uses_configured_zone_weights():
 
     row = result.to_dict(orient="records")[0]
     assert row["TimeSlice"] == "SUM-WK-D"
-    assert row["Tech_TIMES"] == "SolarDist"
+    assert row["Tech_TIMES"] == "SolarDistSmall"
     assert row["NI"] == pytest.approx((0.2 * 0.75) + (0.4 * 0.25))
     assert row["SI"] == pytest.approx((0.6 * 0.1) + (0.8 * 0.9))
 
@@ -65,7 +65,7 @@ def test_aggregate_island_curves_requires_weights_for_every_zone():
     module = load_solar_build_curves()
     zone_factors = pd.DataFrame(
         {
-            "Tech_TIMES": ["SolarDist"],
+            "Tech_TIMES": ["SolarDistBifacial"],
             "ZoneCode": ["AK"],
             "Region": ["Auckland"],
             "TimeSlice": ["SUM-WK-D"],
@@ -96,24 +96,35 @@ def test_merge_solar_and_static_curves_replaces_only_solar_rows():
     module = load_solar_build_curves()
     solar = pd.DataFrame(
         {
-            "TimeSlice": ["SUM-WK-D"],
-            "Tech_TIMES": ["SolarDist"],
-            "NI": [0.3],
-            "SI": [0.4],
+            "TimeSlice": ["SUM-WK-D", "SUM-WK-D"],
+            "Tech_TIMES": ["SolarDistSmall", "SolarDistBifacial"],
+            "NI": [0.3, 0.35],
+            "SI": [0.4, 0.45],
         }
     )
     static = pd.DataFrame(
         {
-            "TimeSlice": ["SUM-WK-D", "SUM-WK-D"],
-            "TechCode": ["SolarDist", "WindOn"],
-            "NI": [0.1, 0.5],
-            "SI": [0.2, 0.5],
+            "TimeSlice": ["SUM-WK-D", "SUM-WK-D", "SUM-WK-D"],
+            "TechCode": ["SolarDistSmall", "SolarDistBifacial", "WindOn"],
+            "NI": [0.1, 0.2, 0.5],
+            "SI": [0.2, 0.3, 0.5],
         }
     )
 
     result = module.merge_solar_and_static_curves(solar, static)
 
     assert result.to_dict(orient="records") == [
-        {"TimeSlice": "SUM-WK-D", "Tech_TIMES": "SolarDist", "NI": 0.3, "SI": 0.4},
+        {
+            "TimeSlice": "SUM-WK-D",
+            "Tech_TIMES": "SolarDistBifacial",
+            "NI": 0.35,
+            "SI": 0.45,
+        },
+        {
+            "TimeSlice": "SUM-WK-D",
+            "Tech_TIMES": "SolarDistSmall",
+            "NI": 0.3,
+            "SI": 0.4,
+        },
         {"TimeSlice": "SUM-WK-D", "Tech_TIMES": "WindOn", "NI": 0.5, "SI": 0.5},
     ]

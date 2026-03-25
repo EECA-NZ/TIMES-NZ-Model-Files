@@ -302,7 +302,8 @@ def create_uc_table(df, uc_n, uc_type, uc_desc, margin):
     # get AF wildcards
     df["Pset_PN"] = "ELC_" + df["Tech_TIMES"] + "_*"
     df["Pset_CO"] = "ELC"
-    df.loc[df["Tech_TIMES"] == "SolarDist", "Pset_CO"] = "ELCDD"
+    dist_solar_techs = ["SolarDistSmall", "SolarDistBifacial"]
+    df.loc[df["Tech_TIMES"].isin(dist_solar_techs), "Pset_CO"] = "ELCDD"
     # remove steel cogen, which contributes only to ELC
     # (it reduces overall ELCDD demand so does contribute,
     #  just not to the constraint directly)

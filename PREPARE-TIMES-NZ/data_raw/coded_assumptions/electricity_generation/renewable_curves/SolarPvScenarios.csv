@@ -1,4 +1,5 @@
 Tech_TIMES,Description,SystemCapacityKW,TiltDeg,AzimuthDeg,LossesPercent,InvEffPercent,ModuleType,ArrayType,DcAcRatio,Bifaciality,Gcr,Albedo,UseWeatherFileAlbedo
-SolarDist,Residential rooftop PV,1.0,30.0,0.0,9.03,96.0,standard,fixed_roof_mount,1.2,0.0,0.4,0.2,False
+SolarDistSmall,Residential rooftop PV,1.0,30.0,0.0,9.03,96.0,standard,fixed_roof_mount,1.2,0.0,0.4,0.2,False
+SolarDistBifacial,Commercial and industrial bifacial rooftop PV,1.0,30.0,0.0,9.03,96.0,standard,fixed_roof_mount,1.2,0.65,0.4,0.3,False
 SolarFixed,Commercial fixed bifacial rooftop PV,1.0,30.0,0.0,9.03,96.0,standard,fixed_roof_mount,1.2,0.65,0.4,0.3,False
 SolarTrack,Utility-scale single-axis backtracking bifacial PV,1.0,30.0,0.0,9.03,96.0,standard,single_axis_backtracking,1.2,0.65,0.4,0.2,False

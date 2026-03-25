@@ -23,7 +23,7 @@ SOLAR_AF_FILE = SOLAR_AF_DIR / "solar_availability_factors.csv"
 SOLAR_AF_BY_ZONE_FILE = SOLAR_AF_DIR / "solar_availability_factors_by_zone.csv"
 RENEWABLE_CURVES_FILE = STAGE_3_DATA / "electricity/renewable_curves.csv"
 
-SOLAR_TECHS = {"SolarDist", "SolarFixed", "SolarTrack"}
+SOLAR_TECHS = {"SolarDistSmall", "SolarDistBifacial", "SolarTrack", "SolarFixed"}
 
 
 def load_zone_weights() -> pd.DataFrame:

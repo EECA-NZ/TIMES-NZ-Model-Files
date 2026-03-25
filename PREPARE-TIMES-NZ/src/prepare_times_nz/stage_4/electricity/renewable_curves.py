@@ -60,7 +60,7 @@ def generate_ren_af_file():
     # define all the techs with fixed af codes - other techs get "upper" (ie wind/hydro)
     # this is another way of saying we expect wind to spill first if we're in a spill situation
     # (or that solar/geo don't spill)
-    fixed_af_techs = ["SolarDist", "SolarTrack", "SolarFixed"]
+    fixed_af_techs = ["SolarDistSmall", "SolarDistBifacial", "SolarTrack", "SolarFixed"]
 
     # seasonal techs are those where we want flex within parent slices
     seasonal_af_techs = ["HydSC"]
