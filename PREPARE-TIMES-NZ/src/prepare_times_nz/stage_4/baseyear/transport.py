@@ -5,7 +5,7 @@ Functions to run veda processing for transport outputs
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Mapping, Sequence
+from typing import Sequence
 
 import numpy as np
 import pandas as pd
@@ -310,7 +310,7 @@ def parse_attrs(
 # -----------------------------------------------------------------------------
 # BUILDERS – simple ones kept verbatim (only spacing/PEP-8 tweaks)
 # -----------------------------------------------------------------------------
-def create_fuel_commodity_df(cfg):
+def create_fuel_commodity_df(columns: list[str]) -> pd.DataFrame:
     """Creates a DataFrame defining fuel commodities."""
     comm_names = [
         "TRANGA",
@@ -336,11 +336,10 @@ def create_fuel_commodity_df(cfg):
         lambda x: "DAYNITE" if x in ["TRAH2R", "TRAELC"] else "ANNUAL"
     )
     df["Ctype"] = df["CommName"].apply(lambda x: "ELC" if x == "TRAELC" else "")
-    final_column_order = cfg["Columns"]
-    return df[final_column_order]
+    return df[columns]
 
 
-def create_fuel_process_df(cfg):
+def create_fuel_process_df(columns: list[str]) -> pd.DataFrame:
     """Creates a DataFrame defining fuel processes."""
     tech_names = [
         "FTE_TRANGA",
@@ -367,11 +366,10 @@ def create_fuel_process_df(cfg):
     df["Tslvl"] = df["TechName"].apply(
         lambda x: "DAYNITE" if x in ["FTE_TRAH2R", "FTE_TRAELC"] else ""
     )
-    final_column_order = cfg["Columns"]
-    return df[final_column_order]
+    return df[columns]
 
 
-def create_commodity_df(cfg):
+def create_commodity_df(columns: list[str]) -> pd.DataFrame:
     """Creates a DataFrame defining transport commodities."""
     comm_names = [
         "T_P_Car",
@@ -413,11 +411,10 @@ def create_commodity_df(cfg):
     )
     df["TsLvl"] = "DAYNITE"
     df["LimType"] = df["CommName"].apply(lambda x: "FX" if x == "H2R" else "")
-    final_column_order = cfg["Columns"]
-    return df[final_column_order]
+    return df[columns]
 
 
-def create_process_df(cfg):
+def create_process_df(columns: list[str]) -> pd.DataFrame:
     """Creates a DataFrame defining base year technologies."""
     tech_names_base = [
         # --- Passenger cars ---
@@ -496,18 +493,17 @@ def create_process_df(cfg):
         lambda x: assign_tcap(get_base_name(x, tech_names_base))
     )
 
-    final_column_order = cfg["Columns"]
-    return df[final_column_order]
+    return df[columns]
 
 
 # pylint: disable=too-many-locals
-def create_fuel_process_parameters_df(cfg):
+def create_fuel_process_parameters_df(columns: list[str]) -> pd.DataFrame:
     """Constructs a DataFrame of fuel process parameters for transport technologies.
 
     This function generates process parameter rows for transport fuel technologies
     based on the output of `create_fuel_process_df`, and maps each technology to
     its associated input and output commodities."""
-    tech_df = create_fuel_process_df({"Columns": ["TechName", "Region"]})
+    tech_df = create_fuel_process_df(["TechName", "Region"])
     expanded_comm_in = {
         "FTE_TRADSL": ["DSL", "BDSL", "DID"],
         "FTE_TRAJET": ["JET", "DIJ"],
@@ -555,20 +551,18 @@ def create_fuel_process_parameters_df(cfg):
                     "FLO_DELIV": flo_deliv,
                 }
             )
-    final_column_order = cfg["Columns"]
-
-    out = pd.DataFrame(rows)[final_column_order]
+    out = pd.DataFrame(rows)[columns]
     return out
 
 
 # -----------------------------------------------------------------------------
 # COMPLEX builder (process parameters)
 # -----------------------------------------------------------------------------
-def create_process_parameters_df(cfg: Mapping[str, list[str]]) -> pd.DataFrame:
+def create_process_parameters_df(columns: list[str]) -> pd.DataFrame:
     """Main Process-Parameters table (uses VAR_LIST)."""
     demand = pd.read_csv(TRA_FILE)
     var_tbls = load_var_tables(demand)
-    tech_df = create_process_df({"Columns": ["TechName", "Region"]})
+    tech_df = create_process_df(["TechName", "Region"])
 
     # Comm-Out map
     comm_out_map = {t: comm_out_for_tech(strip_level(t)) for t in tech_df["TechName"]}
@@ -651,7 +645,7 @@ def create_process_parameters_df(cfg: Mapping[str, list[str]]) -> pd.DataFrame:
 
     df = pd.DataFrame(rows)
     # Add empty columns if missing
-    for col in cfg["Columns"]:
+    for col in columns:
         if col not in df.columns:
             df[col] = None  # or np.nan
 
@@ -672,15 +666,15 @@ def create_process_parameters_df(cfg: Mapping[str, list[str]]) -> pd.DataFrame:
     )
 
     # Final output
-    return df[cfg["Columns"]]
+    return df[columns]
 
 
-def creat_process_paramereters2_df(cfg: Mapping[str, list[str]]) -> pd.DataFrame:
+def creat_process_paramereters2_df(columns: list[str]) -> pd.DataFrame:
     """Sums up ACT_BND~2023 based on Comm-Out and Region"""
     # Build the process parameters table using the existing function,
     # selecting only the needed columns.
     base_df = create_process_parameters_df(
-        {"Columns": ["TechName", "Region", "Comm-In", "Comm-Out", "ACT_BND~2023"]}
+        ["TechName", "Region", "Comm-In", "Comm-Out", "ACT_BND~2023"]
     )
     # Group by Region and Comm-Out and sum the ACT_BND~2023 values.
     agg_df = base_df.groupby(["Region", "Comm-Out"], as_index=False)[
@@ -689,10 +683,10 @@ def creat_process_paramereters2_df(cfg: Mapping[str, list[str]]) -> pd.DataFrame
     # Rename columns to match the desired output: Region, CommName, and 2023.
     agg_df = agg_df.rename(columns={"Comm-Out": "CommName", "ACT_BND~2023": "2023"})
     # Return the dataframe with columns in the order specified by the config.
-    return agg_df[cfg["Columns"]]
+    return agg_df[columns]
 
 
-def emission_factors_df(cfg: Mapping[str, list[str]]) -> pd.DataFrame:
+def emission_factors_df(columns: list[str]) -> pd.DataFrame:
     """Returns emission factors for selected transport fuels."""
 
     data = {
@@ -705,115 +699,95 @@ def emission_factors_df(cfg: Mapping[str, list[str]]) -> pd.DataFrame:
     }
 
     emi_df = pd.DataFrame(data).set_index("CommName")
-    return emi_df.reset_index()[cfg["Columns"]]
+    return emi_df.reset_index()[columns]
 
 
 # -----------------------------------------------------------------------------
 # MAIN – orchestrate every builder & write CSVs
 # -----------------------------------------------------------------------------
+
+
+def save_transport_data(df, filename):
+    """Save transport outputs to the VEDA base year directory."""
+    _save_data(df, filename, "Saving Veda transport data", OUTPUT_LOCATION)
+
+
 def main() -> None:
     """Generates and exports TIMES-NZ transport sector definition and parameter tables.
 
     This function sequentially runs a set of table-builder functions
     (e.g., fuel definitions, process definitions, technical parameters)
     and writes the resulting DataFrames to CSV files using standardized
-    output filenames. Each builder function is passed a configuration
-    dictionary containing the expected column structure."""
+    output filenames."""
 
     OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
-    tasks = [
-        (
-            create_fuel_commodity_df,
-            {
-                "Columns": [
-                    "Csets",
-                    "Region",
-                    "CommName",
-                    "Unit",
-                    "LimType",
-                    "CTSLvl",
-                    "Ctype",
-                ]
-            },
-            "tra_fuel_commodity_definitions.csv",
-        ),
-        (
-            create_fuel_process_df,
-            {"Columns": ["Sets", "Region", "TechName", "Tact", "Tcap", "Tslvl"]},
-            "tra_fuel_process_definitions.csv",
-        ),
-        (
-            create_commodity_df,
-            {"Columns": ["Csets", "Region", "CommName", "Unit", "LimType", "TsLvl"]},
-            "tra_commodity_definitions.csv",
-        ),
-        (
-            create_process_df,
-            {"Columns": ["Sets", "Region", "TechName", "Tact", "Tcap"]},
-            "tra_process_definitions.csv",
-        ),
-        (
-            create_fuel_process_parameters_df,
-            {
-                "Columns": [
-                    "TechName",
-                    "Region",
-                    "Comm-In",
-                    "Comm-Out",
-                    "Share-I~UP",
-                    "Share-I~UP~2025",
-                    "Share-I~UP~2060",
-                    "EFF",
-                    "Life",
-                    "FIXOM",
-                    "VAROM",
-                    "FLO_DELIV",
-                ]
-            },
-            "tra_fuel_process_parameters.csv",
-        ),
-        (
-            create_process_parameters_df,
-            {
-                "Columns": [
-                    "TechName",
-                    "Region",
-                    "Comm-In",
-                    "Comm-Out",
-                    "EFF",
-                    "LIFE",
-                    "ACT_BND~2023",
-                    "ACT_BND~0",
-                    "CAP2ACT",
-                    "AFA",
-                    "AFA~2024",
-                    "INVCOST",
-                    "FIXOM",
-                    "PRC_resid~2023",
-                    "Share",
-                    "Share~0",
-                    "CEFF",
-                ]
-            },
-            "tra_process_parameters.csv",
-        ),
-        (
-            creat_process_paramereters2_df,
-            {"Columns": ["CommName", "Region", "2023"]},
-            "tra_process_parameters2.csv",
-        ),
-        (
-            emission_factors_df,
-            {"Columns": ["CommName", "TRALPG", "TRAPET", "TRADSL", "TRAJET", "TRAFOL"]},
-            "tra_emission_factors.csv",
-        ),
+
+    fuel_commodity_df = create_fuel_commodity_df(
+        ["Csets", "Region", "CommName", "Unit", "LimType", "CTSLvl", "Ctype"]
+    )
+    fuel_process_df = create_fuel_process_df(
+        ["Sets", "Region", "TechName", "Tact", "Tcap", "Tslvl"]
+    )
+    commodity_df = create_commodity_df(
+        ["Csets", "Region", "CommName", "Unit", "LimType", "TsLvl"]
+    )
+    process_df = create_process_df(["Sets", "Region", "TechName", "Tact", "Tcap"])
+    fuel_process_parameters_df = create_fuel_process_parameters_df(
+        [
+            "TechName",
+            "Region",
+            "Comm-In",
+            "Comm-Out",
+            "Share-I~UP",
+            "Share-I~UP~2025",
+            "Share-I~UP~2060",
+            "EFF",
+            "Life",
+            "FIXOM",
+            "VAROM",
+            "FLO_DELIV",
+        ]
+    )
+    process_parameters_df = create_process_parameters_df(
+        [
+            "TechName",
+            "Region",
+            "Comm-In",
+            "Comm-Out",
+            "EFF",
+            "LIFE",
+            "ACT_BND~2023",
+            "ACT_BND~0",
+            "CAP2ACT",
+            "AFA",
+            "AFA~2024",
+            "INVCOST",
+            "FIXOM",
+            "PRC_resid~2023",
+            "Share",
+            "Share~0",
+            "CEFF",
+        ]
+    )
+    process_parameters2_df = creat_process_paramereters2_df(
+        ["CommName", "Region", "2023"]
+    )
+    emission_factors = emission_factors_df(
+        ["CommName", "TRALPG", "TRAPET", "TRADSL", "TRAJET", "TRAFOL"]
+    )
+    outputs = [
+        (fuel_commodity_df, "tra_fuel_commodity_definitions.csv"),
+        (fuel_process_df, "tra_fuel_process_definitions.csv"),
+        (commodity_df, "tra_commodity_definitions.csv"),
+        (process_df, "tra_process_definitions.csv"),
+        (fuel_process_parameters_df, "tra_fuel_process_parameters.csv"),
+        (process_parameters_df, "tra_process_parameters.csv"),
+        (process_parameters2_df, "tra_process_parameters2.csv"),
+        (emission_factors, "tra_emission_factors.csv"),
     ]
 
-    for builder, cfg, fname in tasks:
-        df = builder(cfg)
-        _save_data(
-            df, fname, label="Saving VEDA transport file", filepath=OUTPUT_LOCATION
-        )
+    for df, filename in outputs:
+        save_transport_data(df, filename)
 
 
 if __name__ == "__main__":
