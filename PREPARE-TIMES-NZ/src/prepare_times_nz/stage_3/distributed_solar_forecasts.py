@@ -42,9 +42,9 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Mapping for sectors
 SECTOR_MAP = {
-    "Commercial": "ELC_SolarDistBifacial_Commercial",
-    "Residential": "ELC_SolarDistSmall_Residential",
-    "Industrial": "ELC_SolarDistBifacial_Industrial",
+    "Commercial": "ELC_SolarDistBifacial_Com",
+    "Residential": "ELC_SolarDistSmall_Res",
+    "Industrial": "ELC_SolarDistBifacial_Ind",
 }
 
 

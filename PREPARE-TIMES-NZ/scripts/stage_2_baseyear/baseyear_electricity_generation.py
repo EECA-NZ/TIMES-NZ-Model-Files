@@ -130,6 +130,9 @@ def generate_techname(df):
         "ELC_CCGT_TaranakiCombinedCycle": "ELC_CCGT_TCC",
         "ELC_HydRR_BranchRiverArgyleWairau": "ELC_HydRR_BranchRiver",
         "ELC_GasCHP_FonterraDairyWhareroa": "ELC_GasCHP_FonterraWhareroa",
+        "ELC_SolarDistBifacial_Commercial": "ELC_SolarDistBifacial_Com",
+        "ELC_SolarDistBifacial_Industrial": "ELC_SolarDistBifacial_Ind",
+        "ELC_SolarDistSmall_Residential": "ELC_SolarDistSmall_Res",
     }
     df["TechName"] = df["TechName"].replace(manual_name_adjustments)
 

@@ -31,6 +31,12 @@ DISTRIBUTION_INPUT_FILE = (
 )
 EF_INPUT_FILE = ASSUMPTIONS / "electricity_generation/EmissionFactors.csv"
 
+DIST_SOLAR_TECHS = [
+    "ELC_SolarDistBifacial_Com",
+    "ELC_SolarDistBifacial_Ind",
+    "ELC_SolarDistSmall_Res",
+]
+
 
 # ----- Generation units  --------------------------------------- #
 GENERATION_UNIT_MAP = {
@@ -271,12 +277,7 @@ def define_generation_capacity(df):
 
     def _capacity_attribute(row: pd.Series) -> str:
         # Force distributed solar TechNames to NCAP_PASTI
-        distributed_solar_techs = [
-            "ELC_SolarDistBifacial_Commercial",
-            "ELC_SolarDistBifacial_Industrial",
-            "ELC_SolarDistSmall_Residential",
-        ]
-        if row["TechName"] in distributed_solar_techs:
+        if row["TechName"] in DIST_SOLAR_TECHS:
             return "NCAP_PASTI"
         return "PRC_RESID" if pd.isna(row["YearCommissioned"]) else "NCAP_PASTI"
 
@@ -368,11 +369,7 @@ def define_generation_parameters(df):
 
     # hacky patch - need to fix AFAs for ren techs!!
 
-    techs_to_loosen = [
-        "ELC_SolarDistBifacial_Commercial",
-        "ELC_SolarDistSmall_Residential",
-        "ELC_SolarDistBifacial_Industrial",
-    ]
+    techs_to_loosen = DIST_SOLAR_TECHS
 
     logger.warning("Inserting manual patch into outputs for some base year generation!")
     # This removes activity bound limits for some techs
