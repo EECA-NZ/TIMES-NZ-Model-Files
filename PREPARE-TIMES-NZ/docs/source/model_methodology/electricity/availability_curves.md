@@ -46,7 +46,7 @@ All solar availability curves are considered fixed, rather than upper bounds. Th
 
 **Data source and preprocessing.** The weather input is a bundled NIWA TMY2 EPW archive (`data_raw/external_data/niwa/tmy2_epw.tar.gz`) containing one EPW file for each of 18 climate zones. The preparation step copies or extracts those files into stage-3 storage and normalizes EPW hour fields if needed before simulation. EPW format details are documented by SAM[^sam_weather]. MBIE also hosts a newer NIWA TMY3 weather-file release[^niwa_tmy3]. The current workflow still uses the older bundled TMY2 EPW dataset.
 
-**PVWatts configuration.** Solar simulations use PySAM's `Pvwattsv8` model via the project dependency `nrel-pysam = "^7.1"` in `pyproject.toml`, which corresponds to `>=7.1.0,<8.0.0`. Each solar archetype is simulated as a 1 kW DC system, so the hourly PVWatts output can be used directly as `generation_kw_per_kw`. The following PVWatts settings are applied:
+**PVWatts configuration.** Solar simulations use PySAM's `Pvwattsv8` model via the project dependency `nrel-pysam = "^7.1"` in `pyproject.toml`, which corresponds to `>=7.1.0,<8.0.0`. Each solar archetype is simulated as a 1 kW DC system, so the hourly PVWatts output can be used directly as `generation_kw_per_kw`. We assume that all utility-scale plants in the generation stack are single-axis tracking, and that commercial and industrial distributed solar is bifacial. The following PVWatts settings are applied:
 
 ```{list-table} Configured solar PVWatts archetypes
 :header-rows: 1
@@ -55,11 +55,11 @@ All solar availability curves are considered fixed, rather than upper bounds. Th
   - Configured description
   - Array type
   - Key differences from other archetypes
-* - `SolarDist`
+* - `SolarDistSmall`
   - Residential rooftop PV
   - `fixed_roof_mount`
   - `Bifaciality = 0`, `Albedo = 0.2`
-* - `SolarFixed`
+* - `SolarDistBifacial`
   - Commercial fixed bifacial rooftop PV
   - `fixed_roof_mount`
   - `Bifaciality = 0.65`, `Albedo = 0.3`
@@ -111,7 +111,7 @@ The weights are normalized within each island before aggregation. The current de
 
 The tables below show the current generated island-level availability factors under the default PVWatts assumptions and default equal zone weights.
 
-```{csv-table} SolarDist: Distributed solar availability factors
+```{csv-table} SolarDistSmall: Residential distributed solar availability factors
 :header-rows: 1
 :name: tab_solar_availability_dist
 Season,Day Type,Time of Day,North Island,South Island
@@ -142,9 +142,9 @@ Winter,Weekday,Peak,0.0%,0.0%
 **Annual**,,,**15.7%**,**15.2%**
 ```
 
-```{csv-table} SolarFixed: Utility-scale fixed solar availability factors
+```{csv-table} SolarDistBifacial: Fixed commercial bifacial solar availability factors
 :header-rows: 1
-:name: tab_solar_availability_utility_fixed
+:name: tab_solar_availability_dist_bifacial
 Season,Day Type,Time of Day,North Island,South Island
 Autumn,Weekend,Day,33.2%,31.7%
 Autumn,Weekend,Night,0.0%,0.0%
