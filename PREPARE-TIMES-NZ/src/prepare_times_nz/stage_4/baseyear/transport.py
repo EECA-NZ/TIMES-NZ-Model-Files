@@ -898,8 +898,6 @@ def main() -> None:
         util_constraints_df, "transport_utilisation_user_constraint.csv"
     )
 
-    print(util_constraints_df)
-
 
 if __name__ == "__main__":
     main()

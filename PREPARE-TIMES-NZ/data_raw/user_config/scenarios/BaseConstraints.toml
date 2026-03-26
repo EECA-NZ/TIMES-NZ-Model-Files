@@ -8,7 +8,7 @@ WorkBookName = "SuppXLS/Scen_Base_Constraints"
 Description = "Defines the utilisation of each group is at 33% stock."
 SheetName = "VehicleUtilisation"
 TagName = "UC_T"
-DataLocation = "data_raw/coded_assumptions/transport_demand/tra_constraints.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_tra/transport_utilisation_user_constraint.csv"
 # define uc_sets here
 [VehicleUtilisationConstraints.UCSets]
   R_E = ""
@@ -17,7 +17,7 @@ DataLocation = "data_raw/coded_assumptions/transport_demand/tra_constraints.csv"
 
 [GasNetworkBlendingConstraints]
 
-Description = "Ensures the input share of gas/biomethanol matches the output share of the gas network "
+Description = "Ensures the input share of gas/biomethanol matches the output share of the gas network."
 SheetName = "GasNetwork"
 TagName = "TFM_INS"
 Attribute = ["FLO_EFF","FLO_EFF","FLO_EFF","FLO_EFF"]
