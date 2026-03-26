@@ -702,6 +702,107 @@ def emission_factors_df(columns: list[str]) -> pd.DataFrame:
     return emi_df.reset_index()[columns]
 
 
+def create_constraints_df(df):
+    """
+    Captures the road transport processes and end use code combinations
+
+    Structures a constraint file to force 33% capacity shares of each util
+    bucket within each use category
+
+    The input df is just the main transport df
+    """
+
+    # identify all road transport commodities
+    # (we don't use this process for air/rail/shipping)
+    road_transport_commodities = [
+        "T_P_Car",
+        "T_C_Car",
+        "T_P_Mcy",
+        "T_P_Bus",
+        "T_F_LTrk",
+        "T_F_MTrk",
+        "T_F_HTrk",
+    ]
+
+    # identify existing topology for road transport
+    df_c = df[["TechName", "Comm-Out"]].drop_duplicates()
+    df_c = df_c[df_c["Comm-Out"].isin(road_transport_commodities)]
+
+    # create groups
+    df_c["Utilisation"] = df_c["TechName"].str.rsplit("_", n=1).str[-1]
+    df_c["TechNameGroup"] = df_c["TechName"].str[:5]
+
+    # we no longer need the detailed tech categories so can trim down table a lot
+    # simple always better!
+    df_c = df_c[["Comm-Out", "Utilisation", "TechNameGroup"]].drop_duplicates()
+    # generate wildcard as function of techname group(which is also end use code)
+    # and utilisation
+    df_c["Wildcard"] = df_c["TechNameGroup"] + "*" + df_c["Utilisation"]
+
+    # generate constraint name
+    df_c["UC_N"] = df_c["TechNameGroup"] + "_" + df_c["Utilisation"] + "_SHR"
+    # process set
+    df_c["Pset_PN"] = df_c["Wildcard"]
+    # attributes
+    df_c["UC_ATTR"] = "CAP, SYNC"
+    df_c["LimType"] = "LO"
+    df_c["UC_CAP"] = f"{2 / 3:.6f}"
+
+    df_c["UC_CAP~RHS"] = 0
+    df_c["UC_RHSRT"] = 0
+    df_c["UC_RHSRT~0"] = 5
+
+    # duplicate each row with the complementary wildcards from the same topology group
+    group_cols = ["Comm-Out", "TechNameGroup"]
+    wildcards_by_group = df_c.groupby(group_cols)["Wildcard"].agg(list).to_dict()
+
+    df_c_other = df_c.copy()
+    df_c_other["Wildcard"] = df_c_other.apply(
+        lambda row: ", ".join(
+            wildcard
+            for wildcard in wildcards_by_group[(row["Comm-Out"], row["TechNameGroup"])]
+            if wildcard != row["Wildcard"]
+        ),
+        axis=1,
+    )
+    df_c_other["Pset_PN"] = df_c_other["Wildcard"]
+    # we defined these precisely so we could create the complementary constraint cap
+    df_c_other["UC_CAP"] = f"{-1 / 3:.6f}"
+
+    # note: it's possible to make a bunch of nulls in duplicate cols before rejoining here, which
+    # is how it might usually look in excel and then items are carried forward
+    # by veda
+    # we'll keep categories explicit for now, though
+    df_c = pd.concat([df_c, df_c_other], ignore_index=True)
+
+    # sort for fun and cleanliness
+    # (first set low/med/high category order)
+    df_c["Utilisation"] = pd.Categorical(
+        df_c["Utilisation"],
+        categories=["LOW", "MED", "HIGH"],
+        ordered=True,
+    )
+    df_c = df_c.sort_values(["Comm-Out", "Utilisation"])
+
+    df_c["Utilisation"] = df_c["Utilisation"].astype(str)
+
+    # finally, trim just to necessary variables
+
+    necessary_vars = [
+        "UC_N",
+        "Pset_PN",
+        "UC_ATTR",
+        "LimType",
+        "UC_CAP",
+        "UC_CAP~RHS",
+        "UC_RHSRT",
+        "UC_RHSRT~0",
+    ]
+
+    out = df_c[necessary_vars]
+    return out
+
+
 # -----------------------------------------------------------------------------
 # MAIN – orchestrate every builder & write CSVs
 # -----------------------------------------------------------------------------
@@ -788,6 +889,16 @@ def main() -> None:
 
     for df, filename in outputs:
         save_transport_data(df, filename)
+
+    # create downstream constraints file
+
+    util_constraints_df = create_constraints_df(process_parameters_df)
+
+    save_transport_data(
+        util_constraints_df, "transport_utilisation_user_constraint.csv"
+    )
+
+    print(util_constraints_df)
 
 
 if __name__ == "__main__":
