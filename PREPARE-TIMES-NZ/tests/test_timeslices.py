@@ -47,21 +47,11 @@ def test_create_timeslices_uses_project_time_of_day_and_daytype_definitions():
     ]
 
 
-def test_resolve_representative_calendar_year_matches_tmy_header_calendar():
+def test_build_time_index_uses_model_base_year_and_ignores_epw_calendar_metadata(
+    tmp_path,
+):
     """
-    The shared TMY header calendar should map to a single concrete year.
-    """
-    module = load_solar_run_hourly_profiles()
-
-    representative_year = module.resolve_representative_calendar_year("Sunday", 365)
-
-    assert representative_year == 2006
-    assert pd.Timestamp(year=representative_year, month=1, day=1).day_name() == "Sunday"
-
-
-def test_build_time_index_uses_shared_representative_calendar(tmp_path):
-    """
-    All zones should share one synthetic calendar for weekday/weekend classification.
+    Solar timeslices should use the model base year rather than the EPW calendar.
     """
     module = load_solar_run_hourly_profiles()
 
@@ -85,7 +75,7 @@ def test_build_time_index_uses_shared_representative_calendar(tmp_path):
             ["HOLIDAYS/DAYLIGHT SAVING", "No", "0", "0", "0"],
             ["COMMENTS 1", "Synthetic test EPW"],
             ["COMMENTS 2", "Synthetic test EPW"],
-            ["DATA PERIODS", "1", "1", "TMY2 Year", "Sunday", "1", "365"],
+            ["DATA PERIODS", "1", "1", "TMY2 Year", "Monday", "1", "365"],
         ]
         rows = []
         for day in pd.date_range(
@@ -114,6 +104,69 @@ def test_build_time_index_uses_shared_representative_calendar(tmp_path):
 
     time_index = module.build_time_index(epw_files)
 
-    assert time_index["Trading_Date"].min() == pd.Timestamp("2006-01-01")
-    assert time_index["Trading_Date"].max() == pd.Timestamp("2006-12-31")
+    assert time_index["Trading_Date"].min() == pd.Timestamp("2023-01-01")
+    assert time_index["Trading_Date"].max() == pd.Timestamp("2023-12-31")
     assert time_index.iloc[0]["Trading_Date"].day_name() == "Sunday"
+
+
+def test_build_time_index_rejects_leap_base_year(tmp_path):
+    """
+    Leap-year base calendars should fail until the workflow handles them explicitly.
+    """
+    module = load_solar_run_hourly_profiles()
+
+    def make_epw(path: Path):
+        header = [
+            [
+                "LOCATION",
+                "Test",
+                "Test",
+                "New Zealand",
+                "TMY2",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+            ],
+            ["DESIGN CONDITIONS", "0"],
+            ["TYPICAL/EXTREME PERIODS", "0"],
+            ["GROUND TEMPERATURES", "0"],
+            ["HOLIDAYS/DAYLIGHT SAVING", "No", "0", "0", "0"],
+            ["COMMENTS 1", "Synthetic test EPW"],
+            ["COMMENTS 2", "Synthetic test EPW"],
+            ["DATA PERIODS", "1", "1", "TMY2 Year", "Sunday", "1", "365"],
+        ]
+        rows = []
+        for day in pd.date_range("2007-01-01", "2007-12-31", freq="D"):
+            for hour in range(1, 25):
+                rows.append(
+                    [
+                        f"{day.year:04d}",
+                        f"{day.month:02d}",
+                        f"{day.day:02d}",
+                        f"{hour:02d}",
+                        "60",
+                    ]
+                )
+
+        with path.open("w", encoding="utf-8", newline="") as handle:
+            for row in header + rows:
+                handle.write(",".join(row) + "\n")
+
+    epw_files = {}
+    for zone in module.ZONE_ORDER:
+        path = tmp_path / f"TMY_NZ_{zone}.epw"
+        make_epw(path)
+        epw_files[zone] = path
+
+    original_base_year = module.BASE_YEAR
+    module.BASE_YEAR = 2024
+    try:
+        try:
+            module.build_time_index(epw_files)
+            raise AssertionError("Expected leap-year base-year guard to raise")
+        except ValueError as exc:
+            assert "BASE_YEAR 2024 is a leap year" in str(exc)
+    finally:
+        module.BASE_YEAR = original_base_year

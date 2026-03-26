@@ -97,7 +97,7 @@ The timeslice mapping is the shared project mapping used elsewhere in the electr
 - day type: `WK` weekday, `WE` weekend
 - time of day: `D` = 07:00-17:00, `P` = 18:00, `N` = all remaining hours
 
-To assign weekday and weekend labels consistently, the workflow resolves the synthetic TMY calendar metadata in the EPW header to a representative Gregorian year before applying the shared timeslice mapping.
+To assign weekday and weekend labels consistently, the workflow applies the shared timeslice mapping using the configured TIMES-NZ model base year calendar rather than the synthetic EPW row year or EPW header calendar metadata.
 
 The solar peak timeslice can be much lower than the daytime timeslice, because `P` is only the 18:00 hour, so it captures shoulder-period. SAM notes that its one-axis tracking algorithm assumes a rotation limit of +/-45 degrees from the horizontal[^sam_losses]. For `SolarTrack`, the use of single-axis backtracking further reduces late-afternoon output relative to a tracker that follows the sun more aggressively.
 

@@ -9,6 +9,7 @@ import json
 from typing import Any
 
 import pandas as pd
+from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_3_DATA
 from prepare_times_nz.utilities.timeslices import create_timeslices
 
@@ -103,16 +104,6 @@ MODULE_TYPE_MAP = {
     "thin_film": 2,
 }
 
-WEEKDAY_NAME_TO_INDEX = {
-    "Monday": 0,
-    "Tuesday": 1,
-    "Wednesday": 2,
-    "Thursday": 3,
-    "Friday": 4,
-    "Saturday": 5,
-    "Sunday": 6,
-}
-
 
 def ensure_output_dir(path):
     """
@@ -176,39 +167,82 @@ def parse_epw_data_period_metadata(epw_path) -> dict[str, Any]:
     if len(data_periods) < 7 or data_periods[0] != "DATA PERIODS":
         raise ValueError(f"Malformed DATA PERIODS header row in {epw_path}")
 
-    start_weekday = data_periods[4].strip()
-    days_in_year = int(data_periods[6])
-    if start_weekday not in WEEKDAY_NAME_TO_INDEX:
-        raise ValueError(
-            f"Unsupported EPW start weekday {start_weekday!r} in {epw_path}"
-        )
-
     return {
         "calendar_label": data_periods[3].strip(),
-        "start_weekday": start_weekday,
-        "days_in_year": days_in_year,
+        "start_weekday": data_periods[4].strip(),
+        "days_in_year": int(data_periods[6]),
     }
 
 
-def resolve_representative_calendar_year(start_weekday: str, days_in_year: int) -> int:
+def validate_base_year_calendar():
     """
-    Map the EPW synthetic calendar metadata to a concrete Gregorian year.
+    Fail loudly until leap-year handling is implemented for solar timeslices.
     """
-    target_weekday = WEEKDAY_NAME_TO_INDEX[start_weekday]
-    is_leap_year = days_in_year == 366
+    if pd.Timestamp(year=BASE_YEAR, month=1, day=1).is_leap_year:
+        raise ValueError(
+            "Solar availability-factor workflow currently assumes a 365-day "
+            f"calendar, but BASE_YEAR {BASE_YEAR} is a leap year. Revisit leap-year "
+            "handling before regenerating solar availability factors."
+        )
 
-    for year in range(2000, 2400):
-        jan_1 = pd.Timestamp(year=year, month=1, day=1)
-        if jan_1.weekday() != target_weekday:
-            continue
-        if jan_1.is_leap_year != is_leap_year:
-            continue
-        return year
 
-    raise ValueError(
-        "Could not resolve a representative year for "
-        f"start_weekday={start_weekday!r}, days_in_year={days_in_year}"
+def validate_epw_calendar_assumptions(epw_path, raw_index):
+    """
+    Fail loudly if an EPW file implies leap-year calendar handling.
+    """
+    metadata = parse_epw_data_period_metadata(epw_path)
+    if metadata["days_in_year"] != 365:
+        raise ValueError(
+            "Solar availability-factor workflow currently assumes a 365-day "
+            f"calendar, but {epw_path.name} declares {metadata['days_in_year']} "
+            "days in its DATA PERIODS header. Revisit leap-year handling before "
+            "regenerating solar availability factors."
+        )
+
+    row_years = {year for year, _, _, _, _ in raw_index}
+    leap_row_years = sorted(
+        year
+        for year in row_years
+        if pd.Timestamp(year=year, month=1, day=1).is_leap_year
     )
+    if leap_row_years:
+        raise ValueError(
+            "Solar availability-factor workflow currently assumes a 365-day "
+            f"calendar, but {epw_path.name} uses leap-year row values "
+            f"{leap_row_years}. Revisit leap-year handling before regenerating "
+            "solar availability factors."
+        )
+
+
+def get_canonical_epw_index(epw_path):
+    """
+    Return the shared month/day/hour/minute sequence for one EPW file.
+    """
+    raw_index = parse_epw_time_index(epw_path)
+    validate_epw_calendar_assumptions(epw_path, raw_index)
+    return [(month, day, hour, minute) for _, month, day, hour, minute in raw_index]
+
+
+def format_time_index_rows(canonical_index):
+    """
+    Build hourly rows using the configured model base year calendar.
+    """
+    rows = []
+    for hour_index, (month, day, hour, minute) in enumerate(canonical_index, start=1):
+        trading_date = pd.Timestamp(year=BASE_YEAR, month=month, day=day)
+        rows.append(
+            {
+                "hour_of_year": hour_index,
+                "Trading_Date": trading_date,
+                "Year": BASE_YEAR,
+                "Month": month,
+                "Day": day,
+                "EPWHour": hour,
+                "Hour": (hour - 1) % 24,
+                "Minute": minute,
+            }
+        )
+    return rows
 
 
 def load_solar_scenarios() -> list[dict[str, Any]]:
@@ -253,57 +287,24 @@ def discover_epw_files(epw_dir):
 
 def build_time_index(epw_files):
     """
-    Build the shared non-calendar hourly index.
+    Build the shared hourly index using the model base-year calendar.
 
-    All NIWA files should agree on month/day/hour/minute ordering, even if the
-    representative calendar year differs by zone.
+    All NIWA files should agree on month/day/hour/minute ordering. The EPW row
+    year and header calendar metadata are ignored for timeslice construction.
     """
+    validate_base_year_calendar()
+
     canonical = None
     canonical_zone = None
-    canonical_metadata = None
     for zone in ZONE_ORDER:
-        index = [
-            (month, day, hour, minute)
-            for _, month, day, hour, minute in parse_epw_time_index(epw_files[zone])
-        ]
-        metadata = parse_epw_data_period_metadata(epw_files[zone])
+        index = get_canonical_epw_index(epw_files[zone])
         if canonical is None:
             canonical = index
             canonical_zone = zone
-            canonical_metadata = metadata
         elif canonical != index:
             raise ValueError(f"Time index mismatch between {canonical_zone} and {zone}")
-        elif metadata != canonical_metadata:
-            raise ValueError(
-                "DATA PERIODS metadata mismatch between "
-                f"{canonical_zone} and {zone}: {canonical_metadata} != {metadata}"
-            )
 
-    representative_year = resolve_representative_calendar_year(
-        start_weekday=canonical_metadata["start_weekday"],
-        days_in_year=canonical_metadata["days_in_year"],
-    )
-
-    rows = []
-    for hour_index, (month, day, hour, minute) in enumerate(canonical, start=1):
-        trading_date = pd.Timestamp(
-            year=representative_year,
-            month=month,
-            day=day,
-        )
-        rows.append(
-            {
-                "hour_of_year": hour_index,
-                "Trading_Date": trading_date,
-                "Year": representative_year,
-                "Month": month,
-                "Day": day,
-                "EPWHour": hour,
-                "Hour": (hour - 1) % 24,
-                "Minute": minute,
-            }
-        )
-    return pd.DataFrame(rows)
+    return pd.DataFrame(format_time_index_rows(canonical))
 
 
 def build_model(epw_path, scenario):
