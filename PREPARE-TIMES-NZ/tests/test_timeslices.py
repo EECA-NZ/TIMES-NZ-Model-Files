@@ -1,38 +1,47 @@
 """Tests for solar-script timeslice helpers."""
 
 import importlib.util
-import sys
-import types
 from pathlib import Path
 
 import pandas as pd
+
+
+def ensure_stage_0_config():
+    """
+    Create the minimal normalized SysSettings file expected by stage_0 imports.
+    """
+    repo_root = Path(__file__).resolve().parents[1]
+    stage_0_config = repo_root / "data_intermediate/stage_0_config"
+    stage_0_config.mkdir(parents=True, exist_ok=True)
+    syssettings_toml = stage_0_config / "SysSettings.toml"
+    syssettings_toml.write_text(
+        """
+[StartYear.Data]
+StartYear = [2023]
+
+[ActivePDef.Data]
+ActivePDef = ["5Year_increments"]
+""".strip()
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def load_solar_run_hourly_profiles():
     """
     Load the script module directly from its path for test usage.
     """
+    ensure_stage_0_config()
     module_path = (
         Path(__file__).resolve().parents[1]
         / "scripts/stage_3_scenarios/electricity/solar_run_hourly_profiles.py"
     )
-    stage_0_settings_name = "prepare_times_nz.stage_0.stage_0_settings"
-    previous_module = sys.modules.get(stage_0_settings_name)
-    fake_stage_0_settings = types.ModuleType(stage_0_settings_name)
-    fake_stage_0_settings.BASE_YEAR = 2023
-    sys.modules[stage_0_settings_name] = fake_stage_0_settings
     spec = importlib.util.spec_from_file_location(
         "solar_run_hourly_profiles", module_path
     )
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
-    try:
-        spec.loader.exec_module(module)
-    finally:
-        if previous_module is None:
-            del sys.modules[stage_0_settings_name]
-        else:
-            sys.modules[stage_0_settings_name] = previous_module
+    spec.loader.exec_module(module)
     return module
 
 
