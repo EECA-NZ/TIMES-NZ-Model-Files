@@ -95,11 +95,11 @@ The timeslice mapping is the shared project mapping used elsewhere in the electr
 
 - season: `SUM` = December-February, `FAL` = March-May, `WIN` = June-August, `SPR` = September-November
 - day type: `WK` weekday, `WE` weekend
-- time of day: `D` = 07:00-17:00, `P` = 18:00, `N` = all remaining hours
+- time of day: `D` = 07:00-17:00, `P` = 18:00, `N` = all remaining hours, using New Zealand wall-clock time
 
-To assign weekday and weekend labels consistently, the workflow applies the shared timeslice mapping using the configured TIMES-NZ model base year calendar rather than the synthetic EPW row year or EPW header calendar metadata.
+To assign weekday, weekend, and time-of-day labels consistently, the workflow applies the shared timeslice mapping using the configured TIMES-NZ model base year calendar. The EPW weather files are treated as fixed New Zealand standard time (`UTC+12`), and each interval-start hour is converted with the `Pacific/Auckland` timezone before assigning timeslices.
 
-The solar peak timeslice can be much lower than the daytime timeslice, because `P` is only the 18:00 hour, so it captures shoulder-period. SAM notes that its one-axis tracking algorithm assumes a rotation limit of +/-45 degrees from the horizontal[^sam_losses]. For `SolarTrack`, the use of single-axis backtracking further reduces late-afternoon output relative to a tracker that follows the sun more aggressively.
+The solar peak timeslice can be much lower than the daytime timeslice, because `P` is only the 18:00 wall-clock hour, so it captures shoulder-period. SAM notes that its one-axis tracking algorithm assumes a rotation limit of +/-45 degrees from the horizontal[^sam_losses]. For `SolarTrack`, the use of single-axis backtracking further reduces late-afternoon output relative to a tracker that follows the sun more aggressively.
 
 **Island aggregation and model input.** TIMES-NZ uses island-level curves, so the zone-level availability factors are combined with configurable weights from `SolarZoneWeights.csv`. For island $i$:
 
@@ -115,24 +115,24 @@ The tables below show the current generated island-level availability factors un
 :header-rows: 1
 :name: tab_solar_availability_dist
 Season,Day Type,Time of Day,North Island,South Island
-Autumn,Weekend,Day,31.3%,29.9%
-Autumn,Weekend,Night,0.0%,0.0%
-Autumn,Weekend,Peak,0.1%,0.6%
-Autumn,Weekday,Day,31.2%,28.1%
+Autumn,Weekend,Day,31.0%,29.5%
+Autumn,Weekend,Night,0.0%,0.1%
+Autumn,Weekend,Peak,3.1%,5.2%
+Autumn,Weekday,Day,31.0%,27.7%
 Autumn,Weekday,Night,0.0%,0.0%
-Autumn,Weekday,Peak,0.1%,0.5%
-Spring,Weekend,Day,37.6%,37.1%
-Spring,Weekend,Night,0.4%,0.2%
-Spring,Weekend,Peak,0.5%,1.6%
-Spring,Weekday,Day,38.1%,38.6%
-Spring,Weekday,Night,0.4%,0.2%
-Spring,Weekday,Peak,0.5%,1.9%
-Summer,Weekend,Day,41.0%,42.5%
-Summer,Weekend,Night,0.4%,0.4%
-Summer,Weekend,Peak,3.3%,6.6%
-Summer,Weekday,Day,43.0%,42.9%
-Summer,Weekday,Night,0.4%,0.4%
-Summer,Weekday,Peak,3.3%,7.1%
+Autumn,Weekday,Peak,3.0%,4.5%
+Spring,Weekend,Day,37.4%,36.4%
+Spring,Weekend,Night,0.1%,0.1%
+Spring,Weekend,Peak,5.6%,9.3%
+Spring,Weekday,Day,38.0%,37.9%
+Spring,Weekday,Night,0.1%,0.2%
+Spring,Weekday,Peak,6.0%,10.1%
+Summer,Weekend,Day,40.0%,41.0%
+Summer,Weekend,Night,0.3%,0.7%
+Summer,Weekend,Peak,14.8%,19.5%
+Summer,Weekday,Day,42.0%,41.4%
+Summer,Weekday,Night,0.3%,0.7%
+Summer,Weekday,Peak,15.3%,19.8%
 Winter,Weekend,Day,22.3%,20.7%
 Winter,Weekend,Night,0.0%,0.0%
 Winter,Weekend,Peak,0.0%,0.0%
@@ -146,24 +146,24 @@ Winter,Weekday,Peak,0.0%,0.0%
 :header-rows: 1
 :name: tab_solar_availability_dist_bifacial
 Season,Day Type,Time of Day,North Island,South Island
-Autumn,Weekend,Day,33.2%,31.7%
-Autumn,Weekend,Night,0.0%,0.0%
-Autumn,Weekend,Peak,0.1%,0.7%
-Autumn,Weekday,Day,33.2%,29.8%
+Autumn,Weekend,Day,32.9%,31.2%
+Autumn,Weekend,Night,0.0%,0.1%
+Autumn,Weekend,Peak,3.4%,5.6%
+Autumn,Weekday,Day,32.9%,29.3%
 Autumn,Weekday,Night,0.0%,0.0%
-Autumn,Weekday,Peak,0.1%,0.6%
-Spring,Weekend,Day,40.1%,39.4%
-Spring,Weekend,Night,0.4%,0.2%
-Spring,Weekend,Peak,0.8%,2.1%
-Spring,Weekday,Day,40.7%,41.0%
-Spring,Weekday,Night,0.5%,0.3%
-Spring,Weekday,Peak,0.8%,2.5%
-Summer,Weekend,Day,44.0%,45.4%
-Summer,Weekend,Night,0.6%,0.6%
-Summer,Weekend,Peak,4.5%,8.1%
-Summer,Weekday,Day,46.1%,45.7%
-Summer,Weekday,Night,0.6%,0.6%
-Summer,Weekday,Peak,4.5%,8.7%
+Autumn,Weekday,Peak,3.3%,4.8%
+Spring,Weekend,Day,40.0%,38.7%
+Spring,Weekend,Night,0.1%,0.2%
+Spring,Weekend,Peak,6.6%,10.4%
+Spring,Weekday,Day,40.6%,40.2%
+Spring,Weekday,Night,0.1%,0.2%
+Spring,Weekday,Peak,7.1%,11.3%
+Summer,Weekend,Day,43.0%,43.8%
+Summer,Weekend,Night,0.5%,0.9%
+Summer,Weekend,Peak,17.0%,21.7%
+Summer,Weekday,Day,45.1%,44.1%
+Summer,Weekday,Night,0.5%,0.9%
+Summer,Weekday,Peak,17.6%,22.0%
 Winter,Weekend,Day,23.7%,21.7%
 Winter,Weekend,Night,0.0%,0.0%
 Winter,Weekend,Peak,0.0%,0.0%
@@ -177,24 +177,24 @@ Winter,Weekday,Peak,0.0%,0.0%
 :header-rows: 1
 :name: tab_solar_availability_utility_track
 Season,Day Type,Time of Day,North Island,South Island
-Autumn,Weekend,Day,38.3%,37.0%
-Autumn,Weekend,Night,0.0%,0.0%
-Autumn,Weekend,Peak,0.1%,1.7%
-Autumn,Weekday,Day,38.2%,34.3%
-Autumn,Weekday,Night,0.0%,0.0%
-Autumn,Weekday,Peak,0.1%,1.1%
-Spring,Weekend,Day,46.0%,44.9%
-Spring,Weekend,Night,0.8%,0.4%
-Spring,Weekend,Peak,1.2%,2.5%
-Spring,Weekday,Day,46.6%,46.8%
-Spring,Weekday,Night,0.8%,0.4%
-Spring,Weekday,Peak,1.3%,2.8%
-Summer,Weekend,Day,49.8%,51.4%
-Summer,Weekend,Night,0.9%,0.9%
-Summer,Weekend,Peak,4.9%,12.7%
-Summer,Weekday,Day,52.8%,51.8%
-Summer,Weekday,Night,1.0%,0.9%
-Summer,Weekday,Peak,4.9%,14.0%
+Autumn,Weekend,Day,37.7%,35.9%
+Autumn,Weekend,Night,0.0%,0.1%
+Autumn,Weekend,Peak,6.9%,12.0%
+Autumn,Weekday,Day,37.6%,33.5%
+Autumn,Weekday,Night,0.0%,0.1%
+Autumn,Weekday,Peak,6.8%,9.4%
+Spring,Weekend,Day,45.6%,43.5%
+Spring,Weekend,Night,0.2%,0.3%
+Spring,Weekend,Peak,12.4%,19.4%
+Spring,Weekday,Day,46.2%,45.3%
+Spring,Weekday,Night,0.2%,0.3%
+Spring,Weekday,Peak,13.2%,21.0%
+Summer,Weekend,Day,47.8%,48.5%
+Summer,Weekend,Night,0.7%,1.5%
+Summer,Weekend,Peak,30.6%,37.8%
+Summer,Weekday,Day,50.5%,48.8%
+Summer,Weekday,Night,0.7%,1.6%
+Summer,Weekday,Peak,32.8%,38.0%
 Winter,Weekend,Day,26.8%,24.8%
 Winter,Weekend,Night,0.0%,0.0%
 Winter,Weekend,Peak,0.0%,0.0%

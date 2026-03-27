@@ -23,6 +23,54 @@ def load_solar_run_hourly_profiles():
     return module
 
 
+def write_test_epw(
+    path: Path,
+    header_year: int,
+    start_weekday: str = "Sunday",
+    days_in_year: int = 365,
+):
+    """
+    Write a minimal synthetic EPW file for calendar and timeslice tests.
+    """
+    header = [
+        [
+            "LOCATION",
+            "Test",
+            "Test",
+            "New Zealand",
+            "TMY2",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+        ],
+        ["DESIGN CONDITIONS", "0"],
+        ["TYPICAL/EXTREME PERIODS", "0"],
+        ["GROUND TEMPERATURES", "0"],
+        ["HOLIDAYS/DAYLIGHT SAVING", "No", "0", "0", "0"],
+        ["COMMENTS 1", "Synthetic test EPW"],
+        ["COMMENTS 2", "Synthetic test EPW"],
+        ["DATA PERIODS", "1", "1", "TMY2 Year", start_weekday, "1", str(days_in_year)],
+    ]
+    rows = []
+    for day in pd.date_range(f"{header_year}-01-01", f"{header_year}-12-31", freq="D"):
+        for hour in range(1, 25):
+            rows.append(
+                [
+                    f"{day.year:04d}",
+                    f"{day.month:02d}",
+                    f"{day.day:02d}",
+                    f"{hour:02d}",
+                    "60",
+                ]
+            )
+
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        for row in header + rows:
+            handle.write(",".join(row) + "\n")
+
+
 def test_create_timeslices_uses_project_time_of_day_and_daytype_definitions():
     """
     Shared timeslice construction should match the active repo settings.
@@ -47,6 +95,27 @@ def test_create_timeslices_uses_project_time_of_day_and_daytype_definitions():
     ]
 
 
+def test_create_timeslices_can_use_wall_clock_hour_column():
+    """
+    Timeslice construction should support solar wall-clock hours.
+    """
+    module = load_solar_run_hourly_profiles()
+    df = pd.DataFrame(
+        {
+            "WallClock_Date": pd.to_datetime(["2023-01-02", "2023-07-03"]),
+            "WallClock_Hour": [19, 18],
+        }
+    )
+
+    result = module.create_timeslices(
+        df,
+        date_col="WallClock_Date",
+        hour_col="WallClock_Hour",
+    )
+
+    assert result["TimeSlice"].tolist() == ["SUM-WK-N", "WIN-WK-P"]
+
+
 def test_build_time_index_uses_model_base_year_and_ignores_epw_calendar_metadata(
     tmp_path,
 ):
@@ -55,51 +124,14 @@ def test_build_time_index_uses_model_base_year_and_ignores_epw_calendar_metadata
     """
     module = load_solar_run_hourly_profiles()
 
-    def make_epw(path: Path, header_year: int):
-        header = [
-            [
-                "LOCATION",
-                "Test",
-                "Test",
-                "New Zealand",
-                "TMY2",
-                "0",
-                "0",
-                "0",
-                "0",
-                "0",
-            ],
-            ["DESIGN CONDITIONS", "0"],
-            ["TYPICAL/EXTREME PERIODS", "0"],
-            ["GROUND TEMPERATURES", "0"],
-            ["HOLIDAYS/DAYLIGHT SAVING", "No", "0", "0", "0"],
-            ["COMMENTS 1", "Synthetic test EPW"],
-            ["COMMENTS 2", "Synthetic test EPW"],
-            ["DATA PERIODS", "1", "1", "TMY2 Year", "Monday", "1", "365"],
-        ]
-        rows = []
-        for day in pd.date_range(
-            f"{header_year}-01-01", f"{header_year}-12-31", freq="D"
-        ):
-            for hour in range(1, 25):
-                rows.append(
-                    [
-                        f"{day.year:04d}",
-                        f"{day.month:02d}",
-                        f"{day.day:02d}",
-                        f"{hour:02d}",
-                        "60",
-                    ]
-                )
-
-        with path.open("w", encoding="utf-8", newline="") as handle:
-            for row in header + rows:
-                handle.write(",".join(row) + "\n")
-
     epw_files = {}
     for zone in module.ZONE_ORDER:
         path = tmp_path / f"TMY_NZ_{zone}.epw"
-        make_epw(path, 1999 if zone == "AK" else 2007)
+        write_test_epw(
+            path,
+            1999 if zone == "AK" else 2007,
+            start_weekday="Monday",
+        )
         epw_files[zone] = path
 
     time_index = module.build_time_index(epw_files)
@@ -107,6 +139,41 @@ def test_build_time_index_uses_model_base_year_and_ignores_epw_calendar_metadata
     assert time_index["Trading_Date"].min() == pd.Timestamp("2023-01-01")
     assert time_index["Trading_Date"].max() == pd.Timestamp("2023-12-31")
     assert time_index.iloc[0]["Trading_Date"].day_name() == "Sunday"
+    assert time_index.iloc[0]["WallClock_DateTime"].isoformat() == (
+        "2023-01-01T01:00:00+13:00"
+    )
+    assert time_index.iloc[-1]["WallClock_DateTime"].isoformat() == (
+        "2024-01-01T00:00:00+13:00"
+    )
+    summer_peak = time_index[
+        (time_index["Month"] == 1)
+        & (time_index["Day"] == 2)
+        & (time_index["Hour"] == 18)
+    ].iloc[0]
+    winter_peak = time_index[
+        (time_index["Month"] == 7)
+        & (time_index["Day"] == 2)
+        & (time_index["Hour"] == 18)
+    ].iloc[0]
+    assert summer_peak["WallClock_Hour"] == 19
+    assert summer_peak["WallClock_UtcOffsetHours"] == 13.0
+    assert winter_peak["WallClock_Hour"] == 18
+    assert winter_peak["WallClock_UtcOffsetHours"] == 12.0
+
+
+def test_convert_epw_standard_time_to_wallclock_uses_nz_timezone_rules():
+    """
+    Solar wall-clock conversion should rely on Pacific/Auckland timezone rules.
+    """
+    module = load_solar_run_hourly_profiles()
+
+    summer = module.convert_epw_standard_time_to_wallclock(1, 1, 18)
+    winter = module.convert_epw_standard_time_to_wallclock(7, 1, 18)
+    dst_start = module.convert_epw_standard_time_to_wallclock(9, 24, 2)
+
+    assert summer.isoformat() == "2023-01-01T19:00:00+13:00"
+    assert winter.isoformat() == "2023-07-01T18:00:00+12:00"
+    assert dst_start.isoformat() == "2023-09-24T03:00:00+13:00"
 
 
 def test_build_time_index_rejects_leap_base_year(tmp_path):
@@ -115,49 +182,10 @@ def test_build_time_index_rejects_leap_base_year(tmp_path):
     """
     module = load_solar_run_hourly_profiles()
 
-    def make_epw(path: Path):
-        header = [
-            [
-                "LOCATION",
-                "Test",
-                "Test",
-                "New Zealand",
-                "TMY2",
-                "0",
-                "0",
-                "0",
-                "0",
-                "0",
-            ],
-            ["DESIGN CONDITIONS", "0"],
-            ["TYPICAL/EXTREME PERIODS", "0"],
-            ["GROUND TEMPERATURES", "0"],
-            ["HOLIDAYS/DAYLIGHT SAVING", "No", "0", "0", "0"],
-            ["COMMENTS 1", "Synthetic test EPW"],
-            ["COMMENTS 2", "Synthetic test EPW"],
-            ["DATA PERIODS", "1", "1", "TMY2 Year", "Sunday", "1", "365"],
-        ]
-        rows = []
-        for day in pd.date_range("2007-01-01", "2007-12-31", freq="D"):
-            for hour in range(1, 25):
-                rows.append(
-                    [
-                        f"{day.year:04d}",
-                        f"{day.month:02d}",
-                        f"{day.day:02d}",
-                        f"{hour:02d}",
-                        "60",
-                    ]
-                )
-
-        with path.open("w", encoding="utf-8", newline="") as handle:
-            for row in header + rows:
-                handle.write(",".join(row) + "\n")
-
     epw_files = {}
     for zone in module.ZONE_ORDER:
         path = tmp_path / f"TMY_NZ_{zone}.epw"
-        make_epw(path)
+        write_test_epw(path, 2007)
         epw_files[zone] = path
 
     original_base_year = module.BASE_YEAR

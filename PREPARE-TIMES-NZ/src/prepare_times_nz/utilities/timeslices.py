@@ -22,11 +22,11 @@ def get_hour_to_time_map() -> dict[int, str]:
     return dict(zip(time_of_day_types["Hour"], time_of_day_types["Time_Of_Day"]))
 
 
-def convert_hour_to_timeofday(df: pd.DataFrame) -> pd.DataFrame:
+def convert_hour_to_timeofday(df: pd.DataFrame, hour_col: str = "Hour") -> pd.DataFrame:
     """
     Map integer hours to the project time-of-day categories.
     """
-    df["Time_Of_Day"] = df["Hour"].map(get_hour_to_time_map())
+    df["Time_Of_Day"] = df[hour_col].map(get_hour_to_time_map())
     df["Time_Of_Day"] = df["Time_Of_Day"].fillna("N")
     return df
 
@@ -68,11 +68,13 @@ def convert_date_to_season(
     return df
 
 
-def create_timeslices(df: pd.DataFrame, date_col: str = "Trading_Date") -> pd.DataFrame:
+def create_timeslices(
+    df: pd.DataFrame, date_col: str = "Trading_Date", hour_col: str = "Hour"
+) -> pd.DataFrame:
     """
     Add a TIMES-style `TimeSlice` column using the shared project mapping.
     """
-    df = convert_hour_to_timeofday(df)
+    df = convert_hour_to_timeofday(df, hour_col=hour_col)
     df = convert_date_to_daytype(df, date_col)
     df = convert_date_to_season(df, date_col)
     df["TimeSlice"] = df["Season"] + df["Day_Type"] + df["Time_Of_Day"]

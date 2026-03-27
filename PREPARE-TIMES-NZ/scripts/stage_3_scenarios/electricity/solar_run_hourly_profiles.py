@@ -6,7 +6,9 @@ from __future__ import annotations
 
 import csv
 import json
+from datetime import datetime, timedelta, timezone
 from typing import Any
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
@@ -104,6 +106,9 @@ MODULE_TYPE_MAP = {
     "thin_film": 2,
 }
 
+EPW_STANDARD_TZ = timezone(timedelta(hours=12), name="NZST_FIXED")
+NZ_WALLCLOCK_TZ = ZoneInfo("Pacific/Auckland")
+
 
 def ensure_output_dir(path):
     """
@@ -186,7 +191,7 @@ def validate_base_year_calendar():
         )
 
 
-def validate_epw_calendar_assumptions(epw_path, raw_index):
+def validate_epw_calendar_assumptions(epw_path):
     """
     Fail loudly if an EPW file implies leap-year calendar handling.
     """
@@ -199,28 +204,28 @@ def validate_epw_calendar_assumptions(epw_path, raw_index):
             "regenerating solar availability factors."
         )
 
-    row_years = {year for year, _, _, _, _ in raw_index}
-    leap_row_years = sorted(
-        year
-        for year in row_years
-        if pd.Timestamp(year=year, month=1, day=1).is_leap_year
-    )
-    if leap_row_years:
-        raise ValueError(
-            "Solar availability-factor workflow currently assumes a 365-day "
-            f"calendar, but {epw_path.name} uses leap-year row values "
-            f"{leap_row_years}. Revisit leap-year handling before regenerating "
-            "solar availability factors."
-        )
-
 
 def get_canonical_epw_index(epw_path):
     """
     Return the shared month/day/hour/minute sequence for one EPW file.
     """
     raw_index = parse_epw_time_index(epw_path)
-    validate_epw_calendar_assumptions(epw_path, raw_index)
+    validate_epw_calendar_assumptions(epw_path)
     return [(month, day, hour, minute) for _, month, day, hour, minute in raw_index]
+
+
+def convert_epw_standard_time_to_wallclock(month: int, day: int, hour: int) -> datetime:
+    """
+    Convert a fixed NZST EPW interval-start hour to NZ wall-clock time.
+    """
+    standard_time = datetime(
+        BASE_YEAR,
+        month,
+        day,
+        hour,
+        tzinfo=EPW_STANDARD_TZ,
+    )
+    return standard_time.astimezone(NZ_WALLCLOCK_TZ)
 
 
 def format_time_index_rows(canonical_index):
@@ -229,7 +234,13 @@ def format_time_index_rows(canonical_index):
     """
     rows = []
     for hour_index, (month, day, hour, minute) in enumerate(canonical_index, start=1):
+        interval_start_hour = (hour - 1) % 24
         trading_date = pd.Timestamp(year=BASE_YEAR, month=month, day=day)
+        wall_clock = convert_epw_standard_time_to_wallclock(
+            month=month,
+            day=day,
+            hour=interval_start_hour,
+        )
         rows.append(
             {
                 "hour_of_year": hour_index,
@@ -238,8 +249,17 @@ def format_time_index_rows(canonical_index):
                 "Month": month,
                 "Day": day,
                 "EPWHour": hour,
-                "Hour": (hour - 1) % 24,
+                "Hour": interval_start_hour,
                 "Minute": minute,
+                "WallClock_DateTime": pd.Timestamp(wall_clock),
+                "WallClock_Date": pd.Timestamp(wall_clock.date()),
+                "WallClock_Year": wall_clock.year,
+                "WallClock_Month": wall_clock.month,
+                "WallClock_Day": wall_clock.day,
+                "WallClock_Hour": wall_clock.hour,
+                "WallClock_UtcOffsetHours": (
+                    wall_clock.utcoffset().total_seconds() / 3600
+                ),
             }
         )
     return rows
@@ -376,6 +396,13 @@ def collect_zone_hourly_rows(scenario_name, zone, time_index, generation):
                 "Hour": time_row.Hour,
                 "EPWHour": time_row.EPWHour,
                 "Minute": time_row.Minute,
+                "WallClock_DateTime": time_row.WallClock_DateTime,
+                "WallClock_Date": time_row.WallClock_Date,
+                "WallClock_Year": time_row.WallClock_Year,
+                "WallClock_Month": time_row.WallClock_Month,
+                "WallClock_Day": time_row.WallClock_Day,
+                "WallClock_Hour": time_row.WallClock_Hour,
+                "WallClock_UtcOffsetHours": time_row.WallClock_UtcOffsetHours,
                 "generation_kw_per_kw": generation_kw_per_kw,
             }
         )
@@ -428,7 +455,11 @@ def run_scenario_hourly_profiles(scenario, epw_files, time_index):
         )
 
     long_df = pd.DataFrame(long_rows)
-    long_df = create_timeslices(long_df, date_col="Trading_Date")
+    long_df = create_timeslices(
+        long_df,
+        date_col="WallClock_Date",
+        hour_col="WallClock_Hour",
+    )
     return wide, long_df, zone_results
 
 
