@@ -76,9 +76,9 @@ Electricity generation,ELC_Geo_TeAhiOMaui,Te Ahi O Maui,Geothermal,Geothermal
 Electricity generation,ELC_GasCHP_TeRapa,Te Rapa,Thermal,Natural gas cogen
 Electricity generation,ELC_HydSC_TokaanuMangaio,Tokaanu/Mangaio,Hydro,Hydro (Schedulable)
 Electricity generation,ELC_Geo_TOPP1,TOPP1,Geothermal,Geothermal
-Electricity generation,ELC_SolarDist_Commercial,Commercial,Solar,Distributed Solar
-Electricity generation,ELC_SolarDist_Industrial,Industrial,Solar,Distributed Solar
-Electricity generation,ELC_SolarDist_Residential,Residential,Solar,Distributed Solar
+Electricity generation,ELC_SolarDistBifacial_Com,Commercial,,
+Electricity generation,ELC_SolarDistBifacial_Ind,Industrial,,
+Electricity generation,ELC_SolarDistSmall_Res,Residential,,
 Electricity generation,ELC_HydSC_Generic,Generic hydro generation,Hydro,Hydro (Schedulable)
 Electricity generation,ELC_Geo_Generic,Generic geothermal generation,Geothermal,Geothermal
 Electricity generation,ELC_BioRecip_Generic,Generic biogas generation,Thermal,Reciprocating Biogas
@@ -87,6 +87,9 @@ Electricity generation,ELC_DslPkr_Generic,Generic diesel generation,Thermal,Dies
 Electricity generation,ELC_GeoCHP_Generic,Generic geothermal cogeneration,Geothermal,Geothermal Cogen
 Electricity generation,ELC_BiogasCHP_Generic,Generic biogas cogeneration,Thermal,Biogas Cogen
 Electricity generation,ELC_WoodCHP_Generic,Generic wood cogeneration,Thermal,Wood Cogen
+Electricity generation,ELC_SolarDist_Commercial,Commercial,,
+Electricity generation,ELC_SolarDist_Industrial,Industrial,,
+Electricity generation,ELC_SolarDist_Residential,Residential,,
 Electricity generation,ELC_Geo_TahekeGeothermalProject,Tāheke Geothermal Project,Geothermal,Geothermal
 Electricity generation,ELC_Geo_AtiamuriGeothermal,Ātiamuri Geothermal,Geothermal,Geothermal
 Electricity generation,ELC_Geo_NgawhaExpansionStage5,Ngāwhā Expansion: Stage 5,Geothermal,Geothermal
@@ -96,39 +99,39 @@ Electricity generation,ELC_Geo_TahekeStage2,Tāheke: Stage 2,Geothermal,Geotherm
 Electricity generation,ELC_Geo_TahekeStage3,Tāheke: Stage 3,Geothermal,Geothermal
 Electricity generation,ELC_Geo_TokaanuGeothermalStage2,Tokaanu Geothermal (Stage 2),Geothermal,Geothermal
 Electricity generation,ELC_SolarTrack_ArgyleSolarFarmNorthernArea,Argyle Solar Farm - Northern Area,Solar,Utility Solar (Tracking)
-Electricity generation,ELC_SolarFixed_DannevirkeSolarFarm,Dannevirke Solar Farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GreytownSolarFarmFNSF,Greytown Solar Farm (FNSF),Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_OhauASolarPlant,Ohau A solar plant,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_TasmanDistrictSolarFarm,Tasman District solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_WaitaraSolarFarm,Waitara solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GloritSolarFarm,Glorit solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GreytownSolarFarm,Greytown solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_HelensvilleSolarFarm,Helensville solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_ManiototoSolarFarm,Maniototo solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_MartonSolarFarmHarmony,Marton Solar Farm (Harmony),Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_MartonSolarFarmEnergyFarmsLtd,Marton Solar Farm (Energy Farms Ltd),Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_MastertonSolarFarmNZClearnEnergy,Masterton Solar Farm (NZ Clearn Energy),Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarTrack_DannevirkeSolarFarm,Dannevirke Solar Farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GreytownSolarFarmFNSF,Greytown Solar Farm (FNSF),Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_OhauASolarPlant,Ohau A solar plant,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_TasmanDistrictSolarFarm,Tasman District solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_WaitaraSolarFarm,Waitara solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GloritSolarFarm,Glorit solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GreytownSolarFarm,Greytown solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_HelensvilleSolarFarm,Helensville solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_ManiototoSolarFarm,Maniototo solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_MartonSolarFarmHarmony,Marton Solar Farm (Harmony),Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_MartonSolarFarmEnergyFarmsLtd,Marton Solar Farm (Energy Farms Ltd),Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_MastertonSolarFarmNZClearnEnergy,Masterton Solar Farm (NZ Clearn Energy),Solar,Utility Solar (Tracking)
 Electricity generation,ELC_SolarTrack_MaungaturotoSolarFarm,Maungaturoto solar farm,Solar,Utility Solar (Tracking)
-Electricity generation,ELC_SolarFixed_MoroaRoadSolarFarm,Moroa Road solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarTrack_MoroaRoadSolarFarm,Moroa Road solar farm,Solar,Utility Solar (Tracking)
 Electricity generation,ELC_SolarTrack_OngaongaSolarHelios,Ongaonga solar (Helios),Solar,Utility Solar (Tracking)
-Electricity generation,ELC_SolarFixed_OpunakeSolarFarmHarmonyEnergy,Ōpunake solar farm (Harmony Energy),Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_OpunakeSolarFarmEnergyFarmsLtd,Ōpunake solar farm (Energy Farms Ltd),Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_SkinnerRoadSolarFarm,Skinner Road solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_TaranakiSolarFarmMeridian,Taranaki solar farm (Meridian),Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarTrack_OpunakeSolarFarmHarmonyEnergy,Ōpunake solar farm (Harmony Energy),Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_OpunakeSolarFarmEnergyFarmsLtd,Ōpunake solar farm (Energy Farms Ltd),Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_SkinnerRoadSolarFarm,Skinner Road solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_TaranakiSolarFarmMeridian,Taranaki solar farm (Meridian),Solar,Utility Solar (Tracking)
 Electricity generation,ELC_SolarTrack_ThePointSolarFarm,The Point solar farm,Solar,Utility Solar (Tracking)
-Electricity generation,ELC_SolarFixed_ThreeStreamsSolarFarm,Three Streams solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_TikokinoSolarFarm,Tikokino solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_WaiparaSolarFarm,Waipara solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_WairarapaSolarFarm,Wairarapa solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar55,Generic solar (101-200MW): 55,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar56,Generic solar (200MW+): 56,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar60,Generic solar (101-200MW): 60,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar62,Generic solar (<100 MW): 62,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar67,Generic solar (<100 MW): 67,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar75,Generic solar (200MW+): 75,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar79,Generic solar (<100 MW): 79,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar81,Generic solar (200MW+): 81,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar85,Generic solar (101-200MW): 85,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarTrack_ThreeStreamsSolarFarm,Three Streams solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_TikokinoSolarFarm,Tikokino solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_WaiparaSolarFarm,Waipara solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_WairarapaSolarFarm,Wairarapa solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar55,Generic solar (101-200MW): 55,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar56,Generic solar (200MW+): 56,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar60,Generic solar (101-200MW): 60,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar62,Generic solar (<100 MW): 62,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar67,Generic solar (<100 MW): 67,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar75,Generic solar (200MW+): 75,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar79,Generic solar (<100 MW): 79,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar81,Generic solar (200MW+): 81,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar85,Generic solar (101-200MW): 85,Solar,Utility Solar (Tracking)
 Electricity generation,ELC_WindOn_GenericWind13,Generic wind #13,Wind,Onshore wind
 Electricity generation,ELC_WindOn_ManawatuWindMeridian,Manawatū Wind (Meridian),Wind,Onshore wind
 Electricity generation,ELC_WindOn_PahiatuaWindFarm,Pahiatua Wind Farm,Wind,Onshore wind
@@ -167,22 +170,22 @@ Electricity generation,ELC_Geo_ReporoaStage3,Reporoa: Stage 3,Geothermal,Geother
 Electricity generation,ELC_Geo_TauharaExpansionStage2,Tauhara expansion: Stage 2,Geothermal,Geothermal
 Electricity generation,ELC_Geo_TauharaExpansionStage3,Tauhara expansion: Stage 3,Geothermal,Geothermal
 Electricity generation,ELC_Geo_TikitereStage1,Tikitere (Stage 1),Geothermal,Geothermal
-Electricity generation,ELC_SolarFixed_GenericSolar54,Generic solar (200MW+): 54,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar57,Generic solar (101-200MW): 57,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar58,Generic solar (<100 MW): 58,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar61,Generic solar (<100 MW): 61,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar63,Generic solar (<100 MW): 63,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar65,Generic solar (101-200MW): 65,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar74,Generic solar (101-200MW): 74,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar76,Generic solar (200MW+): 76,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar77,Generic solar (101-200MW): 77,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar78,Generic solar (101-200MW): 78,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar80,Generic solar (200MW+): 80,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar82,Generic solar (200MW+): 82,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar83,Generic solar (101-200MW): 83,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar84,Generic solar (101-200MW): 84,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar86,Generic solar (<100 MW): 86,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarFixed_GenericSolar90,Generic solar (200MW+): 90,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarTrack_GenericSolar54,Generic solar (200MW+): 54,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar57,Generic solar (101-200MW): 57,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar58,Generic solar (<100 MW): 58,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar61,Generic solar (<100 MW): 61,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar63,Generic solar (<100 MW): 63,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar65,Generic solar (101-200MW): 65,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar74,Generic solar (101-200MW): 74,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar76,Generic solar (200MW+): 76,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar77,Generic solar (101-200MW): 77,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar78,Generic solar (101-200MW): 78,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar80,Generic solar (200MW+): 80,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar82,Generic solar (200MW+): 82,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar83,Generic solar (101-200MW): 83,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar84,Generic solar (101-200MW): 84,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar86,Generic solar (<100 MW): 86,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar90,Generic solar (200MW+): 90,Solar,Utility Solar (Tracking)
 Electricity generation,ELC_WindOn_GenericWind22,Generic Wind #22,Wind,Onshore wind
 Electricity generation,ELC_WindOn_GenericWind25,Generic Wind #25,Wind,Onshore wind
 Electricity generation,ELC_WindOn_GenericWind29,Generic Wind #29,Wind,Onshore wind
@@ -240,6 +243,155 @@ Electricity generation,ELC_HydRR_Taramakau,Taramakau,Hydro,Hydro (Run-of-river)
 Electricity generation,ELC_HydRR_WairauHydroExpansion,Wairau Hydro Expansion,Hydro,Hydro (Run-of-river)
 Electricity generation,ELC_HydRR_WhitcombeRiver,Whitcombe River,Hydro,Hydro (Run-of-river)
 Electricity generation,ELC_SolarTrack_ArgyleSolarFarm,Argyle solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_BrooksideSolarFarm,Brookside solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_EdgecumbeSolarHelios,Edgecumbe solar (Helios),Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_EdgecumbeSolarFarmFNSF,Edgecumbe solar farm (FNSF),Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_MartonSolarFarm,Marton solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_FoxtonSolarFarm,Foxton solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_HawkeSBayAirportSolarFarm,Hawke's Bay Airport solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_KaiparaSolarFarm,Kaipara solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_KarioiSolarFarm,Karioi solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_KowhaiParkSolarFarm,Kōwhai Park solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_LauristonSolarFarm,Lauriston solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_ClandeboyeSolarFarm,Clandeboye solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_LodestoneDargaville,Lodestone Dargaville,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_DunsandelSolarFarm,Dunsandel solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_MtSomersSolarFarm,Mt Somers solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_LodestoneTeHerengaOTeRaSolarFarm,Lodestone Te Herenga o Te Rā solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_LodestoneWhitianga,Lodestone Whitianga,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_MangamaireSolarFarm,Mangamaire solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_MarangaRaSolarFarm,Maranga Rā solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_NasebySolarFarm,Naseby solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_OngaongaSolarFarmSkySolar,Ongaonga solar farm (Sky Solar),Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_PalmerstonNorthSolarFarm,Palmerston North solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_PukenuiSolarFarm,Pukenui solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_RangiririSolarFarm,Rangiriri solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_RangitaikiSolarStage1,Rangitāiki solar (Stage 1),Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_RangitaikiSolarStage2,Rangitāiki solar (Stage 2),Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_RangitaikiSolarStage3,Rangitāiki solar (Stage 3),Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_RuakakaSolarFarm,Ruakākā solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_SwannanoaSolarFarm,Swannanoa solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_TauheiSolarFarm,Tauhei solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_TwinRiversSolarFarm,Twin Rivers solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_WarengaSolarFarm,Warenga solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_WaiotaheSolarFarm,Waiotahe solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_WaiterimuSolarFarm,Waiterimu solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_WellsfordSolarFarm,Wellsford solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar15,Generic solar (200MW+): 15,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar2,Generic solar (200MW+): 2,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar29,Generic solar (200MW+): 29,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar33,Generic solar (200MW+): 33,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar35,Generic solar (101-200MW): 35,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar40,Generic solar (<100 MW): 40,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar42,Generic solar (101-200MW): 42,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar43,Generic solar (200MW+): 43,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar46,Generic solar (<100 MW): 46,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar87,Generic solar (200MW+): 87,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_GasPkr_WaikatoPowerPlant,Waikato Power Plant,Thermal,Natural gas peaker
+Electricity generation,ELC_WindOn_CastleHillWindFarm,Castle Hill wind farm,Wind,Onshore wind
+Electricity generation,ELC_WindOn_HapuakoheWindFarm,Hapuakohe Wind Farm,Wind,Onshore wind
+Electricity generation,ELC_WindOn_HarapakiWindFarm,Harapaki wind farm,Wind,Onshore wind
+Electricity generation,ELC_WindOn_ProjectHuriwaka,Project Huriwaka,Wind,Onshore wind
+Electricity generation,ELC_WindOn_JerichoWindFarm,Jericho Wind Farm,Wind,Onshore wind
+Electricity generation,ELC_WindOn_KaihikuWindFarm,Kaihiku wind farm,Wind,Onshore wind
+Electricity generation,ELC_WindOn_KaimaiWindFarm,Kaimai wind farm,Wind,Onshore wind
+Electricity generation,ELC_WindOn_Kaiwaikawe,Kaiwaikawe,Wind,Onshore wind
+Electricity generation,ELC_WindOn_KaiweraDownsWindStage2,Kaiwera Downs wind (Stage 2),Wind,Onshore wind
+Electricity generation,ELC_WindOn_MahinerangiStage2,Mahinerangi (Stage 2),Wind,Onshore wind
+Electricity generation,ELC_WindOn_MountCassWindFarm,Mount Cass wind farm,Wind,Onshore wind
+Electricity generation,ELC_WindOn_MtMunroWindFarm,Mt Munro wind farm,Wind,Onshore wind
+Electricity generation,ELC_WindOn_OtotokaWindFarm,Ototoka Wind Farm,Wind,Onshore wind
+Electricity generation,ELC_WindOn_PuketoiWindFarm,Puketoi wind farm,Wind,Onshore wind
+Electricity generation,ELC_WindOn_TaumatatotaraStage1,Taumatatotara (Stage 1),Wind,Onshore wind
+Electricity generation,ELC_WindOn_TeRereHauExpansion,Te Rere Hau (Expansion),Wind,Onshore wind
+Electricity generation,ELC_WindOn_TeRereHauRepower,Te Rere Hau (Repower),Wind,Onshore wind
+Electricity generation,ELC_WindOn_WaiukuWindFarm,Waiuku Wind Farm,Wind,Onshore wind
+Electricity generation,ELC_HydRR_ClarenceHydro54,Clarence hydro: 54,Hydro,Hydro (Run-of-river)
+Electricity generation,ELC_HydRR_ClarenceHydroConway,Clarence hydro: Conway,Hydro,Hydro (Run-of-river)
+Electricity generation,ELC_SolarTrack_GenericSolar10,Generic solar (101-200MW): 10,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar12,Generic solar (200MW+): 12,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar13,Generic solar (200MW+): 13,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar14,Generic solar (200MW+): 14,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar16,Generic solar (200MW+): 16,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar17,Generic solar (200MW+): 17,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar18,Generic solar (200MW+): 18,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar19,Generic solar (200MW+): 19,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar21,Generic solar (200MW+): 21,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar23,Generic solar (101-200MW): 23,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar25,Generic solar (200MW+): 25,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar26,Generic solar (101-200MW): 26,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar28,Generic solar (200MW+): 28,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar3,Generic solar (200MW+): 3,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar30,Generic solar (101-200MW): 30,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar31,Generic solar (101-200MW): 31,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar36,Generic solar (101-200MW): 36,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar38,Generic solar (101-200MW): 38,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar39,Generic solar (200MW+): 39,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar41,Generic solar (<100 MW): 41,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar45,Generic solar (101-200MW): 45,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar47,Generic solar (101-200MW): 47,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar48,Generic solar (101-200MW): 48,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar49,Generic solar (200MW+): 49,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar51,Generic solar (200MW+): 51,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar6,Generic solar (200MW+): 6,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar69,Generic solar (200MW+): 69,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar7,Generic solar (200MW+): 7,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar71,Generic solar (200MW+): 71,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar72,Generic solar (200MW+): 72,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar73,Generic solar (101-200MW): 73,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar8,Generic solar (200MW+): 8,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarTrack_GenericSolar88,Generic solar (200MW+): 88,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarFixed_ArgyleSolarFarmNorthernArea,Argyle Solar Farm - Northern Area,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_DannevirkeSolarFarm,Dannevirke Solar Farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GreytownSolarFarmFNSF,Greytown Solar Farm (FNSF),Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_OhauASolarPlant,Ohau A solar plant,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_TasmanDistrictSolarFarm,Tasman District solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_WaitaraSolarFarm,Waitara solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GloritSolarFarm,Glorit solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GreytownSolarFarm,Greytown solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_HelensvilleSolarFarm,Helensville solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_ManiototoSolarFarm,Maniototo solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_MartonSolarFarmHarmony,Marton Solar Farm (Harmony),Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_MartonSolarFarmEnergyFarmsLtd,Marton Solar Farm (Energy Farms Ltd),Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_MastertonSolarFarmNZClearnEnergy,Masterton Solar Farm (NZ Clearn Energy),Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_MaungaturotoSolarFarm,Maungaturoto solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_MoroaRoadSolarFarm,Moroa Road solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_OngaongaSolarHelios,Ongaonga solar (Helios),Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_OpunakeSolarFarmHarmonyEnergy,Ōpunake solar farm (Harmony Energy),Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_OpunakeSolarFarmEnergyFarmsLtd,Ōpunake solar farm (Energy Farms Ltd),Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_SkinnerRoadSolarFarm,Skinner Road solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_TaranakiSolarFarmMeridian,Taranaki solar farm (Meridian),Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_ThePointSolarFarm,The Point solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_ThreeStreamsSolarFarm,Three Streams solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_TikokinoSolarFarm,Tikokino solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_WaiparaSolarFarm,Waipara solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_WairarapaSolarFarm,Wairarapa solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar55,Generic solar (101-200MW): 55,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar56,Generic solar (200MW+): 56,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar60,Generic solar (101-200MW): 60,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar62,Generic solar (<100 MW): 62,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar67,Generic solar (<100 MW): 67,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar75,Generic solar (200MW+): 75,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar79,Generic solar (<100 MW): 79,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar81,Generic solar (200MW+): 81,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar85,Generic solar (101-200MW): 85,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar54,Generic solar (200MW+): 54,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar57,Generic solar (101-200MW): 57,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar58,Generic solar (<100 MW): 58,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar61,Generic solar (<100 MW): 61,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar63,Generic solar (<100 MW): 63,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar65,Generic solar (101-200MW): 65,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar74,Generic solar (101-200MW): 74,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar76,Generic solar (200MW+): 76,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar77,Generic solar (101-200MW): 77,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar78,Generic solar (101-200MW): 78,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar80,Generic solar (200MW+): 80,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar82,Generic solar (200MW+): 82,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar83,Generic solar (101-200MW): 83,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar84,Generic solar (101-200MW): 84,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar86,Generic solar (<100 MW): 86,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_GenericSolar90,Generic solar (200MW+): 90,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_ArgyleSolarFarm,Argyle solar farm,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_BrooksideSolarFarm,Brookside solar farm,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_EdgecumbeSolarHelios,Edgecumbe solar (Helios),Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_EdgecumbeSolarFarmFNSF,Edgecumbe solar farm (FNSF),Solar,Utility Solar (Fixed)
@@ -249,7 +401,7 @@ Electricity generation,ELC_SolarFixed_HawkeSBayAirportSolarFarm,Hawke's Bay Airp
 Electricity generation,ELC_SolarFixed_KaiparaSolarFarm,Kaipara solar farm,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_KarioiSolarFarm,Karioi solar farm,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_KowhaiParkSolarFarm,Kōwhai Park solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarTrack_LauristonSolarFarm,Lauriston solar farm,Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarFixed_LauristonSolarFarm,Lauriston solar farm,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_ClandeboyeSolarFarm,Clandeboye solar farm,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_LodestoneDargaville,Lodestone Dargaville,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_DunsandelSolarFarm,Dunsandel solar farm,Solar,Utility Solar (Fixed)
@@ -258,8 +410,8 @@ Electricity generation,ELC_SolarFixed_LodestoneTeHerengaOTeRaSolarFarm,Lodestone
 Electricity generation,ELC_SolarFixed_LodestoneWhitianga,Lodestone Whitianga,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_MangamaireSolarFarm,Mangamaire solar farm,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_MarangaRaSolarFarm,Maranga Rā solar farm,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_SolarTrack_NasebySolarFarm,Naseby solar farm,Solar,Utility Solar (Tracking)
-Electricity generation,ELC_SolarTrack_OngaongaSolarFarmSkySolar,Ongaonga solar farm (Sky Solar),Solar,Utility Solar (Tracking)
+Electricity generation,ELC_SolarFixed_NasebySolarFarm,Naseby solar farm,Solar,Utility Solar (Fixed)
+Electricity generation,ELC_SolarFixed_OngaongaSolarFarmSkySolar,Ongaonga solar farm (Sky Solar),Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_PalmerstonNorthSolarFarm,Palmerston North solar farm,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_PukenuiSolarFarm,Pukenui solar farm,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_RangiririSolarFarm,Rangiriri solar farm,Solar,Utility Solar (Fixed)
@@ -284,27 +436,6 @@ Electricity generation,ELC_SolarFixed_GenericSolar42,Generic solar (101-200MW): 
 Electricity generation,ELC_SolarFixed_GenericSolar43,Generic solar (200MW+): 43,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_GenericSolar46,Generic solar (<100 MW): 46,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_GenericSolar87,Generic solar (200MW+): 87,Solar,Utility Solar (Fixed)
-Electricity generation,ELC_GasPkr_WaikatoPowerPlant,Waikato Power Plant,Thermal,Natural gas peaker
-Electricity generation,ELC_WindOn_CastleHillWindFarm,Castle Hill wind farm,Wind,Onshore wind
-Electricity generation,ELC_WindOn_HapuakoheWindFarm,Hapuakohe Wind Farm,Wind,Onshore wind
-Electricity generation,ELC_WindOn_HarapakiWindFarm,Harapaki wind farm,Wind,Onshore wind
-Electricity generation,ELC_WindOn_ProjectHuriwaka,Project Huriwaka,Wind,Onshore wind
-Electricity generation,ELC_WindOn_JerichoWindFarm,Jericho Wind Farm,Wind,Onshore wind
-Electricity generation,ELC_WindOn_KaihikuWindFarm,Kaihiku wind farm,Wind,Onshore wind
-Electricity generation,ELC_WindOn_KaimaiWindFarm,Kaimai wind farm,Wind,Onshore wind
-Electricity generation,ELC_WindOn_Kaiwaikawe,Kaiwaikawe,Wind,Onshore wind
-Electricity generation,ELC_WindOn_KaiweraDownsWindStage2,Kaiwera Downs wind (Stage 2),Wind,Onshore wind
-Electricity generation,ELC_WindOn_MahinerangiStage2,Mahinerangi (Stage 2),Wind,Onshore wind
-Electricity generation,ELC_WindOn_MountCassWindFarm,Mount Cass wind farm,Wind,Onshore wind
-Electricity generation,ELC_WindOn_MtMunroWindFarm,Mt Munro wind farm,Wind,Onshore wind
-Electricity generation,ELC_WindOn_OtotokaWindFarm,Ototoka Wind Farm,Wind,Onshore wind
-Electricity generation,ELC_WindOn_PuketoiWindFarm,Puketoi wind farm,Wind,Onshore wind
-Electricity generation,ELC_WindOn_TaumatatotaraStage1,Taumatatotara (Stage 1),Wind,Onshore wind
-Electricity generation,ELC_WindOn_TeRereHauExpansion,Te Rere Hau (Expansion),Wind,Onshore wind
-Electricity generation,ELC_WindOn_TeRereHauRepower,Te Rere Hau (Repower),Wind,Onshore wind
-Electricity generation,ELC_WindOn_WaiukuWindFarm,Waiuku Wind Farm,Wind,Onshore wind
-Electricity generation,ELC_HydRR_ClarenceHydro54,Clarence hydro: 54,Hydro,Hydro (Run-of-river)
-Electricity generation,ELC_HydRR_ClarenceHydroConway,Clarence hydro: Conway,Hydro,Hydro (Run-of-river)
 Electricity generation,ELC_SolarFixed_GenericSolar10,Generic solar (101-200MW): 10,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_GenericSolar12,Generic solar (200MW+): 12,Solar,Utility Solar (Fixed)
 Electricity generation,ELC_SolarFixed_GenericSolar13,Generic solar (200MW+): 13,Solar,Utility Solar (Fixed)
@@ -343,4 +474,3 @@ Electricity generation,ELC_WindFixOff_Taranaki,Offshore wind (Fixed) - Taranaki,
 Electricity generation,ELC_WindFixOff_Waikato,Offshore wind (Fixed) - Waikato,Wind,Fixed Offshore Wind
 Electricity generation,ELC_WindFloatOff_Taranaki,Offshore wind (Floating) - Taranaki,Wind,Floating Offshore Wind
 Electricity generation,ELC_WindFloatOff_Waikato,Offshore wind (Floating) - Waikato,Wind,Floating Offshore Wind
-Electricity generation,ELC_SolarDist_Res,ELC_SolarDist_Res,Solar,Distributed Solar

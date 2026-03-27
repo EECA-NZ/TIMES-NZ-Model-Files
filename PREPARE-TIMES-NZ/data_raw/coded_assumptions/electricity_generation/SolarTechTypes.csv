@@ -1,0 +1,4 @@
+FuelType,PlantName,Tech_TIMES_Override
+Solar,Residential,SolarDistSmall
+Solar,Commercial,SolarDistBifacial
+Solar,Industrial,SolarDistBifacial

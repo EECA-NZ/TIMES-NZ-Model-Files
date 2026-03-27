@@ -24,10 +24,10 @@ import time
 from pathlib import Path
 from typing import List
 
-import numpy as np
 import pandas as pd
 from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
 from prepare_times_nz.utilities.logger_setup import logger
+from prepare_times_nz.utilities.timeslices import create_timeslices
 
 # Constants ------------------------------------------------------------
 
@@ -45,107 +45,7 @@ EMI_NSP_TABLE: Path = (
 )
 EMI_DISTRIBUTED_SOLAR_DIR: Path = INPUT_LOCATION / "emi_distributed_solar"
 
-TIME_OF_DAY_FILE = DATA_RAW / "user_config/settings/time_of_day_types.csv"
-
 # Functions ----------------------------------------
-
-
-def convert_hour_to_timeofday(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    This function takes a dataframe with an hour variable
-    and creates the Time_Of_Day variable.
-
-    This uses an input assumptions file with
-    "Hour" and "Time_Of_Day" variables
-
-    We set default to night (this mostly just covers DST hours)
-
-    """
-    time_of_day_types = pd.read_csv(TIME_OF_DAY_FILE)
-    # # we create a dict and map these rather than merging
-    # its faster - saves ~4 seconds per run
-    hour_to_time = dict(
-        zip(time_of_day_types["Hour"], time_of_day_types["Time_Of_Day"])
-    )
-    df["Time_Of_Day"] = df["Hour"].map(hour_to_time)
-    df["Time_Of_Day"] = df["Time_Of_Day"].fillna("N")
-
-    return df
-
-
-def convert_date_to_daytype(
-    df: pd.DataFrame, date_col: str = "Trading_Date"
-) -> pd.DataFrame:
-    """
-    This function creates a Day_Type variable based on the weekday:
-      - 'WE-' for weekends,
-      - 'WK-' for weekdays,
-      - 'ERROR' otherwise (should not occur if date_col is valid).
-    Assumes date_col is of datetime type.
-    """
-    # Ensure the column is datetime
-    df[date_col] = pd.to_datetime(df[date_col])
-
-    weekday = df[date_col].dt.weekday  # Monday=0, Sunday=6
-    df["Day_Type"] = np.select(
-        [weekday.isin([5, 6]), weekday.isin([0, 1, 2, 3, 4])],
-        ["WE-", "WK-"],
-        default="ERROR",
-    )
-    return df
-
-
-def convert_date_to_season(
-    df: pd.DataFrame, date_col: str = "Trading_Date"
-) -> pd.DataFrame:
-    """
-    This function creates a Season variable based on the month:
-      - 'SUM-' for Dec, Jan, Feb
-      - 'FAL-' for Mar, Apr, May
-      - 'WIN-' for Jun, Jul, Aug
-      - 'SPR-' for Sep, Oct, Nov
-    Assumes date_col is of datetime type.
-    """
-    df[date_col] = pd.to_datetime(df[date_col])
-    month = df[date_col].dt.month
-
-    df["Season"] = np.select(
-        [
-            month.isin([12, 1, 2]),
-            month.isin([3, 4, 5]),
-            month.isin([6, 7, 8]),
-            month.isin([9, 10, 11]),
-        ],
-        ["SUM-", "FAL-", "WIN-", "SPR-"],
-        default="ERROR",
-    )
-    return df
-
-
-def create_timeslices(df: pd.DataFrame, date_col: str = "Trading_Date") -> pd.DataFrame:
-    """
-    This function takes a dataframe with a date and time variable
-    and creates the TIMES Timeslice variable.
-    It combines season, day type, and time of day
-    to produce a single categorical variable.
-
-    Parameters:
-    - df: pd.DataFrame
-    - hour_col: str, the name of the column with the hour
-    - date_col: str, the name of the column with the date
-
-
-    Returns:
-    - pd.DataFrame with a new 'Timeslice' column
-    """
-
-    df = convert_hour_to_timeofday(df)
-    df = convert_date_to_daytype(df, date_col)
-    df = convert_date_to_season(df, date_col)
-    df["TimeSlice"] = df["Season"] + df["Day_Type"] + df["Time_Of_Day"]
-    df = df.drop(columns=["Season", "Day_Type", "Time_Of_Day"])
-
-    return df
 
 
 def add_timeslices_to_emi(
