@@ -9,10 +9,10 @@ from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     CONCORDANCES,
-    DATA_RAW,
     STAGE_1_DATA,
     STAGE_2_DATA,
 )
+from prepare_times_nz.utilities.timeslices import convert_hour_to_timeofday
 
 # ASSUMPTIONS -----------------------------------------------
 
@@ -39,9 +39,6 @@ OUTPUT_LOCATION = STAGE_2_DATA / "settings/load_curves"
 # end use codes
 RBS_END_USE_FILE = CONCORDANCES / "residential/rbs_end_use_codes.csv"
 USE_CODES_FILE = CONCORDANCES / "residential/use_codes.csv"
-
-# times of day
-TIME_OF_DAY_FILE = DATA_RAW / "user_config/settings/time_of_day_types.csv"
 
 # FUNCTIONS ------------------------------------------------------------------
 
@@ -101,29 +98,6 @@ def split_space_conditioning(df):
     out = out.drop("HeatShare", axis=1)
 
     return out
-
-
-def convert_hour_to_timeofday(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    This function takes a dataframe with an hour variable
-    and creates the Time_Of_Day variable.
-
-    This uses an input assumptions file with
-    "Hour" and "Time_Of_Day" variables
-
-    We set default to night (this mostly just covers DST hours)
-
-    """
-    time_of_day_types = pd.read_csv(TIME_OF_DAY_FILE)
-    # # we create a dict and map these rather than merging
-    # its faster - saves ~4 seconds per run
-    hour_to_time = dict(
-        zip(time_of_day_types["Hour"], time_of_day_types["Time_Of_Day"])
-    )
-    df["Time_Of_Day"] = df["Hour"].map(hour_to_time)
-    df["Time_Of_Day"] = df["Time_Of_Day"].fillna("N")
-
-    return df
 
 
 def make_rbs_timeslices(df):
