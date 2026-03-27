@@ -87,6 +87,10 @@ Because it would not be realistic to assume no distributed solar installations, 
 [^distribution_note]: While distributed solar is often not selected in a system cost approach, this is not a universal rule for distributed assets. For example, we note that the model often chooses to build distributed batteries, despite the higher per-unit costs compared to grid-scale batteries, because of the benefits of reducing grid load during peak demand periods. For this reason, we still allow the model to choose the efficient level of distributed battery build, rather than using a fixed assumption. 
 
 
+## Diesel peakers 
+
+We allow the model to also build diesel peakers, as this could prove a useful option based on future oil import costs and gas availability. Diesel OCGT peakers do not exist in the MBIE generation stack, so have set their parameters equivalent to existing natural gas OCGT peakers. However, the heat rates were adjusted to 11,000 GJ/GWh, implying a fuel efficiency of 32.7%, which is in line with existing assumptions on the operation of the Whirinaki diesel plant. 
+
 
 ## New fuels in existing assets 
 
