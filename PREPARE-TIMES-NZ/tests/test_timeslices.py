@@ -1,6 +1,8 @@
 """Tests for solar-script timeslice helpers."""
 
 import importlib.util
+import sys
+import types
 from pathlib import Path
 
 import pandas as pd
@@ -14,12 +16,23 @@ def load_solar_run_hourly_profiles():
         Path(__file__).resolve().parents[1]
         / "scripts/stage_3_scenarios/electricity/solar_run_hourly_profiles.py"
     )
+    stage_0_settings_name = "prepare_times_nz.stage_0.stage_0_settings"
+    previous_module = sys.modules.get(stage_0_settings_name)
+    fake_stage_0_settings = types.ModuleType(stage_0_settings_name)
+    fake_stage_0_settings.BASE_YEAR = 2023
+    sys.modules[stage_0_settings_name] = fake_stage_0_settings
     spec = importlib.util.spec_from_file_location(
         "solar_run_hourly_profiles", module_path
     )
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
-    spec.loader.exec_module(module)
+    try:
+        spec.loader.exec_module(module)
+    finally:
+        if previous_module is None:
+            del sys.modules[stage_0_settings_name]
+        else:
+            sys.modules[stage_0_settings_name] = previous_module
     return module
 
 
