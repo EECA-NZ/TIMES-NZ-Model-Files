@@ -105,7 +105,12 @@ def get_all_process_tables():
 
     # combine all and select only important values
     process_data = pd.concat(process_dfs, ignore_index=True)
-    process_data = process_data[["techname", "sets", "tact", "tcap"]].drop_duplicates()
+    process_data = (
+        process_data[["techname", "sets", "tact", "tcap"]]
+        .drop_duplicates()
+        .sort_values(["techname", "sets", "tact", "tcap"], kind="stable")
+        .reset_index(drop=True)
+    )
 
     return process_data
 
@@ -146,7 +151,12 @@ def get_all_commodity_tables():
 
     # combine all and select only important values
     commodity_data = pd.concat(commodity_dfs, ignore_index=True)
-    commodity_data = commodity_data[["commname", "csets", "unit"]].drop_duplicates()
+    commodity_data = (
+        commodity_data[["commname", "csets", "unit"]]
+        .drop_duplicates()
+        .sort_values(["commname", "csets", "unit"], kind="stable")
+        .reset_index(drop=True)
+    )
 
     return commodity_data
 
