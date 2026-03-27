@@ -99,7 +99,13 @@ def pri_server(inputs, outputs, session, selected_scens):
         return tuple(selected_scens["scenario_list"]())
 
     register_server_functions_for_explorer(
-        pri_parameters, get_base_pri_df, scen_tuple, inputs, outputs, session
+        pri_parameters,
+        get_base_pri_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
     )
 
 

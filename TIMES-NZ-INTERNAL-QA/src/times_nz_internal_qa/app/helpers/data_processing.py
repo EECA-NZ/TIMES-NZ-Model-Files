@@ -12,6 +12,7 @@ These are effectively chart aggregation functions, intended to be used dynamical
 
 import io
 
+import numpy as np
 import pandas as pd
 import polars as pl
 from times_nz_internal_qa.app.helpers.filters import apply_filters
@@ -66,6 +67,10 @@ def complete_periods(
     else:
         # Just merge periods with original data
         result = periods_lf.join(df, on="Period", how="left")
+
+    # Preserve whether a row was absent in source data so charts can distinguish
+    # true zeroes from completed placeholder periods.
+    result = result.with_columns(pl.col(value_col).is_null().alias("MissingData"))
 
     # Fill missing values with 0 in the value column
     result = result.with_columns(pl.col(value_col).fill_null(0))
@@ -138,7 +143,7 @@ def get_filter_options_from_data(df: pl.DataFrame, filters: dict):
 
 # @lru_cache(maxsize=16)
 def make_chart_data(
-    lf: pl.LazyFrame, _base_cols, group_col, scen_list, period_range=range(2023, 2051)
+    lf: pl.LazyFrame, _base_cols, group_col, scen_list, period_range=range(2023, 2049)
 ) -> dict:
     """
     A cached collection of a pandas df expected to go directly to plotly
@@ -152,10 +157,25 @@ def make_chart_data(
     # ensure lazy
     lf = ensure_lazy(lf)
 
-    # we might do other things here like adding totals, later
+    category_cols = [
+        col for col in lf.collect_schema().names() if col not in ["Period", "Value"]
+    ]
+    lf = complete_periods(lf, list(period_range), category_cols=category_cols)
 
     # collect as pandas df
     pdf = lf.collect().to_pandas(use_pyarrow_extension_array=True)
+
+    # Fill completed chart years with interpolated values so intervening
+    # non-model years can be rendered as contextual placeholder bars.
+    interp_group_cols = [
+        col for col in pdf.columns if col not in ["Period", "Value", "MissingData"]
+    ]
+    pdf = pdf.sort_values(interp_group_cols + ["Period"]).copy()
+    pdf.loc[pdf["MissingData"], "Value"] = np.nan
+    pdf["Value"] = (
+        pdf.groupby(interp_group_cols, observed=True)["Value"]
+        .transform(lambda s: s.interpolate(method="linear", limit_area="inside"))
+    )
 
     # unit defined in the data itself
     unit_list = pdf["Unit"].unique().tolist()
@@ -177,6 +197,7 @@ def make_chart_data(
     pdf["Scenario"] = pd.Categorical(
         pdf["Scenario"], categories=scen_list, ordered=True
     )
+    pdf["MissingData"] = pdf["MissingData"].fillna(False).astype(bool)
 
     # identify unit
     if not unit_list:

@@ -1,17 +1,15 @@
 """
-Function factories for replicable server functions
-
-Mostly because we were repeating methods a lot
+Function factories for replicable server functions.
 """
 
-import altair as alt
-import pandas as pd
-from shiny import reactive, render
-from shinywidgets import render_altair
+from shiny import reactive, render, ui
+from shinywidgets import render_plotly
 from times_nz_internal_qa.app.helpers.charts import (
     build_grouped_bar,
+    build_grouped_area,
     build_grouped_bar_timeslice,
     build_grouped_line,
+    build_empty_figure,
 )
 from times_nz_internal_qa.app.helpers.data_processing import (
     get_agg_data,
@@ -53,7 +51,13 @@ def register_download(outputs, out_id, filename, df_reactive):
 
 # pylint:disable = too-many-arguments, too-many-positional-arguments, too-many-locals
 def register_server_functions_for_explorer(
-    chart_parameters_dict: dict, df_function, scenarios, inputs, outputs, session
+    chart_parameters_dict: dict,
+    df_function,
+    scenarios,
+    is_comparison,
+    inputs,
+    outputs,
+    session,
 ):
     """
 
@@ -77,6 +81,7 @@ def register_server_functions_for_explorer(
     chart_id = chart_parameters_dict["chart_id"]
     base_cols = chart_parameters_dict["base_cols"]
     page_id = chart_parameters_dict["page_id"]
+    sec_id = chart_parameters_dict["sec_id"]
     section_title = chart_parameters_dict["section_title"]
 
     # default to grouped bar if there's nothing in the dict
@@ -86,6 +91,68 @@ def register_server_functions_for_explorer(
     @reactive.calc
     def _df():
         return df_function(scenarios())
+
+    area_to_bar_id = f"{chart_id}_area_switch_bar"
+    area_to_line_id = f"{chart_id}_area_switch_line"
+    area_to_single_id = f"{chart_id}_area_switch_single"
+
+    def _show_area_compare_modal():
+        ui.modal_show(
+            ui.modal(
+                ui.tags.h3("Area charts are not available for scenario comparison"),
+                ui.p(
+                    "Stacked area charts are only supported for one scenario at a "
+                    "time. Choose a different chart type, or switch back to a "
+                    "single scenario."
+                ),
+                easy_close=True,
+                footer=ui.div(
+                    ui.input_action_button(area_to_bar_id, "Switch to Bar"),
+                    ui.input_action_button(area_to_line_id, "Switch to Line"),
+                    ui.input_action_button(
+                        area_to_single_id, "Use One Scenario Only"
+                    ),
+                    ui.modal_button("Cancel"),
+                    class_="d-flex gap-2 justify-content-end",
+                ),
+            )
+        )
+
+    @reactive.effect
+    @reactive.event(inputs[area_to_bar_id])
+    def _switch_area_to_bar():
+        ui.update_radio_buttons(f"{chart_id}_chart_type", selected="bar")
+        ui.modal_remove()
+
+    @reactive.effect
+    @reactive.event(inputs[area_to_line_id])
+    def _switch_area_to_line():
+        ui.update_radio_buttons(f"{chart_id}_chart_type", selected="line")
+        ui.modal_remove()
+
+    @reactive.effect
+    @reactive.event(inputs[area_to_single_id])
+    def _switch_area_to_single():
+        ui.update_switch("compare_on", value=False)
+        ui.update_radio_buttons(f"{chart_id}_chart_type", selected="area")
+        ui.modal_remove()
+
+    if chart_type != "timeslice":
+
+        @reactive.effect
+        @reactive.event(
+            is_comparison,
+            getattr(inputs, f"{chart_id}_chart_type"),
+            getattr(inputs, f"{page_id}_nav"),
+        )
+        def _guard_area_compare_mode():
+            if getattr(inputs, f"{page_id}_nav")() != sec_id:
+                return
+
+            compare_active = is_comparison()
+            current_mode = getattr(inputs, f"{chart_id}_chart_type")()
+            if compare_active and current_mode == "area":
+                _show_area_compare_modal()
 
     # define filter options for this data based on input filter dict
     @reactive.calc
@@ -110,7 +177,7 @@ def register_server_functions_for_explorer(
     # Create chart data
     @reactive.calc
     def _chart_df():
-        # if using altair, must touch the nav input to ensure rerendering
+        # touch the nav input so hidden panels still re-render after selection changes
         _ = getattr(inputs, f"{page_id}_nav")()
         selected_group = getattr(inputs, f"{chart_id}_group")()
 
@@ -129,25 +196,19 @@ def register_server_functions_for_explorer(
 
     # DRAW CHARTS
     @outputs(id=f"{chart_id}_chart")
-    @render_altair
+    @render_plotly
     def _chart_unified():
         params = _chart_df()
 
         # Early exit 1: no chart data at all
         if not params or params["pdf"].empty:
-            chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
-                text="No data available"
-            )
-            return chart.properties(width="container", height="container")
+            return build_empty_figure("No data available")
 
         pdf = params["pdf"]
 
         # Early exit 2: no non-zero values = infeasible or meaningless for line charts
         if pdf["Value"].sum() == 0:
-            chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
-                text="No meaningful values to plot"
-            )
-            return chart.properties(width="container", height="container")
+            return build_empty_figure("No meaningful values to plot")
 
         # Handle chart types
         if chart_type == "timeslice":
@@ -161,36 +222,22 @@ def register_server_functions_for_explorer(
         else:
             mode = getattr(inputs, f"{chart_id}_chart_type")()
 
+            if is_comparison() and mode == "area":
+                return build_empty_figure(
+                    "Area charts are not available when comparing scenarios"
+                )
+
             if mode == "bar":
                 chart = build_grouped_bar(**params)
             elif mode == "line":
                 chart = build_grouped_line(**params)
+            elif mode == "area":
+                chart = build_grouped_area(**params)
             else:
-                chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
-                    text="No chart"
-                )
+                chart = build_empty_figure("No chart")
 
-        # Global-ish styling: font sizes etc.
-        chart = (
-            chart.configure_axis(
-                labelFontSize=13,
-                titleFontSize=14,
-                titleFontWeight="normal",
-            )
-            .configure_legend(
-                labelFontSize=13,
-                titleFontSize=14,
-            )
-            .configure_title(
-                fontSize=14,
-            )
-        )
-
-        # Single place where sizing is applied for *all* chart types
-        return chart.properties(
-            width="container",
-            height="container",  # or a fixed number if height="container" is fussy
-        )
+        chart.update_layout(autosize=True)
+        return chart
 
     # Setup downloads
     chart_download_function_name = f"{chart_id}_chart_data_download"

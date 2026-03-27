@@ -279,17 +279,30 @@ def demand_server(inputs, outputs, session, selected_scens):
         return tuple(selected_scens["scenario_list"]())
 
     register_server_functions_for_explorer(
-        dem_parameters, get_base_dem_df, scen_tuple, inputs, outputs, session
+        dem_parameters,
+        get_base_dem_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
     )
 
     register_server_functions_for_explorer(
-        elc_dem_parameters, get_base_elc_dem_df, scen_tuple, inputs, outputs, session
+        elc_dem_parameters,
+        get_base_elc_dem_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
     )
 
     register_server_functions_for_explorer(
         elc_dem_curve_parameters,
         get_base_elc_dem_curve_df,
         scen_tuple,
+        selected_scens["is_comparison"],
         inputs,
         outputs,
         session,
@@ -299,6 +312,7 @@ def demand_server(inputs, outputs, session, selected_scens):
         transport_energy_demand_parameters,
         get_base_transport_energy_demand_df,
         scen_tuple,
+        selected_scens["is_comparison"],
         inputs,
         outputs,
         session,
@@ -308,6 +322,7 @@ def demand_server(inputs, outputs, session, selected_scens):
         transport_capacity_parameters,
         get_base_transport_capacity_df,
         scen_tuple,
+        selected_scens["is_comparison"],
         inputs,
         outputs,
         session,

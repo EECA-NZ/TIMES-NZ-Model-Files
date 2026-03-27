@@ -250,28 +250,53 @@ def elec_server(inputs, outputs, session, selected_scens):
     # register all functions
 
     register_server_functions_for_explorer(
-        ele_gen_parameters, get_base_ele_gen_df, scen_tuple, inputs, outputs, session
-    )
-
-    register_server_functions_for_explorer(
-        ele_cap_parameters, get_base_ele_cap_df, scen_tuple, inputs, outputs, session
-    )
-
-    register_server_functions_for_explorer(
-        ele_use_parameters, get_base_ele_use_df, scen_tuple, inputs, outputs, session
-    )
-
-    register_server_functions_for_explorer(
-        ele_gen_curve_parameters,
-        get_base_ele_gen_curve_df,
+        ele_gen_parameters,
+        get_base_ele_gen_df,
         scen_tuple,
+        selected_scens["is_comparison"],
         inputs,
         outputs,
         session,
     )
 
     register_server_functions_for_explorer(
-        bat_cap_parameters, get_base_bat_cap_df, scen_tuple, inputs, outputs, session
+        ele_cap_parameters,
+        get_base_ele_cap_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
+    )
+
+    register_server_functions_for_explorer(
+        ele_use_parameters,
+        get_base_ele_use_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
+    )
+
+    register_server_functions_for_explorer(
+        ele_gen_curve_parameters,
+        get_base_ele_gen_curve_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
+    )
+
+    register_server_functions_for_explorer(
+        bat_cap_parameters,
+        get_base_bat_cap_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
     )
 
 

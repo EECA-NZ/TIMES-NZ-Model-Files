@@ -135,11 +135,23 @@ def dummy_server(inputs, outputs, session, selected_scens):
         return tuple(selected_scens["scenario_list"]())
 
     register_server_functions_for_explorer(
-        dummy_demand_parameters, get_dum_demand_df, scen_tuple, inputs, outputs, session
+        dummy_demand_parameters,
+        get_dum_demand_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
     )
 
     register_server_functions_for_explorer(
-        dummy_energy_parameters, get_dum_energy_df, scen_tuple, inputs, outputs, session
+        dummy_energy_parameters,
+        get_dum_energy_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
     )
 
 
