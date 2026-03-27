@@ -316,7 +316,7 @@ body > .container-fluid {
 
 
 /* =========================================================
-   4. Full-height chart layout & Altair/Vega sizing
+   4. Full-height chart layout
    ========================================================= */
 
 /* Panel viewport is a flex column */
@@ -393,7 +393,7 @@ body > .container-fluid {
   width: 100%;
 }
 
-/* Shiny Altair output fills container */
+/* Shiny widget output fills container */
 .chart-container .shiny-ipywidget-output {
   width: 100%;
   height: auto;
