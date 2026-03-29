@@ -128,9 +128,11 @@ jobs:
       - name: Run pip-audit
         working-directory: PREPARE-TIMES-NZ
         # pip vuln to be fixed in 25.3 (not yet available)
-        # this vuln is safe to ignore assuming python version is >=3.12. See: 
+        # this vuln is safe to ignore assuming python version is >=3.12. See:
         # https://github.com/pypa/pip/issues/13607
-        run: poetry run pip-audit --skip-editable --ignore-vuln GHSA-4xh5-x5gv-qwph 
+        # Pygments 2.19.2 is currently the latest PyPI release; remove this
+        # ignore once CVE-2026-4539 has a patched upstream release.
+        run: poetry run pip-audit --skip-editable --ignore-vuln GHSA-4xh5-x5gv-qwph --ignore-vuln CVE-2026-4539
 
   deploy:
     name: Deploy to GitHub Pages

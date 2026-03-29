@@ -1,14 +1,14 @@
 """
 Outputs electricity tech files for Veda
 
-Organised separately for genstack, offshore, and distributed solar
+Organised separately for genstack and offshore
 
 For genstack files, the outputs are a function of selected
 MBIE and NREL scenarios. So we output specific scenario files based on
 MBIE/NREL selected inputs. These can be adjusted quite easily as needed.
 
-For offshore/distributed solar, only the NREL scenario is relevant
-As these are excluded from the MBIE data. We currently just
+For offshore, only the NREL scenario is relevant
+as these are excluded from the MBIE data. We currently just
 output every file for these (advanced/moderate/conservative),
 and the config file can select which to use for whatever TIMES scenario
 
@@ -17,7 +17,6 @@ and the config file can select which to use for whatever TIMES scenario
 import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_0.stage_0_settings import (
-    BASE_YEAR,
     CAP2ACT_PJGW,
     MILESTONE_YEAR_LIST,
 )
@@ -51,7 +50,6 @@ ELC_ASSUMPTIONS = ASSUMPTIONS / "electricity_generation/future_techs"
 
 genstack_file = ELECTRICITY_DATA / "genstack.csv"
 offshore_wind = ELECTRICITY_DATA / "offshore_wind.csv"
-residential_solar = ELECTRICITY_DATA / "residential_solar.csv"
 
 # Assumptions and concordances
 region_islands = CONCORDANCES / "region_island_concordance.csv"
@@ -64,7 +62,6 @@ tech_assumptions = ELC_ASSUMPTIONS / "TechnologyAssumptions.csv"
 OUTPUT_LOCATION = STAGE_4_DATA / "subres_elc"
 OFFSHORE_OUT = OUTPUT_LOCATION / "offshore"
 GENSTACK_OUT = OUTPUT_LOCATION / "genstack"
-DSTSOLAR_OUT = OUTPUT_LOCATION / "dist_solar"
 
 
 # ------------------------------------------------------------------------------------------
@@ -76,12 +73,6 @@ DSTSOLAR_OUT = OUTPUT_LOCATION / "dist_solar"
 def save_offshore(df, name, filepath=OFFSHORE_OUT):
     """Wrapper for offshore wind outputs"""
     label = "New offshore techs"
-    _save_data(df, name, label, filepath=filepath)
-
-
-def save_dist_solar(df, name, filepath=DSTSOLAR_OUT):
-    """Wrapper for saving res solar files"""
-    label = "Saving solar data"
     _save_data(df, name, label, filepath=filepath)
 
 
@@ -512,106 +503,6 @@ def process_genstack_files(
 
         save_genstack(sens_df, f"{times_scenario}_cost_curves_sensitivity.csv")
 
-    # print(cost_curves)
-
-
-# ------------------------------------------------------------------------------------------
-# Solar ------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------
-
-
-def load_solar():
-    """Just reads solar data and renames the TechName to meet standards"""
-    df = pd.read_csv(residential_solar)
-    # adjust techname to be a bit more sensible. Move to stage 3 probably
-    df["TechName"] = "ELC_" + df["Tech"] + "_Res"
-    return df
-
-
-def reshape_solar_file(df):
-    """Creates parameter file for dist solar"""
-
-    # we'll make a base file by removing the curve data
-
-    df = df[df["Variable"] == "Capacity"].copy()
-    # summarise regions
-    df = df.groupby(["Tech", "TechName", "Fuel_TIMES"])["Value"].sum().reset_index()
-    df["CAP_BND"] = df["Value"] / 1000  # convert GW
-
-    df = add_assumptions(df)
-
-    df["Comm-IN"] = "ELC" + df["Fuel_TIMES"]
-    df["Comm-OUT"] = "ELCDD"
-
-    df = df.rename(
-        columns={
-            "PeakContribution": "NCAP_PKCNT",
-            "PlantLife": "Life",
-        }
-    )
-
-    df["CAP_BND~0"] = 5  # extrapolate the capacity bound through whole horizon
-
-    df["EFF"] = 1
-    df["NCAP_START"] = BASE_YEAR + 1
-    df["CAP2ACT"] = CAP2ACT_PJGW
-
-    return df
-
-
-def get_solar_params(df):
-    """Just Selects whats needed for the solar parameters"""
-
-    df = df[
-        [
-            "TechName",
-            "Comm-IN",
-            "Comm-OUT",
-            "CAP2ACT",
-            "NCAP_START",
-            "EFF",
-            "Life",
-            "NCAP_PKCNT",
-            "AFA",
-            "CAP_BND",
-            "CAP_BND~0",
-        ]
-    ]
-    return df
-
-
-def process_solar_files():
-    """Orchestrates all distributed solar Veda outputs"""
-
-    df = load_solar()
-
-    base_file = reshape_solar_file(df)
-    params = get_solar_params(base_file)
-
-    save_dist_solar(params, "parameters.csv")
-
-    process_definitions = create_process_file(base_file)
-    save_dist_solar(process_definitions, "process_definitions.csv")
-
-    # island definitions
-    island_definitions = assume_available_all_islands(df)
-    # here, all the distributed solar plants can be on either island
-    # so the method is a bit different
-    save_dist_solar(island_definitions, "island_definitions.csv")
-
-    # cost curves
-    # Advanced
-    cost_curves_advanced = get_nrel_cost_curves(df, "Advanced")
-    save_dist_solar(cost_curves_advanced, "cost_curves_advanced.csv")
-
-    # Moderate
-    cost_curves_moderate = get_nrel_cost_curves(df, "Moderate")
-    save_dist_solar(cost_curves_moderate, "cost_curves_moderate.csv")
-
-    # Conservative
-    cost_curves_conservative = get_nrel_cost_curves(df, "Conservative")
-    save_dist_solar(cost_curves_conservative, "cost_curves_conservative.csv")
-
 
 # ------------------------------------------------------------------------------------------
 # Execute ----------------------------------------------------------------------------------
@@ -628,7 +519,6 @@ def main():
     # offshore wind and dist solar outputs all cost curves
     # can select options by changing inputs in config file
     process_offshore_wind_data()
-    process_solar_files()
     # Traditional settings for genstack:
     # Reference MBIE + conservative NREL
     process_genstack_files("Traditional", "Reference", "Moderate")

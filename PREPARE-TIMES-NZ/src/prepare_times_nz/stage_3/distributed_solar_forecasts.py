@@ -42,9 +42,9 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Mapping for sectors
 SECTOR_MAP = {
-    "Commercial": "ELC_SolarDist_Commercial",
-    "Residential": "ELC_SolarDist_Residential",
-    "Industrial": "ELC_SolarDist_Industrial",
+    "Commercial": "ELC_SolarDistBifacial_Com",
+    "Residential": "ELC_SolarDistSmall_Res",
+    "Industrial": "ELC_SolarDistBifacial_Ind",
 }
 
 
@@ -56,7 +56,9 @@ def get_island_shares():
 
     df = pd.read_csv(BASE_YEAR_ELC_FILE)
 
-    df = df[df["Tech_TIMES"] == "SolarDist"]
+    dist_solar_techs = ["SolarDistSmall", "SolarDistBifacial"]
+
+    df = df[df["Tech_TIMES"].isin(dist_solar_techs)]
     df = df[df["Variable"] == "Capacity"]
 
     df = df[["PlantName", "Region", "Value"]]

@@ -55,6 +55,9 @@ repos:
         entry: poetry --directory PREPARE-TIMES-NZ run pip-audit
         args:
           - --progress-spinner=off
+          # Pygments 2.19.2 is currently the latest PyPI release; remove this
+          # ignore once CVE-2026-4539 has a patched upstream release.
+          - --ignore-vuln=CVE-2026-4539
         pass_filenames: false
         always_run: true
         stages: [pre-push]
