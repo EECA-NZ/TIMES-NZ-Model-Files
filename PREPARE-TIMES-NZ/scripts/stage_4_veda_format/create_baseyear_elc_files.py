@@ -31,6 +31,12 @@ DISTRIBUTION_INPUT_FILE = (
 )
 EF_INPUT_FILE = ASSUMPTIONS / "electricity_generation/EmissionFactors.csv"
 
+DIST_SOLAR_TECHS = [
+    "ELC_SolarDistBifacial_Com",
+    "ELC_SolarDistBifacial_Ind",
+    "ELC_SolarDistSmall_Res",
+]
+
 
 # ----- Generation units  --------------------------------------- #
 GENERATION_UNIT_MAP = {
@@ -271,12 +277,7 @@ def define_generation_capacity(df):
 
     def _capacity_attribute(row: pd.Series) -> str:
         # Force distributed solar TechNames to NCAP_PASTI
-        distributed_solar_techs = [
-            "ELC_SolarDist_Commercial",
-            "ELC_SolarDist_Industrial",
-            "ELC_SolarDist_Residential",
-        ]
-        if row["TechName"] in distributed_solar_techs:
+        if row["TechName"] in DIST_SOLAR_TECHS:
             return "NCAP_PASTI"
         return "PRC_RESID" if pd.isna(row["YearCommissioned"]) else "NCAP_PASTI"
 
@@ -368,11 +369,7 @@ def define_generation_parameters(df):
 
     # hacky patch - need to fix AFAs for ren techs!!
 
-    techs_to_loosen = [
-        "ELC_SolarDist_Commercial",
-        "ELC_SolarDist_Residential",
-        "ELC_SolarDist_Industrial",
-    ]
+    techs_to_loosen = DIST_SOLAR_TECHS
 
     logger.warning("Inserting manual patch into outputs for some base year generation!")
     # This removes activity bound limits for some techs
@@ -556,8 +553,11 @@ def make_capacity_factors(df):
     )
     df[next_afa_var] = df["Value"]
     df["AFA~0"] = 5
-    df = df[["TechName", base_afa_var, next_afa_var, "AFA~0"]].drop_duplicates()
 
+    # remove solar AFAs after 2024 - allow AFs to take over
+    df[next_afa_var] = np.where(df["TechnologyCode"] == "SOL", 1, df[next_afa_var])
+
+    df = df[["TechName", base_afa_var, next_afa_var, "AFA~0"]].drop_duplicates()
     save_elc_data(df, "base_year_capacity_factors.csv")
 
 

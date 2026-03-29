@@ -1703,6 +1703,41 @@ files = [
 ]
 
 [[package]]
+name = "nrel-pysam"
+version = "7.1.0"
+description = "National Renewable Energy Laboratory's System Advisor Model Python Wrapper"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "NREL_PySAM-7.1.0-cp310-cp310-macosx_12_0_arm64.whl", hash = "sha256:7fbbdf9e20edbf6e5506bcdd4cc98f8512fdf34b8d990eba83d50fbeadff9c58"},
+    {file = "NREL_PySAM-7.1.0-cp310-cp310-macosx_12_0_x86_64.whl", hash = "sha256:e098d4369266f6917b2b7a72776a47faa5df818b8ce6b2d13eb4665c4098fdc9"},
+    {file = "NREL_PySAM-7.1.0-cp310-cp310-win_amd64.whl", hash = "sha256:1620d28b5ee4bf497a9ae85c35701f036f980b66c41a893acfc35db580220f23"},
+    {file = "NREL_PySAM-7.1.0-cp311-cp311-macosx_12_0_arm64.whl", hash = "sha256:4bf5c48ccc25482b8b3802235e8adb8c1b5847e34e61a0493a2a91d2ec2ca683"},
+    {file = "NREL_PySAM-7.1.0-cp311-cp311-macosx_12_0_x86_64.whl", hash = "sha256:13240cb8488b59cda7da5453e71784e740ec3ce4a65b74331530f5d59c21c6d0"},
+    {file = "NREL_PySAM-7.1.0-cp311-cp311-win_amd64.whl", hash = "sha256:b8684ec80f6f063faa12dc11725aaa7bf4a7fd1fcc4b06f2767a43a31ef96972"},
+    {file = "NREL_PySAM-7.1.0-cp312-cp312-macosx_12_0_arm64.whl", hash = "sha256:5fade062ebc016c355182d8b1cec6ff8666e91e4bb31a57aeacab51ba19d6fa7"},
+    {file = "NREL_PySAM-7.1.0-cp312-cp312-macosx_12_0_x86_64.whl", hash = "sha256:33ab57a6c33752426ef1ef33b88bc4765d62f7cbcd900cb9d80bef6c5cc6c59f"},
+    {file = "NREL_PySAM-7.1.0-cp312-cp312-win_amd64.whl", hash = "sha256:011c303535a86f6f574a05801ba93321ebc714d1a711f2bd80a3e61e2adc2b6d"},
+    {file = "NREL_PySAM-7.1.0-cp313-cp313-macosx_12_0_arm64.whl", hash = "sha256:2e03066c5f48a33ccb8f0d2257da60fe8864a2701f510a7c347fb274790078fa"},
+    {file = "NREL_PySAM-7.1.0-cp313-cp313-macosx_12_0_x86_64.whl", hash = "sha256:ec394d7be641b305cdc8e29777d34c1f3993904e7cf56666bd40264b53d61e94"},
+    {file = "NREL_PySAM-7.1.0-cp313-cp313-win_amd64.whl", hash = "sha256:ce4f7560db91e8b635a553ab2a809ca9f67b49d5110629eeafc1bce8b14dac80"},
+    {file = "NREL_PySAM-7.1.0-cp39-cp39-macosx_12_0_arm64.whl", hash = "sha256:df668724bb11a82d7d25e5cfdb84749d9e3e2bc308c2be2487a443c9a0b6f32e"},
+    {file = "NREL_PySAM-7.1.0-cp39-cp39-macosx_12_0_x86_64.whl", hash = "sha256:bc7059ad94bf6c951209fac890f0689f1a612e97ebba9c3346ac75b3cbcbbefb"},
+    {file = "NREL_PySAM-7.1.0-cp39-cp39-win_amd64.whl", hash = "sha256:706c4ccbb154d69282cd4340a33cdb6831f5c4d3a940ccf0b342b58c3eb1c74c"},
+    {file = "nrel_pysam-7.1.0-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:9af018550557aa45558a534fd301ecee7639e3d36dc323d13f339dbe039375f4"},
+    {file = "nrel_pysam-7.1.0-cp310-cp310-manylinux2014_x86_64.whl", hash = "sha256:52f79cd5de809b549d7c1b8c567b18992f6a1fbc89c3a9d112abfa97e1057e43"},
+    {file = "nrel_pysam-7.1.0-cp311-cp311-manylinux2014_aarch64.whl", hash = "sha256:c3dd553e1bfb54dfe7466bd820df017a1a3e66cbe38496254281ee1add5ce941"},
+    {file = "nrel_pysam-7.1.0-cp311-cp311-manylinux2014_x86_64.whl", hash = "sha256:157f66e28d0bf494d970ab3bf1fa58c208694bb67a45bd25d00eaf31eb125966"},
+    {file = "nrel_pysam-7.1.0-cp312-cp312-manylinux2014_aarch64.whl", hash = "sha256:9887172608b10327f4a0a0ec412fb523d2d9a733e31085cb8ffda776b39d1135"},
+    {file = "nrel_pysam-7.1.0-cp312-cp312-manylinux2014_x86_64.whl", hash = "sha256:0ae907e2903fdd90dea45e73b04017986799ba11456c5cc45d80fb6c291f5c66"},
+    {file = "nrel_pysam-7.1.0-cp313-cp313-manylinux2014_aarch64.whl", hash = "sha256:74d3c090711795b755d5f390d54e64f9e42b2bee5f33a5ecbe59e15ded3c41dd"},
+    {file = "nrel_pysam-7.1.0-cp313-cp313-manylinux2014_x86_64.whl", hash = "sha256:0290f10db930367d688dc486aceb160a05cc285a0fb4df7096a78398356a00a4"},
+    {file = "nrel_pysam-7.1.0-cp39-cp39-manylinux2014_aarch64.whl", hash = "sha256:f0ac00b22be6cbe0389af28060089f7860a28a35d0d8e935e74ec17278e6427b"},
+    {file = "nrel_pysam-7.1.0-cp39-cp39-manylinux2014_x86_64.whl", hash = "sha256:ba499a1d15261693c50e08de75acacaef099e8b464de16152c88bd7d69014380"},
+]
+
+[[package]]
 name = "numpy"
 version = "2.4.3"
 description = "Fundamental package for array computing in Python"
@@ -2418,14 +2453,14 @@ six = ">=1.5"
 
 [[package]]
 name = "python-discovery"
-version = "1.2.1"
+version = "1.2.0"
 description = "Python interpreter discovery"
 optional = false
 python-versions = ">=3.8"
 groups = ["dev"]
 files = [
-    {file = "python_discovery-1.2.1-py3-none-any.whl", hash = "sha256:b6a957b24c1cd79252484d3566d1b49527581d46e789aaf43181005e56201502"},
-    {file = "python_discovery-1.2.1.tar.gz", hash = "sha256:180c4d114bff1c32462537eac5d6a332b768242b76b69c0259c7d14b1b680c9e"},
+    {file = "python_discovery-1.2.0-py3-none-any.whl", hash = "sha256:1e108f1bbe2ed0ef089823d28805d5ad32be8e734b86a5f212bf89b71c266e4a"},
+    {file = "python_discovery-1.2.0.tar.gz", hash = "sha256:7d33e350704818b09e3da2bd419d37e21e7c30db6e0977bb438916e06b41b5b1"},
 ]
 
 [package.dependencies]
@@ -3475,4 +3510,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<4"
-content-hash = "2df07cdeb826bceba22613fc1b2dd01a7edb602697d5b3c21a831bbc215baa40"
+content-hash = "3e4aa005f861a53dbb83ef2e87c97cf7a7be336f008d378ef18a57df3c1c7f80"

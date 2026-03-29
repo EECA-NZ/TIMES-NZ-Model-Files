@@ -240,6 +240,14 @@ STAGE_2: dict[str, list[str]] = {
 STAGE_3: dict[str, list[str]] = {
     "demand_projections": ["demand_projections/industrial_demand_index.csv"],
     "supply_projections": ["oil_and_gas/oil_and_gas_projections.csv"],
+    "electricity/solar_prepare_epw": ["electricity/solar_af/prepared_epw/.prepared"],
+    "electricity/solar_run_hourly_profiles": [
+        "electricity/solar_af/hourly/all_scenarios_hourly_long.csv"
+    ],
+    "electricity/solar_build_curves": [
+        "electricity/solar_af/timeslices/solar_availability_factors.csv",
+        "electricity/renewable_curves.csv",
+    ],
     # subres
     "electricity/electricity_new_gen_tech": ["electricity/future_generation_tech.csv"],
     "transport/extract_vehicle_future_costs_data": [
@@ -250,6 +258,16 @@ STAGE_3: dict[str, list[str]] = {
     "electricity/distributed_solar_forecasts": [
         "distributed_solar/traditional_distributed_solar_forecasts.csv"
     ],
+}
+
+STAGE_3_INPUTS: dict[str, list[Path]] = {
+    "electricity/solar_prepare_epw": _files_in_path(DATA_RAW / "external_data/niwa"),
+}
+
+STAGE_3_DEPS: dict[str, list[str]] = {
+    "electricity/solar_run_hourly_profiles": ["electricity/solar_prepare_epw"],
+    "electricity/solar_build_curves": ["electricity/solar_run_hourly_profiles"],
+    "electricity/wem_wcm": ["electricity/solar_build_curves"],
 }
 
 # Stage-4: VEDA-format CSVs. Single sentinel per script
@@ -362,15 +380,27 @@ def task_stage_3_scenarios() -> Iterator[dict]:
     """Stage-3: derive scenario demand-growth assumptions."""
     for rel_script, rel_outs in STAGE_3.items():
         script = STAGE_3_SCRIPTS / f"{rel_script}.py"
+        extra_in = [
+            _intermediate_out(rel, S3_DIR)
+            for dep in STAGE_3_DEPS.get(rel_script, [])
+            for rel in STAGE_3[dep]
+        ]
+        input_files = list(STAGE_3_INPUTS.get(rel_script, []))
         yield {
             "name": rel_script.replace("/", "_"),
             "actions": [_run(str(script))],
             "file_dep": [script]
             + _files_in_stage(S1_DIR)
             + ASSUMPTION_INPUTS
-            + CONCORDANCE_INPUTS,
+            + CONCORDANCE_INPUTS
+            + input_files
+            + extra_in,
             "targets": [_intermediate_out(rel, S3_DIR) for rel in rel_outs],
-            "task_dep": [f"stage_2_baseyear:{n}" for n in STAGE_2],
+            "task_dep": [f"stage_2_baseyear:{n}" for n in STAGE_2]
+            + [
+                f"stage_3_scenarios:{n.replace('/', '_')}"
+                for n in STAGE_3_DEPS.get(rel_script, [])
+            ],
             "clean": True,
         }
 

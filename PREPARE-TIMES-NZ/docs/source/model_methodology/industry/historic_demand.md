@@ -258,6 +258,7 @@ In addition to recategorising sectors and adding some missing demand, we make th
  - Pump system technologies using natural gas at Ballance are renamed to “Compressors”. 
  - All direct use of natural gas at Methanex is labelled “Reformers”.
  - The EEUD shows that there is some high temperature (over 300°C) process heat use in the wood processing sector. This uses electricity, and the total demand is very low; roughly 3TJ in 2023. As there should be no process heat over 300°C in this sector, we believe this may be a category error, and recategorise it as intermediate heat (100°C-300°C) provided by electric boilers.
+ - All Low Temperature Heat (<100 C), Water Heating is combined to low temperature process heat in industry.
 
 ## Island demand shares 
 
