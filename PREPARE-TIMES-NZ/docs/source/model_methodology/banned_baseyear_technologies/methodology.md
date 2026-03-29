@@ -1,3 +1,12 @@
+# Methodology
+
+
+For the 3.0 release, some baseyear technologies were banned and disabled the future investment on those technologies. Specially, the investment on technologies that use coal, oil, and natural gas are banned in order to enable the use of more low carbon fuels.
+
+
+```{list-table} Banned technologies
+:header-rows: 1
+:name: tab-banned-techs
 Code,Label
 ELC_*,All electricity
 RES*COA**,Residential coal
@@ -21,3 +30,4 @@ AFISH*-PET,Fishing boat petrol
 *PET-ENGIN-MTV_STA,Industrial petrol stationary motive power
 C_*INC*,Commercial incandescent lighting
 *FOL*PH*,Industrial fuel oil process heat
+```
