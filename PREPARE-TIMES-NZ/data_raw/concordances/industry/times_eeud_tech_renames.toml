@@ -1,7 +1,7 @@
 #This file contains a list of changes we've made to EEUD categories 
 
 # add more by creating another [[rule]] block, then listing its conditions and updates. 
-# Recommend you also add a name and justification - these will be reported by the scrips.
+# Recommend you also add a name and justification - these will be reported by the scripts.
 # These should also all be documented in the TIMES docs (Currently under "Other Changes to the EEUD")
 
 [[rule]]
@@ -74,9 +74,7 @@ Justification = "We distinguish different technologies for heatpumps for space h
   Technology = "Heat Pump (space heating)"
 
 
-  [[rule]]
-
-
+[[rule]]
 Name = "Heat pumps for process heating"
 Justification = "We distinguish different technologies for heatpumps for space heating v space cooling"
 
@@ -87,3 +85,17 @@ Justification = "We distinguish different technologies for heatpumps for space h
 
   [rule.updates]  
   Technology = "Heat Pump (process heat)"
+
+
+
+[[rule]]
+Name = "Combine water heating and low temperature process heat in industry"
+Justification = "This is not a useful distinction"
+
+
+  [rule.conditions]
+  SectorGroup = "Industrial"
+  EndUse = "Low Temperature Heat (<100 C), Water Heating"
+
+  [rule.updates]
+  EndUse = "Low Temperature Heat (<100 C), Process Requirements"

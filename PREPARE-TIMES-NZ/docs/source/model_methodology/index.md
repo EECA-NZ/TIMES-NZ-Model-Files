@@ -12,6 +12,7 @@ commercial/index
 industry/index
 residential/index
 transport/index
+banned_baseyear_technologies/index
 
 ```
 
