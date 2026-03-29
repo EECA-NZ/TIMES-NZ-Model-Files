@@ -8,7 +8,6 @@ import textwrap
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.colors import hex_to_rgb, qualitative
-from plotly.subplots import make_subplots
 from times_nz_internal_qa.app.helpers.timeslices import (
     add_timeslice_chart_columns,
     get_timeslice_label_order,
@@ -480,70 +479,33 @@ def build_grouped_area(
     group_col: str,
     scen_list,
 ) -> go.Figure:
-    """Stacked area chart. Multiple scenarios render as vertically stacked subplots."""
+    """Stacked area chart for a single scenario."""
     chart_df = _prepare_chart_df(pdf, group_col)
     chart_df = chart_df.sort_values(["Scenario", "PeriodLabel", group_col])
     groups = _get_groups(chart_df, group_col)
     color_map = _build_color_map(groups)
     period_order = [str(p) for p in period_range]
-
-    if len(scen_list) <= 1:
-        fig = go.Figure()
-        scenario = scen_list[0] if scen_list else chart_df["Scenario"].iloc[0]
-        for _, group, trace_df in _iter_series(
-            chart_df, group_col, [scenario], sort_col="PeriodLabel", dropna=True
-        ):
-            fig.add_trace(
-                _build_scatter_trace(
-                    trace_df,
-                    scenario=scenario,
-                    group=group,
-                    group_col=group_col,
-                    unit=unit,
-                    color=color_map[group],
-                    name=group,
-                    legendgroup=group,
-                    mode="lines",
-                    line_width=1,
-                    stackgroup="stack",
-                )
+    fig = go.Figure()
+    scenario = scen_list[0] if scen_list else chart_df["Scenario"].iloc[0]
+    for _, group, trace_df in _iter_series(
+        chart_df, group_col, [scenario], sort_col="PeriodLabel", dropna=True
+    ):
+        fig.add_trace(
+            _build_scatter_trace(
+                trace_df,
+                scenario=scenario,
+                group=group,
+                group_col=group_col,
+                unit=unit,
+                color=color_map[group],
+                name=group,
+                legendgroup=group,
+                mode="lines",
+                line_width=1,
+                stackgroup="stack",
             )
-        fig.update_xaxes(
-            type="category", categoryorder="array", categoryarray=period_order
         )
-        return _apply_standard_layout(fig, unit=unit, legend_count=len(groups))
-
-    fig = make_subplots(
-        rows=len(scen_list),
-        cols=1,
-        shared_xaxes=True,
-        subplot_titles=list(scen_list),
-        vertical_spacing=0.06,
+    fig.update_xaxes(
+        type="category", categoryorder="array", categoryarray=period_order
     )
-
-    for row_index, scenario in enumerate(scen_list, start=1):
-        for _, group, trace_df in _iter_series(
-            chart_df, group_col, [scenario], sort_col="PeriodLabel", dropna=True
-        ):
-            fig.add_trace(
-                _build_scatter_trace(
-                    trace_df,
-                    scenario=scenario,
-                    group=group,
-                    group_col=group_col,
-                    unit=unit,
-                    color=color_map[group],
-                    name=group,
-                    legendgroup=group,
-                    mode="lines",
-                    line_width=1,
-                    showlegend=row_index == 1,
-                    stackgroup=f"stack-{row_index}",
-                ),
-                row=row_index,
-                col=1,
-            )
-
-    fig.update_xaxes(type="category", categoryorder="array", categoryarray=period_order)
-    fig.update_yaxes(title_text=unit, row=1, col=1)
     return _apply_standard_layout(fig, unit=unit, legend_count=len(groups))
