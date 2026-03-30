@@ -34,29 +34,6 @@ def get_elc_base_processes():
     df = pd.read_csv(PREP_STAGE_2 / "electricity/base_year_electricity_supply.csv")
     df = df[["TechName", "PlantName", "Tech_TIMES"]].drop_duplicates()
 
-    # note that this duplication method is only needed
-    # for comparing different model solar structures
-
-    solar_dist_dupes = df[
-        df["TechName"].isin(
-            [
-                "ELC_SolarDistBifacial_Com",
-                "ELC_SolarDistBifacial_Ind",
-                "ELC_SolarDistSmall_Res",
-            ]
-        )
-    ].copy()
-    solar_dist_dupes["TechName"] = solar_dist_dupes["TechName"].replace(
-        {
-            "ELC_SolarDistBifacial_Com": "ELC_SolarDist_Commercial",
-            "ELC_SolarDistBifacial_Ind": "ELC_SolarDist_Industrial",
-            "ELC_SolarDistSmall_Res": "ELC_SolarDist_Residential",
-        }
-    )
-    # adjusting tech code to include solar dist
-    solar_dist_dupes["Tech_TIMES"] = "SolarDist"
-    df = pd.concat([df, solar_dist_dupes], ignore_index=True).drop_duplicates()
-
     df = df.rename(columns={"TechName": "Process"})
     df["ProcessGroup"] = PROCESS_GROUP
 
@@ -70,15 +47,6 @@ def get_elc_genstack():
     """
     df = pd.read_csv(PREP_STAGE_3 / "electricity/genstack.csv")
     df = df[["TechName", "Plant", "Tech_TIMES"]].drop_duplicates()
-
-    solar_track_dupes = df[
-        df["TechName"].str.startswith("ELC_SolarTrack_", na=False)
-    ].copy()
-    solar_track_dupes["TechName"] = solar_track_dupes["TechName"].str.replace(
-        "ELC_SolarTrack_", "ELC_SolarFixed_", n=1, regex=False
-    )
-    solar_track_dupes["Tech_TIMES"] = "SolarFixed"
-    df = pd.concat([df, solar_track_dupes], ignore_index=True).drop_duplicates()
 
     df = df.rename(columns={"TechName": "Process", "Plant": "PlantName"})
     df["ProcessGroup"] = PROCESS_GROUP
