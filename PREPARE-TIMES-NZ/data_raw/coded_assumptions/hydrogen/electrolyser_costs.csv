@@ -1,4 +1,4 @@
-TechTIMES,Year,Scenario,CAPEX
+TechName,Year,Scenario,INVCOST
 H2_PEM,2023,Traditional,3004
 H2_PEM,2035,Traditional,2225
 H2_PEM,2050,Traditional,1732
