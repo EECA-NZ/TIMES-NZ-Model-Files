@@ -9,8 +9,8 @@ Heat Exchangers,Geothermal,0.970124,Using Geo heat exchanger efficiency - typica
 Boiler Systems,LPG,0.87,Typical industry value
 Boiler Systems,Natural Gas,0.87,Typical industry value
 Boiler Systems,Wood,0.85,Typical industry value
-Burner (Direct Heat),Electricity,,TODO
-Burner (Direct Heat),LPG,,TODO
+Burner (Direct Heat),Electricity,0.99,Typical industry value
+Burner (Direct Heat),LPG,0.87,Typical industry value
 Burner (Direct Heat),Natural Gas,0.8,Typical industry value
 Electric Furnace,Electricity,0.8,Typical industry value. Is this different to Furnace (electricity)?
 Electric Motor,Electricity,0.9,"Matching with ""Stationary Motor"" https://www.eeca.govt.nz/assets/EECA-Resources/Research-papers-guides/Technology-Scan-of-Electric-Motor-Applications_EECA.pdf"
@@ -22,9 +22,8 @@ Furnace/Kiln,Coal,0.7,Typical industry value
 Furnace/Kiln,Electricity,0.8,Typical industry value
 Furnace/Kiln,Fuel Oil,0.8,Typical industry value
 Furnace/Kiln,Natural Gas,0.8,Typical industry value
-Heat Pump (space heating),Electricity,,TODO
-Heat Pump (process heat),Electricity,,TODO
-Heat Pump (for Heating),Natural Gas,,TODO
+Heat Pump (space heating),Electricity,4,https://www.eeca.govt.nz/insights/eeca-insights/industrial-heat-pumps-for-process-heat/#section6
+Heat Pump (process heat),Electricity,4,https://www.eeca.govt.nz/insights/eeca-insights/industrial-heat-pumps-for-process-heat/#section6
 HVAC,Electricity,1,Placeholder efficiency
 Industrial Ovens,Coal,0.5,Typical industry value
 Industrial Ovens,Electricity,0.76,Energystar https://www.energystar.gov/products/commercial_food_service_equipment/commercial_ovens/key_product_criteria?utm_source=chatgpt.com

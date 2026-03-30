@@ -1,8 +1,8 @@
 Sector,EndUse,Technology,AFA,Notes
 Education,Electronics and Other Electrical Uses,Electronics,0.22,TIMES-NZ 2.0
-Education,Lighting,Lights (Fluorescent),0.22,TIMES-NZ 2.0
-Education,Lighting,Lights (Incandescent),0.22,TIMES-NZ 2.0
-Education,Lighting,Lights (LED),0.22,TIMES-NZ 2.0
+Education,Lighting,Fluorescent,0.22,TIMES-NZ 2.0
+Education,Lighting,Incandescent/Halogen,0.22,TIMES-NZ 2.0
+Education,Lighting,LED,0.22,TIMES-NZ 2.0
 Education,"Intermediate Heat (100-300 C), Process Requirements",Boiler Systems,0.22,TIMES-NZ 2.0
 Education,"Intermediate Heat (100-300 C), Process Requirements",Resistance Heater,0.22,TIMES-NZ 2.0
 Education,"Low Temperature Heat (<100 C), Space Heating",Boiler Systems,0.1,TIMES-NZ 2.0
@@ -21,9 +21,9 @@ Education,"Motive Power, Mobile",Internal Combustion Engine (Land Transport),0.0
 Education,"Motive Power, Stationary",Electric Motor,0.22,TIMES-NZ 2.0
 Education,"Motive Power, Stationary",Stationary Engine,0.22,TIMES-NZ 2.0
 Healthcare,Electronics and Other Electrical Uses,Electronics,0.46,TIMES-NZ 2.0
-Healthcare,Lighting,Lights (Fluorescent),0.46,TIMES-NZ 2.0
-Healthcare,Lighting,Lights (Incandescent),0.46,TIMES-NZ 2.0
-Healthcare,Lighting,Lights (LED),0.46,TIMES-NZ 2.0
+Healthcare,Lighting,Fluorescent,0.46,TIMES-NZ 2.0
+Healthcare,Lighting,Incandescent/Halogen,0.46,TIMES-NZ 2.0
+Healthcare,Lighting,LED,0.46,TIMES-NZ 2.0
 Healthcare,"Intermediate Heat (100-300 C), Process Requirements",Boiler Systems,0.46,TIMES-NZ 2.0
 Healthcare,"Intermediate Heat (100-300 C), Process Requirements",Resistance Heater,0.46,TIMES-NZ 2.0
 Healthcare,"Intermediate Heat (100-300 C), Process Requirements",Burner (Direct Heat),0.46,TIMES-NZ 2.0
@@ -42,9 +42,9 @@ Healthcare,"Motive Power, Mobile",Internal Combustion Engine (Land Transport),0.
 Healthcare,"Motive Power, Stationary",Electric Motor,0.46,TIMES-NZ 2.0
 Healthcare,"Motive Power, Stationary",Stationary Engine,0.46,TIMES-NZ 2.0
 Office Blocks,Electronics and Other Electrical Uses,Electronics,0.45,TIMES-NZ 2.0
-Office Blocks,Lighting,Lights (Fluorescent),0.45,TIMES-NZ 2.0
-Office Blocks,Lighting,Lights (Incandescent),0.45,TIMES-NZ 2.0
-Office Blocks,Lighting,Lights (LED),0.45,TIMES-NZ 2.0
+Office Blocks,Lighting,Fluorescent,0.45,TIMES-NZ 2.0
+Office Blocks,Lighting,Incandescent/Halogen,0.45,TIMES-NZ 2.0
+Office Blocks,Lighting,LED,0.45,TIMES-NZ 2.0
 Office Blocks,"Intermediate Heat (100-300 C), Process Requirements",Boiler Systems,0.45,TIMES-NZ 2.0
 Office Blocks,"Intermediate Heat (100-300 C), Process Requirements",Resistance Heater,0.45,TIMES-NZ 2.0
 Office Blocks,"Low Temperature Heat (<100 C), Space Heating",Boiler Systems,0.1,TIMES-NZ 2.0
@@ -62,9 +62,9 @@ Office Blocks,"Motive Power, Mobile",Internal Combustion Engine (Land Transport)
 Office Blocks,"Motive Power, Stationary",Electric Motor,0.45,TIMES-NZ 2.0
 Office Blocks,"Motive Power, Stationary",Stationary Engine,0.45,TIMES-NZ 2.0
 WSR,Electronics and Other Electrical Uses,Electronics,0.48,TIMES-NZ 2.0
-WSR,Lighting,Lights (Fluorescent),0.48,TIMES-NZ 2.0
-WSR,Lighting,Lights (Incandescent),0.48,TIMES-NZ 2.0
-WSR,Lighting,Lights (LED),0.48,TIMES-NZ 2.0
+WSR,Lighting,Fluorescent,0.48,TIMES-NZ 2.0
+WSR,Lighting,Incandescent/Halogen,0.48,TIMES-NZ 2.0
+WSR,Lighting,LED,0.48,TIMES-NZ 2.0
 WSR,"Intermediate Heat (100-300 C), Process Requirements",Boiler Systems,0.48,TIMES-NZ 2.0
 WSR,"Intermediate Heat (100-300 C), Process Requirements",Resistance Heater,0.48,TIMES-NZ 2.0
 WSR,"Low Temperature Heat (<100 C), Space Heating",Boiler Systems,0.1,TIMES-NZ 2.0
@@ -83,9 +83,9 @@ WSR,"Intermediate Heat (100-300 C), Cooking",Cooking Ovens,0.48,TIMES-NZ 2.0
 WSR,"Motive Power, Mobile",Internal Combustion Engine (Land Transport),0.1,TIMES-NZ 2.0
 WSR,"Motive Power, Stationary",Electric Motor,0.48,TIMES-NZ 2.0
 Other Commercial,Electronics and Other Electrical Uses,Electronics,0.55,TIMES-NZ 2.0
-Other Commercial,Lighting,Lights (Fluorescent),0.55,TIMES-NZ 2.0
-Other Commercial,Lighting,Lights (Incandescent),0.55,TIMES-NZ 2.0
-Other Commercial,Lighting,Lights (LED),0.55,TIMES-NZ 2.0
+Other Commercial,Lighting,Fluorescent,0.55,TIMES-NZ 2.0
+Other Commercial,Lighting,Incandescent/Halogen,0.55,TIMES-NZ 2.0
+Other Commercial,Lighting,LED,0.55,TIMES-NZ 2.0
 Other Commercial,"Intermediate Heat (100-300 C), Process Requirements",Boiler Systems,0.55,TIMES-NZ 2.0
 Other Commercial,"Intermediate Heat (100-300 C), Process Requirements",Resistance Heater,0.55,TIMES-NZ 2.0
 Other Commercial,"Intermediate Heat (100-300 C), Process Requirements",Burner (Direct Heat),0.55,TIMES-NZ 2.0
@@ -105,4 +105,4 @@ Other Commercial,"Motive Power, Stationary",Stationary Engine,0.55,TIMES-NZ 2.0
 Other Commercial,Pumping,"Pump Systems (for Fluids, etc.)",0.55,Similar to Electric Motor
 Data Centre,Electronics and Other Electrical Uses,Electronics,0.99,
 Data Centre,Space Cooling,Heat Pump (for Cooling),0.85,
-Data Centre,Lighting,Lights (LED),0.12,
+Data Centre,Lighting,LED,0.12,

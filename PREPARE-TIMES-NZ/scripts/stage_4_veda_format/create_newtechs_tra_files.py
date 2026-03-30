@@ -162,10 +162,10 @@ def first_nonnull(s: pd.Series) -> float:
 # -----------------------------------------------------------------------------
 
 
-def create_newtech_process_df(cfg):
+def create_newtech_process_df(columns: list[str]) -> pd.DataFrame:
     """Creates a DataFrame defining new transport technologies."""
     # get TechName values from create_process_df
-    df_base = create_process_df({"Columns": ["TechName"]}).copy()
+    df_base = create_process_df(["TechName"]).copy()
 
     # normalize
     df_base["TechName"] = df_base["TechName"].str.replace(r"NEW", "ELC", regex=True)
@@ -227,11 +227,12 @@ def create_newtech_process_df(cfg):
         }
     )
 
-    return df[cfg["Columns"]]
+    return df[columns]
 
 
-def create_newtech_process_parameters_df(cfg):
+def create_newtech_process_parameters_df(columns: list[str]) -> pd.DataFrame:
     """Get newtech parameters from coded assumptions"""
+    columns = columns.copy()
 
     costs = pd.read_csv(FUTURE_COSTS_FILE)
     costs_wide = load_cost_tables(costs)
@@ -248,7 +249,7 @@ def create_newtech_process_parameters_df(cfg):
         "Share",
     ]
 
-    newtechs_process = create_process_parameters_df({"Columns": cols}).copy()
+    newtechs_process = create_process_parameters_df(cols).copy()
 
     # Normalize TechName
     newtechs_process["TechName"] = (
@@ -388,7 +389,7 @@ def create_newtech_process_parameters_df(cfg):
     )
 
     # Add empty columns from cfg if missing
-    for col in cfg["Columns"]:
+    for col in columns:
         if col not in out.columns:
             out[col] = np.nan
 
@@ -494,8 +495,8 @@ def create_newtech_process_parameters_df(cfg):
     out["SCENARIO"] = np.tile(SCENARIO, orig_n)
 
     # keep it in the final output
-    if "SCENARIO" not in cfg["Columns"]:
-        cfg["Columns"].append("SCENARIO")
+    if "SCENARIO" not in columns:
+        columns.append("SCENARIO")
 
     afa_2040 = {
         "T_F_HTBEVELC_LOW": 0.25 * 0.97,
@@ -508,8 +509,8 @@ def create_newtech_process_parameters_df(cfg):
     out["AFA~2040"] = out["TechName"].map(afa_2040_num)
 
     # 3) Ensure it’s in your output columns
-    if "AFA~2040" not in cfg["Columns"]:
-        cfg["Columns"].append("AFA~2040")
+    if "AFA~2040" not in columns:
+        columns.append("AFA~2040")
 
     # ---- Merge yeared costs (2030/2040/2050) by attributes + scenario ----
     # 2b) parse veh/fuel/tech for each row in `out` using your existing parser
@@ -603,13 +604,13 @@ def create_newtech_process_parameters_df(cfg):
 
     # 8) keep columns in cfg
     for col in ["INVCOST", "FIXOM", *present.values()]:
-        if col in merged.columns and col not in cfg["Columns"]:
-            cfg["Columns"].append(col)
+        if col in merged.columns and col not in columns:
+            columns.append(col)
 
     merged["CAP2ACT"] = merged["CAP2ACT"].fillna(0.08)
 
     out = merged
-    return out[cfg["Columns"]]
+    return out[columns]
 
 
 # -----------------------------------------------------------------------------
@@ -620,31 +621,29 @@ def main() -> None:
     definition and parameter tables."""
 
     processes = create_newtech_process_df(
-        {"Columns": ["Sets", "TechName", "Tact", "Tcap", "Vintage"]}
+        ["Sets", "TechName", "Tact", "Tcap", "Vintage"]
     )
 
     df = create_newtech_process_parameters_df(
-        {
-            "Columns": [
-                "TechName",
-                "Comm-In",
-                "Comm-Out",
-                "SCENARIO",
-                "START",
-                "EFF",
-                "AFA~2024",
-                "AFA~2040",
-                "LIFE",
-                "INVCOST",
-                "INVCOST~2030",
-                "INVCOST~2040",
-                "INVCOST~2050",
-                "INVCOST~0",
-                "FIXOM",
-                "CAP2ACT",
-                "Share",
-            ]
-        }
+        [
+            "TechName",
+            "Comm-In",
+            "Comm-Out",
+            "SCENARIO",
+            "START",
+            "EFF",
+            "AFA~2024",
+            "AFA~2040",
+            "LIFE",
+            "INVCOST",
+            "INVCOST~2030",
+            "INVCOST~2040",
+            "INVCOST~2050",
+            "INVCOST~0",
+            "FIXOM",
+            "CAP2ACT",
+            "Share",
+        ]
     )
     df_standard_cost_curve = df[df["SCENARIO"] == "Traditional"].drop(
         columns="SCENARIO"

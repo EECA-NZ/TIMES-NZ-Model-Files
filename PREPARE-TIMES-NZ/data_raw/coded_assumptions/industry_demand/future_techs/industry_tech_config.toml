@@ -1,8 +1,8 @@
 # This config file is used to generate new industrial technologies and define what existing uses/techs they might replace
 
-[newtechsHTHP]
-TechCode = "HTHP"
-Technology = "High Temperature Heat Pump"
+[newtechsSGHP]
+TechCode = "SGHP"
+Technology = "Steam Generating Heat Pump"
 TechnologyGroup = "Heat/Cooling Devices"
 EndUse = ["PH_INT", "PH_LOW"] # intermediate/low process heat
 ReplacedTechs = ["BOILR"] # just boiler use (could expand to furnace/kiln possibly?)
@@ -15,9 +15,29 @@ Sectors = ["DARY", "MEAT", "WOOD", "PULP", "OTHR", "FOOD"]
 TechCode = "BOILR" # NOTE: existing tech code. Below labels match concordances for BOILR in industrial use
 Technology = "Boiler Systems"
 TechnologyGroup = "Heat/Cooling Devices"
-EndUse = ["WH_LOW"] # water heating boiler
+EndUse = ["PH_LOW"] # process heating boiler
 ReplacedTechs = ["BOILR"] # replacing other boilers (nga, coal, etc - anything not electricity)
 InputFuel = ["ELC"]
 Sectors = ["DARY", "MEAT", "OTHR", "FOOD", "MINE"]
 
 
+
+[newtechsHPPH]
+TechCode = "HPPH"
+Technology = "Heat Pump (process heat)"
+TechnologyGroup = "Heat/Cooling Devices"
+EndUse = ["PH_LOW"] # low process heat
+ReplacedTechs = ["BOILR", "BURNR", "FURNC"]
+InputFuel = ["ELC"]
+Sectors = ["DARY", "FOOD", "MEAT", "MNRL", "OTHR", "PULP", "WOOD", "STEEL"]
+
+
+
+[newtechsHPSH]
+TechCode = "HPSH"
+Technology = "Heat Pump (space heating)"
+TechnologyGroup = "Heat/Cooling Devices"
+EndUse = ["SH_LOW"] # low process heat
+ReplacedTechs = ["BOILR", "BURNR"]
+InputFuel = ["ELC"]
+Sectors = ["OTHR", "MINE"]

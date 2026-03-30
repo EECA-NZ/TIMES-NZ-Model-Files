@@ -460,7 +460,7 @@ def allocate_data_centre_demand(df: pd.DataFrame) -> pd.DataFrame:
         dc_df[col] = dc_df[col].fillna("NA")
 
     # Force all Data Centre lighting rows to LED
-    dc_df.loc[(dc_df["EndUse"] == "Lighting"), "Technology"] = "Lights (LED)"
+    dc_df.loc[(dc_df["EndUse"] == "Lighting"), "Technology"] = "LED"
 
     # Deduct from ANZSIC J (loosened matching for lighting splits)
     for _, r in dc_df.iterrows():
