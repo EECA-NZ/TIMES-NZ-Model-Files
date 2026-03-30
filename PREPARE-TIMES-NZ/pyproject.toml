@@ -34,6 +34,7 @@ myst-parser = "^4.0.1"
 sphinx-autobuild = "^2024.1"
 sphinx-book-theme = "^1.1.4"
 furo = "^2025.9.25"
+pygments = "2.20.0"
 docxbuilder = {extras = ["math"], version = "^1.2.0"}
 roman-numerals = "^4.1.0"
 
