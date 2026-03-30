@@ -91,11 +91,11 @@ def main():
     tech_codes = pd.read_csv(CONCORDANCE_PATCHES / "electricity/tech_codes.csv")
     df = df.merge(tech_codes, on="Tech_TIMES", how="left")
 
-    # just some placeholders if we ever want to combine these with demand processes
-    # df["EnduseGroup"] = PROCESS_GROUP
-    # df["EndUse"] = PROCESS_GROUP
-    # df["SectorGroup"] = PROCESS_GROUP
-    # df["Sector"] = PROCESS_GROUP
+    # applying some values for correct labelling in emissions charts
+    df["EnduseGroup"] = PROCESS_GROUP
+    df["EndUse"] = PROCESS_GROUP
+    df["SectorGroup"] = PROCESS_GROUP
+    df["Sector"] = PROCESS_GROUP
 
     df = df[
         [
@@ -104,10 +104,10 @@ def main():
             "PlantName",
             "TechnologyGroup",
             "Technology",
-            # "SectorGroup",
-            # "Sector",
-            # "EnduseGroup",
-            # "EndUse",
+            "SectorGroup",
+            "Sector",
+            "EnduseGroup",
+            "EndUse",
         ]
     ]
 
