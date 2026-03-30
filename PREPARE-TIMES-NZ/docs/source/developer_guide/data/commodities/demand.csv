@@ -120,10 +120,9 @@ Demand,DARY-FAN-FAN,Industry,Dairy,Fans
 Demand,DARY-LIGHT-LIGHT,Industry,Dairy,Lighting
 Demand,DARY-BOILR-PH_INT,Industry,Dairy,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,DARY-BOILR-PH_LOW,Industry,Dairy,"Low Temperature Heat (<100 C), Process Requirements"
-Demand,DARY-BOILR-WH_LOW,Industry,Dairy,"Low Temperature Heat (<100 C), Water Heating"
 Demand,DARY-SH_LOW,Industry,Dairy,"Low Temperature Heat (<100 C), Space Heating"
 Demand,DARY-HEATX-PH_INT,Industry,Dairy,"Intermediate Heat (100-300 C), Process Requirements"
-Demand,DARY-HEATX-WH_LOW,Industry,Dairy,"Low Temperature Heat (<100 C), Water Heating"
+Demand,DARY-HEATX-PH_LOW,Industry,Dairy,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,DARY-FRIDG-FRIDG,Industry,Dairy,Refrigeration
 Demand,DARY-MOTOR-MTV_STA,Industry,Dairy,"Motive Power, Stationary"
 Demand,DARY-PUMP-PUMP,Industry,Dairy,Pumping
@@ -132,7 +131,6 @@ Demand,FOOD-ELCTR-ELCTR,Industry,Food and Beverage,Electronics and Other Electri
 Demand,FOOD-LIGHT-LIGHT,Industry,Food and Beverage,Lighting
 Demand,FOOD-BOILR-PH_INT,Industry,Food and Beverage,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,FOOD-BOILR-PH_LOW,Industry,Food and Beverage,"Low Temperature Heat (<100 C), Process Requirements"
-Demand,FOOD-BOILR-WH_LOW,Industry,Food and Beverage,"Low Temperature Heat (<100 C), Water Heating"
 Demand,FOOD-IOVEN-CH_INT,Industry,Food and Beverage,"Intermediate Heat (100-300 C), Cooking"
 Demand,FOOD-FRIDG-FRIDG,Industry,Food and Beverage,Refrigeration
 Demand,FOOD-SH_LOW,Industry,Food and Beverage,"Low Temperature Heat (<100 C), Space Heating"
@@ -141,7 +139,7 @@ Demand,FOOD-PUMP-PUMP,Industry,Food and Beverage,Pumping
 Demand,STEEL-ELCTR-ELCTR,Industry,Iron & Steel,Electronics and Other Electrical Uses
 Demand,STEEL-LIGHT-LIGHT,Industry,Iron & Steel,Lighting
 Demand,STEEL-FDSTK-FDSTK,Industry,Iron & Steel,Feedstock
-Demand,STEEL-BOILR-WH_LOW,Industry,Iron & Steel,"Low Temperature Heat (<100 C), Water Heating"
+Demand,STEEL-BOILR-PH_LOW,Industry,Iron & Steel,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,STEEL-BURNR-PH_INT,Industry,Iron & Steel,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,STEEL-EFURNC-ISTEEL,Industry,Iron & Steel,Iron and Steel Manufacturing
 Demand,STEEL-FURNC-PH_HIGH,Industry,Iron & Steel,"High Temperature Heat (>300 C), Process Requirements"
@@ -153,9 +151,9 @@ Demand,STEEL-MOTOR-ISTEEL,Industry,Iron & Steel,Iron and Steel Manufacturing
 Demand,STEEL-MOTOR-MTV_STA,Industry,Iron & Steel,"Motive Power, Stationary"
 Demand,MEAT-LIGHT-LIGHT,Industry,Meat,Lighting
 Demand,MEAT-BOILR-PH_INT,Industry,Meat,"Intermediate Heat (100-300 C), Process Requirements"
-Demand,MEAT-BOILR-WH_LOW,Industry,Meat,"Low Temperature Heat (<100 C), Water Heating"
+Demand,MEAT-BOILR-PH_LOW,Industry,Meat,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,MEAT-FRIDG-FRIDG,Industry,Meat,Refrigeration
-Demand,MEAT-HEATR-WH_LOW,Industry,Meat,"Low Temperature Heat (<100 C), Water Heating"
+Demand,MEAT-HEATR-PH_LOW,Industry,Meat,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,MEAT-MOTOR-MTV_STA,Industry,Meat,"Motive Power, Stationary"
 Demand,METH-FDSTK-FDSTK,Industry,Methanol,Feedstock
 Demand,METH-REFRM-PH_HIGH,Industry,Methanol,"High Temperature Heat (>300 C), Process Requirements"
@@ -215,10 +213,26 @@ Demand,WOOD-MOTOR-MTV_STA,Industry,Wood Products,"Motive Power, Stationary"
 Demand,WOOD-PUMP-PUMP,Industry,Wood Products,Pumping
 Demand,ALUM-EFURNC-PH_HIGH,Industry,Aluminium,"High Temperature Heat (>300 C), Process Requirements"
 Demand,MINE-SH_LOW,Industry,Mining,"Low Temperature Heat (<100 C), Space Heating"
-Demand,MEAT-BOILR-PH_LOW,Industry,Meat,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,PULP-BOILR-PH_LOW,Industry,Pulp and Paper,"Low Temperature Heat (<100 C), Process Requirements"
-Demand,OTHR-BOILR-WH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Water Heating"
-Demand,MINE-BOILR-WH_LOW,Industry,Mining,"Low Temperature Heat (<100 C), Water Heating"
+Demand,MINE-BOILR-PH_LOW,Industry,Mining,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,DARY-BURNR-PH_LOW,Industry,Dairy,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,DARY-FURNC-PH_LOW,Industry,Dairy,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,FOOD-BURNR-PH_LOW,Industry,Food and Beverage,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,FOOD-FURNC-PH_LOW,Industry,Food and Beverage,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,MEAT-BURNR-PH_LOW,Industry,Meat,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,MEAT-FURNC-PH_LOW,Industry,Meat,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,MNRL-BURNR-PH_LOW,Industry,Non-Metallic Mineral Product Manufacturing,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,MNRL-FURNC-PH_LOW,Industry,Non-Metallic Mineral Product Manufacturing,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,OTHR-BURNR-PH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,OTHR-FURNC-PH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,PULP-FURNC-PH_LOW,Industry,Pulp and Paper,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,WOOD-BURNR-PH_LOW,Industry,Wood Products,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,STEEL-BURNR-PH_LOW,Industry,Iron & Steel,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,STEEL-FURNC-PH_LOW,Industry,Iron & Steel,"Low Temperature Heat (<100 C), Process Requirements"
+Demand,OTHR-BOILR-SH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Space Heating"
+Demand,OTHR-BURNR-SH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Space Heating"
+Demand,MINE-BOILR-SH_LOW,Industry,Mining,"Low Temperature Heat (<100 C), Space Heating"
+Demand,MINE-BURNR-SH_LOW,Industry,Mining,"Low Temperature Heat (<100 C), Space Heating"
 Demand,NEWTECH-DEM,Commercial,NewTechs,NewTechs
 Demand,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Recycled Steel
 Demand,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Irrigation
