@@ -49,6 +49,10 @@ region_islands = CONCORDANCES / "region_island_concordance.csv"
 # USD to NZD exchange rate
 EXCHANGE_RATE_USD = 0.62
 
+# manual patch - diesel peaker heatrates.
+# used for generics, chose 11000 as matches MBIE assumptions re whirinaki
+DSLPKR_HEATRATE = 11000
+
 # Filepath shortcuts
 FUTURE_TECH_ASSUMPTIONS = ASSUMPTIONS / "electricity_generation/future_techs"
 OUTPUT_LOCATION = STAGE_3_DATA / "electricity"
@@ -599,6 +603,22 @@ def distinguish_tracking_solar(df):
     return df
 
 
+def add_diesel_peakers(df):
+    """
+    Creates potential future diesel peakers instead of gas ones
+    Adjust the heatrate according to input constant assumption
+    Adds these to existing genstack
+    """
+
+    dslpkrs = df[df["Tech"] == "GasPkr"].copy()
+    dslpkrs["Tech"] = "DslPkr"
+    dslpkrs["Plant"] = dslpkrs["Plant"].str.replace("OCGT", "diesel", regex=False)
+    dslpkrs["Heat Rate (GJ/GWh)"] = DSLPKR_HEATRATE
+
+    df = pd.concat([df, dslpkrs])
+    return df
+
+
 def remove_parentheses_if_generic_solar(name: str) -> str:
     """
     Removes text inside parentheses (and the parentheses themselves)
@@ -652,6 +672,7 @@ def get_genstack():
 
     df = load_genstack()
     df = apply_genstack_patches(df)
+    df = add_diesel_peakers(df)
     df = reshape_genstack(df)
     df = define_genstack_learning_curves(df)
     df = apply_learning_curves(df)
@@ -659,6 +680,7 @@ def get_genstack():
     df = distinguish_tracking_solar(df)
     df = add_times_codes(df)
     df = tidy_genstack(df)
+
     return df
 
 
