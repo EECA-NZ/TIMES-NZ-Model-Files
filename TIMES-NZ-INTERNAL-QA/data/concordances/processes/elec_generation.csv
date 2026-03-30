@@ -76,9 +76,9 @@ Electricity generation,ELC_Geo_TeAhiOMaui,Te Ahi O Maui,Geothermal,Geothermal,El
 Electricity generation,ELC_GasCHP_TeRapa,Te Rapa,Thermal,Natural gas cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation
 Electricity generation,ELC_HydSC_TokaanuMangaio,Tokaanu/Mangaio,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
 Electricity generation,ELC_Geo_TOPP1,TOPP1,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
-Electricity generation,ELC_SolarDistBifacial_Com,Commercial,,,Electricity generation,Electricity generation,Electricity generation,Electricity generation
-Electricity generation,ELC_SolarDistBifacial_Ind,Industrial,,,Electricity generation,Electricity generation,Electricity generation,Electricity generation
-Electricity generation,ELC_SolarDistSmall_Res,Residential,,,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SolarDistBifacial_Com,Commercial,Solar,Distributed solar,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SolarDistBifacial_Ind,Industrial,Solar,Distributed solar,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SolarDistSmall_Res,Residential,Solar,Distributed solar,Electricity generation,Electricity generation,Electricity generation,Electricity generation
 Electricity generation,ELC_HydSC_Generic,Generic hydro generation,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
 Electricity generation,ELC_Geo_Generic,Generic geothermal generation,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
 Electricity generation,ELC_BioRecip_Generic,Generic biogas generation,Thermal,Reciprocating Biogas,Electricity generation,Electricity generation,Electricity generation,Electricity generation

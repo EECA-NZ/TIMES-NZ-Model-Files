@@ -13,6 +13,8 @@ Rankine,Rankine,Thermal
 SolarDist,Distributed Solar,Solar
 SolarFixed,Utility Solar (Fixed),Solar
 SolarTrack,Utility Solar (Tracking),Solar
+SolarDistSmall,Distributed solar,Solar
+SolarDistBifacial,Distributed solar,Solar
 WindOn,Onshore wind,Wind
 WindFloatOff,Floating Offshore Wind,Wind
 WindFixOff,Fixed Offshore Wind,Wind
