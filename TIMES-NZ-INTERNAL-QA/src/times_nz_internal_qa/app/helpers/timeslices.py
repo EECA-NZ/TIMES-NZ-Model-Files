@@ -30,7 +30,7 @@ TIME_OF_DAY_LABELS = {
     "N": "Night",
 }
 
-TIMESLICE_ORDER = [
+TIMESLICE_ORDER = ["ANNUAL"] + [
     f"{season}-{day_type}-{time_of_day}"
     for season in SEASON_ORDER
     for day_type in DAY_TYPE_ORDER
@@ -51,11 +51,11 @@ def split_timeslices(df: pd.DataFrame, make_nice_labels: bool = True) -> pd.Data
 
     if make_nice_labels:
         out["Season"] = out["SeasonCode"].map(SEASON_LABELS).fillna(out["SeasonCode"])
-        out["DayType"] = out["DayTypeCode"].map(DAY_TYPE_LABELS).fillna(
-            out["DayTypeCode"]
+        out["DayType"] = (
+            out["DayTypeCode"].map(DAY_TYPE_LABELS).fillna(out["DayTypeCode"])
         )
-        out["TimeOfDay"] = out["TimeOfDayCode"].map(TIME_OF_DAY_LABELS).fillna(
-            out["TimeOfDayCode"]
+        out["TimeOfDay"] = (
+            out["TimeOfDayCode"].map(TIME_OF_DAY_LABELS).fillna(out["TimeOfDayCode"])
         )
     else:
         out["Season"] = out["SeasonCode"]
@@ -69,6 +69,9 @@ def get_timeslice_axis_label(timeslice: str) -> str:
     """
     Return a compact axis label token for a raw TimeSlice code.
     """
+    if str(timeslice) == "ANNUAL":
+        return "Annual"
+
     season_code, day_type_code, time_of_day_code = str(timeslice).split("-")
     season = SEASON_LABELS.get(season_code, season_code)
     day_type = DAY_TYPE_AXIS_LABELS.get(day_type_code, day_type_code)
@@ -80,6 +83,9 @@ def get_timeslice_long_label(timeslice: str) -> str:
     """
     Return a fuller tooltip label for a raw TimeSlice code.
     """
+    if str(timeslice) == "ANNUAL":
+        return "Annual"
+
     season_code, day_type_code, time_of_day_code = str(timeslice).split("-")
     season = SEASON_LABELS.get(season_code, season_code)
     day_type = DAY_TYPE_LABELS.get(day_type_code, day_type_code)
