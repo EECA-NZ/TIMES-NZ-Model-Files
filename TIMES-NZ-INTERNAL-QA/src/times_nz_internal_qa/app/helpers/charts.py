@@ -7,7 +7,7 @@ import textwrap
 
 import pandas as pd
 import plotly.graph_objects as go
-from plotly.colors import hex_to_rgb, qualitative
+from plotly.colors import qualitative
 from times_nz_internal_qa.app.helpers.timeslices import (
     add_timeslice_chart_columns,
     get_timeslice_label_order,
@@ -124,16 +124,6 @@ def _build_color_map(groups: list[str]) -> dict[str, str]:
     return {group: palette[i % len(palette)] for i, group in enumerate(groups)}
 
 
-def _to_rgba(color: str, alpha: float) -> str:
-    """Convert a Plotly color string to rgba with the requested alpha."""
-    if color.startswith("#"):
-        red, green, blue = hex_to_rgb(color)
-        return f"rgba({red}, {green}, {blue}, {alpha})"
-    if color.startswith("rgb("):
-        return color.replace("rgb(", "rgba(").replace(")", f", {alpha})")
-    return color
-
-
 def _scenario_dash_map(scen_list: list[str]) -> dict[str, str]:
     dash_cycle = ["solid", "dash", "dot", "dashdot", "longdash", "longdashdot"]
     return {scenario: dash_cycle[i % len(dash_cycle)] for i, scenario in enumerate(scen_list)}
@@ -188,7 +178,7 @@ def _build_bar_trace(
     showlegend: bool,
     x_label: str = "Year",
 ) -> go.Bar:
-    """Create a bar trace with consistent hover and placeholder styling."""
+    """Create a bar trace with consistent hover styling."""
     plot_df = trace_df.copy()
     plot_df["HoverValueLabel"] = plot_df["MissingData"].map(
         lambda missing: "Interpolated value" if missing else "Value"
@@ -199,18 +189,7 @@ def _build_bar_trace(
         else ""
     )
 
-    marker = {
-        "color": [
-            _to_rgba(color, 0.18) if missing else color
-            for missing in plot_df["MissingData"]
-        ],
-        "line": {"color": color, "width": 1.5},
-        "pattern": {
-            "shape": ["/" if missing else "" for missing in plot_df["MissingData"]],
-            "fgcolor": color,
-            "fillmode": "overlay",
-        },
-    }
+    marker = {"color": color, "line": {"color": color, "width": 1.5}}
 
     return go.Bar(
         x=x_values,
