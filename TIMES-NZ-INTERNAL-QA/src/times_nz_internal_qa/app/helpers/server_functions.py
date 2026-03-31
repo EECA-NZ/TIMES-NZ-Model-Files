@@ -2,7 +2,7 @@
 Function factories for replicable server functions.
 """
 
-from shiny import reactive, render, ui
+from shiny import reactive, render
 from shinywidgets import render_plotly
 from times_nz_internal_qa.app.helpers.charts import (
     build_grouped_bar,
@@ -91,68 +91,6 @@ def register_server_functions_for_explorer(
     @reactive.calc
     def _df():
         return df_function(scenarios())
-
-    area_to_bar_id = f"{chart_id}_area_switch_bar"
-    area_to_line_id = f"{chart_id}_area_switch_line"
-    area_to_single_id = f"{chart_id}_area_switch_single"
-
-    def _show_area_compare_modal():
-        ui.modal_show(
-            ui.modal(
-                ui.tags.h3("Area charts are not available for scenario comparison"),
-                ui.p(
-                    "Stacked area charts are only supported for one scenario at a "
-                    "time. Choose a different chart type, or switch back to a "
-                    "single scenario."
-                ),
-                easy_close=True,
-                footer=ui.div(
-                    ui.input_action_button(area_to_bar_id, "Switch to Bar"),
-                    ui.input_action_button(area_to_line_id, "Switch to Line"),
-                    ui.input_action_button(
-                        area_to_single_id, "Use One Scenario Only"
-                    ),
-                    ui.modal_button("Cancel"),
-                    class_="d-flex gap-2 justify-content-end",
-                ),
-            )
-        )
-
-    @reactive.effect
-    @reactive.event(inputs[area_to_bar_id])
-    def _switch_area_to_bar():
-        ui.update_radio_buttons(f"{chart_id}_chart_type", selected="bar")
-        ui.modal_remove()
-
-    @reactive.effect
-    @reactive.event(inputs[area_to_line_id])
-    def _switch_area_to_line():
-        ui.update_radio_buttons(f"{chart_id}_chart_type", selected="line")
-        ui.modal_remove()
-
-    @reactive.effect
-    @reactive.event(inputs[area_to_single_id])
-    def _switch_area_to_single():
-        ui.update_switch("compare_on", value=False)
-        ui.update_radio_buttons(f"{chart_id}_chart_type", selected="area")
-        ui.modal_remove()
-
-    if chart_type != "timeslice":
-
-        @reactive.effect
-        @reactive.event(
-            is_comparison,
-            getattr(inputs, f"{chart_id}_chart_type"),
-            getattr(inputs, f"{page_id}_nav"),
-        )
-        def _guard_area_compare_mode():
-            if getattr(inputs, f"{page_id}_nav")() != sec_id:
-                return
-
-            compare_active = is_comparison()
-            current_mode = getattr(inputs, f"{chart_id}_chart_type")()
-            if compare_active and current_mode == "area":
-                _show_area_compare_modal()
 
     # define filter options for this data based on input filter dict
     @reactive.calc

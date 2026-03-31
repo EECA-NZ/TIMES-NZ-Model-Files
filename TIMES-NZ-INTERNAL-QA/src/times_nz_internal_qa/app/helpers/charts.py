@@ -194,7 +194,15 @@ def _build_bar_trace(
     return go.Bar(
         x=x_values,
         y=plot_df["Value"],
-        customdata=plot_df[["Scenario", "HoverValueLabel", "HoverStatus"]],
+        customdata=plot_df[
+            [
+                "Scenario",
+                "HoverValueLabel",
+                "TotalTooltip",
+                "ShareTooltip",
+                "HoverStatus",
+            ]
+        ],
         name=_wrap_legend_label(group),
         legendgroup=group,
         showlegend=showlegend,
@@ -207,7 +215,9 @@ def _build_bar_trace(
             f"<b>{group_col}:</b> {group}<br>"
             "<b>%{customdata[1]}:</b> %{y:,.2f} "
             + unit
-            + "%{customdata[2]}"
+            + "<br><b>Total:</b> %{customdata[2]}"
+            + "<br><b>Share:</b> %{customdata[3]}"
+            + "%{customdata[4]}"
             + "<extra></extra>"
         ),
     )
@@ -237,6 +247,7 @@ def _build_scatter_trace(
     trace_kwargs = {
         "x": trace_df["PeriodLabel"],
         "y": trace_df["Value"],
+        "customdata": trace_df[["TotalTooltip", "ShareTooltip"]],
         "mode": mode,
         "name": _wrap_legend_label(name),
         "legendgroup": legendgroup,
@@ -246,7 +257,10 @@ def _build_scatter_trace(
             f"<b>Scenario:</b> {scenario}<br>"
             "<b>Year:</b> %{x}<br>"
             f"<b>{group_col}:</b> {group}<br>"
-            f"<b>Value:</b> %{{y:,.2f}} {unit}<extra></extra>"
+            f"<b>Value:</b> %{{y:,.2f}} {unit}"
+            "<br><b>Total:</b> %{customdata[0]}"
+            "<br><b>Share:</b> %{customdata[1]}"
+            "<extra></extra>"
         ),
     }
     if mode == "lines+markers":
@@ -305,9 +319,18 @@ def _add_line_series(
                 "symbol": ["circle" for _ in series_df["MissingData"]],
             },
             customdata=[
-                [_line_hover_label(bool(missing)), f"{value:,.2f} {unit}"]
-                for missing, value in zip(
-                    series_df["MissingData"], series_df["Value"], strict=False
+                [
+                    _line_hover_label(bool(missing)),
+                    f"{value:,.2f} {unit}",
+                    total,
+                    share,
+                ]
+                for missing, value, total, share in zip(
+                    series_df["MissingData"],
+                    series_df["Value"],
+                    series_df["TotalTooltip"],
+                    series_df["ShareTooltip"],
+                    strict=False,
                 )
             ],
             hovertemplate=(
@@ -315,6 +338,8 @@ def _add_line_series(
                 "<b>Year:</b> %{x}<br>"
                 f"<b>{group_col}:</b> {group}<br>"
                 "<b>%{customdata[0]}:</b> %{customdata[1]}"
+                "<br><b>Total:</b> %{customdata[2]}"
+                "<br><b>Share:</b> %{customdata[3]}"
                 "<extra></extra>"
             ),
         )
