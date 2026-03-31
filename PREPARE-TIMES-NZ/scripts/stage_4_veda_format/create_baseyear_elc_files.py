@@ -353,7 +353,7 @@ def define_generation_parameters(df):
                 "PlantLife": "NCAP_TLIFE",
                 "VarOM": "ACTCOST",
                 "FixOM": "NCAP_FOM",
-                "FuelEfficiency": "EFF",
+                "FuelEfficiency": "CEFF",
             }
         )
     )
