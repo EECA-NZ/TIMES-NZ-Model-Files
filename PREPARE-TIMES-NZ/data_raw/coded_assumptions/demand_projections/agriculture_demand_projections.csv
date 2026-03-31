@@ -1,26 +1,15 @@
-SectorGroup,Sector,Year,Traditional,Transformation,Method,Note
-"Agriculture, Forestry and Fishing",Dairy Cattle Farming,2023,1,1,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Dairy Cattle Farming,2025,0.9412,0.9412,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Dairy Cattle Farming,2030,0.9412,0.9412,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Dairy Cattle Farming,2035,0.9412,0.9412,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Dairy Cattle Farming,2040,0.9412,0.9412,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Dairy Cattle Farming,2045,0.9412,0.9412,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Dairy Cattle Farming,2050,0.9412,0.9412,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Livestock Farming,2023,1,1,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Livestock Farming,2025,0.9733,0.9733,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Livestock Farming,2030,0.9467,0.9467,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Livestock Farming,2035,0.9200,0.9067,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Livestock Farming,2040,0.8933,0.8800,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Livestock Farming,2045,0.8677,0.8400,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Livestock Farming,2050,0.8400,0.8133,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Forestry and Logging,2023,1,1,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Forestry and Logging,2025,1.0476,1.0476,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Forestry and Logging,2030,1.0952,1.1429,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Forestry and Logging,2035,1.1905,1.1905,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Forestry and Logging,2040,1.2381,1.2857,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Forestry and Logging,2045,1.2857,1.3810,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing",Forestry and Logging,2050,1.3810,1.4762,ERP,Based on ERP 2 projections
-"Agriculture, Forestry and Fishing","Fishing, Hunting and Trapping",,1,1,Constant,Flat
-"Agriculture, Forestry and Fishing",Indoor Cropping,,1,1,Constant,Flat
-"Agriculture, Forestry and Fishing",Other Agriculture,,1,1,Constant,Flat
-"Agriculture, Forestry and Fishing",Horticulture (Outdoor),,1,1,Constant,Flat
+SectorGroup,Sector,Scenario,Method,Workbook,SheetName,SourceCategory1,SourceCategory2,ConstantIndex,Note
+"Agriculture, Forestry and Fishing",Dairy Cattle Farming,Traditional,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline,,Total dairy cattle,,"Tracks ERP2 total dairy cattle"
+"Agriculture, Forestry and Fishing",Dairy Cattle Farming,Transformation,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline low,,Total dairy cattle,,"Tracks ERP2 total dairy cattle"
+"Agriculture, Forestry and Fishing",Livestock Farming,Traditional,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline,,"Sheep and beef 'stock units'",,"Tracks ERP2 sheep and beef stock units"
+"Agriculture, Forestry and Fishing",Livestock Farming,Transformation,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline low,,"Sheep and beef 'stock units'",,"Tracks ERP2 sheep and beef stock units"
+"Agriculture, Forestry and Fishing",Forestry and Logging,Traditional,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline,Forestry (million m3),Harvested timber (TRV),,"Tracks ERP2 harvested timber output"
+"Agriculture, Forestry and Fishing",Forestry and Logging,Transformation,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline low,Forestry (million m3),Harvested timber (TRV),,"Tracks ERP2 harvested timber output"
+"Agriculture, Forestry and Fishing","Fishing, Hunting and Trapping",Traditional,Constant,,,,,1,Flat
+"Agriculture, Forestry and Fishing","Fishing, Hunting and Trapping",Transformation,Constant,,,,,1,Flat
+"Agriculture, Forestry and Fishing",Indoor Cropping,Traditional,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline,,Horticulture,,"Uses ERP2 horticulture as proxy"
+"Agriculture, Forestry and Fishing",Indoor Cropping,Transformation,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline low,,Horticulture,,"Uses ERP2 horticulture as proxy"
+"Agriculture, Forestry and Fishing",Other Agriculture,Traditional,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline,Other agriculture,Total,,"Tracks ERP2 other agriculture total"
+"Agriculture, Forestry and Fishing",Other Agriculture,Transformation,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline low,Other agriculture,Total,,"Tracks ERP2 other agriculture total"
+"Agriculture, Forestry and Fishing",Horticulture (Outdoor),Traditional,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline,,Horticulture,,"Tracks ERP2 horticulture"
+"Agriculture, Forestry and Fishing",Horticulture (Outdoor),Transformation,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline low,,Horticulture,,"Tracks ERP2 horticulture"

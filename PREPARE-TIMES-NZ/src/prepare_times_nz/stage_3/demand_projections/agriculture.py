@@ -7,10 +7,17 @@ A separate stage 4 module can extract these
 
 """
 
+from pathlib import Path
+
 import pandas as pd
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.utilities.data_in_out import _save_data
-from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_3_DATA
+from prepare_times_nz.utilities.filepaths import (
+    ASSUMPTIONS,
+    EXTERNAL_DATA,
+    STAGE_2_DATA,
+    STAGE_3_DATA,
+)
 
 # CONSTANTS
 # file paths
@@ -19,6 +26,7 @@ OUTPUT = STAGE_3_DATA / "demand_projections"
 OUTPUT_CHECKS = OUTPUT / "checks"
 # end year setting
 END_YEAR = 2050
+ASSUMPTIONS_FILE = PROJECTIONS_ASSUMPTIONS / "agriculture_demand_projections.csv"
 
 
 # HELPERS
@@ -34,106 +42,238 @@ def save_agr_proj_check(df, name, label):
     _save_data(df, name, label, filepath=OUTPUT_CHECKS)
 
 
-def expand_years(df, base_year=BASE_YEAR, end_year=END_YEAR):
-    """
-    Adds a time index 't' to an existing dataframe that already contains a 'Year' column.
-    If some years are missing within the base-end range, fills them in via reindexing.
-    Also fills in Sector and SectorGroup for expanded years.
-    """
+def normalise_optional_text(value):
+    """Return stripped text or None for blanks/NaN-like values."""
+    if pd.isna(value):
+        return None
+    text = str(value).strip()
+    return text or None
 
-    # Ensure Year column exists
-    if "Year" not in df.columns:
-        raise ValueError("Dataframe must already have a 'Year' column")
 
-    # Create full year range for expansion
-    all_years = pd.DataFrame({"Year": range(base_year, end_year + 1)})
+def load_agriculture_projection_assumptions(assumptions_path=ASSUMPTIONS_FILE):
+    """Load agriculture projection mappings and validate expected columns."""
+    df = pd.read_csv(assumptions_path).copy()
+    df = df[df["SectorGroup"] == "Agriculture, Forestry and Fishing"].copy()
 
-    # Merge to ensure all years exist
-    df = all_years.merge(df, on="Year", how="left")
+    required_cols = {
+        "SectorGroup",
+        "Sector",
+        "Scenario",
+        "Method",
+        "Workbook",
+        "SheetName",
+        "SourceCategory1",
+        "SourceCategory2",
+        "ConstantIndex",
+        "Note",
+    }
+    missing_cols = required_cols.difference(df.columns)
+    if missing_cols:
+        raise ValueError(
+            "Agriculture demand projection assumptions are missing columns: "
+            + ", ".join(sorted(missing_cols))
+        )
 
-    # Fill Sector and SectorGroup for expanded years
-    df["Sector"] = df["Sector"].ffill()  # Updated line
-    df["SectorGroup"] = df["SectorGroup"].ffill()  # Updated line
+    df["Scenario"] = df["Scenario"].astype(str).str.strip().str.title()
+    df["Method"] = df["Method"].astype(str).str.strip().str.title()
+    df["Workbook"] = df["Workbook"].apply(normalise_optional_text)
+    df["SheetName"] = df["SheetName"].apply(normalise_optional_text)
+    df["SourceCategory1"] = df["SourceCategory1"].apply(normalise_optional_text)
+    df["SourceCategory2"] = df["SourceCategory2"].apply(normalise_optional_text)
+    df["ConstantIndex"] = pd.to_numeric(df["ConstantIndex"], errors="coerce")
 
-    # Add time index (t = 0 for base_year)
-    df["t"] = df["Year"] - base_year
+    duplicates = df.duplicated(["SectorGroup", "Sector", "Scenario"], keep=False)
+    if duplicates.any():
+        duplicate_rows = df.loc[duplicates, ["SectorGroup", "Sector", "Scenario"]]
+        raise ValueError(
+            "Duplicate agriculture demand projection mappings found:\n"
+            + duplicate_rows.to_string(index=False)
+        )
 
     return df
 
 
-# FUNCTIONS
-
-
-def get_agriculture_growth_indices():
+def load_workbook_projection_sheet(workbook_path, sheet_name):
     """
-    Creates yearly indices for agriculture sectors (2023–2050):
+    Load one ERP2 projection sheet.
 
-    - ERP sectors: linearly interpolate provided indices between anchor years
-    - Constant sectors: expanded 2023–2050 with index = 1.0
-
-    Returns long format: [SectorGroup, Sector, Year, Scenario, Index]
+    The workbook stores years as columns, with the first two columns acting as
+    row identifiers for the projection categories.
     """
-    df0 = pd.read_csv(PROJECTIONS_ASSUMPTIONS / "agriculture_demand_projections.csv")
-    df0 = df0[df0["SectorGroup"] == "Agriculture, Forestry and Fishing"].copy()
+    df = pd.read_excel(workbook_path, sheet_name=sheet_name, header=5)
+    first_two_cols = list(df.columns[:2])
+    df = df.rename(
+        columns={
+            first_two_cols[0]: "SourceCategory1",
+            first_two_cols[1]: "SourceCategory2",
+        }
+    )
 
-    # normalise method labels
-    df0["Method"] = df0["Method"].astype(str).str.strip().str.title()
+    rename_map = {}
+    for col in df.columns:
+        if isinstance(col, float) and col.is_integer():
+            rename_map[col] = int(col)
+    df = df.rename(columns=rename_map)
 
-    group_vars = ["SectorGroup", "Sector"]
-    year_var = "Year"
-    value_cols = ["Traditional", "Transformation"]
-
-    # split
-    df_erp = df0[df0["Method"] == "Erp"].copy()
-    df_const = df0[df0["Method"] == "Constant"].copy()
-
-    # --- ERP: expand to full 2023–2050 and interpolate between anchor years ---
-    if not df_erp.empty:
-        # keep only 2023..2050 points from CSV
-        df_erp = df_erp[(df_erp[year_var] >= 2023) & (df_erp[year_var] <= 2050)]
-
-        # full grid per (SectorGroup, Sector) × Year
-        groups = df_erp[group_vars].drop_duplicates()
-        years = pd.DataFrame({year_var: range(2023, 2051)})
-        full_erp = groups.merge(years, how="cross")
-
-        # attach known ERP points
-        full_erp = full_erp.merge(
-            df_erp[group_vars + [year_var] + value_cols],
-            on=group_vars + [year_var],
-            how="left",
+    year_cols = [
+        col
+        for col in df.columns
+        if isinstance(col, int) and BASE_YEAR <= col <= END_YEAR
+    ]
+    if not year_cols:
+        raise ValueError(
+            f"No year columns between {BASE_YEAR} and {END_YEAR} found in "
+            f"{workbook_path} [{sheet_name}]"
         )
 
-        # interpolate within each group for each scenario
-        full_erp = full_erp.sort_values(group_vars + [year_var])
-        for col in value_cols:
-            full_erp[col] = full_erp.groupby(group_vars, group_keys=False)[col].apply(
-                lambda s: s.interpolate(method="linear").ffill().bfill()
-            )
-    else:
-        full_erp = pd.DataFrame()
+    return df[["SourceCategory1", "SourceCategory2"] + year_cols].copy()
 
-    # --- Constant: full 2023–2050 with index 1.0 ---
-    if not df_const.empty:
-        groups_c = df_const[group_vars].drop_duplicates()
-        years = pd.DataFrame({year_var: range(2023, 2051)})
-        full_const = groups_c.merge(years, how="cross")
-        for col in value_cols:
-            full_const[col] = 1.0
-    else:
-        full_const = pd.DataFrame()
 
-    # combine and reshape
-    full = pd.concat([full_erp, full_const], ignore_index=True)
-    full = full.sort_values(group_vars + [year_var])
+def get_cached_workbook_projection_sheet(mapping_row, sheet_cache, external_data_dir):
+    """Return a cached ERP2 worksheet dataframe for the configured mapping row."""
+    workbook_path = Path(external_data_dir) / mapping_row["Workbook"]
+    cache_key = (str(workbook_path), mapping_row["SheetName"])
+    if cache_key not in sheet_cache:
+        sheet_cache[cache_key] = load_workbook_projection_sheet(
+            workbook_path, mapping_row["SheetName"]
+        )
+    return sheet_cache[cache_key].copy()
 
-    out = full.melt(
-        id_vars=group_vars + [year_var],
-        value_vars=value_cols,
-        var_name="Scenario",
-        value_name="Index",
+
+def select_projection_match(df, mapping_row):
+    """Select the single workbook row that matches the configured categories."""
+    mask = pd.Series(True, index=df.index)
+    for column in ["SourceCategory1", "SourceCategory2"]:
+        value = mapping_row[column]
+        if value is not None:
+            mask &= df[column].astype(str).str.strip().eq(value)
+
+    matches = df.loc[mask].copy()
+    mapping_details = (
+        f"{mapping_row['Sector']} / {mapping_row['Scenario']} "
+        f"using [{mapping_row['SourceCategory1']!r}, {mapping_row['SourceCategory2']!r}] "
+        f"in {mapping_row['Workbook']} [{mapping_row['SheetName']}]"
     )
-    return out
+    if matches.empty:
+        raise ValueError(
+            "No ERP2 workbook row matched agriculture projection mapping for "
+            + mapping_details
+        )
+    if len(matches) > 1:
+        raise ValueError(
+            "Multiple ERP2 workbook rows matched agriculture projection mapping for "
+            + mapping_details
+        )
+    return matches.iloc[0]
+
+
+def build_projection_index_frame(match_row, mapping_row):
+    """Convert a matched workbook row into a base-year index dataframe."""
+    year_cols = [col for col in match_row.index if isinstance(col, int)]
+    values = pd.to_numeric(match_row[year_cols], errors="coerce")
+    if pd.isna(values.get(BASE_YEAR)) or values[BASE_YEAR] == 0:
+        raise ValueError(
+            "Cannot compute agriculture projection index because the base-year value "
+            f"is missing or zero for {mapping_row['Sector']} / {mapping_row['Scenario']}"
+        )
+
+    out = pd.DataFrame({"Year": year_cols, "Index": values.values / values[BASE_YEAR]})
+    out["SectorGroup"] = mapping_row["SectorGroup"]
+    out["Sector"] = mapping_row["Sector"]
+    out["Scenario"] = mapping_row["Scenario"]
+    return out[["SectorGroup", "Sector", "Scenario", "Year", "Index"]]
+
+
+def get_workbook_projection_indices(
+    mapping_row, sheet_cache, external_data_dir=EXTERNAL_DATA
+):
+    """Read one configured ERP2 row and convert it to a base-year index series."""
+    df = get_cached_workbook_projection_sheet(
+        mapping_row, sheet_cache, external_data_dir
+    )
+    match_row = select_projection_match(df, mapping_row)
+    return build_projection_index_frame(match_row, mapping_row)
+
+
+def get_constant_projection_indices(mapping_row):
+    """Create a flat constant projection series from configuration."""
+    constant_index = mapping_row["ConstantIndex"]
+    if pd.isna(constant_index):
+        raise ValueError(
+            f"ConstantIndex is required for constant agriculture mapping: {mapping_row['Sector']}"
+        )
+
+    out = pd.DataFrame({"Year": range(BASE_YEAR, END_YEAR + 1)})
+    out["Index"] = float(constant_index)
+    out["SectorGroup"] = mapping_row["SectorGroup"]
+    out["Sector"] = mapping_row["Sector"]
+    out["Scenario"] = mapping_row["Scenario"]
+
+    return out[["SectorGroup", "Sector", "Scenario", "Year", "Index"]]
+
+
+def expand_projection_indices(df):
+    """Expand projection rows to a full annual series and interpolate missing years."""
+    group_vars = ["SectorGroup", "Sector", "Scenario"]
+    years = pd.DataFrame({"Year": range(BASE_YEAR, END_YEAR + 1)})
+    groups = df[group_vars].drop_duplicates()
+
+    full = groups.merge(years, how="cross")
+    full = full.merge(df, on=group_vars + ["Year"], how="left")
+    full = full.sort_values(group_vars + ["Year"])
+    full["Index"] = full.groupby(group_vars, group_keys=False)["Index"].apply(
+        lambda s: s.interpolate(method="linear").ffill().bfill()
+    )
+
+    return full[group_vars + ["Year", "Index"]]
+
+
+# FUNCTIONS
+def get_agriculture_growth_indices(
+    assumptions_path=ASSUMPTIONS_FILE, external_data_dir=EXTERNAL_DATA
+):
+    """
+    Build agriculture demand indices from a mapping config.
+
+    Each row in the assumptions CSV maps a TIMES-NZ sector/scenario either to:
+    - a workbook row in the ERP2 detailed results workbook, or
+    - a constant index for sectors that remain flat
+    """
+    mappings = load_agriculture_projection_assumptions(assumptions_path)
+    sheet_cache = {}
+    projection_parts = []
+
+    for _, mapping_row in mappings.iterrows():
+        method = mapping_row["Method"]
+        if method == "Workbook":
+            projection_parts.append(
+                get_workbook_projection_indices(
+                    mapping_row,
+                    sheet_cache=sheet_cache,
+                    external_data_dir=external_data_dir,
+                )
+            )
+        elif method == "Constant":
+            projection_parts.append(get_constant_projection_indices(mapping_row))
+        else:
+            raise ValueError(
+                f"Unsupported agriculture demand projection method: {method}"
+            )
+
+    combined = pd.concat(projection_parts, ignore_index=True)
+    duplicates = combined.duplicated(
+        ["SectorGroup", "Sector", "Scenario", "Year"], keep=False
+    )
+    if duplicates.any():
+        duplicate_rows = combined.loc[
+            duplicates, ["SectorGroup", "Sector", "Scenario", "Year"]
+        ]
+        raise ValueError(
+            "Duplicate agriculture demand projection rows found after compilation:\n"
+            + duplicate_rows.to_string(index=False)
+        )
+
+    return expand_projection_indices(combined)
 
 
 def get_agriculture_baseyear_demand(var):
