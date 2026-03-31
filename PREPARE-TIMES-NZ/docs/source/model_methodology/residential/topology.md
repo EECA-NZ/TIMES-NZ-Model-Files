@@ -1,0 +1,7 @@
+# Model structure
+
+Model structure, often referred to as "topology" in TIMES parlance, defines which technologies can substitute for which uses. 
+
+By default, we assume that all technologies which currently meet a given end-use, as defined by the EEUD structure, can freely swap between each other. This mostly makes good sense - water heating demand could be met by an electric hot water cylinder, or a natural gas instant water heater. The technology or input fuel can be changed by the model, once considering the relevant efficiencies, costs, and so on. 
+
+However, there are often edge cases where strictly adhering to the structure of the underlying data makes less sense. In the residential sector, we adjust the application of mobile motive power, which is currently met by diesel and petrol. We have very little information on the precise technologies/uses that this use category entails - recreational boating, offroad vehicles, lawnmowers, etc. Because the current data is quite high-level, it would be misleading to assume there was only one kind of use that could freely swap between petrol or diesel technologies. We therefore define different use categories within the model - mobile motive diesel, and mobile motive petrol. This means that there can be no fuel switching between these specific categories. 
