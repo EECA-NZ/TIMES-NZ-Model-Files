@@ -9,6 +9,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.colors import qualitative
 from times_nz_internal_qa.app.helpers.timeslices import (
+    TIMESLICE_ORDER,
     add_timeslice_chart_columns,
     get_timeslice_label_order,
 )
@@ -117,6 +118,19 @@ def _apply_standard_layout(
         font={"size": 13},
     )
     return fig
+
+
+def _apply_period_axis(fig: go.Figure, period_range) -> None:
+    """Force all model display years to appear on year-based charts."""
+    period_order = [str(p) for p in period_range]
+    fig.update_xaxes(
+        type="category",
+        categoryorder="array",
+        categoryarray=period_order,
+        tickmode="array",
+        tickvals=period_order,
+        ticktext=period_order,
+    )
 
 
 def _build_color_map(groups: list[str]) -> dict[str, str]:
@@ -358,7 +372,6 @@ def build_grouped_bar(
     Legend entries are interactive by default in Plotly.
     """
     chart_df = _prepare_chart_df(pdf, group_col)
-    period_order = [str(p) for p in period_range]
     groups = _get_groups(chart_df, group_col)
     color_map = _build_color_map(groups)
     base_scenario = scen_list[0] if scen_list else None
@@ -388,12 +401,8 @@ def build_grouped_bar(
 
     fig.update_layout(
         barmode="relative",
-        xaxis={
-            "type": "category",
-            "categoryorder": "array",
-            "categoryarray": period_order,
-        },
     )
+    _apply_period_axis(fig, period_range)
     return _apply_standard_layout(fig, unit=unit, legend_count=len(groups) + 1)
 
 
@@ -402,6 +411,9 @@ def build_grouped_bar_timeslice(
 ) -> go.Figure:
     """Grouped + stacked timeslice bar chart using Plotly."""
     chart_df = _prepare_chart_df(pdf, group_col)
+    chart_df = chart_df[chart_df["TimeSlice"].astype(str).isin(TIMESLICE_ORDER)].copy()
+    if chart_df.empty:
+        return build_empty_figure("No valid timeslice data available")
     chart_df = add_timeslice_chart_columns(chart_df)
     label_order = get_timeslice_label_order()
     chart_df["TimeSliceLabel"] = pd.Categorical(
@@ -472,7 +484,7 @@ def build_grouped_line(
             showlegend=scenario == base_scenario,
         )
 
-    fig.update_xaxes(type="category", categoryorder="array", categoryarray=[str(p) for p in period_range])
+    _apply_period_axis(fig, period_range)
     return _apply_standard_layout(fig, unit=unit, legend_count=len(groups))
 
 
@@ -488,7 +500,6 @@ def build_grouped_area(
     chart_df = chart_df.sort_values(["Scenario", "PeriodLabel", group_col])
     groups = _get_groups(chart_df, group_col)
     color_map = _build_color_map(groups)
-    period_order = [str(p) for p in period_range]
     fig = go.Figure()
     scenario = scen_list[0] if scen_list else chart_df["Scenario"].iloc[0]
     for _, group, trace_df in _iter_series(
@@ -509,7 +520,5 @@ def build_grouped_area(
                 stackgroup="stack",
             )
         )
-    fig.update_xaxes(
-        type="category", categoryorder="array", categoryarray=period_order
-    )
+    _apply_period_axis(fig, period_range)
     return _apply_standard_layout(fig, unit=unit, legend_count=len(groups))

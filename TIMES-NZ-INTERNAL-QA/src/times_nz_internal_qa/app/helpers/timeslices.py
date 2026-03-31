@@ -69,7 +69,10 @@ def get_timeslice_axis_label(timeslice: str) -> str:
     """
     Return a compact axis label token for a raw TimeSlice code.
     """
-    season_code, day_type_code, time_of_day_code = str(timeslice).split("-")
+    parts = str(timeslice).split("-")
+    if len(parts) != 3:
+        return str(timeslice)
+    season_code, day_type_code, time_of_day_code = parts
     season = SEASON_LABELS.get(season_code, season_code)
     day_type = DAY_TYPE_AXIS_LABELS.get(day_type_code, day_type_code)
     time_of_day = TIME_OF_DAY_LABELS.get(time_of_day_code, time_of_day_code)
@@ -80,7 +83,10 @@ def get_timeslice_long_label(timeslice: str) -> str:
     """
     Return a fuller tooltip label for a raw TimeSlice code.
     """
-    season_code, day_type_code, time_of_day_code = str(timeslice).split("-")
+    parts = str(timeslice).split("-")
+    if len(parts) != 3:
+        return str(timeslice)
+    season_code, day_type_code, time_of_day_code = parts
     season = SEASON_LABELS.get(season_code, season_code)
     day_type = DAY_TYPE_LABELS.get(day_type_code, day_type_code)
     time_of_day = TIME_OF_DAY_LABELS.get(time_of_day_code, time_of_day_code)

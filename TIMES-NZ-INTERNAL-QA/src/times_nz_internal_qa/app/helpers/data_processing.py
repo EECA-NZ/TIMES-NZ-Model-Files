@@ -145,7 +145,7 @@ def get_filter_options_from_data(df: pl.DataFrame, filters: dict):
 
 # @lru_cache(maxsize=16)
 def make_chart_data(
-    lf: pl.LazyFrame, _base_cols, group_col, scen_list, period_range=range(2023, 2049)
+    lf: pl.LazyFrame, _base_cols, group_col, scen_list, period_range=range(2023, 2051)
 ) -> dict:
     """
     A cached collection of a pandas df expected to go directly to plotly
