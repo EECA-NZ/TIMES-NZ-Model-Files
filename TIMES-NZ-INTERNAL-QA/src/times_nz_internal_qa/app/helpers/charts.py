@@ -85,11 +85,14 @@ def _apply_standard_layout(
     unit: str,
     legend_count: int,
     xaxis_title: str = "Year",
+    extra_bottom_margin: int = 0,
+    extra_height: int = 0,
+    legend_y: float = -0.18,
 ) -> go.Figure:
     """Shared layout so legends stay usable with many traces."""
     legend_rows = _legend_rows(legend_count)
-    bottom_margin = 70 + (legend_rows * 28)
-    chart_height = 420 + (legend_rows * 28)
+    bottom_margin = 70 + (legend_rows * 28) + extra_bottom_margin
+    chart_height = 420 + (legend_rows * 28) + extra_height
 
     legend = {
         "title": {"text": None},
@@ -97,7 +100,7 @@ def _apply_standard_layout(
         "itemdoubleclick": "toggleothers",
         "orientation": "h",
         "yanchor": "top",
-        "y": -0.18,
+        "y": legend_y,
         "xanchor": "left",
         "x": 0,
         "entrywidth": 170,
@@ -118,6 +121,11 @@ def _apply_standard_layout(
         font={"size": 13},
     )
     return fig
+
+
+def _timeslice_ticktext(labels: list[str]) -> list[str]:
+    """Render timeslice labels on two lines for a more compact x-axis."""
+    return [label.replace("|", "<br>") for label in labels]
 
 
 def _apply_period_axis(fig: go.Figure, period_range) -> None:
@@ -446,10 +454,23 @@ def build_grouped_bar_timeslice(
 
     fig.update_layout(
         barmode="relative",
-        xaxis={"type": "category", "categoryorder": "array", "categoryarray": label_order},
+        xaxis={
+            "type": "category",
+            "categoryorder": "array",
+            "categoryarray": label_order,
+            "tickmode": "array",
+            "tickvals": label_order,
+            "ticktext": _timeslice_ticktext(label_order),
+        },
     )
     return _apply_standard_layout(
-        fig, unit=unit, legend_count=len(groups), xaxis_title="Timeslice"
+        fig,
+        unit=unit,
+        legend_count=len(groups),
+        xaxis_title="Timeslice",
+        extra_bottom_margin=72,
+        extra_height=72,
+        legend_y=-0.38,
     )
 
 
