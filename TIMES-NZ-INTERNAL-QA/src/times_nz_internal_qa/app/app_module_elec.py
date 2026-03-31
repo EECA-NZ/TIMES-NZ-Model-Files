@@ -221,15 +221,8 @@ def get_base_bat_cap_df(scenarios, filepath=ELE_BAT_FILE_LOCATION):
     Based on scenario selections
     Caches results for quick switching
     """
-    print("HI")
     df = read_data_pl(filepath, scenarios)
-    test = df.collect()
-    print(test)
     df = aggregate_by_group(df, bat_all_group_options)
-    test = df.collect()
-    print(test)
-    column_names = df.columns
-    print(column_names)
     df = filter_df_for_variable(df, "Capacity", collect=True)
     return df
 
