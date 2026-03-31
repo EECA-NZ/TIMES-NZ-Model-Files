@@ -51,9 +51,14 @@ def _as_upper_list(value) -> list[str]:
 
 
 def _expand_newtech_rows(item: dict) -> list[dict]:
-    """Expand config combinations into per-process mapping rows."""
+    """
+    Expand config combinations into per-process mapping rows.
+    Note that replaced technology is irrelevant for Space Heating
+    So it is removed here in the commodity out
+    """
     tech_code = str(item["TechCode"]).strip().upper()
-    return [
+    sh_low_end_use = "SH_LOW"
+    out = [
         {
             "TechnologyReplaced_TIMES": replaced_tech,
             "Technology_TIMES": tech_code,
@@ -62,7 +67,13 @@ def _expand_newtech_rows(item: dict) -> list[dict]:
             "EndUse_TIMES": end_use,
             "TechName": f"{sector}-{fuel}-{tech_code}-{end_use}",
             "Comm_IN": f"IND{fuel}",
-            "Comm_OUT": f"{sector}-{replaced_tech}-{end_use}",
+            "Comm_OUT": (
+                # including different commodity construction logic
+                # for space heating
+                f"{sector}-{end_use}"
+                if end_use == sh_low_end_use
+                else f"{sector}-{replaced_tech}-{end_use}"
+            ),
             "Sector_TIMES": sector,
         }
         for sector in _as_upper_list(item["Sectors"])
@@ -70,6 +81,7 @@ def _expand_newtech_rows(item: dict) -> list[dict]:
         for replaced_tech in _as_upper_list(item["ReplacedTechs"])
         for end_use in _as_upper_list(item["EndUse"])
     ]
+    return out
 
 
 def read_newtech_config(config_file=NEW_TECHS_CONFIG):
