@@ -1,0 +1,13 @@
+TechName,Year,Scenario,INVCOST
+H2_PEM,2023,Traditional,3004
+H2_PEM,2035,Traditional,2225
+H2_PEM,2050,Traditional,1732
+H2_PEM,2023,Transformation,3004
+H2_PEM,2035,Transformation,1396
+H2_PEM,2050,Transformation,1183
+H2_ALK,2023,Traditional,2862
+H2_ALK,2035,Traditional,2120
+H2_ALK,2050,Traditional,1824
+H2_ALK,2023,Transformation,2862
+H2_ALK,2035,Transformation,1331
+H2_ALK,2050,Transformation,1127

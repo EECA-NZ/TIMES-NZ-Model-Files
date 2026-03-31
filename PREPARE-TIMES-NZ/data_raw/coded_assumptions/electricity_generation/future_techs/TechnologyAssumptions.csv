@@ -1,7 +1,6 @@
 Tech_TIMES,PlantLife,PeakContribution,AFA
 WindFixOff,25,0.3,
 WindFloatOff,25,0.3,
-SolarFixed,25,0,
 SolarTrack,25,0,
 HydSC,100,0.8,
 HydRR,100,0.72,

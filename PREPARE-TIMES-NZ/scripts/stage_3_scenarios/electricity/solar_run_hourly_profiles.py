@@ -21,6 +21,12 @@ from PySAM import Pvwattsv8
 SOLAR_SCENARIOS_FILE = (
     ASSUMPTIONS / "electricity_generation/renewable_curves/SolarPvScenarios.csv"
 )
+EXCLUDED_SOLAR_TECHS = {"SolarFixed"}
+# note that these are techs where we have data but not any existing
+# techs.
+# We remove it so it doesn't build into wem_wcm and similar files from
+# the renewable curves
+# If we use this tech later just remove the filter and data ready to go
 
 OUTPUT_ROOT = STAGE_3_DATA / "electricity/solar_af"
 PREPARED_EPW_DIR = OUTPUT_ROOT / "prepared_epw"
@@ -270,6 +276,7 @@ def load_solar_scenarios() -> list[dict[str, Any]]:
     Load and normalize the configured solar archetype parameters.
     """
     df = pd.read_csv(SOLAR_SCENARIOS_FILE)
+    df = df[~df["Tech_TIMES"].isin(EXCLUDED_SOLAR_TECHS)].copy()
     scenarios = []
 
     for row in df.to_dict(orient="records"):

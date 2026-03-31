@@ -1,0 +1,28 @@
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_H2_Transformation" 
+
+[DeclareHydrogenCommodity]
+Description = "Hydrogen commodity declaration - might need to move this to baseyear?"
+SheetName = "Hydrogen"
+TagName = "FI_Comm"
+Csets = ["NRG"]
+CommName = ["H2R"] 
+Unit = ["PJ"]
+LimType = ["FX"]
+
+[HydrogenElectrolyserDeclarations]
+Description = "Declare hydrogen production processes."
+SheetName = "Hydrogen"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_h2/hydrogen_processes.csv"
+
+[HydrogenElectrolyserParameters]
+Description = "Hydrogen production process parameters."
+SheetName = "Hydrogen"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_h2/hydrogen_parameters.csv"
+
+[HydrogenElectrolyserParametersCosts]
+Description = "Hydrogen electrolyser cost curves. Transformation settings."
+SheetName = "Hydrogen"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_h2/hydrogen_costs_low.csv"
