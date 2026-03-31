@@ -51,15 +51,20 @@ Variable,Standard terminal
 Annual maximum output,Unlimited[^import_limits]
 Capital cost NZDm,794
 Operating cost NZDm pa,95
-LNG commodity cost NZD/GJ,18
+LNG commodity cost NZD/GJ,20
 Installation date, 2027
 ```
 
 
-Note that we assume that LNG consumption will be subject to the same emissions factor as domestic natural gas. Additional emissions factors associated with regasification or leakage of LNG are not currently included. We also assume that LNG is only used for electricity generation, and explicitly limit it to this. 
+Note that we assume that LNG consumption will be subject to the same emissions factor as domestic natural gas. Additional emissions factors associated with regasification or leakage of LNG are not currently included. 
 
 Because we currently set fixed install dates for terminals, assuming a single terminal is installed in 2027, the modelling solution is straightforward. Note that if you wished to expand the method to allow the model to choose optimal installation dates for the terminal, a Mixed Integer Programming[^mip] solution would be required to ensure that no partial terminals could be constructed.
 
 [^import_limits]: We assume that the maximum annual LNG demand will never exceed the throughput of the standard terminal configuration.
 
 [^mip]: In its default state, TIMES reaches an optimal model solution as a linear programming solution. This means that it could choose to build, for example, a fraction of an LNG import terminal. This is not realistic, so we limit LNG import options to “integer states”, meaning either the entire facility is built or not at all. This requires a Mixed Integer Programming solution, which increases the computational load of the model but is necessary for plausible results.
+
+
+## Scenario Adjustments 
+
+While both scenarios include LNG import options, we adjust the cost and availability for the Transformation scenario. Here, the likely future cost is raised from 20 to 40 NZD/GJ, reflecting the potential of much higher import costs caused by global geopolitical instablity. We further create a "two-tier" market for gas in this scenario, allowing the use of LNG only for electricity generation.
