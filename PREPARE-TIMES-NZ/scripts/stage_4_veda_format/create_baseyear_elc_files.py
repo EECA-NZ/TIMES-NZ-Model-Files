@@ -348,6 +348,7 @@ def define_generation_parameters(df):
             columns={
                 "CapacityFactor": "AFA",
                 "FuelDelivCost": "FLO_DELIV",
+                "InputFuelShare": f"FLO_SHAR~{BASE_YEAR}",
                 "Generation": f"ACT_BND~{BASE_YEAR}",
                 "PeakContribution": "NCAP_PKCNT",
                 "PlantLife": "NCAP_TLIFE",

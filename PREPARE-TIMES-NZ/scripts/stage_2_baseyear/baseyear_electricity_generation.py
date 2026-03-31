@@ -194,6 +194,31 @@ def apply_solar_tech_overrides(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def sum_activity_for_dual_fuel(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    For technologies with multiple input fuels, set each row's base-year
+    activity to the sum across fuels so downstream ACT_BND uses the shared total.
+    Also record each input fuel's share of the original activity.
+
+    NOTE: this is done because the model will only use one ACT_BND
+    per process. it will not sum multiple ACT_BNDs, nor treat them differently
+    per input fuel.
+
+    This means this setup works for the model, but does not work by standard
+    tidy data assumptions. the ACT_BNDs now cannot be summed sensibly.
+    """
+    out = df.copy()
+    group_cols = ["TechName", "Region", "Comm-OUT"]
+    fuel_count = out.groupby(group_cols)["Comm-IN"].transform("nunique")
+    summed_activity = out.groupby(group_cols)["EECA_Value"].transform("sum")
+    out["InputFuelShare"] = np.where(
+        fuel_count > 1, out["EECA_Value"] / summed_activity, np.nan
+    )
+
+    out["EECA_Value"] = np.where(fuel_count > 1, summed_activity, out["EECA_Value"])
+    return out
+
+
 # --------------------------------------------------------------------------- #
 # Main routine
 # --------------------------------------------------------------------------- #
@@ -669,6 +694,7 @@ def main() -> None:
     base_year_gen = add_output_commodity(base_year_gen)
     # input commodity functin works on full df not per row
     base_year_gen = add_input_commodity(base_year_gen)
+    base_year_gen = sum_activity_for_dual_fuel(base_year_gen)
 
     # Duplicate rows with input commodity 'ELCNGA' to create 'ELCBIG',
     # but exclude plants where Tech_TIMES contains 'CCGT'. This preserves
@@ -709,6 +735,7 @@ def main() -> None:
         "PlantLife": "Years",
         "PeakContribution": "%",
         "FuelEfficiency": "%",
+        "InputFuelShare": "%",
     }
 
     base_year_gen = base_year_gen.rename(
