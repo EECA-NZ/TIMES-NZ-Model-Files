@@ -49,12 +49,6 @@ New technologies that will be considered in TIMES 3.0 are listed in {numref}`tab
   - 15.5
   - 0.28
   - 1,782
-* - Electricity
-  - Pulsed Electric Field
-  - Low Temperature Heat (<100°C), Process Requirements
-  - 15
-  - [TBC]
-  - [TBC]
 ```
 
 
@@ -67,4 +61,5 @@ Note the values provided above are preliminary and based on limited industry kno
 
 **Mechanical Vapour Recompression:** this technology increases process efficiency by recovering and reusing low-pressure steam. It is commonly implemented as a retrofit alongside existing or new steam boilers to reduce fuel consumption.
 
-**Pulsed Electric Field (PEF):** this technology uses short bursts of high-voltage electricity to permeabilise cell membranes in liquids and semi-solids, enabling processes such as pasteurisation. It is typically applied as a non-thermal or low-thermal alternative to conventional heat-based treatments, improving energy efficiency. There is limited data on the efficiency and costs of this technology for widespread use in New Zealand and therefore this technology will not be modelled for TIMES 3.0 but it will be kept in the table above as a placeholder for future updates of the model.
+**Low temperature heatpumps:** These do not strictly count as "new technology", as they exist in the historical data. However, we note that they do not exist in all industrial subsectors in EEUD data. By default, TIMES subsectors can only make use of existing technologies identifed within the subsector, or any new technologies assigned to the subsector. This means that the model by default cannot install heatpumps in sectors where they are not already found. We assume this is an unlikely constraint, so instead allow low temperature heatpumps to be built in all industrial subsectors. These use cost and efficiency parameters identified in the existing data. We apply this method to both low temperature process heat and low temperature space heating heatpumps.
+
