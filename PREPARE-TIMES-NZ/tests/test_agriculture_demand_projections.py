@@ -1,10 +1,20 @@
 """Tests for agriculture demand projection helpers."""
 
 import csv
+import sys
+import types
 from pathlib import Path
 
 import pandas as pd
 from openpyxl import Workbook
+
+fake_stage_0_settings = types.ModuleType("prepare_times_nz.stage_0.stage_0_settings")
+fake_stage_0_settings.BASE_YEAR = 2023
+sys.modules.setdefault(
+    "prepare_times_nz.stage_0.stage_0_settings", fake_stage_0_settings
+)
+
+# pylint: disable=wrong-import-position
 from prepare_times_nz.stage_3.demand_projections import agriculture
 
 # pylint: disable= duplicate-code
@@ -235,18 +245,15 @@ def test_get_energy_demand_projections_uses_temp_stage_data(tmp_path, monkeypatc
 
     assumptions_path = tmp_path / "agriculture_demand_projections.csv"
     write_assumptions_csv(assumptions_path, TEST_ASSUMPTIONS)
+    monkeypatch.setattr(agriculture, "ASSUMPTIONS_FILE", assumptions_path)
+    monkeypatch.setattr(agriculture, "EXTERNAL_DATA", external_data_dir)
     baseyear_path = (
         stage_2_data / "ag_forest_fish" / "baseyear_ag_forest_fish_demand.csv"
     )
 
     write_baseyear_demand_csv(baseyear_path)
 
-    df = agriculture.get_energy_demand_projections(
-        "InputEnergy",
-        assumptions_path=assumptions_path,
-        external_data_dir=external_data_dir,
-        baseyear_path=baseyear_path,
-    )
+    df = agriculture.get_energy_demand_projections("InputEnergy")
 
     dairy_2025 = df[
         (df["Sector"] == "Dairy Cattle Farming")
@@ -277,17 +284,15 @@ def test_main_writes_outputs_to_temp_stage_data(tmp_path, monkeypatch):
 
     assumptions_path = tmp_path / "agriculture_demand_projections.csv"
     write_assumptions_csv(assumptions_path, TEST_ASSUMPTIONS)
+    monkeypatch.setattr(agriculture, "ASSUMPTIONS_FILE", assumptions_path)
+    monkeypatch.setattr(agriculture, "EXTERNAL_DATA", external_data_dir)
     baseyear_path = (
         stage_2_data / "ag_forest_fish" / "baseyear_ag_forest_fish_demand.csv"
     )
 
     write_baseyear_demand_csv(baseyear_path)
 
-    agriculture.main(
-        assumptions_path=assumptions_path,
-        external_data_dir=external_data_dir,
-        baseyear_path=baseyear_path,
-    )
+    agriculture.main()
 
     assert (
         stage_3_data / "demand_projections" / "agriculture_demand_index.csv"

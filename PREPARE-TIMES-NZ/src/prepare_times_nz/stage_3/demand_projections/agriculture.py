@@ -50,10 +50,8 @@ def normalise_optional_text(value):
     return text or None
 
 
-def load_agriculture_projection_assumptions(assumptions_path=None):
+def load_agriculture_projection_assumptions(assumptions_path=ASSUMPTIONS_FILE):
     """Load agriculture projection mappings and validate expected columns."""
-    if assumptions_path is None:
-        assumptions_path = ASSUMPTIONS_FILE
     df = pd.read_csv(assumptions_path).copy()
     df = df[df["SectorGroup"] == "Agriculture, Forestry and Fishing"].copy()
 
@@ -186,10 +184,10 @@ def build_projection_index_frame(match_row, mapping_row):
     return out[["SectorGroup", "Sector", "Scenario", "Year", "Index"]]
 
 
-def get_workbook_projection_indices(mapping_row, sheet_cache, external_data_dir=None):
+def get_workbook_projection_indices(
+    mapping_row, sheet_cache, external_data_dir=EXTERNAL_DATA
+):
     """Read one configured ERP2 row and convert it to a base-year index series."""
-    if external_data_dir is None:
-        external_data_dir = EXTERNAL_DATA
     df = get_cached_workbook_projection_sheet(
         mapping_row, sheet_cache, external_data_dir
     )
@@ -231,7 +229,9 @@ def expand_projection_indices(df):
 
 
 # FUNCTIONS
-def get_agriculture_growth_indices(assumptions_path=None, external_data_dir=None):
+def get_agriculture_growth_indices(
+    assumptions_path=ASSUMPTIONS_FILE, external_data_dir=EXTERNAL_DATA
+):
     """
     Build agriculture demand indices from a mapping config.
 
@@ -239,11 +239,6 @@ def get_agriculture_growth_indices(assumptions_path=None, external_data_dir=None
     - a workbook row in the ERP2 detailed results workbook, or
     - a constant index for sectors that remain flat
     """
-    if assumptions_path is None:
-        assumptions_path = ASSUMPTIONS_FILE
-    if external_data_dir is None:
-        external_data_dir = EXTERNAL_DATA
-
     mappings = load_agriculture_projection_assumptions(assumptions_path)
     sheet_cache = {}
     projection_parts = []
@@ -281,7 +276,7 @@ def get_agriculture_growth_indices(assumptions_path=None, external_data_dir=None
     return expand_projection_indices(combined)
 
 
-def get_agriculture_baseyear_demand(var, baseyear_path=None):
+def get_agriculture_baseyear_demand(var):
     """
     Pull base year commodity outputs by sector
     Get total base year service demand and energy demand
@@ -294,12 +289,7 @@ def get_agriculture_baseyear_demand(var, baseyear_path=None):
             f"Invalid variable '{var}'. Must be 'InputEnergy' or 'OutputEnergy'."
         )
 
-    if baseyear_path is None:
-        baseyear_path = (
-            STAGE_2_DATA / "ag_forest_fish/baseyear_ag_forest_fish_demand.csv"
-        )
-
-    df = pd.read_csv(baseyear_path)
+    df = pd.read_csv(STAGE_2_DATA / "ag_forest_fish/baseyear_ag_forest_fish_demand.csv")
     df = df[df["Variable"] == var]
     df = (
         df.groupby(
@@ -319,9 +309,7 @@ def get_agriculture_baseyear_demand(var, baseyear_path=None):
     return df
 
 
-def get_energy_demand_projections(
-    energy_type, assumptions_path=None, external_data_dir=None, baseyear_path=None
-):
+def get_energy_demand_projections(energy_type):
     """
     Combine base year demand (input or output) and growth indices
     Create forward projections based on these
@@ -329,40 +317,24 @@ def get_energy_demand_projections(
     InputEnergy is sometimes useful for communication purposes
     """
 
-    index = get_agriculture_growth_indices(
-        assumptions_path=assumptions_path, external_data_dir=external_data_dir
-    )
-    base_year = get_agriculture_baseyear_demand(
-        energy_type, baseyear_path=baseyear_path
-    )
+    index = get_agriculture_growth_indices()
+    base_year = get_agriculture_baseyear_demand(energy_type)
     df = base_year.merge(index, on="Sector", how="left")
     df["Value"] = df["Value"] * df["Index"]
 
     return df
 
 
-def main(assumptions_path=None, external_data_dir=None, baseyear_path=None):
+def main():
     """Script entrypoint"""
-    df_input_energy = get_energy_demand_projections(
-        "InputEnergy",
-        assumptions_path=assumptions_path,
-        external_data_dir=external_data_dir,
-        baseyear_path=baseyear_path,
-    )
-    df_output_energy = get_energy_demand_projections(
-        "OutputEnergy",
-        assumptions_path=assumptions_path,
-        external_data_dir=external_data_dir,
-        baseyear_path=baseyear_path,
-    )
+    df_input_energy = get_energy_demand_projections("InputEnergy")
+    df_output_energy = get_energy_demand_projections("OutputEnergy")
     save_agr_proj_check(df_input_energy, "agriculture_input.csv", "Input energy")
     save_agr_proj_check(df_output_energy, "agriculture_output.csv", "Output energy")
 
     # the above is extra detail for reporting. The model just needs indices:
 
-    df_index = get_agriculture_growth_indices(
-        assumptions_path=assumptions_path, external_data_dir=external_data_dir
-    )
+    df_index = get_agriculture_growth_indices()
     save_agr_proj_data(
         df_index, "agriculture_demand_index.csv", "Agriculture demand index"
     )
