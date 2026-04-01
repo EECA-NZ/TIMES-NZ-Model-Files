@@ -1,31 +1,35 @@
 
-# Demand projections 
+# Demand projections
 
-Demand projections for the sector were based on the land use projections from the Second Emissions Reduction Plan[^erp_results]. We used their Baseline scenario projections for the TIMES-NZ Traditional scenario and the Baseline Low scenario projections for the Transformation scenario and calculated the demand growth indexes. For Indoor cropping sector we have applied the same growth index as Horticulture (Outdoor). For Fishing sector, the demand for energy is assumed to be constant throughout time as it’s heavily regulated and dominated by wild catch, and future activity is limited by the Fish Quota Management System (QMS)[^qms].  However, EECA Energy Transition Accelerator (ETA) reports suggest a future shift to aquaculture[^fisheries_aquaculture]. Also, ETA reports suggest that the Forestry and Logging demand is tied to projected harvest volumes. 
+Demand projections for the agriculture, forestry, and fishing sector are based on detailed projections from the Second Emissions Reduction Plan (ERP2) detailed results[^erp_results]. 
+
+TIMES demand projections are all based on activity indexes from the base year (currently 2023). For workbook-based mappings, the ERP2 series is converted to a demand index by dividing each year by the 2023 value. The TIMES-NZ Traditional scenario uses the ERP2 `Baseline` scenario and the Transformation scenario uses the ERP2 `Baseline low` scenario. Where the ERP2 workbook only provides values for selected years, annual values between those years are linearly interpolated.
+
+Agricultural subsector demand profiles are as follows: 
+
+- `Dairy Cattle Farming` tracks ERP2 `Total dairy cattle`.
+- `Livestock Farming` tracks ERP2 `Sheep and beef 'stock units'`.
+- `Horticulture (Outdoor)` tracks ERP2 `Horticulture`.
+- `Indoor Cropping` uses the same ERP2 `Horticulture` series as a proxy.
+- `Forestry and Logging` tracks ERP2 `Forestry (million m3) / Harvested timber (TRV)`.
+- `Other Agriculture` tracks ERP2 `Other agriculture / Total`.
+- `Fishing, Hunting and Trapping` remains constant at an index of 1.0 in both scenarios, reflecting the assumption that activity is broadly constrained by the Quota Management System (QMS)[^qms].
 
 
 [^erp_results]: MPI | New Zealand's second emissions reduction plan 2026-30: [Technical Annex](https://environment.govt.nz/publications/second-emissions-reduction-plan-technical-annex/) and [Detailed Results (.xlsx)](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fenvironment.govt.nz%2Fassets%2Fpublications%2Fclimate-change%2FERP2%2FDetailed-results-for-ERP2-projection-scenarios.xlsx&wdOrigin=BROWSELINK)
 [^qms]: MPI | [Quota Management System](https://www.mpi.govt.nz/legal/legislation-standards-and-reviews/fisheries-legislation/quota-management-system)
-[^fisheries_aquaculture]: [The State of World Fisheries and Aquaculture 2024](https://openknowledge.fao.org/server/api/core/bitstreams/a10e81b3-3fbd-4393-b7b6-6a926915a19a/content)
 
 
-```{csv-table} Demand growth projections for Traditional and Transformation scenarios
+```{csv-table} ERP2 category mappings for Traditional and Transformation scenarios
 :header-rows: 1
 :name: tab_agr_demand_proj
 
-Subsector,Scenario,2023,2025,2030,2035,2040,2045,2050
-Dairy Cattle Farming,Traditional,1,0.9412,0.9412,0.9412,0.9412,0.9412,0.9412
-,Transformation,1,0.9412,0.9412,0.9412,0.9412,0.9412,0.9412
-Livestock Farming,Traditional,1,0.9733,0.9467,0.92,0.8933,0.8667,0.84
-,Transformation,1,0.9733,0.9467,0.9067,0.88,0.84,0.8133
-Horticulture (Outdoor),Traditional,1,1,1,1,1,1,1
-,Transformation,1,1,1,1,1,1,1
-Forestry and Logging,Traditional,1,1.0476,1.0952,1.1905,1.2381,1.2857,1.381
-,Transformation,1,1.0476,1.1429,1.1905,1.2857,1.381,1.4762
-Indoor Cropping,Traditional,1,1,1,1,1,1,1
-,Transformation,1,1,1,1,1,1,1
-"Fishing, Hunting and Trapping",Traditional,1,1,1,1,1,1,1
-,Transformation,1,1,1,1,1,1,1
-Other Agriculture,Traditional,1,1,1,1,1,1,1
-,Transformation,1,1,1,1,1,1,1
+Subsector,Traditional,Transformation
+Dairy Cattle Farming,Baseline / Total dairy cattle,Baseline low / Total dairy cattle
+Livestock Farming,"Baseline / Sheep and beef 'stock units'","Baseline low / Sheep and beef 'stock units'"
+Horticulture (Outdoor),Baseline / Horticulture,Baseline low / Horticulture
+Forestry and Logging,Baseline / Forestry (million m3) / Harvested timber (TRV),Baseline low / Forestry (million m3) / Harvested timber (TRV)
+Indoor Cropping,Baseline / Horticulture,Baseline low / Horticulture
+"Fishing, Hunting and Trapping",Constant index = 1,Constant index = 1
+Other Agriculture,Baseline / Other agriculture / Total,Baseline low / Other agriculture / Total
 ```
