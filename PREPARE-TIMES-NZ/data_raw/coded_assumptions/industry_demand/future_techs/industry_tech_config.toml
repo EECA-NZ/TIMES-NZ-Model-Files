@@ -38,6 +38,6 @@ TechCode = "HPSH"
 Technology = "Heat Pump (space heating)"
 TechnologyGroup = "Heat/Cooling Devices"
 EndUse = ["SH_LOW"] # low process heat
-ReplacedTechs = ["BOILR", "BURNR"]
 InputFuel = ["ELC"]
-Sectors = ["OTHR", "MINE"]
+# all sectors except CHEM (which has the tech already from the EEUD)
+Sectors = ["ALUM","CNST","DARY","FOOD","STEEL","MEAT","METH","MINE","MNRL","OTHR","PULP","UREA","WOOD",]

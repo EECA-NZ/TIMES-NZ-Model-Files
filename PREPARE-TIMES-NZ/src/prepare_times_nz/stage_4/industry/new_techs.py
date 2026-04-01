@@ -51,9 +51,18 @@ def _as_upper_list(value) -> list[str]:
 
 
 def _expand_newtech_rows(item: dict) -> list[dict]:
-    """Expand config combinations into per-process mapping rows."""
+    """
+    Expand config combinations into per-process mapping rows.
+    Note that replaced technology is irrelevant for Space Heating
+    So it is removed here in the commodity out
+    """
     tech_code = str(item["TechCode"]).strip().upper()
-    return [
+    sh_low_end_use = "SH_LOW"
+    end_uses = _as_upper_list(item["EndUse"])
+    replaced_techs = (
+        _as_upper_list(item["ReplacedTechs"]) if "ReplacedTechs" in item else [None]
+    )
+    out = [
         {
             "TechnologyReplaced_TIMES": replaced_tech,
             "Technology_TIMES": tech_code,
@@ -62,14 +71,21 @@ def _expand_newtech_rows(item: dict) -> list[dict]:
             "EndUse_TIMES": end_use,
             "TechName": f"{sector}-{fuel}-{tech_code}-{end_use}",
             "Comm_IN": f"IND{fuel}",
-            "Comm_OUT": f"{sector}-{replaced_tech}-{end_use}",
+            "Comm_OUT": (
+                # including different commodity construction logic
+                # for space heating
+                f"{sector}-{end_use}"
+                if end_use == sh_low_end_use
+                else f"{sector}-{replaced_tech}-{end_use}"
+            ),
             "Sector_TIMES": sector,
         }
         for sector in _as_upper_list(item["Sectors"])
         for fuel in _as_upper_list(item["InputFuel"])
-        for replaced_tech in _as_upper_list(item["ReplacedTechs"])
-        for end_use in _as_upper_list(item["EndUse"])
+        for replaced_tech in replaced_techs
+        for end_use in end_uses
     ]
+    return out
 
 
 def read_newtech_config(config_file=NEW_TECHS_CONFIG):
@@ -89,7 +105,7 @@ def read_newtech_config(config_file=NEW_TECHS_CONFIG):
         logger.warning("No [newtechs*] entries found in %s", config_path)
         return pd.DataFrame()
 
-    required_fields = ["TechCode", "ReplacedTechs", "EndUse", "InputFuel", "Sectors"]
+    required_fields = ["TechCode", "EndUse", "InputFuel", "Sectors"]
     rows: list[dict] = []
     for table_name, item in config_items:
         if not isinstance(item, dict) or not item:
@@ -100,6 +116,11 @@ def read_newtech_config(config_file=NEW_TECHS_CONFIG):
             )
             continue
         missing_fields = [field for field in required_fields if field not in item]
+        end_uses = _as_upper_list(item.get("EndUse", [])) if not missing_fields else []
+        if "ReplacedTechs" not in item and any(
+            end_use != "SH_LOW" for end_use in end_uses
+        ):
+            missing_fields.append("ReplacedTechs")
         if missing_fields:
             logger.warning(
                 "Skipping [%s] in %s; missing required fields: %s",
