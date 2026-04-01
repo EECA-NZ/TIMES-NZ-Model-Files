@@ -54,22 +54,21 @@ def _prepare_chart_df(pdf: pd.DataFrame, group_col: str) -> pd.DataFrame:
         lambda s: s.fillna(0).sum()
     )
 
-    chart_df["ShareTooltip"] = chart_df.apply(
-        lambda row: "n/a"
-        if row["Total"] == 0 or pd.isna(row["Value"])
-        else f"{((row['Value'] / row['Total']) * 100):.2f}%",
-        axis=1,
+    valid_share = chart_df["Total"].ne(0) & chart_df["Value"].notna()
+    share_values = (chart_df["Value"] / chart_df["Total"]) * 100
+    chart_df["ShareTooltip"] = "n/a"
+    chart_df.loc[valid_share, "ShareTooltip"] = share_values.loc[valid_share].map(
+        lambda x: f"{x:.2f}%"
     )
-    chart_df["ValueTooltip"] = (
-        chart_df["Value"].map(lambda x: "n/a" if pd.isna(x) else f"{x:,.2f}")
-        + " "
-        + chart_df["Unit"].astype(str)
+
+    unit_series = chart_df["Unit"].astype(str)
+    value_text = chart_df["Value"].map(lambda x: f"{x:,.2f}")
+    chart_df["ValueTooltip"] = "n/a"
+    valid_value = chart_df["Value"].notna()
+    chart_df.loc[valid_value, "ValueTooltip"] = (
+        value_text.loc[valid_value] + " " + unit_series.loc[valid_value]
     )
-    chart_df["TotalTooltip"] = (
-        chart_df["Total"].map(lambda x: f"{x:,.2f}")
-        + " "
-        + chart_df["Unit"].astype(str)
-    )
+    chart_df["TotalTooltip"] = chart_df["Total"].map(lambda x: f"{x:,.2f}") + " " + unit_series
     return chart_df
 
 

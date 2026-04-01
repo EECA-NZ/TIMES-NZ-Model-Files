@@ -2,6 +2,8 @@
 Function factories for replicable server functions.
 """
 
+from collections import OrderedDict
+
 from shiny import reactive, render
 from shinywidgets import render_plotly
 from times_nz_internal_qa.app.helpers.charts import (
@@ -86,11 +88,37 @@ def register_server_functions_for_explorer(
 
     # default to grouped bar if there's nothing in the dict
     chart_type = chart_parameters_dict.get("chart_type", "grouped_bar")
+    chart_cache: OrderedDict[tuple, dict | None] = OrderedDict()
+    chart_cache_limit = 24
 
     # get reactive to return data following scenario selection
     @reactive.calc
     def _df():
         return df_function(scenarios())
+
+    @reactive.calc
+    def _is_active_section():
+        return getattr(inputs, f"{page_id}_nav")() == sec_id
+
+    def _selection_key(value):
+        if value is None:
+            return ()
+        if isinstance(value, (list, tuple, set)):
+            return tuple(sorted("" if v is None else str(v) for v in value))
+        return ("",) if value == "" else (str(value),)
+
+    @reactive.calc
+    def _chart_cache_key():
+        selected_group = getattr(inputs, f"{chart_id}_group")()
+        scenario_key = tuple(remap_values("Scenario", scenarios()))
+        filter_key = tuple(
+            (
+                f["col"],
+                _selection_key(getattr(inputs, f'filter_{f["chart_id"]}_{f["id"]}_selected')()),
+            )
+            for f in filters
+        )
+        return (chart_id, selected_group, scenario_key, filter_key)
 
     # define filter options for this data based on input filter dict
     @reactive.calc
@@ -115,27 +143,42 @@ def register_server_functions_for_explorer(
     # Create chart data
     @reactive.calc
     def _chart_df():
-        # touch the nav input so hidden panels still re-render after selection changes
-        _ = getattr(inputs, f"{page_id}_nav")()
+        if not _is_active_section():
+            return None
+
         selected_group = getattr(inputs, f"{chart_id}_group")()
+        cache_key = _chart_cache_key()
+
+        if cache_key in chart_cache:
+            chart_cache.move_to_end(cache_key)
+            return chart_cache[cache_key]
 
         df_filtered = _df_filtered()
 
         # FIX #3 – prevent empty-data crash
         if df_filtered is None or df_filtered.height == 0:
+            chart_cache[cache_key] = None
             return None  # chart renderers will handle this
 
-        return make_chart_data(
+        chart_data = make_chart_data(
             df_filtered,
             base_cols,
             selected_group,
             remap_values("Scenario", scenarios()),
         )
+        chart_cache[cache_key] = chart_data
+        chart_cache.move_to_end(cache_key)
+        if len(chart_cache) > chart_cache_limit:
+            chart_cache.popitem(last=False)
+        return chart_data
 
     # DRAW CHARTS
     @outputs(id=f"{chart_id}_chart")
     @render_plotly
     def _chart_unified():
+        if not _is_active_section():
+            return build_empty_figure("")
+
         params = _chart_df()
 
         # Early exit 1: no chart data at all
