@@ -245,13 +245,20 @@ def test_get_energy_demand_projections_uses_temp_stage_data(tmp_path, monkeypatc
 
     assumptions_path = tmp_path / "agriculture_demand_projections.csv"
     write_assumptions_csv(assumptions_path, TEST_ASSUMPTIONS)
-    monkeypatch.setattr(agriculture, "ASSUMPTIONS_FILE", assumptions_path)
-    monkeypatch.setattr(agriculture, "EXTERNAL_DATA", external_data_dir)
     baseyear_path = (
         stage_2_data / "ag_forest_fish" / "baseyear_ag_forest_fish_demand.csv"
     )
 
     write_baseyear_demand_csv(baseyear_path)
+    original_get_growth_indices = agriculture.get_agriculture_growth_indices
+    monkeypatch.setattr(
+        agriculture,
+        "get_agriculture_growth_indices",
+        lambda: original_get_growth_indices(
+            assumptions_path=assumptions_path,
+            external_data_dir=external_data_dir,
+        ),
+    )
 
     df = agriculture.get_energy_demand_projections("InputEnergy")
 
@@ -284,13 +291,20 @@ def test_main_writes_outputs_to_temp_stage_data(tmp_path, monkeypatch):
 
     assumptions_path = tmp_path / "agriculture_demand_projections.csv"
     write_assumptions_csv(assumptions_path, TEST_ASSUMPTIONS)
-    monkeypatch.setattr(agriculture, "ASSUMPTIONS_FILE", assumptions_path)
-    monkeypatch.setattr(agriculture, "EXTERNAL_DATA", external_data_dir)
     baseyear_path = (
         stage_2_data / "ag_forest_fish" / "baseyear_ag_forest_fish_demand.csv"
     )
 
     write_baseyear_demand_csv(baseyear_path)
+    original_get_growth_indices = agriculture.get_agriculture_growth_indices
+    monkeypatch.setattr(
+        agriculture,
+        "get_agriculture_growth_indices",
+        lambda: original_get_growth_indices(
+            assumptions_path=assumptions_path,
+            external_data_dir=external_data_dir,
+        ),
+    )
 
     agriculture.main()
 
