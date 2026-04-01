@@ -99,7 +99,7 @@ def section_block(parameters):
                 ui.input_radio_buttons(
                     f"{chart_id}_chart_type",
                     label=None,
-                    choices={"bar": "Bar", "line": "Line"},
+                    choices={"bar": "Bar", "line": "Line", "area": "Area"},
                     selected="bar",
                     inline=True,
                     width="auto",

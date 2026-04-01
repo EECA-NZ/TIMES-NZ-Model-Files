@@ -21,10 +21,57 @@ TIMES NZ 3.0 is the third iteration of the model using New Zealand data and inco
 
 ## Documentation
 
-See all project documentation at our (documentation site)[https://times-nz-dev.readthedocs.io/en/latest/index.html]
+See all project documentation at our [documentation site](https://times-nz-dev.readthedocs.io/en/latest/index.html).
+
+## Developer Quickstart
+
+This is a shortened setup guide for developers who want to either build model input files or run the internal Shiny app. For the full workflow, including VEDA and GAMS setup, use the [developer documentation](https://times-nz-dev.readthedocs.io/en/latest/index.html).
+
+### Prerequisites
+
+- WSL/Ubuntu is the recommended development environment.
+- Python 3.12+ and [Poetry](https://python-poetry.org/docs/) are required.
+- If you want to run the full model workflow through VEDA, you will also need a working Windows installation of VEDA and GAMS.
+
+### Build the model input files
+
+Install the prep module and run the full data-preparation pipeline:
+
+```bash
+cd PREPARE-TIMES-NZ
+poetry install --with dev
+poetry run doit
+```
+
+This generates the TIMES model files in `PREPARE-TIMES-NZ/output`.
+
+Useful alternatives:
+
+```bash
+poetry run python scripts/prepare_times_nz.py
+poetry run pytest
+```
+
+### Run the internal Shiny app
+
+Install the app module dependencies and start the app locally:
+
+```bash
+cd TIMES-NZ-INTERNAL-QA
+poetry install
+poetry run python run_local.py
+```
+
+The app uses processed data in `TIMES-NZ-INTERNAL-QA/data`. If you need to refresh model outputs and labels from the latest prep outputs and local VEDA results, run the post-processing workflow first:
+
+```bash
+cd TIMES-NZ-INTERNAL-QA
+poetry run python src/times_nz_internal_qa/postprocessing/run_all_postprocessing.py
+```
+
+Note: parts of post-processing depend on `PREPARE-TIMES-NZ/data_intermediate` already being populated, and VEDA result import requires a local VEDA installation.
 
 
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-

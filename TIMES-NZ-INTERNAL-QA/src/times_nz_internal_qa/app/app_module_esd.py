@@ -211,13 +211,20 @@ def energy_service_demand_server(inputs, outputs, session, selected_scens):
         return tuple(selected_scens["scenario_list"]())
 
     register_server_functions_for_explorer(
-        esd_parameters, get_base_esd_df, scen_tuple, inputs, outputs, session
+        esd_parameters,
+        get_base_esd_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
     )
 
     register_server_functions_for_explorer(
         esd_curve_parameters,
         get_base_esd_curve_df,
         scen_tuple,
+        selected_scens["is_comparison"],
         inputs,
         outputs,
         session,
@@ -227,6 +234,7 @@ def energy_service_demand_server(inputs, outputs, session, selected_scens):
         transport_esd_parameters,
         get_base_transport_esd_df,
         scen_tuple,
+        selected_scens["is_comparison"],
         inputs,
         outputs,
         session,

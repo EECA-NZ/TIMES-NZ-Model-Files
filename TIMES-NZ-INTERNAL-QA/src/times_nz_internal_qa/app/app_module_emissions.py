@@ -96,7 +96,13 @@ def emissions_server(inputs, outputs, session, selected_scens):
         return tuple(selected_scens["scenario_list"]())
 
     register_server_functions_for_explorer(
-        ems_parameters, get_base_ems_df, scen_tuple, inputs, outputs, session
+        ems_parameters,
+        get_base_ems_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
     )
 
 

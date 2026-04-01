@@ -1,17 +1,17 @@
 """
-Function factories for replicable server functions
-
-Mostly because we were repeating methods a lot
+Function factories for replicable server functions.
 """
 
-import altair as alt
-import pandas as pd
+from collections import OrderedDict
+
 from shiny import reactive, render
-from shinywidgets import render_altair
+from shinywidgets import render_plotly
 from times_nz_internal_qa.app.helpers.charts import (
     build_grouped_bar,
+    build_grouped_area,
     build_grouped_bar_timeslice,
     build_grouped_line,
+    build_empty_figure,
 )
 from times_nz_internal_qa.app.helpers.data_processing import (
     get_agg_data,
@@ -53,7 +53,13 @@ def register_download(outputs, out_id, filename, df_reactive):
 
 # pylint:disable = too-many-arguments, too-many-positional-arguments, too-many-locals
 def register_server_functions_for_explorer(
-    chart_parameters_dict: dict, df_function, scenarios, inputs, outputs, session
+    chart_parameters_dict: dict,
+    df_function,
+    scenarios,
+    is_comparison,
+    inputs,
+    outputs,
+    session,
 ):
     """
 
@@ -77,15 +83,42 @@ def register_server_functions_for_explorer(
     chart_id = chart_parameters_dict["chart_id"]
     base_cols = chart_parameters_dict["base_cols"]
     page_id = chart_parameters_dict["page_id"]
+    sec_id = chart_parameters_dict["sec_id"]
     section_title = chart_parameters_dict["section_title"]
 
     # default to grouped bar if there's nothing in the dict
     chart_type = chart_parameters_dict.get("chart_type", "grouped_bar")
+    chart_cache: OrderedDict[tuple, dict | None] = OrderedDict()
+    chart_cache_limit = 24
 
     # get reactive to return data following scenario selection
     @reactive.calc
     def _df():
         return df_function(scenarios())
+
+    @reactive.calc
+    def _is_active_section():
+        return getattr(inputs, f"{page_id}_nav")() == sec_id
+
+    def _selection_key(value):
+        if value is None:
+            return ()
+        if isinstance(value, (list, tuple, set)):
+            return tuple(sorted("" if v is None else str(v) for v in value))
+        return ("",) if value == "" else (str(value),)
+
+    @reactive.calc
+    def _chart_cache_key():
+        selected_group = getattr(inputs, f"{chart_id}_group")()
+        scenario_key = tuple(remap_values("Scenario", scenarios()))
+        filter_key = tuple(
+            (
+                f["col"],
+                _selection_key(getattr(inputs, f'filter_{f["chart_id"]}_{f["id"]}_selected')()),
+            )
+            for f in filters
+        )
+        return (chart_id, selected_group, scenario_key, filter_key)
 
     # define filter options for this data based on input filter dict
     @reactive.calc
@@ -110,44 +143,53 @@ def register_server_functions_for_explorer(
     # Create chart data
     @reactive.calc
     def _chart_df():
-        # if using altair, must touch the nav input to ensure rerendering
-        _ = getattr(inputs, f"{page_id}_nav")()
+        if not _is_active_section():
+            return None
+
         selected_group = getattr(inputs, f"{chart_id}_group")()
+        cache_key = _chart_cache_key()
+
+        if cache_key in chart_cache:
+            chart_cache.move_to_end(cache_key)
+            return chart_cache[cache_key]
 
         df_filtered = _df_filtered()
 
         # FIX #3 – prevent empty-data crash
         if df_filtered is None or df_filtered.height == 0:
+            chart_cache[cache_key] = None
             return None  # chart renderers will handle this
 
-        return make_chart_data(
+        chart_data = make_chart_data(
             df_filtered,
             base_cols,
             selected_group,
             remap_values("Scenario", scenarios()),
         )
+        chart_cache[cache_key] = chart_data
+        chart_cache.move_to_end(cache_key)
+        if len(chart_cache) > chart_cache_limit:
+            chart_cache.popitem(last=False)
+        return chart_data
 
     # DRAW CHARTS
     @outputs(id=f"{chart_id}_chart")
-    @render_altair
+    @render_plotly
     def _chart_unified():
+        if not _is_active_section():
+            return build_empty_figure("")
+
         params = _chart_df()
 
         # Early exit 1: no chart data at all
         if not params or params["pdf"].empty:
-            chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
-                text="No data available"
-            )
-            return chart.properties(width="container", height="container")
+            return build_empty_figure("No data available")
 
         pdf = params["pdf"]
 
         # Early exit 2: no non-zero values = infeasible or meaningless for line charts
         if pdf["Value"].sum() == 0:
-            chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
-                text="No meaningful values to plot"
-            )
-            return chart.properties(width="container", height="container")
+            return build_empty_figure("No meaningful values to plot")
 
         # Handle chart types
         if chart_type == "timeslice":
@@ -161,36 +203,22 @@ def register_server_functions_for_explorer(
         else:
             mode = getattr(inputs, f"{chart_id}_chart_type")()
 
+            if is_comparison() and mode == "area":
+                return build_empty_figure(
+                    "Area charts are not available when comparing scenarios"
+                )
+
             if mode == "bar":
                 chart = build_grouped_bar(**params)
             elif mode == "line":
                 chart = build_grouped_line(**params)
+            elif mode == "area":
+                chart = build_grouped_area(**params)
             else:
-                chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
-                    text="No chart"
-                )
+                chart = build_empty_figure("No chart")
 
-        # Global-ish styling: font sizes etc.
-        chart = (
-            chart.configure_axis(
-                labelFontSize=13,
-                titleFontSize=14,
-                titleFontWeight="normal",
-            )
-            .configure_legend(
-                labelFontSize=13,
-                titleFontSize=14,
-            )
-            .configure_title(
-                fontSize=14,
-            )
-        )
-
-        # Single place where sizing is applied for *all* chart types
-        return chart.properties(
-            width="container",
-            height="container",  # or a fixed number if height="container" is fussy
-        )
+        chart.update_layout(autosize=True)
+        return chart
 
     # Setup downloads
     chart_download_function_name = f"{chart_id}_chart_data_download"
