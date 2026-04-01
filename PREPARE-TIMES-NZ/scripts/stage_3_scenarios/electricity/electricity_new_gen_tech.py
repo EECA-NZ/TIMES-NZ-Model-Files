@@ -49,6 +49,10 @@ region_islands = CONCORDANCES / "region_island_concordance.csv"
 # USD to NZD exchange rate
 EXCHANGE_RATE_USD = 0.62
 
+# manual patch - diesel peaker heatrates.
+# used for generics, chose 11000 as matches MBIE assumptions re whirinaki
+DSLPKR_HEATRATE = 11000
+
 # Filepath shortcuts
 FUTURE_TECH_ASSUMPTIONS = ASSUMPTIONS / "electricity_generation/future_techs"
 OUTPUT_LOCATION = STAGE_3_DATA / "electricity"
@@ -84,7 +88,6 @@ census_dwellings = pd.read_csv(
 )
 region_to_island = pd.read_csv(CONCORDANCES / "region_island_concordance.csv")
 new_tech = pd.read_csv(FUTURE_TECH_ASSUMPTIONS / "NewTechnology.csv")
-tracked_solar = pd.read_csv(FUTURE_TECH_ASSUMPTIONS / "TrackingSolarPlants.csv")
 future_tech_codes = pd.read_csv(CONCORDANCES / "electricity/future_tech_codes.csv")
 
 
@@ -592,28 +595,27 @@ def tidy_genstack(df):
 
 def distinguish_tracking_solar(df):
     """
-    Changes the Tech and TechName field for solar plants
-    Uses an assumption file as input which contains names of Tracking plants
+    Changes all future utility solar plants to tracking solar.
+    """
+    df.loc[df["Tech"] == "Solar", "Tech"] = "SolarTrack"
+    df.loc[df["TechName"] == "Solar", "TechName"] = "Solar (Tracking)"
 
-    The rest are defined as Fixed solar
+    return df
 
+
+def add_diesel_peakers(df):
+    """
+    Creates potential future diesel peakers instead of gas ones
+    Adjust the heatrate according to input constant assumption
+    Adds these to existing genstack
     """
 
-    tracked_solar_plants = tracked_solar["Plant"].unique()
+    dslpkrs = df[df["Tech"] == "GasPkr"].copy()
+    dslpkrs["Tech"] = "DslPkr"
+    dslpkrs["Plant"] = dslpkrs["Plant"].str.replace("OCGT", "diesel", regex=False)
+    dslpkrs["Heat Rate (GJ/GWh)"] = DSLPKR_HEATRATE
 
-    # Update tracking plants
-    df.loc[df["Plant"].isin(tracked_solar_plants), "Tech"] = "SolarTrack"
-    df.loc[df["Plant"].isin(tracked_solar_plants), "TechName"] = "Solar (Tracking)"
-
-    # Update the remaining solar plants to fixed
-    df.loc[
-        (df["Tech"] == "Solar") & (~df["Plant"].isin(tracked_solar_plants)), "Tech"
-    ] = "SolarFixed"
-    df.loc[
-        (df["TechName"] == "Solar") & (~df["Plant"].isin(tracked_solar_plants)),
-        "TechName",
-    ] = "Solar (Fixed)"
-
+    df = pd.concat([df, dslpkrs])
     return df
 
 
@@ -670,6 +672,7 @@ def get_genstack():
 
     df = load_genstack()
     df = apply_genstack_patches(df)
+    df = add_diesel_peakers(df)
     df = reshape_genstack(df)
     df = define_genstack_learning_curves(df)
     df = apply_learning_curves(df)
@@ -677,6 +680,7 @@ def get_genstack():
     df = distinguish_tracking_solar(df)
     df = add_times_codes(df)
     df = tidy_genstack(df)
+
     return df
 
 
@@ -748,78 +752,6 @@ def get_offshore_wind():
     return df
 
 
-def get_residential_solar():
-    """
-    Builds and calculates residential solar future tech parameters
-
-    Note: this repeats a lot of the methods used for other plants
-    However, they're not using the same functions - could generalise methods.
-
-    I'm not sure if these should actually go in the base year techs !!
-    Will leave as is for now but could clean this up a bit
-
-    """
-
-    # get dsolar assumptions
-    dsolar = new_tech[new_tech["TechName"] == "Residential dist solar"]
-    capex = dsolar[dsolar["Variable"] == "CAPEX"]
-    fom = dsolar[dsolar["Variable"] == "FOM"]
-    capacity = dsolar[dsolar["Variable"] == "Capacity"]
-
-    # this list defines which variables we add back later
-    # they should match the input assumption fields
-    parameters = [
-        "Plant",
-        "PlantType",
-        "Tech",
-        "TechName",
-        "Status",
-        "CommissioningType",
-        "CommissioningYear",
-        "Variable",
-        "Unit",
-    ]
-
-    # get total dwelling counts
-    dwellings = census_dwellings[census_dwellings["Census year"] == "2023"]
-    dwellings = dwellings[
-        ~dwellings["Region"].isin(
-            ["North Island", "South Island", "Chatham Islands", "New Zealand"]
-        )
-    ]
-
-    # Estimate max capacity per region
-    # uses current dwelling count and share/unit capacity assumptions
-    house_share = dsolar[dsolar["Variable"] == "MaxShareOfHouses"]["Value"].iloc[0]
-    solar_cap = dsolar[dsolar["Variable"] == "Capacity"]["Value"].iloc[0]
-    df = dwellings[["Region", "Value"]].copy()
-    df["Value"] = df["Value"] * house_share * solar_cap
-    # re-add parameters from input assumptions
-    df = pd.merge(df, capacity[parameters], how="cross")
-
-    # apply curves to capex (not fom)
-    nrel = get_learning_curves()
-    # this nrel renaming is repeated unfortunately - could refactor out somehow
-    nrel = nrel.rename(columns={"Technology": "Plant", "Scenario": "NRELScenario"})
-    capex = capex.merge(nrel, on=["Plant", "Variable"], how="left")
-    capex["Value"] = capex["Value"] * capex["Index"]
-    capex = capex.drop("Index", axis=1)
-
-    # combine costs with cap and fom
-    df = pd.concat([df, capex, fom])
-
-    # set default year
-    df["Year"] = df["Year"].fillna(BASE_YEAR)
-
-    df = add_times_codes(df)
-
-    # again, different naming scheme for these, clarifying the sector hardcoded
-    # These are distinguished from existing solar PV. I am not sure if that's necessary!
-    df["TechName"] = "ELC_" + df["Tech_TIMES"] + "_ResNew"
-
-    return df
-
-
 def main():
     """
     Pulls the three component pieces
@@ -832,11 +764,9 @@ def main():
 
     genstack = get_genstack()
     offshore_wind = get_offshore_wind()
-    res_solar = get_residential_solar()
 
     save_gen_output(genstack, "genstack.csv", "genstack plants")
     save_gen_output(offshore_wind, "offshore_wind.csv", "offshore wind")
-    save_gen_output(res_solar, "residential_solar.csv", "residential solar")
 
 
 if __name__ == "__main__":

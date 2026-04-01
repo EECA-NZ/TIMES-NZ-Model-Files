@@ -7,8 +7,9 @@ For the Traditional scenario, we use the MBIE Reference generation stack. For th
 We make the following adjustments and additions to the MBIE generation stack:
 - Future costs in the MBIE generation stack[^mbie_edgs] are assumed to be static. We allow these to decline over time, based on the United States’ National Renewable Energy Laboratory (NREL)[^nrel] assumptions of future cost declines for solar, wind, and geothermal technologies.
 - We add data for distributed solar generation and offshore wind plant types.
-- Utility solar plants in the MBIE generation stack with tracking capabilities are identified and categorised as such. Tracking solar has higher costs, but also better capacity factors and different availability curves.
+- We assume all utility solar plants in the MBIE generation stack include single-axis tracking capabilities. This is in alignment with existing assumptions on utility-scale solar, such as work by Alan Miller[^alan_miller_solar].
 
+[^alan_miller_solar]: Alan Miller: [Economics of Utility-Scale Solar in Aotearoa New Zealand](https://www.mbie.govt.nz/assets/utility-scale-solar-forecast-in-aotearoa-new-zealand-v3.pdf).
 [^mbie_edgs]: MBIE EDGS: <https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-modelling/electricity-demand-and-generation-scenarios>
 [^nrel]: NREL: <https://www.nrel.gov/>. This documentation was written before NREL was renamed to the *National Laboratory of the Rockies (NLR)*.
 
@@ -39,12 +40,8 @@ All remaining plants have their CAPEX and FOM remain fixed across the model hori
 :name: tab-nrel_mapping
 * - Technology Type
   - NREL technology used
-* - Utility solar (fixed)
-  - Tracking PV[^tracking_pv]
 * - Utility solar (tracking)
   - Tracking PV
-* - Distributed solar
-  - Rooftop PV
 * - Onshore wind
   - Wind Turbine Technology 1
 * - Offshore wind (fixed)
@@ -58,7 +55,6 @@ To apply the learning curves, the percentage indices of the NREL CAPEX and FOM d
 
 The base year was set to 2023 to match the base year of the MBIE data. For the forecasted CAPEX of the future technology, the percentage indices were applied to the capital cost, which does not include the cost of connection. The cost of connection was divided by the capacity of the plant and then added as a constant to the projected CAPEX. For the FOMs the percentage indices were able to be applied without extra addition of other costs. 
 
-[^tracking_pv]: NREL does not provide learning curves for fixed solar panels. We assume the cost reductions are not specifically driven by the tracking technology and so apply the learning curves to both fixed and tracking technology types.
 [^nrel_atb]: Electricity Data | NREL: <https://atb.nrel.gov/electricity/2024/data>
 [^nrel_atb_definitions]: Electricity Definitions | NREL: <https://atb.nrel.gov/electricity/2024/definitions>
 
@@ -86,6 +82,10 @@ Because it would not be realistic to assume no distributed solar installations, 
 [^edgs_solar]: MBIE | [EDGS 2024 Assumptions](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-modelling/electricity-demand-and-generation-scenarios)
 [^distribution_note]: While distributed solar is often not selected in a system cost approach, this is not a universal rule for distributed assets. For example, we note that the model often chooses to build distributed batteries, despite the higher per-unit costs compared to grid-scale batteries, because of the benefits of reducing grid load during peak demand periods. For this reason, we still allow the model to choose the efficient level of distributed battery build, rather than using a fixed assumption. 
 
+
+## Diesel peakers 
+
+We allow the model to also build diesel peakers, as this could prove a useful option based on future oil import costs and gas availability. Diesel OCGT peakers do not exist in the MBIE generation stack, so have set their parameters equivalent to existing natural gas OCGT peakers. However, the heat rates were adjusted to 11,000 GJ/GWh, implying a fuel efficiency of 32.7%, which is in line with existing assumptions on the operation of the Whirinaki diesel plant. 
 
 
 ## New fuels in existing assets 

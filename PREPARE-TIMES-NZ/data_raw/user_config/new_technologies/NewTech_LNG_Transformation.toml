@@ -1,11 +1,9 @@
 ###########################################
 # LNG subres
-# we include a scenario file for investment timing - you'd also use this if you wanted to set lumpy investment
-# kept in this config file for tidiness (it's small) 
 ###########################################
 
 
-WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
+WorkBookName = "SubRES_TMPL/SubRES_LNG_Imports_Transformation"
 
 [LNGSupplyCommodityDefinitions]
 Description = "Declare LNG commodity"
@@ -35,7 +33,7 @@ TagName = "FI_T"
 TechName = "IMPLNG"
 Comm-IN = ""
 Comm-OUT = "LNG"
-COST = 18 # NZD/GJ
+COST = 40
 
 [LNGImportConfigurations]
 Description = "Defines parameters for different LNG configurations"
@@ -56,7 +54,7 @@ FIXOM = [90] # operating costs per capacity unit (NZDm per port setup excl capex
 # Lock to NI by creating a trans file 
 
 [LNGImportNIOnly]
-WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports_trans"
+WorkBookName = "SubRES_TMPL/SubRES_LNG_Imports_Transformation_trans"
 Description = "Locks LNG processes to NI"
 SheetName = "AVA"
 TagName = "TFM_AVA"       
@@ -67,7 +65,7 @@ NI = [1,1]
 
 # Scenario file for build timing
 [LNGImportBuildOptions]
-WorkBookName = "SuppXLS/Scen_LNG_build_timing"
+WorkBookName = "SuppXLS/Scen_LNG_build_timing_Transformation"
 Description = "Build timing for LNG port, including single port unit build at 2027."
 SheetName = "LNG"
 TagName = "TFM_INS"

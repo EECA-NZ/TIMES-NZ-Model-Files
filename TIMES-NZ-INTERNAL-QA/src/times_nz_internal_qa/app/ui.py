@@ -2,13 +2,13 @@
 Defines the ui for the internal app
 """
 
-# Libraries
-from dotenv import load_dotenv, find_dotenv
 import json
 import os
 from pathlib import Path
-from shiny import ui
 
+# Libraries
+from dotenv import load_dotenv
+from shiny import ui
 from times_nz_internal_qa.app.app_module_demand import demand_ui
 from times_nz_internal_qa.app.app_module_dummies import dummy_ui
 from times_nz_internal_qa.app.app_module_elec import elec_ui
@@ -23,7 +23,7 @@ global_css = ASSETS / "styles.css"
 
 # Secrets
 
-load_dotenv(dotenv_path=Path.cwd() / ".env")  # find_dotenv(".env", usecwd=True))
+load_dotenv(dotenv_path=Path.cwd() / ".env")
 PENDO_API_KEY = os.getenv("PENDO_API_KEY", "")
 
 # UI
@@ -106,7 +106,7 @@ app_ui = ui.page_fluid(
             ui.nav_panel("Electricity generation", elec_ui),
             ui.nav_panel("Emissions", emissions_ui),
             ui.nav_panel("Energy service demand", esd_ui),
-            #ui.nav_panel("Infeasibilities", dummy_ui),
+            ui.nav_panel("Infeasibilities", dummy_ui),
         ),
         class_="navset-large",
     ),

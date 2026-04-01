@@ -1,8 +1,8 @@
 Technology,Technology_TIMES,TechGroup
 Electronics,ELEC,Electronics and Lights
-Lights (Incandescent),INC,Electronics and Lights
-Lights (Fluorescent),FLU,Electronics and Lights
-Lights (LED),LED,Electronics and Lights
+Incandescent/Halogen,INC,Electronics and Lights
+Fluorescent,FLU,Electronics and Lights
+LED,LED,Electronics and Lights
 Boiler Systems,Boiler,Heat/Cooling Devices
 Burner (Direct Heat),Burner,Heat/Cooling Devices
 Heat Pump (for Heating),AIRHP,Heat/Cooling Devices

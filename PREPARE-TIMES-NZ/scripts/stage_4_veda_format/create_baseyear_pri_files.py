@@ -6,6 +6,8 @@ Currently just does the oil gas veda scripts
 
 from prepare_times_nz.stage_4.baseyear.oil_and_gas import main as oil_gas_veda
 from prepare_times_nz.stage_4.biofuels import main as biofuels_veda
+from prepare_times_nz.stage_4.hydrogen_electrolysers import main as hydrogen_veda
 
 oil_gas_veda()
 biofuels_veda()
+hydrogen_veda()

@@ -1,0 +1,73 @@
+###########################################
+# LNG subres
+###########################################
+
+
+WorkBookName = "SubRES_TMPL/SubRES_LNG_Imports_Traditional"
+
+[LNGSupplyCommodityDefinitions]
+Description = "Declare LNG commodity"
+SheetName = "LNG"
+TagName = "FI_Comm"
+Csets = ["NRG"]
+Region = ["NI"]
+CommName = ["LNG"]
+Unit = ["PJ"]
+
+
+[LNGSupplyProcessDefinitions]
+Description = "Declare LNG production/regasification processes"
+SheetName = "LNG"
+TagName = "FI_Process"
+Sets = ["IMP", "PRE"] 
+TechName = ["IMPLNG", # just import the commodity            
+            "LNGPORTSTD" # standard configuration (small possible but not currently included)
+            ]
+Tact = "PJ"
+Tcap = ["PJa", "StandardPort"] # we are defining abstract units for these ports to work around
+
+[LNGCommodityCosts]
+Description = "Defines costs for LNG import (Just the commodity, not infrastructure or delivery)"
+SheetName = "LNG"
+TagName = "FI_T"
+TechName = "IMPLNG"
+Comm-IN = ""
+Comm-OUT = "LNG"
+COST = 20
+
+[LNGImportConfigurations]
+Description = "Defines parameters for different LNG configurations"
+SheetName = "LNG"
+TagName = "FI_T"           
+
+[LNGImportConfigurations.Data]
+TechName = ["LNGPORTSTD"]
+Comm-IN = ["LNG"]
+Comm-OUT = ["NGA"]
+INVCOST = [800] # again, this is total per "port" unit. We can only build one port unit, and this is the price NZDm
+CAP2ACT = [40] # ie, the small port can produce 9 a year, and the big port 40: now all our capacity unit is "port" so everything simpler 
+Eff = [1] # this is by default anyway, but we'll make explicit
+AFA = [1] # defaults, but explicit - can run at max capacity 
+"AFA~LO" = [0] # force the small port to always run at max capacity, as per the reporting on these setups. You buy LNG ahead of time and must deliver. 
+FIXOM = [90] # operating costs per capacity unit (NZDm per port setup excl capex) 
+
+# Lock to NI by creating a trans file 
+
+[LNGImportNIOnly]
+WorkBookName = "SubRES_TMPL/SubRES_LNG_Imports_Traditional_trans"
+Description = "Locks LNG processes to NI"
+SheetName = "AVA"
+TagName = "TFM_AVA"       
+Pset_PN = ["LNGPORTSTD", "IMPLNG"]
+SI = [0,0]
+NI = [1,1]
+
+
+# Scenario file for build timing
+[LNGImportBuildOptions]
+WorkBookName = "SuppXLS/Scen_LNG_build_timing_Traditional"
+Description = "Build timing for LNG port, including single port unit build at 2027."
+SheetName = "LNG"
+TagName = "TFM_INS"
+DataLocation = "data_raw/coded_assumptions/oil_and_gas/lng_build_timing.csv"
+
