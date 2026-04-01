@@ -3,6 +3,7 @@
 import csv
 from pathlib import Path
 
+import pandas as pd
 from openpyxl import Workbook
 from prepare_times_nz.stage_3.demand_projections import agriculture
 
@@ -139,6 +140,58 @@ def write_assumptions_csv(path: Path, rows):
         writer.writerows(rows)
 
 
+def write_baseyear_demand_csv(path: Path):
+    """Write a minimal base-year demand file for agriculture projection tests."""
+    rows = [
+        {
+            "Sector": "Dairy Cattle Farming",
+            "CommodityOut": "MILK",
+            "Island": "NI",
+            "Technology": "DAIRY_TECH",
+            "EndUse": "Process",
+            "Variable": "InputEnergy",
+            "Unit": "PJ",
+            "Value": 10.0,
+        },
+        {
+            "Sector": "Dairy Cattle Farming",
+            "CommodityOut": "MILK",
+            "Island": "NI",
+            "Technology": "DAIRY_TECH",
+            "EndUse": "Process",
+            "Variable": "OutputEnergy",
+            "Unit": "PJ",
+            "Value": 5.0,
+        },
+        {
+            "Sector": "Fishing, Hunting and Trapping",
+            "CommodityOut": "FISH",
+            "Island": "SI",
+            "Technology": "FISH_TECH",
+            "EndUse": "Process",
+            "Variable": "InputEnergy",
+            "Unit": "PJ",
+            "Value": 3.0,
+        },
+    ]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    pd.DataFrame(rows).to_csv(path, index=False)
+
+
+def setup_temp_agriculture_paths(tmp_path: Path, monkeypatch):
+    """Point the agriculture module at temporary stage data locations."""
+    stage_2_data = tmp_path / "stage_2_baseyear_data"
+    stage_3_data = tmp_path / "stage_3_scenario_data"
+    output = stage_3_data / "demand_projections"
+
+    monkeypatch.setattr(agriculture, "STAGE_2_DATA", stage_2_data)
+    monkeypatch.setattr(agriculture, "STAGE_3_DATA", stage_3_data)
+    monkeypatch.setattr(agriculture, "OUTPUT", output)
+    monkeypatch.setattr(agriculture, "OUTPUT_CHECKS", output / "checks")
+
+    return stage_2_data, stage_3_data
+
+
 def get_index(df, sector, scenario, year):
     """Return one compiled index value for the requested sector/scenario/year."""
     return df[
@@ -168,3 +221,80 @@ def test_get_agriculture_growth_indices_reads_workbook_mappings(tmp_path):
     assert get_index(df, "Livestock Farming", "Traditional", 2050) == 0.8
     assert get_index(df, "Indoor Cropping", "Traditional", 2050) == 1.2
     assert get_index(df, "Fishing, Hunting and Trapping", "Traditional", 2042) == 1.0
+
+
+def test_get_energy_demand_projections_uses_temp_stage_data(tmp_path, monkeypatch):
+    """Energy projections should be computed from temp test data, not repo intermediates."""
+    stage_2_data, _ = setup_temp_agriculture_paths(tmp_path, monkeypatch)
+
+    external_data_dir = tmp_path / "external_data"
+    workbook_dir = external_data_dir / "mfe"
+    workbook_dir.mkdir(parents=True)
+    workbook_path = workbook_dir / "Detailed-results-for-ERP2-projection-scenarios.xlsx"
+    make_test_erp_workbook(workbook_path)
+
+    assumptions_path = tmp_path / "agriculture_demand_projections.csv"
+    write_assumptions_csv(assumptions_path, TEST_ASSUMPTIONS)
+    baseyear_path = (
+        stage_2_data / "ag_forest_fish" / "baseyear_ag_forest_fish_demand.csv"
+    )
+
+    write_baseyear_demand_csv(baseyear_path)
+
+    df = agriculture.get_energy_demand_projections(
+        "InputEnergy",
+        assumptions_path=assumptions_path,
+        external_data_dir=external_data_dir,
+        baseyear_path=baseyear_path,
+    )
+
+    dairy_2025 = df[
+        (df["Sector"] == "Dairy Cattle Farming")
+        & (df["Scenario"] == "Traditional")
+        & (df["Year"] == 2025)
+        & (df["Variable"] == "InputEnergy")
+    ]["Value"].iloc[0]
+    fishing_2042 = df[
+        (df["Sector"] == "Fishing, Hunting and Trapping")
+        & (df["Scenario"] == "Traditional")
+        & (df["Year"] == 2042)
+        & (df["Variable"] == "InputEnergy")
+    ]["Value"].iloc[0]
+
+    assert dairy_2025 == 9.0
+    assert fishing_2042 == 3.0
+
+
+def test_main_writes_outputs_to_temp_stage_data(tmp_path, monkeypatch):
+    """Main should save outputs under temp stage data rather than repo intermediates."""
+    stage_2_data, stage_3_data = setup_temp_agriculture_paths(tmp_path, monkeypatch)
+
+    external_data_dir = tmp_path / "external_data"
+    workbook_dir = external_data_dir / "mfe"
+    workbook_dir.mkdir(parents=True)
+    workbook_path = workbook_dir / "Detailed-results-for-ERP2-projection-scenarios.xlsx"
+    make_test_erp_workbook(workbook_path)
+
+    assumptions_path = tmp_path / "agriculture_demand_projections.csv"
+    write_assumptions_csv(assumptions_path, TEST_ASSUMPTIONS)
+    baseyear_path = (
+        stage_2_data / "ag_forest_fish" / "baseyear_ag_forest_fish_demand.csv"
+    )
+
+    write_baseyear_demand_csv(baseyear_path)
+
+    agriculture.main(
+        assumptions_path=assumptions_path,
+        external_data_dir=external_data_dir,
+        baseyear_path=baseyear_path,
+    )
+
+    assert (
+        stage_3_data / "demand_projections" / "agriculture_demand_index.csv"
+    ).exists()
+    assert (
+        stage_3_data / "demand_projections" / "checks" / "agriculture_input.csv"
+    ).exists()
+    assert (
+        stage_3_data / "demand_projections" / "checks" / "agriculture_output.csv"
+    ).exists()
