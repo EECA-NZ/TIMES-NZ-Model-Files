@@ -146,12 +146,7 @@ def main() -> None:
     """Generate and export COM_FR load-curve tables for each sector."""
     outputs = {
         "com_fr_industry.csv": build_industry_df(),
-        "com_fr_residential_50.csv": build_residential_df(
-            "residential_curves_ripple_50.csv"
-        ),
-        "com_fr_residential_90.csv": build_residential_df(
-            "residential_curves_ripple_90.csv", year=2050
-        ),
+        "com_fr_residential.csv": build_residential_df("residential_curves.csv"),
         "com_fr_agriculture.csv": build_agriculture_df(),
         "com_fr_commercial.csv": build_commercial_df(),
     }

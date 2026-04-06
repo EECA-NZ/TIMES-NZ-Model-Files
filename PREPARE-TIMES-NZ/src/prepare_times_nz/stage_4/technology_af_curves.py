@@ -39,7 +39,7 @@ AF_SELECTOR_FILE = ASSUMPTIONS / "load_curves/fixed_af_technologies.toml"
 SECTOR_CONFIG = {
     "Residential": {
         "baseyear_file": STAGE_2_DATA / "residential/baseyear_residential_demand.csv",
-        "curve_file": STAGE_4_DATA / "scen_com_fr/com_fr_residential_50.csv",
+        "curve_file": STAGE_4_DATA / "scen_com_fr/com_fr_residential.csv",
         "electricity_commodity": "RESELC",
         # which column in the baseyear file is used to denote sector type:
         "sector_column": "DwellingType",
