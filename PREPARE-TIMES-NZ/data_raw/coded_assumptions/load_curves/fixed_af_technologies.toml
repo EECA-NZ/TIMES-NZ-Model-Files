@@ -1,0 +1,125 @@
+# This file configures which technologies get preset availability curves.
+
+# This step is necessary for electricity technologies which serve demand on a COM_FR timeslice while competing with other technologies
+# It ensures that modelled use of these technologies aligns with expected use
+# If we do not do this, then the model will overoptimise use (for example, foregoing electricity demand in winter peaks)
+#  in an unrealistic way 
+
+# this config is utilised in src/prepare_times_nz/stage_4/technology_af_curves.py
+
+# Note config structure: 
+
+# SectorGroup, Sector, EndUse: these are for filtering base year files. 
+# SectorGroup will also select additional config options in the script
+
+# COM_FR: the code used for existing commodity loadcurve fractions.
+# This should match a COM_FR process code from the output files, because that's where it's read from.
+# Only one COM_FR code per sector/use combination
+
+# Peak Availability: How much of the existing stock is used during peak (assumption)
+
+
+# RESIDENTIAL 
+
+[JoinedResSpaceHeating]
+SectorGroup = "Residential"
+Sector = "Joined"
+EndUse = "Low Temperature Heat (<100 C), Space Heating"
+COM_FR = "JD-S_HEAT"
+PeakAvailability = 0.8
+
+[JoinedResHotWater]
+SectorGroup = "Residential"
+Sector = "Joined"
+EndUse = "Low Temperature Heat (<100 C), Water Heating"
+COM_FR = "JD-WH_LOW"
+PeakAvailability = 0.8
+
+[JoinedResCooking]
+SectorGroup = "Residential"
+Sector = "Joined"
+EndUse = "Intermediate Heat (100-300 C), Cooking"
+COM_FR = "JD-CH_INT"
+PeakAvailability = 0.8
+
+
+[DetachedResSpaceHeating]
+SectorGroup = "Residential"
+Sector = "Detached"
+EndUse = "Low Temperature Heat (<100 C), Space Heating"
+COM_FR = "DD-S_HEAT"
+PeakAvailability = 0.8
+
+[DetachedResHotWater]
+SectorGroup = "Residential"
+Sector = "Detached"
+EndUse = "Low Temperature Heat (<100 C), Water Heating"
+COM_FR = "DD-WH_LOW"
+PeakAvailability = 0.8
+
+[DetachedResCooking]
+SectorGroup = "Residential"
+Sector = "Detached"
+EndUse = "Intermediate Heat (100-300 C), Cooking"
+COM_FR = "DD-CH_INT"
+PeakAvailability = 0.8
+
+# HEALTHCARE
+[HealthSpaceHeating]
+SectorGroup = "Commercial"
+Sector = "Healthcare"
+EndUse = "Low Temperature Heat (<100 C), Space Heating"
+COM_FR = "C_HLTH-*SH"
+PeakAvailability = 1.0
+
+[HealthWaterHeating]
+SectorGroup = "Commercial"
+Sector = "Healthcare"
+EndUse = "Low Temperature Heat (<100 C), Water Heating"
+# note that healthcare waterheating is effectively healthcare "other" (not spaceheating/cooling)
+COM_FR = "C_HLTH-*,-C_HLTH-*SH,-C_HLTH-*SC" 
+PeakAvailability = 1.0
+
+# EDUCATION
+[EducationSpaceHeating]
+SectorGroup = "Commercial"
+Sector = "Education"
+EndUse = "Low Temperature Heat (<100 C), Space Heating"
+# Education just a single curve
+COM_FR = "C_EDU*" 
+PeakAvailability = 0.9
+
+[EducationWaterHeating]
+SectorGroup = "Commercial"
+Sector = "Education"
+EndUse = "Low Temperature Heat (<100 C), Water Heating"
+# Education just a single curve
+COM_FR = "C_EDU*" 
+PeakAvailability = 0.9
+
+# WSR (just cooking) 
+
+[WSRCooking]
+SectorGroup = "Commercial"
+Sector = "WSR"
+EndUse = "Intermediate Heat (100-300 C), Cooking"
+# WSR a single curve too. not very sophisticated
+COM_FR = "C_WSR*" 
+PeakAvailability = 1.0
+
+
+# OFFICE
+# offices also a single curve for all use types. 
+[OfficeSpaceHeating]
+SectorGroup = "Commercial"
+Sector = "Office Blocks"
+EndUse = "Low Temperature Heat (<100 C), Space Heating"
+COM_FR = "C_OFFC*, C_DATA*" 
+PeakAvailability = 0.8
+
+[OfficeWaterHeating]
+SectorGroup = "Commercial"
+Sector = "Office Blocks"
+EndUse = "Low Temperature Heat (<100 C), Water Heating"
+COM_FR = "C_OFFC*, C_DATA*" 
+PeakAvailability = 0.8
