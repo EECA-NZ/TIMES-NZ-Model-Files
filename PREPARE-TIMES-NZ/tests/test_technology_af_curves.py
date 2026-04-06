@@ -1,5 +1,15 @@
 """Tests for technology AF curve helpers."""
 
+import sys
+import types
+
+fake_stage_0_settings = types.ModuleType("prepare_times_nz.stage_0.stage_0_settings")
+fake_stage_0_settings.BASE_YEAR = 2023
+sys.modules.setdefault(
+    "prepare_times_nz.stage_0.stage_0_settings", fake_stage_0_settings
+)
+
+# pylint: disable=wrong-import-position
 from prepare_times_nz.stage_4.technology_af_curves import wildcard_technology_codes
 
 
