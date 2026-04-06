@@ -1,0 +1,31 @@
+# Demand flex processes. Currently just ripple hot water
+
+# Once the pattern is established and working, we should generalise this method to other techs and script
+# This config file is already a little bit hard to read
+
+WorkBookName = "SuppXLS/Scen_DemandFlex"
+
+[ResidentialFlexTechs]
+Description = "Defines residential flex processes"
+SheetName = "Residential"
+TagName = "FI_Process"
+Sets = "STG"
+TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX"]
+Tact = "PJ"
+Tcap = "PJa"
+TsLvl = "DAYNITE"
+
+[ResidentialFlexParameters50]
+Description = "Defines parameters for residential ripple control (50%)"
+SheetName = "Residential"
+TagName = "FI_T"
+TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX"]
+Comm-IN = ["JD-WH_LOW", "DD-WH_LOW"]
+Comm-Out = ["JD-WH_LOW", "DD-WH_LOW"]
+STG_SIFT = [0.5,0.5] # can shift 50% of load
+STG_EFF = [0.99, 0.99] # 1% heatloss
+
+
+
+
+
