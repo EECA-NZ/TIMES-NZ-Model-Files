@@ -35,6 +35,7 @@ ENDUSE_CODES = INDUSTRY_CONCORDANCES / "use_codes.csv"
 # Modelling Constants
 # ---------------------------------------------------------------------
 START = BASE_YEAR + 1
+TECH_START_OVERRIDES = {"BEV": 2030, "HFCV": 2030}
 ACTIVITY_UNIT = "PJ"
 CAPACITY_UNIT = "GW"
 AF = 0.5
@@ -182,7 +183,10 @@ def get_process_params(df):
         "CAP2ACT",
     ]
     # add additional constants
-    df["START"] = START
+    df["START"] = (
+        df["Technology_TIMES"].map(TECH_START_OVERRIDES).fillna(START).astype(int)
+    )
+
     df["AF"] = AF
     df["CAP2ACT"] = CAP2ACT_PJGW
     # return
