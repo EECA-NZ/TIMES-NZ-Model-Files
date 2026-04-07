@@ -333,8 +333,8 @@ Demand,RES-DD-ELC-HEATR-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/C
 Demand,RES-JD-ELC-HEATR-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Resistance Heater
 Demand,RES-DD-COA-HEATR_C-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,"Coal Heaters, Residential Only  "
 Demand,RES-JD-COA-HEATR_C-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,"Coal Heaters, Residential Only  "
-Demand,RES-DD-DSL-ICENG-MTV_MOB,DD-MTV_MOB,Residential,Detached Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
-Demand,RES-JD-DSL-ICENG-MTV_MOB,JD-MTV_MOB,Residential,Joined Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
+Demand,RES-DD-DSL-ICENG-MTV_MOB,DD-DSL-MTV_MOB,Residential,Detached Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
+Demand,RES-JD-DSL-ICENG-MTV_MOB,JD-DSL-MTV_MOB,Residential,Joined Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
 Demand,RES-DD-LPG-BURNR-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,RES-JD-LPG-BURNR-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,RES-DD-LPG-COOK-CH_INT,DD-CH_INT,Residential,Detached Dwelling,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,"Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  "
@@ -347,8 +347,8 @@ Demand,RES-DD-NGA-COOK-CH_INT,DD-CH_INT,Residential,Detached Dwelling,Heating/Co
 Demand,RES-JD-NGA-COOK-CH_INT,JD-CH_INT,Residential,Joined Dwelling,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,"Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  "
 Demand,RES-DD-NGA-HWATER_G-WH_LOW,DD-WH_LOW,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Gas Water Heater
 Demand,RES-JD-NGA-HWATER_G-WH_LOW,JD-WH_LOW,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Gas Water Heater
-Demand,RES-DD-PET-ICENG-MTV_MOB,DD-MTV_MOB,Residential,Detached Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
-Demand,RES-JD-PET-ICENG-MTV_MOB,JD-MTV_MOB,Residential,Joined Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
+Demand,RES-DD-PET-ICENG-MTV_MOB,DD-PET-MTV_MOB,Residential,Detached Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
+Demand,RES-JD-PET-ICENG-MTV_MOB,JD-PET-MTV_MOB,Residential,Joined Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
 Demand,RES-DD-WOD-BURNR-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,RES-JD-WOD-BURNR-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,RES-DD-WOD-BURNR_W-WH_LOW,DD-WH_LOW,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,"Burner, with Wetback"
@@ -550,10 +550,19 @@ Demand,WOOD-ELC-HPPH-PH_LOW,WOOD-FURNC-PH_LOW,Industry,Wood Products,Heating/Coo
 Demand,STEEL-ELC-HPPH-PH_LOW,STEEL-BOILR-PH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
 Demand,STEEL-ELC-HPPH-PH_LOW,STEEL-BURNR-PH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
 Demand,STEEL-ELC-HPPH-PH_LOW,STEEL-FURNC-PH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
-Demand,OTHR-ELC-HPSH-SH_LOW,OTHR-BOILR-SH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
-Demand,OTHR-ELC-HPSH-SH_LOW,OTHR-BURNR-SH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
-Demand,MINE-ELC-HPSH-SH_LOW,MINE-BOILR-SH_LOW,Industry,Mining,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
-Demand,MINE-ELC-HPSH-SH_LOW,MINE-BURNR-SH_LOW,Industry,Mining,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,ALUM-ELC-HPSH-SH_LOW,ALUM-SH_LOW,Industry,Aluminium,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,CNST-ELC-HPSH-SH_LOW,CNST-SH_LOW,Industry,Construction,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,DARY-ELC-HPSH-SH_LOW,DARY-SH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,FOOD-ELC-HPSH-SH_LOW,FOOD-SH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,STEEL-ELC-HPSH-SH_LOW,STEEL-SH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,MEAT-ELC-HPSH-SH_LOW,MEAT-SH_LOW,Industry,Meat,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,METH-ELC-HPSH-SH_LOW,METH-SH_LOW,Industry,Methanol,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,MINE-ELC-HPSH-SH_LOW,MINE-SH_LOW,Industry,Mining,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,MNRL-ELC-HPSH-SH_LOW,MNRL-SH_LOW,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,OTHR-ELC-HPSH-SH_LOW,OTHR-SH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,PULP-ELC-HPSH-SH_LOW,PULP-SH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,UREA-ELC-HPSH-SH_LOW,UREA-SH_LOW,Industry,Urea,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,WOOD-ELC-HPSH-SH_LOW,WOOD-SH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
 Demand,NEWTECH,NEWTECH-DEM,Commercial,NewTechs,NewTechs,NewTechs,NewTechs,NewTechs
 Demand,STEEL-ELC-EAF,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Iron and Steel,Recycled Steel,Heat/Cooling Devices,Electric Arc Furnace (EAF)
 Demand,ADCF-IRG-Irg-ELC,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation
