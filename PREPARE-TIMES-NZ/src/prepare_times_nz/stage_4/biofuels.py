@@ -264,8 +264,6 @@ def build_bioenergy_supply_forecast_df(
         merged = merged[merged["Island"].notna()]
         merged = pd.concat([merged, ni_rows, si_rows], ignore_index=True)
 
-    # ...existing code...
-
     if return_long_format:
         act_bnd_cols = [c for c in merged.columns if c.startswith("ACT_BND~")]
         melted = merged.melt(
@@ -385,8 +383,10 @@ def create_biofuel_supply_forecasts() -> pd.DataFrame:
         constants_from_year_map=SUPPLY_CONSTANTS_FROM_2026,
     )
 
-    # Final tidy for wide output
-    return finalise_supply_forecast(base, island_col="Island")
+    df = finalise_supply_forecast(base, island_col="Island")
+    limtype_mask = df["TechName"].str.contains("MNCWST01", na=False)
+    df.loc[limtype_mask, "LimType"] = "LO"
+    return df
 
 
 # ----------------------------------------------------------------------------
@@ -427,6 +427,7 @@ def create_additional_bioenergy_supply_forecasts() -> pd.DataFrame:
     )
     long_df["Year"] = long_df["YearCol"].str.extract(r"ACT_BND~(\d+)").astype(int)
     long_df = long_df.drop(columns=["YearCol"]).dropna(subset=["ACT_BND"])
+    long_df = long_df[long_df["Year"] >= 2026]
 
     # Pivot to NI/SI columns
     out = long_df.pivot_table(
@@ -443,7 +444,9 @@ def create_additional_bioenergy_supply_forecasts() -> pd.DataFrame:
             out[region] = pd.NA
 
     out["Attribute"] = "ACT_BND"
-    out = out[["TechName", "Year", "NI", "SI", "Attribute"]].sort_values(
+    limtype_mask = out["TechName"].str.contains("MNCWST01", na=False)
+    out.loc[limtype_mask, "LimType"] = "LO"
+    out = out[["TechName", "Year", "NI", "SI", "Attribute", "LimType"]].sort_values(
         ["TechName", "Year"]
     )
     # remove rows with null SI and NI
