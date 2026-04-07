@@ -27,16 +27,3 @@ SheetName    = "RES"
 TagName      = "TFM_INS"
 DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_residential.csv"
 
-## Additional: Fixed tech demand curves 
-
-[Residential_AF_Slice]
-Description = "Forces selected electricity technology curves to match COM_FR, meaning the model can no longer swap heating techs during high-cost slices"
-SheetName = "FixedTechAFs"
-TagName = "TFM_INS"
-DataLocation = "data_intermediate/stage_4_veda_format/scen_loadcurve/technology_af_curves.csv"
-
-[Residential_Reset_AFA_for_TS_AF]
-Description = "Resets AFA to default after baseyear for techs where we have added slice AFs, to ensure no clashes"
-SheetName = "FixedTechAFs"
-TagName = "TFM_INS"
-DataLocation = "data_intermediate/stage_4_veda_format/scen_loadcurve/technology_afa_resets.csv"
