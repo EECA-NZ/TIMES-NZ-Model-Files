@@ -1,0 +1,26 @@
+Season,Day Type,Time of Day,North Island,South Island
+Autumn,Weekend,Day,34.4%,31.0%
+Autumn,Weekend,Night,0.0%,0.1%
+Autumn,Weekend,Peak,6.0%,6.6%
+Autumn,Weekday,Day,33.5%,29.8%
+Autumn,Weekday,Night,0.0%,0.1%
+Autumn,Weekday,Peak,5.3%,6.5%
+Spring,Weekend,Day,39.3%,41.8%
+Spring,Weekend,Night,0.1%,0.3%
+Spring,Weekend,Peak,9.9%,14.5%
+Spring,Weekday,Day,40.1%,38.3%
+Spring,Weekday,Night,0.1%,0.3%
+Spring,Weekday,Peak,10.0%,13.2%
+Summer,Weekend,Day,46.0%,45.5%
+Summer,Weekend,Night,0.7%,1.3%
+Summer,Weekend,Peak,22.8%,29.1%
+Summer,Weekday,Day,43.5%,42.5%
+Summer,Weekday,Night,0.7%,1.2%
+Summer,Weekday,Peak,22.0%,26.6%
+Winter,Weekend,Day,25.6%,21.8%
+Winter,Weekend,Night,0.0%,0.0%
+Winter,Weekend,Peak,0.0%,0.0%
+Winter,Weekday,Day,25.9%,23.0%
+Winter,Weekday,Night,0.0%,0.0%
+Winter,Weekday,Peak,0.0%,0.0%
+**Annual**,,,**16.9%**,**16.2%**

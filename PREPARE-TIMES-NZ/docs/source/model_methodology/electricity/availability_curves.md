@@ -44,7 +44,7 @@ Solar availability factors are generated in the stage-3 electricity workflow fro
 All solar availability curves are considered fixed, rather than upper bounds. This means solar will always generate at the listed output in the model, and not flex depending on demand. In stage 4 the rows are written as `NCAP_AF` with `LimType = FX`, so the model does not treat solar as a spillable upper bound in the way it treats wind and some hydro constraints.
 ```
 
-**Data source and preprocessing.** The weather input is a bundled NIWA TMY2 EPW archive (`data_raw/external_data/niwa/tmy2_epw.tar.gz`) containing one EPW file for each of 18 climate zones. The preparation step copies or extracts those files into stage-3 storage and normalizes EPW hour fields if needed before simulation. EPW format details are documented by SAM[^sam_weather]. MBIE also hosts a newer NIWA TMY3 weather-file release[^niwa_tmy3]. The current workflow still uses the older bundled TMY2 EPW dataset.
+**Data source and preprocessing.** The weather input is the MBIE October 2024 present-climate TMY3 release, stored in the repo as `data_raw/external_data/niwa/tmy3_epw.tar.gz`. The preparation step extracts the EPWs into stage-3 storage and validates that the files contain the expected 18 climate zones, 8760 rows, and NIWA EPW hour fields. EPW format details are documented by SAM[^sam_weather]. MBIE's weather-files page identifies this TMY3 release as the current weather-file source for building-energy modelling[^niwa_weather_page].
 
 **PVWatts configuration.** Solar simulations use PySAM's `Pvwattsv8` model via the project dependency `nrel-pysam = "^7.1"` in `pyproject.toml`, which corresponds to `>=7.1.0,<8.0.0`. Each solar archetype is simulated as a 1 kW DC system, so the hourly PVWatts output can be used directly as `generation_kw_per_kw`. We assume that all utility-scale plants in the generation stack are single-axis tracking, and that commercial and industrial distributed solar is bifacial. The following PVWatts settings are applied:
 
@@ -114,101 +114,26 @@ The tables below show the current generated island-level availability factors un
 ```{csv-table} SolarDistSmall: Residential distributed solar availability factors
 :header-rows: 1
 :name: tab_solar_availability_dist
-Season,Day Type,Time of Day,North Island,South Island
-Autumn,Weekend,Day,31.0%,29.5%
-Autumn,Weekend,Night,0.0%,0.1%
-Autumn,Weekend,Peak,3.1%,5.2%
-Autumn,Weekday,Day,31.0%,27.7%
-Autumn,Weekday,Night,0.0%,0.0%
-Autumn,Weekday,Peak,3.0%,4.5%
-Spring,Weekend,Day,37.4%,36.4%
-Spring,Weekend,Night,0.1%,0.1%
-Spring,Weekend,Peak,5.6%,9.3%
-Spring,Weekday,Day,38.0%,37.9%
-Spring,Weekday,Night,0.1%,0.2%
-Spring,Weekday,Peak,6.0%,10.1%
-Summer,Weekend,Day,40.0%,41.0%
-Summer,Weekend,Night,0.3%,0.7%
-Summer,Weekend,Peak,14.8%,19.5%
-Summer,Weekday,Day,42.0%,41.4%
-Summer,Weekday,Night,0.3%,0.7%
-Summer,Weekday,Peak,15.3%,19.8%
-Winter,Weekend,Day,22.3%,20.7%
-Winter,Weekend,Night,0.0%,0.0%
-Winter,Weekend,Peak,0.0%,0.0%
-Winter,Weekday,Day,25.2%,22.0%
-Winter,Weekday,Night,0.0%,0.0%
-Winter,Weekday,Peak,0.0%,0.0%
-**Annual**,,,**15.7%**,**15.2%**
+:file: tables/solar_availability_dist.csv
 ```
 
 ```{csv-table} SolarDistBifacial: Fixed commercial bifacial solar availability factors
 :header-rows: 1
 :name: tab_solar_availability_dist_bifacial
-Season,Day Type,Time of Day,North Island,South Island
-Autumn,Weekend,Day,32.9%,31.2%
-Autumn,Weekend,Night,0.0%,0.1%
-Autumn,Weekend,Peak,3.4%,5.6%
-Autumn,Weekday,Day,32.9%,29.3%
-Autumn,Weekday,Night,0.0%,0.0%
-Autumn,Weekday,Peak,3.3%,4.8%
-Spring,Weekend,Day,40.0%,38.7%
-Spring,Weekend,Night,0.1%,0.2%
-Spring,Weekend,Peak,6.6%,10.4%
-Spring,Weekday,Day,40.6%,40.2%
-Spring,Weekday,Night,0.1%,0.2%
-Spring,Weekday,Peak,7.1%,11.3%
-Summer,Weekend,Day,43.0%,43.8%
-Summer,Weekend,Night,0.5%,0.9%
-Summer,Weekend,Peak,17.0%,21.7%
-Summer,Weekday,Day,45.1%,44.1%
-Summer,Weekday,Night,0.5%,0.9%
-Summer,Weekday,Peak,17.6%,22.0%
-Winter,Weekend,Day,23.7%,21.7%
-Winter,Weekend,Night,0.0%,0.0%
-Winter,Weekend,Peak,0.0%,0.0%
-Winter,Weekday,Day,26.7%,23.1%
-Winter,Weekday,Night,0.0%,0.0%
-Winter,Weekday,Peak,0.0%,0.0%
-**Annual**,,,**16.8%**,**16.1%**
+:file: tables/solar_availability_dist_bifacial.csv
 ```
 
 ```{csv-table} SolarTrack: Utility-scale tracking solar availability factors
 :header-rows: 1
 :name: tab_solar_availability_utility_track
-Season,Day Type,Time of Day,North Island,South Island
-Autumn,Weekend,Day,37.7%,35.9%
-Autumn,Weekend,Night,0.0%,0.1%
-Autumn,Weekend,Peak,6.9%,12.0%
-Autumn,Weekday,Day,37.6%,33.5%
-Autumn,Weekday,Night,0.0%,0.1%
-Autumn,Weekday,Peak,6.8%,9.4%
-Spring,Weekend,Day,45.6%,43.5%
-Spring,Weekend,Night,0.2%,0.3%
-Spring,Weekend,Peak,12.4%,19.4%
-Spring,Weekday,Day,46.2%,45.3%
-Spring,Weekday,Night,0.2%,0.3%
-Spring,Weekday,Peak,13.2%,21.0%
-Summer,Weekend,Day,47.8%,48.5%
-Summer,Weekend,Night,0.7%,1.5%
-Summer,Weekend,Peak,30.6%,37.8%
-Summer,Weekday,Day,50.5%,48.8%
-Summer,Weekday,Night,0.7%,1.6%
-Summer,Weekday,Peak,32.8%,38.0%
-Winter,Weekend,Day,26.8%,24.8%
-Winter,Weekend,Night,0.0%,0.0%
-Winter,Weekend,Peak,0.0%,0.0%
-Winter,Weekday,Day,30.4%,26.3%
-Winter,Weekday,Night,0.0%,0.0%
-Winter,Weekday,Peak,0.0%,0.0%
-**Annual**,,,**19.3%**,**18.5%**
+:file: tables/solar_availability_utility_track.csv
 ```
 
 Detailed timeslice values are generated by the workflow and written to `data_intermediate/stage_3_scenario_data/electricity/solar_af/timeslices/solar_availability_factors.csv`. These generated solar rows replace the static solar rows in `RenewableCurves.csv`, after which stage 4 converts them into model `NCAP_AF` records.
 
 [^sam_losses]: NREL SAM help: Fuel Cell / Photovoltaic System, including the discussion of PVWatts system losses: <https://samrepo.nrelcloud.org/help/fuelcell_pv_system.html>
 [^sam_weather]: NREL SAM help: weather file format: <https://samrepo.nrelcloud.org/help/weather_format.html>
-[^niwa_tmy3]: MBIE-hosted NIWA TMY3 weather files: <https://www.building.govt.nz/assets/Uploads/getting-started/building-for-climate-change/Weather-files-ZIP-files/tmy3.zip>
+[^niwa_weather_page]: MBIE weather-files page for Aotearoa New Zealand, including the present-climate TMY3 release and source report links: <https://www.building.govt.nz/getting-started/climate-change-work-programme/resources/weather-files-aotearoa-new-zealand>
 
 ## Hydro
 Hydro electricity generation uses a different approach. Here we assume generation follows seasonal patterns, but generation is capable of flexing within these seasonal restrictions. Because average output within a season is fixed, but able to flex within any give timeperiod, the model should, if necessary, lower hydro output when it is not needed. This allows for higher generation at other points in the season while still meeting seasonal constraints.
