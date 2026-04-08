@@ -61,7 +61,7 @@ core_filters = [
     {"col": "EndUse", "label": "End Use"},
     {"col": "TechnologyGroup", "label": "Technology Group"},
     {"col": "Technology"},
-    #{"col": "Process"},
+    # {"col": "Process"},
     {"col": "Region"},
 ]
 
@@ -76,7 +76,7 @@ curve_filters = [
     {"col": "EndUse", "label": "End Use"},
     {"col": "TechnologyGroup", "label": "Technology Group"},
     {"col": "Technology"},
-    #{"col": "Process"},
+    # {"col": "Process"},
     {"col": "Region"},
 ]
 
@@ -220,15 +220,15 @@ def energy_service_demand_server(inputs, outputs, session, selected_scens):
         session,
     )
 
-    register_server_functions_for_explorer(
-        esd_curve_parameters,
-        get_base_esd_curve_df,
-        scen_tuple,
-        selected_scens["is_comparison"],
-        inputs,
-        outputs,
-        session,
-    )
+    # register_server_functions_for_explorer(
+    #     esd_curve_parameters,
+    #     get_base_esd_curve_df,
+    #     scen_tuple,
+    #     selected_scens["is_comparison"],
+    #     inputs,
+    #     outputs,
+    #     session,
+    # )
 
     register_server_functions_for_explorer(
         transport_esd_parameters,
@@ -245,7 +245,7 @@ def energy_service_demand_server(inputs, outputs, session, selected_scens):
 
 sections = [
     esd_parameters,
-    esd_curve_parameters,
+    # esd_curve_parameters,
     transport_esd_parameters,
 ]
 esd_ui = make_explorer_page_ui(
