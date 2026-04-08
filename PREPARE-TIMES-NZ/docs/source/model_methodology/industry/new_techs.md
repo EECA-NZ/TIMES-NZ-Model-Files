@@ -53,8 +53,8 @@ New technologies that will be considered in TIMES 3.0 are listed in {numref}`tab
 
 
 [^biomass_conversion_costs]: Average capital cost for boiler conversions taken from GIDI funded projects. 
-[^battery_electric_costs]: Average capital cost for battery electric calculated relative to diesel ice. 
-[^hydrogen_fuelcell_costs]: Average capital cost for hydrogen fuelcell calculated relative to diesel ice. 
+[^battery_electric_costs]: Average capital cost for battery electric calculated relative to diesel ICE. 
+[^hydrogen_fuelcell_costs]: Average capital cost for hydrogen fuelcell calculated relative to diesel ICE. 
 
 Note the values provided above are preliminary and based on limited industry knowledge/sources. These will be updated as better source information is obtained.
 
