@@ -9,6 +9,7 @@
 - Allowed the electricity sector to build new diesel peakers, using cost and efficiency assumptions from existing OCGT data. 
 - Assumed all grid-scale solar utilised single-axis tracking technology. 
 - Added or tweaked several new industrial technologies, allowing more flexibility in the demand end, including some hydrogen uses.
+- Added biomass as a fuel option for high-temperature heat in cement production to reflect the Golden Bay Cement biomass transition. 
 
 **Model features**
 
