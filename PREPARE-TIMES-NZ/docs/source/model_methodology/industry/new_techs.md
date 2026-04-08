@@ -35,8 +35,8 @@ New technologies that will be considered in TIMES 3.0 are listed in {numref}`tab
   - Internal Combustion Engine (Land Transport) – Battery Electric
   - Motive Power, Mobile
   - 15.5
-  - 0.7
-  - 1,376
+  - 0.55
+  - 4,776[^battery_electric_costs]
 * - Electricity
   - Internal Combustion Engine (Land Transport) – Plug-in Hybrid
   - Motive Power, Mobile
@@ -48,12 +48,13 @@ New technologies that will be considered in TIMES 3.0 are listed in {numref}`tab
   - Motive Power, Mobile
   - 15.5
   - 0.28
-  - 1,782
+  - 5,970[^hydrogen_fuelcell_costs]
 ```
 
 
 [^biomass_conversion_costs]: Average capital cost for boiler conversions taken from GIDI funded projects. 
-
+[^battery_electric_costs]: Average capital cost for battery electric calculated relative to diesel ICE. 
+[^hydrogen_fuelcell_costs]: Average capital cost for hydrogen fuelcell calculated relative to diesel ICE. 
 
 Note the values provided above are preliminary and based on limited industry knowledge/sources. These will be updated as better source information is obtained.
 

@@ -139,7 +139,11 @@ def define_fuel_commodities(df, filename, label):
     """Distinct fuel commodities for the FI_Comm table
     Also add activity and capacity units just for clarity"""
 
-    fuels = df["Comm-IN"].unique()
+    fuels = df["Comm-IN"].dropna().unique().tolist()
+
+    # patch: addhydrogen
+    if "INDH2R" not in fuels:
+        fuels.append("INDH2R")
 
     fuel_df = pd.DataFrame()
     fuel_df["CommName"] = fuels
@@ -160,7 +164,11 @@ def define_fuel_delivery(df):
     Adds fuel delivery costs by assumption
     """
 
-    fuels = df["Comm-IN"].unique()
+    fuels = pd.Series(df["Comm-IN"]).dropna().unique().tolist()
+
+    # patch: add hydrogen
+    if "INDH2R" not in fuels:
+        fuels.append("INDH2R")
 
     fuel_deliv_parameters = pd.DataFrame()
     fuel_deliv_parameters["Comm-OUT"] = fuels
