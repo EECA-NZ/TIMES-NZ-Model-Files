@@ -3,6 +3,12 @@
 
 WorkBookName = "SuppXLS/Scen_LoadCurve"
 
+[LoadCurvesCOMFR_Placeholder]
+Description  = "Defines a base-year wildcard COM_FR placeholder equal to YRFR for all demand technologies"
+SheetName    = "BaseYearALL"
+TagName      = "TFM_INS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_placeholder.csv"
+
 [LoadCurvesCOMFR_IND]
 Description  = "Defines annual electricity demand timeslices or load curve for industrial sub-sectors"
 SheetName    = "IND"
@@ -26,4 +32,3 @@ Description  = "Defines annual electricity demand timeslices or load curve for r
 SheetName    = "RES"
 TagName      = "TFM_INS"
 DataLocation = "data_intermediate/stage_4_veda_format/scen_com_fr/com_fr_residential.csv"
-

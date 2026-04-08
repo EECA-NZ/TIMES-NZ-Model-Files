@@ -92,6 +92,21 @@ def _from_loadcurve(
     return _coerce_and_order(out)
 
 
+def build_placeholder_df() -> pd.DataFrame:
+    """Build a base-year wildcard COM_FR table using YRFR values as placeholders."""
+    path = LOAD_CURVE_DATA / "yrfr.csv"
+    logger.info("Reading YRFR data from %s", path)
+    df = pd.read_csv(path)
+    df["Attribute"] = "COM_FR"
+    df["Cset_SET"] = "DEM"
+    df["Cset_CN"] = "*"
+    df["Year"] = BASE_YEAR
+    df["NI"] = df["YRFR"]
+    df["SI"] = df["YRFR"]
+    out = df[["TimeSlice", "Attribute", "Cset_CN", "Cset_SET", "Year", "NI", "SI"]]
+    return _coerce_and_order(out)
+
+
 # ---------------------------------------------------------------------
 # Sector builders
 # ---------------------------------------------------------------------
@@ -148,6 +163,7 @@ def build_commercial_df() -> pd.DataFrame:
 def main() -> None:
     """Generate and export COM_FR load-curve tables for each sector."""
     outputs = {
+        "com_fr_placeholder.csv": build_placeholder_df(),
         "com_fr_industry.csv": build_industry_df(),
         "com_fr_residential.csv": build_residential_df("residential_curves.csv"),
         "com_fr_agriculture.csv": build_agriculture_df(),
