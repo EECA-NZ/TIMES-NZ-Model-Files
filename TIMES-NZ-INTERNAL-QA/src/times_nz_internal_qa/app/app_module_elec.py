@@ -115,7 +115,7 @@ ele_use_parameters = {
     "filters": ele_use_filters,
     "section_title": "Fuel used for generation",
     "base_cols": ele_base_cols,
-    "group_options": ele_core_group_options,
+    "group_options": ele_fuel_group_options,
 }
 
 
