@@ -43,6 +43,7 @@ INDUSTRY_ASSUMPTIONS = Path(ASSUMPTIONS) / "industry_demand"
 LOAD_CURVE_DATA = Path(STAGE_2_DATA) / "settings/load_curves"
 
 REQUIRED_COLS = ["TimeSlice", "Attribute", "Cset_CN", "Cset_SET", "Year", "NI", "SI"]
+COM_FR_YEAR = BASE_YEAR + 1
 
 # ---------------------------------------------------------------------
 # Helper functions
@@ -75,6 +76,7 @@ def _from_loadcurve(
 ) -> pd.DataFrame:
     """Transform (Year, TimeSlice, LoadCurve[, Commodity]) into COM_FR schema."""
     df = df.copy()
+    df["Year"] = COM_FR_YEAR
     df["Attribute"] = "COM_FR"
     df["Cset_SET"] = "DEM"
     df["NI"] = df["LoadCurve"]
@@ -100,6 +102,7 @@ def build_industry_df() -> pd.DataFrame:
     path = INDUSTRY_ASSUMPTIONS / "load_curves_ind.csv"
     logger.info("Reading industry curves from %s", path)
     df = pd.read_csv(path)
+    df["Year"] = COM_FR_YEAR
     df["Attribute"] = "COM_FR"
     df["Cset_SET"] = "DEM"
     if "NI" not in df.columns and "LoadCurve" in df.columns:
@@ -108,7 +111,7 @@ def build_industry_df() -> pd.DataFrame:
     return _coerce_and_order(df)
 
 
-def build_residential_df(filepath, year=BASE_YEAR) -> pd.DataFrame:
+def build_residential_df(filepath, year=COM_FR_YEAR) -> pd.DataFrame:
     """Build residential load-curve table."""
     path = LOAD_CURVE_DATA / filepath
     logger.info("Reading residential curves from %s", path)
