@@ -3,7 +3,7 @@
 # Once the pattern is established and working, we should generalise this method to other techs and script
 # This config file is already a little bit hard to read
 
-WorkBookName = "SubRES_TMPL/SubRES_DemandFlex"
+WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Traditional"
 
 [ResidentialFlexTechs]
 Description = "Defines residential flex processes"
