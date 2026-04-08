@@ -98,8 +98,10 @@ Demand,DD-WH_LOW,Residential,Detached Dwelling,"Low Temperature Heat (<100 C), W
 Demand,JD-WH_LOW,Residential,Joined Dwelling,"Low Temperature Heat (<100 C), Water Heating"
 Demand,DD-FRIDG,Residential,Detached Dwelling,Refrigeration
 Demand,JD-FRIDG,Residential,Joined Dwelling,Refrigeration
-Demand,DD-MTV_MOB,Residential,Detached Dwelling,"Motive Power, Mobile"
-Demand,JD-MTV_MOB,Residential,Joined Dwelling,"Motive Power, Mobile"
+Demand,DD-DSL-MTV_MOB,Residential,Detached Dwelling,"Motive Power, Mobile"
+Demand,JD-DSL-MTV_MOB,Residential,Joined Dwelling,"Motive Power, Mobile"
+Demand,DD-PET-MTV_MOB,Residential,Detached Dwelling,"Motive Power, Mobile"
+Demand,JD-PET-MTV_MOB,Residential,Joined Dwelling,"Motive Power, Mobile"
 Demand,CHEM-ELCTR-ELCTR,Industry,Chemicals (excl. Urea and Methanol),Electronics and Other Electrical Uses
 Demand,CHEM-LIGHT-LIGHT,Industry,Chemicals (excl. Urea and Methanol),Lighting
 Demand,CHEM-BOILR-PH_HIGH,Industry,Chemicals (excl. Urea and Methanol),"High Temperature Heat (>300 C), Process Requirements"
@@ -229,10 +231,13 @@ Demand,PULP-FURNC-PH_LOW,Industry,Pulp and Paper,"Low Temperature Heat (<100 C),
 Demand,WOOD-BURNR-PH_LOW,Industry,Wood Products,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,STEEL-BURNR-PH_LOW,Industry,Iron & Steel,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,STEEL-FURNC-PH_LOW,Industry,Iron & Steel,"Low Temperature Heat (<100 C), Process Requirements"
-Demand,OTHR-BOILR-SH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Space Heating"
-Demand,OTHR-BURNR-SH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Space Heating"
-Demand,MINE-BOILR-SH_LOW,Industry,Mining,"Low Temperature Heat (<100 C), Space Heating"
-Demand,MINE-BURNR-SH_LOW,Industry,Mining,"Low Temperature Heat (<100 C), Space Heating"
+Demand,ALUM-SH_LOW,Industry,Aluminium,"Low Temperature Heat (<100 C), Space Heating"
+Demand,STEEL-SH_LOW,Industry,Iron & Steel,"Low Temperature Heat (<100 C), Space Heating"
+Demand,MEAT-SH_LOW,Industry,Meat,"Low Temperature Heat (<100 C), Space Heating"
+Demand,METH-SH_LOW,Industry,Methanol,"Low Temperature Heat (<100 C), Space Heating"
+Demand,MNRL-SH_LOW,Industry,Non-Metallic Mineral Product Manufacturing,"Low Temperature Heat (<100 C), Space Heating"
+Demand,UREA-SH_LOW,Industry,Urea,"Low Temperature Heat (<100 C), Space Heating"
+Demand,WOOD-SH_LOW,Industry,Wood Products,"Low Temperature Heat (<100 C), Space Heating"
 Demand,NEWTECH-DEM,Commercial,NewTechs,NewTechs
 Demand,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Recycled Steel
 Demand,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Irrigation
