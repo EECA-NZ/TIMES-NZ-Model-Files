@@ -21,8 +21,7 @@ StartYear = [2023]
 
 [ActivePDef.Data]
 ActivePDef = ["5Year_increments"]
-""".strip()
-        + "\n",
+""".strip() + "\n",
         encoding="utf-8",
     )
 
