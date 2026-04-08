@@ -15,7 +15,6 @@ Heat Pump (process heat),HPPH,Heat/Cooling Devices
 HVAC,HVAC,Heat/Cooling Devices
 Industrial Ovens,IOVEN,Heat/Cooling Devices
 Internal Combustion Engine (Land Transport),ICENG,Mobile Motors
-Internal Combustion Engine (PHEV),PHEV,Mobile Motors
 Lights,LIGHT,Electronics and Lights
 "Pump Systems (for Fluids, etc.)",PUMP,Stationary Motors
 Refiners,REFIN,Electronics and Lights
