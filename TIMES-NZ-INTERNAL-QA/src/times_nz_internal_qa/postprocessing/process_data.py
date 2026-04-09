@@ -834,6 +834,75 @@ def process_transport_capacity(df):
     save_data(tcap, "transport_capacity.csv")
 
 
+def process_technology_capacity(df):
+    """
+    Capacity of non-transport demand technologies.
+
+    Similar to process_energy_service_demand, but uses VAR_Cap instead of VAR_FOut.
+    Road Transport is excluded and handled separately in process_transport_capacity.
+    """
+
+    demand_processes = pd.read_csv(
+        PROCESS_CONCORDANCES / "demand.csv"
+    ).drop_duplicates()
+    com_units = pd.read_csv(COMMODITY_CONCORDANCES / "commodity_sets_and_units.csv")
+
+    # Exclude Road Transport sector processes
+    demand_processes = demand_processes[
+        ~(
+            (demand_processes["SectorGroup"] == "Transport")
+            & (demand_processes["Sector"] == "Road Transport")
+        )
+    ].copy()
+
+    # Get capacity rows for demand processes
+    tcap = df[df["Process"].isin(demand_processes["Process"].unique())].copy()
+    tcap = tcap[tcap["Attribute"] == "VAR_Cap"]
+
+    # Add process labels
+    tcap = tcap.merge(demand_processes, on="Process", how="left")
+
+    # Identify unit based on the demand output commodity for each process
+    com_units = com_units[com_units["csets"] == "DEM"].rename(
+        columns={
+            "commname": "CommodityOut",
+            "unit": "Unit",
+        }
+    )
+    com_units = com_units[["CommodityOut", "Unit"]]
+
+    tcap = tcap.merge(com_units, on="CommodityOut", how="left")
+    tcap = tcap[tcap["Unit"].notna()]
+    tcap = tcap[tcap["Unit"] != "-"]
+
+    tcap["Variable"] = "Technology Capacity"
+    tcap = tcap.rename(columns={"PV": "Value"})
+
+    technology_capacity_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "ProcessGroup",
+        "Process",
+        "CommodityOut",
+        "Period",
+        "Region",
+        "Vintage",
+        "TimeSlice",
+        "SectorGroup",
+        "Sector",
+        "EnduseGroup",
+        "EndUse",
+        "TechnologyGroup",
+        "Technology",
+        "Unit",
+        "Value",
+    ]
+    tcap = tcap[technology_capacity_variables]
+
+    save_data(tcap, "technology_capacity.csv")
+
+
 def check_df(df):
     """scratch function"""
 
@@ -870,6 +939,7 @@ def main():
     process_transport_energy_demand(df)
     process_transport_energy_service_demand(df)
     process_transport_capacity(df)
+    process_technology_capacity(df)
 
     get_esd_by_timeslice()
 
