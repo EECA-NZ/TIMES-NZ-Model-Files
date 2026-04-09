@@ -9,21 +9,25 @@ WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Traditional"
 Description = "Defines residential flex processes"
 SheetName = "Residential"
 TagName = "FI_Process"
-Sets = "STG"
+Sets = ["STG", "STG"]
 TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX"]
-Tact = "PJ"
-Tcap = "PJa"
-TsLvl = "DAYNITE"
+PrimaryCG = ["DEM","DEM"]
+TsLvl = ["DAYNITE","DAYNITE"]
+Tact = ["PJ", "PJ"]
+Tcap = ["PJa","PJa"]
 
 [ResidentialFlexParameters50]
 Description = "Defines parameters for residential ripple control (50%)"
 SheetName = "Residential"
 TagName = "FI_T"
 TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX"]
-Comm-IN = ["JD-WH_LOW", "DD-WH_LOW"]
+# Comm-IN = ["JD-WH_LOW", "DD-WH_LOW"]
 Comm-Out = ["JD-WH_LOW", "DD-WH_LOW"]
-STG_SIFT = [0.5,0.5] # can shift 50% of load
+Attribute = ["STG_SIFT", "STG_SIFT"]
+2023 = [0.5,0.5] # can shift 50% of load
+2050 = [0.5,0.5] # can shift 50% of load
 STG_EFF = [0.99, 0.99] # 1% heatloss
+START = [2024, 2024]
 
 
 
@@ -35,6 +39,7 @@ SheetName = "Residential"
 TagName = "FI_Process"
 Sets = "STG"
 TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX"]
+PrimaryCG = ["JD-WH_LOW","DD-WH_LOW"]
 Tact = "PJ"
 Tcap = "PJa"
 TsLvl = "DAYNITE"
