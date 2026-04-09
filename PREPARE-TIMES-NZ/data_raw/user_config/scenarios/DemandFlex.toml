@@ -41,6 +41,7 @@ TsLvl = "DAYNITE"
 
 [ResidentialFlexParameters90]
 Description = "Defines parameters for residential ripple control (scaling to 90%)"
+WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Transformation"
 SheetName = "Residential"
 TagName = "FI_T"
 TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX"]
@@ -49,7 +50,7 @@ Comm-Out = ["JD-WH_LOW", "DD-WH_LOW"]
 Attribute = ["STG_SIFT", "STG_SIFT"]
 2023 = [0.5,0.5] # can shift 50% of load
 2050 = [0.9,0.9] # scales to 90% by 2050
-0 = [5,5]
+0 = [5,5] # standard forward interp
 STG_EFF = [0.99, 0.99] # 1% heatloss
 
 
