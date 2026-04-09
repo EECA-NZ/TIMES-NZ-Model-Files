@@ -3,6 +3,12 @@
 # Once the pattern is established and working, we should generalise this method to other techs and script
 # This config file is already a little bit hard to read
 
+# PLEASE NOTE: this will do nothing unless the relevant DMD processes have DAYNITE enabled
+# As a rule, we do not enable DAYNITE on DMD processes because this leads to overoptimisation.
+# However, it's necessary to use this on processes sparingly to enable correct load-shifting behaviour. 
+# Currently, the relevant processes are listed in an input assumptions file. It would be better to centralise this method
+# and config. 
+
 WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Traditional"
 
 [ResidentialFlexTechsTraditional]
@@ -21,7 +27,6 @@ Description = "Defines parameters for residential ripple control (50%)"
 SheetName = "Residential"
 TagName = "FI_T"
 TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX"]
-# Comm-IN = ["JD-WH_LOW", "DD-WH_LOW"]
 Comm-Out = ["JD-WH_LOW", "DD-WH_LOW"]
 Attribute = ["STG_SIFT", "STG_SIFT"]
 2023 = [0.5,0.5] # can shift 50% of load
@@ -37,12 +42,12 @@ WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Transformation"
 Description = "Defines residential flex processes"
 SheetName = "Residential"
 TagName = "FI_Process"
-Sets = "STG"
+Sets = ["STG", "STG"]
 TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX"]
-PrimaryCG = ["JD-WH_LOW","DD-WH_LOW"]
-Tact = "PJ"
-Tcap = "PJa"
-TsLvl = "DAYNITE"
+PrimaryCG = ["DEM","DEM"]
+TsLvl = ["DAYNITE","DAYNITE"]
+Tact = ["PJ", "PJ"]
+Tcap = ["PJa","PJa"]
 
 [ResidentialFlexParameters90]
 Description = "Defines parameters for residential ripple control (scaling to 90%)"
@@ -50,13 +55,12 @@ WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Transformation"
 SheetName = "Residential"
 TagName = "FI_T"
 TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX"]
-Comm-IN = ["JD-WH_LOW", "DD-WH_LOW"]
 Comm-Out = ["JD-WH_LOW", "DD-WH_LOW"]
 Attribute = ["STG_SIFT", "STG_SIFT"]
 2023 = [0.5,0.5] # can shift 50% of load
 2050 = [0.9,0.9] # scales to 90% by 2050
-0 = [5,5] # standard forward interp
 STG_EFF = [0.99, 0.99] # 1% heatloss
+START = [2024, 2024]
 
 
 
