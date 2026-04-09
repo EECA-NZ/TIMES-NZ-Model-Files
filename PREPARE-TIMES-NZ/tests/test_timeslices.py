@@ -44,11 +44,16 @@ def load_solar_run_hourly_profiles():
     return module
 
 
+# pylint: disable=too-many-arguments,too-many-positional-arguments
 def write_test_epw(
     path: Path,
     header_year: int,
     start_weekday: str = "Sunday",
     days_in_year: int = 365,
+    calendar_label: str = "TMY3 Year",
+    minute: str = "60",
+    data_period_col_6: str | None = None,
+    data_period_col_7: str | None = None,
 ):
     """
     Write a minimal synthetic EPW file for calendar and timeslice tests.
@@ -59,7 +64,7 @@ def write_test_epw(
             "Test",
             "Test",
             "New Zealand",
-            "TMY2",
+            "TMY3",
             "0",
             "0",
             "0",
@@ -72,7 +77,15 @@ def write_test_epw(
         ["HOLIDAYS/DAYLIGHT SAVING", "No", "0", "0", "0"],
         ["COMMENTS 1", "Synthetic test EPW"],
         ["COMMENTS 2", "Synthetic test EPW"],
-        ["DATA PERIODS", "1", "1", "TMY2 Year", start_weekday, "1", str(days_in_year)],
+        [
+            "DATA PERIODS",
+            "1",
+            "1",
+            calendar_label,
+            start_weekday,
+            data_period_col_6 if data_period_col_6 is not None else "1",
+            data_period_col_7 if data_period_col_7 is not None else str(days_in_year),
+        ],
     ]
     rows = []
     for day in pd.date_range(f"{header_year}-01-01", f"{header_year}-12-31", freq="D"):
@@ -83,7 +96,7 @@ def write_test_epw(
                     f"{day.month:02d}",
                     f"{day.day:02d}",
                     f"{hour:02d}",
-                    "60",
+                    minute,
                 ]
             )
 
@@ -147,7 +160,7 @@ def test_build_time_index_uses_model_base_year_and_ignores_epw_calendar_metadata
 
     epw_files = {}
     for zone in module.ZONE_ORDER:
-        path = tmp_path / f"TMY_NZ_{zone}.epw"
+        path = tmp_path / f"TMY3_NZ_{zone}.epw"
         write_test_epw(
             path,
             1999 if zone == "AK" else 2007,
@@ -205,7 +218,7 @@ def test_build_time_index_rejects_leap_base_year(tmp_path):
 
     epw_files = {}
     for zone in module.ZONE_ORDER:
-        path = tmp_path / f"TMY_NZ_{zone}.epw"
+        path = tmp_path / f"TMY3_NZ_{zone}.epw"
         write_test_epw(path, 2007)
         epw_files[zone] = path
 
@@ -219,3 +232,41 @@ def test_build_time_index_rejects_leap_base_year(tmp_path):
             assert "BASE_YEAR 2024 is a leap year" in str(exc)
     finally:
         module.BASE_YEAR = original_base_year
+
+
+def test_discover_epw_files_accepts_tmy3_names(tmp_path):
+    """
+    Prepared EPW discovery should work for the committed TMY3 filenames.
+    """
+    module = load_solar_run_hourly_profiles()
+
+    for zone in module.ZONE_ORDER:
+        write_test_epw(tmp_path / f"TMY3_NZ_{zone}.epw", 2024)
+
+    discovered = module.discover_epw_files(tmp_path)
+
+    assert set(discovered) == set(module.ZONE_ORDER)
+    assert discovered["AK"].name == "TMY3_NZ_AK.epw"
+    assert discovered["HN"].name == "TMY3_NZ_HN.epw"
+
+
+def test_parse_epw_data_period_metadata_accepts_tmy3_header_dates(tmp_path):
+    """
+    MBIE TMY3 headers use start/end dates instead of a numeric day count.
+    """
+    module = load_solar_run_hourly_profiles()
+    path = tmp_path / "TMY3_NZ_AK.epw"
+    write_test_epw(
+        path,
+        2024,
+        minute="0",
+        data_period_col_6="1/ 1",
+        data_period_col_7="12/31",
+    )
+
+    metadata = module.parse_epw_data_period_metadata(path)
+
+    assert metadata["calendar_label"] == "TMY3 Year"
+    assert metadata["days_in_year"] == 365
+    assert metadata["start_date"] == "1/ 1"
+    assert metadata["end_date"] == "12/31"

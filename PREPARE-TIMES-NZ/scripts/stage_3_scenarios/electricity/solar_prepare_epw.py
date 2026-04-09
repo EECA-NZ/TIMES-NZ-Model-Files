@@ -6,18 +6,44 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 import shutil
 import tarfile
+from pathlib import Path
 
 from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_3_DATA
 
-PREFERRED_EPW_DIR = DATA_RAW / "external_data/niwa/tmy2_epw"
-PREFERRED_EPW_ARCHIVE = DATA_RAW / "external_data/niwa/tmy2_epw.tar.gz"
+NIWA_DATA_DIR = DATA_RAW / "external_data/niwa"
 
 OUTPUT_ROOT = STAGE_3_DATA / "electricity/solar_af"
 PREPARED_EPW_DIR = OUTPUT_ROOT / "prepared_epw"
 PREPARED_EPW_SENTINEL = PREPARED_EPW_DIR / ".prepared"
 METADATA_DIR = OUTPUT_ROOT / "metadata"
+
+EXPECTED_ZONES = {
+    "AK",
+    "BP",
+    "CC",
+    "DN",
+    "EC",
+    "HN",
+    "IN",
+    "MW",
+    "NL",
+    "NM",
+    "NP",
+    "OC",
+    "QL",
+    "RR",
+    "TP",
+    "WC",
+    "WI",
+    "WN",
+}
+
+EPW_FILENAME_PATTERNS = (re.compile(r"^TMY3_NZ_(?P<zone>[A-Z]{2})\.epw$"),)
+
+SOURCE_CANDIDATE = ("TMY3", "archive", NIWA_DATA_DIR / "tmy3_epw.tar.gz")
 
 
 def ensure_output_dir(path):
@@ -29,26 +55,30 @@ def ensure_output_dir(path):
     return path
 
 
+def extract_zone_code(filename: str) -> str | None:
+    """
+    Return the NIWA climate-zone code from a supported EPW filename.
+    """
+    for pattern in EPW_FILENAME_PATTERNS:
+        match = pattern.match(filename)
+        if match:
+            return match.group("zone")
+    return None
+
+
 def resolve_epw_source():
     """
-    Locate the NIWA EPW bundle.
+    Locate the preferred NIWA EPW bundle.
     """
-    if PREFERRED_EPW_DIR.exists() and any(PREFERRED_EPW_DIR.glob("*.epw")):
+    dataset, source_type, source_path = SOURCE_CANDIDATE
+    if source_path.exists():
         return {
-            "source_type": "directory",
-            "source_path": PREFERRED_EPW_DIR,
+            "dataset": dataset,
+            "source_type": source_type,
+            "source_path": source_path,
         }
 
-    if PREFERRED_EPW_ARCHIVE.exists():
-        return {
-            "source_type": "archive",
-            "source_path": PREFERRED_EPW_ARCHIVE,
-        }
-
-    raise FileNotFoundError(
-        "No NIWA EPW source found. Expected either "
-        f"{PREFERRED_EPW_DIR} or {PREFERRED_EPW_ARCHIVE}."
-    )
+    raise FileNotFoundError("No NIWA EPW source found. Checked: " f"{source_path}.")
 
 
 def read_epw_rows(epw_path):
@@ -63,38 +93,42 @@ def read_epw_rows(epw_path):
             return list(csv.reader(handle))
 
 
-def normalize_epw(path):
+def validate_epw_file(path: Path):
     """
-    Normalize EPW hour fields only when a file actually uses 00..23 notation.
+    Validate filename and hour-field conventions for a NIWA EPW file.
     """
-    rows = read_epw_rows(path)
-    needs_normalization = any(
-        len(row) >= 5 and row[4].strip() == "60" and row[3].strip() == "00"
-        for row in rows[8:]
-    )
-    if not needs_normalization:
-        return False
+    zone = extract_zone_code(path.name)
+    if zone is None:
+        raise ValueError(
+            f"Unsupported NIWA EPW filename {path.name}. Expected TMY3_NZ_<zone>.epw."
+        )
 
-    changed = False
-    for row in rows[8:]:
+    rows = read_epw_rows(path)
+    data_rows = rows[8:]
+    if len(data_rows) != 8760:
+        raise ValueError(f"Expected 8760 EPW rows in {path}, found {len(data_rows)}")
+
+    for row_num, row in enumerate(data_rows, start=9):
         if len(row) < 5:
-            continue
+            raise ValueError(
+                f"EPW data row {row_num} has fewer than 5 columns in {path}"
+            )
+
         hour = row[3].strip()
         minute = row[4].strip()
-        if minute == "60" and hour.isdigit():
-            hour_int = int(hour)
-            if 0 <= hour_int <= 23:
-                normalized = str(hour_int + 1).zfill(2)
-                if normalized != row[3]:
-                    row[3] = normalized
-                    changed = True
+        if minute not in {"0", "60"}:
+            raise ValueError(
+                f"Unsupported EPW minute value {minute!r} at row {row_num} in {path}. "
+                "The workflow expects NIWA EPW minute values of 0 or 60."
+            )
+        if not hour.isdigit() or not 1 <= int(hour) <= 24:
+            raise ValueError(
+                f"Unsupported EPW hour value {hour!r} at row {row_num} in {path}. "
+                "The workflow now validates EPW-standard 01..24 hours instead of "
+                "normalizing 00..23 values."
+            )
 
-    if changed:
-        with path.open("w", encoding="utf-8", newline="") as handle:
-            writer = csv.writer(handle, lineterminator="\n")
-            writer.writerows(rows)
-
-    return changed
+    return zone
 
 
 def _archive_members(archive_path):
@@ -111,6 +145,14 @@ def _archive_members(archive_path):
     return sorted(epw_members, key=lambda member: member.name)
 
 
+def clear_prepared_epw_dir(output_dir: Path):
+    """
+    Remove previously prepared EPW files so stale bundles cannot linger.
+    """
+    for epw_path in output_dir.glob("*.epw"):
+        epw_path.unlink()
+
+
 def copy_epw_bundle(source, output_dir):
     """
     Copy or extract the NIWA EPW bundle into stage-3 storage.
@@ -118,17 +160,7 @@ def copy_epw_bundle(source, output_dir):
     source_type = source["source_type"]
     source_path = source["source_path"]
     copied = 0
-    normalized = 0
-
-    if source_type == "directory":
-        source_paths = sorted(source_path.glob("*.epw"))
-        for epw_path in source_paths:
-            target_path = output_dir / epw_path.name
-            shutil.copy2(epw_path, target_path)
-            copied += 1
-            if normalize_epw(target_path):
-                normalized += 1
-        return copied, normalized
+    copied_paths = []
 
     if source_type == "archive":
         with tarfile.open(source_path, "r:gz") as handle:
@@ -142,20 +174,46 @@ def copy_epw_bundle(source, output_dir):
                 with target_path.open("wb") as output_handle:
                     shutil.copyfileobj(extracted, output_handle)
                 copied += 1
-                if normalize_epw(target_path):
-                    normalized += 1
-        return copied, normalized
+                copied_paths.append(target_path)
+        return copied, copied_paths
 
     raise ValueError(f"Unsupported EPW source type {source_type!r}.")
 
 
+def validate_prepared_bundle(epw_paths: list[Path]):
+    """
+    Validate that the prepared bundle contains exactly the supported 18 zones.
+    """
+    zone_to_file = {}
+    for epw_path in sorted(epw_paths):
+        zone = validate_epw_file(epw_path)
+        existing = zone_to_file.get(zone)
+        if existing is not None:
+            raise ValueError(
+                f"Duplicate EPW files for zone {zone}: {existing.name} and {epw_path.name}"
+            )
+        zone_to_file[zone] = epw_path.name
+
+    missing = sorted(EXPECTED_ZONES.difference(zone_to_file))
+    if missing:
+        raise ValueError(f"Missing EPW files for zones: {', '.join(missing)}")
+
+    extra = sorted(set(zone_to_file).difference(EXPECTED_ZONES))
+    if extra:
+        raise ValueError(f"Unexpected EPW zones: {', '.join(extra)}")
+
+    return zone_to_file
+
+
 def prepare_epw_files():
     """
-    Copy bundled EPWs into stage-3 storage and normalize them in place.
+    Copy NIWA EPWs into stage-3 storage and validate them in place.
     """
     source = resolve_epw_source()
     output_dir = ensure_output_dir(PREPARED_EPW_DIR)
-    copied, normalized = copy_epw_bundle(source, output_dir)
+    clear_prepared_epw_dir(output_dir)
+    copied, copied_paths = copy_epw_bundle(source, output_dir)
+    zone_to_file = validate_prepared_bundle(copied_paths)
 
     PREPARED_EPW_SENTINEL.touch()
     ensure_output_dir(METADATA_DIR)
@@ -164,10 +222,15 @@ def prepare_epw_files():
     ) as handle:
         json.dump(
             {
+                "dataset": source["dataset"],
                 "source_type": source["source_type"],
                 "source_path": str(source["source_path"]),
                 "copied_files": copied,
-                "normalized_files": normalized,
+                "prepared_files": sorted(path.name for path in copied_paths),
+                "zones": [
+                    {"ZoneCode": zone, "EPWFile": zone_to_file[zone]}
+                    for zone in sorted(zone_to_file)
+                ],
             },
             handle,
             indent=2,
