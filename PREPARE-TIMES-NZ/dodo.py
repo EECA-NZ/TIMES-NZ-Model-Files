@@ -50,6 +50,7 @@ from prepare_times_nz.utilities.filepaths import (
     DATA_INTERMEDIATE,
     DATA_RAW,
     OUTPUT_LOCATION,
+    PREP_LOCATION,
     STAGE_0_SCRIPTS,
     STAGE_1_SCRIPTS,
     STAGE_2_SCRIPTS,
@@ -270,6 +271,15 @@ STAGE_3_DEPS: dict[str, list[str]] = {
     "electricity/wem_wcm": ["electricity/solar_build_curves"],
 }
 
+DOC_TABLE_OUTPUTS = [
+    PREP_LOCATION
+    / "docs/source/model_methodology/electricity/tables/solar_availability_dist.csv",
+    PREP_LOCATION
+    / "docs/source/model_methodology/electricity/tables/solar_availability_dist_bifacial.csv",
+    PREP_LOCATION
+    / "docs/source/model_methodology/electricity/tables/solar_availability_utility_track.csv",
+]
+
 # Stage-4: VEDA-format CSVs. Single sentinel per script
 STAGE_4: dict[str, list[str]] = {
     # base years
@@ -405,6 +415,25 @@ def task_stage_3_scenarios() -> Iterator[dict]:
         }
 
 
+def task_stage_3_docs() -> dict:
+    """Generate committed documentation tables from stage-3 solar outputs."""
+    script = STAGE_3_SCRIPTS / "electricity/solar_export_doc_tables.py"
+    return {
+        "actions": [_run(str(script))],
+        "file_dep": [script]
+        + [
+            _intermediate_out(
+                "electricity/solar_af/timeslices/solar_availability_factors.csv", S3_DIR
+            ),
+            _intermediate_out(
+                "electricity/solar_af/hourly/all_scenarios_hourly_long.csv", S3_DIR
+            ),
+        ],
+        "targets": DOC_TABLE_OUTPUTS,
+        "task_dep": ["stage_3_scenarios:electricity_solar_build_curves"],
+    }
+
+
 ###############################################################################
 # Stage-4: VEDA-format CSVs & Excel workbooks
 ###############################################################################
@@ -424,7 +453,8 @@ def task_stage_4_veda_csvs() -> Iterator[dict]:
             + ASSUMPTION_INPUTS
             + CONCORDANCE_INPUTS,
             "targets": [_intermediate_out(rel, S4_DIR) for rel in rel_outs],
-            "task_dep": [f"stage_3_scenarios:{n.replace('/', '_')}" for n in STAGE_3],
+            "task_dep": [f"stage_3_scenarios:{n.replace('/', '_')}" for n in STAGE_3]
+            + ["stage_3_docs"],
             "clean": True,
         }
 

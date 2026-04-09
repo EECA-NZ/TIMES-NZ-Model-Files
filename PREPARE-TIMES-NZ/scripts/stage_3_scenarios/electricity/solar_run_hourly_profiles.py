@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 from datetime import datetime, timedelta, timezone
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -33,7 +34,7 @@ PREPARED_EPW_DIR = OUTPUT_ROOT / "prepared_epw"
 HOURLY_DIR = OUTPUT_ROOT / "hourly"
 METADATA_DIR = OUTPUT_ROOT / "metadata"
 
-EXPECTED_PATTERN = "TMY_NZ_{zone}.epw"
+EPW_FILENAME_PATTERN = re.compile(r"^TMY3_NZ_(?P<zone>[A-Z]{2})\.epw$")
 
 ZONE_CODE_TO_REGION = {
     "AK": "Auckland",
@@ -154,9 +155,20 @@ def parse_epw_time_index(epw_path):
             raise ValueError(
                 f"EPW data row {row_num} has fewer than 5 columns in {epw_path}"
             )
-        time_index.append(
-            (int(row[0]), int(row[1]), int(row[2]), int(row[3]), int(row[4]))
-        )
+        hour = int(row[3])
+        minute = int(row[4])
+        if minute not in {0, 60}:
+            raise ValueError(
+                f"Unsupported EPW minute value {minute} at row {row_num} in {epw_path}. "
+                "The workflow expects NIWA EPW minute values of 0 or 60."
+            )
+        if not 1 <= hour <= 24:
+            raise ValueError(
+                f"Unsupported EPW hour value {hour} at row {row_num} in {epw_path}. "
+                "The workflow expects EPW-standard 01..24 hour fields."
+            )
+
+        time_index.append((int(row[0]), int(row[1]), int(row[2]), hour, minute))
 
     if len(time_index) != 8760:
         raise ValueError(
@@ -178,11 +190,21 @@ def parse_epw_data_period_metadata(epw_path) -> dict[str, Any]:
     if len(data_periods) < 7 or data_periods[0] != "DATA PERIODS":
         raise ValueError(f"Malformed DATA PERIODS header row in {epw_path}")
 
-    return {
+    metadata = {
         "calendar_label": data_periods[3].strip(),
         "start_weekday": data_periods[4].strip(),
-        "days_in_year": int(data_periods[6]),
     }
+
+    # NIWA EPW headers may use either a numeric day count in column 7 or
+    # MBIE TMY3-style start/end dates in columns 6 and 7.
+    try:
+        metadata["days_in_year"] = int(data_periods[6])
+    except ValueError:
+        metadata["start_date"] = data_periods[5].strip()
+        metadata["end_date"] = data_periods[6].strip()
+        metadata["days_in_year"] = 365
+
+    return metadata
 
 
 def validate_base_year_calendar():
@@ -300,10 +322,25 @@ def discover_epw_files(epw_dir):
     Find one prepared EPW file for each expected NIWA climate zone.
     """
     discovered = {}
-    for zone in ZONE_ORDER:
-        path = epw_dir / EXPECTED_PATTERN.format(zone=zone)
-        if path.exists():
-            discovered[zone] = path
+    unexpected = []
+    for path in sorted(epw_dir.glob("*.epw")):
+        match = EPW_FILENAME_PATTERN.match(path.name)
+        if not match:
+            unexpected.append(path.name)
+            continue
+
+        zone = match.group("zone")
+        if zone in discovered:
+            raise ValueError(
+                f"Duplicate EPW files found for zone {zone}: "
+                f"{discovered[zone].name} and {path.name}"
+            )
+        discovered[zone] = path
+
+    if unexpected:
+        raise ValueError(
+            "Unsupported EPW filenames in prepared bundle: " f"{', '.join(unexpected)}"
+        )
 
     missing = [zone for zone in ZONE_ORDER if zone not in discovered]
     if missing:

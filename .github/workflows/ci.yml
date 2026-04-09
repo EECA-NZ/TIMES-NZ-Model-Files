@@ -49,6 +49,9 @@ jobs:
         working-directory: PREPARE-TIMES-NZ
         run: poetry install --no-interaction --with dev
 
+      - name: Check formatter version alignment
+        run: python3 tools/check_formatter_versions.py
+
       - name: Run linters
         working-directory: PREPARE-TIMES-NZ
         run: |
