@@ -192,7 +192,6 @@ def agg_years(df):
     """
     # average out each year in the range
     year_count = len(df["Year"].unique())
-    print(f"includes data from {year_count} years")
 
     df = df.groupby(
         ["TimeSlice", "EndUse", "EndUse_TIMES", "Season"], as_index=False

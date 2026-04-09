@@ -148,8 +148,6 @@ def define_fuel_commodities(df, filename, label):
         lambda x: "DAYNITE" if x == "AGRELC" else ""
     )
 
-    print(fuel_df)
-
     save_agr_veda_file(fuel_df, name=filename, label=label)
 
 

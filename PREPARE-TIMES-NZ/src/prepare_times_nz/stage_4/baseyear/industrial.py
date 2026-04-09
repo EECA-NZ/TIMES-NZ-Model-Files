@@ -90,7 +90,6 @@ def get_industry_veda_table(df, input_map, enable_biogas=True):
             # alternatively: just exclude feedstock options
             # if "FSTK" not in process
         ]
-        print(ind_nga_processes)
         ind_df = add_extra_input_to_topology(ind_df, ind_nga_processes, "INDBIG")
 
         ind_lpg_processes = get_processes_with_input_commodity(ind_df, "INDLPG")
