@@ -14,9 +14,19 @@ This site references all data, assumptions, and methods used to build the TIMES-
 model_methodology/index
 ```
 
+
+```{toctree}
+:maxdepth: 1
+scenarios/index
+```
+
+
 ```{toctree}
 :maxdepth: 1
 developer_guide/index
-changelog
 ```
 
+```{toctree}
+:maxdepth: 1
+changelog
+```

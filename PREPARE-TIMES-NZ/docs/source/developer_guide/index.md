@@ -11,6 +11,7 @@ In summary, the project:
 
 Processing scripts are organised by sector (electricity generation, commercial demand, etc), and stage (raw data, base year processing, scenario processing, veda formatting)
 
+
 ```{toctree}
 :maxdepth: 2
 :caption: Project setup
