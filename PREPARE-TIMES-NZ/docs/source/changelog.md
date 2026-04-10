@@ -8,6 +8,9 @@
 - Solar generation capacity factors for different timeslices are now generated from NIWA EPW weather files using PVWatts, using MBIE's October 2024 TMY3 (present climate) release.
 - Allowed the electricity sector to build new diesel peakers, using cost and efficiency assumptions from existing OCGT data.
 - Assumed all grid-scale solar utilised single-axis tracking technology.
+- Added existing/known grid-scale battery installations.
+- Increased battery lifespan assumptions.
+- Increased geothermal generation lifespan assumptions.
 
 **Model features**
 

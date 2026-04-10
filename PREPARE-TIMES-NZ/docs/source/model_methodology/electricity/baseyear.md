@@ -147,7 +147,7 @@ All generating assets are provided with their original commissioning date where 
 * - Diesel (peakers)
   - 30
 * - Geothermal
-  - 40
+  - 60
 * - Hydro
   - N/A
 * - Huntly Rankine units
