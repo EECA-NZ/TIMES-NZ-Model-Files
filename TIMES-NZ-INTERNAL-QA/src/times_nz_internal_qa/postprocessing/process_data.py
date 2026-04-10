@@ -794,20 +794,30 @@ def process_transport_capacity(df):
     ].copy()
 
     # Get transport capacity data
-    tcap = df[df["Process"].isin(transport_processes["Process"].unique())].copy()
-    tcap = tcap[tcap["Attribute"] == "VAR_Cap"]
+    transport_capacity_df = df[
+        df["Process"].isin(transport_processes["Process"].unique())
+    ].copy()
+    transport_capacity_df = transport_capacity_df[
+        transport_capacity_df["Attribute"] == "VAR_Cap"
+    ]
 
     # Include only transport processes with labels
-    tcap = tcap.merge(transport_processes, on="Process", how="left")
+    transport_capacity_df = transport_capacity_df.merge(
+        transport_processes, on="Process", how="left"
+    )
 
     # Extract utilization level from process name (LOW, MED, HIGH)
-    tcap["Utilisation"] = tcap["Process"].str.extract(r"(_LOW|_MED|_HIGH)$")
-    tcap["Utilisation"] = tcap["Utilisation"].str.lstrip("_").fillna("UNSPECIFIED")
+    transport_capacity_df["Utilisation"] = transport_capacity_df["Process"].str.extract(
+        r"(_LOW|_MED|_HIGH)$"
+    )
+    transport_capacity_df["Utilisation"] = (
+        transport_capacity_df["Utilisation"].str.lstrip("_").fillna("UNSPECIFIED")
+    )
 
     # Variable adjustments
-    tcap["Variable"] = "Transport Capacity"
-    tcap["Unit"] = "000vehicles"
-    tcap = tcap.rename(columns={"PV": "Value"})
+    transport_capacity_df["Variable"] = "Transport Capacity"
+    transport_capacity_df["Unit"] = "000vehicles"
+    transport_capacity_df = transport_capacity_df.rename(columns={"PV": "Value"})
 
     transport_capacity_variables = [
         "Scenario",
@@ -829,54 +839,61 @@ def process_transport_capacity(df):
         "Value",
     ]
 
-    tcap = tcap[transport_capacity_variables]
+    transport_capacity_df = transport_capacity_df[transport_capacity_variables]
 
-    save_data(tcap, "transport_capacity.csv")
+    save_data(transport_capacity_df, "transport_capacity.csv")
 
 
 def process_technology_capacity(df):
     """
     Capacity of non-transport demand technologies.
 
-    Similar to process_energy_service_demand, but uses VAR_Cap instead of VAR_FOut.
+    Uses VAR_Cap for non-transport demand processes and assigns capacity units
+    from process_sets_and_units.csv via the process-specific `tcap` field.
     Road Transport is excluded and handled separately in process_transport_capacity.
     """
 
     demand_processes = pd.read_csv(
         PROCESS_CONCORDANCES / "demand.csv"
     ).drop_duplicates()
-    com_units = pd.read_csv(COMMODITY_CONCORDANCES / "commodity_sets_and_units.csv")
+    process_units = pd.read_csv(PROCESS_CONCORDANCES / "process_sets_and_units.csv")
+    process_units = process_units[process_units["sets"] == "DMD"].rename(
+        columns={
+            "techname": "Process",
+            "tcap": "Unit",
+        }
+    )
+    process_units = process_units[["Process", "Unit"]].drop_duplicates()
 
     # Exclude Road Transport sector processes
     demand_processes = demand_processes[
-        ~(
-            (demand_processes["SectorGroup"] == "Transport")
-            & (demand_processes["Sector"] == "Road Transport")
-        )
+        ~((demand_processes["SectorGroup"] == "Transport"))
     ].copy()
 
     # Get capacity rows for demand processes
-    tcap = df[df["Process"].isin(demand_processes["Process"].unique())].copy()
-    tcap = tcap[tcap["Attribute"] == "VAR_Cap"]
+    technology_capacity_df = df[
+        df["Process"].isin(demand_processes["Process"].unique())
+    ].copy()
+    technology_capacity_df = technology_capacity_df[
+        technology_capacity_df["Attribute"] == "VAR_Cap"
+    ]
 
-    # Add process labels
-    tcap = tcap.merge(demand_processes, on="Process", how="left")
-
-    # Identify unit based on the demand output commodity for each process
-    com_units = com_units[com_units["csets"] == "DEM"].rename(
-        columns={
-            "commname": "CommodityOut",
-            "unit": "Unit",
-        }
+    # Add process labels and process-specific capacity units
+    technology_capacity_df = technology_capacity_df.merge(
+        demand_processes, on="Process", how="left"
     )
-    com_units = com_units[["CommodityOut", "Unit"]]
+    technology_capacity_df = technology_capacity_df.merge(
+        process_units, on="Process", how="left"
+    )
+    technology_capacity_df = technology_capacity_df[
+        technology_capacity_df["Unit"].notna()
+    ]
+    technology_capacity_df = technology_capacity_df[
+        technology_capacity_df["Unit"] != "PJa"
+    ]
 
-    tcap = tcap.merge(com_units, on="CommodityOut", how="left")
-    tcap = tcap[tcap["Unit"].notna()]
-    tcap = tcap[tcap["Unit"] != "-"]
-
-    tcap["Variable"] = "Technology Capacity"
-    tcap = tcap.rename(columns={"PV": "Value"})
+    technology_capacity_df["Variable"] = "Technology Capacity"
+    technology_capacity_df = technology_capacity_df.rename(columns={"PV": "Value"})
 
     technology_capacity_variables = [
         "Scenario",
@@ -898,9 +915,9 @@ def process_technology_capacity(df):
         "Unit",
         "Value",
     ]
-    tcap = tcap[technology_capacity_variables]
+    technology_capacity_df = technology_capacity_df[technology_capacity_variables]
 
-    save_data(tcap, "technology_capacity.csv")
+    save_data(technology_capacity_df, "technology_capacity.csv")
 
 
 def check_df(df):
