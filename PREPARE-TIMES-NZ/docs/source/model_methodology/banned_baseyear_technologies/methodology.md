@@ -12,7 +12,7 @@ Key reasons for disabling:
 
 The full list of banned technologies, and equivalent model codes and wildcards, are listed in {numref}`tab-banned-techs`. 
 
-```{list-table} Banned technologies
+```{csv-table} Banned technologies
 :header-rows: 1
 :name: tab-banned-techs
 Code,Label
