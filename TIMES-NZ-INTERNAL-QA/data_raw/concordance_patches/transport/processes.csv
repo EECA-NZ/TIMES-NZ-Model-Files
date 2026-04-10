@@ -5,12 +5,9 @@ T_P_CICEPET_HIGH,High,Internal Combustion Engine (Petrol),Internal Combustion En
 T_P_CICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
 T_P_CICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
 T_P_CICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
-T_P_CBEVNEW_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
-T_P_CBEVNEW_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
-T_P_CBEVNEW_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
-T_P_CBEVUSD_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
-T_P_CBEVUSD_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
-T_P_CBEVUSD_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_P_CBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
 T_P_CICELPG_LOW,Low,Internal Combustion Engine (LPG),Internal Combustion Engine
 T_P_CICELPG_MED,Medium,Internal Combustion Engine (LPG),Internal Combustion Engine
 T_P_CICELPG_HIGH,High,Internal Combustion Engine (LPG),Internal Combustion Engine
@@ -29,9 +26,9 @@ T_C_CICEPET_HIGH,High,Internal Combustion Engine (Petrol),Internal Combustion En
 T_C_CICEDSL_LOW,Low,Internal Combustion Engine (Diesel),Internal Combustion Engine
 T_C_CICEDSL_MED,Medium,Internal Combustion Engine (Diesel),Internal Combustion Engine
 T_C_CICEDSL_HIGH,High,Internal Combustion Engine (Diesel),Internal Combustion Engine
-T_C_CBEVNEW_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
-T_C_CBEVNEW_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
-T_C_CBEVNEW_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
+T_C_CBEVELC_LOW,Low,Battery Electric Vehicle,Battery Electric Vehicle
+T_C_CBEVELC_MED,Medium,Battery Electric Vehicle,Battery Electric Vehicle
+T_C_CBEVELC_HIGH,High,Battery Electric Vehicle,Battery Electric Vehicle
 T_C_CICELPG_LOW,Low,Internal Combustion Engine (LPG),Internal Combustion Engine
 T_C_CICELPG_MED,Medium,Internal Combustion Engine (LPG),Internal Combustion Engine
 T_C_CICELPG_HIGH,High,Internal Combustion Engine (LPG),Internal Combustion Engine

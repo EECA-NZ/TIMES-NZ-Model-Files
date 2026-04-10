@@ -196,12 +196,9 @@ Demand,T_P_CICEPET_HIGH,T_P_Car,Transport,Road Transport,Light vehicles,Light Pa
 Demand,T_P_CICEDSL_LOW,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Internal Combustion Engine,Internal Combustion Engine (Diesel)
 Demand,T_P_CICEDSL_MED,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Internal Combustion Engine,Internal Combustion Engine (Diesel)
 Demand,T_P_CICEDSL_HIGH,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Internal Combustion Engine,Internal Combustion Engine (Diesel)
-Demand,T_P_CBEVNEW_LOW,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_P_CBEVNEW_MED,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_P_CBEVNEW_HIGH,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_P_CBEVUSD_LOW,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_P_CBEVUSD_MED,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_P_CBEVUSD_HIGH,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CBEVELC_LOW,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CBEVELC_MED,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_P_CBEVELC_HIGH,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
 Demand,T_P_CICELPG_LOW,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Internal Combustion Engine,Internal Combustion Engine (LPG)
 Demand,T_P_CICELPG_MED,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Internal Combustion Engine,Internal Combustion Engine (LPG)
 Demand,T_P_CICELPG_HIGH,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Internal Combustion Engine,Internal Combustion Engine (LPG)
@@ -220,9 +217,9 @@ Demand,T_C_CICEPET_HIGH,T_C_Car,Transport,Road Transport,Light vehicles,Light Co
 Demand,T_C_CICEDSL_LOW,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Internal Combustion Engine,Internal Combustion Engine (Diesel)
 Demand,T_C_CICEDSL_MED,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Internal Combustion Engine,Internal Combustion Engine (Diesel)
 Demand,T_C_CICEDSL_HIGH,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Internal Combustion Engine,Internal Combustion Engine (Diesel)
-Demand,T_C_CBEVNEW_LOW,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_C_CBEVNEW_MED,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_C_CBEVNEW_HIGH,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_C_CBEVELC_LOW,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_C_CBEVELC_MED,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
+Demand,T_C_CBEVELC_HIGH,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
 Demand,T_C_CICELPG_LOW,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Internal Combustion Engine,Internal Combustion Engine (LPG)
 Demand,T_C_CICELPG_MED,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Internal Combustion Engine,Internal Combustion Engine (LPG)
 Demand,T_C_CICELPG_HIGH,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Internal Combustion Engine,Internal Combustion Engine (LPG)
@@ -273,12 +270,6 @@ Demand,T_R_RailDSL,T_F_Rail,Transport,Rail Transport,Rail,Freight Rail,Rail,Rail
 Demand,T_R_RailELC,T_F_Rail,Transport,Rail Transport,Rail,Freight Rail,Rail,Rail
 Demand,T_P_RailDSL,T_P_Rail,Transport,Rail Transport,Rail,Passenger Rail,Rail,Rail
 Demand,T_P_RailELC,T_P_Rail,Transport,Rail Transport,Rail,Passenger Rail,Rail,Rail
-Demand,T_P_CBEVELC_LOW,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_P_CBEVELC_MED,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_P_CBEVELC_HIGH,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_C_CBEVELC_LOW,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_C_CBEVELC_MED,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
-Demand,T_C_CBEVELC_HIGH,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Battery Electric Vehicle,Battery Electric Vehicle
 Demand,T_P_CFCH2R_LOW,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Hydrogen Vehicle,Hydrogen Fuel Cell
 Demand,T_P_CFCH2R_MED,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Hydrogen Vehicle,Hydrogen Fuel Cell
 Demand,T_P_CFCH2R_HIGH,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Hydrogen Vehicle,Hydrogen Fuel Cell
@@ -563,6 +554,7 @@ Demand,OTHR-ELC-HPSH-SH_LOW,OTHR-SH_LOW,Industry,Other Industry,Heating/Cooling,
 Demand,PULP-ELC-HPSH-SH_LOW,PULP-SH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
 Demand,UREA-ELC-HPSH-SH_LOW,UREA-SH_LOW,Industry,Urea,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
 Demand,WOOD-ELC-HPSH-SH_LOW,WOOD-SH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,MNRL-WOD-BIOFURNC-PH_HIGH,MNRL-FURNC-PH_HIGH,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
 Demand,CNST-ELC-BEV-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Electric Vehicle
 Demand,OTHR-ELC-BEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Electric Vehicle
 Demand,MINE-ELC-BEV-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Electric Vehicle
