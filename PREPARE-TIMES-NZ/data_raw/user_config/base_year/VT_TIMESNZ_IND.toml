@@ -25,17 +25,23 @@ SheetName = "Industry demand"
 TagName = "FI_Process"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_ind/demand_process_definitions.csv"
 
-[IndustryDemand]
+[IndustryDemandTopology]
 Description = "Industry base year demand topology and technical parameters"
 SheetName = "Industry demand"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_ind/industry_baseyear_details.csv"
 
-[IndustryDemand2]
+[IndustryCommodityDemand]
 Description = "Industry total commodity demand (met by activity bound per process)"
 SheetName = "Industry demand"
 TagName = "FI_T: Demand"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_ind/industry_commodity_demand.csv"
+
+[IndustryOtherDemand]
+Description = "Locks 'Other Industry' fuel shares in place. Data on this unallocated demand is poor and true flexibility leads to unrealistic results."
+SheetName = "Industry demand"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_ind/lock_other_industry.csv"
 
 ###############################################################################
 # Fuel Delivery

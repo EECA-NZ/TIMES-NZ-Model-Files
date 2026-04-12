@@ -235,6 +235,55 @@ def define_fuel_delivery(df):
     )
 
 
+# "Other" industry flo_shares
+
+
+def lock_other_industry(df, exceptions, slack=0.01):
+    """
+    Identifies "other" industry and creates FLO_MARKs
+    to lock demand splits over time
+
+    Adds a new column with each process's share of total output
+    within its CommodityOut group.
+
+    We list exceptions for specific input commodities:
+    For these we add no lower bounds
+
+    We also add a slack variable - allowing production to fall
+    x% lower than the share provided
+    This is mostly just to help the model perform a little easier
+    (rigidity makes for slower solves)
+    """
+    # other industry output energy
+    df = df[df["Sector"] == "Other Industry"].copy()
+    df = df[df["Variable"] == "OutputEnergy"]
+
+    # get process shares of production
+    df["Total"] = df.groupby(["Region", "CommodityOut"])["Value"].transform("sum")
+    df["Share"] = np.where(
+        df["Total"] != 0,
+        df["Value"] / df["Total"],
+        0,
+    )
+    # apply slack to share
+    df["Share"] = df["Share"] * (1 - slack)
+    # remove lower bound qualifiers for our exceptions
+    df["Share"] = np.where(df["CommodityIn"].isin(exceptions), 0, df["Share"])
+
+    # column renaming
+    flo_mark_map = {
+        "Process": "TechName",
+        "CommodityOut": "Comm-OUT",
+        "Region": "Region",
+        "Share": "FLO_MARK~LO",
+    }
+    df = select_and_rename(df, flo_mark_map)
+    # add interp
+    df["FLO_MARK~LO~0"] = 5
+
+    return df
+
+
 # Main ----------------------------------------------------------------------
 
 
@@ -256,12 +305,21 @@ def main():
     agg_df = get_commodity_demand(ind_veda)
 
     # main table
-
     save_industry_veda_file(
         agg_df,
         name="industry_commodity_demand.csv",
         label="industry commodity demand",
     )
+    # locking other industry
+
+    other_industry = lock_other_industry(raw_df, exceptions=["INDNGA", "INDCOA"])
+
+    save_industry_veda_file(
+        other_industry,
+        name="lock_other_industry.csv",
+        label="'Other Industry' locks",
+    )
+
     # commodity definitions for fi_comm
     # (Note emissions commodity declared directly in user config file)
     define_enduse_commodities(
