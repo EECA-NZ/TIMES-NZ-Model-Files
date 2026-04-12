@@ -74,6 +74,18 @@ def define_residential_process_commodities(
         ["DwellingType_TIMES", "Fuel_TIMES", "EndUse_TIMES"],
     ].agg("-".join, axis=1)
 
+    # we also lock the miscellaneous electronics (met by it/entertainment or "misc")
+    # to require specific technologies - no switching of these techs is allowed.
+    # Similar to the above, this is done by defining the end use commodities
+    # as a function of technology
+    # (by adding Technology_TIMES as a component of the code for these)
+    electronics_mask = df["EndUse"] == "Electronics and Other Electrical Uses"
+
+    df.loc[electronics_mask, "CommodityOut"] = df.loc[
+        electronics_mask,
+        ["DwellingType_TIMES", "Technology_TIMES", "EndUse_TIMES"],
+    ].agg("-".join, axis=1)
+
     return df[["Process", "CommodityIn", "CommodityOut"] + original_columns]
 
 
