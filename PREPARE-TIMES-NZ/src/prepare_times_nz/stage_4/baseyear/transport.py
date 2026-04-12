@@ -160,15 +160,14 @@ def assign_tcap(base):
     if base in {
         "T_P_CICEPET",
         "T_P_CICEDSL",
-        "T_P_CBEVNEW",
-        "T_P_CBEVUSD",
+        "T_P_CBEVELC",
         "T_P_CICELPG",
         "T_P_CHYBPET",
         "T_P_CPHEVPET",
         "T_P_CPHEVBEV",
         "T_C_CICEPET",
         "T_C_CICEDSL",
-        "T_C_CBEVNEW",
+        "T_C_CBEVELC",
         "T_C_CICELPG",
     }:
         return "000cars"
@@ -420,8 +419,7 @@ def create_process_df(columns: list[str]) -> pd.DataFrame:
         # --- Passenger cars ---
         "T_P_CICEPET",
         "T_P_CICEDSL",
-        "T_P_CBEVNEW",
-        "T_P_CBEVUSD",
+        "T_P_CBEVELC",
         "T_P_CICELPG",
         "T_P_CHYBPET",
         "T_P_CPHEVPET",
@@ -429,7 +427,7 @@ def create_process_df(columns: list[str]) -> pd.DataFrame:
         # --- Commercial cars ---
         "T_C_CICEPET",
         "T_C_CICEDSL",
-        "T_C_CBEVNEW",
+        "T_C_CBEVELC",
         "T_C_CICELPG",
         # --- Motorcycles ---
         "T_P_MICEPET",
@@ -653,14 +651,14 @@ def create_process_parameters_df(columns: list[str]) -> pd.DataFrame:
     mask_old_bev = df["TechName"].str.startswith("T_P_CPHEVBEV") & (
         df["Comm-In"] == "TRAELC"
     )
-    mask_pet_elc = df["TechName"].str.startswith("T_P_CPHEVPET") & (
-        df["Comm-In"] == "TRAELC"
-    )
 
     # 1. Drop existing BEV + TRAELC rows
     df = df.loc[~mask_old_bev].reset_index(drop=True)
 
-    # 2. Rename PHEVPET + TRAELC rows to PHEVBEV
+    # 2. Recompute mask on the updated dataframe, then rename PHEVPET + TRAELC rows
+    mask_pet_elc = df["TechName"].str.startswith("T_P_CPHEVPET") & (
+        df["Comm-In"] == "TRAELC"
+    )
     df.loc[mask_pet_elc, "TechName"] = df.loc[mask_pet_elc, "TechName"].str.replace(
         "T_P_CPHEVPET", "T_P_CPHEVBEV", regex=False
     )

@@ -15,7 +15,7 @@ The hour settings represent the ratio between the discharge capacity and availab
 (storage-key-assumptions)=
 ## Key assumptions
 
-For each of these technologies, we assume a 20-year technical lifespan, and 85% round-trip efficiency. We further assume a 98% peak contribution factor. The model can choose to install battery capacity if the ability to shift generation across time slices is worth the associated costs and inefficiencies. Cost assumptions are listed in {numref}`tab-battery-costs`. For ease of comparison with other references, capital costs are expressed in terms of both $/kW and $/kWh. To be clear, only a single capital cost applies.
+For each of these technologies, we assume a 20-year technical lifespan, and 85% round-trip efficiency. We further assume a 98% peak contribution factor. The model can choose to install battery capacity if the ability to shift generation across time slices is worth the associated costs and inefficiencies. Cost assumptions are listed in {numref}`tab-battery-costs`. For ease of comparison with other references, capital costs are expressed in terms of both NZD/kW and NZD/kWh. To be clear, only a single capital cost applies.
 
 ```{list-table} Battery cost assumptions for Traditional scenario.
 :header-rows: 1

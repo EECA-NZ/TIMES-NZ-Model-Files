@@ -43,6 +43,7 @@ INDUSTRY_ASSUMPTIONS = Path(ASSUMPTIONS) / "industry_demand"
 LOAD_CURVE_DATA = Path(STAGE_2_DATA) / "settings/load_curves"
 
 REQUIRED_COLS = ["TimeSlice", "Attribute", "Cset_CN", "Cset_SET", "Year", "NI", "SI"]
+COM_FR_YEAR = BASE_YEAR + 1
 
 # ---------------------------------------------------------------------
 # Helper functions
@@ -75,6 +76,7 @@ def _from_loadcurve(
 ) -> pd.DataFrame:
     """Transform (Year, TimeSlice, LoadCurve[, Commodity]) into COM_FR schema."""
     df = df.copy()
+    df["Year"] = COM_FR_YEAR
     df["Attribute"] = "COM_FR"
     df["Cset_SET"] = "DEM"
     df["NI"] = df["LoadCurve"]
@@ -90,6 +92,21 @@ def _from_loadcurve(
     return _coerce_and_order(out)
 
 
+def build_placeholder_df() -> pd.DataFrame:
+    """Build a base-year wildcard COM_FR table using YRFR values as placeholders."""
+    path = LOAD_CURVE_DATA / "yrfr.csv"
+    logger.info("Reading YRFR data from %s", path)
+    df = pd.read_csv(path)
+    df["Attribute"] = "COM_FR"
+    df["Cset_SET"] = "DEM"
+    df["Cset_CN"] = "*"
+    df["Year"] = BASE_YEAR
+    df["NI"] = df["YRFR"]
+    df["SI"] = df["YRFR"]
+    out = df[["TimeSlice", "Attribute", "Cset_CN", "Cset_SET", "Year", "NI", "SI"]]
+    return _coerce_and_order(out)
+
+
 # ---------------------------------------------------------------------
 # Sector builders
 # ---------------------------------------------------------------------
@@ -100,6 +117,7 @@ def build_industry_df() -> pd.DataFrame:
     path = INDUSTRY_ASSUMPTIONS / "load_curves_ind.csv"
     logger.info("Reading industry curves from %s", path)
     df = pd.read_csv(path)
+    df["Year"] = COM_FR_YEAR
     df["Attribute"] = "COM_FR"
     df["Cset_SET"] = "DEM"
     if "NI" not in df.columns and "LoadCurve" in df.columns:
@@ -108,7 +126,7 @@ def build_industry_df() -> pd.DataFrame:
     return _coerce_and_order(df)
 
 
-def build_residential_df(filepath, year=BASE_YEAR) -> pd.DataFrame:
+def build_residential_df(filepath, year=COM_FR_YEAR) -> pd.DataFrame:
     """Build residential load-curve table."""
     path = LOAD_CURVE_DATA / filepath
     logger.info("Reading residential curves from %s", path)
@@ -145,13 +163,9 @@ def build_commercial_df() -> pd.DataFrame:
 def main() -> None:
     """Generate and export COM_FR load-curve tables for each sector."""
     outputs = {
+        "com_fr_placeholder.csv": build_placeholder_df(),
         "com_fr_industry.csv": build_industry_df(),
-        "com_fr_residential_50.csv": build_residential_df(
-            "residential_curves_ripple_50.csv"
-        ),
-        "com_fr_residential_90.csv": build_residential_df(
-            "residential_curves_ripple_90.csv", year=2050
-        ),
+        "com_fr_residential.csv": build_residential_df("residential_curves.csv"),
         "com_fr_agriculture.csv": build_agriculture_df(),
         "com_fr_commercial.csv": build_commercial_df(),
     }

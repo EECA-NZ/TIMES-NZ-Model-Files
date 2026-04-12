@@ -162,6 +162,11 @@ def get_process_declarations(df):
         }
     )
 
+    # also clarify the PCG as just whatever demand commodity
+    # the thing is making
+    # veda gets confused if we don't clarify this
+    tech_defns["PrimaryCG"] = tech_defns["TechName"] + "_DEMO"
+
     return tech_defns
 
 
@@ -225,6 +230,7 @@ def get_process_definitions(df):
         }
     )
     df = df[definition_cols]
+
     return df
 
     #

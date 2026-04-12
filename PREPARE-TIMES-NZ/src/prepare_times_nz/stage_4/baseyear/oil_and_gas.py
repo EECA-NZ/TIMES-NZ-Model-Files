@@ -209,8 +209,6 @@ def main():
     )
 
     import_costs = get_imported_fuel_costs(["PET", "DSL", "FOL", "JET", "LPG"])
-
-    print(import_costs)
     save_og_data(import_costs, "imported_fuel_costs.csv")
 
 

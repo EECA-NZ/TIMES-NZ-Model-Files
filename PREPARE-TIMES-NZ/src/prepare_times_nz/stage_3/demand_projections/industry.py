@@ -206,7 +206,6 @@ def get_new_industries_demand(ni_share=0.3):
     )
 
     # add labels
-    print(df)
     return df
 
 
