@@ -9,6 +9,7 @@ def main():
     """
     Creates veda files for load curves
     (also known as the COM_FR scenarios)
+    As well as the technology AFs for some technologies
     """
     load_curves()
 

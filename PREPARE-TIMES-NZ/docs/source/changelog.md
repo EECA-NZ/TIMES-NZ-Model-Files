@@ -6,17 +6,21 @@
 **Assumption changes**
 
 - Solar generation capacity factors for different timeslices are now generated from NIWA EPW weather files using PVWatts, using MBIE's October 2024 TMY3 (present climate) release.
-- Allowed the electricity sector to build new diesel peakers, using cost and efficiency assumptions from existing OCGT data.
-- Assumed all grid-scale solar utilised single-axis tracking technology.
+- Allowed the electricity sector to build new diesel peakers, using cost and efficiency assumptions from existing OCGT data. 
+- Assumed all grid-scale solar utilised single-axis tracking technology. 
+- Added or tweaked several new industrial technologies, allowing more flexibility in the demand end, including some hydrogen uses.
+- Added biomass as a fuel option for high-temperature heat in cement production to reflect the Golden Bay Cement biomass transition. 
 
 **Model features**
 
-- Rebuilt hydrogen electrolysis methods to more accurately utilise electricity demand.
-- Increased model detail of distributed solar, reflecting improved capacity factor from larger-scale rooftop installations.
+- Rebuilt hydrogen electrolysis methods to correctly utilise electricity demand.
+- Increased model detail of distributed solar, reflecting improved capacity factor from larger-scale rooftop installations. 
+- Added a more robust demand-flex method. This means ripple control is reflected more accurately with minimal processing overhead. Scalable to other demand flex areas as needed. 
 
-**Model fixes**
-- Removed redundant technology inflexibility in transport utilisation constraints. This allows for more realistic purchasing behaviour across different utilisation categories.
-
+**Model fixes** 
+- Resolved an error which led to excessive technology inflexibility in transport utilisation constraints. This allows for more realistic purchasing behaviour across different utilisation categories.
+- Disabled excessive optimisation of energy service demand between timeslices, which was leading to unrealistic demand flex behaviour. Note that this change also disables ESD timeslice reporting. 
+- Corrected several links in biogas topology. 
 
 ## 3.0.4
 

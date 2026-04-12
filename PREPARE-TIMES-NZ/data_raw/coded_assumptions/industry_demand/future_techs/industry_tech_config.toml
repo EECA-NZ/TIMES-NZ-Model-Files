@@ -9,8 +9,6 @@ ReplacedTechs = ["BOILR"] # just boiler use (could expand to furnace/kiln possib
 InputFuel = ["ELC"]
 Sectors = ["DARY", "MEAT", "WOOD", "PULP", "OTHR", "FOOD"]
 
-
-
 [newtechsBOILR]
 TechCode = "BOILR" # NOTE: existing tech code. Below labels match concordances for BOILR in industrial use
 Technology = "Boiler Systems"
@@ -20,7 +18,17 @@ ReplacedTechs = ["BOILR"] # replacing other boilers (nga, coal, etc - anything n
 InputFuel = ["ELC"]
 Sectors = ["DARY", "MEAT", "OTHR", "FOOD", "MINE"]
 
-
+[newtechsEFURNC]
+TechCode = "EFURNC" # NOTE: Existing tech code. 
+# similar to boilers, this is just about expanding the use to sectors that don't currently have access
+# allows all sectors to electrify high temp process heat (at high cost obviously) 
+# if we just stick with BY methods, some are limited to nga/fuel oil with no other options 
+Technology = "Electric Furnace"
+TechnologyGroup = "Heat/Cooling Devices"
+EndUse = ["PH_HIGH"] # high temp PH 
+ReplacedTechs = ["FURNC", "BOILR"] # any furnace or boiler use can use this instead
+InputFuel = ["ELC"]
+Sectors = ["PULP", "CHEM", "STEEL"] # other sectors have methods already or dont use high temp
 
 [newtechsHPPH]
 TechCode = "HPPH"
@@ -29,9 +37,7 @@ TechnologyGroup = "Heat/Cooling Devices"
 EndUse = ["PH_LOW"] # low process heat
 ReplacedTechs = ["BOILR", "BURNR", "FURNC"]
 InputFuel = ["ELC"]
-Sectors = ["DARY", "FOOD", "MEAT", "MNRL", "OTHR", "PULP", "WOOD", "STEEL"]
-
-
+Sectors = ["DARY", "FOOD", "MEAT", "MNRL", "OTHR", "PULP", "STEEL"]
 
 [newtechsHPSH]
 TechCode = "HPSH"
@@ -42,8 +48,6 @@ InputFuel = ["ELC"]
 # all sectors except CHEM (which has the tech already from the EEUD)
 Sectors = ["ALUM","CNST","DARY","FOOD","STEEL","MEAT","METH","MINE","MNRL","OTHR","PULP","UREA","WOOD"]
 
-
-
 [newtechsBIOFURNC]
 TechCode = "BIOFURNC"
 Technology = "Furnace/Kiln"
@@ -53,7 +57,6 @@ ReplacedTechs = ["FURNC"]
 InputFuel = ["WOD"]
 Sectors = ["MNRL"]
 
-
 [newtechsBEV]
 TechCode = "BEV"
 Technology = "Electric Vehicle"
@@ -62,8 +65,6 @@ EndUse = ["MTV_MOB"]
 ReplacedTechs = ["ICENG"]
 InputFuel = ["ELC"]
 Sectors = ["CNST", "OTHR", "MINE"]
- 
-
  
 [newtechsHFCV]
 TechCode = "HFCV"

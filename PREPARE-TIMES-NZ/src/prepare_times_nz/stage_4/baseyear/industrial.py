@@ -82,6 +82,14 @@ def get_industry_veda_table(df, input_map, enable_biogas=True):
 
     if enable_biogas:
         ind_nga_processes = get_processes_with_input_commodity(ind_df, "INDNGA")
+        # exclude Methanol/Urea from this
+        ind_nga_processes = [
+            process
+            for process in ind_nga_processes
+            if "METH" not in process and "UREA" not in process
+            # alternatively: just exclude feedstock options
+            # if "FSTK" not in process
+        ]
         ind_df = add_extra_input_to_topology(ind_df, ind_nga_processes, "INDBIG")
 
         ind_lpg_processes = get_processes_with_input_commodity(ind_df, "INDLPG")
@@ -110,9 +118,7 @@ def define_demand_processes(df, filename, label):
     demand_df["Sets"] = "DMD"
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
-    demand_df["Tslvl"] = np.where(
-        demand_df["TechName"].str.contains("ELC"), "DAYNITE", ""
-    )
+    demand_df["Tslvl"] = ""
 
     save_industry_veda_file(demand_df, name=filename, label=label)
 

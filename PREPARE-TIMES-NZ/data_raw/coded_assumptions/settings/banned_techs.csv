@@ -16,7 +16,7 @@ C*MPM-LPG*,Commercial Mobile motive power LPG
 C*MPM-NGA*,Commercial Mobile motive power natural gas
 C*Boiler-DSL*,Commercial diesel boilers
 AFISH*-PET,Fishing boat petrol
-*PET-ICENG-MTV_MOB,Industrial petrol mobile motive power
+"*PET-ICENG-MTV_MOB, -RES-*-PET-ICENG-MTV_MOB",Industrial petrol mobile motive power (excluding residential)
 *NGA-ICENG-MTV_MOB,Industrial natural gas mobile motive power
 *PET-ENGIN-MTV_STA,Industrial petrol stationary motive power
 C_*INC*,Commercial incandescent lighting

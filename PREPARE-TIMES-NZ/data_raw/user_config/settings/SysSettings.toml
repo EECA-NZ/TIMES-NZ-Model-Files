@@ -128,6 +128,7 @@ TRA = ["bVk", "000_Units", "bVk"]
 # - Dummy Imports:
 #  one can control the creation of dummy imports in the table shown above.  
 # These backstop dummy processes are introduced in the model in order to avoid infeasibilities that may arise if not enough energy carrier or demand can be supplied.
+# NOTE: we disable backstop processes in Veda. No dummies, please. 
 
 # - Vintage Bounds: VEDA can automatically generate bounds to prohibit investments in processes when a newer vintage becomes available, 
 # assuming that the last two characters of the process name are used for the first year of availability.
@@ -144,31 +145,6 @@ SheetName = "ImportSettings"
 TagName = "ImpSettings"
 
 DataLocation = "data_raw/user_config/settings/import_settings.csv"
-
-[DummyVariableCosts]
-
-Description = "Define costs for generated dummy variables. These should be very high so the model only uses them when there are no other options"
-SheetName = "ImportSettings"
-TagName = "TFM_UPD"
-
-Attribute = ["ACTCOST", "ACTCOST"] # the activity cost of the dummy processes 
-Pset_SET = ["IRE", "IRE"] # dummy processes are apparently defined as IRE
-Pset_PN = ["IMP*Z", "IMPDEMZ"] # separate costs for demand dummy variables, unclear why 
-AllRegions = [10000,10000000] # very high values
-
-[DisableDummyVariables]
-Description = "Disables activity of dummy variables. Exclude this table (or change to LO) if you want to solve with infeasibilities."
-SheetName = "ImportSettings"
-TagName = "TFM_INS"
-
-Attribute = ["ACTCOST", "ACTCOST"] # activity bound 
-LimType = ["UP", ""] # upper bound. Set blank for interp input
-Pset_SET = ["IRE", "IRE"] # dummy processes are apparently defined as IRE
-Pset_PN = ["IMP*Z", "IMP*Z"] # all variables
-# Here we give blank year (so starts at base) and forward extrapolation.
-Year = ["", "0"]
-# Limit = 0, and extrapolation = 5 (forward extrapolation)
-AllRegions = ["0", "5"]
 
 
 ###############################################################################

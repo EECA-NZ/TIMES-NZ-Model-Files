@@ -526,6 +526,12 @@ Demand,MEAT-ELC-BOILR-PH_LOW,MEAT-BOILR-PH_LOW,Industry,Meat,Heating/Cooling,"Lo
 Demand,OTHR-ELC-BOILR-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,FOOD-ELC-BOILR-PH_LOW,FOOD-BOILR-PH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,MINE-ELC-BOILR-PH_LOW,MINE-BOILR-PH_LOW,Industry,Mining,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,PULP-ELC-EFURNC-PH_HIGH,PULP-FURNC-PH_HIGH,Industry,Pulp and Paper,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Electric Furnace
+Demand,PULP-ELC-EFURNC-PH_HIGH,PULP-BOILR-PH_HIGH,Industry,Pulp and Paper,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Electric Furnace
+Demand,CHEM-ELC-EFURNC-PH_HIGH,CHEM-FURNC-PH_HIGH,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Electric Furnace
+Demand,CHEM-ELC-EFURNC-PH_HIGH,CHEM-BOILR-PH_HIGH,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Electric Furnace
+Demand,STEEL-ELC-EFURNC-PH_HIGH,STEEL-FURNC-PH_HIGH,Industry,Iron & Steel,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Electric Furnace
+Demand,STEEL-ELC-EFURNC-PH_HIGH,STEEL-BOILR-PH_HIGH,Industry,Iron & Steel,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Electric Furnace
 Demand,DARY-ELC-HPPH-PH_LOW,DARY-BOILR-PH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
 Demand,DARY-ELC-HPPH-PH_LOW,DARY-BURNR-PH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
 Demand,DARY-ELC-HPPH-PH_LOW,DARY-FURNC-PH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
@@ -544,9 +550,6 @@ Demand,OTHR-ELC-HPPH-PH_LOW,OTHR-FURNC-PH_LOW,Industry,Other Industry,Heating/Co
 Demand,PULP-ELC-HPPH-PH_LOW,PULP-BOILR-PH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
 Demand,PULP-ELC-HPPH-PH_LOW,PULP-BURNR-PH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
 Demand,PULP-ELC-HPPH-PH_LOW,PULP-FURNC-PH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
-Demand,WOOD-ELC-HPPH-PH_LOW,WOOD-BOILR-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
-Demand,WOOD-ELC-HPPH-PH_LOW,WOOD-BURNR-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
-Demand,WOOD-ELC-HPPH-PH_LOW,WOOD-FURNC-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
 Demand,STEEL-ELC-HPPH-PH_LOW,STEEL-BOILR-PH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
 Demand,STEEL-ELC-HPPH-PH_LOW,STEEL-BURNR-PH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
 Demand,STEEL-ELC-HPPH-PH_LOW,STEEL-FURNC-PH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
@@ -563,6 +566,7 @@ Demand,OTHR-ELC-HPSH-SH_LOW,OTHR-SH_LOW,Industry,Other Industry,Heating/Cooling,
 Demand,PULP-ELC-HPSH-SH_LOW,PULP-SH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
 Demand,UREA-ELC-HPSH-SH_LOW,UREA-SH_LOW,Industry,Urea,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
 Demand,WOOD-ELC-HPSH-SH_LOW,WOOD-SH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
+Demand,MNRL-WOD-BIOFURNC-PH_HIGH,MNRL-FURNC-PH_HIGH,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
 Demand,CNST-ELC-BEV-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Electric Vehicle
 Demand,OTHR-ELC-BEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Electric Vehicle
 Demand,MINE-ELC-BEV-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Electric Vehicle
