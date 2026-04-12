@@ -4,6 +4,7 @@ Chart builders for the app to ensure consistency across all explorer sections.
 
 import math
 import textwrap
+from dataclasses import dataclass
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -13,6 +14,48 @@ from times_nz_internal_qa.app.helpers.timeslices import (
     add_timeslice_chart_columns,
     get_timeslice_label_order,
 )
+
+
+@dataclass(frozen=True)
+class LayoutOptions:
+    """Optional layout settings shared across chart types."""
+
+    xaxis_title: str = "Year"
+    extra_bottom_margin: int = 0
+    extra_height: int = 0
+    legend_y: float = -0.18
+
+
+@dataclass(frozen=True)
+class SeriesContext:
+    """Metadata shared across traces for one scenario/group series."""
+
+    scenario: str
+    group: str
+    group_col: str
+    unit: str
+
+
+@dataclass(frozen=True)
+class BarTraceStyle:
+    """Visual configuration for bar traces."""
+
+    color: str
+    opacity: float = 1.0
+    showlegend: bool = True
+    x_label: str = "Year"
+
+
+@dataclass(frozen=True)
+class ScatterTraceStyle:
+    """Visual configuration shared by scatter traces."""
+
+    color: str
+    showlegend: bool = True
+    mode: str = "lines"
+    line_width: int = 1
+    dash: str | None = None
+    stackgroup: str | None = None
 
 
 def build_empty_figure(message: str) -> go.Figure:
@@ -50,9 +93,9 @@ def _prepare_chart_df(pdf: pd.DataFrame, group_col: str) -> pd.DataFrame:
         for c in chart_df.columns
         if c not in ["Value", group_col, "MissingData", "PeriodLabel"]
     ]
-    chart_df["Total"] = chart_df.groupby(totals_within, observed=True)["Value"].transform(
-        lambda s: s.fillna(0).sum()
-    )
+    chart_df["Total"] = chart_df.groupby(totals_within, observed=True)[
+        "Value"
+    ].transform(lambda s: s.fillna(0).sum())
 
     valid_share = chart_df["Total"].ne(0) & chart_df["Value"].notna()
     share_values = (chart_df["Value"] / chart_df["Total"]) * 100
@@ -68,7 +111,9 @@ def _prepare_chart_df(pdf: pd.DataFrame, group_col: str) -> pd.DataFrame:
     chart_df.loc[valid_value, "ValueTooltip"] = (
         value_text.loc[valid_value] + " " + unit_series.loc[valid_value]
     )
-    chart_df["TotalTooltip"] = chart_df["Total"].map(lambda x: f"{x:,.2f}") + " " + unit_series
+    chart_df["TotalTooltip"] = (
+        chart_df["Total"].map(lambda x: f"{x:,.2f}") + " " + unit_series
+    )
     return chart_df
 
 
@@ -83,15 +128,13 @@ def _apply_standard_layout(
     *,
     unit: str,
     legend_count: int,
-    xaxis_title: str = "Year",
-    extra_bottom_margin: int = 0,
-    extra_height: int = 0,
-    legend_y: float = -0.18,
+    options: LayoutOptions | None = None,
 ) -> go.Figure:
     """Shared layout so legends stay usable with many traces."""
+    options = options or LayoutOptions()
     legend_rows = _legend_rows(legend_count)
-    bottom_margin = 70 + (legend_rows * 28) + extra_bottom_margin
-    chart_height = 420 + (legend_rows * 28) + extra_height
+    bottom_margin = 70 + (legend_rows * 28) + options.extra_bottom_margin
+    chart_height = 420 + (legend_rows * 28) + options.extra_height
 
     legend = {
         "title": {"text": None},
@@ -99,7 +142,7 @@ def _apply_standard_layout(
         "itemdoubleclick": "toggleothers",
         "orientation": "h",
         "yanchor": "top",
-        "y": legend_y,
+        "y": options.legend_y,
         "xanchor": "left",
         "x": 0,
         "entrywidth": 170,
@@ -111,11 +154,10 @@ def _apply_standard_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         hovermode="closest",
-        autosize=False,
         height=chart_height,
         margin={"l": 70, "r": 30, "t": 30, "b": bottom_margin},
         legend=legend,
-        xaxis_title=xaxis_title,
+        xaxis_title=options.xaxis_title,
         yaxis_title=unit,
         font={"size": 13},
     )
@@ -147,7 +189,10 @@ def _build_color_map(groups: list[str]) -> dict[str, str]:
 
 def _scenario_dash_map(scen_list: list[str]) -> dict[str, str]:
     dash_cycle = ["solid", "dash", "dot", "dashdot", "longdash", "longdashdot"]
-    return {scenario: dash_cycle[i % len(dash_cycle)] for i, scenario in enumerate(scen_list)}
+    return {
+        scenario: dash_cycle[i % len(dash_cycle)]
+        for i, scenario in enumerate(scen_list)
+    }
 
 
 def _get_groups(chart_df: pd.DataFrame, group_col: str) -> list[str]:
@@ -190,14 +235,8 @@ def _build_bar_trace(
     trace_df: pd.DataFrame,
     *,
     x_values,
-    scenario: str,
-    group: str,
-    group_col: str,
-    unit: str,
-    color: str,
-    opacity: float,
-    showlegend: bool,
-    x_label: str = "Year",
+    context: SeriesContext,
+    style: BarTraceStyle,
 ) -> go.Bar:
     """Create a bar trace with consistent hover styling."""
     plot_df = trace_df.copy()
@@ -205,12 +244,12 @@ def _build_bar_trace(
         lambda missing: "Interpolated value" if missing else "Value"
     )
     plot_df["HoverStatus"] = plot_df["MissingData"].map(
-        lambda missing: "<br><b>Status:</b> non-model year placeholder"
-        if missing
-        else ""
+        lambda missing: (
+            "<br><b>Status:</b> non-model year placeholder" if missing else ""
+        )
     )
 
-    marker = {"color": color, "line": {"color": color, "width": 1.5}}
+    marker = {"color": style.color, "line": {"color": style.color, "width": 1.5}}
 
     return go.Bar(
         x=x_values,
@@ -224,18 +263,18 @@ def _build_bar_trace(
                 "HoverStatus",
             ]
         ],
-        name=_wrap_legend_label(group),
-        legendgroup=group,
-        showlegend=showlegend,
+        name=_wrap_legend_label(context.group),
+        legendgroup=context.group,
+        showlegend=style.showlegend,
         marker=marker,
-        opacity=opacity,
-        offsetgroup=scenario,
+        opacity=style.opacity,
+        offsetgroup=context.scenario,
         hovertemplate=(
             "<b>Scenario:</b> %{customdata[0]}<br>"
-            f"<b>{x_label}:</b> %{{x}}<br>"
-            f"<b>{group_col}:</b> {group}<br>"
+            f"<b>{style.x_label}:</b> %{{x}}<br>"
+            f"<b>{context.group_col}:</b> {context.group}<br>"
             "<b>%{customdata[1]}:</b> %{y:,.2f} "
-            + unit
+            + context.unit
             + "<br><b>Total:</b> %{customdata[2]}"
             + "<br><b>Share:</b> %{customdata[3]}"
             + "%{customdata[4]}"
@@ -247,47 +286,37 @@ def _build_bar_trace(
 def _build_scatter_trace(
     trace_df: pd.DataFrame,
     *,
-    scenario: str,
-    group: str,
-    group_col: str,
-    unit: str,
-    color: str,
-    name: str,
-    legendgroup: str,
-    mode: str,
-    line_width: int,
-    showlegend: bool = True,
-    dash: str | None = None,
-    stackgroup: str | None = None,
+    context: SeriesContext,
+    style: ScatterTraceStyle,
 ) -> go.Scatter:
     """Create a scatter trace shared by line and area charts."""
-    line = {"color": color, "width": line_width}
-    if dash is not None:
-        line["dash"] = dash
+    line = {"color": style.color, "width": style.line_width}
+    if style.dash is not None:
+        line["dash"] = style.dash
 
     trace_kwargs = {
         "x": trace_df["PeriodLabel"],
         "y": trace_df["Value"],
         "customdata": trace_df[["TotalTooltip", "ShareTooltip"]],
-        "mode": mode,
-        "name": _wrap_legend_label(name),
-        "legendgroup": legendgroup,
-        "showlegend": showlegend,
+        "mode": style.mode,
+        "name": _wrap_legend_label(context.group),
+        "legendgroup": context.group,
+        "showlegend": style.showlegend,
         "line": line,
         "hovertemplate": (
-            f"<b>Scenario:</b> {scenario}<br>"
+            f"<b>Scenario:</b> {context.scenario}<br>"
             "<b>Year:</b> %{x}<br>"
-            f"<b>{group_col}:</b> {group}<br>"
-            f"<b>Value:</b> %{{y:,.2f}} {unit}"
+            f"<b>{context.group_col}:</b> {context.group}<br>"
+            f"<b>Value:</b> %{{y:,.2f}} {context.unit}"
             "<br><b>Total:</b> %{customdata[0]}"
             "<br><b>Share:</b> %{customdata[1]}"
             "<extra></extra>"
         ),
     }
-    if mode == "lines+markers":
-        trace_kwargs["marker"] = {"size": 7, "color": color}
-    if stackgroup is not None:
-        trace_kwargs["stackgroup"] = stackgroup
+    if style.mode == "lines+markers":
+        trace_kwargs["marker"] = {"size": 7, "color": style.color}
+    if style.stackgroup is not None:
+        trace_kwargs["stackgroup"] = style.stackgroup
 
     return go.Scatter(**trace_kwargs)
 
@@ -301,40 +330,33 @@ def _add_line_series(
     fig: go.Figure,
     trace_df: pd.DataFrame,
     *,
-    scenario: str,
-    group: str,
-    group_col: str,
-    unit: str,
-    color: str,
-    opacity: float,
-    showlegend: bool,
+    context: SeriesContext,
+    style: BarTraceStyle,
 ):
     """Add a line series with point-specific interpolation styling and hover."""
     series_df = trace_df.sort_values("PeriodLabel").copy()
     if series_df.empty:
         return
 
-    legend_name = _wrap_legend_label(group)
+    legend_name = _wrap_legend_label(context.group)
     fig.add_trace(
         go.Scatter(
             x=series_df["PeriodLabel"],
             y=series_df["Value"],
             mode="lines+markers",
             name=legend_name,
-            legendgroup=group,
-            showlegend=showlegend,
-            line={"color": color, "width": 2},
+            legendgroup=context.group,
+            showlegend=style.showlegend,
+            line={"color": style.color, "width": 2},
             marker={
                 "size": 7,
                 "color": [
-                    "rgba(255,255,255,1)" if missing else color
+                    "rgba(255,255,255,1)" if missing else style.color
                     for missing in series_df["MissingData"]
                 ],
-                "opacity": opacity,
+                "opacity": style.opacity,
                 "line": {
-                    "color": [
-                        color for _ in series_df["MissingData"]
-                    ],
+                    "color": [style.color for _ in series_df["MissingData"]],
                     "width": [1 for _ in series_df["MissingData"]],
                 },
                 "symbol": ["circle" for _ in series_df["MissingData"]],
@@ -342,7 +364,7 @@ def _add_line_series(
             customdata=[
                 [
                     _line_hover_label(bool(missing)),
-                    f"{value:,.2f} {unit}",
+                    f"{value:,.2f} {context.unit}",
                     total,
                     share,
                 ]
@@ -355,9 +377,9 @@ def _add_line_series(
                 )
             ],
             hovertemplate=(
-                f"<b>Scenario:</b> {scenario}<br>"
+                f"<b>Scenario:</b> {context.scenario}<br>"
                 "<b>Year:</b> %{x}<br>"
-                f"<b>{group_col}:</b> {group}<br>"
+                f"<b>{context.group_col}:</b> {context.group}<br>"
                 "<b>%{customdata[0]}:</b> %{customdata[1]}"
                 "<br><b>Total:</b> %{customdata[2]}"
                 "<br><b>Share:</b> %{customdata[3]}"
@@ -396,13 +418,17 @@ def build_grouped_bar(
             _build_bar_trace(
                 trace_df,
                 x_values=trace_df["PeriodLabel"],
-                scenario=scenario,
-                group=group,
-                group_col=group_col,
-                unit=unit,
-                color=color_map[group],
-                opacity=opacity,
-                showlegend=scenario == base_scenario,
+                context=SeriesContext(
+                    scenario=scenario,
+                    group=group,
+                    group_col=group_col,
+                    unit=unit,
+                ),
+                style=BarTraceStyle(
+                    color=color_map[group],
+                    opacity=opacity,
+                    showlegend=scenario == base_scenario,
+                ),
             )
         )
 
@@ -440,14 +466,18 @@ def build_grouped_bar_timeslice(
             _build_bar_trace(
                 trace_df,
                 x_values=trace_df["TimeSliceLabel"].astype(str),
-                scenario=scenario,
-                group=group,
-                group_col=group_col,
-                unit=unit,
-                color=color_map[group],
-                opacity=opacity,
-                showlegend=scenario == base_scenario,
-                x_label="Timeslice",
+                context=SeriesContext(
+                    scenario=scenario,
+                    group=group,
+                    group_col=group_col,
+                    unit=unit,
+                ),
+                style=BarTraceStyle(
+                    color=color_map[group],
+                    opacity=opacity,
+                    showlegend=scenario == base_scenario,
+                    x_label="Timeslice",
+                ),
             )
         )
 
@@ -466,10 +496,12 @@ def build_grouped_bar_timeslice(
         fig,
         unit=unit,
         legend_count=len(groups),
-        xaxis_title="Timeslice",
-        extra_bottom_margin=72,
-        extra_height=72,
-        legend_y=-0.38,
+        options=LayoutOptions(
+            xaxis_title="Timeslice",
+            extra_bottom_margin=72,
+            extra_height=72,
+            legend_y=-0.38,
+        ),
     )
 
 
@@ -495,13 +527,17 @@ def build_grouped_line(
         _add_line_series(
             fig,
             trace_df,
-            scenario=scenario,
-            group=group,
-            group_col=group_col,
-            unit=unit,
-            color=color_map[group],
-            opacity=0.95 if scenario == base_scenario else 0.55,
-            showlegend=scenario == base_scenario,
+            context=SeriesContext(
+                scenario=scenario,
+                group=group,
+                group_col=group_col,
+                unit=unit,
+            ),
+            style=BarTraceStyle(
+                color=color_map[group],
+                opacity=0.95 if scenario == base_scenario else 0.55,
+                showlegend=scenario == base_scenario,
+            ),
         )
 
     _apply_period_axis(fig, period_range)
@@ -528,16 +564,18 @@ def build_grouped_area(
         fig.add_trace(
             _build_scatter_trace(
                 trace_df,
-                scenario=scenario,
-                group=group,
-                group_col=group_col,
-                unit=unit,
-                color=color_map[group],
-                name=group,
-                legendgroup=group,
-                mode="lines",
-                line_width=1,
-                stackgroup="stack",
+                context=SeriesContext(
+                    scenario=scenario,
+                    group=group,
+                    group_col=group_col,
+                    unit=unit,
+                ),
+                style=ScatterTraceStyle(
+                    color=color_map[group],
+                    mode="lines",
+                    line_width=1,
+                    stackgroup="stack",
+                ),
             )
         )
     _apply_period_axis(fig, period_range)
