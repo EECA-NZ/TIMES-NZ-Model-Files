@@ -47,8 +47,8 @@ def chart_download_dropdown(chart_id):
 def chart_output_height(parameters):
     """Return a fixed output height so widget wrappers don't enter fill layout."""
     if parameters.get("chart_type") == "timeslice":
-        return "700px"
-    return "620px"
+        return "620px"
+    return "560px"
 
 
 def tab_page_info_icon(btn_id: str):

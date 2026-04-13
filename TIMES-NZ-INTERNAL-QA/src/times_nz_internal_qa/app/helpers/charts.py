@@ -20,6 +20,7 @@ class LayoutOptions:
 
     xaxis_title: str = "Year"
     extra_height: int = 0
+    legend_y: float = -0.2
 
 
 @dataclass(frozen=True)
@@ -132,7 +133,7 @@ def _apply_standard_layout(
         legend={
             "orientation": "h",
             "yanchor": "top",
-            "y": -0.2,
+            "y": options.legend_y,
             "xanchor": "left",
             "x": 0,
         },
@@ -469,6 +470,7 @@ def build_grouped_bar_timeslice(
         options=LayoutOptions(
             xaxis_title="Timeslice",
             extra_height=72,
+            legend_y=-0.28,
         ),
     )
 
