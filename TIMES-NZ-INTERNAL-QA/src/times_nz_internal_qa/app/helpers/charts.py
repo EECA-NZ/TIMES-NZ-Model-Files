@@ -3,6 +3,7 @@ Chart builders for the app to ensure consistency across all explorer sections.
 """
 
 from dataclasses import dataclass
+from html import escape
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -138,6 +139,7 @@ def _apply_standard_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         hovermode="closest",
+        hoverdistance=100,
         height=520 + options.extra_height,
         margin={"l": 70, "r": 30, "t": 30, "b": options.bottom_margin},
         legend={
@@ -185,6 +187,26 @@ def _get_groups(chart_df: pd.DataFrame, group_col: str) -> list[str]:
     return sorted(chart_df[group_col].unique().tolist())
 
 
+def _tooltip_row(label: str, value: str) -> str:
+    """Build one row of custom hover HTML."""
+    return (
+        '<div class="chart-hover-row">'
+        f'<span class="chart-hover-label">{escape(str(label))}</span>'
+        f'<span class="chart-hover-value">{escape(str(value))}</span>'
+        "</div>"
+    )
+
+
+def _tooltip_html(rows: list[tuple[str, str]], status: str | None = None) -> str:
+    """Build Altair-like tooltip HTML shared across traces."""
+    html = '<div class="chart-hover-card">'
+    html += "".join(_tooltip_row(label, value) for label, value in rows)
+    if status:
+        html += f'<div class="chart-hover-status">{escape(str(status))}</div>'
+    html += "</div>"
+    return html
+
+
 def _iter_series(
     chart_df: pd.DataFrame,
     group_col: str,
@@ -218,57 +240,54 @@ def _build_bar_trace(
 ) -> go.Bar:
     """Create a bar trace with consistent hover styling."""
     plot_df = trace_df.copy()
-    plot_df["HoverValueLabel"] = plot_df["MissingData"].map(
-        lambda missing: "Interpolated value" if missing else "Value"
-    )
+    plot_df["HoverValueLabel"] = "Value"
     plot_df["HoverStatus"] = plot_df["MissingData"].map(
-        lambda missing: (
-            "<br><b>Status:</b> non-model year placeholder" if missing else ""
-        )
+        lambda missing: "Non-model year: value interpolated" if missing else ""
     )
+    plot_df["TooltipHtml"] = [
+        _tooltip_html(
+            [
+                ("Scenario", scenario),
+                (
+                    style.x_label,
+                    x_hover if style.x_hover_col else x_value,
+                ),
+                (context.group_col, context.group),
+                (hover_label, f"{value:,.2f} {context.unit}"),
+                ("Total", total),
+                ("Share", share),
+            ],
+            status=status or None,
+        )
+        for scenario, x_hover, x_value, hover_label, value, total, share, status in zip(
+            plot_df["Scenario"],
+            (
+                plot_df[style.x_hover_col].astype(str)
+                if style.x_hover_col
+                else plot_df["PeriodLabel"]
+            ),
+            plot_df["PeriodLabel"],
+            plot_df["HoverValueLabel"],
+            plot_df["Value"],
+            plot_df["TotalTooltip"],
+            plot_df["ShareTooltip"],
+            plot_df["HoverStatus"],
+            strict=False,
+        )
+    ]
 
     marker = {"color": style.color, "line": {"color": style.color, "width": 1.5}}
-    hover_value_idx = 2 if style.x_hover_col else 1
-    total_idx = 3 if style.x_hover_col else 2
-    share_idx = 4 if style.x_hover_col else 3
-    status_idx = 5 if style.x_hover_col else 4
-    x_hover_text = (
-        f"<b>{style.x_label}:</b> %{{customdata[1]}}<br>"
-        if style.x_hover_col
-        else f"<b>{style.x_label}:</b> %{{x}}<br>"
-    )
-    hovertemplate = (
-        "<b>Scenario:</b> %{customdata[0]}<br>"
-        + x_hover_text
-        + f"<b>{context.group_col}:</b> {context.group}<br>"
-        + f"<b>%{{customdata[{hover_value_idx}]}}:</b> %{{y:,.2f}} "
-        + context.unit
-        + f"<br><b>Total:</b> %{{customdata[{total_idx}]}}"
-        + f"<br><b>Share:</b> %{{customdata[{share_idx}]}}"
-        + f"%{{customdata[{status_idx}]}}"
-        + "<extra></extra>"
-    )
 
     return go.Bar(
         x=x_values,
         y=plot_df["Value"],
-        customdata=plot_df[
-            ["Scenario"]
-            + ([style.x_hover_col] if style.x_hover_col else [])
-            + [
-                "HoverValueLabel",
-                "TotalTooltip",
-                "ShareTooltip",
-                "HoverStatus",
-            ]
-        ],
+        customdata=plot_df["TooltipHtml"],
         name=context.group,
         legendgroup=context.group,
         showlegend=style.showlegend,
         marker=marker,
         opacity=style.opacity,
         offsetgroup=context.scenario,
-        hovertemplate=hovertemplate,
     )
 
 
@@ -283,36 +302,43 @@ def _build_scatter_trace(
     if style.dash is not None:
         line["dash"] = style.dash
 
+    tooltip_rows = [
+        _tooltip_html(
+            [
+                ("Scenario", context.scenario),
+                ("Year", year),
+                (context.group_col, context.group),
+                ("Value", f"{value:,.2f} {context.unit}"),
+                ("Total", total),
+                ("Share", share),
+            ]
+        )
+        for year, value, total, share in zip(
+            trace_df["PeriodLabel"],
+            trace_df["Value"],
+            trace_df["TotalTooltip"],
+            trace_df["ShareTooltip"],
+            strict=False,
+        )
+    ]
+
     trace_kwargs = {
         "x": trace_df["PeriodLabel"],
         "y": trace_df["Value"],
-        "customdata": trace_df[["TotalTooltip", "ShareTooltip"]],
+        "customdata": tooltip_rows,
         "mode": style.mode,
         "name": context.group,
         "legendgroup": context.group,
         "showlegend": style.showlegend,
         "line": line,
-        "hovertemplate": (
-            f"<b>Scenario:</b> {context.scenario}<br>"
-            "<b>Year:</b> %{x}<br>"
-            f"<b>{context.group_col}:</b> {context.group}<br>"
-            f"<b>Value:</b> %{{y:,.2f}} {context.unit}"
-            "<br><b>Total:</b> %{customdata[0]}"
-            "<br><b>Share:</b> %{customdata[1]}"
-            "<extra></extra>"
-        ),
     }
     if style.mode == "lines+markers":
         trace_kwargs["marker"] = {"size": 7, "color": style.color}
     if style.stackgroup is not None:
         trace_kwargs["stackgroup"] = style.stackgroup
+        trace_kwargs["hoveron"] = "points"
 
     return go.Scatter(**trace_kwargs)
-
-
-def _line_hover_label(is_interpolated: bool) -> str:
-    """Return a hover label for real vs interpolated line points."""
-    return "Interpolated value" if is_interpolated else "Value"
 
 
 def _add_line_series(
@@ -350,29 +376,29 @@ def _add_line_series(
                 "symbol": ["circle" for _ in series_df["MissingData"]],
             },
             customdata=[
-                [
-                    _line_hover_label(bool(missing)),
-                    f"{value:,.2f} {context.unit}",
-                    total,
-                    share,
-                ]
-                for missing, value, total, share in zip(
+                _tooltip_html(
+                    [
+                        ("Scenario", context.scenario),
+                        ("Year", year),
+                        (context.group_col, context.group),
+                        (
+                            "Value",
+                            f"{value:,.2f} {context.unit}",
+                        ),
+                        ("Total", total),
+                        ("Share", share),
+                    ],
+                    status="Non-model year: value interpolated" if missing else None,
+                )
+                for missing, year, value, total, share in zip(
                     series_df["MissingData"],
+                    series_df["PeriodLabel"],
                     series_df["Value"],
                     series_df["TotalTooltip"],
                     series_df["ShareTooltip"],
                     strict=False,
                 )
             ],
-            hovertemplate=(
-                f"<b>Scenario:</b> {context.scenario}<br>"
-                "<b>Year:</b> %{x}<br>"
-                f"<b>{context.group_col}:</b> {context.group}<br>"
-                "<b>%{customdata[0]}:</b> %{customdata[1]}"
-                "<br><b>Total:</b> %{customdata[2]}"
-                "<br><b>Share:</b> %{customdata[3]}"
-                "<extra></extra>"
-            ),
         )
     )
 

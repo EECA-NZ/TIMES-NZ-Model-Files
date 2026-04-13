@@ -70,6 +70,10 @@ app_ui = ui.page_fluid(
             src="js/auto-position.js",
             type="text/javascript",
         ),
+        ui.tags.script(
+            src="js/custom-plotly-hover.js",
+            type="text/javascript",
+        ),
         # Your global CSS (last so it can override everything)
         ui.include_css(global_css),
     ),

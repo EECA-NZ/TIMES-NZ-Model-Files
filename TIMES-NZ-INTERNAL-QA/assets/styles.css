@@ -122,6 +122,60 @@ body > .container-fluid {
   border-top-right-radius: 0;
 }
 
+.custom-plotly-hover-ready .js-plotly-plot .hoverlayer {
+  display: none;
+}
+
+.custom-plotly-hover {
+  position: fixed;
+  z-index: 2000;
+  pointer-events: none;
+  min-width: 190px;
+  max-width: 280px;
+}
+
+.chart-hover-card {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 6px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
+  color: #1f2937;
+  padding: 10px 12px;
+}
+
+.chart-hover-row {
+  display: grid;
+  grid-template-columns: minmax(68px, auto) 1fr;
+  gap: 10px;
+  align-items: start;
+  line-height: 1.35;
+}
+
+.chart-hover-row + .chart-hover-row,
+.chart-hover-status {
+  margin-top: 4px;
+}
+
+.chart-hover-label {
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.chart-hover-value {
+  color: #111827;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.chart-hover-status {
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  color: #6b7280;
+  font-size: 11px;
+  padding-top: 6px;
+}
+
 /* Generic chart header: vertical stack (title + controls row) */
 .chart-header {
   display: flex;
