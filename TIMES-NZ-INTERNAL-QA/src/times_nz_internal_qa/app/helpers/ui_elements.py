@@ -4,6 +4,7 @@ Ui builders to share between modules
 
 from shiny import ui
 from shinywidgets import output_widget
+from times_nz_internal_qa.app.helpers.charts import TIMESLICE_OUTPUT_HEIGHT
 from times_nz_internal_qa.app.helpers.filters import (
     filter_output_ui_list,
 )
@@ -47,7 +48,7 @@ def chart_download_dropdown(chart_id):
 def chart_output_height(parameters):
     """Return a fixed output height so widget wrappers don't enter fill layout."""
     if parameters.get("chart_type") == "timeslice":
-        return "620px"
+        return TIMESLICE_OUTPUT_HEIGHT
     return "560px"
 
 

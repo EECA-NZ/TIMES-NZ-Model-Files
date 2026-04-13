@@ -10,7 +10,6 @@ from plotly.colors import qualitative
 from times_nz_internal_qa.app.helpers.timeslices import (
     TIMESLICE_ORDER,
     add_timeslice_chart_columns,
-    get_timeslice_label_order,
 )
 
 
@@ -21,6 +20,7 @@ class LayoutOptions:
     xaxis_title: str = "Year"
     extra_height: int = 0
     legend_y: float = -0.2
+    bottom_margin: int = 120
 
 
 @dataclass(frozen=True)
@@ -41,6 +41,7 @@ class BarTraceStyle:
     opacity: float = 1.0
     showlegend: bool = True
     x_label: str = "Year"
+    x_hover_col: str | None = None
 
 
 @dataclass(frozen=True)
@@ -53,6 +54,15 @@ class ScatterTraceStyle:
     line_width: int = 1
     dash: str | None = None
     stackgroup: str | None = None
+
+
+TIMESLICE_LAYOUT_OPTIONS = LayoutOptions(
+    xaxis_title="Timeslice",
+    extra_height=120,
+    legend_y=-0.5,
+    bottom_margin=180,
+)
+TIMESLICE_OUTPUT_HEIGHT = "680px"
 
 
 def build_empty_figure(message: str) -> go.Figure:
@@ -129,7 +139,7 @@ def _apply_standard_layout(
         plot_bgcolor="rgba(0,0,0,0)",
         hovermode="closest",
         height=520 + options.extra_height,
-        margin={"l": 70, "r": 30, "t": 30, "b": 120},
+        margin={"l": 70, "r": 30, "t": 30, "b": options.bottom_margin},
         legend={
             "orientation": "h",
             "yanchor": "top",
@@ -144,9 +154,12 @@ def _apply_standard_layout(
     return fig
 
 
-def _timeslice_ticktext(labels: list[str]) -> list[str]:
-    """Render timeslice labels on two lines for a more compact x-axis."""
-    return [label.replace("|", "<br>") for label in labels]
+def _timeslice_multicategory_x(trace_df: pd.DataFrame):
+    """Build a 2-tier Plotly multicategory x-axis for timeslice charts."""
+    return [
+        trace_df["Season"].astype(str).tolist(),
+        trace_df["TimeSliceDayTime"].fillna("").astype(str).tolist(),
+    ]
 
 
 def _apply_period_axis(fig: go.Figure, period_range) -> None:
@@ -165,14 +178,6 @@ def _apply_period_axis(fig: go.Figure, period_range) -> None:
 def _build_color_map(groups: list[str]) -> dict[str, str]:
     palette = qualitative.Plotly + qualitative.Safe + qualitative.Dark24
     return {group: palette[i % len(palette)] for i, group in enumerate(groups)}
-
-
-def _scenario_dash_map(scen_list: list[str]) -> dict[str, str]:
-    dash_cycle = ["solid", "dash", "dot", "dashdot", "longdash", "longdashdot"]
-    return {
-        scenario: dash_cycle[i % len(dash_cycle)]
-        for i, scenario in enumerate(scen_list)
-    }
 
 
 def _get_groups(chart_df: pd.DataFrame, group_col: str) -> list[str]:
@@ -223,13 +228,34 @@ def _build_bar_trace(
     )
 
     marker = {"color": style.color, "line": {"color": style.color, "width": 1.5}}
+    hover_value_idx = 2 if style.x_hover_col else 1
+    total_idx = 3 if style.x_hover_col else 2
+    share_idx = 4 if style.x_hover_col else 3
+    status_idx = 5 if style.x_hover_col else 4
+    x_hover_text = (
+        f"<b>{style.x_label}:</b> %{{customdata[1]}}<br>"
+        if style.x_hover_col
+        else f"<b>{style.x_label}:</b> %{{x}}<br>"
+    )
+    hovertemplate = (
+        "<b>Scenario:</b> %{customdata[0]}<br>"
+        + x_hover_text
+        + f"<b>{context.group_col}:</b> {context.group}<br>"
+        + f"<b>%{{customdata[{hover_value_idx}]}}:</b> %{{y:,.2f}} "
+        + context.unit
+        + f"<br><b>Total:</b> %{{customdata[{total_idx}]}}"
+        + f"<br><b>Share:</b> %{{customdata[{share_idx}]}}"
+        + f"%{{customdata[{status_idx}]}}"
+        + "<extra></extra>"
+    )
 
     return go.Bar(
         x=x_values,
         y=plot_df["Value"],
         customdata=plot_df[
-            [
-                "Scenario",
+            ["Scenario"]
+            + ([style.x_hover_col] if style.x_hover_col else [])
+            + [
                 "HoverValueLabel",
                 "TotalTooltip",
                 "ShareTooltip",
@@ -242,17 +268,7 @@ def _build_bar_trace(
         marker=marker,
         opacity=style.opacity,
         offsetgroup=context.scenario,
-        hovertemplate=(
-            "<b>Scenario:</b> %{customdata[0]}<br>"
-            f"<b>{style.x_label}:</b> %{{x}}<br>"
-            f"<b>{context.group_col}:</b> {context.group}<br>"
-            "<b>%{customdata[1]}:</b> %{y:,.2f} "
-            + context.unit
-            + "<br><b>Total:</b> %{customdata[2]}"
-            + "<br><b>Share:</b> %{customdata[3]}"
-            + "%{customdata[4]}"
-            + "<extra></extra>"
-        ),
+        hovertemplate=hovertemplate,
     )
 
 
@@ -420,9 +436,8 @@ def build_grouped_bar_timeslice(
     if chart_df.empty:
         return build_empty_figure("No valid timeslice data available")
     chart_df = add_timeslice_chart_columns(chart_df)
-    label_order = get_timeslice_label_order()
-    chart_df["TimeSliceLabel"] = pd.Categorical(
-        chart_df["TimeSliceLabel"], categories=label_order, ordered=True
+    chart_df["TimeSlice"] = pd.Categorical(
+        chart_df["TimeSlice"], categories=TIMESLICE_ORDER, ordered=True
     )
 
     groups = _get_groups(chart_df, group_col)
@@ -431,13 +446,13 @@ def build_grouped_bar_timeslice(
     fig = go.Figure()
 
     for scenario, group, trace_df in _iter_series(
-        chart_df, group_col, scen_list, sort_col="TimeSliceLabel"
+        chart_df, group_col, scen_list, sort_col="TimeSlice"
     ):
         opacity = 0.95 if scenario == base_scenario else 0.55
         fig.add_trace(
             _build_bar_trace(
                 trace_df,
-                x_values=trace_df["TimeSliceLabel"].astype(str),
+                x_values=_timeslice_multicategory_x(trace_df),
                 context=SeriesContext(
                     scenario=scenario,
                     group=group,
@@ -449,29 +464,20 @@ def build_grouped_bar_timeslice(
                     opacity=opacity,
                     showlegend=scenario == base_scenario,
                     x_label="Timeslice",
+                    x_hover_col="TimeSliceLongLabel",
                 ),
             )
         )
 
+    fig.update_xaxes(type="multicategory")
+
     fig.update_layout(
         barmode="relative",
-        xaxis={
-            "type": "category",
-            "categoryorder": "array",
-            "categoryarray": label_order,
-            "tickmode": "array",
-            "tickvals": label_order,
-            "ticktext": _timeslice_ticktext(label_order),
-        },
     )
     return _apply_standard_layout(
         fig,
         unit=unit,
-        options=LayoutOptions(
-            xaxis_title="Timeslice",
-            extra_height=72,
-            legend_y=-0.28,
-        ),
+        options=TIMESLICE_LAYOUT_OPTIONS,
     )
 
 
