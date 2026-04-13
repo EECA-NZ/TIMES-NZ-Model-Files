@@ -296,8 +296,8 @@ Demand,T_C_CPHEVDSL_MED,T_C_Car,Transport,Road Transport,Light vehicles,Light Co
 Demand,T_C_CPHEVDSL_HIGH,T_C_Car,Transport,Road Transport,Light vehicles,Light Commercial Vehicle,Plug-in Hybrid Vehicle,Plug-in Hybrid Vehicle (Diesel)
 Demand,RES-DD-ELC-L_FLUOR-LIGHT,DD-LIGHT,Residential,Detached Dwelling,Electronics and Lighting,Lighting,Electronics and Lights,Fluorescent
 Demand,RES-JD-ELC-L_FLUOR-LIGHT,JD-LIGHT,Residential,Joined Dwelling,Electronics and Lighting,Lighting,Electronics and Lights,Fluorescent
-Demand,RES-DD-ELC-IT_ENT-ELCTR,DD-ELCTR,Residential,Detached Dwelling,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,IT and Entertainment
-Demand,RES-JD-ELC-IT_ENT-ELCTR,JD-ELCTR,Residential,Joined Dwelling,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,IT and Entertainment
+Demand,RES-DD-ELC-IT_ENT-ELCTR,DD-IT_ENT-ELCTR,Residential,Detached Dwelling,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,IT and Entertainment
+Demand,RES-JD-ELC-IT_ENT-ELCTR,JD-IT_ENT-ELCTR,Residential,Joined Dwelling,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,IT and Entertainment
 Demand,RES-DD-ELC-L_INCAN-LIGHT,DD-LIGHT,Residential,Detached Dwelling,Electronics and Lighting,Lighting,Electronics and Lights,Incandescent/Halogen
 Demand,RES-JD-ELC-L_INCAN-LIGHT,JD-LIGHT,Residential,Joined Dwelling,Electronics and Lighting,Lighting,Electronics and Lights,Incandescent/Halogen
 Demand,RES-DD-ELC-L_LED-LIGHT,DD-LIGHT,Residential,Detached Dwelling,Electronics and Lighting,Lighting,Electronics and Lights,LED
@@ -316,8 +316,8 @@ Demand,RES-DD-ELC-HPSH-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Co
 Demand,RES-JD-ELC-HPSH-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (for Heating)
 Demand,RES-DD-ELC-HWATER_C-WH_LOW,DD-WH_LOW,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
 Demand,RES-JD-ELC-HWATER_C-WH_LOW,JD-WH_LOW,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Hot Water Cylinder
-Demand,RES-DD-ELC-RES_MISC-ELCTR,DD-ELCTR,Residential,Detached Dwelling,Electronics and Lighting,Electronics and Other Electrical Uses,Heat/Cooling Devices,"Misc, Residential Only (Battery chargers, Pools, Pumps)  "
-Demand,RES-JD-ELC-RES_MISC-ELCTR,JD-ELCTR,Residential,Joined Dwelling,Electronics and Lighting,Electronics and Other Electrical Uses,Heat/Cooling Devices,"Misc, Residential Only (Battery chargers, Pools, Pumps)  "
+Demand,RES-DD-ELC-RES_MISC-ELCTR,DD-RES_MISC-ELCTR,Residential,Detached Dwelling,Electronics and Lighting,Electronics and Other Electrical Uses,Heat/Cooling Devices,"Misc, Residential Only (Battery chargers, Pools, Pumps)  "
+Demand,RES-JD-ELC-RES_MISC-ELCTR,JD-RES_MISC-ELCTR,Residential,Joined Dwelling,Electronics and Lighting,Electronics and Other Electrical Uses,Heat/Cooling Devices,"Misc, Residential Only (Battery chargers, Pools, Pumps)  "
 Demand,RES-DD-ELC-FRIDG-FRIDG,DD-FRIDG,Residential,Detached Dwelling,Heating/Cooling,Refrigeration,Heat/Cooling Devices,Refrigeration Systems
 Demand,RES-JD-ELC-FRIDG-FRIDG,JD-FRIDG,Residential,Joined Dwelling,Heating/Cooling,Refrigeration,Heat/Cooling Devices,Refrigeration Systems
 Demand,RES-DD-ELC-HEATR-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Resistance Heater

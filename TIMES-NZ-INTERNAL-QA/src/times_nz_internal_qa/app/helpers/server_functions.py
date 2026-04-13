@@ -258,7 +258,6 @@ def register_server_functions_for_explorer(
             return build_empty_figure("")
 
         chart = _build_chart(_chart_df(), chart_type, chart_id, inputs, is_comparison)
-        chart.update_layout(autosize=True)
         return chart
 
     _register_explorer_downloads(

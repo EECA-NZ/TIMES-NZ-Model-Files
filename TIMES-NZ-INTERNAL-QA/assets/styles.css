@@ -97,13 +97,83 @@ body > .container-fluid {
    3. Chart cards, titles & download controls
    ========================================================= */
 
-/* Chart card wrapper */
+/* Chart section wrapper */
 .chart-with-title {
   min-height: var(--chart-panel-h);
+  text-align: left;
+}
+
+.chart-header-card,
+.chart-body-card {
   background: var(--panel-bg);
   border-radius: var(--radius);
+}
+
+.chart-header-card {
   padding: 16px;
-  text-align: left;
+  margin-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.chart-body-card {
+  padding: 16px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.custom-plotly-hover-ready .js-plotly-plot .hoverlayer {
+  display: none;
+}
+
+.custom-plotly-hover {
+  position: fixed;
+  z-index: 2000;
+  pointer-events: none;
+  min-width: 190px;
+  max-width: 280px;
+}
+
+.chart-hover-card {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 6px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
+  color: #1f2937;
+  padding: 10px 12px;
+}
+
+.chart-hover-row {
+  display: grid;
+  grid-template-columns: minmax(68px, auto) 1fr;
+  gap: 10px;
+  align-items: start;
+  line-height: 1.35;
+}
+
+.chart-hover-row + .chart-hover-row,
+.chart-hover-status {
+  margin-top: 4px;
+}
+
+.chart-hover-label {
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.chart-hover-value {
+  color: #111827;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.chart-hover-status {
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  color: #6b7280;
+  font-size: 11px;
+  padding-top: 6px;
 }
 
 /* Generic chart header: vertical stack (title + controls row) */
@@ -112,13 +182,6 @@ body > .container-fluid {
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
-}
-
-/* Header styling when used inside chart cards */
-.chart-with-title .chart-header {
-  background: var(--panel-bg);
-  border-radius: var(--radius);
-  padding: 8px 16px;
 }
 
 /* Chart title alignment */
@@ -240,7 +303,7 @@ body > .container-fluid {
 }
 
 /* Download button base style inside chart cards */
-.chart-with-title .btn {
+.chart-header-card .btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -257,7 +320,7 @@ body > .container-fluid {
   font-weight: 400;
 }
 
-.chart-with-title .btn span {
+.chart-header-card .btn span {
   padding-top: 2px; /* align icon + text */
 }
 
@@ -294,7 +357,7 @@ body > .container-fluid {
 }
 
 /* Download hover */
-.chart-with-title .btn:hover {
+.chart-header-card .btn:hover {
   background: #f3f4f6;
   border-color: #cbd5e1;
 }
@@ -319,27 +382,11 @@ body > .container-fluid {
    4. Full-height chart layout
    ========================================================= */
 
-/* Panel viewport is a flex column */
-.panel-viewport {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-/* Each conditional panel wrapper inside panel-viewport */
-.panel-viewport > div {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-/* Top-level chart section */
+/* Let sections follow normal document flow so remounted charts size naturally. */
+.panel-viewport,
+.panel-viewport > div,
 .chart-section {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
+  display: block;
   min-height: 0;
 }
 
@@ -348,56 +395,34 @@ body > .container-fluid {
   margin-bottom: 16px;
 }
 
-/* Bootstrap row fills the chart-section */
-.chart-section > .row {
-  flex: 1 1 auto;
-  display: flex;
-  min-height: 0;
-}
-
-/* Both columns stretch vertically */
-.chart-section > .row > [class*="col-"] {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-/* Right-hand (chart) column: header + chart area */
 .chart-section .chart-with-title {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-/* Header: natural height */
-.chart-section .chart-header {
-  flex: 0 0 auto;
+  display: block;
+  min-height: var(--chart-panel-h);
+  height: auto;
+  overflow: visible;
 }
 
 .chart-section .chart-header .shiny-input-container {
   margin: 8px 0;
 }
 
-/* Chart row takes the rest */
 .chart-section .chart-single {
-  flex: 0 0 auto;
-  display: flex;
-  min-height: 320px;
+  display: block;
 }
 
-/* Chart container fills whatever is left */
 .chart-section .chart-container {
-  flex: 0 0 auto;
-  min-height: 320px;
+  height: auto;
+  min-height: 0;
   width: 100%;
+  overflow: visible;
 }
 
 /* Shiny widget output fills container */
 .chart-container .shiny-ipywidget-output {
   width: 100%;
   height: auto;
-  min-height: 100%;
+  min-height: 0;
+  overflow: visible;
 }
 
 /* Vega / widget wrappers fill container */
@@ -406,7 +431,8 @@ body > .container-fluid {
 .chart-container .chart-wrapper {
   width: 100%;
   height: auto;
-  min-height: 100%;
+  min-height: 0;
+  overflow: visible;
 }
 
 /* Canvas fills wrapper */
@@ -454,8 +480,6 @@ body > .container-fluid {
   display: flex;              /* overrides Bootstrap's display:block, but only for active */
   flex-direction: column;
 }
-
-/* Panel viewport inside a flex layout is handled above */
 
 
 /* =========================================================
@@ -765,7 +789,7 @@ body > .container-fluid {
 
 
 #app-parent {
-  width: 100vw;
-  height: 866px;
- 
+  width: 100%;
+  min-height: 866px;
+  height: auto;
 }
