@@ -80,8 +80,8 @@ Demand,T_F_Rail,Transport,Rail Transport,Freight Rail
 Demand,T_P_Rail,Transport,Rail Transport,Passenger Rail
 Demand,DD-LIGHT,Residential,Detached Dwelling,Lighting
 Demand,JD-LIGHT,Residential,Joined Dwelling,Lighting
-Demand,DD-ELCTR,Residential,Detached Dwelling,Electronics and Other Electrical Uses
-Demand,JD-ELCTR,Residential,Joined Dwelling,Electronics and Other Electrical Uses
+Demand,DD-IT_ENT-ELCTR,Residential,Detached Dwelling,Electronics and Other Electrical Uses
+Demand,JD-IT_ENT-ELCTR,Residential,Joined Dwelling,Electronics and Other Electrical Uses
 Demand,DD-C_DRY,Residential,Detached Dwelling,"Low Temperature Heat (<100 C), Clothes Drying"
 Demand,JD-C_DRY,Residential,Joined Dwelling,"Low Temperature Heat (<100 C), Clothes Drying"
 Demand,DD-C_WASH,Residential,Detached Dwelling,"Low Temperature Heat (<100 C), Clothes Washing"
@@ -96,6 +96,8 @@ Demand,DD-S_HEAT,Residential,Detached Dwelling,"Low Temperature Heat (<100 C), S
 Demand,JD-S_HEAT,Residential,Joined Dwelling,"Low Temperature Heat (<100 C), Space Heating"
 Demand,DD-WH_LOW,Residential,Detached Dwelling,"Low Temperature Heat (<100 C), Water Heating"
 Demand,JD-WH_LOW,Residential,Joined Dwelling,"Low Temperature Heat (<100 C), Water Heating"
+Demand,DD-RES_MISC-ELCTR,Residential,Detached Dwelling,Electronics and Other Electrical Uses
+Demand,JD-RES_MISC-ELCTR,Residential,Joined Dwelling,Electronics and Other Electrical Uses
 Demand,DD-FRIDG,Residential,Detached Dwelling,Refrigeration
 Demand,JD-FRIDG,Residential,Joined Dwelling,Refrigeration
 Demand,DD-DSL-MTV_MOB,Residential,Detached Dwelling,"Motive Power, Mobile"
