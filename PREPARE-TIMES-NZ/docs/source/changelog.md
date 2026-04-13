@@ -6,10 +6,14 @@
 **Assumption changes**
 
 - Solar generation capacity factors for different timeslices are now generated from NIWA EPW weather files using PVWatts, using MBIE's October 2024 TMY3 (present climate) release.
-- Allowed the electricity sector to build new diesel peakers, using cost and efficiency assumptions from existing OCGT data. 
-- Assumed all grid-scale solar utilised single-axis tracking technology. 
+- Allowed the electricity sector to build new diesel peakers, using cost and efficiency assumptions from existing OCGT data.
+- Assumed all grid-scale solar utilised single-axis tracking technology.
 - Added or tweaked several new industrial technologies, allowing more flexibility in the demand end, including some hydrogen uses.
 - Added biomass as a fuel option for high-temperature heat in cement production to reflect the Golden Bay Cement biomass transition. 
+- Added existing/known grid-scale battery installations.
+- Increased battery lifespan assumptions.
+- Increased geothermal generation lifespan assumptions.
+
 
 **Model features**
 

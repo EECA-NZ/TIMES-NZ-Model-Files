@@ -1,0 +1,10 @@
+# This scenario file enables the regional NCAP_PASTI of grid-scale battery tech. 
+
+
+WorkBookName = "SuppXLS/Scen_ExistingBatteryInvestment"
+
+[ExistingBatteryInvestment]
+Description = "Sets fixed commissioning dates for existing/known grid-scale battery builds."
+SheetName = "Batteries"
+TagName = "TFM_INS" 
+DataLocation = "data_raw/coded_assumptions/electricity_generation/future_techs/BatteryFixedCommissioning.csv"

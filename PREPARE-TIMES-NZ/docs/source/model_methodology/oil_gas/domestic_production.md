@@ -17,7 +17,7 @@ alt: Gas production profiles as reported from 1 January 2020 through 1 January 2
 ---
 Gas production profiles as reported from 1 January 2020 through 1 January 2025
 ```
-We make no assumptions regarding the wholesale price of natural gas in the model. Rather, we assume the production cost remains flat at 9.03 NZD/GJ, and allow the model to optimise how best to distribute the shrinking supply. As demand continues to outstrip supply, this effectively means that the marginal "system cost" of consuming an additional unit of natural gas is equivalent to the cost of replacing it - usually through fuel switching - elsewhere in the system. 
+We make no assumptions regarding the wholesale price of natural gas in the model. Rather, we assume the production cost remains flat at 9.03 NZD/GJ[^mbie_prices], and allow the model to optimise how best to distribute the shrinking supply. As demand continues to outstrip supply, this effectively means that the marginal "system cost" of consuming an additional unit of natural gas is equivalent to the cost of replacing it - usually through fuel switching - elsewhere in the system. 
 
 We note that the declining upstream natural gas market will likely have significant impacts on the downstream sector, particularly for feedstock use at Methanex and Ballance's Kapuni site. We currently allow Methanex and Ballance to reduce their activity, effectively exiting the market, at an assumed system cost price. Further details for these and other sites are covered in the industry sector assumptions documentation. 
 
@@ -27,7 +27,7 @@ We note that the declining upstream natural gas market will likely have signific
 [^mbie_enz_gas]: MBIE | [Energy in New Zealand: Gas](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-publications-and-technical-papers/energy-in-new-zealand/energy-in-new-zealand-2025/gas)
 
 
-[^mbie_prices]: 2023 and 2024 prices are historical natural gas prices published by MBIE at [Energy prices](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/energy-prices). Future prices are assumption only. Values for years not stated will be linearly interpolated.   
+[^mbie_prices]: Historical natural gas wholesale prices are published by MBIE at [Energy prices](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/energy-prices). 
 
 
 [^supply_caveat]: As implemented using the TIMES model, this will mean that any unused production in a given year is lost. We do not expect this circumstance to occur, but this setup may require adjustment. 

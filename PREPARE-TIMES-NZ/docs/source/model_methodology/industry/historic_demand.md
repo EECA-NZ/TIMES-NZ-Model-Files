@@ -251,6 +251,8 @@ We currently assume all unallocated onsite generation is consumed by industrial 
 
 [^mbie_official_generation]: Electricity statistics | Ministry of Business, Innovation & Employment: <https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/electricity-statistics>
 
+[^energy_balance]: Energy Balance | Ministry of Business, Innovation & Employment: <https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/energy-balances>
+
 ## Other adjustments to the EEUD
 
 In addition to recategorising sectors and adding some missing demand, we make the following minor adjustments to technology definitions in mapping EEUD data to TIMES-NZ:

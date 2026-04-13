@@ -26,13 +26,6 @@ biofuel_supply/index
 hydrogen/index
 
 ```
-```{toctree}
-:maxdepth: 1
-:caption: Scenario assumptions
-
-scenarios/index
-```
-
 
 
 
