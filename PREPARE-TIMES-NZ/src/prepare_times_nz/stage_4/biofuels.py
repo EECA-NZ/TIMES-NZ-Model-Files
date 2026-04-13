@@ -21,13 +21,13 @@ from pathlib import Path
 from typing import Mapping
 
 import pandas as pd
+from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
     CONCORDANCES,
     STAGE_3_DATA,
     STAGE_4_DATA,
 )
-from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # ----------------------------------------------------------------------------
 # Configuration
@@ -49,11 +49,10 @@ REGION_MAP = {}
 # ----------------------------------------------------------------------------
 # Save helper
 # ----------------------------------------------------------------------------
-def save_output(df: pd.DataFrame, output_path: Path) -> None:
+def save_output(df: pd.DataFrame, name, label) -> None:
     """Save output CSV with logging."""
-    logger.info("Saving biofuel process declarations → %s", blue_text(output_path))
-    df.to_csv(output_path, index=False)
-    logger.info("Saved %d rows.", len(df))
+    full_label = f"Biofuel {label}"
+    _save_data(df, name, full_label, filepath=OUTPUT_DIR)
 
 
 # ----------------------------------------------------------------------------
@@ -165,7 +164,7 @@ def finalise_supply_forecast(
     keep = [c for c in out_cols if c in out.columns] + year_cols
 
     out = out[keep]
-    out["ACT_BND~0"] = "3"
+    out["ACT_BND~0"] = "5"
     return out
 
 
@@ -461,32 +460,17 @@ def create_additional_bioenergy_supply_forecasts() -> pd.DataFrame:
 # ----------------------------------------------------------------------------
 def main() -> None:
     """Entry point for biofuel process declaration generation."""
-    logger.info("Building TIMES-NZ Biofuel Process Declarations…")
 
     df = build_biofuel_processes()
-    logger.info("Constructed DataFrame with %d records.", len(df))
-    logger.debug("Preview of data:\n%s", df.head())
-
-    save_output(df, OUTPUT_DIR / "biofuel_supply_process_declarations.csv")
-    logger.info("Biofuel process declaration generation complete.")
-
-    logger.info("Building TIMES-NZ Biofuel supply forecasts…")
+    save_output(df, "biofuel_supply_process_declarations.csv", "Process declarations")
 
     df_forecast = create_biofuel_supply_forecasts()
-    logger.info("Constructed DataFrame with %d records.", len(df_forecast))
-    logger.debug("Preview of data:\n%s", df_forecast.head())
-
-    save_output(df_forecast, OUTPUT_DIR / "biofuel_supply_forecasts.csv")
-    logger.info("Biofuel supply forecasts generation complete.")
-
-    logger.info("Building TIMES-NZ Additional Bioenergy supply forecasts…")
+    save_output(df_forecast, "biofuel_supply_forecasts.csv", "Supply forecasts")
 
     df_additional = create_additional_bioenergy_supply_forecasts()
-    logger.info("Constructed DataFrame with %d records.", len(df_additional))
-    logger.debug("Preview of data:\n%s", df_additional.head())
-
-    save_output(df_additional, OUTPUT_DIR / "additional_bioenergy_supply_forecasts.csv")
-    logger.info("Additional bioenergy supply forecasts generation complete.")
+    save_output(
+        df_additional, "biofuel_supply_forecasts.csv", "Additional supply forecasts"
+    )
 
 
 if __name__ == "__main__":
