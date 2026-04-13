@@ -11,11 +11,14 @@ The first steps are to:
 from __future__ import annotations
 
 import pandas as pd
-from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_3_DATA
+from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_3_DATA, STAGE_4_DATA
 
 GENSTACK_FILE = STAGE_3_DATA / "electricity" / "genstack.csv"
 FIXED_INSTALL_MONTHS_FILE = (
     ASSUMPTIONS / "electricity_generation" / "future_techs" / "FixedInstallMonths.csv"
+)
+RENEWABLE_AVAILABILITY_FILE = (
+    STAGE_4_DATA / "scen_ren_af" / "renewable_availability.csv"
 )
 DEFAULT_INSTALL_MONTH = 7
 
@@ -47,7 +50,8 @@ def get_fixed_plant_dates(df: pd.DataFrame) -> pd.DataFrame:
     required_columns = {
         "Plant",
         "TechName",
-        "Region",
+        "Tech_TIMES",
+        "Island",
         "CommissioningType",
         "CommissioningYear",
     }
@@ -59,7 +63,7 @@ def get_fixed_plant_dates(df: pd.DataFrame) -> pd.DataFrame:
         )
 
     out = df[df["CommissioningType"] == "Fixed"].copy()
-    out = out.loc[:, ["Plant", "TechName", "Region", "CommissioningYear"]]
+    out = out.loc[:, ["Plant", "TechName", "Tech_TIMES", "Island", "CommissioningYear"]]
     out = out.dropna(subset=["Plant", "TechName", "CommissioningYear"])
     out = out.rename(columns={"CommissioningYear": "Year"})
     out["Year"] = pd.to_numeric(out["Year"], errors="raise").astype(int)
@@ -184,6 +188,29 @@ def assign_install_months(
     return out
 
 
+def create_renewable_availability_wildcard(tech_code: str) -> str:
+    """
+    Create the renewable-availability wildcard used in the Veda AF table.
+    """
+
+    wildcard = f"ELC_{tech_code}_*"
+
+    if wildcard == "ELC_Geo_*":
+        return "ELC_Geo_*, -ELC_GeoCHP_*"
+
+    return wildcard
+
+
+def add_renewable_availability_wildcards(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Add the genstack tech code and matching renewable-availability wildcard.
+    """
+
+    out = df.copy()
+    out["Pset_PN"] = out["Tech_TIMES"].map(create_renewable_availability_wildcard)
+    return out
+
+
 def expand_fixed_plants_to_season_shares(df: pd.DataFrame) -> pd.DataFrame:
     """
     Expand one row per plant to one row per plant-season share.
@@ -196,13 +223,17 @@ def expand_fixed_plants_to_season_shares(df: pd.DataFrame) -> pd.DataFrame:
             rows.append(
                 {
                     "TechName": row.TechName,
+                    "TechCode": row.Tech_TIMES,
+                    "Pset_PN": row.Pset_PN,
+                    "Year": row.Year,
+                    "Region": row.Island,
                     "Season": season,
                     "Share": share,
                 }
             )
 
     out = pd.DataFrame(rows)
-    out = out.sort_values(["TechName", "Season"], ignore_index=True)
+    out = out.sort_values(["Year", "Region", "TechName", "Season"], ignore_index=True)
     return out
 
 
@@ -213,6 +244,13 @@ def get_fixed_plant_season_shares(
 ) -> pd.DataFrame:
     """
     Build the season-share table for all fixed-build plants.
+
+    Output columns:
+    - TechName
+    - Year
+    - Region
+    - Season
+    - Share
     """
 
     fixed_plants = read_fixed_plant_dates(genstack_filepath)
@@ -220,8 +258,57 @@ def get_fixed_plant_season_shares(
     fixed_plants = assign_install_months(
         fixed_plants, install_months, default_month=default_month
     )
+    fixed_plants = add_renewable_availability_wildcards(fixed_plants)
 
     return expand_fixed_plants_to_season_shares(fixed_plants)
+
+
+def read_renewable_availability(filepath=RENEWABLE_AVAILABILITY_FILE) -> pd.DataFrame:
+    """
+    Read the existing stage-4 Veda renewable availability output.
+
+    This is the table that fixed-plant seasonal adjustments will eventually
+    update after a plant-to-availability mapping is applied.
+    """
+
+    df = pd.read_csv(filepath)
+    required_columns = {
+        "TimeSlice",
+        "LimType",
+        "Attribute",
+        "NI",
+        "SI",
+        "Pset_PN",
+        "Year",
+    }
+    missing_columns = required_columns.difference(df.columns)
+    if missing_columns:
+        missing_str = ", ".join(sorted(missing_columns))
+        raise ValueError(
+            "Missing required columns for renewable availability data: "
+            f"{missing_str}"
+        )
+
+    return df
+
+
+def validate_fixed_plant_wildcards_against_renewable_availability(
+    fixed_plants: pd.DataFrame, renewable_availability: pd.DataFrame
+) -> None:
+    """
+    Ensure generated plant wildcards exist in the renewable availability table.
+    """
+
+    available_wildcards = set(renewable_availability["Pset_PN"].dropna().unique())
+    fixed_wildcards = set(fixed_plants["Pset_PN"].dropna().unique())
+    missing_wildcards = sorted(fixed_wildcards.difference(available_wildcards))
+
+    if missing_wildcards:
+        missing_str = ", ".join(missing_wildcards)
+        raise ValueError(
+            "Generated fixed-plant wildcards not found in renewable availability "
+            f"data: {missing_str}"
+        )
 
 
 def main() -> pd.DataFrame:
