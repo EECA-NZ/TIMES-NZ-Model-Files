@@ -44,6 +44,13 @@ def chart_download_dropdown(chart_id):
     )
 
 
+def chart_output_height(parameters):
+    """Return a fixed output height so widget wrappers don't enter fill layout."""
+    if parameters.get("chart_type") == "timeslice":
+        return "700px"
+    return "620px"
+
+
 def tab_page_info_icon(btn_id: str):
     """Clickable help icon shown beside the page-level section selector."""
     return ui.input_action_button(
@@ -112,15 +119,19 @@ def section_block(parameters):
     chart_header = ui.div(
         # Line 1: title on its own
         ui.tags.h3(title, id=sec_id, class_="chart-title"),
-
         # Line 2: left (group + toggles) and right (download)
         ui.div(
             ui.div(
                 # left block: group selector + toggle buttons
                 ui.div(
                     ui.tags.h4("Grouped by:", class_="filter-section-title"),
-                    ui.input_selectize(group_input_id, label=None, multiple=False, 
-                        choices=group_options, options={"plugins": ["auto_position"]},),
+                    ui.input_selectize(
+                        group_input_id,
+                        label=None,
+                        multiple=False,
+                        choices=group_options,
+                        options={"plugins": ["auto_position"]},
+                    ),
                     class_="chart-header-group",
                 ),
                 toggle_block,
@@ -132,18 +143,18 @@ def section_block(parameters):
         ),
         class_="chart-header",
     )
-    
+
     chart_columns = ui.layout_columns(
         ui.div(
-            output_widget(f"{chart_id}_chart"),
-            class_="chart-container",
+            output_widget(f"{chart_id}_chart", height=chart_output_height(parameters)),
+            class_="chart-container chart-body-card",
         ),
         col_widths=(12,),
         class_="chart-single",
     )
 
     chart_with_title = ui.div(
-        chart_header,
+        ui.div(chart_header, class_="chart-header-card"),
         chart_columns,  # <-- the selected layout
         class_="chart-with-title",
     )
@@ -161,7 +172,7 @@ def section_block(parameters):
 def make_explorer_page_ui(sections, id_prefix, page_info_button_id=None):
     """
     Creates the explorer page, including a 'second tier' horizontal navbar
-    for subsections. Each section is a dictionary of input params, and 
+    for subsections. Each section is a dictionary of input params, and
     sections are a list of these dicts.
     """
 
@@ -189,7 +200,7 @@ def make_explorer_page_ui(sections, id_prefix, page_info_button_id=None):
                 None,
                 choices=choices,
                 selected=first_sec_id,
-                inline=True,          # <- makes choices render horizontally
+                inline=True,  # <- makes choices render horizontally
             ),
             class_="secondary-nav-bar nav-cards",
         ),

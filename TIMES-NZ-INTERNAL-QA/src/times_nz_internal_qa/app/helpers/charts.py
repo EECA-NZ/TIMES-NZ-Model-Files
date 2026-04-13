@@ -2,8 +2,6 @@
 Chart builders for the app to ensure consistency across all explorer sections.
 """
 
-import math
-import textwrap
 from dataclasses import dataclass
 
 import pandas as pd
@@ -21,9 +19,7 @@ class LayoutOptions:
     """Optional layout settings shared across chart types."""
 
     xaxis_title: str = "Year"
-    extra_bottom_margin: int = 0
     extra_height: int = 0
-    legend_y: float = -0.18
 
 
 @dataclass(frozen=True)
@@ -117,46 +113,29 @@ def _prepare_chart_df(pdf: pd.DataFrame, group_col: str) -> pd.DataFrame:
     return chart_df
 
 
-def _legend_rows(trace_count: int) -> int:
-    """Estimate the number of legend rows to reserve space for."""
-    items_per_row = 4
-    return max(1, math.ceil(trace_count / items_per_row))
-
-
 def _apply_standard_layout(
     fig: go.Figure,
     *,
     unit: str,
-    legend_count: int,
     options: LayoutOptions | None = None,
 ) -> go.Figure:
-    """Shared layout so legends stay usable with many traces."""
+    """Apply a simple shared layout and keep Plotly's default legend behavior."""
     options = options or LayoutOptions()
-    legend_rows = _legend_rows(legend_count)
-    bottom_margin = 70 + (legend_rows * 28) + options.extra_bottom_margin
-    chart_height = 420 + (legend_rows * 28) + options.extra_height
-
-    legend = {
-        "title": {"text": None},
-        "itemclick": "toggle",
-        "itemdoubleclick": "toggleothers",
-        "orientation": "h",
-        "yanchor": "top",
-        "y": options.legend_y,
-        "xanchor": "left",
-        "x": 0,
-        "entrywidth": 170,
-        "entrywidthmode": "pixels",
-    }
 
     fig.update_layout(
         template="plotly_white",
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         hovermode="closest",
-        height=chart_height,
-        margin={"l": 70, "r": 30, "t": 30, "b": bottom_margin},
-        legend=legend,
+        height=520 + options.extra_height,
+        margin={"l": 70, "r": 30, "t": 30, "b": 120},
+        legend={
+            "orientation": "h",
+            "yanchor": "top",
+            "y": -0.2,
+            "xanchor": "left",
+            "x": 0,
+        },
         xaxis_title=options.xaxis_title,
         yaxis_title=unit,
         font={"size": 13},
@@ -198,13 +177,6 @@ def _scenario_dash_map(scen_list: list[str]) -> dict[str, str]:
 def _get_groups(chart_df: pd.DataFrame, group_col: str) -> list[str]:
     """Return stable, sorted chart groups."""
     return sorted(chart_df[group_col].unique().tolist())
-
-
-def _wrap_legend_label(label: str, width: int = 24) -> str:
-    """Insert line breaks into long legend labels for Plotly."""
-    if len(label) <= width:
-        return label
-    return "<br>".join(textwrap.wrap(label, width=width, break_long_words=False))
 
 
 def _iter_series(
@@ -263,7 +235,7 @@ def _build_bar_trace(
                 "HoverStatus",
             ]
         ],
-        name=_wrap_legend_label(context.group),
+        name=context.group,
         legendgroup=context.group,
         showlegend=style.showlegend,
         marker=marker,
@@ -299,7 +271,7 @@ def _build_scatter_trace(
         "y": trace_df["Value"],
         "customdata": trace_df[["TotalTooltip", "ShareTooltip"]],
         "mode": style.mode,
-        "name": _wrap_legend_label(context.group),
+        "name": context.group,
         "legendgroup": context.group,
         "showlegend": style.showlegend,
         "line": line,
@@ -338,13 +310,12 @@ def _add_line_series(
     if series_df.empty:
         return
 
-    legend_name = _wrap_legend_label(context.group)
     fig.add_trace(
         go.Scatter(
             x=series_df["PeriodLabel"],
             y=series_df["Value"],
             mode="lines+markers",
-            name=legend_name,
+            name=context.group,
             legendgroup=context.group,
             showlegend=style.showlegend,
             line={"color": style.color, "width": 2},
@@ -436,7 +407,7 @@ def build_grouped_bar(
         barmode="relative",
     )
     _apply_period_axis(fig, period_range)
-    return _apply_standard_layout(fig, unit=unit, legend_count=len(groups) + 1)
+    return _apply_standard_layout(fig, unit=unit)
 
 
 def build_grouped_bar_timeslice(
@@ -495,12 +466,9 @@ def build_grouped_bar_timeslice(
     return _apply_standard_layout(
         fig,
         unit=unit,
-        legend_count=len(groups),
         options=LayoutOptions(
             xaxis_title="Timeslice",
-            extra_bottom_margin=72,
             extra_height=72,
-            legend_y=-0.38,
         ),
     )
 
@@ -541,7 +509,7 @@ def build_grouped_line(
         )
 
     _apply_period_axis(fig, period_range)
-    return _apply_standard_layout(fig, unit=unit, legend_count=len(groups))
+    return _apply_standard_layout(fig, unit=unit)
 
 
 def build_grouped_area(
@@ -579,4 +547,4 @@ def build_grouped_area(
             )
         )
     _apply_period_axis(fig, period_range)
-    return _apply_standard_layout(fig, unit=unit, legend_count=len(groups))
+    return _apply_standard_layout(fig, unit=unit)
