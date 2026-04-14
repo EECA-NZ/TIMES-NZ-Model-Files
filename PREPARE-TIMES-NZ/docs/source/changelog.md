@@ -25,6 +25,7 @@
 - Resolved an error which led to excessive technology inflexibility in transport utilisation constraints. This allows for more realistic purchasing behaviour across different utilisation categories.
 - Disabled excessive optimisation of energy service demand between timeslices, which was leading to unrealistic demand flex behaviour. Note that this change also disables ESD timeslice reporting. 
 - Corrected several links in biogas topology. 
+- Resolved an issue that was leading to unrealistic switching behaviour in Other Industry demand.
 
 ## 3.0.4
 
