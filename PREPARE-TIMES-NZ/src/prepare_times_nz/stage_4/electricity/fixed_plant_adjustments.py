@@ -383,6 +383,10 @@ def join_fixed_plants_to_renewable_availability(
 def format_fixed_plant_adjustment_output(df: pd.DataFrame) -> pd.DataFrame:
     """
     Convert joined renewable rows into the downstream fixed-plant output shape.
+
+    The commissioning year gets a reduced availability based on the seasonal
+    share. The following year gets the unmodified availability so downstream
+    extrapolation can carry that forward.
     """
 
     out = df.copy()
@@ -392,8 +396,6 @@ def format_fixed_plant_adjustment_output(df: pd.DataFrame) -> pd.DataFrame:
     invalid_regions = out.loc[
         out["Value"].isna(), ["TechName", "Region"]
     ].drop_duplicates()
-
-    out["Value"] = out["Value"] * out["Share"]
     if not invalid_regions.empty:
         invalid_str = ", ".join(
             f"{row.TechName} ({row.Region})" for row in invalid_regions.itertuples()
@@ -403,12 +405,19 @@ def format_fixed_plant_adjustment_output(df: pd.DataFrame) -> pd.DataFrame:
             f"availability values: {invalid_str}"
         )
 
+    base_values = out.copy()
+
+    first_year = base_values.copy()
+    first_year["Value"] = first_year["Value"] * first_year["Share"]
+
+    subsequent_year = base_values.copy()
+    subsequent_year["Year"] = subsequent_year["Year"] + 1
+
+    out = pd.concat([first_year, subsequent_year], ignore_index=True)
     out = out.drop(columns=["NI", "SI", "Pset_PN", "TechCode", "Season", "Share"])
 
-    out = out.rename(columns={"TechName": "PSet_PN"})
-
     return out.sort_values(
-        ["Year", "Region", "PSet_PN", "TimeSlice"], ignore_index=True
+        ["TechName", "Year", "Region", "TimeSlice"], ignore_index=True
     )
 
 

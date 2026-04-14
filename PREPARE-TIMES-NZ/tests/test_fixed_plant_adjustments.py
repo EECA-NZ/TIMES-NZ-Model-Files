@@ -88,7 +88,8 @@ def test_join_fixed_plants_to_renewable_availability_matches_on_pset_and_season(
 
 def test_format_fixed_plant_adjustment_output_creates_value_and_drops_helper_columns():
     """
-    Downstream formatting should select the regional value and trim join-only fields.
+    Downstream formatting should emit a reduced commissioning year and an
+    unmodified following year, then trim join-only fields.
     """
 
     joined = pd.DataFrame(
@@ -99,7 +100,7 @@ def test_format_fixed_plant_adjustment_output_creates_value_and_drops_helper_col
             "Year": [2030, 2030],
             "Region": ["NI", "SI"],
             "Season": ["WIN", "WIN"],
-            "Share": [1.0, 1.0],
+            "Share": [0.5, 0.25],
             "TimeSlice": ["WIN-WK-P", "WIN-WK-P"],
             "LimType": ["UP", "UP"],
             "Attribute": ["NCAP_AF", "NCAP_AF"],
@@ -110,12 +111,15 @@ def test_format_fixed_plant_adjustment_output_creates_value_and_drops_helper_col
 
     result = format_fixed_plant_adjustment_output(joined)
 
-    assert result["Value"].tolist() == [0.6, 0.4]
+    assert result["Year"].tolist() == [2030, 2030, 2031, 2031]
+    assert result["PSet_PN"].tolist() == ["Hydro A", "Hydro B", "Hydro A", "Hydro B"]
+    assert result["Value"].tolist() == [0.3, 0.1, 0.6, 0.4]
     assert "NI" not in result.columns
     assert "SI" not in result.columns
     assert "Pset_PN" not in result.columns
     assert "TechCode" not in result.columns
     assert "Season" not in result.columns
+    assert "Share" not in result.columns
 
 
 def test_join_fixed_plants_to_renewable_availability_raises_on_missing_match():
