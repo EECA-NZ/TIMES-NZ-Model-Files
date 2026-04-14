@@ -126,6 +126,27 @@ body > .container-fluid {
   display: none;
 }
 
+.js-plotly-plot .modebar,
+.js-plotly-plot .modebar-group {
+  background: transparent !important;
+}
+
+.js-plotly-plot .modebar-btn:not([data-title="Download plot as a PNG"]):not([data-title="Reset axes"]) {
+  display: none !important;
+  width: 0 !important;
+}
+
+.js-plotly-plot .modebar-btn,
+.js-plotly-plot .modebar-btn:hover {
+  background: transparent !important;
+  color: #6b7280 !important;
+}
+
+.js-plotly-plot .modebar-btn svg,
+.js-plotly-plot .modebar-btn svg path {
+  fill: #6b7280 !important;
+}
+
 .custom-plotly-hover {
   position: fixed;
   z-index: 2000;
@@ -390,6 +411,15 @@ body > .container-fluid {
   min-height: 0;
 }
 
+.chart-section .bslib-grid-item,
+.chart-section .html-fill-container,
+.chart-section .html-fill-item,
+.chart-section .chart-with-title,
+.chart-section .chart-body-card,
+.chart-section .chart-container {
+  min-width: 0;
+}
+
 /* Optional grid element spacing inside chart sections */
 .chart-section .grid {
   margin-bottom: 16px;
@@ -433,6 +463,13 @@ body > .container-fluid {
   height: auto;
   min-height: 0;
   overflow: visible;
+}
+
+.chart-container .js-plotly-plot,
+.chart-container .plot-container,
+.chart-container .svg-container {
+  width: 100% !important;
+  max-width: 100%;
 }
 
 /* Canvas fills wrapper */

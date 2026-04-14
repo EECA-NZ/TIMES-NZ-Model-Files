@@ -147,7 +147,12 @@ def section_block(parameters):
 
     chart_columns = ui.layout_columns(
         ui.div(
-            output_widget(f"{chart_id}_chart", height=chart_output_height(parameters)),
+            output_widget(
+                f"{chart_id}_chart",
+                width="100%",
+                height=chart_output_height(parameters),
+                fill=True,
+            ),
             class_="chart-container chart-body-card",
         ),
         col_widths=(12,),
