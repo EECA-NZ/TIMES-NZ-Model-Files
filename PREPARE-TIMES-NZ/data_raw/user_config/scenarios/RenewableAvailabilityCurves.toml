@@ -30,7 +30,7 @@ DataLocation = "data_intermediate/stage_4_veda_format/scen_ren_af/renewable_avai
 [FixedInstallPrecision]
 Description = "Adjusts availability for fixed install date plants to reflect more precise start timings."
 SheetName = "Renewable Availability" 
-TagName = "TFM_UPD"
+TagName = "TFM_INS"
 DataLocation = "data_intermediate/stage_4_veda_format/scen_ren_af/renewable_availability_fixed_adjustments.csv"
 
 

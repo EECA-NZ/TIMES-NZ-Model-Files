@@ -111,9 +111,10 @@ def test_format_fixed_plant_adjustment_output_creates_value_and_drops_helper_col
 
     result = format_fixed_plant_adjustment_output(joined)
 
-    assert result["Year"].tolist() == [2030, 2030, 2031, 2031]
-    assert result["PSet_PN"].tolist() == ["Hydro A", "Hydro B", "Hydro A", "Hydro B"]
-    assert result["Value"].tolist() == [0.3, 0.1, 0.6, 0.4]
+    assert result["TechName"].tolist() == ["Hydro A", "Hydro A", "Hydro B", "Hydro B"]
+    assert result["Year"].tolist() == [2030, 2031, 2030, 2031]
+    assert result["Region"].tolist() == ["NI", "NI", "SI", "SI"]
+    assert result["Value"].tolist() == [0.3, 0.6, 0.1, 0.4]
     assert "NI" not in result.columns
     assert "SI" not in result.columns
     assert "Pset_PN" not in result.columns
