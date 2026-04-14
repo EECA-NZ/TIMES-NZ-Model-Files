@@ -12,16 +12,18 @@ from prepare_times_nz.utilities.logger_setup import logger
 BASE_YEAR = 2023
 CAP2ACT = 31.536
 RUN_TESTS = True
+REPORT_CONSOLE_WARNINGS = False
 
 
 def check_missing_lifetimes(df: pd.DataFrame) -> None:
     """Log warning for technologies missing lifetime data."""
     missing_techs = df[df["Life"].isna()]["Technology"].drop_duplicates()
-    if not missing_techs.empty:
-        logger.warning("The following technologies have no lifetimes:")
-        for tech in missing_techs:
-            logger.warning("    '%s'", tech)
-        logger.warning("These will have infinite lifetimes in the model.")
+    if REPORT_CONSOLE_WARNINGS:
+        if not missing_techs.empty:
+            logger.warning("The following technologies have no lifetimes:")
+            for tech in missing_techs:
+                logger.warning("    '%s'", tech)
+            logger.warning("These will have infinite lifetimes in the model.")
 
 
 def add_lifetimes(
@@ -43,11 +45,12 @@ def check_missing_efficiencies(
 ) -> None:
     """Log warning for technologies missing efficiency data."""
     missing_eff = df[df["Efficiency"].isna()][list(cols)].drop_duplicates()
-    if not missing_eff.empty:
-        logger.warning("Technologies with missing efficiency:")
-        for _, row in missing_eff.iterrows():
-            formatted = " | ".join(f"'{row[c]}'" for c in cols)
-            logger.warning("    %s", formatted)
+    if REPORT_CONSOLE_WARNINGS:
+        if not missing_eff.empty:
+            logger.warning("Technologies with missing efficiency:")
+            for _, row in missing_eff.iterrows():
+                formatted = " | ".join(f"'{row[c]}'" for c in cols)
+                logger.warning("    %s", formatted)
 
 
 def add_efficiencies(
@@ -68,10 +71,11 @@ def check_missing_capex(
 ) -> None:
     """Log warning for processes/technologies missing capital cost data."""
     missing_capex = df[df["CAPEX"].isna()][list(cols)].drop_duplicates()
-    if not missing_capex.empty:
-        logger.warning("Processes with missing capital cost:")
-        for _, row in missing_capex.iterrows():
-            logger.warning("    %s", " | ".join(f"'{row[c]}'" for c in cols))
+    if REPORT_CONSOLE_WARNINGS:
+        if not missing_capex.empty:
+            logger.warning("Processes with missing capital cost:")
+            for _, row in missing_capex.iterrows():
+                logger.warning("    %s", " | ".join(f"'{row[c]}'" for c in cols))
 
 
 def add_capex(
@@ -98,10 +102,11 @@ def check_missing_opex(
 ) -> None:
     """Log warning for processes/technologies missing operating cost data."""
     missing_opex = df[df["OPEX"].isna()][list(cols)].drop_duplicates()
-    if not missing_opex.empty:
-        logger.warning("Processes with missing operating cost:")
-        for _, row in missing_opex.iterrows():
-            logger.warning("    %s", " | ".join(f"'{row[c]}'" for c in cols))
+    if REPORT_CONSOLE_WARNINGS:
+        if not missing_opex.empty:
+            logger.warning("Processes with missing operating cost:")
+            for _, row in missing_opex.iterrows():
+                logger.warning("    %s", " | ".join(f"'{row[c]}'" for c in cols))
 
 
 def add_opex(
