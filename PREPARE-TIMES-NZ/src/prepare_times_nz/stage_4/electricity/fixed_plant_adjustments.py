@@ -11,6 +11,7 @@ The first steps are to:
 from __future__ import annotations
 
 import pandas as pd
+from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_3_DATA, STAGE_4_DATA
 
 GENSTACK_FILE = STAGE_3_DATA / "electricity" / "genstack.csv"
@@ -20,6 +21,7 @@ FIXED_INSTALL_MONTHS_FILE = (
 RENEWABLE_AVAILABILITY_FILE = (
     STAGE_4_DATA / "scen_ren_af" / "renewable_availability.csv"
 )
+OUTPUT_LOCATION = STAGE_4_DATA / "scen_ren_af"
 DEFAULT_INSTALL_MONTH = 7
 
 month_season_map = {
@@ -292,6 +294,37 @@ def read_renewable_availability(filepath=RENEWABLE_AVAILABILITY_FILE) -> pd.Data
     return df
 
 
+def extract_season_from_timeslice(timeslice: str) -> str:
+    """
+    Convert a TIMES timeslice label like ``WIN-WK-P`` to ``WIN``.
+    """
+
+    if pd.isna(timeslice):
+        raise ValueError("TimeSlice cannot be null when deriving Season.")
+
+    season = str(timeslice).strip()[:3]
+    valid_seasons = {"SUM", "FAL", "WIN", "SPR"}
+    if season not in valid_seasons:
+        raise ValueError(f"Unrecognised season in TimeSlice: {timeslice}")
+
+    return season
+
+
+def prepare_renewable_availability_for_join(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Add a season key and keep only explicit renewable-availability years.
+    """
+
+    out = df.copy()
+    # remove interps
+    out = out[out["Year"] > 0].copy()
+    # define seasons
+    out["Season"] = out["TimeSlice"].map(extract_season_from_timeslice)
+    # remove the year
+    out = out.drop("Year", axis=1)
+    return out
+
+
 def validate_fixed_plant_wildcards_against_renewable_availability(
     fixed_plants: pd.DataFrame, renewable_availability: pd.DataFrame
 ) -> None:
@@ -311,10 +344,93 @@ def validate_fixed_plant_wildcards_against_renewable_availability(
         )
 
 
+def join_fixed_plants_to_renewable_availability(
+    fixed_plants: pd.DataFrame, renewable_availability: pd.DataFrame
+) -> pd.DataFrame:
+    """
+    Join fixed-plant season shares to renewable availability by wildcard and season.
+    """
+
+    renewable_availability = prepare_renewable_availability_for_join(
+        renewable_availability
+    )
+
+    out = fixed_plants.merge(
+        renewable_availability,
+        on=["Pset_PN", "Season"],
+        how="left",
+        validate="many_to_many",
+    )
+
+    missing_matches = out.loc[
+        out["TimeSlice"].isna(), ["TechName", "Pset_PN", "Season"]
+    ].drop_duplicates()
+    if not missing_matches.empty:
+        missing_str = ", ".join(
+            f"{row.TechName} ({row.Pset_PN}, {row.Season})"
+            for row in missing_matches.itertuples()
+        )
+        raise ValueError(
+            "Fixed plant season rows could not be matched to renewable "
+            f"availability data: {missing_str}"
+        )
+
+    return out.sort_values(
+        ["Year", "Region", "TechName", "Season", "TimeSlice"], ignore_index=True
+    )
+
+
+def format_fixed_plant_adjustment_output(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Convert joined renewable rows into the downstream fixed-plant output shape.
+    """
+
+    out = df.copy()
+    out["Value"] = pd.NA
+    out.loc[out["Region"] == "NI", "Value"] = out.loc[out["Region"] == "NI", "NI"]
+    out.loc[out["Region"] == "SI", "Value"] = out.loc[out["Region"] == "SI", "SI"]
+    invalid_regions = out.loc[
+        out["Value"].isna(), ["TechName", "Region"]
+    ].drop_duplicates()
+
+    out["Value"] = out["Value"] * out["Share"]
+    if not invalid_regions.empty:
+        invalid_str = ", ".join(
+            f"{row.TechName} ({row.Region})" for row in invalid_regions.itertuples()
+        )
+        raise ValueError(
+            "Fixed plant rows include unsupported regions for renewable "
+            f"availability values: {invalid_str}"
+        )
+
+    out = out.drop(columns=["NI", "SI", "Pset_PN", "TechCode", "Season", "Share"])
+
+    out = out.rename(columns={"TechName": "PSet_PN"})
+
+    return out.sort_values(
+        ["Year", "Region", "PSet_PN", "TimeSlice"], ignore_index=True
+    )
+
+
 def main() -> pd.DataFrame:
     """Convenience wrapper for interactive use."""
 
-    return get_fixed_plant_season_shares()
+    fixed_plants = get_fixed_plant_season_shares()
+    renewable_availability = read_renewable_availability()
+    validate_fixed_plant_wildcards_against_renewable_availability(
+        fixed_plants, renewable_availability
+    )
+    joined = join_fixed_plants_to_renewable_availability(
+        fixed_plants, renewable_availability
+    )
+    out = format_fixed_plant_adjustment_output(joined)
+    _save_data(
+        out,
+        "renewable_availability_fixed_adjustments.csv",
+        "Renewable availability fixed adjustments",
+        OUTPUT_LOCATION,
+    )
+    return out
 
 
 if __name__ == "__main__":
