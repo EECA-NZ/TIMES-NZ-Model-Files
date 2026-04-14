@@ -15,8 +15,6 @@ Justification = "Redefining Geothermal Boilers as Heat Exchangers"
   [rule.updates]
   Technology = "Heat Exchangers"
 
-
-
 [[rule]]
 Name = "Ballance Compressors"
 Justification = "Declaring Ballance's pumps as Compressors for clarity"
@@ -29,8 +27,6 @@ Justification = "Declaring Ballance's pumps as Compressors for clarity"
   [rule.updates]
   Technology = "Compressors"
 
-
-
 [[rule]]
 Name = "Labelling all the Methanex use as reforming"
 Justification = "We have allocated a lot of use to Methanex, but don't trust the implied share detail, so we call it all reforming"
@@ -39,7 +35,6 @@ Justification = "We have allocated a lot of use to Methanex, but don't trust the
   Sector = "Methanol"
   Fuel = "Natural Gas"
   EndUse = "High Temperature Heat (>300 C), Process Requirements"  
-
 
   [rule.updates]  
   # note inconsistent pluralisation in the main data 
@@ -65,8 +60,7 @@ Justification = "There should not be high temp ele use in this sector - suspect 
 Name = "Heat pumps for space heating"
 Justification = "We distinguish different technologies for heatpumps for space heating v space cooling"
 
-  [rule.conditions]     
-  
+  [rule.conditions]       
   Technology = "Heat Pump (for Heating)"
   EndUse = "Low Temperature Heat (<100 C), Space Heating"
 
@@ -77,25 +71,31 @@ Justification = "We distinguish different technologies for heatpumps for space h
 [[rule]]
 Name = "Heat pumps for process heating"
 Justification = "We distinguish different technologies for heatpumps for space heating v space cooling"
-
-  [rule.conditions]     
-  
+  [rule.conditions]       
   Technology = "Heat Pump (for Heating)"
   EndUse = "Low Temperature Heat (<100 C), Process Requirements"
-
   [rule.updates]  
   Technology = "Heat Pump (process heat)"
 
-
-
 [[rule]]
 Name = "Combine water heating and low temperature process heat in industry"
-Justification = "This is not a useful distinction"
-
-
+Justification = "This is not a useful distinction, because water heating is process heat"
   [rule.conditions]
   SectorGroup = "Industrial"
   EndUse = "Low Temperature Heat (<100 C), Water Heating"
-
   [rule.updates]
+  EndUse = "Low Temperature Heat (<100 C), Process Requirements"
+
+
+[[rule]]
+Name = "Remove other industry burner space heating"
+Justification = "The data on this is dubious, so we re-assign this to the process heat bucket as a boiler"
+
+  [rule.conditions]
+  SectorGroup = "Industrial"
+  Sector = "Other Industry"
+  Technology = "Burner (Direct Heat)"
+  EndUse = "Low Temperature Heat (<100 C), Space Heating"
+  [rule.updates]
+  Technology = "Boiler Systems"
   EndUse = "Low Temperature Heat (<100 C), Process Requirements"
