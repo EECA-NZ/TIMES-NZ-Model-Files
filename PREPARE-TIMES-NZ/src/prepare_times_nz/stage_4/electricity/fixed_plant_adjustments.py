@@ -1,11 +1,22 @@
 """
-Helpers for applying commissioning-date adjustments to fixed-build plants.
+Create renewable-availability adjustments for plants with fixed commissioning dates.
 
-The first steps are to:
-1. identify plants in the stage-3 genstack output with fixed commissioning years
-2. read any user assumptions about install months
-3. default missing install months to July
-4. translate install months into seasonal shares for the commissioning year
+This script identifies fixed-build plants from the stage-3 genstack output, combines
+them with any user-supplied installation-month assumptions, and defaults missing
+months to July. It then converts each installation month into seasonal shares for the
+commissioning year, maps each plant to the matching renewable-availability wildcard
+used in the stage-4 Veda AF table, and joins those seasonal shares onto the existing
+renewable availability timeslices.
+
+The final output represents a partial-year commissioning adjustment. For the
+commissioning year, each timeslice availability value is scaled by the share of the
+relevant season that the plant is assumed to be online. A second set of rows is then
+created for the following year using the unscaled availability values, so Veda
+processing can extrapolate the plant as fully available after commissioning.
+
+IMPORTANT NOTE: the method to adjust timeslice-specific AFs for plants in specific years
+only works if these plants are not vintaged. They should not be vintaged anyway,
+as they represent single plants.
 """
 
 from __future__ import annotations
@@ -422,7 +433,7 @@ def format_fixed_plant_adjustment_output(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main() -> pd.DataFrame:
-    """Convenience wrapper for interactive use."""
+    """Script entry point"""
 
     fixed_plants = get_fixed_plant_season_shares()
     renewable_availability = read_renewable_availability()
@@ -439,8 +450,7 @@ def main() -> pd.DataFrame:
         "Renewable availability fixed adjustments",
         OUTPUT_LOCATION,
     )
-    return out
 
 
 if __name__ == "__main__":
-    print(main())
+    main()
