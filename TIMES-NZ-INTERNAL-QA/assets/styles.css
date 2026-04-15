@@ -610,12 +610,28 @@ body > .container-fluid {
 .tab-page-info-btn {
   flex: 0 0 auto;
   margin-top: 0;
+  /* Ensure the help button matches other light buttons even if Bootstrap overrides `.btn`. */
+  --bs-btn-bg: #fff;
+  --bs-btn-color: var(--panel-text);
+  --bs-btn-border-color: var(--border);
+  --bs-btn-hover-bg: #f3f4f6;
+  --bs-btn-hover-color: var(--panel-text);
+  --bs-btn-hover-border-color: #cbd5e1;
+  --bs-btn-active-bg: #f3f4f6;
+  --bs-btn-active-color: var(--panel-text);
+  --bs-btn-active-border-color: #cbd5e1;
+
+  background-color: #fff;
+  border-color: var(--border);
+  color: var(--panel-text);
 }
 
 .tab-page-info-btn:hover,
 .tab-page-info-btn:focus,
 .tab-page-info-btn:active {
   color: var(--panel-text);
+  background-color: #f3f4f6;
+  border-color: #cbd5e1;
 }
 
 
