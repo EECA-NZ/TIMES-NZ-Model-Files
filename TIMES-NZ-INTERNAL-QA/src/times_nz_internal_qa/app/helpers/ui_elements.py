@@ -57,8 +57,11 @@ def tab_page_info_icon(btn_id: str):
     """Clickable help icon shown beside the page-level section selector."""
     return ui.input_action_button(
         btn_id,
-        ui.tags.i(class_="fa fa-question-circle"),
-        class_="tab-page-info-btn",
+        ui.TagList(
+            ui.tags.i(class_="fa fa-question-circle"),
+            " About this tab",
+        ),
+        class_="btn tab-page-info-btn",
         title="About this tab",
     )
 
