@@ -281,6 +281,20 @@ body > .container-fluid {
   margin-right: 0 !important;
 }
 
+.chart-toggle-bar .radio-inline > span > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  height: auto;
+  background: transparent;
+  color: inherit;
+}
+
+.chart-toggle-bar .radio-inline i {
+  font-size: 0.95em;
+}
+
 .chart-toggle-bar input[type="radio"] {
   position: absolute;
   left: 0;
@@ -289,9 +303,10 @@ body > .container-fluid {
   pointer-events: none;
 }
 
-.chart-toggle-bar .radio-inline span {
+.chart-toggle-bar .radio-inline > span {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   height: 100%;
   padding: 0 10px;
   box-sizing: border-box;
@@ -305,11 +320,11 @@ body > .container-fluid {
     box-shadow 0.15s ease;
 }
 
-.chart-toggle-bar .radio-inline + .radio-inline span {
+.chart-toggle-bar .radio-inline + .radio-inline > span {
   border-left: 1px solid var(--border);
 }
 
-.chart-toggle-bar .radio-inline:hover span {
+.chart-toggle-bar .radio-inline:hover > span {
   background: #f3f4f6;
 }
 

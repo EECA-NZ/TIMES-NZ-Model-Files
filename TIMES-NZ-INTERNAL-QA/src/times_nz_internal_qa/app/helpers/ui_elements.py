@@ -62,6 +62,15 @@ def tab_page_info_icon(btn_id: str):
     )
 
 
+def chart_type_choices():
+    """Radio labels with icons for supported chart types."""
+    return {
+        "bar": ui.span(ui.tags.i(class_="fa-solid fa-chart-column"), " Bar"),
+        "line": ui.span(ui.tags.i(class_="fa-solid fa-chart-line"), " Line"),
+        "area": ui.span(ui.tags.i(class_="fa-solid fa-chart-area"), " Area"),
+    }
+
+
 # pylint:disable = too-many-positional-arguments, too-many-arguments, duplicate-code
 def section_block(parameters):
     """
@@ -107,7 +116,7 @@ def section_block(parameters):
                 ui.input_radio_buttons(
                     f"{chart_id}_chart_type",
                     label=None,
-                    choices={"bar": "Bar", "line": "Line", "area": "Area"},
+                    choices=chart_type_choices(),
                     selected="bar",
                     inline=True,
                     width="auto",
