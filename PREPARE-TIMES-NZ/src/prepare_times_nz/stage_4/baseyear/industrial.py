@@ -312,6 +312,10 @@ def main():
     )
     # locking other industry
 
+    # Note: must exclude coal to allow flex away for NDGHG
+    # must exclude NGA to allow flex away for declining supply
+    # must exclude pet/fol as capacity may not meet demand
+    # (these are in banned base year techs as we assume no more construction)
     other_industry = lock_other_industry(
         raw_df, exceptions=["INDNGA", "INDCOA", "INDPET", "INDFOL"]
     )
