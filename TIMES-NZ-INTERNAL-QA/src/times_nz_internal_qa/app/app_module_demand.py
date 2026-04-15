@@ -120,7 +120,7 @@ technology_capacity_parameters = {
     "chart_id": "technology_capacity",
     "sec_id": "technology-capacity",
     "filters": technology_capacity_filters,
-    "section_title": "Technology Capacity",
+    "section_title": "Technology capacity",
     "base_cols": base_cols,
     "group_options": technology_capacity_group_options,
 }
@@ -185,7 +185,7 @@ transport_energy_demand_parameters = {
     "chart_id": "transport_ed",
     "sec_id": "transport-ed",
     "filters": transport_energy_demand_filters,
-    "section_title": "Transport Energy Demand",
+    "section_title": "Transport energy demand",
     "base_cols": transport_base_cols,
     "group_options": transport_group_options,
 }
@@ -195,7 +195,7 @@ transport_capacity_parameters = {
     "chart_id": "transport_capacity",
     "sec_id": "transport-capacity",
     "filters": transport_capacity_filters,
-    "section_title": "Transport Capacity",
+    "section_title": "Transport capacity",
     "base_cols": transport_base_cols,
     "group_options": transport_group_options,
 }
