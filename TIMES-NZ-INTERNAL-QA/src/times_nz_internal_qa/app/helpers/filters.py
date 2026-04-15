@@ -2,9 +2,46 @@
 A list of functional helpers and factories for the app
 """
 
+import re
+import warnings
+
 import polars as pl
 from shiny import reactive, render, ui
 from shiny.types import SilentException
+
+_warned_acronym_tokens = set()
+_identifier_label_overrides = {
+    "Enduse": "End Use",
+    "EnduseGroup": "End Use Group",
+}
+
+
+def identifier_to_title_case(identifier: str) -> str:
+    """
+    Convert snake_case or camelCase/PascalCase identifiers into human labels.
+
+    Warn once per acronym-like token when the identifier contains two or more
+    consecutive capital letters with no lowercase letters between them.
+    """
+    if identifier in _identifier_label_overrides:
+        return _identifier_label_overrides[identifier]
+
+    for token in re.findall(r"[A-Z]{2,}", identifier):
+        if token not in _warned_acronym_tokens:
+            warnings.warn(
+                (
+                    f"Potential acronym detected in identifier '{identifier}': '{token}'. "
+                    "Consider providing an explicit label if the auto-formatted text is not ideal."
+                ),
+                stacklevel=2,
+            )
+            _warned_acronym_tokens.add(token)
+
+    label = identifier.replace("_", " ")
+    label = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", label)
+    label = re.sub(r"(?<=[A-Z])(?=[A-Z][a-z])", " ", label)
+    words = re.split(r"\s+", label.strip())
+    return " ".join(word if word.isupper() else word.capitalize() for word in words if word)
 
 
 def create_filter_dict(chart_id, filters):
@@ -20,7 +57,7 @@ def create_filter_dict(chart_id, filters):
     for f in filters:
         col = f["col"]
         fid = f.get("id", col.lower())
-        label = f.get("label", col.replace("_", " ").title())
+        label = f.get("label", identifier_to_title_case(col))
         multiple = f.get("multiple", True)
         result.append(
             {"chart_id": chart_id, "id": fid, "label": label, "multiple": multiple, **f}
