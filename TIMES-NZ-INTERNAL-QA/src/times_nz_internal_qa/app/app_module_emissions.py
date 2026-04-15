@@ -35,9 +35,9 @@ base_cols = [
 # define filter options with optional labels
 # pylint: disable = duplicate-code
 ems_filters_raw = [
-    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "SectorGroup"},
     {"col": "Sector"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "EnduseGroup"},
     {"col": "EndUse"},
@@ -49,7 +49,6 @@ ems_filters_raw = [
 ems_filters = create_filter_dict(chart_id="ems", filters=ems_filters_raw)
 # base group options on defined filter options
 ems_group_options = [d["col"] for d in ems_filters_raw]
-
 ems_all_group_options = base_cols + ems_group_options
 
 

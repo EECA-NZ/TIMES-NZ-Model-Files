@@ -54,7 +54,7 @@ ele_fuel_group_options = ele_core_group_options + ["Fuel"]
 
 # configure filter options
 core_filters = [
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "Region"},
     {"col": "PlantName", "label": "Plant"},
@@ -63,7 +63,7 @@ core_filters = [
 # Specific filters for generation curves (adding single period select)
 ele_gen_curve_filters = [
     {"col": "Period", "multiple": False, "label": "Year"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "Region"},
     {"col": "PlantName", "label": "Plant"},
@@ -71,14 +71,16 @@ ele_gen_curve_filters = [
 
 
 battery_filters = [
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "Region"},
 ]
 
 ele_gen_filters = create_filter_dict("ele_gen", core_filters)
 ele_cap_filters = create_filter_dict("ele_cap", core_filters)
-ele_use_filters = create_filter_dict("ele_use", core_filters + [{"col": "Fuel"}])
+ele_use_filters = create_filter_dict(
+    "ele_use", core_filters + [{"col": "Fuel"}]
+)
 ele_gen_curve_filters = create_filter_dict("ele_gen_curve", ele_gen_curve_filters)
 bat_cap_filters = create_filter_dict("bat_cap", battery_filters)
 
@@ -142,9 +144,9 @@ bat_cap_parameters = {
 
 # all groups combined: used for processing main datasets
 ele_all_group_options = ele_base_cols + ele_core_group_options + ["Fuel"]
-bat_all_group_options = ele_base_cols + bat_cap_parameters["group_options"]
+bat_all_group_options = ele_base_cols + ["TechnologyGroup", "Technology", "Region"]
 gen_curve_all_groups = (
-    ele_gen_curve_parameters["base_cols"] + ele_gen_curve_parameters["group_options"]
+    ele_gen_curve_parameters["base_cols"] + ele_core_group_options
 )
 
 # ELECTRICITY-SPECIFIC DATA HANDLING -----------------------------------------------

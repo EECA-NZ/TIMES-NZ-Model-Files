@@ -28,11 +28,11 @@ PRI_FILE_LOCATION = FINAL_DATA / "primary_energy.parquet"
 # SET FILTER/GROUP OPTIONS
 
 pri_filters = [
-    {"col": "FuelGroup", "label": "Fuel group"},
+    {"col": "FuelGroup"},
     {"col": "Fuel"},
     {"col": "Renewable"},
     {"col": "Imported"},
-    {"col": "FuelDetail", "label": "Fuel detail"},
+    {"col": "FuelDetail"},
     #{"col": "Process"},
 ]
 
@@ -42,7 +42,6 @@ pri_filters = create_filter_dict("energy_prod", pri_filters)
 
 
 pri_group_options = [d["col"] for d in pri_filters]
-
 # Core variables we always group by
 # pylint:disable = duplicate-code
 base_cols = [

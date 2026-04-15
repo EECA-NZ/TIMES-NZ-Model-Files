@@ -35,10 +35,10 @@ TECHNOLOGY_CAPACITY_FILE = FINAL_DATA / "technology_capacity.parquet"
 # SET FILTER/GROUP OPTIONS
 
 dem_filters = [
-    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "SectorGroup"},
     {"col": "Sector"},
     {"col": "Fuel"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "EnduseGroup"},
     {"col": "EndUse"},
@@ -46,9 +46,9 @@ dem_filters = [
 ]
 
 technology_capacity_filters = [
-    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "SectorGroup"},
     {"col": "Sector"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "EnduseGroup"},
     {"col": "EndUse"},
@@ -57,9 +57,9 @@ technology_capacity_filters = [
 
 
 elc_dem_filters = [
-    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "SectorGroup"},
     {"col": "Sector"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "EnduseGroup"},
     {"col": "EndUse"},
@@ -68,9 +68,9 @@ elc_dem_filters = [
 
 elc_dem_curve_filters = [
     {"col": "Period", "multiple": False, "label": "Year"},
-    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "SectorGroup"},
     {"col": "Sector"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "EnduseGroup"},
     {"col": "EndUse"},
@@ -149,7 +149,7 @@ elc_dem_curve_parameters = {
 
 
 elc_dem_curve_all_groups = (
-    elc_dem_curve_parameters["base_cols"] + elc_dem_curve_parameters["group_options"]
+    elc_dem_curve_parameters["base_cols"] + elc_dem_group_options
 )
 
 # TRANSPORT-SPECIFIC CONSTANTS (Energy Demand & Capacity) -----
@@ -166,10 +166,10 @@ transport_base_cols = [
 transport_filters = [
     {"col": "Sector", "label": "Transport Sector"},
     {"col": "Utilisation"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
-    {"col": "EnduseGroup", "label": "End Use Group"},
-    {"col": "EndUse", "label": "End Use"},
+    {"col": "EnduseGroup"},
+    {"col": "EndUse"},
     {"col": "Region"},
 ]
 
