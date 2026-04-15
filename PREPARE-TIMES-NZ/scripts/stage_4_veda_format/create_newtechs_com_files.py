@@ -34,7 +34,7 @@ NEW_TECHS_ENDUSE = COMMERCIAL_CONCORDANCES / "use_codes.csv"
 # ---------------------------------------------------------------------
 # Modelling constants
 # ---------------------------------------------------------------------
-START = 2025
+START = 2024
 ACTIVITY_UNIT = "PJ"
 CAPACITY_UNIT = "GW"
 
