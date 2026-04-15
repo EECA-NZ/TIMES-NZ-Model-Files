@@ -312,7 +312,9 @@ def main():
     )
     # locking other industry
 
-    other_industry = lock_other_industry(raw_df, exceptions=["INDNGA", "INDCOA"])
+    other_industry = lock_other_industry(
+        raw_df, exceptions=["INDNGA", "INDCOA", "INDPET", "INDFOL"]
+    )
 
     save_industry_veda_file(
         other_industry,

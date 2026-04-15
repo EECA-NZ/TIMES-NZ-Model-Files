@@ -440,7 +440,6 @@ Demand,OTHR-LPG-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/C
 Demand,OTHR-NGA-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,OTHR-COA-BOILR-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,OTHR-NGA-BOILR-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,OTHR-NGA-BURNR-SH_LOW,OTHR-SH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,OTHR-ELC-EFURNC-PH_HIGH,OTHR-EFURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Electric Furnace
 Demand,OTHR-ELC-FURNC-PH_HIGH,OTHR-FURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
 Demand,OTHR-FOL-FURNC-PH_HIGH,OTHR-FURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
