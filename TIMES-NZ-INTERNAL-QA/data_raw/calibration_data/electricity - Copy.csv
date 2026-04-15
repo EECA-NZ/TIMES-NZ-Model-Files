@@ -1,0 +1,17 @@
+Category,sector,2023,2024,2025,Unit
+Net generation,Hydro,26294,23490,23966,GWh
+Net generation,Geothermal,7733,8742,9589,GWh
+Net generation,Biogas,296,310,312,GWh
+Net generation,Wood,403,442,250,GWh
+Net generation,Wind,3205,3919,3789,GWh
+Net generation,Solar,371,595,970,GWh
+Net generation,Oil,5,25,6,GWh
+Net generation,Coal,1032,2242,1523,GWh
+Net generation,Gas,4106,4082,3559,GWh
+Net generation,Waste Heat,34,26,24,GWh
+Consumption,"Agriculture, Forestry, and Fishing",2474,2770,2655,GWh
+Consumption,Industrial,12983,12498,12899,GWh
+Consumption,Commercial,9524,9218,9395,GWh
+Consumption,Residential,13742,14068,13903,GWh
+Consumption,Transport,263,334,334,GWh
+Consumption,Unallocated onsite consumption,962,1078,1078,GWh
