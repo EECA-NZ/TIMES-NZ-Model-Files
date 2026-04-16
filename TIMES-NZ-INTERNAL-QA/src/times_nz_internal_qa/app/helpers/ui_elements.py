@@ -7,6 +7,7 @@ from shinywidgets import output_widget
 from times_nz_internal_qa.app.helpers.charts import TIMESLICE_OUTPUT_HEIGHT
 from times_nz_internal_qa.app.helpers.filters import (
     filter_output_ui_list,
+    identifier_to_title_case,
 )
 
 
@@ -56,8 +57,11 @@ def tab_page_info_icon(btn_id: str):
     """Clickable help icon shown beside the page-level section selector."""
     return ui.input_action_button(
         btn_id,
-        ui.tags.i(class_="fa fa-question-circle"),
-        class_="tab-page-info-btn",
+        ui.TagList(
+            ui.tags.i(class_="fa fa-question-circle"),
+            " About this tab",
+        ),
+        class_="btn tab-page-info-btn",
         title="About this tab",
     )
 
@@ -82,6 +86,10 @@ def section_block(parameters):
     chart_id = parameters["chart_id"]
     title = parameters["section_title"]
     group_options = parameters["group_options"]
+    if isinstance(group_options, list):
+        group_options = {
+            option: identifier_to_title_case(option) for option in group_options
+        }
     filters = parameters["filters"]
 
     # generate additional

@@ -55,11 +55,11 @@ esd_curve_base_cols = [
 
 # Filter options
 core_filters = [
-    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "SectorGroup"},
     {"col": "Sector"},
-    {"col": "EnduseGroup", "label": "End Use Group"},
-    {"col": "EndUse", "label": "End Use"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "EnduseGroup"},
+    {"col": "EndUse"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     # {"col": "Process"},
     {"col": "Region"},
@@ -70,11 +70,11 @@ curve_filters = [
     # need to have Sector be at the top and not allow multiselect
     # have added optional multiple parameter (defaults to true)
     {"col": "Period", "multiple": False, "label": "Year"},
-    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "SectorGroup"},
     {"col": "Sector"},
-    {"col": "EnduseGroup", "label": "End Use Group"},
-    {"col": "EndUse", "label": "End Use"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "EnduseGroup"},
+    {"col": "EndUse"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     # {"col": "Process"},
     {"col": "Region"},
@@ -111,7 +111,7 @@ esd_curve_parameters = {
 
 
 esd_curve_all_group_options = (
-    esd_curve_parameters["base_cols"] + esd_curve_parameters["group_options"]
+    esd_curve_parameters["base_cols"] + esd_group_options
 )
 
 
@@ -127,9 +127,9 @@ transport_esd_base_cols = [
 
 # configure filter options
 transport_esd_filters_list = [
-    {"col": "EnduseGroup", "label": "End Use Group"},
-    {"col": "EndUse", "label": "End Use"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "EnduseGroup"},
+    {"col": "EndUse"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "Utilisation"},
     {"col": "Region"},
