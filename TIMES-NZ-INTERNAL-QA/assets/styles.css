@@ -303,7 +303,8 @@ body > .container-fluid {
 }
 
 /* Download button base style inside chart cards */
-.chart-header-card .btn {
+.chart-header-card .btn,
+.tab-page-info-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -318,9 +319,11 @@ body > .container-fluid {
   color: var(--panel-text);
   width: auto;
   font-weight: 400;
+  text-decoration: none;
 }
 
-.chart-header-card .btn span {
+.chart-header-card .btn span,
+.tab-page-info-btn span {
   padding-top: 2px; /* align icon + text */
 }
 
@@ -329,6 +332,10 @@ body > .container-fluid {
 }
 
 .chart-download-btn > i.fa-download {
+  margin-right: 6px;
+}
+
+.tab-page-info-btn i.fa-question-circle {
   margin-right: 6px;
 }
 
@@ -602,22 +609,29 @@ body > .container-fluid {
 
 .tab-page-info-btn {
   flex: 0 0 auto;
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: #000000;
-  font-size: 1rem;
-  line-height: 1;
-  transition: color 0.15s ease;
+  margin-top: 0;
+  /* Ensure the help button matches other light buttons even if Bootstrap overrides `.btn`. */
+  --bs-btn-bg: #fff;
+  --bs-btn-color: var(--panel-text);
+  --bs-btn-border-color: var(--border);
+  --bs-btn-hover-bg: #f3f4f6;
+  --bs-btn-hover-color: var(--panel-text);
+  --bs-btn-hover-border-color: #cbd5e1;
+  --bs-btn-active-bg: #f3f4f6;
+  --bs-btn-active-color: var(--panel-text);
+  --bs-btn-active-border-color: #cbd5e1;
+
+  background-color: #fff;
+  border-color: var(--border);
+  color: var(--panel-text);
 }
 
 .tab-page-info-btn:hover,
 .tab-page-info-btn:focus,
 .tab-page-info-btn:active {
-  color: #2d8db9;
-  background: transparent;
-  border: none;
-  box-shadow: none;
+  color: var(--panel-text);
+  background-color: #f3f4f6;
+  border-color: #cbd5e1;
 }
 
 
