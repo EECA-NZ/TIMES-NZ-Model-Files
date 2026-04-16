@@ -64,6 +64,25 @@ TIMESLICE_LAYOUT_OPTIONS = LayoutOptions(
     bottom_margin=180,
 )
 TIMESLICE_OUTPUT_HEIGHT = "680px"
+CHART_FONT_FAMILY = "Roboto"
+CHART_FONT_WEIGHT = 400
+CHART_VALUE_FONT_SIZE = 14
+CHART_HEADER_FONT_SIZE = 15
+BRAND_COLOURS = [
+    #"#05422D", "#0A3C61", "#5A1A5E"  # Moss Green, Sea Blue, Sunset Purple
+    #"#376856", "#3C6280", "#7B467E"  # 600 (lighter)
+    #"#2ADEA9", "#74DCDB", "#D2B7FE"  # Fresh Teal, Sky Blue, Dusky Lilac
+    #"#57E5BA", "#91E2E2", "#D7C2F5"  # 300 (lighter)
+]
+
+
+def _chart_font(size: int) -> dict[str, str | int]:
+    """Return the standard chart font configuration."""
+    return {
+        "family": CHART_FONT_FAMILY,
+        "size": size,
+        "weight": CHART_FONT_WEIGHT,
+    }
 
 
 def build_empty_figure(message: str) -> go.Figure:
@@ -81,8 +100,10 @@ def build_empty_figure(message: str) -> go.Figure:
     fig.update_yaxes(visible=False)
     fig.update_layout(
         template="plotly_white",
+        autosize=True,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
+        font=_chart_font(CHART_VALUE_FONT_SIZE),
         margin={"l": 20, "r": 20, "t": 20, "b": 20},
     )
     return fig
@@ -136,6 +157,7 @@ def _apply_standard_layout(
 
     fig.update_layout(
         template="plotly_white",
+        autosize=True,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         hovermode="closest",
@@ -148,10 +170,19 @@ def _apply_standard_layout(
             "y": options.legend_y,
             "xanchor": "left",
             "x": 0,
+            "font": _chart_font(CHART_VALUE_FONT_SIZE),
         },
         xaxis_title=options.xaxis_title,
         yaxis_title=unit,
-        font={"size": 13},
+        font=_chart_font(CHART_VALUE_FONT_SIZE),
+    )
+    fig.update_xaxes(
+        tickfont=_chart_font(CHART_VALUE_FONT_SIZE),
+        title_font=_chart_font(CHART_HEADER_FONT_SIZE),
+    )
+    fig.update_yaxes(
+        tickfont=_chart_font(CHART_VALUE_FONT_SIZE),
+        title_font=_chart_font(CHART_HEADER_FONT_SIZE),
     )
     return fig
 
@@ -177,8 +208,11 @@ def _apply_period_axis(fig: go.Figure, period_range) -> None:
     )
 
 
-def _build_color_map(groups: list[str]) -> dict[str, str]:
-    palette = qualitative.Plotly + qualitative.Safe + qualitative.Dark24
+
+
+def _build_color_map(groups: list[str]) -> dict[str, str]: 
+    palette = BRAND_COLOURS if len(BRAND_COLOURS) > 0 else\
+        qualitative.Plotly + qualitative.Safe + qualitative.Dark24
     return {group: palette[i % len(palette)] for i, group in enumerate(groups)}
 
 
