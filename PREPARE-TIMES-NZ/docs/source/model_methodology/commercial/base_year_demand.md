@@ -79,7 +79,7 @@ Commercial categories in TIMES-NZ are defined combining a few EEUD categories to
 ## Data centre demand 
 
 
-MBIE/EEUD data does not recognise the energy use of Data Centres. The only known data available on data centre energy use is from NZTech[^nztech_2025] and MBIE’s Electricity Demand and Generation Scenarios (EDGS) 2024 model[^mbie_edgs]. 
+MBIE/EEUD data does not recognise the energy use of Data Centers. The only known data available on data centre energy use is from NZTech[^nztech_2025] and MBIE’s Electricity Demand and Generation Scenarios (EDGS) 2024 model[^mbie_edgs]. 
 
 There are 56 operating facilities with a combined ≈ 104 MW of deployable capacity, drawing 238 GWh per year (0.62 % of national demand) in New Zealand[^nz_data_centre_facilities]. While 58% operate with less than 1 MW each, most of the new capacity is being delivered through a small number of very large developments, particularly hyperscale (10–100+MW; Global cloud platforms, AI training) campuses for global cloud providers and large colocation (0.5–20 MW; Multi-tenant facilities) sites serving multiple clients[^nztech_data_centre_report].
 

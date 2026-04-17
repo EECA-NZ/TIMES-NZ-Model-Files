@@ -2,9 +2,6 @@
 Demand,C_DATA-OTH,Commercial,Data Centers,Electronics and Other Electrical Uses
 Demand,C_DATA-LT,Commercial,Data Centers,Lighting
 Demand,C_DATA-SC,Commercial,Data Centers,Space Cooling
-Demand,C_DATA-OTH,Commercial,Data Centre,Electronics and Other Electrical Uses
-Demand,C_DATA-LT,Commercial,Data Centre,Lighting
-Demand,C_DATA-SC,Commercial,Data Centre,Space Cooling
 Demand,C_EDU-OTH,Commercial,Education,Electronics and Other Electrical Uses
 Demand,C_EDU-LT,Commercial,Education,Lighting
 Demand,C_EDU-SC,Commercial,Education,Space Cooling

@@ -79,7 +79,7 @@ def get_industry_indexes():
 
 def get_datacentre_indexes():
     """
-    Veda-ready Data Centre demand indices
+    Veda-ready Data Centers demand indices
     """
 
     df = pd.read_csv(DEMAND_PROJECTIONS / "datacentre_demand_index.csv")

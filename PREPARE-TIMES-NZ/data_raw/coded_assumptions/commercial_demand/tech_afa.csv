@@ -103,6 +103,6 @@ Other Commercial,"Motive Power, Mobile",Internal Combustion Engine (Land Transpo
 Other Commercial,"Motive Power, Stationary",Electric Motor,0.55,TIMES-NZ 2.0
 Other Commercial,"Motive Power, Stationary",Stationary Engine,0.55,TIMES-NZ 2.0
 Other Commercial,Pumping,"Pump Systems (for Fluids, etc.)",0.55,Similar to Electric Motor
-Data Centre,Electronics and Other Electrical Uses,Electronics,0.99,
-Data Centre,Space Cooling,Heat Pump (for Cooling),0.85,
-Data Centre,Lighting,LED,0.12,
+Data Centers,Electronics and Other Electrical Uses,Electronics,0.99,
+Data Centers,Space Cooling,Heat Pump (for Cooling),0.85,
+Data Centers,Lighting,LED,0.12,
