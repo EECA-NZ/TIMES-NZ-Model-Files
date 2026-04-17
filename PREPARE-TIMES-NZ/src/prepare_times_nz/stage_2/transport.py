@@ -1,3 +1,7 @@
+"""
+Transport mapping ccodes
+"""
+
 MOTIVE_GROUP_MAP = {
     "BEV": ("Electricity", "BEV"),
     "Petrol_Hybrid": ("Petrol", "ICE Hybrid"),
@@ -31,13 +35,6 @@ REGIONAL_SPLIT = {
     "International Aviation": {"NI": 0.80, "SI": 0.20},
     "Domestic Shipping": {"NI": 0.34, "SI": 0.66},
     "International Shipping": {"NI": 0.72, "SI": 0.28},
-}
-
-
-TRUCK_NAMES = {
-    "MedTr": "Light Truck",
-    "HevTr": "Medium Truck",
-    "VHevTr": "Heavy Truck",
 }
 
 

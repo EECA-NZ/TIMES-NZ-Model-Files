@@ -23,6 +23,7 @@ Heat Pump (for Heating),HPSH
 Heat Pump (process heat),HPPH
 Heat Pump (space heating),HPSH
 Hot Water Cylinder,HWATER_C
+Ground source heat pump,HPSH
 HVAC,HVAC
 Incandescent/Halogen,L_INCAN
 Industrial Ovens,IOVEN
@@ -37,4 +38,5 @@ Refiners,REFIN
 Reformer,BOILR
 Refrigeration Systems,FRIDG
 Resistance Heater,HEATR
+Solar hot water cylinder,HWATER_C
 Stationary Engine,ENGIN
