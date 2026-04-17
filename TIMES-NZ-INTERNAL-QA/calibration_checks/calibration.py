@@ -5,11 +5,14 @@ Currently includes emissions calibration tables for:
 - total energy emissions
 - transport emissions
 - electricity consumption
+- electricity generation
 """
 
 from pathlib import Path
 
 import pandas as pd
+
+# pylint: disable = import-error
 from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -19,6 +22,27 @@ GWH_PER_PJ = 277.77777778
 
 
 ASSESSMENT_YEARS = [2023]
+MODELLED_GENERATION_CATEGORY_MAP = {
+    "Hydro (Run-of-river)": "Hydro",
+    "Hydro (Schedulable)": "Hydro",
+    "Geothermal": "Geothermal",
+    "Geothermal Cogen": "Geothermal",
+    "Reciprocating Biogas": "Biogas",
+    "Biogas Cogen": "Biogas",
+    "Wood Cogen": "Wood",
+    "Onshore wind": "Wind",
+    "Distributed solar": "Solar",
+    "Utility Solar (Tracking)": "Solar",
+    "Diesel peaker": "Oil",
+    "Coal Cogen": "Coal",
+    "CCGT": "Gas",
+    "Natural gas peaker": "Gas",
+    "Natural gas cogen": "Gas",
+}
+RANKINE_FUEL_TO_GENERATION_CATEGORY_MAP = {
+    "Coal": "Coal",
+    "Natural gas": "Gas",
+}
 
 
 def get_times_data(filename):
@@ -72,6 +96,21 @@ def get_historical_electricity_consumption():
     )
 
 
+def get_historical_electricity_generation():
+    """Load historical electricity generation in MBIE categories."""
+    df = pd.read_csv(CALIBRATION_DATA / "electricity.csv")
+    df = df[df["Category"] == "Net generation"].copy()
+    df = df.melt(
+        id_vars=["Category", "sector", "Unit"],
+        var_name="Period",
+        value_name="HistoricalValue",
+    )
+    df["Period"] = pd.to_numeric(df["Period"], errors="coerce")
+    df["HistoricalValue"] = pd.to_numeric(df["HistoricalValue"], errors="coerce")
+    df = df.dropna(subset=["Period", "HistoricalValue"])
+    return df.rename(columns={"sector": "GenerationCategory"})
+
+
 def get_modelled_emissions():
     """
     Aggregate modelled emissions to the same level as the historical calibration file.
@@ -117,6 +156,101 @@ def get_modelled_electricity_consumption():
         .sum()
         .rename(columns={"Value": "ModelledValue"})
     )
+    modelled["ModelledValue"] = modelled["ModelledValue"] * GWH_PER_PJ
+    return modelled
+
+
+def get_modelled_electricity_generation():
+    """
+    Aggregate modelled electricity generation to MBIE categories.
+
+    Rankine output is split between Coal and Gas using the modelled Rankine
+    fuel-use shares for each scenario and period.
+    """
+    df = get_times_data("elec_generation.parquet")
+    generation = df[df["Variable"] == "Electricity generation"].copy()
+    rankine_generation = generation[generation["Technology"] == "Rankine"].copy()
+    non_rankine_generation = generation[generation["Technology"] != "Rankine"].copy()
+
+    non_rankine_generation["GenerationCategory"] = non_rankine_generation[
+        "Technology"
+    ].map(MODELLED_GENERATION_CATEGORY_MAP)
+
+    unmapped = (
+        non_rankine_generation[non_rankine_generation["GenerationCategory"].isna()][
+            "Technology"
+        ]
+        .dropna()
+        .drop_duplicates()
+        .tolist()
+    )
+    if unmapped:
+        print(
+            "Unmapped electricity generation technologies excluded from calibration:",
+            ", ".join(sorted(unmapped)),
+        )
+
+    non_rankine_generation = non_rankine_generation[
+        non_rankine_generation["GenerationCategory"].notna()
+    ].copy()
+    non_rankine_generation = (
+        non_rankine_generation.groupby(
+            ["Scenario", "GenerationCategory", "Period"], as_index=False
+        )["Value"]
+        .sum()
+        .rename(columns={"Value": "ModelledValue"})
+    )
+    rankine_fuel_use = df[df["Variable"] == "Electricity fuel use"].copy()
+    rankine_fuel_use = rankine_fuel_use[
+        rankine_fuel_use["Technology"] == "Rankine"
+    ].copy()
+    rankine_fuel_use["GenerationCategory"] = rankine_fuel_use["Fuel"].map(
+        RANKINE_FUEL_TO_GENERATION_CATEGORY_MAP
+    )
+    rankine_fuel_use = rankine_fuel_use[
+        rankine_fuel_use["GenerationCategory"].notna()
+    ].copy()
+    rankine_fuel_use = rankine_fuel_use.groupby(
+        ["Scenario", "Period", "GenerationCategory"], as_index=False
+    )["Value"].sum()
+    rankine_totals = rankine_fuel_use.groupby(["Scenario", "Period"], as_index=False)[
+        "Value"
+    ].sum()
+    rankine_totals = rankine_totals.rename(columns={"Value": "RankineFuelTotal"})
+    rankine_fuel_use = rankine_fuel_use.merge(
+        rankine_totals,
+        on=["Scenario", "Period"],
+        how="left",
+    )
+    rankine_fuel_use["RankineShare"] = (
+        rankine_fuel_use["Value"] / rankine_fuel_use["RankineFuelTotal"]
+    )
+
+    rankine_generation = rankine_generation.groupby(
+        ["Scenario", "Period"], as_index=False
+    )["Value"].sum()
+    rankine_generation = rankine_generation.merge(
+        rankine_fuel_use[["Scenario", "Period", "GenerationCategory", "RankineShare"]],
+        on=["Scenario", "Period"],
+        how="left",
+    )
+    rankine_generation = rankine_generation[
+        rankine_generation["GenerationCategory"].notna()
+    ].copy()
+    rankine_generation["ModelledValue"] = (
+        rankine_generation["Value"] * rankine_generation["RankineShare"]
+    )
+    rankine_generation = rankine_generation[
+        ["Scenario", "GenerationCategory", "Period", "ModelledValue"]
+    ]
+
+    modelled = pd.concat(
+        [non_rankine_generation, rankine_generation],
+        ignore_index=True,
+    )
+    modelled = modelled.groupby(
+        ["Scenario", "GenerationCategory", "Period"], as_index=False
+    )["ModelledValue"].sum()
     modelled["ModelledValue"] = modelled["ModelledValue"] * GWH_PER_PJ
     return modelled
 
@@ -206,6 +340,107 @@ def build_electricity_consumption_comparison():
     return comparison
 
 
+def build_total_electricity_consumption_comparison(electricity_consumption_comparison):
+    """Return a total electricity consumption comparison table."""
+    comparison = (
+        electricity_consumption_comparison.groupby(
+            ["Scenario", "Period"], as_index=False
+        )[["HistoricalValue", "ModelledValue"]]
+        .sum()
+        .assign(Metric="Total electricity consumption")
+    )
+    comparison["Difference"] = (
+        comparison["ModelledValue"] - comparison["HistoricalValue"]
+    )
+    comparison["PercentDifference"] = (
+        comparison["Difference"] / comparison["HistoricalValue"] * 100
+    )
+    return comparison[
+        [
+            "Metric",
+            "Scenario",
+            "Period",
+            "HistoricalValue",
+            "ModelledValue",
+            "Difference",
+            "PercentDifference",
+        ]
+    ].sort_values(["Period", "Scenario"])
+
+
+def build_electricity_generation_comparison():
+    """Return the electricity generation calibration comparison table."""
+    historical = get_historical_electricity_generation()
+    modelled = get_modelled_electricity_generation()
+
+    historical_years = sorted(historical["Period"].unique())
+    modelled = modelled[modelled["Period"].isin(historical_years)].copy()
+    scenarios = pd.DataFrame({"Scenario": sorted(modelled["Scenario"].unique())})
+    historical_index = historical[
+        ["GenerationCategory", "Period", "HistoricalValue"]
+    ].copy()
+    historical_index["key"] = 1
+    scenarios["key"] = 1
+    comparison = historical_index.merge(scenarios, on="key", how="left").drop(
+        columns="key"
+    )
+    comparison = comparison.merge(
+        modelled[["Scenario", "GenerationCategory", "Period", "ModelledValue"]],
+        on=["Scenario", "GenerationCategory", "Period"],
+        how="left",
+    )
+    comparison["ModelledValue"] = comparison["ModelledValue"].fillna(0)
+
+    comparison["Difference"] = (
+        comparison["ModelledValue"] - comparison["HistoricalValue"]
+    )
+    comparison["PercentDifference"] = (
+        comparison["Difference"] / comparison["HistoricalValue"] * 100
+    )
+
+    comparison = comparison[
+        [
+            "GenerationCategory",
+            "Scenario",
+            "Period",
+            "HistoricalValue",
+            "ModelledValue",
+            "Difference",
+            "PercentDifference",
+        ]
+    ].sort_values(["Scenario", "GenerationCategory", "Period"])
+
+    return comparison
+
+
+def build_total_generation_comparison(electricity_generation_comparison):
+    """Return a total electricity generation comparison table."""
+    comparison = (
+        electricity_generation_comparison.groupby(
+            ["Scenario", "Period"], as_index=False
+        )[["HistoricalValue", "ModelledValue"]]
+        .sum()
+        .assign(Metric="Total generation")
+    )
+    comparison["Difference"] = (
+        comparison["ModelledValue"] - comparison["HistoricalValue"]
+    )
+    comparison["PercentDifference"] = (
+        comparison["Difference"] / comparison["HistoricalValue"] * 100
+    )
+    return comparison[
+        [
+            "Metric",
+            "Scenario",
+            "Period",
+            "HistoricalValue",
+            "ModelledValue",
+            "Difference",
+            "PercentDifference",
+        ]
+    ].sort_values(["Period", "Scenario"])
+
+
 def format_table(df):
     """Format numeric columns for console-friendly table output."""
     out = df.copy()
@@ -224,34 +459,45 @@ def filter_assessment_years(df):
     return df[df["Period"].isin(ASSESSMENT_YEARS)].copy()
 
 
-def save_outputs(emissions_comparison, electricity_consumption_comparison):
-    """Write calibration tables to CSV for easy inspection."""
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    emissions_comparison.to_csv(
-        OUTPUT_DIR / "calibration_emissions_comparison.csv", index=False
-    )
-    electricity_consumption_comparison.to_csv(
-        OUTPUT_DIR / "calibration_electricity_consumption_comparison.csv",
-        index=False,
-    )
-
-
 def main():
     """Run calibration comparisons and print summary tables."""
     emissions_comparison = build_emissions_comparison()
     electricity_consumption_comparison = build_electricity_consumption_comparison()
+    total_electricity_consumption_comparison = (
+        build_total_electricity_consumption_comparison(
+            electricity_consumption_comparison
+        )
+    )
+    electricity_generation_comparison = build_electricity_generation_comparison()
+    total_generation_comparison = build_total_generation_comparison(
+        electricity_generation_comparison
+    )
     emissions_comparison = filter_assessment_years(emissions_comparison)
     electricity_consumption_comparison = filter_assessment_years(
         electricity_consumption_comparison
     )
-    # save_outputs(emissions_comparison, electricity_consumption_comparison)
-
+    total_electricity_consumption_comparison = filter_assessment_years(
+        total_electricity_consumption_comparison
+    )
+    electricity_generation_comparison = filter_assessment_years(
+        electricity_generation_comparison
+    )
+    total_generation_comparison = filter_assessment_years(total_generation_comparison)
     for metric, metric_df in emissions_comparison.groupby("Metric", sort=False):
         print(f"\n{metric}")
         print(format_table(metric_df).to_string(index=False))
 
     print("\nElectricity consumption")
     print(format_table(electricity_consumption_comparison).to_string(index=False))
+
+    print("\nTotal electricity consumption")
+    print(format_table(total_electricity_consumption_comparison).to_string(index=False))
+
+    print("\nElectricity generation")
+    print(format_table(electricity_generation_comparison).to_string(index=False))
+
+    print("\nTotal generation")
+    print(format_table(total_generation_comparison).to_string(index=False))
 
 
 if __name__ == "__main__":

@@ -27,6 +27,7 @@ INPUT_LOCATION_MOT = Path(DATA_RAW) / "external_data" / "mot"
 INPUT_LOCATION_KIWIRAIL = Path(DATA_RAW) / "external_data" / "kiwirail"
 INPUT_LOCATION_MBIE = Path(DATA_RAW) / "external_data" / "mbie"
 INPUT_LOCATION_EEUD = Path(DATA_RAW) / "eeca_data" / "eeud"
+EEUD_PJ_FILENAME = "EEUD_PJ_2023.xlsx"
 
 OUTPUT_LOCATION = Path(STAGE_1_DATA) / "fleet_vkt_pj"
 OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
@@ -114,6 +115,26 @@ TRUCK_NAMES = {
 # ────────────────────────────────────────────────────────────────
 # Data-loading helpers
 # ────────────────────────────────────────────────────────────────
+# pylint: disable=duplicate-code
+def resolve_eeud_input(filename: str) -> Path:
+    """Return an EEUD input path, matching case-insensitively when needed."""
+    exact_match = INPUT_LOCATION_EEUD / filename
+    if exact_match.exists():
+        return exact_match
+
+    filename_lower = filename.casefold()
+    for candidate in INPUT_LOCATION_EEUD.iterdir():
+        if candidate.is_file() and candidate.name.casefold() == filename_lower:
+            logger.info(
+                "Resolved EEUD input %s to %s using case-insensitive match.",
+                filename,
+                candidate.name,
+            )
+            return candidate
+
+    raise FileNotFoundError(f"Could not find EEUD input file: {exact_match}")
+
+
 def read_vehicle_counts_and_vkt(year: int) -> tuple[pd.DataFrame, pd.DataFrame]:
     """MOT workbook in *mot* folder."""
     counts = pd.read_csv(OUTPUT_LOCATION / "vehicle_counts_2023.csv")
@@ -141,7 +162,7 @@ def read_eeud_data() -> pd.DataFrame:
     """
     Reads EEUD data from the EECA directory and processes it into a DataFrame.
     """
-    path = INPUT_LOCATION_EEUD / "EEUD_PJ_2023.xlsx"
+    path = resolve_eeud_input(EEUD_PJ_FILENAME)
     df = pd.read_excel(path, sheet_name="PJ")
     return df.rename(
         columns={

@@ -1,4 +1,7 @@
 ﻿CommodityGroup,Commodity,SectorGroup,Sector,EndUse
+Demand,C_DATA-OTH,Commercial,Data Centers,Electronics and Other Electrical Uses
+Demand,C_DATA-LT,Commercial,Data Centers,Lighting
+Demand,C_DATA-SC,Commercial,Data Centers,Space Cooling
 Demand,C_DATA-OTH,Commercial,Data Centre,Electronics and Other Electrical Uses
 Demand,C_DATA-LT,Commercial,Data Centre,Lighting
 Demand,C_DATA-SC,Commercial,Data Centre,Space Cooling
@@ -108,7 +111,6 @@ Demand,CHEM-ELCTR-ELCTR,Industry,Chemicals (excl. Urea and Methanol),Electronics
 Demand,CHEM-LIGHT-LIGHT,Industry,Chemicals (excl. Urea and Methanol),Lighting
 Demand,CHEM-BOILR-PH_HIGH,Industry,Chemicals (excl. Urea and Methanol),"High Temperature Heat (>300 C), Process Requirements"
 Demand,CHEM-BURNR-PH_HIGH,Industry,Chemicals (excl. Urea and Methanol),"High Temperature Heat (>300 C), Process Requirements"
-Demand,CHEM-FURNC-PH_HIGH,Industry,Chemicals (excl. Urea and Methanol),"High Temperature Heat (>300 C), Process Requirements"
 Demand,CHEM-FURNC-PH_INT,Industry,Chemicals (excl. Urea and Methanol),"Intermediate Heat (100-300 C), Process Requirements"
 Demand,CHEM-SH_LOW,Industry,Chemicals (excl. Urea and Methanol),"Low Temperature Heat (<100 C), Space Heating"
 Demand,CHEM-HEATR-PH_INT,Industry,Chemicals (excl. Urea and Methanol),"Intermediate Heat (100-300 C), Process Requirements"
@@ -142,7 +144,6 @@ Demand,FOOD-MOTOR-MTV_STA,Industry,Food and Beverage,"Motive Power, Stationary"
 Demand,FOOD-PUMP-PUMP,Industry,Food and Beverage,Pumping
 Demand,STEEL-ELCTR-ELCTR,Industry,Iron & Steel,Electronics and Other Electrical Uses
 Demand,STEEL-LIGHT-LIGHT,Industry,Iron & Steel,Lighting
-Demand,STEEL-FDSTK-FDSTK,Industry,Iron & Steel,Feedstock
 Demand,STEEL-BOILR-PH_LOW,Industry,Iron & Steel,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,STEEL-BURNR-PH_INT,Industry,Iron & Steel,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,STEEL-EFURNC-ISTEEL,Industry,Iron & Steel,Iron and Steel Manufacturing
@@ -184,7 +185,7 @@ Demand,OTHR-HEATR-PH_INT,Industry,Other Industry,"Intermediate Heat (100-300 C),
 Demand,OTHR-HEATR-PH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,OTHR-ICENG-MTV_MOB,Industry,Other Industry,"Motive Power, Mobile"
 Demand,OTHR-MOTOR-MTV_STA,Industry,Other Industry,"Motive Power, Stationary"
-Demand,OTHR-PUMP-PUMP,Industry,Other Industry,Pumping
+Demand,OTHR-ENGIN-MTV_STA,Industry,Other Industry,"Motive Power, Stationary"
 Demand,OTHR-UNALC-UNALC,Industry,Other Industry,Unallocated
 Demand,PULP-ACOMP-COMP_AIR,Industry,Pulp and Paper,Compressed Air
 Demand,PULP-ELCTR-ELCTR,Industry,Pulp and Paper,Electronics and Other Electrical Uses
@@ -208,7 +209,6 @@ Demand,WOOD-LIGHT-LIGHT,Industry,Wood Products,Lighting
 Demand,WOOD-REFIN-REFIN,Industry,Wood Products,Refiners
 Demand,WOOD-BOILR-PH_INT,Industry,Wood Products,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,WOOD-BOILR-PH_LOW,Industry,Wood Products,"Low Temperature Heat (<100 C), Process Requirements"
-Demand,WOOD-BURNR-PH_INT,Industry,Wood Products,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,WOOD-FURNC-PH_LOW,Industry,Wood Products,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,WOOD-HEATX-PH_INT,Industry,Wood Products,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,WOOD-HPPH-PH_LOW,Industry,Wood Products,"Low Temperature Heat (<100 C), Process Requirements"
@@ -219,6 +219,7 @@ Demand,MINE-SH_LOW,Industry,Mining,"Low Temperature Heat (<100 C), Space Heating
 Demand,PULP-BOILR-PH_LOW,Industry,Pulp and Paper,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,MINE-BOILR-PH_LOW,Industry,Mining,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,PULP-BOILR-PH_HIGH,Industry,Pulp and Paper,"High Temperature Heat (>300 C), Process Requirements"
+Demand,CHEM-FURNC-PH_HIGH,Industry,Chemicals (excl. Urea and Methanol),"High Temperature Heat (>300 C), Process Requirements"
 Demand,STEEL-BOILR-PH_HIGH,Industry,Iron & Steel,"High Temperature Heat (>300 C), Process Requirements"
 Demand,DARY-BURNR-PH_LOW,Industry,Dairy,"Low Temperature Heat (<100 C), Process Requirements"
 Demand,DARY-FURNC-PH_LOW,Industry,Dairy,"Low Temperature Heat (<100 C), Process Requirements"

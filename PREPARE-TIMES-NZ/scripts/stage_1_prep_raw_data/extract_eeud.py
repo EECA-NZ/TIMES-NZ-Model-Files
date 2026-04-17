@@ -34,11 +34,13 @@ from prepare_times_nz.utilities.logger_setup import blue_text, logger
 # ---------------------------------------------------------------------------
 # Constants and paths
 # ---------------------------------------------------------------------------
-EEUD_FILENAME: Final[str] = "Final EEUD Outputs 2017 - 2023 12032025.xlsx"
+# EEUD_FILENAME: Final[str] = "Final EEUD Outputs 2017 - 2023 12032025.xlsx"
+EEUD_FILENAME: Final[str] = "EEUD 2017 - 2024 FINAL 20032026.xlsx"
 
 INPUT_DIR = Path(DATA_RAW) / "eeca_data" / "eeud"
 OUTPUT_DIR = Path(STAGE_1_DATA) / "eeud"
 MANUAL_REVISIONS_FILE = ASSUMPTIONS / "eeud_patches/manual_revisions.toml"
+SHEET_NAME = "Data"
 
 
 # ---------------------------------------------------------------------------
@@ -51,15 +53,37 @@ def save_eeud(df, name):
     _save_data(df, name, label="Saving EEUD", filepath=OUTPUT_DIR)
 
 
+# pylint: disable=duplicate-code
+def resolve_input_filename(source_dir: Path, filename: str) -> Path:
+    """Return an EEUD input path, matching case-insensitively when needed."""
+    exact_match = source_dir / filename
+    if exact_match.exists():
+        return exact_match
+
+    filename_lower = filename.casefold()
+    for candidate in source_dir.iterdir():
+        if candidate.is_file() and candidate.name.casefold() == filename_lower:
+            logger.info(
+                "Resolved EEUD input %s to %s using case-insensitive match.",
+                filename,
+                candidate.name,
+            )
+            return candidate
+
+    raise FileNotFoundError(f"Could not find EEUD input file: {source_dir / filename}")
+
+
 def read_eeud(source_dir: Path, filename: str) -> pd.DataFrame:
     """Read the EEUD *filename* from *source_dir* and return the raw Data sheet."""
-    file_path = source_dir / filename
-    return pd.read_excel(file_path, engine="openpyxl", sheet_name="Data")
+    file_path = resolve_input_filename(source_dir, filename)
+    return pd.read_excel(file_path, engine="openpyxl", sheet_name=SHEET_NAME)
 
 
 def clean_eeud_data(df: pd.DataFrame) -> pd.DataFrame:
     """Apply standard cleaning and reshaping to the EEUD DataFrame."""
     # Standardise column names to PascalCase
+
+    df = df.rename(columns={"EnergyValue (Terrajoules)": "EnergyValue"})
     df = rename_columns_to_pascal(df)
 
     # Add Year column derived from the period end date
@@ -73,6 +97,25 @@ def clean_eeud_data(df: pd.DataFrame) -> pd.DataFrame:
 
     # Drop superseded columns
     df = df.drop(columns=["EnergyValue", "PeriodEndDate"])
+
+    # Normalize residential labels that changed in the newer EEUD workbook
+    geo_mask = (
+        (df["Sector"] == "Residential")
+        & (df["Fuel"] == "Geothermal")
+        & (df["Technology"] == "Direct Heat")
+        & (df["EndUse"] == "Low Temperature Heat (<100 C), Space Heating")
+    )
+    df.loc[geo_mask, "Technology"] = "Ground source heat pump"
+
+    solar_mask = (
+        (df["Sector"] == "Residential")
+        & (df["Fuel"] == "Solar")
+        & df["Technology"].isna()
+    )
+    df.loc[solar_mask, "TechnologyGroup"] = "Heat/Cooling Devices"
+    df.loc[solar_mask, "Technology"] = "Solar hot water cylinder"
+    df.loc[solar_mask, "EnduseGroup"] = "Heating/Cooling"
+    df.loc[solar_mask, "EndUse"] = "Low Temperature Heat (<100 C), Water Heating"
 
     return df
 
@@ -265,7 +308,9 @@ def main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     raw_df = read_eeud(INPUT_DIR, EEUD_FILENAME)
+
     tidy_df = clean_eeud_data(raw_df)
+
     patched_df = tidy_df.copy()
     patched_df = add_patch_to_eeud(patched_df, "biomass_demand_patch.csv")
     patched_df = add_patch_to_eeud(patched_df, "unallocated_demand_patch.csv")
