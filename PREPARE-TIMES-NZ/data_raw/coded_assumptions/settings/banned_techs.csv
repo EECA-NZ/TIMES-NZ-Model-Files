@@ -8,6 +8,7 @@ T_P_B*LPG*,LPG buses
 C_*-HEATX-GEO,Commercial geothermal
 C*CK*-LPG*,Commercial cooking LPG
 C*CK*-NGA*,Commercial cooking natural gas
+C*-COA*, Commercial coal
 C*SH-Boiler-LPG*,Commercial space heating LPG
 C*SH-Boiler-NGA*,Commercial space heating natural gas
 C*WH*-NGA*,Commercial water heating natural gas

@@ -178,7 +178,6 @@ Demand,OTHR-ELCTR-ELCTR,Industry,Other Industry,Electronics and Other Electrical
 Demand,OTHR-LIGHT-LIGHT,Industry,Other Industry,Lighting
 Demand,OTHR-BOILR-PH_INT,Industry,Other Industry,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,OTHR-BOILR-PH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Process Requirements"
-Demand,OTHR-SH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Space Heating"
 Demand,OTHR-EFURNC-PH_HIGH,Industry,Other Industry,"High Temperature Heat (>300 C), Process Requirements"
 Demand,OTHR-FURNC-PH_HIGH,Industry,Other Industry,"High Temperature Heat (>300 C), Process Requirements"
 Demand,OTHR-HEATR-PH_INT,Industry,Other Industry,"Intermediate Heat (100-300 C), Process Requirements"
@@ -239,6 +238,7 @@ Demand,STEEL-SH_LOW,Industry,Iron & Steel,"Low Temperature Heat (<100 C), Space 
 Demand,MEAT-SH_LOW,Industry,Meat,"Low Temperature Heat (<100 C), Space Heating"
 Demand,METH-SH_LOW,Industry,Methanol,"Low Temperature Heat (<100 C), Space Heating"
 Demand,MNRL-SH_LOW,Industry,Non-Metallic Mineral Product Manufacturing,"Low Temperature Heat (<100 C), Space Heating"
+Demand,OTHR-SH_LOW,Industry,Other Industry,"Low Temperature Heat (<100 C), Space Heating"
 Demand,UREA-SH_LOW,Industry,Urea,"Low Temperature Heat (<100 C), Space Heating"
 Demand,WOOD-SH_LOW,Industry,Wood Products,"Low Temperature Heat (<100 C), Space Heating"
 Demand,NEWTECH-DEM,Commercial,NewTechs,NewTechs
