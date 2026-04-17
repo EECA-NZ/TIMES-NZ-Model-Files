@@ -71,6 +71,10 @@ app_ui = ui.page_fluid(
             type="text/javascript",
         ),
         ui.tags.script(
+            src="js/chart-toggle-width.js",
+            type="text/javascript",
+        ),
+        ui.tags.script(
             src="js/custom-plotly-hover.js",
             type="text/javascript",
         ),
