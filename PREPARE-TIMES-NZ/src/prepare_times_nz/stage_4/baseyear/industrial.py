@@ -30,6 +30,12 @@ CAPACITY_UNIT = "GW"
 TSLVL = "DAYNITE"
 CTSLVL = "DAYNITE"
 CAP2ACT = 31.536
+FIRST_FUTURE_MODEL_YEAR = 2026
+BIOGAS_SHARE_CONSTRAINTS = {
+    "base_year_share_up": 0,
+    "future_share_year": FIRST_FUTURE_MODEL_YEAR,
+    "future_share_up": 1,
+}
 
 # pylint: disable=duplicate-code
 
@@ -90,10 +96,20 @@ def get_industry_veda_table(df, input_map, enable_biogas=True):
             # alternatively: just exclude feedstock options
             # if "FSTK" not in process
         ]
-        ind_df = add_extra_input_to_topology(ind_df, ind_nga_processes, "INDBIG")
+        ind_df = add_extra_input_to_topology(
+            ind_df,
+            ind_nga_processes,
+            "INDBIG",
+            share_constraints=BIOGAS_SHARE_CONSTRAINTS,
+        )
 
         ind_lpg_processes = get_processes_with_input_commodity(ind_df, "INDLPG")
-        ind_df = add_extra_input_to_topology(ind_df, ind_lpg_processes, "INDBIG")
+        ind_df = add_extra_input_to_topology(
+            ind_df,
+            ind_lpg_processes,
+            "INDBIG",
+            share_constraints=BIOGAS_SHARE_CONSTRAINTS,
+        )
 
     return ind_df
 
