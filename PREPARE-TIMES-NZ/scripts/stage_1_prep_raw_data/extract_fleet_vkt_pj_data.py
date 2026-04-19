@@ -17,7 +17,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_1.vehicle_costs import get_rail_columns
-from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
+from prepare_times_nz.utilities.filepaths import CONCORDANCES, DATA_RAW, STAGE_1_DATA
 from prepare_times_nz.utilities.logger_setup import logger
 
 # ──────────────────────────────────────────────────────────────── #
@@ -27,7 +27,11 @@ INPUT_LOCATION_MOT = Path(DATA_RAW) / "external_data" / "mot"
 INPUT_LOCATION_KIWIRAIL = Path(DATA_RAW) / "external_data" / "kiwirail"
 INPUT_LOCATION_MBIE = Path(DATA_RAW) / "external_data" / "mbie"
 INPUT_LOCATION_EEUD = Path(DATA_RAW) / "eeca_data" / "eeud"
-EEUD_PJ_FILENAME = "EEUD_PJ_2023.xlsx"
+EEUD_TRANSPORT_PJ_EFFICIENCY_FILENAME = "transport_energy_efficiency_2023.csv"
+TRANSPORT_CONCORDANCES = CONCORDANCES / "transport"
+EEUD_TRANSPORT_CODE_CONCORDANCE = (
+    TRANSPORT_CONCORDANCES / "eeud_transport_extract_code_concordance.csv"
+)
 
 OUTPUT_LOCATION = Path(STAGE_1_DATA) / "fleet_vkt_pj"
 OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
@@ -160,21 +164,28 @@ def read_kiwirail_energy() -> pd.DataFrame:
 
 def read_eeud_data() -> pd.DataFrame:
     """
-    Reads EEUD data from the EECA directory and processes it into a DataFrame.
+    Reads the transport PJ/efficiency extract from the EECA directory.
     """
-    path = resolve_eeud_input(EEUD_PJ_FILENAME)
-    df = pd.read_excel(path, sheet_name="PJ")
-    return df.rename(
-        columns={
-            "fuel": "fueltype",
-            "technologyGroup": "vehicletype",
-            "technology": "technology",
-            "energyValue (PJ)": "pjvalue",
-            "efficiency_vfm (PJ/mkm)": "efficiency_vfm_pj_mkm",
-            "efficiency_vfm (L/100km)": "efficiency_vfm_l_100km",
-            "efficiency_vfm (kWh/100km)": "efficiency_vfm_kwh_100km",
-        }
+    path = resolve_eeud_input(EEUD_TRANSPORT_PJ_EFFICIENCY_FILENAME)
+    df = pd.read_csv(
+        path,
+        parse_dates=["period_end_date"],
     )
+    concordance = pd.read_csv(EEUD_TRANSPORT_CODE_CONCORDANCE)
+
+    for column_name, mapping_rows in concordance.groupby("column_name", sort=False):
+        if column_name not in df.columns:
+            continue
+        mapping = dict(
+            zip(
+                mapping_rows["source_value"],
+                mapping_rows["aligned_value"],
+                strict=False,
+            )
+        )
+        df[column_name] = df[column_name].replace(mapping)
+
+    return df
 
 
 # ────────────────────────────────────────────────────────────────

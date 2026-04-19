@@ -130,7 +130,6 @@ DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution
 Description = "Declare processes we'll use to force the model to account for MBIE statdiffs. Useful for calibration."
 SheetName = "StatDiffAdjustments"
 TagName = "FI_Process"
-[ManualElectricityProcessDefinition.Data]
 Sets = ["PRE"]
 TechName = ["StatDiffDemand_ELC"]
 Tact = ["PJ"]
@@ -140,7 +139,6 @@ Tcap = ["PJa"]
 Description = "Parameters for statdiff settings"
 SheetName = "StatDiffAdjustments"
 TagName = "FI_T"
-[ManualElectricityProcessParameters.Data]
 TechName = ["StatDiffDemand_ELC"]
 Comm-IN = ["ELC"]
 "ACT_BND~FX~2023" = 2.2464 # 624 GWh

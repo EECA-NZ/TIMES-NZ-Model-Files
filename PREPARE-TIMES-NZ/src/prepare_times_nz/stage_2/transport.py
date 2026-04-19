@@ -38,6 +38,13 @@ REGIONAL_SPLIT = {
 }
 
 
+TRUCK_NAMES = {
+    "MedTr": "Light Truck",
+    "HevTr": "Medium Truck",
+    "VHevTr": "Heavy Truck",
+}
+
+
 FUEL_SHARE = {
     ("LPV", "Petrol", "PHEV"): {"fuelshare": 0.40},
     ("LPV", "Electricity", "PHEV"): {"fuelshare": 0.60},

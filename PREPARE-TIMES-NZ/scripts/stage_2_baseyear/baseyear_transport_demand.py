@@ -26,6 +26,7 @@ from prepare_times_nz.stage_2.transport import (
     MJ_PER_LITRE,
     MOTIVE_GROUP_MAP,
     REGIONAL_SPLIT,
+    TRUCK_NAMES,
 )
 from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA, STAGE_2_DATA
 from prepare_times_nz.utilities.logger_setup import logger
@@ -87,6 +88,7 @@ def vehicle_counts_expanded(vc: pd.DataFrame) -> pd.DataFrame:
     """Expands aggregated vehicle count records by splitting them into fuel type and
     technology combinations using predefined mappings."""
     vc = vc.copy()
+    vc["vehicletype"] = vc["vehicletype"].replace(TRUCK_NAMES)
 
     def expand_row(row):
         key = (row["vehicletype"], row["custom_motive_group"])

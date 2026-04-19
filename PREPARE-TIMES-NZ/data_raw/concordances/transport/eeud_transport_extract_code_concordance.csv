@@ -1,0 +1,24 @@
+column_name,source_value,aligned_value,notes
+vehicletype,LPV,LPV,No change
+vehicletype,LCV,LCV,No change
+vehicletype,Bus,Bus,No change
+vehicletype,Light Truck,Light Truck,Already aligned to current truck code
+vehicletype,Medium Truck,Medium Truck,Already aligned to current truck code
+vehicletype,Heavy Truck,Heavy Truck,Already aligned to current truck code
+vehicletype,Motorcycle,Motorcycle,No change
+vehicletype,Passenger Rail,Passenger Rail,No change
+vehicletype,Freight Rail,Rail Freight,Align 2023 extract label to current processing code
+vehicletype,Ship,Ship,Aggregate shipping label retained because it is not split by domestic or international in the source extract
+vehicletype,Plane,Plane,Aggregate aviation label retained because it is not split by domestic or international in the source extract
+transport,Light Vehicles,Light Vehicles,No change
+transport,Heavy Vehicles,Heavy Vehicles,No change
+transport,Other,Other,No change
+transport,Rail,Rail,No change
+transport,Sea Transport,Sea Transport,Aggregate shipping label retained
+transport,Air Transport,Air Transport,Aggregate aviation label retained
+technology,ICE,ICE,No change
+technology,ICE Hybrid,ICE Hybrid,No change
+technology,PHEV,PHEV,No change
+technology,BEV,BEV,No change
+technology,Electric Motor,Electric Motor,No change
+technology,Turbine Engine,Turbine Engine,No change
