@@ -31,6 +31,29 @@ from prepare_times_nz.utilities.logger_setup import blue_text, logger
 BASE_YEAR = 2023
 BALLANCE_FEEDSTOCK_SHARE_ASSUMPTION = 0.53
 BALLANCE_DU_ASSUMPTION = 0.38
+DEFAULT_FUEL_USE_FALLBACKS = [
+    {
+        "TechnologyGroup": "Heat/Cooling Devices",
+        "Technology": "Boiler Systems",
+        "EndUse": "Intermediate Heat (100-300 C), Process Requirements",
+        "EnduseGroup": "Heating/Cooling",
+        "Fuel": "LPG",
+    },
+    {
+        "TechnologyGroup": "Heat/Cooling Devices",
+        "Technology": "Boiler Systems",
+        "EndUse": "Intermediate Heat (100-300 C), Process Requirements",
+        "EnduseGroup": "Heating/Cooling",
+        "Fuel": "Biogas",
+    },
+    {
+        "TechnologyGroup": "Heat/Cooling Devices",
+        "Technology": "Furnace/Kiln",
+        "EndUse": "Intermediate Heat (100-300 C), Process Requirements",
+        "EnduseGroup": "Heating/Cooling",
+        "Fuel": "Fuel Oil",
+    },
+]
 
 # ----------------------------------------------------------------------------
 # Helper Functions
@@ -438,6 +461,13 @@ def create_default_groups_per_fuel(df):
 
     # Value no longer needed and also remove index
     df = df.drop(["Value", "index"], axis=1)
+
+    # Some fuels may only appear in fully unallocated EEUD rows, or may infer a
+    # poor default from sparse data. Apply explicit documented fallbacks so
+    # those fuels use stable end-use mappings downstream.
+    fallback_df = pd.DataFrame(DEFAULT_FUEL_USE_FALLBACKS)
+    df = df[~df["Fuel"].isin(fallback_df["Fuel"])]
+    df = pd.concat([df, fallback_df], ignore_index=True)
 
     # save this as well for reference)
     save_checks(
