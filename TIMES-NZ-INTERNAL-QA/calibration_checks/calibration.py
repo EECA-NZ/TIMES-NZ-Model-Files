@@ -1,14 +1,16 @@
 """
 Compare postprocessed TIMES-NZ outputs against historical calibration data.
 
-Currently includes emissions calibration tables for:
-- total energy emissions
-- transport emissions
+Currently includes:
+- emissions by sector group
+- total emissions
 - electricity consumption
 - electricity generation
 """
 
+import xml.etree.ElementTree as ET
 from pathlib import Path
+from zipfile import ZipFile
 
 import pandas as pd
 
@@ -17,8 +19,9 @@ from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
 
 BASE_DIR = Path(__file__).resolve().parent
 CALIBRATION_DATA = BASE_DIR / "calibration_data"
-OUTPUT_DIR = BASE_DIR / "results"
+CALIBRATION_RESULTS_FILE = BASE_DIR / "calibration_results.md"
 GWH_PER_PJ = 277.77777778
+GHG_INVENTORY_WORKBOOK = CALIBRATION_DATA / "ghg_inventory_2023.xlsx"
 
 
 ASSESSMENT_YEARS = [2023]
@@ -43,6 +46,15 @@ RANKINE_FUEL_TO_GENERATION_CATEGORY_MAP = {
     "Coal": "Coal",
     "Natural gas": "Gas",
 }
+INVENTORY_SECTOR_GROUP_CODE_MAP = {
+    "Agriculture, Forestry, and Fishing": "1.A.4.c. Agriculture-forestry",
+    "Commercial": "1.A.4.a. Commercial-instituti",
+    "Residential": "1.A.4.b. Residential",
+    "Industry": "1.A.2. Manufacturing industri",
+    "Transport": "1.A.3. Transport",
+    "Electricity generation": "1.A.1.a. Public electricity a",
+    "Fugitive emissions": "1.B. Fugitive emissions from ",
+}
 
 
 def get_times_data(filename):
@@ -50,17 +62,228 @@ def get_times_data(filename):
     return pd.read_parquet(FINAL_DATA / filename)
 
 
-def get_historical_emissions():
-    """Load historical calibration emissions and reshape to long format."""
-    df = pd.read_csv(CALIBRATION_DATA / "emissions.csv")
-    df = df.melt(
-        id_vars="Sector",
-        var_name="Period",
-        value_name="HistoricalValue",
+def excel_column_index(cell_reference):
+    """Convert an Excel cell reference like AB12 to a zero-based column index."""
+    letters = "".join(char for char in str(cell_reference) if char.isalpha())
+    index = 0
+    for char in letters:
+        index = index * 26 + (ord(char.upper()) - 64)
+    return index - 1
+
+
+def build_shared_strings(workbook, spreadsheet_ns):
+    """Return the workbook shared strings table."""
+    shared_strings_root = ET.fromstring(workbook.read("xl/sharedStrings.xml"))
+    return [
+        "".join(
+            text_node.text or ""
+            for text_node in string_item.iterfind(".//main:t", spreadsheet_ns)
+        )
+        for string_item in shared_strings_root.findall("main:si", spreadsheet_ns)
+    ]
+
+
+def get_worksheet_target(workbook, sheet_name, spreadsheet_ns):
+    """Return the internal xlsx path for a worksheet name."""
+    workbook_root = ET.fromstring(workbook.read("xl/workbook.xml"))
+    workbook_rels_root = ET.fromstring(workbook.read("xl/_rels/workbook.xml.rels"))
+    workbook_rel_map = {
+        relationship.attrib["Id"]: relationship.attrib["Target"]
+        for relationship in workbook_rels_root
+    }
+
+    for sheet in workbook_root.find("main:sheets", spreadsheet_ns):
+        rel_id = sheet.attrib[
+            "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id"
+        ]
+        if sheet.attrib["name"] == sheet_name:
+            return workbook_rel_map[rel_id]
+
+    raise ValueError(f"Worksheet '{sheet_name}' not found")
+
+
+def get_cell_text(cell, shared_strings, spreadsheet_ns):
+    """Extract text from a worksheet cell."""
+    cell_type = cell.attrib.get("t")
+    value_node = cell.find("main:v", spreadsheet_ns)
+    if value_node is None:
+        return "".join(
+            text_node.text or ""
+            for text_node in cell.iterfind(".//main:t", spreadsheet_ns)
+        )
+
+    cell_text = value_node.text or ""
+    if cell_type == "s":
+        return shared_strings[int(cell_text)]
+    return cell_text
+
+
+def parse_worksheet_rows(sheet_data, shared_strings, spreadsheet_ns):
+    """Expand worksheet rows into a list of string lists."""
+    rows = []
+    for row in sheet_data.findall("main:row", spreadsheet_ns):
+        values_by_column = {}
+        for cell in row.findall("main:c", spreadsheet_ns):
+            cell_reference = cell.attrib.get("r", "")
+            values_by_column[excel_column_index(cell_reference)] = get_cell_text(
+                cell, shared_strings, spreadsheet_ns
+            )
+
+        if values_by_column:
+            max_column = max(values_by_column)
+            rows.append(
+                [values_by_column.get(index, "") for index in range(max_column + 1)]
+            )
+    return rows
+
+
+def get_workbook_sheet_rows(workbook_path, sheet_name):
+    """Read a worksheet from an xlsx workbook without requiring openpyxl."""
+    spreadsheet_ns = {
+        "main": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
+    }
+
+    with ZipFile(workbook_path) as workbook:
+        shared_strings = build_shared_strings(workbook, spreadsheet_ns)
+        worksheet_target = get_worksheet_target(workbook, sheet_name, spreadsheet_ns)
+        worksheet_root = ET.fromstring(workbook.read(f"xl/{worksheet_target}"))
+        sheet_data = worksheet_root.find("main:sheetData", spreadsheet_ns)
+        return parse_worksheet_rows(sheet_data, shared_strings, spreadsheet_ns)
+
+
+def get_inventory_emissions():
+    """Load the 2023 all-gases inventory workbook and return a long table."""
+    rows = get_workbook_sheet_rows(GHG_INVENTORY_WORKBOOK, "All gases")
+    header = rows[10]
+    period_columns = [column for column in header[2:] if str(column).isdigit()]
+
+    records = []
+    for row in rows[11:]:
+        inventory_code = row[0] if len(row) > 0 else ""
+        inventory_name = row[1].strip() if len(row) > 1 else ""
+        if not inventory_code:
+            continue
+        for offset, period in enumerate(period_columns, start=2):
+            value = row[offset] if len(row) > offset else ""
+            records.append(
+                {
+                    "InventoryCode": inventory_code.strip(),
+                    "InventoryName": inventory_name,
+                    "Period": pd.to_numeric(period, errors="coerce"),
+                    "HistoricalValue": pd.to_numeric(value, errors="coerce"),
+                }
+            )
+
+    df = pd.DataFrame.from_records(records)
+    df = df.dropna(subset=["Period", "HistoricalValue"])
+    df["Period"] = df["Period"].astype(int)
+    return df
+
+
+def get_inventory_total_emissions():
+    """Return the 2023 inventory total for the Energy chapter."""
+    inventory = get_inventory_emissions()
+    return inventory[inventory["InventoryCode"] == "1. Energy"][
+        ["Period", "HistoricalValue"]
+    ].rename(columns={"HistoricalValue": "InventoryTotal"})
+
+
+def get_inventory_sector_group_emissions():
+    """Return inventory emissions by top-level sector group."""
+    inventory = get_inventory_emissions()
+    rows = []
+    for sector_group, inventory_code in INVENTORY_SECTOR_GROUP_CODE_MAP.items():
+        sector_inventory = inventory[
+            inventory["InventoryCode"] == inventory_code
+        ].copy()
+        if sector_inventory.empty:
+            continue
+        sector_inventory["SectorGroup"] = sector_group
+        rows.append(sector_inventory[["SectorGroup", "Period", "HistoricalValue"]])
+    return pd.concat(rows, ignore_index=True).sort_values(["SectorGroup", "Period"])
+
+
+def get_modelled_sector_group_emissions():
+    """Return model emissions by sector group."""
+    emissions = get_times_data("emissions.parquet")
+    return (
+        emissions.groupby(["Scenario", "SectorGroup", "Period"], as_index=False)[
+            "Value"
+        ]
+        .sum()
+        .rename(columns={"Value": "ModelledValue"})
+        .sort_values(["SectorGroup", "Scenario", "Period"])
     )
-    df["Period"] = pd.to_numeric(df["Period"], errors="coerce")
-    df["HistoricalValue"] = pd.to_numeric(df["HistoricalValue"], errors="coerce")
-    return df.dropna(subset=["Period", "HistoricalValue"])
+
+
+def build_emissions_comparison():
+    """Return emissions comparison by sector group."""
+    historical = get_inventory_sector_group_emissions()
+    modelled = get_modelled_sector_group_emissions()
+
+    scenarios = pd.DataFrame({"Scenario": sorted(modelled["Scenario"].unique())})
+    comparison_index = historical[["SectorGroup", "Period", "HistoricalValue"]].copy()
+    comparison_index["key"] = 1
+    scenarios["key"] = 1
+    comparison = comparison_index.merge(scenarios, on="key", how="left").drop(
+        columns="key"
+    )
+    comparison = comparison.merge(
+        modelled[["SectorGroup", "Scenario", "Period", "ModelledValue"]],
+        on=["SectorGroup", "Scenario", "Period"],
+        how="left",
+    )
+    comparison["ModelledValue"] = comparison["ModelledValue"].fillna(0)
+    comparison["Difference"] = (
+        comparison["ModelledValue"] - comparison["HistoricalValue"]
+    )
+    comparison["PercentDifference"] = (
+        comparison["Difference"].where(comparison["HistoricalValue"] != 0)
+        / comparison["HistoricalValue"].where(comparison["HistoricalValue"] != 0)
+        * 100
+    )
+    return comparison[
+        [
+            "SectorGroup",
+            "Scenario",
+            "Period",
+            "HistoricalValue",
+            "ModelledValue",
+            "Difference",
+            "PercentDifference",
+        ]
+    ].sort_values(["SectorGroup", "Scenario", "Period"])
+
+
+def build_total_emissions_comparison():
+    """Return total emissions comparison."""
+    inventory_total = get_inventory_total_emissions()
+    modelled_total = (
+        get_times_data("emissions.parquet")
+        .groupby(["Scenario", "Period"], as_index=False)["Value"]
+        .sum()
+        .rename(columns={"Value": "ModelledValue"})
+    )
+    comparison = modelled_total.merge(inventory_total, on="Period", how="left")
+    comparison = comparison.rename(columns={"InventoryTotal": "HistoricalValue"})
+    comparison["Difference"] = (
+        comparison["ModelledValue"] - comparison["HistoricalValue"]
+    )
+    comparison["PercentDifference"] = (
+        comparison["Difference"].where(comparison["HistoricalValue"] != 0)
+        / comparison["HistoricalValue"].where(comparison["HistoricalValue"] != 0)
+        * 100
+    )
+    return comparison[
+        [
+            "Scenario",
+            "Period",
+            "HistoricalValue",
+            "ModelledValue",
+            "Difference",
+            "PercentDifference",
+        ]
+    ].sort_values(["Scenario", "Period"])
 
 
 def get_historical_electricity_consumption():
@@ -109,31 +332,6 @@ def get_historical_electricity_generation():
     df["HistoricalValue"] = pd.to_numeric(df["HistoricalValue"], errors="coerce")
     df = df.dropna(subset=["Period", "HistoricalValue"])
     return df.rename(columns={"sector": "GenerationCategory"})
-
-
-def get_modelled_emissions():
-    """
-    Aggregate modelled emissions to the same level as the historical calibration file.
-
-    Historical values are in kt CO2e, matching the postprocessed emissions output.
-    """
-    df = get_times_data("emissions.parquet")
-
-    total = (
-        df.groupby(["Scenario", "Period"], as_index=False)["Value"]
-        .sum()
-        .assign(Metric="Total emissions")
-    )
-
-    transport = (
-        df[df["SectorGroup"] == "Transport"]
-        .groupby(["Scenario", "Period"], as_index=False)["Value"]
-        .sum()
-        .assign(Metric="Transport emissions")
-    )
-
-    out = pd.concat([total, transport], ignore_index=True)
-    return out.rename(columns={"Value": "ModelledValue"})
 
 
 def get_modelled_electricity_consumption():
@@ -253,55 +451,6 @@ def get_modelled_electricity_generation():
     )["ModelledValue"].sum()
     modelled["ModelledValue"] = modelled["ModelledValue"] * GWH_PER_PJ
     return modelled
-
-
-def get_historical_metric_map():
-    """Map historical sectors to the calibration metrics we want to compare."""
-    return {
-        "Energy": "Total emissions",
-        "Transport": "Transport emissions",
-    }
-
-
-def build_emissions_comparison():
-    """Return the emissions calibration comparison table."""
-    historical = get_historical_emissions()
-    metric_map = get_historical_metric_map()
-
-    historical = historical[historical["Sector"].isin(metric_map)].copy()
-    historical["Metric"] = historical["Sector"].map(metric_map)
-
-    modelled = get_modelled_emissions()
-
-    historical_years = sorted(historical["Period"].unique())
-    modelled = modelled[modelled["Period"].isin(historical_years)].copy()
-
-    comparison = modelled.merge(
-        historical[["Metric", "Period", "HistoricalValue"]],
-        on=["Metric", "Period"],
-        how="inner",
-    )
-
-    comparison["Difference"] = (
-        comparison["ModelledValue"] - comparison["HistoricalValue"]
-    )
-    comparison["PercentDifference"] = (
-        comparison["Difference"] / comparison["HistoricalValue"] * 100
-    )
-
-    comparison = comparison[
-        [
-            "Metric",
-            "Scenario",
-            "Period",
-            "HistoricalValue",
-            "ModelledValue",
-            "Difference",
-            "PercentDifference",
-        ]
-    ].sort_values(["Metric", "Period", "Scenario"])
-
-    return comparison
 
 
 def build_electricity_consumption_comparison():
@@ -445,11 +594,29 @@ def format_table(df):
     """Format numeric columns for console-friendly table output."""
     out = df.copy()
     for col in ["HistoricalValue", "ModelledValue", "Difference"]:
-        out[col] = out[col].map(lambda value: f"{value:,.2f}")
-    out["PercentDifference"] = out["PercentDifference"].map(
-        lambda value: f"{value:,.2f}%"
-    )
+        if col in out.columns:
+            out[col] = out[col].map(lambda value: f"{value:,.2f}")
+    if "PercentDifference" in out.columns:
+        out["PercentDifference"] = out["PercentDifference"].map(
+            lambda value: f"{value:,.2f}%"
+        )
     return out
+
+
+def dataframe_to_markdown(df):
+    """Render a dataframe as a simple markdown table."""
+    if df.empty:
+        return "_No rows_\n"
+
+    markdown_df = df.fillna("nan")
+    columns = [str(column) for column in markdown_df.columns]
+    header = "| " + " | ".join(columns) + " |"
+    divider = "| " + " | ".join(["---"] * len(columns)) + " |"
+    rows = [
+        "| " + " | ".join(str(value) for value in row) + " |"
+        for row in markdown_df.itertuples(index=False, name=None)
+    ]
+    return "\n".join([header, divider, *rows]) + "\n"
 
 
 def filter_assessment_years(df):
@@ -460,8 +627,9 @@ def filter_assessment_years(df):
 
 
 def main():
-    """Run calibration comparisons and print summary tables."""
+    """Run calibration comparisons and write a markdown report."""
     emissions_comparison = build_emissions_comparison()
+    total_emissions_comparison = build_total_emissions_comparison()
     electricity_consumption_comparison = build_electricity_consumption_comparison()
     total_electricity_consumption_comparison = (
         build_total_electricity_consumption_comparison(
@@ -473,6 +641,7 @@ def main():
         electricity_generation_comparison
     )
     emissions_comparison = filter_assessment_years(emissions_comparison)
+    total_emissions_comparison = filter_assessment_years(total_emissions_comparison)
     electricity_consumption_comparison = filter_assessment_years(
         electricity_consumption_comparison
     )
@@ -483,21 +652,29 @@ def main():
         electricity_generation_comparison
     )
     total_generation_comparison = filter_assessment_years(total_generation_comparison)
-    for metric, metric_df in emissions_comparison.groupby("Metric", sort=False):
-        print(f"\n{metric}")
-        print(format_table(metric_df).to_string(index=False))
+    sections = [
+        ("Emissions by sector group", format_table(emissions_comparison)),
+        ("Total emissions", format_table(total_emissions_comparison)),
+        ("Electricity consumption", format_table(electricity_consumption_comparison)),
+        (
+            "Total electricity consumption",
+            format_table(total_electricity_consumption_comparison),
+        ),
+        ("Electricity generation", format_table(electricity_generation_comparison)),
+        ("Total generation", format_table(total_generation_comparison)),
+    ]
 
-    print("\nElectricity consumption")
-    print(format_table(electricity_consumption_comparison).to_string(index=False))
+    markdown_parts = ["# Calibration Results", ""]
+    for title, dataframe in sections:
+        markdown_parts.append(f"## {title}")
+        markdown_parts.append("")
+        markdown_parts.append(dataframe_to_markdown(dataframe))
 
-    print("\nTotal electricity consumption")
-    print(format_table(total_electricity_consumption_comparison).to_string(index=False))
-
-    print("\nElectricity generation")
-    print(format_table(electricity_generation_comparison).to_string(index=False))
-
-    print("\nTotal generation")
-    print(format_table(total_generation_comparison).to_string(index=False))
+    CALIBRATION_RESULTS_FILE.write_text(
+        "\n".join(markdown_parts).strip() + "\n",
+        encoding="utf-8",
+    )
+    print(f"Calibration results written to {CALIBRATION_RESULTS_FILE}")
 
 
 if __name__ == "__main__":
