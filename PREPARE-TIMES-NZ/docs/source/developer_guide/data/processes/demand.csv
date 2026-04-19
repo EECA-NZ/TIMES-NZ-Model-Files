@@ -430,18 +430,20 @@ Demand,MNRL-ELC-MOTOR-MTV_STA,MNRL-MOTOR-MTV_STA,Industry,Non-Metallic Mineral P
 Demand,MNRL-ELC-PUMP-PUMP,MNRL-PUMP-PUMP,Industry,Non-Metallic Mineral Product Manufacturing,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
 Demand,OTHR-ELC-ELCTR-ELCTR,OTHR-ELCTR-ELCTR,Industry,Other Industry,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,OTHR-ELC-LIGHT-LIGHT,OTHR-LIGHT-LIGHT,Industry,Other Industry,Electronics and Lighting,Lighting,Electronics and Lights,Lights
+Demand,OTHR-BIG-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,OTHR-COA-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
+Demand,OTHR-LPG-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,OTHR-NGA-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,OTHR-COA-BOILR-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,OTHR-NGA-BOILR-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,OTHR-ELC-EFURNC-PH_HIGH,OTHR-EFURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Electric Furnace
 Demand,OTHR-NGA-FURNC-PH_HIGH,OTHR-FURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
+Demand,OTHR-FOL-FURNC-PH_INT,OTHR-FURNC-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
 Demand,OTHR-ELC-HEATR-PH_INT,OTHR-HEATR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Resistance Heater
 Demand,OTHR-ELC-HEATR-PH_LOW,OTHR-HEATR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Resistance Heater
 Demand,OTHR-DSL-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,OTHR-PET-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,OTHR-ELC-MOTOR-MTV_STA,OTHR-MOTOR-MTV_STA,Industry,Other Industry,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
-Demand,OTHR-FOL-ENGIN-MTV_STA,OTHR-ENGIN-MTV_STA,Industry,Other Industry,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,OTHR-ELC-UNALC-UNALC,OTHR-UNALC-UNALC,Industry,Other Industry,Unallocated,Unallocated,Unallocated,Unallocated
 Demand,PULP-ELC-ACOMP-COMP_AIR,PULP-ACOMP-COMP_AIR,Industry,Pulp and Paper,Electronics and Lighting,Compressed Air,Electronics and Lights,Air Compressors
 Demand,PULP-ELC-ELCTR-ELCTR,PULP-ELCTR-ELCTR,Industry,Pulp and Paper,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics

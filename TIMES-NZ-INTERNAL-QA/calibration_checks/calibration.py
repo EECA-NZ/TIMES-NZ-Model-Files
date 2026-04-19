@@ -3,6 +3,8 @@ Compare postprocessed TIMES-NZ outputs against historical calibration data.
 
 Currently includes:
 - emissions by sector group
+- industry total emissions by fuel
+- raw EEUD demand by sector and fuel
 - total emissions
 - electricity consumption
 - electricity generation
@@ -15,7 +17,7 @@ from zipfile import ZipFile
 import pandas as pd
 
 # pylint: disable = import-error
-from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
+from times_nz_internal_qa.utilities.filepaths import FINAL_DATA, PREP_STAGE_2
 
 BASE_DIR = Path(__file__).resolve().parent
 CALIBRATION_DATA = BASE_DIR / "calibration_data"
@@ -54,6 +56,41 @@ INVENTORY_SECTOR_GROUP_CODE_MAP = {
     "Transport": "1.A.3. Transport",
     "Electricity generation": "1.A.1.a. Public electricity a",
     "Fugitive emissions": "1.B. Fugitive emissions from ",
+}
+INDUSTRY_FUEL_CODE_MAP = {
+    "NGA": "Gaseous fuels",
+    "COA": "Solid fuels",
+    "DSL": "Liquid fuels",
+    "FOL": "Liquid fuels",
+    "LPG": "Liquid fuels",
+    "PET": "Liquid fuels",
+}
+INVENTORY_INDUSTRY_FUEL_NAMES = [
+    "Biomass",
+    "Gaseous fuels",
+    "Liquid fuels",
+    "Other fossil fuels",
+    "Solid fuels",
+]
+RAW_EEUD_BASEYEAR_FILES = [
+    (
+        PREP_STAGE_2 / "industry/preprocessing/1_times_eeud_alignment_baseyear.csv",
+        "Industry",
+    ),
+    (
+        PREP_STAGE_2 / "commercial/preprocessing/1_times_eeud_alignment_baseyear.csv",
+        "Commercial",
+    ),
+    (
+        PREP_STAGE_2
+        / "ag_forest_fish/preprocessing/1_times_eeud_alignment_baseyear.csv",
+        "Agriculture, Forestry, and Fishing",
+    ),
+]
+RAW_EEUD_FUEL_MAP = {
+    "Natural gas": "Natural Gas",
+    "Fuel oil": "Fuel Oil",
+    "Wood residuals (onsite)": "Wood",
 }
 
 
@@ -188,6 +225,55 @@ def get_inventory_total_emissions():
     ].rename(columns={"HistoricalValue": "InventoryTotal"})
 
 
+def get_model_scenarios():
+    """Return the scenario names present in the model outputs."""
+    return sorted(get_times_data("energy_demand.parquet")["Scenario"].unique())
+
+
+def get_inventory_industry_emissions():
+    """Return inventory emissions for the industry chapter."""
+    inventory = get_inventory_emissions()
+    return inventory[
+        inventory["InventoryCode"].str.startswith("1.A.2", na=False)
+    ].copy()
+
+
+def get_raw_eeud_columns(df, sector_group):
+    """Standardize raw EEUD baseyear columns across source files."""
+    out = df.copy()
+    if "Year" in out.columns:
+        out = out.rename(columns={"Year": "Period"})
+    elif "Period" not in out.columns:
+        out["Period"] = 2023
+    out["SectorGroup"] = sector_group
+    out["Period"] = pd.to_numeric(out["Period"], errors="coerce").astype("Int64")
+    out["HistoricalValue"] = pd.to_numeric(out["Value"], errors="coerce")
+    out["Fuel"] = out["Fuel"].replace(RAW_EEUD_FUEL_MAP)
+    return out[["SectorGroup", "Sector", "Fuel", "Period", "HistoricalValue"]]
+
+
+def load_raw_eeud_baseyear_file(path, sector_group):
+    """Load one raw EEUD baseyear file and standardize its columns."""
+    return get_raw_eeud_columns(pd.read_csv(path), sector_group)
+
+
+def get_raw_eeud_demand():
+    """Return raw EEUD-aligned 2023 demand values by sector and fuel."""
+    tables = [
+        load_raw_eeud_baseyear_file(path, sector_group)
+        for path, sector_group in RAW_EEUD_BASEYEAR_FILES
+    ]
+    demand = pd.concat(tables, ignore_index=True)
+    demand = demand.dropna(subset=["Period", "HistoricalValue"])
+    return (
+        demand.groupby(["SectorGroup", "Sector", "Fuel", "Period"], as_index=False)[
+            "HistoricalValue"
+        ]
+        .sum()
+        .sort_values(["SectorGroup", "Sector", "Fuel", "Period"])
+    )
+
+
 def get_inventory_sector_group_emissions():
     """Return inventory emissions by top-level sector group."""
     inventory = get_inventory_emissions()
@@ -203,6 +289,22 @@ def get_inventory_sector_group_emissions():
     return pd.concat(rows, ignore_index=True).sort_values(["SectorGroup", "Period"])
 
 
+def get_inventory_industry_emissions_by_fuel():
+    """Return inventory industry emissions aggregated to fuel groups."""
+    inventory = get_inventory_industry_emissions()
+    inventory = inventory[
+        inventory["InventoryName"].isin(INVENTORY_INDUSTRY_FUEL_NAMES)
+    ].copy()
+    return (
+        inventory.groupby(["InventoryName", "Period"], as_index=False)[
+            "HistoricalValue"
+        ]
+        .sum()
+        .rename(columns={"InventoryName": "FuelGroup"})
+        .sort_values(["FuelGroup", "Period"])
+    )
+
+
 def get_modelled_sector_group_emissions():
     """Return model emissions by sector group."""
     emissions = get_times_data("emissions.parquet")
@@ -213,6 +315,42 @@ def get_modelled_sector_group_emissions():
         .sum()
         .rename(columns={"Value": "ModelledValue"})
         .sort_values(["SectorGroup", "Scenario", "Period"])
+    )
+
+
+def get_modelled_eeud_demand():
+    """Return model demand for the EEUD-aligned sectors by sector and fuel."""
+    demand = get_times_data("energy_demand.parquet").copy()
+    eeud_sector_groups = [sector_group for _, sector_group in RAW_EEUD_BASEYEAR_FILES]
+    demand = demand[demand["SectorGroup"].isin(eeud_sector_groups)].copy()
+    demand["Fuel"] = demand["Fuel"].replace(RAW_EEUD_FUEL_MAP)
+    return (
+        demand.groupby(
+            ["Scenario", "SectorGroup", "Sector", "Fuel", "Period"], as_index=False
+        )["Value"]
+        .sum()
+        .rename(columns={"Value": "ModelledValue"})
+        .sort_values(["SectorGroup", "Sector", "Fuel", "Scenario", "Period"])
+    )
+
+
+def get_process_fuel_group(process_name):
+    """Map a TIMES process name to the industry fuel groups used in the inventory."""
+    fuel_code = str(process_name).split("-")[1] if "-" in str(process_name) else None
+    return INDUSTRY_FUEL_CODE_MAP.get(fuel_code)
+
+
+def get_modelled_industry_emissions_by_fuel():
+    """Return modelled industry emissions aggregated to inventory-like fuel groups."""
+    emissions = get_times_data("emissions.parquet")
+    emissions = emissions[emissions["SectorGroup"] == "Industry"].copy()
+    emissions["FuelGroup"] = emissions["Process"].map(get_process_fuel_group)
+    emissions = emissions[emissions["FuelGroup"].notna()].copy()
+    return (
+        emissions.groupby(["Scenario", "FuelGroup", "Period"], as_index=False)["Value"]
+        .sum()
+        .rename(columns={"Value": "ModelledValue"})
+        .sort_values(["FuelGroup", "Scenario", "Period"])
     )
 
 
@@ -284,6 +422,142 @@ def build_total_emissions_comparison():
             "PercentDifference",
         ]
     ].sort_values(["Scenario", "Period"])
+
+
+def build_industry_emissions_by_fuel_comparison():
+    """Return industry total emissions compared by fuel group."""
+    historical = get_inventory_industry_emissions_by_fuel()
+    modelled = get_modelled_industry_emissions_by_fuel()
+
+    scenarios = pd.DataFrame({"Scenario": sorted(modelled["Scenario"].unique())})
+    comparison_index = historical[["FuelGroup", "Period", "HistoricalValue"]].copy()
+    comparison_index["key"] = 1
+    scenarios["key"] = 1
+    comparison = comparison_index.merge(scenarios, on="key", how="left").drop(
+        columns="key"
+    )
+    comparison = comparison.merge(
+        modelled[["FuelGroup", "Scenario", "Period", "ModelledValue"]],
+        on=["FuelGroup", "Scenario", "Period"],
+        how="left",
+    )
+    comparison["ModelledValue"] = comparison["ModelledValue"].fillna(0)
+    comparison["Difference"] = (
+        comparison["ModelledValue"] - comparison["HistoricalValue"]
+    )
+    comparison["PercentDifference"] = (
+        comparison["Difference"].where(comparison["HistoricalValue"] != 0)
+        / comparison["HistoricalValue"].where(comparison["HistoricalValue"] != 0)
+        * 100
+    )
+    return comparison[
+        [
+            "FuelGroup",
+            "Scenario",
+            "Period",
+            "HistoricalValue",
+            "ModelledValue",
+            "Difference",
+            "PercentDifference",
+        ]
+    ].sort_values(["FuelGroup", "Scenario", "Period"])
+
+
+def add_scenarios_to_historical(df, scenarios):
+    """Cross join a historical table to all model scenarios."""
+    scenario_df = pd.DataFrame({"Scenario": scenarios})
+    out = df.copy()
+    out["key"] = 1
+    scenario_df["key"] = 1
+    return out.merge(scenario_df, on="key", how="left").drop(columns="key")
+
+
+def build_raw_eeud_demand_comparison():
+    """Return raw EEUD demand compared with model demand by sector and fuel."""
+    historical = add_scenarios_to_historical(
+        get_raw_eeud_demand(), get_model_scenarios()
+    )
+    modelled = get_modelled_eeud_demand()
+    comparison = historical.merge(
+        modelled,
+        on=["Scenario", "SectorGroup", "Sector", "Fuel", "Period"],
+        how="outer",
+    )
+    comparison["HistoricalValue"] = comparison["HistoricalValue"].fillna(0)
+    comparison["ModelledValue"] = comparison["ModelledValue"].fillna(0)
+    comparison["Difference"] = (
+        comparison["ModelledValue"] - comparison["HistoricalValue"]
+    )
+    comparison["PercentDifference"] = (
+        comparison["Difference"].where(comparison["HistoricalValue"] != 0)
+        / comparison["HistoricalValue"].where(comparison["HistoricalValue"] != 0)
+        * 100
+    )
+    comparison["AbsoluteDifference"] = comparison["Difference"].abs()
+    return (
+        comparison[
+            [
+                "SectorGroup",
+                "Sector",
+                "Fuel",
+                "Scenario",
+                "Period",
+                "HistoricalValue",
+                "ModelledValue",
+                "Difference",
+                "PercentDifference",
+            ]
+        ]
+        .assign(AbsoluteDifference=comparison["AbsoluteDifference"])
+        .sort_values(
+            [
+                "AbsoluteDifference",
+                "SectorGroup",
+                "Sector",
+                "Fuel",
+                "Scenario",
+                "Period",
+            ],
+            ascending=[False, True, True, True, True, True],
+        )
+        .drop(columns="AbsoluteDifference")
+    )
+
+
+def build_raw_eeud_sector_total_comparison(raw_eeud_demand_comparison):
+    """Roll raw EEUD demand comparison up to sector totals."""
+    comparison = raw_eeud_demand_comparison.groupby(
+        ["SectorGroup", "Sector", "Scenario", "Period"], as_index=False
+    )[["HistoricalValue", "ModelledValue"]].sum()
+    comparison["Difference"] = (
+        comparison["ModelledValue"] - comparison["HistoricalValue"]
+    )
+    comparison["PercentDifference"] = (
+        comparison["Difference"].where(comparison["HistoricalValue"] != 0)
+        / comparison["HistoricalValue"].where(comparison["HistoricalValue"] != 0)
+        * 100
+    )
+    comparison["AbsoluteDifference"] = comparison["Difference"].abs()
+    return (
+        comparison[
+            [
+                "SectorGroup",
+                "Sector",
+                "Scenario",
+                "Period",
+                "HistoricalValue",
+                "ModelledValue",
+                "Difference",
+                "PercentDifference",
+            ]
+        ]
+        .assign(AbsoluteDifference=comparison["AbsoluteDifference"])
+        .sort_values(
+            ["AbsoluteDifference", "SectorGroup", "Sector", "Scenario", "Period"],
+            ascending=[False, True, True, True, True],
+        )
+        .drop(columns="AbsoluteDifference")
+    )
 
 
 def get_historical_electricity_consumption():
@@ -629,6 +903,13 @@ def filter_assessment_years(df):
 def main():
     """Run calibration comparisons and write a markdown report."""
     emissions_comparison = build_emissions_comparison()
+    industry_emissions_by_fuel_comparison = (
+        build_industry_emissions_by_fuel_comparison()
+    )
+    raw_eeud_demand_comparison = build_raw_eeud_demand_comparison()
+    raw_eeud_sector_total_comparison = build_raw_eeud_sector_total_comparison(
+        raw_eeud_demand_comparison
+    )
     total_emissions_comparison = build_total_emissions_comparison()
     electricity_consumption_comparison = build_electricity_consumption_comparison()
     total_electricity_consumption_comparison = (
@@ -641,6 +922,13 @@ def main():
         electricity_generation_comparison
     )
     emissions_comparison = filter_assessment_years(emissions_comparison)
+    industry_emissions_by_fuel_comparison = filter_assessment_years(
+        industry_emissions_by_fuel_comparison
+    )
+    raw_eeud_demand_comparison = filter_assessment_years(raw_eeud_demand_comparison)
+    raw_eeud_sector_total_comparison = filter_assessment_years(
+        raw_eeud_sector_total_comparison
+    )
     total_emissions_comparison = filter_assessment_years(total_emissions_comparison)
     electricity_consumption_comparison = filter_assessment_years(
         electricity_consumption_comparison
@@ -654,6 +942,15 @@ def main():
     total_generation_comparison = filter_assessment_years(total_generation_comparison)
     sections = [
         ("Emissions by sector group", format_table(emissions_comparison)),
+        (
+            "Industry emissions by fuel",
+            format_table(industry_emissions_by_fuel_comparison),
+        ),
+        (
+            "Raw EEUD demand by sector and fuel",
+            format_table(raw_eeud_demand_comparison),
+        ),
+        ("Raw EEUD demand by sector", format_table(raw_eeud_sector_total_comparison)),
         ("Total emissions", format_table(total_emissions_comparison)),
         ("Electricity consumption", format_table(electricity_consumption_comparison)),
         (
