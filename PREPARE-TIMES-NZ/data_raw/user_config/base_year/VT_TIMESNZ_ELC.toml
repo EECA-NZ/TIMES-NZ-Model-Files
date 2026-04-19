@@ -141,7 +141,7 @@ SheetName = "StatDiffAdjustments"
 TagName = "FI_T"
 TechName = ["StatDiffDemand_ELC"]
 Comm-IN = ["ELC"]
-"ACT_BND~FX~2023" = 2.2464 # 624 GWh
+"ACT_BND~FX~2023" = 1.5268 # adjusted down by 0.7196 from previous 624 GWh setting -hitting infeas
 "ACT_BND~FX~2024" = 3.5316 # 9.81 GWh
 "ACT_BND~FX~0" = 5 # carry forward
 
