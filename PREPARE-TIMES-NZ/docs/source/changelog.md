@@ -13,6 +13,7 @@
 - Added existing/known grid-scale battery installations.
 - Increased battery lifespan assumptions.
 - Increased geothermal generation lifespan assumptions.
+- Updated base year data to use latest release of EEUD, revising some figures.
 
 
 **Model features**

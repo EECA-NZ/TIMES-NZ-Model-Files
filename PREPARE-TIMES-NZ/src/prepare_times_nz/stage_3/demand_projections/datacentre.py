@@ -1,5 +1,5 @@
 """
-This module converts Data Centre input demand projection assumptions
+This module converts Data Centers input demand projection assumptions
  and compiles indices for all commodities and scenarios
 
 A separate stage 4 module can extract these
@@ -68,7 +68,7 @@ def expand_years(df, base_year=BASE_YEAR, end_year=END_YEAR):
 # pylint: disable=too-many-locals
 def get_datacentre_growth_indices(base_year=2023):
     """
-    Creates yearly indices for Data Centres where capacities are specified at
+    Creates yearly indices for Data Centers where capacities are specified at
     2023, 2030, 2035 for Traditional & Transformation.
       - Linear 2023→2030 and 2030→2035
       - Flat after 2035

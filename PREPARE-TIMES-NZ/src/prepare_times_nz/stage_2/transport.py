@@ -1,3 +1,7 @@
+"""
+Transport mapping ccodes
+"""
+
 MOTIVE_GROUP_MAP = {
     "BEV": ("Electricity", "BEV"),
     "Petrol_Hybrid": ("Petrol", "ICE Hybrid"),

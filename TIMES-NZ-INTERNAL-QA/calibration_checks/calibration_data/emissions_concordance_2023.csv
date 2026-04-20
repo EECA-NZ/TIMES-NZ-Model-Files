@@ -1,0 +1,65 @@
+ComparisonSector,ComparisonFuel,InventoryCode,ModelSectorGroup,ModelSector,ModelFuelCategory
+Electricity generation,Total,1.A.1.a. Public electricity a,Electricity generation,Electricity generation,
+Electricity generation,Total,1.B.2.d. Geothermal,Electricity generation,Electricity generation,
+Fugitive emissions,Total,1.B.1. Solid fuels,Fugitive emissions,Natural gas fugitive emissions,
+Fugitive emissions,Total,1.B.2.a. Oil,Fugitive emissions,Natural gas fugitive emissions,
+Fugitive emissions,Total,1.B.2.b. Natural gas,Fugitive emissions,Natural gas fugitive emissions,
+Fugitive emissions,Total,1.B.2.c. Venting and flaring,Fugitive emissions,Natural gas fugitive emissions,
+"Agriculture, Forestry, and Fishing",Total,1.A.4.c. Agriculture-forestry,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,
+"Agriculture, Forestry, and Fishing",Total,1.A.4.c. Agriculture-forestry,"Agriculture, Forestry, and Fishing","Fishing, Hunting and Trapping",
+"Agriculture, Forestry, and Fishing",Total,1.A.4.c. Agriculture-forestry,"Agriculture, Forestry, and Fishing","Forestry and Logging",
+"Agriculture, Forestry, and Fishing",Total,1.A.4.c. Agriculture-forestry,"Agriculture, Forestry, and Fishing","Horticulture (Outdoor)",
+"Agriculture, Forestry, and Fishing",Total,1.A.4.c. Agriculture-forestry,"Agriculture, Forestry, and Fishing",Indoor Cropping,
+"Agriculture, Forestry, and Fishing",Total,1.A.4.c. Agriculture-forestry,"Agriculture, Forestry, and Fishing",Livestock Farming,
+"Agriculture, Forestry, and Fishing",Total,1.A.4.c. Agriculture-forestry,"Agriculture, Forestry, and Fishing",Other Agriculture,
+Commercial,Total,1.A.4.a. Commercial-instituti,Commercial,Education,
+Commercial,Total,1.A.4.a. Commercial-instituti,Commercial,Healthcare,
+Commercial,Total,1.A.4.a. Commercial-instituti,Commercial,Office Blocks,
+Commercial,Total,1.A.4.a. Commercial-instituti,Commercial,Other Commercial,
+Commercial,Total,1.A.4.a. Commercial-instituti,Commercial,WSR,
+Residential,Total,1.A.4.b. Residential,Residential,Detached Dwelling,
+Residential,Total,1.A.4.b. Residential,Residential,Joined Dwelling,
+Air Transport,Aviation gasoline,1.A.3.a. Aviation gasoline,Transport,Air Transport,Aviation gasoline
+Air Transport,Jet kerosene,1.A.3.a. Jet kerosene,Transport,Air Transport,Jet kerosene
+Air Transport,Biomass,1.A.3.a. Biomass,Transport,Air Transport,Biomass
+Road Transport,Gasoline,1.A.3.b.i. Gasoline,Transport,Road Transport,Gasoline
+Road Transport,Gasoline,1.A.3.b.ii. Gasoline,Transport,Road Transport,Gasoline
+Road Transport,Gasoline,1.A.3.b.iii. Gasoline,Transport,Road Transport,Gasoline
+Road Transport,Gasoline,1.A.3.b.iv. Gasoline,Transport,Road Transport,Gasoline
+Road Transport,Diesel oil,1.A.3.b.i. Diesel oil,Transport,Road Transport,Diesel oil
+Road Transport,Diesel oil,1.A.3.b.ii. Diesel oil,Transport,Road Transport,Diesel oil
+Road Transport,Diesel oil,1.A.3.b.iii. Diesel oil,Transport,Road Transport,Diesel oil
+Road Transport,Diesel oil,1.A.3.b.iv. Diesel oil,Transport,Road Transport,Diesel oil
+Road Transport,"Liquefied petroleum gases (LPG)",1.A.3.b.i. Liquefied petroleu,Transport,Road Transport,"Liquefied petroleum gases (LPG)"
+Road Transport,"Liquefied petroleum gases (LPG)",1.A.3.b.ii. Liquefied petrole,Transport,Road Transport,"Liquefied petroleum gases (LPG)"
+Road Transport,"Liquefied petroleum gases (LPG)",1.A.3.b.iii. Liquefied petrol,Transport,Road Transport,"Liquefied petroleum gases (LPG)"
+Road Transport,Biomass,1.A.3.b.i. Biomass,Transport,Road Transport,Biomass
+Road Transport,Biomass,1.A.3.b.ii. Biomass,Transport,Road Transport,Biomass
+Road Transport,Biomass,1.A.3.b.iii. Biomass,Transport,Road Transport,Biomass
+Road Transport,Biomass,1.A.3.b.iv. Biomass,Transport,Road Transport,Biomass
+Road Transport,Other fossil fuels,1.A.3.b.i. Other fossil fuels,Transport,Road Transport,Other fossil fuels
+Road Transport,Other fossil fuels,1.A.3.b.ii. Other fossil fuel,Transport,Road Transport,Other fossil fuels
+Road Transport,Other fossil fuels,1.A.3.b.iii. Other fossil fue,Transport,Road Transport,Other fossil fuels
+Road Transport,Other fossil fuels,1.A.3.b.iv. Other fossil fuel,Transport,Road Transport,Other fossil fuels
+Rail Transport,Liquid fuels,1.A.3.c. Liquid fuels,Transport,Rail Transport,Liquid fuels
+Sea Transport,Residual fuel oil,1.A.3.d. Residual fuel oil,Transport,Sea Transport,Residual fuel oil
+Sea Transport,Gas-Diesel oil,1.A.3.d. Gas-Diesel oil,Transport,Sea Transport,Gas-Diesel oil
+Sea Transport,Gasoline,1.A.3.d. Gasoline,Transport,Sea Transport,Gasoline
+Sea Transport,Other liquid fuels,1.A.3.d. Other liquid fuels ,Transport,Sea Transport,Other liquid fuels
+Sea Transport,Gaseous fuels,1.A.3.d. Gaseous fuels,Transport,Sea Transport,Gaseous fuels
+Sea Transport,Biomass,1.A.3.d. Biomass,Transport,Sea Transport,Biomass
+Sea Transport,Other fossil fuels,1.A.3.d. Other fossil fuels ,Transport,Sea Transport,Other fossil fuels
+Sea Transport,Coal,1.A.3.d. Coal,Transport,Sea Transport,Coal
+Industry,Total,1.A.2. Manufacturing industri,Industry,"Chemicals (excl. Urea and Methanol)",
+Industry,Total,1.A.2. Manufacturing industri,Industry,Construction,
+Industry,Total,1.A.2. Manufacturing industri,Industry,Dairy,
+Industry,Total,1.A.2. Manufacturing industri,Industry,"Food and Beverage",
+Industry,Total,1.A.2. Manufacturing industri,Industry,"Iron & Steel",
+Industry,Total,1.A.2. Manufacturing industri,Industry,Meat,
+Industry,Total,1.A.2. Manufacturing industri,Industry,Methanol,
+Industry,Total,1.A.2. Manufacturing industri,Industry,Mining,
+Industry,Total,1.A.2. Manufacturing industri,Industry,Non-Metallic Mineral Product Manufacturing,
+Industry,Total,1.A.2. Manufacturing industri,Industry,Other Industry,
+Industry,Total,1.A.2. Manufacturing industri,Industry,"Pulp and Paper",
+Industry,Total,1.A.2. Manufacturing industri,Industry,Urea,
+Industry,Total,1.A.2. Manufacturing industri,Industry,"Wood Products",
