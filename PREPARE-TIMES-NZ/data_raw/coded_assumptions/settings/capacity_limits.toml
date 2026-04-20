@@ -34,10 +34,28 @@ GrowthLimit = 0.03
 PSet_PN = "RES*HPSH-S_HEAT"
 
 
-[CapLimitResidentialBurners]
+[CapLimitResLPGHeating]
 Description = "Residential LPG space heating can only grow 2% annually"
 GrowthLimit = 0.02
 PSet_PN = "RES*LPG-BURNR-S_HEAT"
+
+[CapLimitResGasHeating]
+Description = "Residential NGA space heating can only grow 2% annually"
+GrowthLimit = 0.02
+PSet_PN = "RES*NGA-BURNR-S_HEAT"
+
+
+[CapLimitResLPGHotwater]
+Description = "Residential LPG water heating can only grow 2% annually"
+GrowthLimit = 0.02
+PSet_PN = "RES*LPG*WH_LOW"
+
+[CapLimitResGasHotwater]
+Description = "Residential NGA water heating can only grow 2% annually"
+GrowthLimit = 0.02
+PSet_PN = "RES*NGA*WH_LOW"
+
+
 
 
 
