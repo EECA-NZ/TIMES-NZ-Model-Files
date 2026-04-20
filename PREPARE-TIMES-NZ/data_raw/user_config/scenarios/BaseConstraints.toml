@@ -26,3 +26,11 @@ Pset_CI = ["NGA","BIM","BIM","NGA",]
 Other_Indexes = ["NGA","BIM","BIM","NGA",]
 Cset_CN = ["NGADD","BIMDD","NGADD","BIMDD"]
 NI = [1,1,0,0]
+
+
+[CapacityUptakeConstraints]
+
+Description = "Capacity uptake constraints."
+SheetName = "CapacityUptake"
+TagName = "TFM_INS"
+DataLocation = "data_intermediate/stage_4_veda_format/sys_settings/capacity_uptake.csv"
