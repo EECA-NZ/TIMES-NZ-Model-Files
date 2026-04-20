@@ -1,0 +1,43 @@
+# This file configures the technologies where we add additional constraints on uptake 
+
+# Each constraint is represented as a CAP GROWTH user constraint
+
+# Required entries: 
+
+# Description: Some plain english description of what's going on 
+# Growth Limit: the % increase capacity can grow by 
+# Pset_[Set|PN|CI|CO] Process sets, names, commodities in, or commodities out. wildcards possible, any combination is possible
+
+
+# Possible Entries: 
+
+# SeedValue: Optional additional capacity which can be installed above the % limit.
+#    (Necessary if capacity is 0 to start with before growth becomes dynamic.)
+# StartYear - a year for the constraint to activate from. Note default to baseyear.
+
+
+
+[CapLimitResidentialLED]
+Description = "Residential LED lighting can only grow at 4% annually"
+GrowthLimit = 0.04
+PSet_PN = "RES*LED-LIGHT" 
+
+[CapLimitResidentialFluro]
+Description = "Residential Fluro lighting can only grow at 1% annually"
+GrowthLimit = 0.01 
+PSet_PN = "RES*FLUOR-LIGHT" 
+
+
+[CapLimitResidentialHeatPumps]
+Description = "Residential HP capacity can only grow at 3% annually"
+GrowthLimit = 0.03
+PSet_PN = "RES*HPSH-S_HEAT"
+
+
+[CapLimitResidentialBurners]
+Description = "Residential LPG space heating can only grow 2% annually"
+GrowthLimit = 0.02
+PSet_PN = "RES*LPG-BURNR-S_HEAT"
+
+
+
