@@ -414,7 +414,7 @@ def build_emissions_comparison():
         get_inventory_sector_group_emissions(),
         get_modelled_sector_group_emissions(),
         ["SectorGroup", "Period"],
-        ["SectorGroup", "Scenario", "Period"],
+        ["Scenario", "SectorGroup", "Period"],
         [
             "SectorGroup",
             "Scenario",

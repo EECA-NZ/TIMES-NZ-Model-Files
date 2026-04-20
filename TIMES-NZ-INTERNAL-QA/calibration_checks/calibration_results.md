@@ -5,18 +5,18 @@
 | SectorGroup | Scenario | Period | HistoricalValue | ModelledValue | Difference | PercentDifference |
 | --- | --- | --- | --- | --- | --- | --- |
 | Agriculture, Forestry, and Fishing | traditional-v305 | 2023 | 1,415.77 | 1,373.36 | -42.41 | -3.00% |
-| Agriculture, Forestry, and Fishing | transformation-v305 | 2023 | 1,415.77 | 1,373.36 | -42.41 | -3.00% |
 | Commercial | traditional-v305 | 2023 | 1,196.20 | 1,188.80 | -7.40 | -0.62% |
-| Commercial | transformation-v305 | 2023 | 1,196.20 | 1,188.80 | -7.40 | -0.62% |
 | Electricity generation | traditional-v305 | 2023 | 3,214.33 | 3,162.38 | -51.95 | -1.62% |
-| Electricity generation | transformation-v305 | 2023 | 3,214.33 | 3,162.38 | -51.95 | -1.62% |
 | Fugitive emissions | traditional-v305 | 2023 | 696.78 | 476.07 | -220.72 | -31.68% |
-| Fugitive emissions | transformation-v305 | 2023 | 696.78 | 476.07 | -220.72 | -31.68% |
 | Industry | traditional-v305 | 2023 | 6,126.27 | 5,888.63 | -237.64 | -3.88% |
-| Industry | transformation-v305 | 2023 | 6,126.27 | 5,888.63 | -237.64 | -3.88% |
 | Residential | traditional-v305 | 2023 | 1,843.63 | 1,814.36 | -29.27 | -1.59% |
-| Residential | transformation-v305 | 2023 | 1,843.63 | 1,814.36 | -29.27 | -1.59% |
 | Transport | traditional-v305 | 2023 | 14,155.56 | 14,323.46 | 167.90 | 1.19% |
+| Agriculture, Forestry, and Fishing | transformation-v305 | 2023 | 1,415.77 | 1,373.36 | -42.41 | -3.00% |
+| Commercial | transformation-v305 | 2023 | 1,196.20 | 1,188.80 | -7.40 | -0.62% |
+| Electricity generation | transformation-v305 | 2023 | 3,214.33 | 3,162.38 | -51.95 | -1.62% |
+| Fugitive emissions | transformation-v305 | 2023 | 696.78 | 476.07 | -220.72 | -31.68% |
+| Industry | transformation-v305 | 2023 | 6,126.27 | 5,888.63 | -237.64 | -3.88% |
+| Residential | transformation-v305 | 2023 | 1,843.63 | 1,814.36 | -29.27 | -1.59% |
 | Transport | transformation-v305 | 2023 | 14,155.56 | 14,323.46 | 167.90 | 1.19% |
 
 ## Industry emissions by fuel
