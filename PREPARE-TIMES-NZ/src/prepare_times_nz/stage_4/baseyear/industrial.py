@@ -92,7 +92,7 @@ def get_industry_veda_table(df, input_map, enable_biogas=True):
         ind_nga_processes = [
             process
             for process in ind_nga_processes
-            if "METH" not in process and "UREA" not in process
+            if "METH" not in process and "UREA" not in process and "OTHR" not in process
             # alternatively: just exclude feedstock options
             # if "FSTK" not in process
         ]
@@ -104,6 +104,9 @@ def get_industry_veda_table(df, input_map, enable_biogas=True):
         )
 
         ind_lpg_processes = get_processes_with_input_commodity(ind_df, "INDLPG")
+        ind_lpg_processes = [
+            process for process in ind_lpg_processes if "OTHR" not in process
+        ]
         ind_df = add_extra_input_to_topology(
             ind_df,
             ind_lpg_processes,
@@ -285,6 +288,8 @@ def lock_other_industry(df, exceptions, slack=0.01):
     df["Share"] = df["Share"] * (1 - slack)
     # remove lower bound qualifiers for our exceptions
     df["Share"] = np.where(df["CommodityIn"].isin(exceptions), 0, df["Share"])
+    # zero-share rows do not create meaningful locks, so omit them entirely
+    df = df[df["Share"] > 0].copy()
 
     # column renaming
     flo_mark_map = {

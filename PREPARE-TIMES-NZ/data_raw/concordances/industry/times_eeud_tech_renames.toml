@@ -99,3 +99,17 @@ Justification = "The data on this is dubious, so we re-assign this to the proces
   [rule.updates]
   Technology = "Boiler Systems"
   EndUse = "Low Temperature Heat (<100 C), Process Requirements"
+
+[[rule]]
+Name = "Reassign other industry fuel oil furnace process heat to boilers"
+Justification = "This ensures that all 'Other' intermediate process heat is flexible: we don't have good data in this area."
+
+  [rule.conditions]
+  SectorGroup = "Industrial"
+  Sector = "Other Industry"
+  Fuel = "Fuel Oil"
+  Technology = "Furnace/Kiln"
+  EndUse = "Intermediate Heat (100-300 C), Process Requirements"
+
+  [rule.updates]
+  Technology = "Boiler Systems"
