@@ -104,6 +104,8 @@ Demand,DD-DSL-MTV_MOB,Residential,Detached Dwelling,"Motive Power, Mobile"
 Demand,JD-DSL-MTV_MOB,Residential,Joined Dwelling,"Motive Power, Mobile"
 Demand,DD-PET-MTV_MOB,Residential,Detached Dwelling,"Motive Power, Mobile"
 Demand,JD-PET-MTV_MOB,Residential,Joined Dwelling,"Motive Power, Mobile"
+Demand,DD-HWATER_SC-WH_LOW,Residential,Detached Dwelling,"Low Temperature Heat (<100 C), Water Heating"
+Demand,JD-HWATER_SC-WH_LOW,Residential,Joined Dwelling,"Low Temperature Heat (<100 C), Water Heating"
 Demand,CHEM-ELCTR-ELCTR,Industry,Chemicals (excl. Urea and Methanol),Electronics and Other Electrical Uses
 Demand,CHEM-LIGHT-LIGHT,Industry,Chemicals (excl. Urea and Methanol),Lighting
 Demand,CHEM-BOILR-PH_HIGH,Industry,Chemicals (excl. Urea and Methanol),"High Temperature Heat (>300 C), Process Requirements"

@@ -44,7 +44,7 @@ Description = "Hardcoded gas production limits for fields according to historica
 # copy-pasted from MBIE sheets. Could do a better job of this. subtracted kapuni from totals
 SheetName = "Natural Gas"
 TagName = "FI_T"
-Attribute = ["ACT_BND","ACT_BND","ACT_BND","ACT_BND"]
+Attribute = ["ACT_BND~FX","ACT_BND~FX","ACT_BND~FX","ACT_BND~FX"]
 TechName = ["MINNGA-KAP","MINNGA-KAP", "MINNGA-OTH","MINNGA-OTH"]
 Year = [2023,2024,2023,2024]
 NI = [12.11,14.24, 135.94, 104.73]

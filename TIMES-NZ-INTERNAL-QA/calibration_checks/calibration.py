@@ -55,8 +55,10 @@ INVENTORY_SECTOR_GROUP_CODE_MAP = {
     "Industry": "1.A.2. Manufacturing industri",
     "Transport": "1.A.3. Transport",
     "Electricity generation": "1.A.1.a. Public electricity a",
-    "Fugitive emissions": "1.B. Fugitive emissions from ",
+    "Fugitive emissions": "1.B. Fugitive emissions from",
 }
+GEOTHERMAL_FUGITIVE_CODE = "1.B.2.d. Geothermal"
+DISPLAY_ZERO_DECIMALS = 2
 INDUSTRY_FUEL_CODE_MAP = {
     "NGA": "Gaseous fuels",
     "COA": "Solid fuels",
@@ -92,6 +94,8 @@ RAW_EEUD_FUEL_MAP = {
     "Fuel oil": "Fuel Oil",
     "Wood residuals (onsite)": "Wood",
 }
+SPREADSHEET_NS = {"main": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+FORMAT_COLUMNS = ["HistoricalValue", "ModelledValue", "Difference"]
 
 
 def get_times_data(filename):
@@ -101,91 +105,93 @@ def get_times_data(filename):
 
 def excel_column_index(cell_reference):
     """Convert an Excel cell reference like AB12 to a zero-based column index."""
-    letters = "".join(char for char in str(cell_reference) if char.isalpha())
     index = 0
-    for char in letters:
+    for char in "".join(char for char in str(cell_reference) if char.isalpha()):
         index = index * 26 + (ord(char.upper()) - 64)
     return index - 1
 
 
-def build_shared_strings(workbook, spreadsheet_ns):
-    """Return the workbook shared strings table."""
+def get_shared_strings(workbook):
+    """Return workbook shared strings."""
     shared_strings_root = ET.fromstring(workbook.read("xl/sharedStrings.xml"))
     return [
         "".join(
             text_node.text or ""
-            for text_node in string_item.iterfind(".//main:t", spreadsheet_ns)
+            for text_node in string_item.iterfind(".//main:t", SPREADSHEET_NS)
         )
-        for string_item in shared_strings_root.findall("main:si", spreadsheet_ns)
+        for string_item in shared_strings_root.findall("main:si", SPREADSHEET_NS)
     ]
 
 
-def get_worksheet_target(workbook, sheet_name, spreadsheet_ns):
+def get_worksheet_target(workbook, sheet_name):
     """Return the internal xlsx path for a worksheet name."""
     workbook_root = ET.fromstring(workbook.read("xl/workbook.xml"))
     workbook_rels_root = ET.fromstring(workbook.read("xl/_rels/workbook.xml.rels"))
-    workbook_rel_map = {
+    worksheet_targets = {
         relationship.attrib["Id"]: relationship.attrib["Target"]
         for relationship in workbook_rels_root
     }
+    worksheet_target = next(
+        (
+            worksheet_targets[
+                sheet.attrib[
+                    "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id"
+                ]
+            ]
+            for sheet in workbook_root.find("main:sheets", SPREADSHEET_NS)
+            if sheet.attrib["name"] == sheet_name
+        ),
+        None,
+    )
+    if worksheet_target is None:
+        raise ValueError(f"Worksheet '{sheet_name}' not found")
+    return worksheet_target
 
-    for sheet in workbook_root.find("main:sheets", spreadsheet_ns):
-        rel_id = sheet.attrib[
-            "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id"
-        ]
-        if sheet.attrib["name"] == sheet_name:
-            return workbook_rel_map[rel_id]
 
-    raise ValueError(f"Worksheet '{sheet_name}' not found")
-
-
-def get_cell_text(cell, shared_strings, spreadsheet_ns):
-    """Extract text from a worksheet cell."""
-    cell_type = cell.attrib.get("t")
-    value_node = cell.find("main:v", spreadsheet_ns)
+def get_cell_value(cell, shared_strings):
+    """Return the text value for an xlsx cell."""
+    value_node = cell.find("main:v", SPREADSHEET_NS)
     if value_node is None:
         return "".join(
             text_node.text or ""
-            for text_node in cell.iterfind(".//main:t", spreadsheet_ns)
+            for text_node in cell.iterfind(".//main:t", SPREADSHEET_NS)
         )
 
-    cell_text = value_node.text or ""
-    if cell_type == "s":
-        return shared_strings[int(cell_text)]
-    return cell_text
+    value = value_node.text or ""
+    if cell.attrib.get("t") == "s":
+        return shared_strings[int(value)]
+    return value
 
 
-def parse_worksheet_rows(sheet_data, shared_strings, spreadsheet_ns):
-    """Expand worksheet rows into a list of string lists."""
+def parse_sheet_rows(sheet_data, shared_strings):
+    """Parse an xlsx sheet into a list of row values."""
     rows = []
-    for row in sheet_data.findall("main:row", spreadsheet_ns):
-        values_by_column = {}
-        for cell in row.findall("main:c", spreadsheet_ns):
-            cell_reference = cell.attrib.get("r", "")
-            values_by_column[excel_column_index(cell_reference)] = get_cell_text(
-                cell, shared_strings, spreadsheet_ns
+    for row in sheet_data.findall("main:row", SPREADSHEET_NS):
+        values_by_column = {
+            excel_column_index(cell.attrib.get("r", "")): get_cell_value(
+                cell, shared_strings
             )
-
+            for cell in row.findall("main:c", SPREADSHEET_NS)
+        }
         if values_by_column:
-            max_column = max(values_by_column)
             rows.append(
-                [values_by_column.get(index, "") for index in range(max_column + 1)]
+                [
+                    values_by_column.get(index, "")
+                    for index in range(max(values_by_column) + 1)
+                ]
             )
     return rows
 
 
 def get_workbook_sheet_rows(workbook_path, sheet_name):
     """Read a worksheet from an xlsx workbook without requiring openpyxl."""
-    spreadsheet_ns = {
-        "main": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
-    }
 
     with ZipFile(workbook_path) as workbook:
-        shared_strings = build_shared_strings(workbook, spreadsheet_ns)
-        worksheet_target = get_worksheet_target(workbook, sheet_name, spreadsheet_ns)
+        shared_strings = get_shared_strings(workbook)
+        worksheet_target = get_worksheet_target(workbook, sheet_name)
         worksheet_root = ET.fromstring(workbook.read(f"xl/{worksheet_target}"))
-        sheet_data = worksheet_root.find("main:sheetData", spreadsheet_ns)
-        return parse_worksheet_rows(sheet_data, shared_strings, spreadsheet_ns)
+        sheet_data = worksheet_root.find("main:sheetData", SPREADSHEET_NS)
+        return parse_sheet_rows(sheet_data, shared_strings)
 
 
 def get_inventory_emissions():
@@ -217,25 +223,48 @@ def get_inventory_emissions():
     return df
 
 
-def get_inventory_total_emissions():
-    """Return the 2023 inventory total for the Energy chapter."""
-    inventory = get_inventory_emissions()
-    return inventory[inventory["InventoryCode"] == "1. Energy"][
-        ["Period", "HistoricalValue"]
-    ].rename(columns={"HistoricalValue": "InventoryTotal"})
+def calculate_differences(df):
+    """Add absolute and percentage difference columns to a comparison table."""
+    out = df.copy()
+    out["Difference"] = out["ModelledValue"] - out["HistoricalValue"]
+    out["PercentDifference"] = (
+        out["Difference"].where(out["HistoricalValue"] != 0)
+        / out["HistoricalValue"].where(out["HistoricalValue"] != 0)
+        * 100
+    )
+    return out
 
 
-def get_model_scenarios():
-    """Return the scenario names present in the model outputs."""
-    return sorted(get_times_data("energy_demand.parquet")["Scenario"].unique())
+def cross_join_scenarios(df, scenarios):
+    """Duplicate historical rows for each model scenario."""
+    scenario_df = pd.DataFrame({"Scenario": scenarios})
+    return (
+        df.assign(key=1).merge(scenario_df.assign(key=1), on="key").drop(columns="key")
+    )
 
 
-def get_inventory_industry_emissions():
-    """Return inventory emissions for the industry chapter."""
-    inventory = get_inventory_emissions()
-    return inventory[
-        inventory["InventoryCode"].str.startswith("1.A.2", na=False)
-    ].copy()
+def build_scenario_comparison(
+    historical, modelled, key_columns, sort_columns, output_columns
+):
+    """Compare historical values against modelled values for each scenario."""
+    comparison = cross_join_scenarios(historical, sorted(modelled["Scenario"].unique()))
+    comparison = comparison.merge(
+        modelled[key_columns + ["Scenario", "ModelledValue"]],
+        on=key_columns + ["Scenario"],
+        how="left",
+    )
+    comparison["ModelledValue"] = comparison["ModelledValue"].fillna(0)
+    return calculate_differences(comparison)[output_columns].sort_values(sort_columns)
+
+
+def build_total_comparison(df, output_columns, metric=None):
+    """Roll a comparison table up to scenario-period totals."""
+    comparison = df.groupby(["Scenario", "Period"], as_index=False)[
+        ["HistoricalValue", "ModelledValue"]
+    ].sum()
+    if metric is not None:
+        comparison["Metric"] = metric
+    return calculate_differences(comparison)[output_columns]
 
 
 def get_raw_eeud_columns(df, sector_group):
@@ -252,15 +281,10 @@ def get_raw_eeud_columns(df, sector_group):
     return out[["SectorGroup", "Sector", "Fuel", "Period", "HistoricalValue"]]
 
 
-def load_raw_eeud_baseyear_file(path, sector_group):
-    """Load one raw EEUD baseyear file and standardize its columns."""
-    return get_raw_eeud_columns(pd.read_csv(path), sector_group)
-
-
 def get_raw_eeud_demand():
     """Return raw EEUD-aligned 2023 demand values by sector and fuel."""
     tables = [
-        load_raw_eeud_baseyear_file(path, sector_group)
+        get_raw_eeud_columns(pd.read_csv(path), sector_group)
         for path, sector_group in RAW_EEUD_BASEYEAR_FILES
     ]
     demand = pd.concat(tables, ignore_index=True)
@@ -286,12 +310,42 @@ def get_inventory_sector_group_emissions():
             continue
         sector_inventory["SectorGroup"] = sector_group
         rows.append(sector_inventory[["SectorGroup", "Period", "HistoricalValue"]])
-    return pd.concat(rows, ignore_index=True).sort_values(["SectorGroup", "Period"])
+    sector_group_emissions = pd.concat(rows, ignore_index=True)
+
+    geothermal_fugitive = inventory[
+        inventory["InventoryCode"] == GEOTHERMAL_FUGITIVE_CODE
+    ][["Period", "HistoricalValue"]].copy()
+    if not geothermal_fugitive.empty:
+        geothermal_fugitive["SectorGroup"] = "Electricity generation"
+        sector_group_emissions = pd.concat(
+            [sector_group_emissions, geothermal_fugitive], ignore_index=True
+        )
+        fugitive_mask = sector_group_emissions["SectorGroup"] == "Fugitive emissions"
+        sector_group_emissions.loc[
+            fugitive_mask, "HistoricalValue"
+        ] = sector_group_emissions.loc[
+            fugitive_mask, "HistoricalValue"
+        ] - sector_group_emissions.loc[
+            fugitive_mask, "Period"
+        ].map(
+            geothermal_fugitive.set_index("Period")["HistoricalValue"]
+        ).fillna(
+            0
+        )
+
+    return (
+        sector_group_emissions.groupby(["SectorGroup", "Period"], as_index=False)[
+            "HistoricalValue"
+        ]
+        .sum()
+        .sort_values(["SectorGroup", "Period"])
+    )
 
 
 def get_inventory_industry_emissions_by_fuel():
     """Return inventory industry emissions aggregated to fuel groups."""
-    inventory = get_inventory_industry_emissions()
+    inventory = get_inventory_emissions()
+    inventory = inventory[inventory["InventoryCode"].str.startswith("1.A.2", na=False)]
     inventory = inventory[
         inventory["InventoryName"].isin(INVENTORY_INDUSTRY_FUEL_NAMES)
     ].copy()
@@ -356,31 +410,11 @@ def get_modelled_industry_emissions_by_fuel():
 
 def build_emissions_comparison():
     """Return emissions comparison by sector group."""
-    historical = get_inventory_sector_group_emissions()
-    modelled = get_modelled_sector_group_emissions()
-
-    scenarios = pd.DataFrame({"Scenario": sorted(modelled["Scenario"].unique())})
-    comparison_index = historical[["SectorGroup", "Period", "HistoricalValue"]].copy()
-    comparison_index["key"] = 1
-    scenarios["key"] = 1
-    comparison = comparison_index.merge(scenarios, on="key", how="left").drop(
-        columns="key"
-    )
-    comparison = comparison.merge(
-        modelled[["SectorGroup", "Scenario", "Period", "ModelledValue"]],
-        on=["SectorGroup", "Scenario", "Period"],
-        how="left",
-    )
-    comparison["ModelledValue"] = comparison["ModelledValue"].fillna(0)
-    comparison["Difference"] = (
-        comparison["ModelledValue"] - comparison["HistoricalValue"]
-    )
-    comparison["PercentDifference"] = (
-        comparison["Difference"].where(comparison["HistoricalValue"] != 0)
-        / comparison["HistoricalValue"].where(comparison["HistoricalValue"] != 0)
-        * 100
-    )
-    return comparison[
+    return build_scenario_comparison(
+        get_inventory_sector_group_emissions(),
+        get_modelled_sector_group_emissions(),
+        ["SectorGroup", "Period"],
+        ["Scenario", "SectorGroup", "Period"],
         [
             "SectorGroup",
             "Scenario",
@@ -389,30 +423,26 @@ def build_emissions_comparison():
             "ModelledValue",
             "Difference",
             "PercentDifference",
-        ]
-    ].sort_values(["SectorGroup", "Scenario", "Period"])
+        ],
+    )
 
 
 def build_total_emissions_comparison():
     """Return total emissions comparison."""
-    inventory_total = get_inventory_total_emissions()
+    inventory_total = get_inventory_emissions()
+    inventory_total = inventory_total[inventory_total["InventoryCode"] == "1. Energy"][
+        ["Period", "HistoricalValue"]
+    ].rename(columns={"HistoricalValue": "InventoryTotal"})
     modelled_total = (
         get_times_data("emissions.parquet")
         .groupby(["Scenario", "Period"], as_index=False)["Value"]
         .sum()
         .rename(columns={"Value": "ModelledValue"})
     )
-    comparison = modelled_total.merge(inventory_total, on="Period", how="left")
-    comparison = comparison.rename(columns={"InventoryTotal": "HistoricalValue"})
-    comparison["Difference"] = (
-        comparison["ModelledValue"] - comparison["HistoricalValue"]
+    comparison = modelled_total.merge(inventory_total, on="Period", how="left").rename(
+        columns={"InventoryTotal": "HistoricalValue"}
     )
-    comparison["PercentDifference"] = (
-        comparison["Difference"].where(comparison["HistoricalValue"] != 0)
-        / comparison["HistoricalValue"].where(comparison["HistoricalValue"] != 0)
-        * 100
-    )
-    return comparison[
+    return calculate_differences(comparison)[
         [
             "Scenario",
             "Period",
@@ -426,31 +456,11 @@ def build_total_emissions_comparison():
 
 def build_industry_emissions_by_fuel_comparison():
     """Return industry total emissions compared by fuel group."""
-    historical = get_inventory_industry_emissions_by_fuel()
-    modelled = get_modelled_industry_emissions_by_fuel()
-
-    scenarios = pd.DataFrame({"Scenario": sorted(modelled["Scenario"].unique())})
-    comparison_index = historical[["FuelGroup", "Period", "HistoricalValue"]].copy()
-    comparison_index["key"] = 1
-    scenarios["key"] = 1
-    comparison = comparison_index.merge(scenarios, on="key", how="left").drop(
-        columns="key"
-    )
-    comparison = comparison.merge(
-        modelled[["FuelGroup", "Scenario", "Period", "ModelledValue"]],
-        on=["FuelGroup", "Scenario", "Period"],
-        how="left",
-    )
-    comparison["ModelledValue"] = comparison["ModelledValue"].fillna(0)
-    comparison["Difference"] = (
-        comparison["ModelledValue"] - comparison["HistoricalValue"]
-    )
-    comparison["PercentDifference"] = (
-        comparison["Difference"].where(comparison["HistoricalValue"] != 0)
-        / comparison["HistoricalValue"].where(comparison["HistoricalValue"] != 0)
-        * 100
-    )
-    return comparison[
+    return build_scenario_comparison(
+        get_inventory_industry_emissions_by_fuel(),
+        get_modelled_industry_emissions_by_fuel(),
+        ["FuelGroup", "Period"],
+        ["FuelGroup", "Scenario", "Period"],
         [
             "FuelGroup",
             "Scenario",
@@ -459,23 +469,15 @@ def build_industry_emissions_by_fuel_comparison():
             "ModelledValue",
             "Difference",
             "PercentDifference",
-        ]
-    ].sort_values(["FuelGroup", "Scenario", "Period"])
-
-
-def add_scenarios_to_historical(df, scenarios):
-    """Cross join a historical table to all model scenarios."""
-    scenario_df = pd.DataFrame({"Scenario": scenarios})
-    out = df.copy()
-    out["key"] = 1
-    scenario_df["key"] = 1
-    return out.merge(scenario_df, on="key", how="left").drop(columns="key")
+        ],
+    )
 
 
 def build_raw_eeud_demand_comparison():
     """Return raw EEUD demand compared with model demand by sector and fuel."""
-    historical = add_scenarios_to_historical(
-        get_raw_eeud_demand(), get_model_scenarios()
+    historical = cross_join_scenarios(
+        get_raw_eeud_demand(),
+        sorted(get_times_data("energy_demand.parquet")["Scenario"].unique()),
     )
     modelled = get_modelled_eeud_demand()
     comparison = historical.merge(
@@ -485,15 +487,11 @@ def build_raw_eeud_demand_comparison():
     )
     comparison["HistoricalValue"] = comparison["HistoricalValue"].fillna(0)
     comparison["ModelledValue"] = comparison["ModelledValue"].fillna(0)
-    comparison["Difference"] = (
-        comparison["ModelledValue"] - comparison["HistoricalValue"]
-    )
-    comparison["PercentDifference"] = (
-        comparison["Difference"].where(comparison["HistoricalValue"] != 0)
-        / comparison["HistoricalValue"].where(comparison["HistoricalValue"] != 0)
-        * 100
-    )
+    comparison = calculate_differences(comparison)
     comparison["AbsoluteDifference"] = comparison["Difference"].abs()
+    comparison = comparison[
+        comparison["Difference"].round(DISPLAY_ZERO_DECIMALS) != 0
+    ].copy()
     return (
         comparison[
             [
@@ -529,14 +527,10 @@ def build_raw_eeud_sector_total_comparison(raw_eeud_demand_comparison):
     comparison = raw_eeud_demand_comparison.groupby(
         ["SectorGroup", "Sector", "Scenario", "Period"], as_index=False
     )[["HistoricalValue", "ModelledValue"]].sum()
-    comparison["Difference"] = (
-        comparison["ModelledValue"] - comparison["HistoricalValue"]
-    )
-    comparison["PercentDifference"] = (
-        comparison["Difference"].where(comparison["HistoricalValue"] != 0)
-        / comparison["HistoricalValue"].where(comparison["HistoricalValue"] != 0)
-        * 100
-    )
+    comparison = calculate_differences(comparison)
+    comparison = comparison[
+        comparison["Difference"].round(DISPLAY_ZERO_DECIMALS) != 0
+    ].copy()
     comparison["AbsoluteDifference"] = comparison["Difference"].abs()
     return (
         comparison[
@@ -560,15 +554,10 @@ def build_raw_eeud_sector_total_comparison(raw_eeud_demand_comparison):
     )
 
 
-def get_historical_electricity_consumption():
-    """
-    Load historical electricity consumption and align it with model sectors.
-
-    Historical unallocated onsite consumption is compared as part of industrial
-    demand because that load is assigned to industry in the model outputs.
-    """
+def get_historical_electricity(category, value_column, onsite_sector=None):
+    """Load and standardise historical electricity data from the calibration CSV."""
     df = pd.read_csv(CALIBRATION_DATA / "electricity.csv")
-    df = df[df["Category"] == "Consumption"].copy()
+    df = df[df["Category"] == category].copy()
     df = df.melt(
         id_vars=["Category", "sector", "Unit"],
         var_name="Period",
@@ -578,9 +567,9 @@ def get_historical_electricity_consumption():
     df["HistoricalValue"] = pd.to_numeric(df["HistoricalValue"], errors="coerce")
     df = df.dropna(subset=["Period", "HistoricalValue"])
 
-    onsite = df[df["sector"] == "Unallocated onsite consumption"].copy()
-    if not onsite.empty:
-        onsite["sector"] = "Industrial"
+    if onsite_sector is not None:
+        onsite = df[df["sector"] == "Unallocated onsite consumption"].copy()
+        onsite["sector"] = onsite_sector
         df = pd.concat(
             [df[df["sector"] != "Unallocated onsite consumption"], onsite],
             ignore_index=True,
@@ -589,23 +578,8 @@ def get_historical_electricity_consumption():
     return (
         df.groupby(["sector", "Period", "Unit"], as_index=False)["HistoricalValue"]
         .sum()
-        .rename(columns={"sector": "Sector"})
+        .rename(columns={"sector": value_column})
     )
-
-
-def get_historical_electricity_generation():
-    """Load historical electricity generation in MBIE categories."""
-    df = pd.read_csv(CALIBRATION_DATA / "electricity.csv")
-    df = df[df["Category"] == "Net generation"].copy()
-    df = df.melt(
-        id_vars=["Category", "sector", "Unit"],
-        var_name="Period",
-        value_name="HistoricalValue",
-    )
-    df["Period"] = pd.to_numeric(df["Period"], errors="coerce")
-    df["HistoricalValue"] = pd.to_numeric(df["HistoricalValue"], errors="coerce")
-    df = df.dropna(subset=["Period", "HistoricalValue"])
-    return df.rename(columns={"sector": "GenerationCategory"})
 
 
 def get_modelled_electricity_consumption():
@@ -729,26 +703,17 @@ def get_modelled_electricity_generation():
 
 def build_electricity_consumption_comparison():
     """Return the electricity consumption calibration comparison table."""
-    historical = get_historical_electricity_consumption()
+    historical = get_historical_electricity(
+        "Consumption", "Sector", onsite_sector="Industrial"
+    )
     modelled = get_modelled_electricity_consumption()
 
-    historical_years = sorted(historical["Period"].unique())
-    modelled = modelled[modelled["Period"].isin(historical_years)].copy()
-
-    comparison = modelled.merge(
+    comparison = modelled[modelled["Period"].isin(historical["Period"].unique())].merge(
         historical[["Sector", "Period", "HistoricalValue"]],
         on=["Sector", "Period"],
         how="inner",
     )
-
-    comparison["Difference"] = (
-        comparison["ModelledValue"] - comparison["HistoricalValue"]
-    )
-    comparison["PercentDifference"] = (
-        comparison["Difference"] / comparison["HistoricalValue"] * 100
-    )
-
-    comparison = comparison[
+    return calculate_differences(comparison)[
         [
             "Sector",
             "Scenario",
@@ -760,25 +725,11 @@ def build_electricity_consumption_comparison():
         ]
     ].sort_values(["Scenario", "Sector", "Period"])
 
-    return comparison
-
 
 def build_total_electricity_consumption_comparison(electricity_consumption_comparison):
     """Return a total electricity consumption comparison table."""
-    comparison = (
-        electricity_consumption_comparison.groupby(
-            ["Scenario", "Period"], as_index=False
-        )[["HistoricalValue", "ModelledValue"]]
-        .sum()
-        .assign(Metric="Total electricity consumption")
-    )
-    comparison["Difference"] = (
-        comparison["ModelledValue"] - comparison["HistoricalValue"]
-    )
-    comparison["PercentDifference"] = (
-        comparison["Difference"] / comparison["HistoricalValue"] * 100
-    )
-    return comparison[
+    return build_total_comparison(
+        electricity_consumption_comparison,
         [
             "Metric",
             "Scenario",
@@ -787,41 +738,21 @@ def build_total_electricity_consumption_comparison(electricity_consumption_compa
             "ModelledValue",
             "Difference",
             "PercentDifference",
-        ]
-    ].sort_values(["Period", "Scenario"])
+        ],
+        "Total electricity consumption",
+    ).sort_values(["Period", "Scenario"])
 
 
 def build_electricity_generation_comparison():
     """Return the electricity generation calibration comparison table."""
-    historical = get_historical_electricity_generation()
+    historical = get_historical_electricity("Net generation", "GenerationCategory")
     modelled = get_modelled_electricity_generation()
-
-    historical_years = sorted(historical["Period"].unique())
-    modelled = modelled[modelled["Period"].isin(historical_years)].copy()
-    scenarios = pd.DataFrame({"Scenario": sorted(modelled["Scenario"].unique())})
-    historical_index = historical[
-        ["GenerationCategory", "Period", "HistoricalValue"]
-    ].copy()
-    historical_index["key"] = 1
-    scenarios["key"] = 1
-    comparison = historical_index.merge(scenarios, on="key", how="left").drop(
-        columns="key"
-    )
-    comparison = comparison.merge(
-        modelled[["Scenario", "GenerationCategory", "Period", "ModelledValue"]],
-        on=["Scenario", "GenerationCategory", "Period"],
-        how="left",
-    )
-    comparison["ModelledValue"] = comparison["ModelledValue"].fillna(0)
-
-    comparison["Difference"] = (
-        comparison["ModelledValue"] - comparison["HistoricalValue"]
-    )
-    comparison["PercentDifference"] = (
-        comparison["Difference"] / comparison["HistoricalValue"] * 100
-    )
-
-    comparison = comparison[
+    modelled = modelled[modelled["Period"].isin(historical["Period"].unique())].copy()
+    return build_scenario_comparison(
+        historical,
+        modelled,
+        ["GenerationCategory", "Period"],
+        ["Scenario", "GenerationCategory", "Period"],
         [
             "GenerationCategory",
             "Scenario",
@@ -830,28 +761,14 @@ def build_electricity_generation_comparison():
             "ModelledValue",
             "Difference",
             "PercentDifference",
-        ]
-    ].sort_values(["Scenario", "GenerationCategory", "Period"])
-
-    return comparison
+        ],
+    )
 
 
 def build_total_generation_comparison(electricity_generation_comparison):
     """Return a total electricity generation comparison table."""
-    comparison = (
-        electricity_generation_comparison.groupby(
-            ["Scenario", "Period"], as_index=False
-        )[["HistoricalValue", "ModelledValue"]]
-        .sum()
-        .assign(Metric="Total generation")
-    )
-    comparison["Difference"] = (
-        comparison["ModelledValue"] - comparison["HistoricalValue"]
-    )
-    comparison["PercentDifference"] = (
-        comparison["Difference"] / comparison["HistoricalValue"] * 100
-    )
-    return comparison[
+    return build_total_comparison(
+        electricity_generation_comparison,
         [
             "Metric",
             "Scenario",
@@ -860,14 +777,15 @@ def build_total_generation_comparison(electricity_generation_comparison):
             "ModelledValue",
             "Difference",
             "PercentDifference",
-        ]
-    ].sort_values(["Period", "Scenario"])
+        ],
+        "Total generation",
+    ).sort_values(["Period", "Scenario"])
 
 
 def format_table(df):
     """Format numeric columns for console-friendly table output."""
     out = df.copy()
-    for col in ["HistoricalValue", "ModelledValue", "Difference"]:
+    for col in FORMAT_COLUMNS:
         if col in out.columns:
             out[col] = out[col].map(lambda value: f"{value:,.2f}")
     if "PercentDifference" in out.columns:
@@ -902,70 +820,45 @@ def filter_assessment_years(df):
 
 def main():
     """Run calibration comparisons and write a markdown report."""
-    emissions_comparison = build_emissions_comparison()
-    industry_emissions_by_fuel_comparison = (
-        build_industry_emissions_by_fuel_comparison()
-    )
     raw_eeud_demand_comparison = build_raw_eeud_demand_comparison()
-    raw_eeud_sector_total_comparison = build_raw_eeud_sector_total_comparison(
-        raw_eeud_demand_comparison
-    )
-    total_emissions_comparison = build_total_emissions_comparison()
     electricity_consumption_comparison = build_electricity_consumption_comparison()
-    total_electricity_consumption_comparison = (
-        build_total_electricity_consumption_comparison(
-            electricity_consumption_comparison
-        )
-    )
     electricity_generation_comparison = build_electricity_generation_comparison()
-    total_generation_comparison = build_total_generation_comparison(
-        electricity_generation_comparison
-    )
-    emissions_comparison = filter_assessment_years(emissions_comparison)
-    industry_emissions_by_fuel_comparison = filter_assessment_years(
-        industry_emissions_by_fuel_comparison
-    )
-    raw_eeud_demand_comparison = filter_assessment_years(raw_eeud_demand_comparison)
-    raw_eeud_sector_total_comparison = filter_assessment_years(
-        raw_eeud_sector_total_comparison
-    )
-    total_emissions_comparison = filter_assessment_years(total_emissions_comparison)
-    electricity_consumption_comparison = filter_assessment_years(
-        electricity_consumption_comparison
-    )
-    total_electricity_consumption_comparison = filter_assessment_years(
-        total_electricity_consumption_comparison
-    )
-    electricity_generation_comparison = filter_assessment_years(
-        electricity_generation_comparison
-    )
-    total_generation_comparison = filter_assessment_years(total_generation_comparison)
     sections = [
-        ("Emissions by sector group", format_table(emissions_comparison)),
+        ("Emissions by sector group", build_emissions_comparison()),
         (
             "Industry emissions by fuel",
-            format_table(industry_emissions_by_fuel_comparison),
+            build_industry_emissions_by_fuel_comparison(),
         ),
         (
             "Raw EEUD demand by sector and fuel",
-            format_table(raw_eeud_demand_comparison),
+            raw_eeud_demand_comparison,
         ),
-        ("Raw EEUD demand by sector", format_table(raw_eeud_sector_total_comparison)),
-        ("Total emissions", format_table(total_emissions_comparison)),
-        ("Electricity consumption", format_table(electricity_consumption_comparison)),
+        (
+            "Raw EEUD demand by sector",
+            build_raw_eeud_sector_total_comparison(raw_eeud_demand_comparison),
+        ),
+        ("Total emissions", build_total_emissions_comparison()),
+        ("Electricity consumption", electricity_consumption_comparison),
         (
             "Total electricity consumption",
-            format_table(total_electricity_consumption_comparison),
+            build_total_electricity_consumption_comparison(
+                electricity_consumption_comparison
+            ),
         ),
-        ("Electricity generation", format_table(electricity_generation_comparison)),
-        ("Total generation", format_table(total_generation_comparison)),
+        ("Electricity generation", electricity_generation_comparison),
+        (
+            "Total generation",
+            build_total_generation_comparison(electricity_generation_comparison),
+        ),
     ]
 
     markdown_parts = ["# Calibration Results", ""]
     for title, dataframe in sections:
         markdown_parts.append(f"## {title}")
         markdown_parts.append("")
-        markdown_parts.append(dataframe_to_markdown(dataframe))
+        markdown_parts.append(
+            dataframe_to_markdown(format_table(filter_assessment_years(dataframe)))
+        )
 
     CALIBRATION_RESULTS_FILE.write_text(
         "\n".join(markdown_parts).strip() + "\n",

@@ -340,8 +340,8 @@ Demand,RES-DD-NGA-HWATER_G-WH_LOW,DD-WH_LOW,Residential,Detached Dwelling,Heatin
 Demand,RES-JD-NGA-HWATER_G-WH_LOW,JD-WH_LOW,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Gas Water Heater
 Demand,RES-DD-PET-ICENG-MTV_MOB,DD-PET-MTV_MOB,Residential,Detached Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
 Demand,RES-JD-PET-ICENG-MTV_MOB,JD-PET-MTV_MOB,Residential,Joined Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
-Demand,RES-DD-SOL-HWATER_C-WH_LOW,DD-WH_LOW,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Solar hot water cylinder
-Demand,RES-JD-SOL-HWATER_C-WH_LOW,JD-WH_LOW,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Solar hot water cylinder
+Demand,RES-DD-SOL-HWATER_SC-WH_LOW,DD-HWATER_SC-WH_LOW,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Solar hot water cylinder
+Demand,RES-JD-SOL-HWATER_SC-WH_LOW,JD-HWATER_SC-WH_LOW,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Solar hot water cylinder
 Demand,RES-DD-WOD-BURNR-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,RES-JD-WOD-BURNR-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,RES-DD-WOD-BURNR_W-WH_LOW,DD-WH_LOW,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,"Burner, with Wetback"
