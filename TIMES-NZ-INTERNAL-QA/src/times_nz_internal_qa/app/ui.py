@@ -93,6 +93,7 @@ app_ui = ui.page_fluid(
                 ui.input_switch("compare_on", "Compare with..."),
                 ui.output_ui("select_scenario_b_ui"),
                 style="display:flex; align-items:center; gap:10px;",
+                class_="scenario-selector-controls",
             ),
             style=(
                 "display:flex;"
@@ -100,8 +101,10 @@ app_ui = ui.page_fluid(
                 "justify-content:space-between;"
                 "margin-top:8px;"
             ),
+            class_="scenario-selector-bar",
         ),
         # style="padding:10px 20px; border-bottom:1px solid #ccc;",
+        class_="app-header-panel",
     ),
     # EXPLORER NAVSET PAGES
     ui.div(

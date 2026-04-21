@@ -7,12 +7,14 @@
   --bg: #fbfbfb;
   --panel-bg: #e8ecee; /*#eef1f4;*/
   --panel-text: #000000; /*#1f2937;*/
-  --muted: #6b7280;
-  --border: #d1d5db;
-  --bs-primary: #0072B3;
+  --muted: #3C6280;
+  --border: #C0EBEB;
+  --bs-primary: #0A3C61;
+  --bs-secondary: #74dcdb;
+  --bs-secondary-muted: #C0EBEB;
 
   /* sizes */
-  --radius: 4px;
+  --radius: 0px;
   --gap: 12px;
   --chart-panel-h: 520px;
   --header-control-h: 36px;
@@ -30,7 +32,20 @@ body {
 body > .container-fluid {
   display: flex;
   flex-direction: column;
-  padding: 0;
+  padding: 0 0px;
+}
+
+.app-header-panel {
+  background: var(--panel-bg);
+  padding: 8px 16px 12px;
+}
+
+.scenario-selector-bar {
+  background: var(--panel-bg);
+}
+
+.scenario-selector-controls {
+  flex-wrap: wrap;
 }
 
 
@@ -86,10 +101,19 @@ body > .container-fluid {
 .clear-filters {
   background: none;
   border: none;
-  color: #666;
+  color: var(--muted);
   cursor: pointer;
   font-size: 13px;
   font-weight: 650;
+}
+
+.clear-filters:hover,
+.clear-filters:focus,
+.clear-filters:active {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: #000000;
 }
 
 
@@ -136,11 +160,11 @@ body > .container-fluid {
 
 .chart-hover-card {
   background: rgba(255, 255, 255, 0.98);
-  border-radius: 6px;
+  border-radius: var(--radius);
   border: 1px solid rgba(15, 23, 42, 0.12);
   box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
-  color: #1f2937;
-  padding: 10px 12px;
+  color: var(--panel-text);
+  padding: 10px 0;
 }
 
 .chart-hover-row {
@@ -157,23 +181,29 @@ body > .container-fluid {
 }
 
 .chart-hover-label {
-  color: #6b7280;
-  font-size: 11px;
-  font-weight: 600;
+  color: var(--muted);
+  font-size: 13px;
+  font-family: roboto;
+  font-weight: 550;
   letter-spacing: 0.02em;
+  padding-left: 8px;
 }
 
 .chart-hover-value {
-  color: #111827;
-  font-size: 12px;
-  font-weight: 500;
+  color: var(--panel-text);
+  font-size: 13px;
+  font-family: roboto;
+  font-weight: 400;
+  padding-right: 8px;
 }
 
 .chart-hover-status {
   border-top: 1px solid rgba(15, 23, 42, 0.08);
-  color: #6b7280;
-  font-size: 11px;
-  padding-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  font-family: roboto;
+  font-weight: 400;
+  padding: 4px 8px 0px;
 }
 
 /* Generic chart header: vertical stack (title + controls row) */
@@ -243,10 +273,10 @@ body > .container-fluid {
   font-size: 14px;
   height: var(--header-control-h) !important;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   box-sizing: border-box;
   overflow: hidden;
-  background: #fff;
+  background: var(--bg);
   gap: 0;
   margin-left: 0;
 }
@@ -274,7 +304,7 @@ body > .container-fluid {
   height: 100%;
   padding: 0 10px;
   box-sizing: border-box;
-  background: #fff;
+  background: var(--bg);
   color: var(--panel-text);
   cursor: pointer;
   user-select: none;
@@ -289,16 +319,19 @@ body > .container-fluid {
 }
 
 .chart-toggle-bar .radio-inline:hover span {
-  background: #f3f4f6;
+  background: var(--bs-secondary-muted);
+  color: var(--bs-primary);
+  font-weight: 450;
 }
 
 .chart-toggle-bar .radio-inline input[type="radio"]:checked + span {
-  background: var(--bs-primary);
-  color: #fff;
+  background: var(--bs-secondary);
+  color: var(--bs-primary);
+  font-weight: 550;
 }
 
 .chart-toggle-bar .radio-inline input[type="radio"]:focus-visible + span {
-  outline: 2px solid var(--bs-primary);
+  outline: 2px solid var(--bs-secondary);
   outline-offset: -2px;
 }
 
@@ -311,10 +344,10 @@ body > .container-fluid {
   padding: 0 10px;
   font-size: 14px;
   line-height: 1.4;
-  border-radius: 4px;
+  border-radius: var(--radius);
   border-color: var(--border);
   box-sizing: border-box;
-  background: #fff;
+  background: var(--bg);
   color: var(--panel-text);
   width: auto;
   font-weight: 400;
@@ -358,8 +391,8 @@ body > .container-fluid {
 
 /* Download hover */
 .chart-header-card .btn:hover {
-  background: #f3f4f6;
-  border-color: #cbd5e1;
+  background: var(--bg);
+  border-color: var(--border);
 }
 
 .chart-download-group .dropdown-menu {
@@ -374,7 +407,9 @@ body > .container-fluid {
 }
 
 .chart-download-group .dropdown-item:hover {
-  background: #f3f4f6;
+  background: var(--bs-secondary-muted);
+  color: var(--bs-primary);
+  font-weight: 450;
 }
 
 
@@ -448,12 +483,13 @@ body > .container-fluid {
 
 /* Tab content borders / background */
 .tab-content {
-  background-color: #fff;
-  border-left: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  border-right: 1px solid var(--border);
-  border-top: 0 solid #fff;
-  border-radius: 0 0 4px 4px;
+  background-color: var(--bg);
+  border: 0;
+  border-radius: 0;
+}
+
+.tab-content .container-fluid {
+  padding: 0 0px;
 }
 
 /* Tabs + content expand to fill space */
@@ -502,10 +538,10 @@ body > .container-fluid {
 .nav-cards .radio label {
   display: block;
   padding: 10px 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  background: #fff;
-  color: #111827;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--panel-text);
   cursor: pointer;
   user-select: none;
   transition:
@@ -516,8 +552,8 @@ body > .container-fluid {
 
 /* Hover for main nav cards */
 .nav-cards .radio label:hover {
-  background: #f9fafb;
-  border-color: #cbd5e1;
+  background: var(--panel-bg);
+  border-color: var(--border);
 }
 
 /* Selected state using :has() */
@@ -545,21 +581,22 @@ body > .container-fluid {
 }
 
 /* Secondary nav buttons styled like the compare pill */
-.secondary-nav-bar.nav-cards .radio-inline span {
+.secondary-nav-bar.nav-cards .radio-inline > span {
   display: inline-flex;
   align-items: center;
   padding: 0.35rem 0.9rem;
-  border-radius: 4px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
-  background-color: #fff;
-  color: var(--bs-primary);
+  background-color: var(--bg);
+  color: var(--panel-text);
   cursor: pointer;
   font-size: 0.9rem;
-  font-weight: 450;
+  font-weight: 400;
   margin: 0 6px 0 0;
   min-height: 37px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03);
   user-select: none;
+  white-space: nowrap;
   transition:
     background-color 0.15s ease,
     color 0.15s ease,
@@ -567,18 +604,34 @@ body > .container-fluid {
     box-shadow 0.15s ease;
 }
 
+.secondary-nav-bar.nav-cards .radio-inline .nav-pill-label {
+  display: block;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline .nav-pill-label::after {
+  content: attr(data-label);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  font-weight: 550;
+  visibility: hidden;
+}
+
 /* Hover state – same feel as compare pill hover */
-.secondary-nav-bar.nav-cards .radio-inline:hover span {
-  background-color: var(--panel-bg);
+.secondary-nav-bar.nav-cards .radio-inline:hover > span {
+  background-color: var(--bs-secondary-muted);
   border-color: var(--border);
+  color: var(--bs-primary);
+  font-weight: 450;
 }
 
 /* Selected state – same as checked compare pill */
 .secondary-nav-bar.nav-cards
   .radio-inline input[type="radio"]:checked + span {
-  background-color: var(--bs-primary);
-  border-color: var(--bs-primary);
-  color: #fff;
+  background-color: var(--bs-secondary);
+  border-color: var(--bs-secondary);
+  color: var(--bs-primary);
+  font-weight: 550;
 }
 
 /* Focus ring for keyboard users */
@@ -593,11 +646,14 @@ body > .container-fluid {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  /* background-color: var(--panel-bg); */
+  padding: 0 0px;
 }
 
 .tab-page-toolbar .secondary-nav-bar {
   flex: 1 1 auto;
   min-width: 0;
+  margin-bottom: 0px;
 }
 
 .tab-page-info-btn {
@@ -605,7 +661,7 @@ body > .container-fluid {
   padding: 0;
   border: none;
   background: transparent;
-  color: #000000;
+  color: var(--panel-text);
   font-size: 1rem;
   line-height: 1;
   transition: color 0.15s ease;
@@ -614,7 +670,7 @@ body > .container-fluid {
 .tab-page-info-btn:hover,
 .tab-page-info-btn:focus,
 .tab-page-info-btn:active {
-  color: #2d8db9;
+  color: var(--bs-primary);
   background: transparent;
   border: none;
   box-shadow: none;
@@ -656,9 +712,9 @@ body > .container-fluid {
   display: inline-flex;
   align-items: center;
   padding: 0.35rem 0.9rem;
-  border-radius: 4px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
-  background-color: #fff;
+  background-color: var(--bg);
   color: var(--bs-primary);
   cursor: pointer;
   font-size: 0.9rem;
@@ -709,38 +765,64 @@ body > .container-fluid {
 .info-btn {
   padding: 0 0.35rem;
   border: none;
-  border-radius: 50%;
+  border-radius: var(--radius);
   font-weight: 700;
   line-height: 1;
   margin-left: 0.35rem;
   background: transparent;
-  color: #a7a7a7;
+  color: var(--muted);
   font-size: 1rem;
   cursor: pointer;
   transition: color 0.15s ease;
 }
 
 .info-btn:hover {
-  color: #2d8db9;
+  color: var(--bs-primary);
   background: transparent;
 }
 
-.nav-tabs .nav-link {
+.navset-large > .nav-tabs {
+  background-color: var(--panel-bg);
+  border-bottom: 0;
+  padding: 0 0px;
+  gap: 0px;
+}
+
+.navset-large > .nav-tabs .nav-item {
+  margin-bottom: 0;
+}
+
+.navset-large > .nav-tabs .nav-link {
+  background-color: var(--panel-bg);
+  color: var(--panel-text);
+  font-weight: 450;
+  border: 0;
+  border-top: 4px solid transparent;
+  border-radius: 0 0 0 0;
+  margin-bottom: 0;
+}
+
+.navset-large > .nav-tabs .nav-link:hover,
+.navset-large > .nav-tabs .nav-link:focus {
+  background-color: var(--bg);
   color: var(--bs-primary);
   font-weight: 450;
-  border-bottom: 1px solid var(--border);
+  border-top: 4px solid transparent;
 }
 
-.nav-tabs .nav-link.active {
-  border-top: 1px solid var(--border);
-  border-left: 1px solid var(--border);
-  border-right: 1px solid var(--border);
+.navset-large > .nav-tabs .nav-link.active,
+.navset-large > .nav-tabs .nav-link.active:hover,
+.navset-large > .nav-tabs .nav-link.active:focus {
+  background-color: var(--bg);
+  color: var(--panel-text);
+  border: 0;
+  border-top: 4px solid var(--bs-primary);
 }
 
-.nav-tabs .nav-link .info-btn {
+.navset-large > .nav-tabs .nav-link .info-btn {
   font-size: 1rem;
   vertical-align: middle;
-  color: #aaa;
+  color: var(--muted);
 }
 
 
@@ -749,10 +831,10 @@ body > .container-fluid {
    ========================================================= */
 
 .header-info-btn {
-  background: #fff;
+  background: var(--bg);
   width: 160px;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   padding: 4px 8px;
   cursor: pointer;
   box-sizing: border-box;
@@ -763,7 +845,7 @@ body > .container-fluid {
 .header-info-btn:hover {
   background: var(--panel-bg);
   border-color: var(--border);
-  color: #000;
+  color: var(--panel-text);
 }
 
 
@@ -773,12 +855,74 @@ body > .container-fluid {
 
 .shiny-input-select {
   border-color: var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
 }
 
 .shiny-input-select .selectize-input {
   border-color: var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
+}
+
+.shiny-input-select.selectize-control.single .selectize-input.has-items > .item {
+  background: transparent;
+  border: 0;
+  color: var(--panel-text);
+  border-radius: 0;
+  padding: 0;
+}
+
+.shiny-input-select.selectize-control.single .selectize-input.has-items {
+  background: var(--bg);
+  border-color: var(--border);
+  color: var(--panel-text);
+}
+
+.shiny-input-select.selectize-control.single .selectize-input.has-items.input-active {
+  background: var(--bg);
+  border-color: var(--border);
+}
+
+.shiny-input-select.selectize-control.single .selectize-input.has-items > input {
+  color: var(--panel-text);
+}
+
+.shiny-input-select .selectize-dropdown .option.active {
+  background: var(--bs-secondary-muted);
+  color: var(--panel-text);
+  font-weight: 450;
+}
+
+.shiny-input-select .selectize-dropdown .option.selected,
+.shiny-input-select .selectize-dropdown .option.selected.active {
+  background: var(--bs-secondary);
+  color: var(--bs-primary);
+  font-weight: 550;
+}
+
+.shiny-input-select.selectize-control.multi .selectize-input > .item,
+.shiny-input-select.selectize-control.multi .selectize-input > div[data-value] {
+  background: var(--bs-secondary);
+  border: 1px solid transparent;
+  border-radius: 0;
+  color: var(--bs-primary);
+  font-weight: 550;
+}
+
+.shiny-input-select.selectize-control.multi .selectize-input > .item.active,
+.shiny-input-select.selectize-control.multi .selectize-input > div[data-value].active {
+  background: var(--bs-secondary-muted);
+}
+
+.shiny-input-select.selectize-control.multi .selectize-input > .item .remove,
+.shiny-input-select.selectize-control.multi .selectize-input > div[data-value] .remove {
+  border-left: 1px solid var(--bs-primary);
+  color: var(--bs-primary);
+}
+
+.shiny-input-select.selectize-control.multi .selectize-input > .item .remove:hover,
+.shiny-input-select.selectize-control.multi .selectize-input > div[data-value] .remove:hover {
+  background-color: var(--bs-secondary-muted);
+  border-left-color: var(--bs-secondary-muted);
 }
 
 
