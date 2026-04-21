@@ -109,7 +109,7 @@ PSet_PN = "C_WSR-CK-Ovens-NGA"
 
 [CapLimitBIGAD]
 Description = "Limits on AD capacity growth rates - can only build so mmuch at once. Generous, just not allowing huge spikes"
-GrowthLimit = 0.2
+GrowthLimit = 0.3
 PSet_PN = "REF_ANDGST"
 
 
