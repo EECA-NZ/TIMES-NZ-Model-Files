@@ -158,7 +158,6 @@ Demand,C_OFFC-MPM-MPM-H2R,C_OFFC-MPM,Commercial,Office Blocks,Mobile Motive Powe
 Demand,C_OFFC-MPS-MPS-H2R,C_OFFC-MPS,Commercial,Office Blocks,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,C_OFFC-MPS-MPS-H2R,C_OFFC-MPS,Commercial,Office Blocks,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,C_WSR-CK-Induction-ELC,C_WSR-CK,Commercial,WSR,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",,
-Demand,C_WSR-CK-CK-H2R,C_WSR-CK,Commercial,WSR,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,Cooking Elements
 Demand,C_WSR-CK-Ovens-H2R,C_WSR-CK,Commercial,WSR,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,Cooking Ovens
 Demand,C_WSR-SH-Boiler-WOD,C_WSR-Boiler-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_WSR-SH-Boiler-PLT,C_WSR-Boiler-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
