@@ -89,22 +89,22 @@ PSet_PN = "C_*LT-FLU-ELC"
 [CapLimitCommercialCooktopsELC]
 Description = "Commercial electric cooktops can only grow at 4% annually"
 GrowthLimit = 0.04
-PSet_PN = "C_WSR-CK-CK-ELC"
+PSet_PN = "C_*CK-CK-ELC"
 
 [CapLimitCommercialOvensELC]
 Description = "Commercial electric ovens can only grow at 4% annually"
 GrowthLimit = 0.04
-PSet_PN = "C_WSR-CK-Ovens-ELC"
+PSet_PN = "C_*CK-Ovens-ELC"
 
 [CapLimitCommercialOvensLPG]
 Description = "Commercial LPG ovens can only grow at 2% annually"
 GrowthLimit = 0.02
-PSet_PN = "C_WSR-CK-Ovens-LPG"
+PSet_PN = "C_*CK-Ovens-LPG"
 
 [CapLimitCommercialOvensNGA]
 Description = "Commercial NGA ovens can only grow at 2% annually"
 GrowthLimit = 0.02
-PSet_PN = "C_WSR-CK-Ovens-NGA"
+PSet_PN = "C_*CK-Ovens-NGA"
 
 [CapLimitCommercialCylinderELC]
 Description = "Commercial electric water heating cylinders can only grow at 4% annually"
