@@ -7,8 +7,8 @@
     "Scenario": {
       "traditional-v304": "Scenario 1",
       "transformation-v304": "Scenario 2",
-      "traditional-v305": "Scenario 1",
-      "transformation-v305": "Scenario 2"
+      "traditional-v305": "Steady",
+      "transformation-v305": "Shift"
     }
   }
 }

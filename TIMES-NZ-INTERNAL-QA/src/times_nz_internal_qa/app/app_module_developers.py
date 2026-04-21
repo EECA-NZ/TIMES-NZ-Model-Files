@@ -50,6 +50,7 @@ technology_capacity_group_options = [
     "EnduseGroup",
     "EndUse",
     "Region",
+    "Process",
 ]
 
 

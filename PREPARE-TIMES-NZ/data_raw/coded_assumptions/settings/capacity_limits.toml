@@ -77,9 +77,9 @@ PSet_PN = "T_*_CBEVELC_*"
 # COMMERCIAL
 
 [CapLimitCommercialLED]
-Description = "Commercial LED lighting can only grow at 4% annually"
+Description = "Commercial LED lighting can only grow at 4% annually (except datacentres)"
 GrowthLimit = 0.04
-PSet_PN = "C_*LT-LED-ELC" 
+PSet_PN = "C_*LT-LED-ELC, -C_DATA-LT-LED-ELC" 
 
 [CapLimitCommercialFluro]
 Description = "Commercial Fluro lighting can only grow at 1% annually"
@@ -106,110 +106,9 @@ Description = "Commercial NGA ovens can only grow at 2% annually"
 GrowthLimit = 0.02
 PSet_PN = "C_*CK-Ovens-NGA"
 
-[CapLimitCommercialCylinderELC]
-Description = "Commercial electric water heating cylinders can only grow at 4% annually"
-GrowthLimit = 0.04
-PSet_PN = "C_*WH-Cylinder-ELC"
+[CapLimitBIGAD]
+Description = "Limits on AD capacity growth rates - can only build so mmuch at once. Generous, just not allowing huge spikes"
+GrowthLimit = 0.3
+PSet_PN = "REF_ANDGST"
 
-[CapLimitCommercialCylinderNGA]
-Description = "Commercial NGA water heating cylinders can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "C_*WH-Cylinder-NGA"
-
-[CapLimitCommercialSpaceHeatingBurnerNGA]
-Description = "Commercial NGA burner space heating can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "C_*SH-Burner-NGA"
-
-# AGRICULTURE
-
-[CapLimitAgricultureBoilerCOA]
-Description = "Agriculture coal boilers can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*SH-Boiler-COA"
-
-[CapLimitAgricultureBoilerDSL]
-Description = "Agriculture diesel boilers can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*SH-Boiler-DSL"
-
-[CapLimitAgricultureBoilerNGA]
-Description = "Agriculture NGA boilers can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*SH-Boiler-NGA"
-
-[CapLimitAgricultureHeatExchangerGEO]
-Description = "Agriculture geothermal heat exchangers can only grow at 3% annually"
-GrowthLimit = 0.03
-PSet_PN = "A*SH-HEATX-GEO"
-
-[CapLimitAgricultureBurnerLPG]
-Description = "Agriculture LPG burners can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*SH-Burner-LPG"
-
-[CapLimitAgricultureMobilityBikePET]
-Description = "Agriculture petrol bikes can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*MoTP-Mob-Bike-PET"
-
-[CapLimitAgricultureMobilityMTrDSL]
-Description = "Agriculture diesel motorbikes can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*MoTP-Mob-MTr-DSL"
-
-[CapLimitAgricultureMobilityTractorDSL]
-Description = "Agriculture diesel tractors can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*MoTP-Mob-Trac-DSL"
-
-[CapLimitAgricultureMobilityUtilityDSL]
-Description = "Agriculture diesel utility vehicles can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*MoTP-Mob-Uti-DSL"
-
-[CapLimitAgricultureStationaryVPVSDELC]
-Description = "Agriculture electric VPVSD stationary equipment can only grow at 4% annually"
-GrowthLimit = 0.04
-PSet_PN = "A*MoTP-Stat-VPVSD-ELC"
-
-[CapLimitAgricultureStationaryVacPumpELC]
-Description = "Agriculture electric vacuum pumps can only grow at 4% annually"
-GrowthLimit = 0.04
-PSet_PN = "A*MoTP-Stat-VacP-ELC"
-
-[CapLimitAgricultureMobilityBoatDSL]
-Description = "Agriculture diesel boats can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*MoTP-Mob-Boat-DSL"
-
-[CapLimitAgricultureMobilityBoatPET]
-Description = "Agriculture petrol boats can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*MoTP-Mob-Boat-PET"
-
-[CapLimitAgricultureStationaryMotorELC]
-Description = "Agriculture electric motors can only grow at 4% annually"
-GrowthLimit = 0.04
-PSet_PN = "A*MoTP-Stat-Motor-ELC"
-
-[CapLimitAgricultureMobilityCYDSL]
-Description = "Agriculture diesel chainsaws can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*MoTP-Mob-CY-DSL"
-
-[CapLimitAgricultureMobilityGBDSL]
-Description = "Agriculture diesel ground-based vehicles can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*MoTP-Mob-GB-DSL"
-
-[CapLimitAgricultureStationaryEngineDSL]
-Description = "Agriculture diesel stationary engines can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*MoTP-Stat-Engin-DSL"
-
-[CapLimitAgricultureStationaryEnginePET]
-Description = "Agriculture petrol stationary engines can only grow at 2% annually"
-GrowthLimit = 0.02
-PSet_PN = "A*MoTP-Stat-Engin-PET"
 
