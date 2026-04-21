@@ -25,7 +25,7 @@ Industrial wastewater is generally produced at scales that make on-site reuse fe
 
 ## Scenario adjustments 
 
-Work in progress release note: The text below describes the scenario variations which we are working to implement. As released in December 2025, both scenarios utilise the assumptions developed for the Traditional scenario.
+Work in progress release note: The text below describes the scenario variations which we are working to implement. In the released setup, `Traditional` uses the base biofuel supply assumptions, while `Transformation` uses the higher bioenergy supply assumptions represented by `AdditionalBioenergySupply`.
 
 TIMES-NZ 3.0 includes two bioenergy supply scenarios designed to test how future policy and investment settings could affect the scale and cost of domestic renewable fuel production.
 
