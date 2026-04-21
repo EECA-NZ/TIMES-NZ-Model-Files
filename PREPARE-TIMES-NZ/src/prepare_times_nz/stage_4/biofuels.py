@@ -469,7 +469,9 @@ def main() -> None:
 
     df_additional = create_additional_bioenergy_supply_forecasts()
     save_output(
-        df_additional, "biofuel_supply_forecasts.csv", "Additional supply forecasts"
+        df_additional,
+        "additional_bioenergy_supply_forecasts.csv",
+        "Additional supply forecasts",
     )
 
 

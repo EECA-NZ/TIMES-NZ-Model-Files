@@ -150,6 +150,27 @@ body > .container-fluid {
   display: none;
 }
 
+.js-plotly-plot .modebar,
+.js-plotly-plot .modebar-group {
+  background: transparent !important;
+}
+
+.js-plotly-plot .modebar-btn:not([data-title="Download plot as a PNG"]):not([data-title="Reset axes"]) {
+  display: none !important;
+  width: 0 !important;
+}
+
+.js-plotly-plot .modebar-btn,
+.js-plotly-plot .modebar-btn:hover {
+  background: transparent !important;
+  color: #6b7280 !important;
+}
+
+.js-plotly-plot .modebar-btn svg,
+.js-plotly-plot .modebar-btn svg path {
+  fill: #6b7280 !important;
+}
+
 .custom-plotly-hover {
   position: fixed;
   z-index: 2000;
@@ -290,6 +311,20 @@ body > .container-fluid {
   margin-right: 0 !important;
 }
 
+.chart-toggle-bar .radio-inline > span > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  height: auto;
+  background: transparent;
+  color: inherit;
+}
+
+.chart-toggle-bar .radio-inline i {
+  font-size: 0.95em;
+}
+
 .chart-toggle-bar input[type="radio"] {
   position: absolute;
   left: 0;
@@ -298,9 +333,10 @@ body > .container-fluid {
   pointer-events: none;
 }
 
-.chart-toggle-bar .radio-inline span {
+.chart-toggle-bar .radio-inline > span {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   height: 100%;
   padding: 0 10px;
   box-sizing: border-box;
@@ -314,7 +350,7 @@ body > .container-fluid {
     box-shadow 0.15s ease;
 }
 
-.chart-toggle-bar .radio-inline + .radio-inline span {
+.chart-toggle-bar .radio-inline + .radio-inline > span {
   border-left: 1px solid var(--border);
 }
 
@@ -336,7 +372,8 @@ body > .container-fluid {
 }
 
 /* Download button base style inside chart cards */
-.chart-header-card .btn {
+.chart-header-card .btn,
+.tab-page-info-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -351,9 +388,11 @@ body > .container-fluid {
   color: var(--panel-text);
   width: auto;
   font-weight: 400;
+  text-decoration: none;
 }
 
-.chart-header-card .btn span {
+.chart-header-card .btn span,
+.tab-page-info-btn span {
   padding-top: 2px; /* align icon + text */
 }
 
@@ -362,6 +401,10 @@ body > .container-fluid {
 }
 
 .chart-download-btn > i.fa-download {
+  margin-right: 6px;
+}
+
+.tab-page-info-btn i.fa-question-circle {
   margin-right: 6px;
 }
 
@@ -425,6 +468,15 @@ body > .container-fluid {
   min-height: 0;
 }
 
+.chart-section .bslib-grid-item,
+.chart-section .html-fill-container,
+.chart-section .html-fill-item,
+.chart-section .chart-with-title,
+.chart-section .chart-body-card,
+.chart-section .chart-container {
+  min-width: 0;
+}
+
 /* Optional grid element spacing inside chart sections */
 .chart-section .grid {
   margin-bottom: 16px;
@@ -468,6 +520,13 @@ body > .container-fluid {
   height: auto;
   min-height: 0;
   overflow: visible;
+}
+
+.chart-container .js-plotly-plot,
+.chart-container .plot-container,
+.chart-container .svg-container {
+  width: 100% !important;
+  max-width: 100%;
 }
 
 /* Canvas fills wrapper */
@@ -658,13 +717,21 @@ body > .container-fluid {
 
 .tab-page-info-btn {
   flex: 0 0 auto;
-  padding: 0;
-  border: none;
-  background: transparent;
+  margin-top: 0;
+  /* Ensure the help button matches other light buttons even if Bootstrap overrides `.btn`. */
+  --bs-btn-bg: #fff;
+  --bs-btn-color: var(--panel-text);
+  --bs-btn-border-color: var(--border);
+  --bs-btn-hover-bg: #f3f4f6;
+  --bs-btn-hover-color: var(--panel-text);
+  --bs-btn-hover-border-color: #cbd5e1;
+  --bs-btn-active-bg: #f3f4f6;
+  --bs-btn-active-color: var(--panel-text);
+  --bs-btn-active-border-color: #cbd5e1;
+
+  background-color: #fff;
+  border-color: var(--border);
   color: var(--panel-text);
-  font-size: 1rem;
-  line-height: 1;
-  transition: color 0.15s ease;
 }
 
 .tab-page-info-btn:hover,

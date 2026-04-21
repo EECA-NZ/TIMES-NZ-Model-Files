@@ -30,6 +30,12 @@ CAPACITY_UNIT = "GW"
 TSLVL = "DAYNITE"
 CTSLVL = "DAYNITE"
 CAP2ACT = 31.536
+FIRST_FUTURE_MODEL_YEAR = 2026
+BIOGAS_SHARE_CONSTRAINTS = {
+    "base_year_share_up": 0,
+    "future_share_year": FIRST_FUTURE_MODEL_YEAR,
+    "future_share_up": 1,
+}
 
 # pylint: disable=duplicate-code
 
@@ -86,14 +92,27 @@ def get_industry_veda_table(df, input_map, enable_biogas=True):
         ind_nga_processes = [
             process
             for process in ind_nga_processes
-            if "METH" not in process and "UREA" not in process
+            if "METH" not in process and "UREA" not in process and "OTHR" not in process
             # alternatively: just exclude feedstock options
             # if "FSTK" not in process
         ]
-        ind_df = add_extra_input_to_topology(ind_df, ind_nga_processes, "INDBIG")
+        ind_df = add_extra_input_to_topology(
+            ind_df,
+            ind_nga_processes,
+            "INDBIG",
+            share_constraints=BIOGAS_SHARE_CONSTRAINTS,
+        )
 
         ind_lpg_processes = get_processes_with_input_commodity(ind_df, "INDLPG")
-        ind_df = add_extra_input_to_topology(ind_df, ind_lpg_processes, "INDBIG")
+        ind_lpg_processes = [
+            process for process in ind_lpg_processes if "OTHR" not in process
+        ]
+        ind_df = add_extra_input_to_topology(
+            ind_df,
+            ind_lpg_processes,
+            "INDBIG",
+            share_constraints=BIOGAS_SHARE_CONSTRAINTS,
+        )
 
     return ind_df
 
@@ -269,6 +288,8 @@ def lock_other_industry(df, exceptions, slack=0.01):
     df["Share"] = df["Share"] * (1 - slack)
     # remove lower bound qualifiers for our exceptions
     df["Share"] = np.where(df["CommodityIn"].isin(exceptions), 0, df["Share"])
+    # zero-share rows do not create meaningful locks, so omit them entirely
+    df = df[df["Share"] > 0].copy()
 
     # column renaming
     flo_mark_map = {
@@ -312,7 +333,13 @@ def main():
     )
     # locking other industry
 
-    other_industry = lock_other_industry(raw_df, exceptions=["INDNGA", "INDCOA"])
+    # Note: must exclude coal to allow flex away for NDGHG
+    # must exclude NGA to allow flex away for declining supply
+    # must exclude pet/fol as capacity may not meet demand
+    # (these are in banned base year techs as we assume no more construction)
+    other_industry = lock_other_industry(
+        raw_df, exceptions=["INDNGA", "INDCOA", "INDPET", "INDFOL"]
+    )
 
     save_industry_veda_file(
         other_industry,

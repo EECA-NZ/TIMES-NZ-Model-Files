@@ -1,0 +1,79 @@
+ComparisonSector,ComparisonFuel,InventoryCode,ModelSectorGroup,ModelSector,ModelFuelCategory
+Chemicals,Liquid fuels,1.A.2.c. Liquid fuels,Industry,"Chemicals (excl. Urea and Methanol)",Liquid fuels
+Chemicals,Liquid fuels,1.A.2.c. Liquid fuels,Industry,Methanol,Liquid fuels
+Chemicals,Liquid fuels,1.A.2.c. Liquid fuels,Industry,Urea,Liquid fuels
+Chemicals,Solid fuels,1.A.2.c. Solid fuels,Industry,"Chemicals (excl. Urea and Methanol)",Solid fuels
+Chemicals,Solid fuels,1.A.2.c. Solid fuels,Industry,Methanol,Solid fuels
+Chemicals,Solid fuels,1.A.2.c. Solid fuels,Industry,Urea,Solid fuels
+Chemicals,Gaseous fuels,1.A.2.c. Gaseous fuels,Industry,"Chemicals (excl. Urea and Methanol)",Gaseous fuels
+Chemicals,Gaseous fuels,1.A.2.c. Gaseous fuels,Industry,Methanol,Gaseous fuels
+Chemicals,Gaseous fuels,1.A.2.c. Gaseous fuels,Industry,Urea,Gaseous fuels
+Iron & Steel,Liquid fuels,1.A.2.a. Liquid fuels,Industry,Iron & Steel,Liquid fuels
+Iron & Steel,Solid fuels,1.A.2.a. Solid fuels,Industry,Iron & Steel,Solid fuels
+Iron & Steel,Gaseous fuels,1.A.2.a. Gaseous fuels,Industry,Iron & Steel,Gaseous fuels
+"Food processing, beverages and tobacco",Liquid fuels,1.A.2.e. Liquid fuels,Industry,Dairy,Liquid fuels
+"Food processing, beverages and tobacco",Liquid fuels,1.A.2.e. Liquid fuels,Industry,"Food and Beverage",Liquid fuels
+"Food processing, beverages and tobacco",Liquid fuels,1.A.2.e. Liquid fuels,Industry,Meat,Liquid fuels
+"Food processing, beverages and tobacco",Solid fuels,1.A.2.e. Solid fuels,Industry,Dairy,Solid fuels
+"Food processing, beverages and tobacco",Solid fuels,1.A.2.e. Solid fuels,Industry,"Food and Beverage",Solid fuels
+"Food processing, beverages and tobacco",Solid fuels,1.A.2.e. Solid fuels,Industry,Meat,Solid fuels
+"Food processing, beverages and tobacco",Gaseous fuels,1.A.2.e. Gaseous fuels,Industry,Dairy,Gaseous fuels
+"Food processing, beverages and tobacco",Gaseous fuels,1.A.2.e. Gaseous fuels,Industry,"Food and Beverage",Gaseous fuels
+"Food processing, beverages and tobacco",Gaseous fuels,1.A.2.e. Gaseous fuels,Industry,Meat,Gaseous fuels
+"Food processing, beverages and tobacco",Biomass,1.A.2.e. Biomass,Industry,Dairy,Biomass
+"Food processing, beverages and tobacco",Biomass,1.A.2.e. Biomass,Industry,"Food and Beverage",Biomass
+"Food processing, beverages and tobacco",Biomass,1.A.2.e. Biomass,Industry,Meat,Biomass
+"Pulp, paper and print",Liquid fuels,1.A.2.d. Liquid fuels,Industry,"Pulp and Paper",Liquid fuels
+"Pulp, paper and print",Solid fuels,1.A.2.d. Solid fuels,Industry,"Pulp and Paper",Solid fuels
+"Pulp, paper and print",Gaseous fuels,1.A.2.d. Gaseous fuels,Industry,"Pulp and Paper",Gaseous fuels
+"Pulp, paper and print",Other fossil fuels,1.A.2.d. Other fossil fuels,Industry,"Pulp and Paper",Other fossil fuels
+"Pulp, paper and print",Biomass,1.A.2.d. Biomass,Industry,"Pulp and Paper",Biomass
+Non-metallic minerals,Liquid fuels,1.A.2.f. Liquid fuels,Industry,Non-Metallic Mineral Product Manufacturing,Liquid fuels
+Non-metallic minerals,Solid fuels,1.A.2.f. Solid fuels,Industry,Non-Metallic Mineral Product Manufacturing,Solid fuels
+Non-metallic minerals,Gaseous fuels,1.A.2.f. Gaseous fuels,Industry,Non-Metallic Mineral Product Manufacturing,Gaseous fuels
+Non-metallic minerals,Other fossil fuels,1.A.2.f. Other fossil fuels,Industry,Non-Metallic Mineral Product Manufacturing,Other fossil fuels
+Mining and quarrying,Liquid fuels,1.A.2.g.iii. Liquid fuels,Industry,Mining,Liquid fuels
+Mining and quarrying,Solid fuels,1.A.2.g.iii. Solid fuels,Industry,Mining,Solid fuels
+Mining and quarrying,Gaseous fuels,1.A.2.g.iii. Gaseous fuels,Industry,Mining,Gaseous fuels
+Construction,Liquid fuels,1.A.2.g.v. Liquid fuels,Industry,Construction,Liquid fuels
+Construction,Other fossil fuels,1.A.2.g.v. Other fossil fuels,Industry,Construction,Other fossil fuels
+Other Industry,Liquid fuels,1.A.2.b. Liquid fuels,Industry,Other Industry,Liquid fuels
+Other Industry,Liquid fuels,1.A.2.b. Liquid fuels,Industry,Wood Products,Liquid fuels
+Other Industry,Liquid fuels,1.A.2.g.i. Liquid fuels,Industry,Other Industry,Liquid fuels
+Other Industry,Liquid fuels,1.A.2.g.i. Liquid fuels,Industry,Wood Products,Liquid fuels
+Other Industry,Liquid fuels,1.A.2.g.vi. Liquid fuels,Industry,Other Industry,Liquid fuels
+Other Industry,Liquid fuels,1.A.2.g.vi. Liquid fuels,Industry,Wood Products,Liquid fuels
+Other Industry,Liquid fuels,1.A.2.g.viii. Liquid fuels,Industry,Other Industry,Liquid fuels
+Other Industry,Liquid fuels,1.A.2.g.viii. Liquid fuels,Industry,Wood Products,Liquid fuels
+Other Industry,Solid fuels,1.A.2.b. Solid fuels,Industry,Other Industry,Solid fuels
+Other Industry,Solid fuels,1.A.2.b. Solid fuels,Industry,Wood Products,Solid fuels
+Other Industry,Solid fuels,1.A.2.g.i. Solid fuels,Industry,Other Industry,Solid fuels
+Other Industry,Solid fuels,1.A.2.g.i. Solid fuels,Industry,Wood Products,Solid fuels
+Other Industry,Solid fuels,1.A.2.g.vi. Solid fuels,Industry,Other Industry,Solid fuels
+Other Industry,Solid fuels,1.A.2.g.vi. Solid fuels,Industry,Wood Products,Solid fuels
+Other Industry,Solid fuels,1.A.2.g.viii. Solid fuels,Industry,Other Industry,Solid fuels
+Other Industry,Solid fuels,1.A.2.g.viii. Solid fuels,Industry,Wood Products,Solid fuels
+Other Industry,Gaseous fuels,1.A.2.b. Gaseous fuels,Industry,Other Industry,Gaseous fuels
+Other Industry,Gaseous fuels,1.A.2.b. Gaseous fuels,Industry,Wood Products,Gaseous fuels
+Other Industry,Gaseous fuels,1.A.2.g.i. Gaseous fuels,Industry,Other Industry,Gaseous fuels
+Other Industry,Gaseous fuels,1.A.2.g.i. Gaseous fuels,Industry,Wood Products,Gaseous fuels
+Other Industry,Gaseous fuels,1.A.2.g.vi. Gaseous fuels,Industry,Other Industry,Gaseous fuels
+Other Industry,Gaseous fuels,1.A.2.g.vi. Gaseous fuels,Industry,Wood Products,Gaseous fuels
+Other Industry,Gaseous fuels,1.A.2.g.viii. Gaseous fuels,Industry,Other Industry,Gaseous fuels
+Other Industry,Gaseous fuels,1.A.2.g.viii. Gaseous fuels,Industry,Wood Products,Gaseous fuels
+Other Industry,Other fossil fuels,1.A.2.b. Other fossil fuels,Industry,Other Industry,Other fossil fuels
+Other Industry,Other fossil fuels,1.A.2.b. Other fossil fuels,Industry,Wood Products,Other fossil fuels
+Other Industry,Other fossil fuels,1.A.2.g.i. Other fossil fuels,Industry,Other Industry,Other fossil fuels
+Other Industry,Other fossil fuels,1.A.2.g.i. Other fossil fuels,Industry,Wood Products,Other fossil fuels
+Other Industry,Other fossil fuels,1.A.2.g.vi. Other fossil fuel,Industry,Other Industry,Other fossil fuels
+Other Industry,Other fossil fuels,1.A.2.g.vi. Other fossil fuel,Industry,Wood Products,Other fossil fuels
+Other Industry,Other fossil fuels,1.A.2.g.viii. Other fossil fu,Industry,Other Industry,Other fossil fuels
+Other Industry,Other fossil fuels,1.A.2.g.viii. Other fossil fu,Industry,Wood Products,Other fossil fuels
+Other Industry,Biomass,1.A.2.b. Biomass,Industry,Other Industry,Biomass
+Other Industry,Biomass,1.A.2.b. Biomass,Industry,Wood Products,Biomass
+Other Industry,Biomass,1.A.2.g.i. Biomass,Industry,Other Industry,Biomass
+Other Industry,Biomass,1.A.2.g.i. Biomass,Industry,Wood Products,Biomass
+Other Industry,Biomass,1.A.2.g.vi. Biomass,Industry,Other Industry,Biomass
+Other Industry,Biomass,1.A.2.g.vi. Biomass,Industry,Wood Products,Biomass
+Other Industry,Biomass,1.A.2.g.viii. Biomass,Industry,Other Industry,Biomass
+Other Industry,Biomass,1.A.2.g.viii. Biomass,Industry,Wood Products,Biomass

@@ -8,6 +8,7 @@ T_P_B*LPG*,LPG buses
 C_*-HEATX-GEO,Commercial geothermal
 C*CK*-LPG*,Commercial cooking LPG
 C*CK*-NGA*,Commercial cooking natural gas
+C*-COA*, Commercial coal
 C*SH-Boiler-LPG*,Commercial space heating LPG
 C*SH-Boiler-NGA*,Commercial space heating natural gas
 C*WH*-NGA*,Commercial water heating natural gas
@@ -20,4 +21,3 @@ AFISH*-PET,Fishing boat petrol
 *NGA-ICENG-MTV_MOB,Industrial natural gas mobile motive power
 *PET-ENGIN-MTV_STA,Industrial petrol stationary motive power
 C_*INC*,Commercial incandescent lighting
-*FOL*PH*,Industrial fuel oil process heat

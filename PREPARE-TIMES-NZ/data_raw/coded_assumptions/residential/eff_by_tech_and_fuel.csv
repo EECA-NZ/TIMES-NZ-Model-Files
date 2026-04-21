@@ -26,3 +26,5 @@ Clothes Washers,Electricity,0.25,"From TIMES 2.0. Makes no difference to model r
 Dishwashers,Electricity,0.25,"From TIMES 2.0. Makes no difference to model results, just commodity demand, but fairly meaningless since no switching possible and output units unclear"
 Ground Source Heat Pump,Geothermal,0.4,From TIMES 2.0. Assuming all geo is space heating (GSHP)
 Hot Water Cylinder,Solar,0.6,From TIMES 2.0. Assuming all solar thermal is water heating
+Ground source heat pump,Geothermal,0.4,From TIMES 2.0. Assuming all geo is space heating (GSHP)
+Solar hot water cylinder,Solar,0.6,From TIMES 2.0. Assuming all solar thermal is water heating

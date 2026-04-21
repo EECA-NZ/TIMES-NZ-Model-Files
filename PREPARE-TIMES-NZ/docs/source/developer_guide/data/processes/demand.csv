@@ -1,7 +1,7 @@
 ﻿ProcessGroup,Process,CommodityOut,SectorGroup,Sector,EnduseGroup,EndUse,TechnologyGroup,Technology
-Demand,C_DATA-OTH-ELEC-ELC,C_DATA-OTH,Commercial,Data Centre,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
-Demand,C_DATA-LT-LED-ELC,C_DATA-LT,Commercial,Data Centre,Electronics and Lighting,Lighting,Electronics and Lights,LED
-Demand,C_DATA-SC-AIRHP-ELC,C_DATA-SC,Commercial,Data Centre,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump (for Cooling)
+Demand,C_DATA-OTH-ELEC-ELC,C_DATA-OTH,Commercial,Data Centers,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
+Demand,C_DATA-LT-LED-ELC,C_DATA-LT,Commercial,Data Centers,Electronics and Lighting,Lighting,Electronics and Lights,LED
+Demand,C_DATA-SC-AIRHP-ELC,C_DATA-SC,Commercial,Data Centers,Heating/Cooling,Space Cooling,Heat/Cooling Devices,Heat Pump (for Cooling)
 Demand,C_EDU-OTH-ELEC-ELC,C_EDU-OTH,Commercial,Education,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,C_EDU-LT-FLU-ELC,C_EDU-LT,Commercial,Education,Electronics and Lighting,Lighting,Electronics and Lights,Fluorescent
 Demand,C_EDU-LT-INC-ELC,C_EDU-LT,Commercial,Education,Electronics and Lighting,Lighting,Electronics and Lights,Incandescent/Halogen
@@ -340,17 +340,16 @@ Demand,RES-DD-NGA-HWATER_G-WH_LOW,DD-WH_LOW,Residential,Detached Dwelling,Heatin
 Demand,RES-JD-NGA-HWATER_G-WH_LOW,JD-WH_LOW,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Gas Water Heater
 Demand,RES-DD-PET-ICENG-MTV_MOB,DD-PET-MTV_MOB,Residential,Detached Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
 Demand,RES-JD-PET-ICENG-MTV_MOB,JD-PET-MTV_MOB,Residential,Joined Dwelling,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Recreational Marine)  
+Demand,RES-DD-SOL-HWATER_SC-WH_LOW,DD-HWATER_SC-WH_LOW,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Solar hot water cylinder
+Demand,RES-JD-SOL-HWATER_SC-WH_LOW,JD-HWATER_SC-WH_LOW,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Solar hot water cylinder
 Demand,RES-DD-WOD-BURNR-S_HEAT,DD-S_HEAT,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,RES-JD-WOD-BURNR-S_HEAT,JD-S_HEAT,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,RES-DD-WOD-BURNR_W-WH_LOW,DD-WH_LOW,Residential,Detached Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,"Burner, with Wetback"
 Demand,RES-JD-WOD-BURNR_W-WH_LOW,JD-WH_LOW,Residential,Joined Dwelling,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,"Burner, with Wetback"
 Demand,CHEM-ELC-ELCTR-ELCTR,CHEM-ELCTR-ELCTR,Industry,Chemicals (excl. Urea and Methanol),Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,CHEM-ELC-LIGHT-LIGHT,CHEM-LIGHT-LIGHT,Industry,Chemicals (excl. Urea and Methanol),Electronics and Lighting,Lighting,Electronics and Lights,Lights
-Demand,CHEM-FOL-BOILR-PH_HIGH,CHEM-BOILR-PH_HIGH,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,CHEM-NGA-BOILR-PH_HIGH,CHEM-BOILR-PH_HIGH,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,CHEM-NGA-BURNR-PH_HIGH,CHEM-BURNR-PH_HIGH,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Burner (Direct Heat)
-Demand,CHEM-FOL-FURNC-PH_HIGH,CHEM-FURNC-PH_HIGH,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
-Demand,CHEM-FOL-FURNC-PH_INT,CHEM-FURNC-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
 Demand,CHEM-NGA-FURNC-PH_INT,CHEM-FURNC-PH_INT,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
 Demand,CHEM-ELC-HPSH-SH_LOW,CHEM-SH_LOW,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
 Demand,CHEM-NGA-HPSH-SH_LOW,CHEM-SH_LOW,Industry,Chemicals (excl. Urea and Methanol),Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
@@ -382,9 +381,7 @@ Demand,DARY-ELC-PUMP-PUMP,DARY-PUMP-PUMP,Industry,Dairy,Stationary Motive Power,
 Demand,FOOD-ELC-ACOMP-COMP_AIR,FOOD-ACOMP-COMP_AIR,Industry,Food and Beverage,Electronics and Lighting,Compressed Air,Electronics and Lights,Air Compressors
 Demand,FOOD-ELC-ELCTR-ELCTR,FOOD-ELCTR-ELCTR,Industry,Food and Beverage,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,FOOD-ELC-LIGHT-LIGHT,FOOD-LIGHT-LIGHT,Industry,Food and Beverage,Electronics and Lighting,Lighting,Electronics and Lights,Lights
-Demand,FOOD-DSL-BOILR-PH_INT,FOOD-BOILR-PH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,FOOD-ELC-BOILR-PH_INT,FOOD-BOILR-PH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,FOOD-LPG-BOILR-PH_INT,FOOD-BOILR-PH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,FOOD-NGA-BOILR-PH_INT,FOOD-BOILR-PH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,FOOD-WOD-BOILR-PH_INT,FOOD-BOILR-PH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,FOOD-NGA-BOILR-PH_LOW,FOOD-BOILR-PH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
@@ -396,7 +393,6 @@ Demand,FOOD-ELC-MOTOR-MTV_STA,FOOD-MOTOR-MTV_STA,Industry,Food and Beverage,Stat
 Demand,FOOD-ELC-PUMP-PUMP,FOOD-PUMP-PUMP,Industry,Food and Beverage,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
 Demand,STEEL-ELC-ELCTR-ELCTR,STEEL-ELCTR-ELCTR,Industry,Iron & Steel,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
 Demand,STEEL-ELC-LIGHT-LIGHT,STEEL-LIGHT-LIGHT,Industry,Iron & Steel,Electronics and Lighting,Lighting,Electronics and Lights,Lights
-Demand,STEEL-COA-FDSTK-FDSTK,STEEL-FDSTK-FDSTK,Industry,Iron & Steel,Feedstock,Feedstock,Feedstock,Feedstock
 Demand,STEEL-NGA-BOILR-PH_LOW,STEEL-BOILR-PH_LOW,Industry,Iron & Steel,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,STEEL-NGA-BURNR-PH_INT,STEEL-BURNR-PH_INT,Industry,Iron & Steel,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,STEEL-ELC-EFURNC-ISTEEL,STEEL-EFURNC-ISTEEL,Industry,Iron & Steel,Iron and Steel,Iron and Steel Manufacturing,Heat/Cooling Devices,Electric Furnace
@@ -440,17 +436,14 @@ Demand,OTHR-LPG-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/C
 Demand,OTHR-NGA-BOILR-PH_INT,OTHR-BOILR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,OTHR-COA-BOILR-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,OTHR-NGA-BOILR-PH_LOW,OTHR-BOILR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,OTHR-NGA-BURNR-SH_LOW,OTHR-SH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,OTHR-ELC-EFURNC-PH_HIGH,OTHR-EFURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Electric Furnace
-Demand,OTHR-ELC-FURNC-PH_HIGH,OTHR-FURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
-Demand,OTHR-FOL-FURNC-PH_HIGH,OTHR-FURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
 Demand,OTHR-NGA-FURNC-PH_HIGH,OTHR-FURNC-PH_HIGH,Industry,Other Industry,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
+Demand,OTHR-FOL-FURNC-PH_INT,OTHR-FURNC-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
 Demand,OTHR-ELC-HEATR-PH_INT,OTHR-HEATR-PH_INT,Industry,Other Industry,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Resistance Heater
 Demand,OTHR-ELC-HEATR-PH_LOW,OTHR-HEATR-PH_LOW,Industry,Other Industry,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Resistance Heater
 Demand,OTHR-DSL-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,OTHR-PET-ICENG-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,OTHR-ELC-MOTOR-MTV_STA,OTHR-MOTOR-MTV_STA,Industry,Other Industry,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
-Demand,OTHR-ELC-PUMP-PUMP,OTHR-PUMP-PUMP,Industry,Other Industry,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
 Demand,OTHR-ELC-UNALC-UNALC,OTHR-UNALC-UNALC,Industry,Other Industry,Unallocated,Unallocated,Unallocated,Unallocated
 Demand,PULP-ELC-ACOMP-COMP_AIR,PULP-ACOMP-COMP_AIR,Industry,Pulp and Paper,Electronics and Lighting,Compressed Air,Electronics and Lights,Air Compressors
 Demand,PULP-ELC-ELCTR-ELCTR,PULP-ELCTR-ELCTR,Industry,Pulp and Paper,Electronics and Lighting,Electronics and Other Electrical Uses,Electronics and Lights,Electronics
@@ -458,7 +451,6 @@ Demand,PULP-ELC-FAN-FAN,PULP-FAN-FAN,Industry,Pulp and Paper,Electronics and Lig
 Demand,PULP-ELC-LIGHT-LIGHT,PULP-LIGHT-LIGHT,Industry,Pulp and Paper,Electronics and Lighting,Lighting,Electronics and Lights,Lights
 Demand,PULP-ELC-REFIN-REFIN,PULP-REFIN-REFIN,Industry,Pulp and Paper,Electronics and Lighting,Refiners,Electronics and Lights,Refiners
 Demand,PULP-COA-BOILR-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,PULP-FOL-BOILR-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,PULP-NGA-BOILR-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,PULP-OSWOD-BOILR-PH_INT,PULP-BOILR-PH_INT,Industry,Pulp and Paper,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,PULP-NGA-BURNR-PH_LOW,PULP-BURNR-PH_LOW,Industry,Pulp and Paper,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Burner (Direct Heat)
@@ -476,22 +468,15 @@ Demand,WOOD-ELC-FAN-FAN,WOOD-FAN-FAN,Industry,Wood Products,Electronics and Ligh
 Demand,WOOD-ELC-LIGHT-LIGHT,WOOD-LIGHT-LIGHT,Industry,Wood Products,Electronics and Lighting,Lighting,Electronics and Lights,Lights
 Demand,WOOD-ELC-REFIN-REFIN,WOOD-REFIN-REFIN,Industry,Wood Products,Electronics and Lighting,Refiners,Electronics and Lights,Refiners
 Demand,WOOD-COA-BOILR-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,WOOD-DSL-BOILR-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,WOOD-ELC-BOILR-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,WOOD-FOL-BOILR-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,WOOD-OSWOD-BOILR-PH_INT,WOOD-BOILR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,WOOD-NGA-BOILR-PH_LOW,WOOD-BOILR-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,WOOD-LPG-BURNR-PH_INT,WOOD-BURNR-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Burner (Direct Heat)
 Demand,WOOD-NGA-FURNC-PH_LOW,WOOD-FURNC-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
 Demand,WOOD-GEO-HEATX-PH_INT,WOOD-HEATX-PH_INT,Industry,Wood Products,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Heat Exchangers
 Demand,WOOD-ELC-HPPH-PH_LOW,WOOD-HPPH-PH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Heat Pump (process heat)
 Demand,WOOD-ELC-MOTOR-MTV_STA,WOOD-MOTOR-MTV_STA,Industry,Wood Products,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,WOOD-ELC-PUMP-PUMP,WOOD-PUMP-PUMP,Industry,Wood Products,Stationary Motive Power,Pumping,Stationary Motors,"Pump Systems (for Fluids, etc.)"
 Demand,ALUM-ELC-EFURNC-PH_HIGH,ALUM-EFURNC-PH_HIGH,Industry,Aluminium,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Electric Furnace
-Demand,DARY-BIG-BOILR-PH_INT,DARY-BOILR-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,DARY-DSL-BOILR-PH_INT,DARY-BOILR-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,DARY-LPG-BOILR-PH_INT,DARY-BOILR-PH_INT,Industry,Dairy,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,DARY-FOL-BOILR-PH_LOW,DARY-BOILR-PH_LOW,Industry,Dairy,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,FOOD-COA-BOILR-PH_INT,FOOD-BOILR-PH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,FOOD-COA-BOILR-PH_LOW,FOOD-BOILR-PH_LOW,Industry,Food and Beverage,Heating/Cooling,"Low Temperature Heat (<100 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,FOOD-COA-IOVEN-CH_INT,FOOD-IOVEN-CH_INT,Industry,Food and Beverage,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,Industrial Ovens

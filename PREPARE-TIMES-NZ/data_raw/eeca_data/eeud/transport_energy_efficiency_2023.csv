@@ -1,0 +1,34 @@
+fueltype,vehicletype,technology,endusegroup,enduse,transport,pjvalue,efficiency_vfm_pj_mkm,efficiency_vfm_l_100km,efficiency_vfm_kwh_100km,period_end_date
+LPG,LPV,ICE,Mobile Motive Power,"Motive Power, Mobile",Light Vehicles,0.08688184149889679,0.0025771913155052555,9.771867662358257,,2023-12-31
+LPG,LCV,ICE,Mobile Motive Power,"Motive Power, Mobile",Light Vehicles,0.04566700191755287,0.0028465121282182366,10.793044214023793,,2023-12-31
+LPG,Bus,ICE,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,0.008209907765390358,0.008089356173568223,30.672196327144675,,2023-12-31
+Diesel,LPV,ICE,Mobile Motive Power,"Motive Power, Mobile",Light Vehicles,11.547563152728173,0.00325461571725246,8.455743614581605,,2023-12-31
+Petrol,LPV,ICE,Mobile Motive Power,"Motive Power, Mobile",Light Vehicles,72.77782700168535,0.0028141858084936426,7.9993911554679995,,2023-12-31
+Petrol,LPV,ICE Hybrid,Mobile Motive Power,"Motive Power, Mobile",Light Vehicles,5.193676534413515,0.0020118544857867125,5.718744985181106,,2023-12-31
+Petrol,LPV,PHEV,Mobile Motive Power,"Motive Power, Mobile",Light Vehicles,0.22980869621298744,0.0020118544857867125,5.718744985181106,,2023-12-31
+Electricity,LPV,PHEV,Mobile Motive Power,"Motive Power, Mobile",Light Vehicles,0.13493734449330508,0.0007286070041542455,,20.23908344872904,2023-12-31
+Electricity,LPV,BEV,Mobile Motive Power,"Motive Power, Mobile",Light Vehicles,0.5627566670073374,0.0007286070041542455,,20.23908344872904,2023-12-31
+Diesel,LCV,ICE,Mobile Motive Power,"Motive Power, Mobile",Light Vehicles,33.74258096239602,0.0037525153293561445,9.749325355562858,,2023-12-31
+Petrol,LCV,ICE,Mobile Motive Power,"Motive Power, Mobile",Light Vehicles,5.108388291767615,0.004114900935778894,11.696705331946829,,2023-12-31
+Electricity,LCV,PHEV,Mobile Motive Power,"Motive Power, Mobile",Light Vehicles,0.0,0.0009521603967934175,,26.448899910928265,2023-12-31
+Electricity,LCV,BEV,Mobile Motive Power,"Motive Power, Mobile",Light Vehicles,0.018909833387163004,0.0009521603967934175,,26.448899910928265,2023-12-31
+Diesel,Light Truck,ICE,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,6.050284501988002,0.007091964011901172,18.425471581972385,,2023-12-31
+Petrol,Light Truck,ICE,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,0.04421715313826852,0.0059867276759599745,17.017418066969796,,2023-12-31
+Petrol,Medium Truck,ICE,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,0.0,0.01299252950783678,36.93157904444793,,
+Petrol,Heavy Truck,ICE,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,0.0,0.018461194546765237,52.47639154850835,,
+Diesel,Medium Truck,ICE,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,12.547443909881741,0.017462272940074734,45.36833707475898,,2023-12-31
+Diesel,Heavy Truck,ICE,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,34.365716676691115,0.021533807737140236,55.946499706781594,,2023-12-31
+Diesel,Bus,ICE,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,3.521013019977962,0.012948169806250003,33.64034763899715,,2023-12-31
+Petrol,Bus,ICE,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,0.0051540142654436715,0.008510271688986056,24.190652896492484,,2023-12-31
+Electricity,Bus,BEV,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,0.057066664974606295,0.003656766332846866,,101.57684257907962,2023-12-31
+Petrol,Motorcycle,ICE,Mobile Motive Power,"Motive Power, Mobile",Other,0.5713936552645017,0.001553480633797514,4.415806235922439,,2023-12-31
+Diesel,Passenger Rail,ICE,Mobile Motive Power,"Motive Power, Mobile",Rail,0.13390000000000002,,,,2023-12-31
+Electricity,Passenger Rail,Electric Motor,Mobile Motive Power,"Motive Power, Mobile",Rail,0.19240000000000002,,,,2023-12-31
+Diesel,Freight Rail,ICE,Mobile Motive Power,"Motive Power, Mobile",Rail,1.4357,,,,2023-12-31
+Electricity,Freight Rail,Electric Motor,Mobile Motive Power,"Motive Power, Mobile",Rail,0.0129,,,,2023-12-31
+Fuel Oil,Ship,ICE,Mobile Motive Power,"Motive Power, Mobile",Sea Transport,0.591863689534621,,,,2023-12-31
+Av. Fuel/Kero,Plane,Turbine Engine,Mobile Motive Power,"Motive Power, Mobile",Air Transport,18.5461013372083,,,,2023-12-31
+Electricity,Light Truck,BEV,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,0.0019329933190158116,0.0016958102512051002,,47.10584031125278,2023-12-31
+Electricity,Medium Truck,BEV,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,0.0050928827003340815,0.003829294100403638,,106.36928056676773,2023-12-31
+Electricity,Heavy Truck,BEV,Mobile Motive Power,"Motive Power, Mobile",Heavy Vehicles,0.00379790746576692,0.005793893935910792,,160.9414982197442,2023-12-31
+Electricity,Motorcycle,BEV,Mobile Motive Power,"Motive Power, Mobile",Other,0.0011025113824714955,0.00020244680680366932,,5.623522411213036,2023-12-31

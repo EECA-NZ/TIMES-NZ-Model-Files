@@ -197,3 +197,17 @@ Description = "Ensures no investment in selected baseyear techs."
 SheetName = "ImportSettings"
 TagName = "TFM_INS"
 DataLocation =  "data_intermediate/stage_4_veda_format/sys_settings/banned_techs.csv"
+
+
+
+# DUMMY COSTS AGAIN
+[DummyVariableCosts]
+
+Description = "Define costs for generated dummy variables. These should be very high so the model only uses them when there are no other options"
+SheetName = "ImportSettings"
+TagName = "TFM_UPD"
+
+Attribute = ["ACTCOST", "ACTCOST"] # the activity cost of the dummy processes 
+Pset_SET = ["IRE", "IRE"] # dummy processes are apparently defined as IRE
+Pset_PN = ["IMP*Z", "IMPDEMZ"] # separate costs for demand dummy variables, unclear why 
+AllRegions = [10000,10000000] # very high values

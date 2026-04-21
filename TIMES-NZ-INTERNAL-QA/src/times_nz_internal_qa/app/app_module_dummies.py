@@ -48,9 +48,9 @@ dummy_demand_filters = create_filter_dict(
     "dummy_demand",  # chart id for all of these
     # list of dicts
     [
-        {"col": "SectorGroup", "label": "Sector Group"},
+        {"col": "SectorGroup"},
         {"col": "Sector"},
-        {"col": "EndUse", "label": "End use"},
+        {"col": "EndUse"},
         {"col": "Commodity"},
         {"col": "Region"},
     ],

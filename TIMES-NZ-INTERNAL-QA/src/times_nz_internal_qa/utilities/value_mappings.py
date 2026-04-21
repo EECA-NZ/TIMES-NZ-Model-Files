@@ -53,7 +53,9 @@ def remap_values(column_name: str, values: list[str] | tuple[str, ...]) -> list[
     return [remap_value(column_name, value) for value in values]
 
 
-def get_choice_labels(column_name: str, values: list[str] | tuple[str, ...]) -> dict[str, str]:
+def get_choice_labels(
+    column_name: str, values: list[str] | tuple[str, ...]
+) -> dict[str, str]:
     """
     Build UI choices with raw values preserved and friendly labels displayed.
     """
@@ -74,7 +76,15 @@ def apply_value_mappings_pl(
     expressions = []
     for column_name, mapping in load_column_value_mappings().items():
         if column_name in column_names:
-            expressions.append(pl.col(column_name).replace(mapping).alias(column_name))
+            # Some parquet inputs expose mapped label columns like Scenario as
+            # `Null`-typed until values are materialized. Normalizing to string
+            # first keeps remapping stable across all app datasets.
+            expressions.append(
+                pl.col(column_name)
+                .cast(pl.String, strict=False)
+                .replace(mapping)
+                .alias(column_name)
+            )
 
     if not expressions:
         return df

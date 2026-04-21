@@ -1,6 +1,7 @@
 (function () {
   const READY_CLASS = "custom-plotly-hover-ready";
   const BOUND_ATTR = "data-custom-hover-bound";
+  const RESIZE_BOUND_ATTR = "data-plotly-resize-bound";
   const TOOLTIP_ID = "custom-plotly-hover";
 
   function ensureTooltip() {
@@ -74,11 +75,55 @@
     activePlot = null;
   }
 
+  function getPlotContainer(plot) {
+    return plot.closest(".shiny-ipywidget-output") || plot.parentElement || plot;
+  }
+
+  function resizePlot(plot) {
+    if (!plot || !plot.isConnected || !window.Plotly?.Plots?.resize) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      if (!plot.isConnected) {
+        return;
+      }
+
+      const container = getPlotContainer(plot);
+      const width = Math.floor(container.clientWidth || 0);
+
+      if (width > 0 && window.Plotly.relayout) {
+        window.Plotly.relayout(plot, { width });
+        return;
+      }
+
+      window.Plotly.Plots.resize(plot);
+    });
+  }
+
+  function bindResize(plot) {
+    if (!plot || plot.getAttribute(RESIZE_BOUND_ATTR) === "true") {
+      return;
+    }
+    plot.setAttribute(RESIZE_BOUND_ATTR, "true");
+
+    const observer = new ResizeObserver(() => {
+      resizePlot(plot);
+    });
+
+    const container = getPlotContainer(plot);
+    observer.observe(container);
+    if (container.parentElement) {
+      observer.observe(container.parentElement);
+    }
+  }
+
   function bindPlot(plot) {
     if (!plot || plot.getAttribute(BOUND_ATTR) === "true") {
       return;
     }
     plot.setAttribute(BOUND_ATTR, "true");
+    bindResize(plot);
 
     plot.addEventListener("mousemove", (event) => {
       latestPointer = event;
@@ -105,6 +150,8 @@
     plot.on("plotly_unhover", hideTooltip);
     plot.on("plotly_relayout", hideTooltip);
     plot.on("plotly_doubleclick", hideTooltip);
+
+    resizePlot(plot);
   }
 
   function scan() {
@@ -116,6 +163,10 @@
     document.body.classList.add(READY_CLASS);
     tooltip.hidden = true;
     scan();
+
+    window.addEventListener("resize", () => {
+      document.querySelectorAll(".js-plotly-plot").forEach(resizePlot);
+    });
 
     const observer = new MutationObserver(() => {
       scan();
