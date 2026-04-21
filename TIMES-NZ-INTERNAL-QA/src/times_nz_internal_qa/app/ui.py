@@ -10,7 +10,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from shiny import ui
 from times_nz_internal_qa.app.app_module_demand import demand_ui
-from times_nz_internal_qa.app.app_module_dummies import dummy_ui
+from times_nz_internal_qa.app.app_module_developers import developers_ui
 from times_nz_internal_qa.app.app_module_elec import elec_ui
 from times_nz_internal_qa.app.app_module_emissions import emissions_ui
 from times_nz_internal_qa.app.app_module_esd import esd_ui
@@ -114,7 +114,7 @@ app_ui = ui.page_fluid(
             ui.nav_panel("Electricity generation", elec_ui),
             ui.nav_panel("Emissions", emissions_ui),
             ui.nav_panel("Energy service demand", esd_ui),
-            ui.nav_panel("Infeasibilities", dummy_ui),
+            ui.nav_panel("For developers", developers_ui),
         ),
         class_="navset-large",
     ),

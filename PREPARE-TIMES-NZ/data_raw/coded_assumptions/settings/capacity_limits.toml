@@ -54,8 +54,6 @@ Description = "Residential NGA water heating can only grow 2% annually"
 GrowthLimit = 0.02
 PSet_PN = "RES*NGA*WH_LOW"
 
-
-
 # INDUSTRY 
 [CapLimitDairyHeatpumps]
 Description = "Dairy processing heatpump installs limited to 0.2GW annually"
