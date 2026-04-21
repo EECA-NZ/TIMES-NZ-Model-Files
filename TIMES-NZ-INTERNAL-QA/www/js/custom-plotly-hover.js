@@ -1,8 +1,8 @@
 (function () {
   const READY_CLASS = "custom-plotly-hover-ready";
-  const BOUND_ATTR = "data-custom-hover-bound";
-  const RESIZE_BOUND_ATTR = "data-plotly-resize-bound";
   const TOOLTIP_ID = "custom-plotly-hover";
+  const plotStates = new WeakMap();
+  let scanScheduled = false;
 
   function ensureTooltip() {
     let tooltip = document.getElementById(TOOLTIP_ID);
@@ -18,6 +18,26 @@
   let tooltip = null;
   let activePlot = null;
   let latestPointer = null;
+
+  function getPlotState(plot) {
+    let state = plotStates.get(plot);
+    if (!state) {
+      state = {
+        domBound: false,
+        resizeObserver: null,
+        plotlyHandlersBound: false,
+        onMouseMove: null,
+        onMouseLeave: null,
+        onPlotlyHover: null,
+        onPlotlyUnhover: null,
+        onPlotlyRelayout: null,
+        onPlotlyDoubleClick: null,
+        onPlotlyAfterPlot: null,
+      };
+      plotStates.set(plot, state);
+    }
+    return state;
+  }
 
   function resolveCustomdata(point) {
     if (!point) {
@@ -70,6 +90,9 @@
   }
 
   function hideTooltip() {
+    if (!tooltip) {
+      return;
+    }
     tooltip.hidden = true;
     tooltip.innerHTML = "";
     activePlot = null;
@@ -101,11 +124,10 @@
     });
   }
 
-  function bindResize(plot) {
-    if (!plot || plot.getAttribute(RESIZE_BOUND_ATTR) === "true") {
+  function bindResize(plot, state) {
+    if (!plot || state.resizeObserver) {
       return;
     }
-    plot.setAttribute(RESIZE_BOUND_ATTR, "true");
 
     const observer = new ResizeObserver(() => {
       resizePlot(plot);
@@ -116,25 +138,53 @@
     if (container.parentElement) {
       observer.observe(container.parentElement);
     }
+    state.resizeObserver = observer;
   }
 
-  function bindPlot(plot) {
-    if (!plot || plot.getAttribute(BOUND_ATTR) === "true") {
+  function unbindPlotlyHandlers(plot, state) {
+    if (!state.plotlyHandlersBound || typeof plot.removeListener !== "function") {
       return;
     }
-    plot.setAttribute(BOUND_ATTR, "true");
-    bindResize(plot);
 
-    plot.addEventListener("mousemove", (event) => {
+    plot.removeListener("plotly_hover", state.onPlotlyHover);
+    plot.removeListener("plotly_unhover", state.onPlotlyUnhover);
+    plot.removeListener("plotly_relayout", state.onPlotlyRelayout);
+    plot.removeListener("plotly_doubleclick", state.onPlotlyDoubleClick);
+    plot.removeListener("plotly_afterplot", state.onPlotlyAfterPlot);
+    state.plotlyHandlersBound = false;
+  }
+
+  function bindDomHandlers(plot, state) {
+    if (state.domBound) {
+      return;
+    }
+
+    state.onMouseMove = (event) => {
       latestPointer = event;
       if (activePlot === plot) {
         positionTooltip(event);
       }
-    });
+    };
 
-    plot.addEventListener("mouseleave", hideTooltip);
+    state.onMouseLeave = () => {
+      if (activePlot === plot) {
+        hideTooltip();
+      }
+    };
 
-    plot.on("plotly_hover", (eventData) => {
+    plot.addEventListener("mousemove", state.onMouseMove);
+    plot.addEventListener("mouseleave", state.onMouseLeave);
+    state.domBound = true;
+  }
+
+  function bindPlotlyHandlers(plot, state) {
+    if (typeof plot.on !== "function") {
+      return;
+    }
+
+    unbindPlotlyHandlers(plot, state);
+
+    state.onPlotlyHover = (eventData) => {
       const point = eventData && eventData.points && eventData.points[0];
       const html = getTooltipHtml(point);
       if (!html) {
@@ -145,31 +195,76 @@
       tooltip.innerHTML = html;
       tooltip.hidden = false;
       positionTooltip(latestPointer || eventData.event);
-    });
+    };
 
-    plot.on("plotly_unhover", hideTooltip);
-    plot.on("plotly_relayout", hideTooltip);
-    plot.on("plotly_doubleclick", hideTooltip);
+    state.onPlotlyUnhover = hideTooltip;
+    state.onPlotlyRelayout = hideTooltip;
+    state.onPlotlyDoubleClick = hideTooltip;
+    state.onPlotlyAfterPlot = () => {
+      resizePlot(plot);
+    };
 
+    plot.on("plotly_hover", state.onPlotlyHover);
+    plot.on("plotly_unhover", state.onPlotlyUnhover);
+    plot.on("plotly_relayout", state.onPlotlyRelayout);
+    plot.on("plotly_doubleclick", state.onPlotlyDoubleClick);
+    plot.on("plotly_afterplot", state.onPlotlyAfterPlot);
+    state.plotlyHandlersBound = true;
+  }
+
+  function bindPlot(plot) {
+    if (!plot) {
+      return;
+    }
+    const state = getPlotState(plot);
+    bindResize(plot, state);
+    bindDomHandlers(plot, state);
+    bindPlotlyHandlers(plot, state);
     resizePlot(plot);
   }
 
-  function scan() {
+  function refreshPlots() {
+    hideTooltip();
     document.querySelectorAll(".js-plotly-plot").forEach(bindPlot);
+  }
+
+  function scan() {
+    scanScheduled = false;
+    refreshPlots();
+  }
+
+  function scheduleScan() {
+    if (scanScheduled) {
+      return;
+    }
+    scanScheduled = true;
+    window.requestAnimationFrame(scan);
   }
 
   function init() {
     tooltip = ensureTooltip();
     document.body.classList.add(READY_CLASS);
     tooltip.hidden = true;
-    scan();
+    scheduleScan();
 
     window.addEventListener("resize", () => {
-      document.querySelectorAll(".js-plotly-plot").forEach(resizePlot);
+      scheduleScan();
+    });
+
+    window.addEventListener("blur", hideTooltip);
+    window.addEventListener("focus", () => {
+      scheduleScan();
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        hideTooltip();
+        return;
+      }
+      scheduleScan();
     });
 
     const observer = new MutationObserver(() => {
-      scan();
+      scheduleScan();
     });
 
     observer.observe(document.body, {
