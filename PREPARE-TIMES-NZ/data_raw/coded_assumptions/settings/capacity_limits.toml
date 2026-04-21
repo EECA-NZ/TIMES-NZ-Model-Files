@@ -17,6 +17,8 @@
 
 
 
+# Residential
+
 [CapLimitResidentialLED]
 Description = "Residential LED lighting can only grow at 4% annually"
 GrowthLimit = 0.04
@@ -27,12 +29,10 @@ Description = "Residential Fluro lighting can only grow at 1% annually"
 GrowthLimit = 0.01 
 PSet_PN = "RES*FLUOR-LIGHT" 
 
-
 [CapLimitResidentialHeatPumps]
 Description = "Residential HP capacity can only grow at 3% annually"
 GrowthLimit = 0.03
 PSet_PN = "RES*HPSH-S_HEAT"
-
 
 [CapLimitResLPGHeating]
 Description = "Residential LPG space heating can only grow 2% annually"
@@ -43,7 +43,6 @@ PSet_PN = "RES*LPG-BURNR-S_HEAT"
 Description = "Residential NGA space heating can only grow 2% annually"
 GrowthLimit = 0.02
 PSet_PN = "RES*NGA-BURNR-S_HEAT"
-
 
 [CapLimitResLPGHotwater]
 Description = "Residential LPG water heating can only grow 2% annually"
@@ -57,5 +56,10 @@ PSet_PN = "RES*NGA*WH_LOW"
 
 
 
+# INDUSTRY 
+[CapLimitDairyHeatpumps]
+Description = "Dairy processing heatpump installs limited to 0.2GW annually"
+GrowthLimit = 0.00
+SeedValue = 0.2
 
-
+PSet_PN = "DARY-ELC-HPPH-PH_LOW"
