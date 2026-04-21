@@ -62,8 +62,14 @@ SeedValue = 0.05
 PSet_PN = "DARY-ELC-HPPH-PH_LOW"
 
 [CapLimitIndustryHeatpumps]
-
 Description = "Industrial space heating heat pumps limited to total 5MW annually"
 GrowthLimit = 0.01
 SeedValue = 0.005
 PSet_PN = "*HPSH-SH_LOW"
+
+# TRANSPORT
+
+[CapLimitPassengerBEV]
+Description = "Very generous limit on LPV uptake rates, just to slow any really crazy early swings. 50% annual max cap increase"
+GrowthLimit = 0.5
+PSet_PN = "T_*_CBEVELC_*"
