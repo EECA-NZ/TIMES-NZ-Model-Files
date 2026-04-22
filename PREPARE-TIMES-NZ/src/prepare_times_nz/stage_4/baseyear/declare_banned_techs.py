@@ -15,7 +15,6 @@ But this did not seem to register properly for future years
 import pandas as pd
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_4_DATA
-from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # CONSTANTS -----------------------
 
@@ -44,8 +43,6 @@ def register_codes_to_ban(filepath=BANNED_TECHS_FILE):
     codes = []
     for _, row in df.iterrows():
         code = row["Code"]
-        label = row["Label"]
-        logger.info("Banning %s (%s)", blue_text(label), code)
         codes.append(code)
 
     out_df = pd.DataFrame()
