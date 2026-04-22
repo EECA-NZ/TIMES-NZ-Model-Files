@@ -26,3 +26,14 @@ Pset_CI = ["NGA","BIM","BIM","NGA",]
 Other_Indexes = ["NGA","BIM","BIM","NGA",]
 Cset_CN = ["NGADD","BIMDD","NGADD","BIMDD"]
 NI = [1,1,0,0]
+
+
+[UptakeCapacityConstraints]
+
+Description = "Limits uptake rates of selected technologies to ensure plausible results."
+SheetName = "CapacityLimits"
+TagName = "UC_T"
+DataLocation = "data_intermediate/stage_4_veda_format/sys_settings/capacity_limits_uc.csv"
+[UptakeCapacityConstraints.UCSets]
+R_S = "AllRegions"
+T_S = ""

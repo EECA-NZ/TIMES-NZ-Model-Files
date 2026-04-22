@@ -30,8 +30,6 @@ DEM_FILE_LOCATION = FINAL_DATA / "energy_demand.parquet"
 ELC_DEM_CURVE_FILE = FINAL_DATA / "electricity_demand_by_timeslice.parquet"
 TRANSPORT_ENERGY_DEMAND_FILE = FINAL_DATA / "transport_energy_demand.parquet"
 TRANSPORT_CAPACITY_FILE = FINAL_DATA / "transport_capacity.parquet"
-TECHNOLOGY_CAPACITY_FILE = FINAL_DATA / "technology_capacity.parquet"
-
 # SET FILTER/GROUP OPTIONS
 
 dem_filters = [
@@ -44,17 +42,6 @@ dem_filters = [
     {"col": "EndUse"},
     {"col": "Region"},
 ]
-
-technology_capacity_filters = [
-    {"col": "SectorGroup"},
-    {"col": "Sector"},
-    {"col": "TechnologyGroup"},
-    {"col": "Technology"},
-    {"col": "EnduseGroup"},
-    {"col": "EndUse"},
-    {"col": "Region"},
-]
-
 
 elc_dem_filters = [
     {"col": "SectorGroup"},
@@ -79,14 +66,10 @@ elc_dem_curve_filters = [
 # we add fuel to main
 
 dem_filters = create_filter_dict("energy_dem", dem_filters)
-technology_capacity_filters = create_filter_dict(
-    "technology_capacity", technology_capacity_filters
-)
 elc_dem_filters = create_filter_dict("elc_dem", elc_dem_filters)
 elc_dem_curve_filters = create_filter_dict("elc_dem_curve", elc_dem_curve_filters)
 
 dem_group_options = [d["col"] for d in dem_filters]
-technology_capacity_group_options = [d["col"] for d in technology_capacity_filters]
 elc_dem_group_options = [d["col"] for d in elc_dem_filters]
 
 # Core variables we always group by
@@ -99,7 +82,6 @@ base_cols = [
 ]
 
 dem_all_group_options = base_cols + dem_group_options
-technology_capacity_all_group_options = base_cols + technology_capacity_group_options
 elc_dem_all_group_options = base_cols + elc_dem_group_options
 
 
@@ -113,16 +95,6 @@ dem_parameters = {
     "section_title": "Total energy demand",
     "base_cols": base_cols,
     "group_options": dem_group_options,
-}
-
-technology_capacity_parameters = {
-    "page_id": ID_PREFIX,
-    "chart_id": "technology_capacity",
-    "sec_id": "technology-capacity",
-    "filters": technology_capacity_filters,
-    "section_title": "Technology capacity",
-    "base_cols": base_cols,
-    "group_options": technology_capacity_group_options,
 }
 
 elc_dem_parameters = {
@@ -148,9 +120,7 @@ elc_dem_curve_parameters = {
 }
 
 
-elc_dem_curve_all_groups = (
-    elc_dem_curve_parameters["base_cols"] + elc_dem_group_options
-)
+elc_dem_curve_all_groups = elc_dem_curve_parameters["base_cols"] + elc_dem_group_options
 
 # TRANSPORT-SPECIFIC CONSTANTS (Energy Demand & Capacity) -----
 
@@ -214,19 +184,6 @@ def get_base_dem_df(scenarios, filepath=DEM_FILE_LOCATION):
     df = read_data_pl(filepath, scenarios)
     df = aggregate_by_group(df, dem_all_group_options)
     df = filter_df_for_variable(df, "Energy demand", collect=True)
-    return df
-
-
-@lru_cache(maxsize=8)
-def get_base_technology_capacity_df(scenarios, filepath=TECHNOLOGY_CAPACITY_FILE):
-    """
-    Returns non-transport technology capacity data (pre-filtered)
-    Based on scenario selections
-    Caches results for quick switching
-    """
-    df = read_data_pl(filepath, scenarios)
-    df = aggregate_by_group(df, technology_capacity_all_group_options)
-    df = filter_df_for_variable(df, "Technology Capacity", collect=True)
     return df
 
 
@@ -328,16 +285,6 @@ def demand_server(inputs, outputs, session, selected_scens):
     )
 
     register_server_functions_for_explorer(
-        technology_capacity_parameters,
-        get_base_technology_capacity_df,
-        scen_tuple,
-        selected_scens["is_comparison"],
-        inputs,
-        outputs,
-        session,
-    )
-
-    register_server_functions_for_explorer(
         elc_dem_parameters,
         get_base_elc_dem_df,
         scen_tuple,
@@ -383,7 +330,6 @@ def demand_server(inputs, outputs, session, selected_scens):
 
 sections = [
     dem_parameters,
-    technology_capacity_parameters,
     elc_dem_parameters,
     elc_dem_curve_parameters,
     transport_energy_demand_parameters,
