@@ -257,7 +257,7 @@ STAGE_3: dict[str, list[str]] = {
     # scenarios
     "electricity/wem_wcm": ["wem_user_constraints/uc_wem.csv"],
     "electricity/distributed_solar_forecasts": [
-        "distributed_solar/traditional_distributed_solar_forecasts.csv"
+        "distributed_solar/steady_distributed_solar_forecasts.csv"
     ],
 }
 
@@ -288,14 +288,14 @@ STAGE_4: dict[str, list[str]] = {
     "create_baseyear_pri_files": ["base_year_pri/deliverability_forecasts_2p.csv"],
     # new techs (subres files)
     "create_newtechs_tra_files": ["subres_tra/future_transport_processes.csv"],
-    "create_newtechs_elc_files": ["subres_elc/genstack/Traditional_process.csv"],
+    "create_newtechs_elc_files": ["subres_elc/genstack/Steady_process.csv"],
     "create_newtechs_com_files": ["subres_com/future_commercial_processes.csv"],
     "create_newtechs_agr_files": ["subres_agr/future_agriculture_processes.csv"],
     "create_newtechs_ind_files": ["subres_ind/future_industry_processes.csv"],
     # settings
     "create_settings": ["sys_settings/active_periods.csv"],
     # scenario files
-    "create_standard_scenarios": ["scen_carbon_prices/carbon_price_traditional.csv"],
+    "create_standard_scenarios": ["scen_carbon_prices/carbon_price_steady.csv"],
     "create_dem_proj_files": ["scen_demand/driver_allocations.csv"],
     "create_load_curves": ["scen_com_fr/com_fr_industry.csv"],
 }

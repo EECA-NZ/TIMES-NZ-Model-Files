@@ -231,16 +231,16 @@ def get_population_index():
     Currently we just use median for both
     """
 
-    # define traditional
-    trad_index = get_national_population_growth_index("50th percentile (median)")
-    trad_index["Scenario"] = "Traditional"
+    # define steady
+    steady_index = get_national_population_growth_index("50th percentile (median)")
+    steady_index["Scenario"] = "Steady"
 
-    # define transformation
-    trans_index = get_national_population_growth_index("50th percentile (median)")
-    trans_index["Scenario"] = "Transformation"
+    # define shift
+    shift_index = get_national_population_growth_index("50th percentile (median)")
+    shift_index["Scenario"] = "Shift"
 
     # combine
-    df = pd.concat([trad_index, trans_index])
+    df = pd.concat([steady_index, shift_index])
 
     # shape for veda (rename and select)
 
@@ -272,7 +272,7 @@ def get_gdp_index():
     # expand by our scenarios
     scenario_map = pd.DataFrame(
         {
-            "Scenario": ["Traditional", "Transformation"],
+            "Scenario": ["Steady", "Shift"],
             # Select which MBIE scenario we are using for ours here
             "MBIEScenario": ["Reference", "Reference"],
         }
@@ -393,8 +393,8 @@ def main():
 
     indices = get_all_demand_indices()
 
-    make_demand_drivers(indices, "Traditional")
-    make_demand_drivers(indices, "Transformation")
+    make_demand_drivers(indices, "Steady")
+    make_demand_drivers(indices, "Shift")
 
 
 if __name__ == "__main__":

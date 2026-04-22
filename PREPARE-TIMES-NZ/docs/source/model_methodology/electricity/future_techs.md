@@ -2,7 +2,7 @@
 
 The base of future technologies made available to the model aligns with the MBIE generation stack used for EDGS 2024. This lists many future consented, planned or generic plants, and includes detailed estimates of costs (investment, connection, and maintenance) as well as other important parameters like fuel efficiency, relevant substation, or earliest possible commissioning year.
 
-For the Traditional scenario, we use the MBIE Reference generation stack. For the Transformation scenario, we use the Innovation generation stack, which contains more potential new generation plants at lower capital costs.
+For the Steady scenario, we use the MBIE Reference generation stack. For the Shift scenario, we use the Innovation generation stack, which contains more potential new generation plants at lower capital costs.
 
 We make the following adjustments and additions to the MBIE generation stack:
 - Future costs in the MBIE generation stack[^mbie_edgs] are assumed to be static. We allow these to decline over time, based on the United States’ National Renewable Energy Laboratory (NREL)[^nrel] assumptions of future cost declines for solar, wind, and geothermal technologies.
@@ -52,7 +52,7 @@ NREL projections consider three different scenarios: Conservative, Moderate, and
  - Moderate: Innovation in the market is more widespread with current levels of investment in public and private research and development.
  - Advanced: Innovation in the market is widespread with an increase of investment in public and private research and development.
 
-For the Traditional scenario we apply the Moderate projections, and for Transformation we use Advanced.
+For the Steady scenario we apply the Moderate projections, and for Shift we use Advanced.
 
 Learning curves were applied to reduce the future capital cost (CAPEX) and fixed operating and maintenance costs (FOM) to plants that met the following criteria: 
 
@@ -105,7 +105,7 @@ We do not model distributed solar uptake in TIMES, and instead provide exogenous
 
 This is because TIMES uses a system cost perspective when selecting optimal technologies. This often means that it will not invest in distributed solar, preferring the economies of scale of utility-scale solar. This is true even when considering the efficiency and grid maintenance benefits of off-grid generation[^distribution_note]. 
 
-Because it would not be realistic to assume no distributed solar installations, we instead use external forecasts of distributed solar installation from MBIE's EDGS scenarios[^edgs_solar]. We use the Reference projections for our Traditional scenario, and the Innovation projections for Transformation. This means that TIMES-NZ distributed solar uptake rates are not the product of any other model properties; they are hardcoded assumptions. 
+Because it would not be realistic to assume no distributed solar installations, we instead use external forecasts of distributed solar installation from MBIE's EDGS scenarios[^edgs_solar]. We use the Reference projections for our Steady scenario, and the Innovation projections for Shift. This means that TIMES-NZ distributed solar uptake rates are not the product of any other model properties; they are hardcoded assumptions. 
 
 
 [^edgs_solar]: MBIE | [EDGS 2024 Assumptions](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-modelling/electricity-demand-and-generation-scenarios)
@@ -120,3 +120,4 @@ We allow the model to also build diesel peakers, as this could prove a useful op
 ## New fuels in existing assets 
 
 We add additional fuel options to some existing plants to incorporate potential future renewable fuels. All gas-fired electricity generation can also use biomethane directly.  Similarly, the Huntly Rankines have the option to use black pellets, if these are produced via torrefaction facility. See documentation on biofuel assumptions for more details on the production and distribution of these fuels. 
+

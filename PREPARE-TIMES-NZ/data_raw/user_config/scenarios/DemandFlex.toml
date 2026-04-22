@@ -9,9 +9,9 @@
 # Currently, the relevant processes are listed in an input assumptions file. It would be better to centralise this method
 # and config. 
 
-WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Traditional"
+WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Steady"
 
-[ResidentialFlexTechsTraditional]
+[ResidentialFlexTechsSteady]
 Description = "Defines residential flex processes"
 SheetName = "Residential"
 TagName = "FI_Process"
@@ -37,8 +37,8 @@ START = [2024, 2024]
 
 
 
-[ResidentialFlexTechsTransformation]
-WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Transformation"
+[ResidentialFlexTechsShift]
+WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Shift"
 Description = "Defines residential flex processes"
 SheetName = "Residential"
 TagName = "FI_Process"
@@ -51,7 +51,7 @@ Tcap = ["PJa","PJa"]
 
 [ResidentialFlexParameters90]
 Description = "Defines parameters for residential ripple control (scaling to 90%)"
-WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Transformation"
+WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Shift"
 SheetName = "Residential"
 TagName = "FI_T"
 TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX"]
@@ -61,7 +61,6 @@ Attribute = ["STG_SIFT", "STG_SIFT"]
 2050 = [0.9,0.9] # scales to 90% by 2050
 STG_EFF = [0.99, 0.99] # 1% heatloss
 START = [2024, 2024]
-
 
 
 

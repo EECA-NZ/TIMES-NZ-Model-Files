@@ -5,8 +5,8 @@ Pipeline:
 1) Load raw data from csv
 2) Extract total capacity (MW) by year for com, res, and ind sectors.
 3) distribute these per island according to existing island shares
-4) Map EDGS Reference scenario to TIMES-NZ Traditional,
-    and EDGS Innovation scenario to TIMES-NZ Transformation.
+4) Map EDGS Reference scenario to TIMES-NZ Steady,
+    and EDGS Innovation scenario to TIMES-NZ Shift.
 5) Export scenario workbooks.
 
 
@@ -33,7 +33,7 @@ EDGS_FILEPATH = (
 )
 BASE_YEAR_ELC_FILE = STAGE_2_DATA / "electricity/base_year_electricity_supply.csv"
 
-SCENARIOS = {"Traditional": "Reference", "Transformation": "Innovation"}
+SCENARIOS = {"Steady": "Reference", "Shift": "Innovation"}
 
 
 OUTPUT_DIR = STAGE_3_DATA / "distributed_solar"
@@ -174,8 +174,8 @@ def main():
     df = get_cumulative_build_projections()
     df = split_capacity_by_island(df)
 
-    save_solar_data_for_scenario(df, "Traditional")
-    save_solar_data_for_scenario(df, "Transformation")
+    save_solar_data_for_scenario(df, "Steady")
+    save_solar_data_for_scenario(df, "Shift")
 
 
 if __name__ == "__main__":

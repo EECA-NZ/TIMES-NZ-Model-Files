@@ -5,10 +5,10 @@
       "SI": "South Island"
     },
     "Scenario": {
-      "traditional-v304": "Scenario 1",
-      "transformation-v304": "Scenario 2",
-      "traditional-v305": "Steady",
-      "transformation-v305": "Shift"
+      "steady-v304": "Scenario 1",
+      "shift-v304": "Scenario 2",
+      "steady-v305": "Steady",
+      "shift-v305": "Shift"
     }
   }
 }

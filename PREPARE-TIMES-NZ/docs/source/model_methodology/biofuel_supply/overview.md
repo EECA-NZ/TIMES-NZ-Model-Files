@@ -25,12 +25,13 @@ Industrial wastewater is generally produced at scales that make on-site reuse fe
 
 ## Scenario adjustments 
 
-Work in progress release note: The text below describes the scenario variations which we are working to implement. In the released setup, `Traditional` uses the base biofuel supply assumptions, while `Transformation` uses the higher bioenergy supply assumptions represented by `AdditionalBioenergySupply`.
+Work in progress release note: The text below describes the scenario variations which we are working to implement. In the released setup, `Steady` uses the base biofuel supply assumptions, while `Shift` uses the higher bioenergy supply assumptions represented by `AdditionalBioenergySupply`.
 
 TIMES-NZ 3.0 includes two bioenergy supply scenarios designed to test how future policy and investment settings could affect the scale and cost of domestic renewable fuel production.
 
 Bioenergy remains one of the key uncertainties identified by stakeholders, particularly regarding how waste and residue regulations might expand feedstock availability and reduce supply costs over time.
 
-In the **Traditional** scenario, current regulatory and investment conditions are assumed to persist. Feedstock recovery and processing capacity remain limited to resources that are already accessible under today’s settings. Collection and delivery costs are assumed to broadly reflect present-day estimates for accessible forestry and agricultural residues. Limited recovery of additional waste streams means resource availability grows only marginally to 2050. Imports of bio-based fuels remain available to supplement domestic production where cost-effective.
+In the **Steady** scenario, current regulatory and investment conditions are assumed to persist. Feedstock recovery and processing capacity remain limited to resources that are already accessible under today’s settings. Collection and delivery costs are assumed to broadly reflect present-day estimates for accessible forestry and agricultural residues. Limited recovery of additional waste streams means resource availability grows only marginally to 2050. Imports of bio-based fuels remain available to supplement domestic production where cost-effective.
 
-In the **Transformation** scenario, new and strengthened waste and residue management regulations – for example, those incentivising recovery of organic waste or forestry residues – are assumed to improve feedstock access and reduce supply costs. Improved collection systems and regional aggregation hubs also play a role, particularly in regions with high resource density such as the central North Island and Canterbury. Increased availability supports moderate expansion of biogas, biomass combustion, and biodiesel capacity.
+In the **Shift** scenario, new and strengthened waste and residue management regulations – for example, those incentivising recovery of organic waste or forestry residues – are assumed to improve feedstock access and reduce supply costs. Improved collection systems and regional aggregation hubs also play a role, particularly in regions with high resource density such as the central North Island and Canterbury. Increased availability supports moderate expansion of biogas, biomass combustion, and biodiesel capacity.
+

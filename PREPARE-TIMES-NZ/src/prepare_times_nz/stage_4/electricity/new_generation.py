@@ -512,19 +512,19 @@ def process_genstack_files(
 def main():
     """Wrapper for all functions
     Note that here is where we define the MBIE/NREL scenarios used
-    for Traditional/Transformation
+    for Steady/Shift
     It would be straightforward to either adjust the scenarios used
     Or create new ones by specifying new genstack processing"""
 
     # offshore wind and dist solar outputs all cost curves
     # can select options by changing inputs in config file
     process_offshore_wind_data()
-    # Traditional settings for genstack:
+    # Steady settings for genstack:
     # Reference MBIE + conservative NREL
-    process_genstack_files("Traditional", "Reference", "Moderate")
-    # Transformation settings for genstack:
+    process_genstack_files("Steady", "Reference", "Moderate")
+    # Shift settings for genstack:
     # Innovation MBIE + Moderate NREL
-    process_genstack_files("Transformation", "Innovation", "Advanced")
+    process_genstack_files("Shift", "Innovation", "Advanced")
 
 
 if __name__ == "__main__":

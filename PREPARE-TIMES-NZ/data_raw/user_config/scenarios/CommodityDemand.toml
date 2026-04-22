@@ -31,25 +31,25 @@ TagName = "Series"
 DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/helper_series.csv"
 
 ##################################################################
-# Traditional Scenario 
+# Steady Scenario 
 ##################################################################
 
-[TraditionalDemandScenario]
-Description = "Growth rates for all demand drivers (Traditional Scenario)"
-WorkBookName = "SuppXLS/Demands/ScenDem_Traditional"
+[SteadyDemandScenario]
+Description = "Growth rates for all demand drivers (Steady Scenario)"
+WorkBookName = "SuppXLS/Demands/ScenDem_Steady"
 SheetName = "Driver"
 TagName = "DRVR_Table"
-DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/demand_drivers_Traditional.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/demand_drivers_Steady.csv"
 
 
 
 ##################################################################
-# Transformation Scenario 
+# Shift Scenario 
 ##################################################################
 
-[TransformationDemandScenario]
-Description = "Growth rates for all demand drivers (Transformation Scenario)"
-WorkBookName = "SuppXLS/Demands/ScenDem_Transformation"
+[ShiftDemandScenario]
+Description = "Growth rates for all demand drivers (Shift Scenario)"
+WorkBookName = "SuppXLS/Demands/ScenDem_Shift"
 SheetName = "Driver"
 TagName = "DRVR_Table"
-DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/demand_drivers_Transformation.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/demand_drivers_Shift.csv"

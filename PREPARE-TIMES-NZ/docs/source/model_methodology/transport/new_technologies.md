@@ -14,7 +14,7 @@ Data from the NREL Annual Technology Baseline (ATB) was used to generate learnin
  - Moderate: Widespread innovation consistent with current investment trends.
  - Advanced: Strong technology improvements driven by increased R&D investment.
 
-For TIMES-NZ, the Conservative scenario was used for Traditional, and the Moderate scenario was used for the Transformation. The Advanced scenario is not currently used, reflecting the fact that New Zealand’s market maturity and supply chains are behind those of the US.
+For TIMES-NZ, the Conservative scenario was used for Steady, and the Moderate scenario was used for the Shift. The Advanced scenario is not currently used, reflecting the fact that New Zealand’s market maturity and supply chains are behind those of the US.
 
 Learning curves were applied to adjust CAPEX and FIXOM costs for vehicles meeting the following criteria:
  - Vehicles representing future technologies that are not yet mature in the 2023 fleet (e.g., heavy-duty hydrogen trucks, long-range BEVs)
@@ -61,9 +61,9 @@ To apply the learning curves:
  - FIXOM costs were extracted from NREL for the base year, where data is not available in the NZ context.
 
 
-```{list-table} Road transport CAPEX projections - Traditional scenario (NZD2025)
+```{list-table} Road transport CAPEX projections - Steady scenario (NZD2025)
 :header-rows: 1
-:name: tab_transport_capex_learning_curves_trad
+:name: tab_transport_capex_learning_curves_steady
 * - Type
   - Technology
   - Fuel
@@ -259,9 +259,9 @@ To apply the learning curves:
 ```
 
 
-```{list-table} Road transport CAPEX projections - Transformation scenario (NZD2025)
+```{list-table} Road transport CAPEX projections - Shift scenario (NZD2025)
 :header-rows: 1
-:name: tab_transport_capex_learning_curves_transformation
+:name: tab_transport_capex_learning_curves_shift
 * - Type
   - Technology
   - Fuel
@@ -524,5 +524,6 @@ The aviation sector has the ability to use SAF or move to Hydrogen aircraft. Fig
 Note that this only applies to domestic aviation, international aviation exists in the model for its impact on fuel demand but does not contribute to emissions. Hydrogen was not deemed feasible for international travel so has not provided as an option in this area.
 
 Estimates in this area are still very uncertain. The model will be updated when and if more accurate information on alternative aviation fuels becomes available. 
+
 
 

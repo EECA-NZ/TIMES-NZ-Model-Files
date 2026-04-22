@@ -3,7 +3,7 @@
 
 Demand projections for the agriculture, forestry, and fishing sector are based on detailed projections from the Second Emissions Reduction Plan (ERP2) detailed results[^erp_results]. 
 
-TIMES demand projections are all based on activity indexes from the base year (currently 2023). For workbook-based mappings, the ERP2 series is converted to a demand index by dividing each year by the 2023 value. The TIMES-NZ Traditional scenario uses the ERP2 `Baseline` scenario and the Transformation scenario uses the ERP2 `Baseline low` scenario. Where the ERP2 workbook only provides values for selected years, annual values between those years are linearly interpolated.
+TIMES demand projections are all based on activity indexes from the base year (currently 2023). For workbook-based mappings, the ERP2 series is converted to a demand index by dividing each year by the 2023 value. The TIMES-NZ Steady scenario uses the ERP2 `Baseline` scenario and the Shift scenario uses the ERP2 `Baseline low` scenario. Where the ERP2 workbook only provides values for selected years, annual values between those years are linearly interpolated.
 
 Agricultural subsector demand profiles are as follows: 
 
@@ -20,11 +20,11 @@ Agricultural subsector demand profiles are as follows:
 [^qms]: MPI | [Quota Management System](https://www.mpi.govt.nz/legal/legislation-standards-and-reviews/fisheries-legislation/quota-management-system)
 
 
-```{csv-table} ERP2 category mappings for Traditional and Transformation scenarios
+```{csv-table} ERP2 category mappings for Steady and Shift scenarios
 :header-rows: 1
 :name: tab_agr_demand_proj
 
-Subsector,Traditional,Transformation
+Subsector,Steady,Shift
 Dairy Cattle Farming,Baseline / Total dairy cattle,Baseline low / Total dairy cattle
 Livestock Farming,"Baseline / Sheep and beef 'stock units'","Baseline low / Sheep and beef 'stock units'"
 Horticulture (Outdoor),Baseline / Horticulture,Baseline low / Horticulture
@@ -33,3 +33,4 @@ Indoor Cropping,Baseline / Horticulture,Baseline low / Horticulture
 "Fishing, Hunting and Trapping",Constant index = 1,Constant index = 1
 Other Agriculture,Baseline / Other agriculture / Total,Baseline low / Other agriculture / Total
 ```
+

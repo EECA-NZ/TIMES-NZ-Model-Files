@@ -3,7 +3,7 @@
 ###########################################
 
 
-WorkBookName = "SubRES_TMPL/SubRES_LNG_Imports_Transformation"
+WorkBookName = "SubRES_TMPL/SubRES_LNG_Imports_Shift"
 
 [LNGSupplyCommodityDefinitions]
 Description = "Declare LNG commodity"
@@ -54,7 +54,7 @@ FIXOM = [90] # operating costs per capacity unit (NZDm per port setup excl capex
 # Lock to NI by creating a trans file 
 
 [LNGImportNIOnly]
-WorkBookName = "SubRES_TMPL/SubRES_LNG_Imports_Transformation_trans"
+WorkBookName = "SubRES_TMPL/SubRES_LNG_Imports_Shift_trans"
 Description = "Locks LNG processes to NI"
 SheetName = "AVA"
 TagName = "TFM_AVA"       
@@ -65,9 +65,10 @@ NI = [1,1]
 
 # Scenario file for build timing
 [LNGImportBuildOptions]
-WorkBookName = "SuppXLS/Scen_LNG_build_timing_Transformation"
+WorkBookName = "SuppXLS/Scen_LNG_build_timing_Shift"
 Description = "Build timing for LNG port, including single port unit build at 2027."
 SheetName = "LNG"
 TagName = "TFM_INS"
 DataLocation = "data_raw/coded_assumptions/oil_and_gas/lng_build_timing.csv"
+
 

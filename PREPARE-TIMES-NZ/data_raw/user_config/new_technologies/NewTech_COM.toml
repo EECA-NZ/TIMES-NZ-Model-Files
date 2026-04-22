@@ -17,3 +17,4 @@ Description = "Defines technical parameters for future commercial technologies"
 SheetName = "COM_NEW"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_com/future_commercial_parameters.csv"
+
