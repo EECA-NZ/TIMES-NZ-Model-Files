@@ -12,7 +12,7 @@ commercial/index
 industry/index
 residential/index
 transport/index
-banned_baseyear_technologies/index
+
 
 ```
 
@@ -27,5 +27,12 @@ hydrogen/index
 
 ```
 
+```{toctree}
+:maxdepth: 1
+:caption: Other assumptions
+
+other_constraints/index
+
+```
 
 
