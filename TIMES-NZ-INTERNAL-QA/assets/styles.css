@@ -350,11 +350,15 @@ body > .container-fluid {
     box-shadow 0.15s ease;
 }
 
+.chart-toggle-bar .radio-inline > span > span {
+  background: transparent;
+}
+
 .chart-toggle-bar .radio-inline + .radio-inline > span {
   border-left: 1px solid var(--border);
 }
 
-.chart-toggle-bar .radio-inline:hover span {
+.chart-toggle-bar .radio-inline:hover > span {
   background: var(--bs-secondary-muted);
   color: var(--bs-primary);
   font-weight: 450;
@@ -426,6 +430,12 @@ body > .container-fluid {
   box-sizing: border-box;
 }
 
+.chart-header-group .form-select:focus {
+  border-color: var(--border);
+  box-shadow: none;
+  outline: none;
+}
+
 /* Download button position + wrapping in header row */
 .chart-header-row .chart-download-group {
   margin-left: auto;
@@ -441,7 +451,7 @@ body > .container-fluid {
 .chart-download-group .dropdown-menu {
   min-width: 0;
   width: max-content;
-  padding: 6px 0;
+  padding: 5px 0;
 }
 
 .chart-download-group .dropdown-item {
@@ -649,7 +659,7 @@ body > .container-fluid {
   background-color: var(--bg);
   color: var(--panel-text);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 15px;
   font-weight: 400;
   margin: 0 6px 0 0;
   min-height: 37px;
@@ -718,28 +728,33 @@ body > .container-fluid {
 .tab-page-info-btn {
   flex: 0 0 auto;
   margin-top: 0;
-  /* Ensure the help button matches other light buttons even if Bootstrap overrides `.btn`. */
-  --bs-btn-bg: #fff;
+  --bs-btn-bg: var(--bg);
   --bs-btn-color: var(--panel-text);
   --bs-btn-border-color: var(--border);
-  --bs-btn-hover-bg: #f3f4f6;
+  --bs-btn-hover-bg: var(--bg);
   --bs-btn-hover-color: var(--panel-text);
-  --bs-btn-hover-border-color: #cbd5e1;
-  --bs-btn-active-bg: #f3f4f6;
+  --bs-btn-hover-border-color: var(--border);
+  --bs-btn-active-bg: var(--bg);
   --bs-btn-active-color: var(--panel-text);
-  --bs-btn-active-border-color: #cbd5e1;
-
-  background-color: #fff;
+  --bs-btn-active-border-color: var(--border);
+  background-color: var(--bg);
   border-color: var(--border);
   color: var(--panel-text);
+  background-image: none;
+  box-shadow: none;
 }
 
 .tab-page-info-btn:hover,
 .tab-page-info-btn:focus,
-.tab-page-info-btn:active {
-  color: var(--bs-primary);
-  background: transparent;
-  border: none;
+.tab-page-info-btn:focus-visible,
+.tab-page-info-btn:active,
+.tab-page-info-btn:active:hover,
+.tab-page-info-btn.active,
+.tab-page-info-btn.active:hover {
+  background-color: var(--bg);
+  border-color: var(--border);
+  color: var(--panel-text);
+  background-image: none;
   box-shadow: none;
 }
 
@@ -824,8 +839,61 @@ body > .container-fluid {
   margin-top: 5vh !important;
 }
 
+.modal-content {
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--panel-text);
+}
+
 .modal-body p {
-  margin-bottom: 0.75rem;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.modal-footer .btn,
+.modal-footer .btn-default {
+  --bs-btn-bg: var(--bg);
+  --bs-btn-color: var(--panel-text);
+  --bs-btn-border-color: var(--border);
+  --bs-btn-hover-bg: var(--bg);
+  --bs-btn-hover-color: var(--panel-text);
+  --bs-btn-hover-border-color: var(--border);
+  --bs-btn-active-bg: var(--bg);
+  --bs-btn-active-color: var(--panel-text);
+  --bs-btn-active-border-color: var(--border);
+  background-color: var(--bg);
+  border-color: var(--border);
+  border-radius: var(--radius);
+  color: var(--panel-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  min-height: var(--header-control-h);
+  padding: 0 10px;
+  background-image: none;
+  box-shadow: none;
+}
+
+.modal-footer .btn:hover,
+.modal-footer .btn:focus,
+.modal-footer .btn:focus-visible,
+.modal-footer .btn:active,
+.modal-footer .btn:active:hover,
+.modal-footer .btn.active,
+.modal-footer .btn.active:hover,
+.modal-footer .btn-default:hover,
+.modal-footer .btn-default:focus,
+.modal-footer .btn-default:focus-visible,
+.modal-footer .btn-default:active,
+.modal-footer .btn-default:active:hover,
+.modal-footer .btn-default.active,
+.modal-footer .btn-default.active:hover {
+  background-color: var(--bg);
+  border-color: var(--border);
+  color: var(--panel-text);
+  background-image: none;
+  box-shadow: none;
 }
 
 /* Inline info button (e.g. "i" icon) */
@@ -930,6 +998,14 @@ body > .container-fluid {
   border-radius: var(--radius);
 }
 
+.shiny-input-select .selectize-input.focus,
+.shiny-input-select .selectize-input:focus,
+.shiny-input-select.selectize-control.single .selectize-input.has-items.input-active {
+  border-color: var(--border);
+  box-shadow: none;
+  outline: none;
+}
+
 .shiny-input-select.selectize-control.single .selectize-input.has-items > .item {
   background: transparent;
   border: 0;
@@ -946,11 +1022,16 @@ body > .container-fluid {
 
 .shiny-input-select.selectize-control.single .selectize-input.has-items.input-active {
   background: var(--bg);
-  border-color: var(--border);
 }
 
 .shiny-input-select.selectize-control.single .selectize-input.has-items > input {
   color: var(--panel-text);
+}
+
+.shiny-input-select .selectize-dropdown {
+  margin-top: 2px; 
+  border-color: var(--border);
+  border-radius: var(--radius);
 }
 
 .shiny-input-select .selectize-dropdown .option.active {
@@ -990,6 +1071,12 @@ body > .container-fluid {
 .shiny-input-select.selectize-control.multi .selectize-input > div[data-value] .remove:hover {
   background-color: var(--bs-secondary-muted);
   border-left-color: var(--bs-secondary-muted);
+}
+
+.selectize-dropdown-content {
+  padding-top: 0;
+  border-color: var(--border);
+  border-radius: var(--radius);
 }
 
 
