@@ -25,7 +25,10 @@ body {
   color: var(--panel-text);
   font-family: "Roboto", sans-serif;
   margin: 0;
-  padding: 0;
+}
+
+body > #app-parent {
+  margin-top: 12px;
 }
 
 /* Top-level Shiny container */
@@ -42,10 +45,25 @@ body > .container-fluid {
 
 .scenario-selector-bar {
   background: var(--panel-bg);
+  justify-content: flex-end;
 }
 
 .scenario-selector-controls {
   flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.scenario-selector-controls > .shiny-html-output,
+.scenario-selector-controls > .scenario-selector-field {
+  flex: 1 1 260px;
+  min-width: 260px;
+  max-width: 320px;
+}
+
+.scenario-selector-field .form-group.shiny-input-container {
+  margin-bottom: 0;
 }
 
 
@@ -99,21 +117,39 @@ body > .container-fluid {
 }
 
 .clear-filters {
+  --bs-btn-bg: transparent;
+  --bs-btn-color: var(--muted);
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-bg: var(--bs-secondary-muted);
+  --bs-btn-hover-color: var(--bs-primary);
+  --bs-btn-hover-border-color: var(--bs-secondary-muted);
+  --bs-btn-active-bg: var(--bs-secondary-muted);
+  --bs-btn-active-color: var(--bs-primary);
+  --bs-btn-active-border-color: var(--bs-secondary-muted);
   background: none;
   border: none;
   color: var(--muted);
   cursor: pointer;
   font-size: 13px;
-  font-weight: 650;
+  font-weight: 550;
+  background-image: none;
+  box-shadow: none;
 }
 
 .clear-filters:hover,
 .clear-filters:focus,
-.clear-filters:active {
-  background: transparent;
-  border: none;
+.clear-filters:focus-visible,
+.clear-filters:active,
+.clear-filters:active:hover,
+.clear-filters.active,
+.clear-filters.active:hover {
+  background: var(--bs-secondary-muted);
+  border-color: var(--bs-secondary-muted);
+  border-radius: var(--radius);
+  color: var(--bs-primary);
+  font-weight: 650;
+  background-image: none;
   box-shadow: none;
-  color: #000000;
 }
 
 
@@ -716,7 +752,7 @@ body > .container-fluid {
   justify-content: space-between;
   gap: 12px;
   /* background-color: var(--panel-bg); */
-  padding: 0 0px;
+  padding: 0 16px;
 }
 
 .tab-page-toolbar .secondary-nav-bar {
@@ -756,77 +792,6 @@ body > .container-fluid {
   color: var(--panel-text);
   background-image: none;
   box-shadow: none;
-}
-
-
-/* =========================================================
-   7. Compare toggle pill
-   ========================================================= */
-
-/* Hide the native switch while keeping it functional */
-#compare_on.form-check-input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-/* Container for the compare toggle */
-.form-group.shiny-input-container:has(#compare_on) {
-  flex: 0 0 auto;      /* don't grow, width based on content */
-  width: auto;         /* override any width: 100% from Shiny/bslib */
-  display: inline-flex;
-  margin-bottom: 0;
-  margin-top: 16px;    /* nudge down slightly relative to the selects */
-  margin-left: 4px;
-  margin-right: 4px;
-}
-
-/* Remove the old switch-style padding & margin */
-.form-check.bslib-input-switch.form-switch:has(#compare_on) {
-  width: auto;
-  padding-left: 0;
-  margin-bottom: 0;
-}
-
-/* Label styled as a pill / input-like box */
-#compare_on + label.form-check-label {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.35rem 0.9rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background-color: var(--bg);
-  color: var(--bs-primary);
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 450;
-  margin: 0;
-  min-height: 37px;                  /* similar to selectize height */
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03);
-}
-
-/* Optional: tweak inner text, if you want */
-#compare_on + label.form-check-label span {
-  line-height: 1.2;
-}
-
-/* Hover state */
-#compare_on:hover + label.form-check-label {
-  background-color: var(--panel-bg);
-}
-
-/* Active / checked state */
-#compare_on:checked + label.form-check-label {
-  background-color: var(--bs-primary);
-  border-color: var(--bs-primary);
-  color: white;
-}
-
-/* Focus outline for keyboard users */
-#compare_on:focus-visible + label.form-check-label {
-  outline: 2px solid var(--bs-primary);
-  outline-offset: 2px;
 }
 
 

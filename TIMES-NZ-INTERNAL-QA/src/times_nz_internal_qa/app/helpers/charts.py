@@ -73,6 +73,7 @@ BRAND_COLOURS = [
     #"#376856", "#3C6280", "#7B467E"  # 600 (lighter)
     #"#2ADEA9", "#74DCDB", "#D2B7FE"  # Fresh Teal, Sky Blue, Dusky Lilac
     #"#57E5BA", "#91E2E2", "#D7C2F5"  # 300 (lighter)
+    "#0A3C61", "#74DCDB", "#05422D", "#2ADEA9", "#5A1A5E", "#D2B7FE", "#F7CF7A"
 ]
 
 

@@ -93,15 +93,24 @@ app_ui = ui.page_fluid(
             # left section (scenario controls)
             ui.div(
                 ui.output_ui("select_scenario_a_ui"),
-                ui.input_switch("compare_on", "Compare with..."),
-                ui.output_ui("select_scenario_b_ui"),
-                style="display:flex; align-items:center; gap:10px;",
+                ui.div(
+                    ui.tags.h4("Comparison scenario (optional):", class_="filter-section-title"),
+                    ui.input_selectize(
+                        "scenario_b",
+                        label=None,
+                        choices={"__none__": "None"},
+                        selected="__none__",
+                        options={"plugins": ["auto_position"]},
+                    ),
+                    class_="scenario-selector-field",
+                ),
+                style="display:flex; align-items:flex-end; gap:10px;",
                 class_="scenario-selector-controls",
             ),
             style=(
                 "display:flex;"
                 "align-items:center;"
-                "justify-content:space-between;"
+                "justify-content:flex-end;"
                 "margin-top:8px;"
             ),
             class_="scenario-selector-bar",
