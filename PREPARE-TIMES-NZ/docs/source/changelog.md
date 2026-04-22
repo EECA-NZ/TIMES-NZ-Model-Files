@@ -22,6 +22,7 @@
 - Increased model detail of distributed solar, reflecting improved capacity factor from larger-scale rooftop installations. 
 - Added a more robust demand-flex method. This means ripple control is reflected more accurately with minimal processing overhead. Scalable to other demand flex areas as needed. 
 - Added more detail to near-term or historical modelled plant build timings, ensuring accurate partial generation when fully commissioned partway through a year.
+- Added new functionality to constrain capital uptake rates of selected technologies.
 
 **Model fixes** 
 - Resolved an error which led to excessive technology inflexibility in transport utilisation constraints. This allows for more realistic purchasing behaviour across different utilisation categories.
