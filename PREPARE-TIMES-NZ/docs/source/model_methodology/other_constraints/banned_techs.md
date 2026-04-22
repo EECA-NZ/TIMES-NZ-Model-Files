@@ -10,32 +10,10 @@ Key reasons for disabling:
  - Some other existing technologies we either assume there will be no future investment, such as with medium-sized petrol trucks.
  - For other uncommon technologies in the existing set, there is limited information on likely costs and efficiencies. If our data on a technology is limited, we may disable the technology for future investment so as to limit unrealistic or implausible investment results.
 
-The full list of banned technologies, and equivalent model codes and wildcards, are listed in {numref}`tab-banned-techs`. 
+The full list of disabled base year technologies, and equivalent model codes and wildcards, are listed in {numref}`tab-banned-techs`. 
 
-```{csv-table} Banned technologies
+```{csv-table} Disabled base technologies
 :header-rows: 1
 :name: tab-banned-techs
-Code,Label
-ELC_*,All electricity
-RES*COA**,Residential coal
-RES*WOD*,Residential wood
-T_F*PET*,Light petrol trucks
-T_P_B*PET*,Petrol buses
-T_P_B*LPG*,LPG buses
-C_*-HEATX-GEO,Commercial geothermal
-C*CK*-LPG*,Commercial cooking LPG
-C*CK*-NGA*,Commercial cooking natural gas
-C*SH-Boiler-LPG*,Commercial space heating LPG
-C*SH-Boiler-NGA*,Commercial space heating natural gas
-C*WH*-NGA*,Commercial water heating natural gas
-C*MPM-PET*,Commercial Mobile motive power petrol
-C*MPM-LPG*,Commercial Mobile motive power LPG
-C*MPM-NGA*,Commercial Mobile motive power natural gas
-C*Boiler-DSL*,Commercial diesel boilers
-AFISH*-PET,Fishing boat petrol
-*PET-ICENG-MTV_MOB,Industrial petrol mobile motive power
-*NGA-ICENG-MTV_MOB,Industrial natural gas mobile motive power
-*PET-ENGIN-MTV_STA,Industrial petrol stationary motive power
-C_*INC*,Commercial incandescent lighting
-*FOL*PH*,Industrial fuel oil process heat
+:file: tables/banned_techs.csv
 ```

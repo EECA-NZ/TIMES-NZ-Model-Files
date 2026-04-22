@@ -294,6 +294,7 @@ STAGE_4: dict[str, list[str]] = {
     "create_newtechs_ind_files": ["subres_ind/future_industry_processes.csv"],
     # settings
     "create_settings": ["sys_settings/active_periods.csv"],
+    "create_common_constraints": ["sys_settings/banned_techs.csv"],
     # scenario files
     "create_standard_scenarios": ["scen_carbon_prices/carbon_price_traditional.csv"],
     "create_dem_proj_files": ["scen_demand/driver_allocations.csv"],
