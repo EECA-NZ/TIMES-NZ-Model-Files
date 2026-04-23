@@ -10,6 +10,7 @@ A separate stage 4 module can extract these
 import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
+from prepare_times_nz.stage_3.demand_projections.common import get_baseyear_demand
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_3_DATA
 
@@ -69,7 +70,7 @@ def expand_years(df, base_year=BASE_YEAR, end_year=END_YEAR):
 def get_datacentre_growth_indices(base_year=2023):
     """
     Creates yearly indices for Data Centers where capacities are specified at
-    2023, 2030, 2035 for Traditional & Transformation.
+    2023, 2030, 2035 for Steady & Shift.
       - Linear 2023→2030 and 2030→2035
       - Flat after 2035
       - Index(year) = cap(year) / cap(year-1); Index(2023) = 1
@@ -82,7 +83,7 @@ def get_datacentre_growth_indices(base_year=2023):
 
     group_vars = ["SectorGroup", "Sector"]
     year_var = "Year"
-    value_cols = ["Traditional", "Transformation"]
+    value_cols = ["Steady", "Shift"]
 
     # Sanity: we need anchor years present per group
     anchors_needed = {2023, 2030, 2035}
@@ -118,9 +119,9 @@ def get_datacentre_growth_indices(base_year=2023):
     anchors = (
         df0[df0[year_var].isin([2023, 2030, 2035])]
         .set_index(group_vars + [year_var])[value_cols]
-        .unstack(year_var)  # columns like ('Traditional', 2023) etc.
+        .unstack(year_var)  # columns like ('Steady', 2023) etc.
     )
-    # Flatten the MultiIndex columns to e.g. Traditional_2023, Transformation_2030, etc.
+    # Flatten the MultiIndex columns to e.g. Steady_2023, Shift_2030, etc.
     anchors.columns = [f"{c}_{y}" for c, y in anchors.columns]
     full = full.merge(anchors.reset_index(), on=group_vars, how="left")
 
@@ -200,29 +201,11 @@ def get_datacentre_baseyear_demand(var):
 
     variable must be one of InputEnergy, OutputEnergy
     """
-    if var not in ["OutputEnergy", "InputEnergy"]:
-        raise ValueError(
-            f"Invalid variable '{var}'. Must be 'InputEnergy' or 'OutputEnergy'."
-        )
-
-    df = pd.read_csv(STAGE_2_DATA / "commercial/baseyear_commercial_demand.csv")
-    df = df[df["Variable"] == var]
-    df = (
-        df.groupby(
-            [
-                "Sector",
-                "CommodityOut",
-                "Island",
-                "Technology",
-                "EndUse",
-                "Variable",
-                "Unit",
-            ]
-        )["Value"]
-        .sum()
-        .reset_index()
+    return get_baseyear_demand(
+        STAGE_2_DATA / "commercial/baseyear_commercial_demand.csv",
+        var,
+        "Island",
     )
-    return df
 
 
 def get_energy_demand_projections(energy_type):

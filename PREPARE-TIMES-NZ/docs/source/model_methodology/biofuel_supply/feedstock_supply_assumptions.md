@@ -11,10 +11,10 @@ This page summarises the TIMES-NZ feedstock supply assumptions used for biofuel 
 * - Scenario
   - Feedstock supply assumption
   - TIMES implementation
-* - `Traditional`
+* - `Steady`
   - Uses the baseyear biofuel supply assumptions.
   - Variable feedstocks use Scion’s 2024–2053 regional biomass projections with `Recoverability factor 2 (% of gross)`. Constant supply overrides are applied for municipal waste, animal manure, waste oil, and tallow waste.
-* - `Transformation`
+* - `Shift`
   - Uses the higher bioenergy supply assumptions represented by `AdditionalBioenergySupply`.
   - Variable feedstocks use `Recoverability factor 1 (% of gross)`. Municipal waste and animal manure constant supply assumptions are multiplied by four. Waste oil and tallow waste assumptions are unchanged. The additional scenario applies from 2026 onward.
 ```
@@ -37,8 +37,8 @@ The supply assumptions above apply across the feedstock processes used in the bi
 :header-rows: 1
 
 * - Feedstock group
-  - `Traditional`
-  - `Transformation`
+  - `Steady`
+  - `Shift`
 * - Woody residues, agricultural residues, and municipal wood waste
   - Derived from Scion’s 2024–2053 regional biomass projections and scaled using `Recoverability factor 2 (% of gross)`.
   - Derived from the same Scion’s 2024–2053 regional biomass projections and scaled using `Recoverability factor 1 (% of gross)`.
@@ -50,8 +50,9 @@ The supply assumptions above apply across the feedstock processes used in the bi
   - Fixed at 30.24 PJ/year, split 56% North Island and 44% South Island.
 * - Waste oil (`MINOILWST00`)
   - Fixed from 2026 at 0.234 PJ/year, split 77% North Island and 23% South Island.
-  - Unchanged from `Traditional`.
+  - Unchanged from `Steady`.
 * - Tallow waste (`MINOILWST01`)
   - Fixed from 2026 at 6.240 PJ/year, with all supply in the South Island.
-  - Unchanged from `Traditional`.
+  - Unchanged from `Steady`.
 ```
+

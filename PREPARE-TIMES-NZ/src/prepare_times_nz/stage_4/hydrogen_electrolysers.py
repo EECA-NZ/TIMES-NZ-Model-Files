@@ -66,7 +66,7 @@ def get_hydrogen_parameters(df):
     return df
 
 
-def get_hydrogen_capex(df, scenario="Traditional"):
+def get_hydrogen_capex(df, scenario="Steady"):
     """
     create veda file for CAPEX
     Very simple - filter for scenario, then output
@@ -92,8 +92,8 @@ def main():
     # process
     params = get_hydrogen_parameters(params_raw)
     processes = declare_hydrogen_processes(params_raw)
-    costs_high = get_hydrogen_capex(cost_data, "Traditional")
-    costs_low = get_hydrogen_capex(cost_data, "Transformation")
+    costs_high = get_hydrogen_capex(cost_data, "Steady")
+    costs_low = get_hydrogen_capex(cost_data, "Shift")
 
     # save
     save_hydrogen_data(params, "hydrogen_parameters.csv", "parameters")

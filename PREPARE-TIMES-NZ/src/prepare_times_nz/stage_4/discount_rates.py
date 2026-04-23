@@ -45,7 +45,7 @@ def main():
     Entry point. Applies assumptions from assumptions doc
     """
 
-    trad_discount_rates = pd.concat(
+    steady_discount_rates = pd.concat(
         [
             # default
             create_discount_rate_table("*", 0.1),
@@ -57,12 +57,12 @@ def main():
     )
 
     save_discount_rates(
-        trad_discount_rates,
-        "discount_rate_traditional.csv",
-        "Traditional Discount Rates",
+        steady_discount_rates,
+        "discount_rate_steady.csv",
+        "Steady Discount Rates",
     )
 
-    trans_discount_rates = pd.concat(
+    shift_discount_rates = pd.concat(
         [
             # default
             create_discount_rate_table("*", 0.08),
@@ -76,9 +76,9 @@ def main():
     )
 
     save_discount_rates(
-        trans_discount_rates,
-        "discount_rate_transformation.csv",
-        "Transformation Discount Rates",
+        shift_discount_rates,
+        "discount_rate_shift.csv",
+        "Shift Discount Rates",
     )
 
 

@@ -1,19 +1,19 @@
 # Demand projections 
 
-Commercial demand growth assumptions for the model are driven by different growth indexes per subsector. We assume increased energy service demand for data centres in the Transformation scenario, as described in {numref}`tab_com_growth_projections`. Population and GDP growth projection indices use central estimates unless specified otherwise.
+Commercial demand growth assumptions for the model are driven by different growth indexes per subsector. We assume increased energy service demand for data centres in the Shift scenario, as described in {numref}`tab_com_growth_projections`. Population and GDP growth projection indices use central estimates unless specified otherwise.
 
 
 ```{csv-table} Growth rates in commercial subsectors
 :header-rows: 1
 :name: tab_com_growth_projections
 
-Subsector,Traditional,Transformation
-Data centres,"Data centre demand growth follows the NZTech 2025 Baseline scenario. Growth is based on planned deployed capacity, with the assumption that as new builds come online and customers are onboarded, the proportion of non-vacant space remains steady across the forecast period. The average power usage effectiveness (PUE) is assumed to remain constant, though power-drawn load gradually rises as utilisation increases.","Demand is driven by a combination of accelerated digital uptake (boosted by AI) and ongoing efficiency improvements. Deployed capacity reflects higher uptake as the new baseline, with committed capacity filling more quickly and power-drawn load increasing at a faster pace compared to the traditional scenario."
-Education,Population growth index,Same as Traditional
-Healthcare,Population growth index,Same as Traditional
-"Warehouses, Supermarkets, Retail",GDP growth index,Same as Traditional
-Office/Professional Services,GDP growth index,Same as Traditional
-Other,GDP growth index,Same as Traditional
+Subsector,Steady,Shift
+Data centres,"Data centre demand growth follows the NZTech 2025 Baseline scenario. Growth is based on planned deployed capacity, with the assumption that as new builds come online and customers are onboarded, the proportion of non-vacant space remains steady across the forecast period. The average power usage effectiveness (PUE) is assumed to remain constant, though power-drawn load gradually rises as utilisation increases.","Demand is driven by a combination of accelerated digital uptake (boosted by AI) and ongoing efficiency improvements. Deployed capacity reflects higher uptake as the new baseline, with committed capacity filling more quickly and power-drawn load increasing at a faster pace compared to the steady scenario."
+Education,Population growth index,Same as Steady
+Healthcare,Population growth index,Same as Steady
+"Warehouses, Supermarkets, Retail",GDP growth index,Same as Steady
+Office/Professional Services,GDP growth index,Same as Steady
+Other,GDP growth index,Same as Steady
 ```
 
 
@@ -39,4 +39,5 @@ Year ,NZTech Baseline[^nztech_baseline],NZTech Faster Uptake[^nztech_faster_upt
 [^edgs_datacentres]: MBIE | [EDGS](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-modelling/electricity-demand-and-generation-scenarios):  Economy-wide scenario model (SADEM + GEM). Datacentres treated as a dedicated baseload at 90 % load-factor; five macro-scenarios vary build pace and macro drivers.
 [^edgs_ref_env]: Reference / Environmental: 233 MW by 2029
 [^edgs_innovation]: Innovation: 583 MW by 2035; Annual demand in 2030 spans 1.8 TWh (Ref.) to ≈4.6 TWh (upper bound) – the latter comparable to today’s Tiwai aluminium smelter. Beyond 2030 the curves diverge further, reaching ~5–7 TWh in high-growth cases by 2050. High server utilisation, this is the actual power going to servers (not including cooling or power losses) 
+
 

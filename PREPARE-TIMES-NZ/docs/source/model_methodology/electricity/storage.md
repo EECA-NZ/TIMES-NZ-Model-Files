@@ -17,7 +17,7 @@ The hour settings represent the ratio between the discharge capacity and availab
 
 For each of these technologies, we assume a 20-year technical lifespan, and 85% round-trip efficiency. We further assume a 98% peak contribution factor. The model can choose to install battery capacity if the ability to shift generation across time slices is worth the associated costs and inefficiencies. Cost assumptions are listed in {numref}`tab-battery-costs`. For ease of comparison with other references, capital costs are expressed in terms of both NZD/kW and NZD/kWh. To be clear, only a single capital cost applies.
 
-```{list-table} Battery cost assumptions for Traditional scenario.
+```{list-table} Battery cost assumptions for Steady scenario.
 :header-rows: 1
 :name: tab-battery-costs
 * - Battery type
@@ -86,7 +86,7 @@ For each of these technologies, we assume a 20-year technical lifespan, and 85% 
 
 ### Utility-scale capital costs
 
-Capital cost projections for utility scale batteries are taken from CSRIO GenCost projections , converted to 2023 NZD by an exchange rate assumption of 0.924 AUD/NZD . We use the “Current policies” CSIRO prices for our Traditional scenario, and “Global NZE by 2050” for Transformation, leading to costs falling faster.
+Capital cost projections for utility scale batteries are taken from CSRIO GenCost projections , converted to 2023 NZD by an exchange rate assumption of 0.924 AUD/NZD . We use the “Current policies” CSIRO prices for our Steady scenario, and “Global NZE by 2050” for Shift, leading to costs falling faster.
 
 ### Distributed residential capital costs
 
@@ -122,5 +122,6 @@ While further battery projects have been signalled or consented, these are not l
 
 [^existing_battery_glenbrook_2]: [Contact to advance new battery, solar and 
 geothermal investment (PDF download)](https://contact.co.nz/getContentAsset/41d392c8-c410-4e09-b13e-6623a290f11a/a677e4b4-b3c2-492c-ae74-9399720288b8/CEN-advances-investments%3B-%24525m-equity-raise-announced.pdf)
+
 
 

@@ -5,7 +5,7 @@ New Zealand does not yet have LNG importing capacity. During development of TIME
 [^lng_pr]: MBIE | [Government says yes to liquefied natural gas](https://www.mbie.govt.nz/about/news/government-says-yes-to-liquefied-natural-gas)
 
 
-Previous versions of TIMES-NZ considered the costs of LNG import terminals under different configurations, allowing the model to choose between different terminal options based on overall costs and the requirements of the energy system. We have instead adjusted the LNG approach to ensure a fixed install date of the standard terminal configuration in 2027 in the Traditional scenario, and removed LNG import options entirely from the Transformation scenario to allow for comparison.
+Previous versions of TIMES-NZ considered the costs of LNG import terminals under different configurations, allowing the model to choose between different terminal options based on overall costs and the requirements of the energy system. We have instead adjusted the LNG approach to ensure a fixed install date of the standard terminal configuration in 2027 in the Steady scenario, and removed LNG import options entirely from the Shift scenario to allow for comparison.
 
 
 For LNG import terminal cost modelling, we reference recent reports from Gas Strategies prepared for the New Zealand market. Specifically, we look at the standard configuration option, which allows for flexible wholesale purchasing[^gas_strategies_standard]. It is possible to also model other approaches, such as the small-scale configuration[^gas_strategies_small], but this is not used in the current model version.
@@ -20,7 +20,7 @@ We assume no annual limitation of total deliveries under this configuration, and
 
 The landed cost of LNG under this configuration is estimated between 17.83 and 18.27 NZD/GJ, depending on market conditions. For TIMES-NZ, we assume a midrange value of 18 NZD/GJ. Note that this price is based on forward market prices. International LNG prices have stabilised in recent years, but have shown historical volatility, so this figure is subject to error.
 
-We assume a fixed install date of 2027 for the Traditional scenario, which is the earlist possible date the terminal may be operational[^lng_factsheet]. 
+We assume a fixed install date of 2027 for the Steady scenario, which is the earlist possible date the terminal may be operational[^lng_factsheet]. 
 
 ```{eval-rst}
 .. note::
@@ -67,4 +67,4 @@ Because we currently set fixed install dates for terminals, assuming a single te
 
 ## Scenario Adjustments 
 
-While both scenarios include LNG import options, we adjust the cost and availability for the Transformation scenario. Here, the likely future cost is raised from 20 to 40 NZD/GJ, reflecting the potential of much higher import costs caused by global geopolitical instablity. We further create a "two-tier" market for gas in this scenario, allowing the use of LNG only for electricity generation.
+While both scenarios include LNG import options, we adjust the cost and availability for the Shift scenario. Here, the likely future cost is raised from 20 to 40 NZD/GJ, reflecting the potential of much higher import costs caused by global geopolitical instablity. We further create a "two-tier" market for gas in this scenario, allowing the use of LNG only for electricity generation.

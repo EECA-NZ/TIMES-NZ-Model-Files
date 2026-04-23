@@ -42,7 +42,7 @@ PJ_TO_GWH = 1000 / 3.6
 
 # constants
 
-SCENARIO = "traditional-v3_0_2-rippleadjust"
+SCENARIO = "steady-v3_0_2-rippleadjust"
 OUTPUT_LOCATION = ANALYSIS / "results/load_curves"
 
 

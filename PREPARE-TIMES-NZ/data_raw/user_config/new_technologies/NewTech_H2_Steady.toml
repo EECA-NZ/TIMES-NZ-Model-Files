@@ -1,4 +1,4 @@
-WorkBookName = "SubRES_TMPL/SubRES_NewTechs_H2_Traditional" 
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_H2_Steady" 
 
 [DeclareHydrogenCommodity]
 Description = "Hydrogen commodity declaration - might need to move this to baseyear?"
@@ -22,7 +22,7 @@ TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_h2/hydrogen_parameters.csv"
 
 [HydrogenElectrolyserParametersCosts]
-Description = "Hydrogen electrolyser cost curves. Traditional settings."
+Description = "Hydrogen electrolyser cost curves. Steady settings."
 SheetName = "Hydrogen"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_h2/hydrogen_costs_high.csv"

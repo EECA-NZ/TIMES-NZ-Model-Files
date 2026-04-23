@@ -2,8 +2,8 @@
 This module creates indices for transport
 demand projections based on MOT Base EV scenario.
 
-We used the same indices for both Traditional
-and Transformation scenarios.
+We used the same indices for both Steady
+and Shift scenarios.
 
 - Input data: data_raw/external_data/mot/VFM202405_outputs_summary_V3
 """
@@ -100,7 +100,7 @@ def get_transport_growth_indices():
 
     # Attach metadata & scenarios (same indices for both)
     df["SectorGroup"] = "Transport"
-    scenarios = pd.DataFrame({"Scenario": ["Traditional", "Transformation"]})
+    scenarios = pd.DataFrame({"Scenario": ["Steady", "Shift"]})
     df = (
         df[["SectorGroup", "Sector", "Year", "Index"]]
         .assign(key=1)
@@ -139,7 +139,7 @@ def main():
     # apply the new index for selected cases
 
     df["Index"] = np.where(
-        (df["Sector"].isin(sectors_to_reduce)) & (df["Scenario"] == "Transformation"),
+        (df["Sector"].isin(sectors_to_reduce)) & (df["Scenario"] == "Shift"),
         df["ReducedIndex"],
         df["Index"],
     )
