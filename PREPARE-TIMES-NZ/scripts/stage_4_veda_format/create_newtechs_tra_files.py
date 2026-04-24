@@ -36,7 +36,7 @@ FUTURE_COSTS_FILE: Path = (
 # Constants for calculations
 START = 2024
 INVCOST_0 = 5
-SCENARIO = ["Traditional", "Transformation"]
+SCENARIO = ["Steady", "Shift"]
 
 COMM_TO_VEHICLE = {
     "T_P_Car": "LPV",
@@ -645,12 +645,8 @@ def main() -> None:
             "Share",
         ]
     )
-    df_standard_cost_curve = df[df["SCENARIO"] == "Traditional"].drop(
-        columns="SCENARIO"
-    )
-    df_advanced_cost_curve = df[df["SCENARIO"] == "Transformation"].drop(
-        columns="SCENARIO"
-    )
+    df_standard_cost_curve = df[df["SCENARIO"] == "Steady"].drop(columns="SCENARIO")
+    df_advanced_cost_curve = df[df["SCENARIO"] == "Shift"].drop(columns="SCENARIO")
 
     # save
 

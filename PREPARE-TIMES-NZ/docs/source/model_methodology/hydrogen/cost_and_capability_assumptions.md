@@ -5,16 +5,16 @@ The model can select either Proton Exchange Membrane (PEM) or Alkaline electroly
 
 Electrolyser cost figures can vary significantly by source, the CSIRO/Aurecon figures were chosen due to their recency and Australia being seen as a similar business environment to New Zealand. We are aware of claims of Alkaline electrolysers from China at very low costs, however we note that both Aurecon and the International Energy Agency (IEA)[^global_hydrogen] have found that once installed in Western countries these costs increase significantly. Should this change in future, the values can be updated.
 
-Projections for future costs are from the GenCost[^gencost_2024-25] model, using their ‘Current Policies’ scenario for our Traditional Scenario, and their ‘Post 2050 net zero’ for our Transformational scenario.
+Projections for future costs are from the GenCost[^gencost_2024-25] model, using their ‘Current Policies’ scenario for our Steady Scenario, and their ‘Post 2050 net zero’ for our Shiftal scenario.
 
 Electricity costs are excluded from the table below, as they are determined by the model in its solution. Fixed O&M costs include refreshing the electrolyser every 10 years and are from the CSIRO/Aurecon work.
 
 Efficiencies are based on Higher Heating Value. Compression and storage costs apply to sectors that require compressed hydrogen for vehicles (Transport/Agriculture) and are sourced from GHD’s work for CSIRO[^hydrogen_vehicle_refuelling]  on hydrogen refuelling stations, using their 1,000kg/day onsite production station.    
 
 
-```{csv-table} Traditional scenario electrolyser costs
+```{csv-table} Steady scenario electrolyser costs
 :header-rows: 1
-:name: tab_trad_electrolyser_costs
+:name: tab_steady_electrolyser_costs
 
 Variable,Unit,PEM,Alkaline,Source
 CAPEX (2023),$/kW," 3,004 "," 2,862 ",Aurecon
@@ -23,9 +23,9 @@ CAPEX (2050),$/kW," 1,732 "," 1,824 ",CSIRO
 ```
 
 
-```{csv-table} Transformation scenario electrolyser costs
+```{csv-table} Shift scenario electrolyser costs
 :header-rows: 1
-:name: tab_transformation_electrolyser_costs
+:name: tab_shift_electrolyser_costs
 
 Variable,Unit,PEM,Alkaline,Source
 CAPEX (2023),$/kW," 3,004 "," 2,862 ",Aurecon

@@ -48,15 +48,15 @@ def create_eaf_demand():
     df["Year"] = range(BASE_YEAR, END_YEAR + 1)
 
     # expand for scenarios
-    df_a = df.assign(Scenario="Traditional")
-    df_b = df.assign(Scenario="Transformation")
+    df_a = df.assign(Scenario="Steady")
+    df_b = df.assign(Scenario="Shift")
 
     df = pd.concat([df_a, df_b], ignore_index=True)
 
     # add eaf count
     df["eaf_count"] = np.where(df["Year"] >= EAF_INSTALL_1, 1, 0)
     df["eaf_count"] = np.where(
-        (df["Year"] >= EAF_INSTALL_2) & (df["Scenario"] == "Transformation"),
+        (df["Year"] >= EAF_INSTALL_2) & (df["Scenario"] == "Shift"),
         df["eaf_count"] + 1,
         df["eaf_count"],
     )
@@ -151,10 +151,10 @@ def main():
     """Entrypoint"""
     df = create_eaf_demand()
 
-    write_eaf_file(df, "Traditional", "eaf_demand")
-    write_eaf_file(df, "Traditional", "steel_cogen")
-    write_eaf_file(df, "Transformation", "eaf_demand")
-    write_eaf_file(df, "Transformation", "steel_cogen")
+    write_eaf_file(df, "Steady", "eaf_demand")
+    write_eaf_file(df, "Steady", "steel_cogen")
+    write_eaf_file(df, "Shift", "eaf_demand")
+    write_eaf_file(df, "Shift", "steel_cogen")
 
 
 if __name__ == "__main__":

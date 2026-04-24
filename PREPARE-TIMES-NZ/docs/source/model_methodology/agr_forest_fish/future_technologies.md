@@ -43,8 +43,8 @@ Battery costs were sourced from BloombergNEF (BNEF) projections up to 2030, afte
 :name: tab_agr_batt_costs
 
 Battery (NZD/kWh),2020,2025,2030,2040,2050
-Traditional,222,168,111,111,111
-Transformation,209,140,92,92,92
+Steady,222,168,111,111,111
+Shift,209,140,92,92,92
 ```
 
 
@@ -53,8 +53,8 @@ Transformation,209,140,92,92,92
 :name: tab_agr_fc_costs
 
 Fuel cell (NZD/kW),2020,2025,2030,2040,2050
-Traditional,404,313,247,182,141
-Transformation,401,282,180,133,103
+Steady,404,313,247,182,141
+Shift,401,282,180,133,103
 ```
 
 
@@ -63,9 +63,9 @@ Transformation,401,282,180,133,103
 Additional system costs (includes all the extra equipment, integration, and control hardware required to make a battery or fuel cell propulsion system fully operational) were estimated using EECA’s internal data for electric tractors. These costs were normalised to a per unit power basis and reduced annually using rates derived from projected cost reductions for medium and heavy trucks.
 However, since these reductions depend on global economies of scale, agricultural and forestry machinery will not experience the same cost declines until market demand becomes sufficiently large. 
 The timing of cost reductions is assumed as follows:
- - Tractors: 2030 (Transformation), 2035 (Traditional)
- - Forestry (ground-based): 2035 (Transformation), 2040 (Traditional)
- - Forestry (cable yarding): 2040 (Transformation), 2045 (Traditional)
+ - Tractors: 2030 (Shift), 2035 (Steady)
+ - Forestry (ground-based): 2035 (Shift), 2040 (Steady)
+ - Forestry (cable yarding): 2040 (Shift), 2045 (Steady)
 
 
 ### Sizing the battery/fuel cell 
@@ -154,3 +154,4 @@ Irrigation systems differ significantly in both purpose and design, such as drip
 Due to limited data availability, arable farming has been grouped with outdoor horticulture within TIMES-NZ to illustrate general food production trends, while sectors such as meat, dairy, and other food products are reported separately. It is acknowledged that horticultural activities, such as viticulture, have distinct energy requirements and intensities compared with arable farming.
 
 The potential role of hydrogen as a fuel for ICE vehicles and machinery has not yet been incorporated into TIMES-NZ.
+

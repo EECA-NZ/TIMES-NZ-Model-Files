@@ -56,11 +56,11 @@
 
 
 **Assumption changes**
- - Adjusted LNG terminal to fixed installation date in 2027 for Traditional scenario. LNG remains excluded from Transformation.
+ - Adjusted LNG terminal to fixed installation date in 2027 for Steady scenario. LNG remains excluded from Shift.
     - Also removed MIP functionality as this is no longer required.
  - Minor adjustments to capital costs for agricultural heating technologies following review.
  - Decreased average geothermal generation assumption slightly to align better with base year data.
- - Removed contingent gas from Traditional scenario.
+ - Removed contingent gas from Steady scenario.
 
 **Model fixes**
 - (Biofuel) Improved municipal waste production differences between scenarios.
@@ -95,7 +95,7 @@
 - (Electricity generation) Resolved an error that limited hydro dam output flexibility.
 
 **Assumption changes**
-- (Electricity generation) Adjusted Traditional and Transformation NREL scenarios from Conservative and Moderate to Moderate and Advanced, respectively.
+- (Electricity generation) Adjusted Steady and Shift NREL scenarios from Conservative and Moderate to Moderate and Advanced, respectively.
 - (Commercial, Residential) Increased heatpump lifetimes slightly.
 - (Industrial) Removed some load curve assumptions.
 
@@ -122,4 +122,5 @@
     - All preprocessing methods migrated to python and open-sourced, to ensure replicability and tracability.
 - Initial build of `TIMES-NZ-INTERNAL-QA` module, which allows for post-processing and interrogation of model results.
     - Results hosted publicly and can be explored at the highest possible level of detail to ensure transparency.
-- Rebuilt and updated model for base year 2023 and new Traditional and Transformation scenarios.
+- Rebuilt and updated model for base year 2023 and new Steady and Shift scenarios.
+

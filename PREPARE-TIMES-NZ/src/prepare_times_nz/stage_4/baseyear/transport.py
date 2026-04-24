@@ -105,7 +105,7 @@ VAR_RENAME = {
 
 START = 2025
 INVCOST_0 = 5
-SCENARIO = ["Traditional", "Transformation"]
+SCENARIO = ["Steady", "Shift"]
 
 
 # # -----------------------------------------------------------------------------

@@ -3,6 +3,6 @@ Surfaces some config options for preprocessing and the app
 """
 
 current_scenarios = [
-    "traditional-v305",
-    "transformation-v305",
+    "steady-v305",
+    "shift-v305",
 ]

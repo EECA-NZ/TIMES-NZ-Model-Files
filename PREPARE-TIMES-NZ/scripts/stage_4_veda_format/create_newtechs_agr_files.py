@@ -22,15 +22,15 @@ from prepare_times_nz.utilities.logger_setup import logger
 OUTPUT_LOCATION = Path(STAGE_4_DATA) / "subres_agr"
 OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 
-NEW_TECHS_TRAD: Path = AG_ASSUMPTIONS / "new_techs_traditional.csv"
-NEW_TECHS_TRANS: Path = AG_ASSUMPTIONS / "new_techs_transformation.csv"
+NEW_TECHS_STEADY: Path = AG_ASSUMPTIONS / "new_techs_steady.csv"
+NEW_TECHS_SHIFT: Path = AG_ASSUMPTIONS / "new_techs_shift.csv"
 
 NEW_TECHS = AG_CONCORDANCES / "tech_codes.csv"
 NEW_TECHS_SECTOR = AG_CONCORDANCES / "sector_codes.csv"
 NEW_TECHS_ENDUSE = AG_CONCORDANCES / "use_codes.csv"
 
-# Choose which source drives the PROCESSES table: "trad" or "trans"
-PROCESSES_SOURCE: Literal["trad", "trans"] = "trad"
+# Choose which source drives the PROCESSES table: "steady" or "shift"
+PROCESSES_SOURCE: Literal["steady", "shift"] = "steady"
 
 # pylint: disable=duplicate-code
 # ---------------------------------------------------------------------
@@ -42,18 +42,18 @@ ACTIVITY_UNIT = "PJ"
 CAPACITY_UNIT = "GW"
 
 
-def _read_source(source: Literal["trad", "trans"], usecols=None) -> pd.DataFrame:
+def _read_source(source: Literal["steady", "shift"], usecols=None) -> pd.DataFrame:
     """Small helper to read the appropriate CSV."""
-    path = NEW_TECHS_TRAD if source == "trad" else NEW_TECHS_TRANS
+    path = NEW_TECHS_STEADY if source == "steady" else NEW_TECHS_SHIFT
     return pd.read_csv(path, usecols=usecols)
 
 
 def create_newtech_process_df(cfg: dict) -> pd.DataFrame:
     """
     Creates a DataFrame defining new commercial technologies from the chosen source.
-    cfg = {"Columns": [...], "Source": "trad" | "trans"}
+    cfg = {"Columns": [...], "Source": "steady" | "shift"}
     """
-    source: Literal["trad", "trans"] = cfg.get("Source", "trad")
+    source: Literal["steady", "shift"] = cfg.get("Source", "steady")
     tech_names = (
         _read_source(source, usecols=["TechName"])["TechName"]
         .dropna()
@@ -82,9 +82,9 @@ def create_newtech_process_parameters_df(cfg: dict) -> pd.DataFrame:
     """
     Build new-tech parameters from the specified source,
     converting 2018 -> 2023 prices when present.
-    cfg = {"Columns": [...], "Source": "trad" | "trans"}
+    cfg = {"Columns": [...], "Source": "steady" | "shift"}
     """
-    source: Literal["trad", "trans"] = cfg.get("Source", "trad")
+    source: Literal["steady", "shift"] = cfg.get("Source", "steady")
     df = _read_source(source)
 
     df["START"] = START
@@ -132,7 +132,9 @@ def create_newtech_process_defintions(_cfg: dict) -> pd.DataFrame:
     ]
 
     # Read tech names directly from NEW_TECHS_FILE
-    combined = pd.read_csv(NEW_TECHS_TRAD, usecols=["TechName", "Comm-In", "Comm-Out"])
+    combined = pd.read_csv(
+        NEW_TECHS_STEADY, usecols=["TechName", "Comm-In", "Comm-Out"]
+    )
     combined = combined.dropna().drop_duplicates()
 
     # Read concordances
@@ -212,7 +214,7 @@ def create_newtech_process_defintions(_cfg: dict) -> pd.DataFrame:
 def main() -> None:
     """Generates and exports TIMES-NZ commercial sector new technologies tables."""
 
-    # 1) Processes: from one chosen source (default: trad)
+    # 1) Processes: from one chosen source (default: steady)
     processes = create_newtech_process_df(
         {
             "Columns": ["Sets", "TechName", "Tact", "Tcap", "TsLvl"],
@@ -236,22 +238,22 @@ def main() -> None:
         "CAP2ACT",
     ]
 
-    parameters_trad = create_newtech_process_parameters_df(
-        {"Columns": shared_cols, "Source": "trad"}
+    parameters_steady = create_newtech_process_parameters_df(
+        {"Columns": shared_cols, "Source": "steady"}
     )
-    parameters_trans = create_newtech_process_parameters_df(
-        {"Columns": shared_cols, "Source": "trans"}
+    parameters_shift = create_newtech_process_parameters_df(
+        {"Columns": shared_cols, "Source": "shift"}
     )
 
     process_definitions = create_newtech_process_defintions({})
 
     # Write outputs
     processes.to_csv(OUTPUT_LOCATION / "future_agriculture_processes.csv", index=False)
-    parameters_trad.to_csv(
-        OUTPUT_LOCATION / "future_agriculture_parameters_traditional.csv", index=False
+    parameters_steady.to_csv(
+        OUTPUT_LOCATION / "future_agriculture_parameters_steady.csv", index=False
     )
-    parameters_trans.to_csv(
-        OUTPUT_LOCATION / "future_agriculture_parameters_transformation.csv",
+    parameters_shift.to_csv(
+        OUTPUT_LOCATION / "future_agriculture_parameters_shift.csv",
         index=False,
     )
     process_definitions.to_csv(

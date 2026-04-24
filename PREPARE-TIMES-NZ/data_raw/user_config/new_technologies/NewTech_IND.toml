@@ -64,37 +64,37 @@ CAP2ACT = 31.536
 # NOTE: demand reductions for other steel activities are already baked into standard demand scenarios
 
 
-[EAFDemandProjectionsTraditional]
-Description = "Traditional scenario EAF electricity demand projections"
-WorkBookName = "SuppXLS/Scen_EAFDemand_Traditional"
+[EAFDemandProjectionsSteady]
+Description = "Steady scenario EAF electricity demand projections"
+WorkBookName = "SuppXLS/Scen_EAFDemand_Steady"
 SheetName = "EAF"
 TagName = "TFM_INS-TS"
-DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/eaf_demand_traditional.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/eaf_demand_steady.csv"
 
 
-[EAFCogenReductionsTraditional]
-Description = "Traditional scenario EAF cogen output reductions"
-WorkBookName = "SuppXLS/Scen_EAFDemand_Traditional"
+[EAFCogenReductionsSteady]
+Description = "Steady scenario EAF cogen output reductions"
+WorkBookName = "SuppXLS/Scen_EAFDemand_Steady"
 SheetName = "EAF"
 TagName = "TFM_INS-TS"
-DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/steel_cogen_traditional.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/steel_cogen_steady.csv"
 
 
 
-[EAFDemandProjectionsTransformation]
-Description = "Transformation scenario EAF electricity demand projections"
-WorkBookName = "SuppXLS/Scen_EAFDemand_Transformation"
+[EAFDemandProjectionsShift]
+Description = "Shift scenario EAF electricity demand projections"
+WorkBookName = "SuppXLS/Scen_EAFDemand_Shift"
 SheetName = "EAF"
 TagName = "TFM_INS-TS"
-DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/eaf_demand_transformation.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/eaf_demand_shift.csv"
 
 
-[EAFCogenReductionsTransformation]
-Description = "Transformation scenario EAF cogen output reductions"
-WorkBookName = "SuppXLS/Scen_EAFDemand_Transformation"
+[EAFCogenReductionsShift]
+Description = "Shift scenario EAF cogen output reductions"
+WorkBookName = "SuppXLS/Scen_EAFDemand_Shift"
 SheetName = "EAF"
 TagName = "TFM_INS-TS"
-DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/steel_cogen_transformation.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/eaf/steel_cogen_shift.csv"
 
 
 

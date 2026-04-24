@@ -36,9 +36,9 @@ We note that the declining upstream natural gas market will likely have signific
 
 Previous versions of TIMES-NZ assumed that natural gas supply could be delivered at the sector’s historical max deliverability. This does not reflect the current state of the sector, so we ensure max deliverability is instead equal to current forecast production profiles. The model will consider both cumulative reserves, and max deliverability per field, for any given year[^supply_caveat].  
 
-In the Traditional scenario, we assume 60% of the contingent natural gas resource available in each field is released to the market. We assume this additional resource will extend the life of gas fields but not increase each field’s peak deliverability. 
+In the Steady scenario, we assume 60% of the contingent natural gas resource available in each field is released to the market. We assume this additional resource will extend the life of gas fields but not increase each field’s peak deliverability. 
 
-The exception is assumed development at Kārewa, which holds contingent reserves of 155.3 PJ but is not currently operational. In the Traditional scenario, we assume investment in this field allows 60% of the contingent resource to be distributed to market. The assumed deliverability curve follows a logarithmic distribution, beginning in 2033[^todd_karewa]. These assumptions lead to the following production projections for each field: 
+The exception is assumed development at Kārewa, which holds contingent reserves of 155.3 PJ but is not currently operational. In the Steady scenario, we assume investment in this field allows 60% of the contingent resource to be distributed to market. The assumed deliverability curve follows a logarithmic distribution, beginning in 2033[^todd_karewa]. These assumptions lead to the following production projections for each field: 
 
 
 

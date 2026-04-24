@@ -210,7 +210,7 @@ def get_latest_scenario_vd_name(wd: Path, scenario: str):
     Example usage:
     latest, all_vd = get_latest_scenario_from_veda(
         Path("/mnt/c/Users/SearleL/Veda/GAMS_WrkTIMES"),
-        "traditional-v3_0_0")
+        "steady-v3_0_0")
 
     print("latest:", latest)
 

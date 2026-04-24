@@ -38,7 +38,7 @@ TEST_ASSUMPTIONS = [
     {
         "SectorGroup": SECTOR_GROUP,
         "Sector": "Dairy Cattle Farming",
-        "Scenario": "Traditional",
+        "Scenario": "Steady",
         "Method": "Workbook",
         "Workbook": WORKBOOK_NAME,
         "SheetName": "Baseline",
@@ -50,7 +50,7 @@ TEST_ASSUMPTIONS = [
     {
         "SectorGroup": SECTOR_GROUP,
         "Sector": "Dairy Cattle Farming",
-        "Scenario": "Transformation",
+        "Scenario": "Shift",
         "Method": "Workbook",
         "Workbook": WORKBOOK_NAME,
         "SheetName": "Baseline low",
@@ -62,7 +62,7 @@ TEST_ASSUMPTIONS = [
     {
         "SectorGroup": SECTOR_GROUP,
         "Sector": "Livestock Farming",
-        "Scenario": "Traditional",
+        "Scenario": "Steady",
         "Method": "Workbook",
         "Workbook": WORKBOOK_NAME,
         "SheetName": "Baseline",
@@ -74,7 +74,7 @@ TEST_ASSUMPTIONS = [
     {
         "SectorGroup": SECTOR_GROUP,
         "Sector": "Forestry and Logging",
-        "Scenario": "Traditional",
+        "Scenario": "Steady",
         "Method": "Workbook",
         "Workbook": WORKBOOK_NAME,
         "SheetName": "Baseline",
@@ -86,7 +86,7 @@ TEST_ASSUMPTIONS = [
     {
         "SectorGroup": SECTOR_GROUP,
         "Sector": "Indoor Cropping",
-        "Scenario": "Traditional",
+        "Scenario": "Steady",
         "Method": "Workbook",
         "Workbook": WORKBOOK_NAME,
         "SheetName": "Baseline",
@@ -98,7 +98,7 @@ TEST_ASSUMPTIONS = [
     {
         "SectorGroup": SECTOR_GROUP,
         "Sector": "Fishing, Hunting and Trapping",
-        "Scenario": "Traditional",
+        "Scenario": "Steady",
         "Method": "Constant",
         "Workbook": "",
         "SheetName": "",
@@ -225,12 +225,12 @@ def test_get_agriculture_growth_indices_reads_workbook_mappings(tmp_path):
         external_data_dir=external_data_dir,
     )
 
-    assert get_index(df, "Dairy Cattle Farming", "Traditional", 2025) == 0.9
-    assert get_index(df, "Dairy Cattle Farming", "Traditional", 2024) == 0.95
-    assert get_index(df, "Dairy Cattle Farming", "Transformation", 2050) == 0.6
-    assert get_index(df, "Livestock Farming", "Traditional", 2050) == 0.8
-    assert get_index(df, "Indoor Cropping", "Traditional", 2050) == 1.2
-    assert get_index(df, "Fishing, Hunting and Trapping", "Traditional", 2042) == 1.0
+    assert get_index(df, "Dairy Cattle Farming", "Steady", 2025) == 0.9
+    assert get_index(df, "Dairy Cattle Farming", "Steady", 2024) == 0.95
+    assert get_index(df, "Dairy Cattle Farming", "Shift", 2050) == 0.6
+    assert get_index(df, "Livestock Farming", "Steady", 2050) == 0.8
+    assert get_index(df, "Indoor Cropping", "Steady", 2050) == 1.2
+    assert get_index(df, "Fishing, Hunting and Trapping", "Steady", 2042) == 1.0
 
 
 def test_get_energy_demand_projections_uses_temp_stage_data(tmp_path, monkeypatch):
@@ -264,13 +264,13 @@ def test_get_energy_demand_projections_uses_temp_stage_data(tmp_path, monkeypatc
 
     dairy_2025 = df[
         (df["Sector"] == "Dairy Cattle Farming")
-        & (df["Scenario"] == "Traditional")
+        & (df["Scenario"] == "Steady")
         & (df["Year"] == 2025)
         & (df["Variable"] == "InputEnergy")
     ]["Value"].iloc[0]
     fishing_2042 = df[
         (df["Sector"] == "Fishing, Hunting and Trapping")
-        & (df["Scenario"] == "Traditional")
+        & (df["Scenario"] == "Steady")
         & (df["Year"] == 2042)
         & (df["Variable"] == "InputEnergy")
     ]["Value"].iloc[0]
