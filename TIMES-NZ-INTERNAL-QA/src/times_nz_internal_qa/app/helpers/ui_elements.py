@@ -59,10 +59,9 @@ def tab_page_info_icon(btn_id: str):
         btn_id,
         ui.TagList(
             ui.tags.i(class_="fa fa-question-circle"),
-            " About this tab",
+            "About this page",
         ),
         class_="btn tab-page-info-btn",
-        title="About this tab",
     )
 
 

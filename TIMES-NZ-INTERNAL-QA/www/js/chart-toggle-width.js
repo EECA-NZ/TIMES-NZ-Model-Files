@@ -1,3 +1,4 @@
+// Keep chart type toggle labels visually aligned by syncing button widths.
 (function () {
   if (window.__chartToggleWidthSyncInitialized) {
     return;
@@ -37,21 +38,45 @@
     window.requestAnimationFrame(syncChartToggleWidths);
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", scheduleSync, { once: true });
-  } else {
-    scheduleSync();
+  function nodeTouchesToggleBar(node) {
+    if (!node || node.nodeType !== Node.ELEMENT_NODE) {
+      return false;
+    }
+    return (
+      node.matches?.(".chart-toggle-bar, .chart-toggle-bar *") ||
+      Boolean(node.querySelector?.(".chart-toggle-bar"))
+    );
   }
 
-  window.addEventListener("resize", scheduleSync);
+  function mutationsAffectToggleBar(mutations) {
+    return mutations.some((mutation) =>
+      [...mutation.addedNodes, ...mutation.removedNodes].some(nodeTouchesToggleBar)
+    );
+  }
 
-  const observer = new MutationObserver(scheduleSync);
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-  });
+  function init() {
+    scheduleSync();
 
-  if (document.fonts?.ready) {
-    document.fonts.ready.then(scheduleSync);
+    window.addEventListener("resize", scheduleSync);
+
+    const observer = new MutationObserver((mutations) => {
+      if (mutationsAffectToggleBar(mutations)) {
+        scheduleSync();
+      }
+    });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(scheduleSync);
+    }
+  }
+
+  if (document.body) {
+    init();
+  } else {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
   }
 })();
