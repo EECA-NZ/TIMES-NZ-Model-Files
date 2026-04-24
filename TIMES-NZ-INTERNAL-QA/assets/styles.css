@@ -1,12 +1,12 @@
 /* =========================================================
-   1. Global variables & base layout
+   1. Theme & App Shell
    ========================================================= */
 
 :root {
   /* colours */
   --bg: #fbfbfb;
-  --panel-bg: #e8ecee; /*#eef1f4;*/
-  --panel-text: #000000; /*#1f2937;*/
+  --panel-bg: #e8ecee;
+  --panel-text: #000000;
   --border: #dadada;
   --bs-primary: #0A3C61;
   --bs-primary-muted: #3C6280;
@@ -21,26 +21,117 @@
 }
 
 body {
+  margin: 0;
   background: var(--bg);
   color: var(--panel-text);
   font-family: "Roboto", sans-serif;
-  margin: 0;
 }
 
 body > #app-parent {
-  margin-top: 12px;
+  padding-top: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
-/* Top-level Shiny container */
-body > .container-fluid {
+body > .container-fluid,
+#app-parent > .container-fluid {
   display: flex;
   flex-direction: column;
-  padding: 0 0px;
+  padding: 0;
 }
 
+#app-parent {
+  width: 100%;
+  min-height: 866px;
+  height: auto;
+}
+
+
+/* =========================================================
+   2. Shared Labels & Controls
+   ========================================================= */
+
+.filter-section-title {
+  margin: 4px 0;
+  color: var(--bs-primary-muted);
+  font-size: 14px;
+  font-weight: 550;
+}
+
+.chart-header-card .btn,
+.tab-page-info-btn,
+.modal-footer .btn,
+.modal-footer .btn-default {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--header-control-h);
+  padding: 0 10px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  border-radius: var(--radius);
+  box-sizing: border-box;
+  background-image: none;
+  box-shadow: none;
+  text-decoration: none;
+}
+
+.chart-header-card .btn,
+.tab-page-info-btn {
+  width: auto;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--bs-primary);
+}
+
+.chart-header-card .btn span,
+.tab-page-info-btn span {
+  padding-top: 2px;
+}
+
+.chart-header-card .btn:hover {
+  background: var(--bg);
+  border-color: var(--border);
+}
+
+.chart-header-card .btn:focus {
+  border-color: var(--bs-secondary);
+}
+
+.modal-footer .btn,
+.modal-footer .btn-default {
+  --bs-btn-bg: var(--bg);
+  --bs-btn-color: var(--panel-text);
+  --bs-btn-border-color: var(--border);
+  --bs-btn-hover-bg: var(--bg);
+  --bs-btn-hover-color: var(--panel-text);
+  --bs-btn-hover-border-color: var(--border);
+  --bs-btn-active-bg: var(--bg);
+  --bs-btn-active-color: var(--panel-text);
+  --bs-btn-active-border-color: var(--border);
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  color: var(--panel-text);
+}
+
+.modal-footer .btn:is(:hover, :focus, :focus-visible, :active, .active),
+.modal-footer .btn-default:is(:hover, :focus, :focus-visible, :active, .active) {
+  border-color: var(--border);
+  background-color: var(--bg);
+  color: var(--panel-text);
+  background-image: none;
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   3. Header & Navigation
+   ========================================================= */
+
 .app-header-panel {
-  background: var(--panel-bg);
   padding: 10px 16px;
+  background: var(--panel-bg);
 }
 
 .app-header-row {
@@ -54,6 +145,7 @@ body > .container-fluid {
 .app-title-block {
   --app-title-size: 28px;
   --app-title-line-height: 1.2;
+
   flex: 0 1 auto;
   display: flex;
   align-items: center;
@@ -64,7 +156,7 @@ body > .container-fluid {
 .app-title-logo {
   display: block;
   width: auto;
-  height: calc(var(--app-title-size) * (var(--app-title-line-height) * 1.2));
+  height: calc(var(--app-title-size) * 1.4);
   object-fit: contain;
 }
 
@@ -77,30 +169,320 @@ body > .container-fluid {
 }
 
 .scenario-selector-bar {
+  flex: 1 1 560px;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  flex: 1 1 560px;
 }
 
 .scenario-selector-controls {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: 10px;
   justify-content: flex-end;
+  gap: 10px;
   margin-left: auto;
 }
 
 .scenario-selector-controls > .shiny-html-output,
 .scenario-selector-controls > .scenario-selector-field {
-  flex: 1 1 260px;
-  min-width: 260px;
+  flex: 1 1 255px;
+  min-width: 255px;
   max-width: 320px;
 }
 
+.scenario-selector-controls > .shiny-html-output > .scenario-selector-field,
+.scenario-selector-controls > .scenario-selector-field {
+  min-width: 255px;
+}
+
 .scenario-selector-field .form-group.shiny-input-container {
+  width: 100%;
   margin-bottom: 0;
+}
+
+.scenario-selector-field .selectize-control,
+.scenario-selector-field .selectize-control.single,
+.scenario-selector-field .selectize-input {
+  width: 100% !important;
+}
+
+.tab-content {
+  border: 0;
+  border-radius: 0;
+  background-color: var(--bg);
+}
+
+.tab-content .container-fluid {
+  padding: 0;
+}
+
+.navset-large {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.navset-large > .tab-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.navset-large > .tab-content > .tab-pane {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.navset-large > .tab-content > .tab-pane.active {
+  display: flex;
+  flex-direction: column;
+}
+
+.navset-large > .nav-tabs {
+  gap: 0;
+  padding: 0;
+  border-bottom: 0;
+  background-color: var(--panel-bg);
+}
+
+.navset-large > .nav-tabs .nav-item {
+  margin-bottom: 0;
+}
+
+.navset-large > .nav-tabs .nav-link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 0;
+  border: 0;
+  border-top: 4px solid transparent;
+  border-radius: 0;
+  background-color: var(--panel-bg);
+  color: var(--panel-text);
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.navset-large > .nav-tabs .nav-link::after {
+  content: attr(data-value);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 450;
+}
+
+.navset-large > .nav-tabs .nav-link:hover,
+.navset-large > .nav-tabs .nav-link:focus {
+  border-top-color: transparent;
+  background-color: var(--bg);
+  color: var(--bs-primary);
+  font-weight: 450;
+}
+
+.navset-large > .nav-tabs .nav-link.active,
+.navset-large > .nav-tabs .nav-link.active:hover,
+.navset-large > .nav-tabs .nav-link.active:focus {
+  border: 0;
+  border-top: 4px solid var(--bs-primary);
+  background-color: var(--bg);
+  color: var(--panel-text);
+  font-weight: 450;
+}
+
+.navset-large > .nav-tabs .nav-link .info-btn {
+  color: var(--bs-primary-muted);
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
+.nav-cards .radio {
+  margin-bottom: 8px;
+}
+
+.nav-cards input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nav-cards .radio label {
+  display: block;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--panel-text);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.nav-cards .radio label:hover,
+.nav-cards .radio label:has(input:checked) {
+  background: var(--panel-bg);
+  border-color: var(--border);
+}
+
+.secondary-nav-bar.nav-cards {
+  margin: 1rem 0 0.5rem;
+}
+
+.secondary-nav-bar.nav-cards .shiny-options-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline > span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 37px;
+  margin: 0 6px 0 0;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--bg);
+  color: var(--panel-text);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 400;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline .nav-pill-label {
+  display: block;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline .nav-pill-label::after {
+  content: attr(data-label);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 550;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline:hover > span {
+  border-color: var(--bs-primary-muted);
+  background-color: var(--bs-secondary-muted);
+  color: var(--bs-primary);
+  font-weight: 450;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline input[type="radio"]:checked + span {
+  border-color: var(--bs-primary);
+  background-color: var(--bs-primary);
+  color: var(--bg);
+  font-weight: 550;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline input[type="radio"]:focus-visible + span {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+}
+
+.tab-page-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0;
+}
+
+.tab-page-toolbar .secondary-nav-bar {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.tab-page-info-btn {
+  --bs-btn-bg: var(--bg);
+  --bs-btn-color: var(--bs-primary);
+  --bs-btn-border-color: var(--bg);
+  --bs-btn-hover-bg: var(--bg);
+  --bs-btn-hover-color: var(--bs-primary-muted);
+  --bs-btn-hover-border-color: var(--border);
+  --bs-btn-active-bg: var(--bg);
+  --bs-btn-active-color: var(--bs-primary-muted);
+  --bs-btn-active-border-color: var(--border);
+
+  flex: 0 0 auto;
+  margin-top: 0;
+  border-color: var(--bg);
+  background-color: var(--bg);
+  color: var(--bs-primary);
+}
+
+.tab-page-info-btn i.fa-question-circle {
+  margin-right: 6px;
+}
+
+.tab-page-info-btn:is(:hover, :focus, :focus-visible, :active, .active) {
+  border-color: var(--bg);
+  background-color: var(--bg);
+  color: var(--bs-primary-muted);
+  background-image: none;
+  box-shadow: none;
+  text-decoration: underline;
+}
+
+.info-btn {
+  margin-left: 0.35rem;
+  padding: 0 0.35rem;
+  border: none;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--bs-primary-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+.info-btn:hover {
+  background: transparent;
+  color: var(--bs-primary);
+}
+
+.header-info-btn {
+  box-sizing: border-box;
+  width: 160px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--panel-text);
+  cursor: pointer;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.header-info-btn:hover {
+  border-color: var(--border);
+  background: var(--panel-bg);
+  color: var(--panel-text);
 }
 
 @media (max-width: 900px) {
@@ -122,44 +504,34 @@ body > .container-fluid {
 
 
 /* =========================================================
-   2. Chart side panels, filters & headers
+   4. Filter Controls
    ========================================================= */
 
 .chart-control-panel {
-  background: var(--panel-bg);
-  color: var(--panel-text);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-right: -8px;
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-}
-
-.filter-section-title {
-  font-size: 14px;
-  font-weight: 550;
-  /*text-transform: uppercase;*/
-  margin: 4px 0;
-  color: var(--bs-primary-muted);
+  margin-right: -8px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--panel-bg);
+  color: var(--panel-text);
 }
 
 .chart-control-panel .individual-filter .form-group {
   display: inline;
-  margin-bottom: 0;
   width: 100%;
+  margin-bottom: 0;
 }
 
-/* Individual filter labels */
 .chart-control-panel .individual-filter label {
   flex: 0 0 90px;
+  margin: 0;
+  color: var(--bs-primary-muted);
   font-size: 13px;
   font-weight: 550;
-  color: var(--bs-primary-muted);
-  margin: 0;
 }
 
-/* Filter header row (title + clear button) */
 .filter-header {
   display: flex;
   align-items: center;
@@ -180,26 +552,19 @@ body > .container-fluid {
   --bs-btn-active-bg: var(--bs-secondary-muted);
   --bs-btn-active-color: var(--bs-primary);
   --bs-btn-active-border-color: var(--bs-secondary-muted);
-  background: none;
+
   border: none;
+  background: none;
   color: var(--bs-primary-muted);
   cursor: pointer;
   font-size: 13px;
   font-weight: 550;
-  background-image: none;
-  box-shadow: none;
 }
 
-.clear-filters:hover,
-.clear-filters:focus,
-.clear-filters:focus-visible,
-.clear-filters:active,
-.clear-filters:active:hover,
-.clear-filters.active,
-.clear-filters.active:hover {
-  background: var(--bs-secondary-muted);
+.clear-filters:is(:hover, :focus, :focus-visible, :active, .active) {
   border-color: var(--bs-secondary-muted);
   border-radius: var(--radius);
+  background: var(--bs-secondary-muted);
   color: var(--bs-primary);
   font-weight: 650;
   background-image: none;
@@ -208,123 +573,56 @@ body > .container-fluid {
 
 
 /* =========================================================
-   3. Chart cards, titles & download controls
+   5. Chart Space
    ========================================================= */
 
-/* Chart section wrapper */
+.panel-viewport,
+.panel-viewport > div,
+.chart-section,
+.chart-section .chart-single {
+  display: block;
+  min-height: 0;
+}
+
+.chart-section .bslib-grid-item,
+.chart-section .html-fill-container,
+.chart-section .html-fill-item,
+.chart-with-title,
+.chart-body-card,
+.chart-container {
+  min-width: 0;
+}
+
+.chart-section .grid {
+  margin-bottom: 16px;
+}
+
 .chart-with-title {
+  display: block;
   min-height: var(--chart-panel-h);
+  height: auto;
+  overflow: visible;
   text-align: left;
 }
 
 .chart-header-card,
 .chart-body-card {
-  background: var(--panel-bg);
+  padding: 16px;
   border-radius: var(--radius);
+  background: var(--panel-bg);
 }
 
 .chart-header-card {
-  padding: 16px;
   margin-bottom: 0;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
 
 .chart-body-card {
-  padding: 16px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
 
-.custom-plotly-hover-ready .js-plotly-plot.custom-plotly-hover-bound .hoverlayer {
-  display: none;
-}
-
-.js-plotly-plot .modebar,
-.js-plotly-plot .modebar-group {
-  background: transparent !important;
-}
-
-.js-plotly-plot .modebar-btn:not([data-title="Download plot as a PNG"]):not([data-title="Reset axes"]) {
-  display: none !important;
-  width: 0 !important;
-}
-
-.js-plotly-plot .modebar-btn,
-.js-plotly-plot .modebar-btn:hover {
-  background: transparent !important;
-  color: #6b7280 !important;
-}
-
-.js-plotly-plot .modebar-btn svg,
-.js-plotly-plot .modebar-btn svg path {
-  fill: #6b7280 !important;
-}
-
-/* Keep the plot area on the standard arrow cursor while preserving
-   Plotly's pointer cursor on interactive elements like legend items. */
-.chart-container .js-plotly-plot .plotly .cursor-crosshair,
-.chart-container .js-plotly-plot .plotly .nsewdrag {
-  cursor: default !important;
-}
-
-.custom-plotly-hover {
-  position: fixed;
-  z-index: 2000;
-  pointer-events: none;
-  min-width: 190px;
-  max-width: 280px;
-}
-
-.chart-hover-card {
-  background: rgba(255, 255, 255, 0.98);
-  border-radius: var(--radius);
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
-  color: var(--panel-text);
-  padding: 10px 0;
-}
-
-.chart-hover-row {
-  display: grid;
-  grid-template-columns: minmax(68px, auto) 1fr;
-  gap: 10px;
-  align-items: start;
-  line-height: 1.35;
-}
-
-.chart-hover-row + .chart-hover-row,
-.chart-hover-status {
-  margin-top: 4px;
-}
-
-.chart-hover-label {
-  color: var(--bs-primary-muted);
-  font-size: 13px;
-  font-family: roboto;
-  font-weight: 550;
-  letter-spacing: 0.02em;
-  padding-left: 8px;
-}
-
-.chart-hover-value {
-  color: var(--panel-text);
-  font-size: 13px;
-  font-family: roboto;
-  font-weight: 400;
-  padding-right: 8px;
-}
-
-.chart-hover-status {
-  border-top: 1px solid rgba(15, 23, 42, 0.08);
-  color: var(--bs-primary-muted);
-  font-size: 13px;
-  font-family: roboto;
-  font-weight: 400;
-  padding: 4px 8px 0px;
-}
-
-/* Generic chart header: vertical stack (title + controls row) */
 .chart-header {
   display: flex;
   flex-direction: column;
@@ -332,15 +630,17 @@ body > .container-fluid {
   gap: 0.5rem;
 }
 
-/* Chart title alignment */
 .chart-section .chart-header h3.chart-title {
-  text-align: left;
   margin-left: 0;
   margin-right: auto;
+  text-align: left;
   font-size: 24px;
 }
 
-/* Second line of header: controls row */
+.chart-header .shiny-input-container {
+  margin: 8px 0;
+}
+
 .chart-header-row {
   display: flex;
   align-items: center;
@@ -348,20 +648,29 @@ body > .container-fluid {
   width: 100%;
 }
 
-/* Left side: selector + toggles */
 .chart-header-left {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-/* Group/selector blocks: label stacked above select */
 .chart-header-group,
 .chart-toggle-header {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
+}
+
+.chart-header-group {
+  min-width: 255px;
+}
+
+.chart-header-group .shiny-input-container,
+.chart-header-group .selectize-control,
+.chart-header-group .selectize-control.single,
+.chart-header-group .selectize-input {
+  width: 100% !important;
 }
 
 .chart-toggle-header {
@@ -375,29 +684,48 @@ body > .container-fluid {
   margin-bottom: -4px;
 }
 
+.chart-toggle-header .filter-section-title {
+  margin-top: -8px;
+  margin-bottom: 4px;
+}
+
+.chart-header-group .control-label.shiny-label-null,
+.chart-toggle-bar .control-label.shiny-label-null {
+  display: none;
+}
+
+.chart-header-group .form-select {
+  box-sizing: border-box;
+  height: var(--header-control-h);
+  padding-top: 0;
+  padding-bottom: 0;
+  border-color: var(--border);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.chart-header-group .form-select:focus {
+  border-color: var(--border);
+  box-shadow: none;
+  outline: none;
+}
+
 .chart-toggle-bar .shiny-input-radiogroup {
   margin: 0;
 }
 
 .chart-toggle-bar .shiny-options-group {
-  margin-top: 0px !important;
-}
-
-.chart-toggle-bar .control-label.shiny-label-null {
-  display: none;
-}
-
-.chart-toggle-bar .shiny-options-group {
   display: inline-flex;
-  font-size: 14px;
+  gap: 0;
+  overflow: hidden;
+  box-sizing: border-box;
   height: var(--header-control-h) !important;
+  margin-top: 0 !important;
+  margin-left: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-sizing: border-box;
-  overflow: hidden;
   background: var(--bg);
-  gap: 0;
-  margin-left: 0;
+  font-size: 14px;
 }
 
 .chart-toggle-bar .radio-inline {
@@ -405,39 +733,17 @@ body > .container-fluid {
   align-items: stretch;
   height: 100%;
   margin: 0;
-  padding: 0 !important;
   margin-right: 0 !important;
-}
-
-.chart-toggle-bar .radio-inline > span > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0;
-  height: auto;
-  background: transparent;
-  color: inherit;
-}
-
-.chart-toggle-bar .radio-inline i {
-  font-size: 0.95em;
-}
-
-.chart-toggle-bar input[type="radio"] {
-  position: absolute;
-  left: 0;
-  opacity: 0;
-  margin: 0;
-  pointer-events: none;
+  padding: 0 !important;
 }
 
 .chart-toggle-bar .radio-inline > span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
   height: 100%;
   padding: 0 10px;
-  box-sizing: border-box;
   background: var(--bg);
   color: var(--panel-text);
   cursor: pointer;
@@ -449,23 +755,41 @@ body > .container-fluid {
 }
 
 .chart-toggle-bar .radio-inline > span > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: auto;
+  padding: 0;
   background: transparent;
+  color: inherit;
 }
 
 .chart-toggle-bar .radio-inline + .radio-inline > span {
   border-left: 1px solid var(--border);
 }
 
+.chart-toggle-bar .radio-inline i {
+  font-size: 0.95em;
+}
+
+.chart-toggle-bar input[type="radio"] {
+  position: absolute;
+  left: 0;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .chart-toggle-bar .radio-inline:hover > span {
+  border: 1px solid var(--bs-primary-muted);
   background: var(--bs-secondary-muted);
   color: var(--bs-primary);
-  border: 1px solid var(--bs-primary-muted);
   font-weight: 450;
 }
 
 .chart-toggle-bar .radio-inline input[type="radio"]:checked + span {
-  background: var(--bs-primary);
   border: 1px solid var(--bs-primary);
+  background: var(--bs-primary);
   color: var(--bg);
   font-weight: 550;
 }
@@ -475,29 +799,9 @@ body > .container-fluid {
   outline-offset: -2px;
 }
 
-/* Download button base style inside chart cards */
-.chart-header-card .btn,
-.tab-page-info-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: var(--header-control-h);
-  padding: 0 10px;
-  font-size: 14px;
-  line-height: 1.4;
-  border-radius: var(--radius);
-  border-color: var(--border);
-  box-sizing: border-box;
-  background: var(--bg);
-  color: var(--bs-primary);
-  width: auto;
-  font-weight: 400;
-  text-decoration: none;
-}
-
-.chart-header-card .btn span,
-.tab-page-info-btn span {
-  padding-top: 2px; /* align icon + text */
+.chart-header-row .chart-download-group {
+  margin-left: auto;
+  white-space: nowrap;
 }
 
 .chart-download-btn {
@@ -508,51 +812,6 @@ body > .container-fluid {
   margin-right: 6px;
 }
 
-.tab-page-info-btn i.fa-question-circle {
-  margin-right: 6px;
-}
-
-.chart-header-group .shiny-input-container {
-  margin: 8px 0;
-}
-
-.chart-header-group .control-label.shiny-label-null {
-  display: none;
-}
-
-.chart-header-group .form-select {
-  height: var(--header-control-h);
-  padding-top: 0;
-  padding-bottom: 0;
-  font-size: 14px;
-  line-height: 1.4;
-  border-color: var(--border);
-  box-sizing: border-box;
-}
-
-.chart-header-group .form-select:focus {
-  border-color: var(--border);
-  box-shadow: none;
-  outline: none;
-}
-
-/* Download button position + wrapping in header row */
-.chart-header-row .chart-download-group {
-  margin-left: auto;
-  white-space: nowrap;
-}
-
-/* Download hover */
-.chart-header-card .btn:hover {
-  background: var(--bg);
-  border-color: var(--border);
-}
-
-.chart-header-card .btn:focus {
-  border-color: var(--bs-secondary);
-}
-
-
 .chart-download-group .dropdown-menu {
   min-width: 0;
   width: max-content;
@@ -560,8 +819,8 @@ body > .container-fluid {
 }
 
 .chart-download-group .dropdown-item {
-  font-size: 14px;
   color: var(--panel-text);
+  font-size: 14px;
 }
 
 .chart-download-group .dropdown-item:hover {
@@ -570,64 +829,8 @@ body > .container-fluid {
   font-weight: 450;
 }
 
-
-/* =========================================================
-   4. Full-height chart layout
-   ========================================================= */
-
-/* Let sections follow normal document flow so remounted charts size naturally. */
-.panel-viewport,
-.panel-viewport > div,
-.chart-section {
-  display: block;
-  min-height: 0;
-}
-
-.chart-section .bslib-grid-item,
-.chart-section .html-fill-container,
-.chart-section .html-fill-item,
-.chart-section .chart-with-title,
-.chart-section .chart-body-card,
-.chart-section .chart-container {
-  min-width: 0;
-}
-
-/* Optional grid element spacing inside chart sections */
-.chart-section .grid {
-  margin-bottom: 16px;
-}
-
-.chart-section .chart-with-title {
-  display: block;
-  min-height: var(--chart-panel-h);
-  height: auto;
-  overflow: visible;
-}
-
-.chart-section .chart-header .shiny-input-container {
-  margin: 8px 0;
-}
-
-.chart-section .chart-single {
-  display: block;
-}
-
-.chart-section .chart-container {
-  height: auto;
-  min-height: 0;
-  width: 100%;
-  overflow: visible;
-}
-
-/* Shiny widget output fills container */
-.chart-container .shiny-ipywidget-output {
-  width: 100%;
-  height: auto;
-  min-height: 0;
-  overflow: visible;
-}
-
-/* Vega / widget wrappers fill container */
+.chart-container,
+.chart-container .shiny-ipywidget-output,
 .chart-container .lm-Widget,
 .chart-container .vega-embed,
 .chart-container .chart-wrapper {
@@ -644,229 +847,97 @@ body > .container-fluid {
   max-width: 100%;
 }
 
-/* Canvas fills wrapper */
 .chart-container canvas.marks {
   width: 100% !important;
   height: 100% !important;
 }
 
-
-/* =========================================================
-   5. Tabs, navset layout & scrollable content
-   ========================================================= */
-
-/* Tab content borders / background */
-.tab-content {
-  background-color: var(--bg);
-  border: 0;
-  border-radius: 0;
+.custom-plotly-hover-ready .js-plotly-plot.custom-plotly-hover-bound .hoverlayer {
+  display: none;
 }
 
-.tab-content .container-fluid {
-  padding: 0 0px;
+.js-plotly-plot .modebar,
+.js-plotly-plot .modebar-group,
+.js-plotly-plot .modebar-btn,
+.js-plotly-plot .modebar-btn:hover {
+  background: transparent !important;
 }
 
-/* Tabs + content expand to fill space */
-.navset-large {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+.js-plotly-plot .modebar-btn:not([data-title="Download plot as a PNG"]):not([data-title="Reset axes"]) {
+  display: none !important;
+  width: 0 !important;
 }
 
-.navset-large > .tab-content {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+.js-plotly-plot .modebar-btn {
+  color: #6b7280 !important;
 }
 
-.navset-large > .tab-content > .tab-pane {
-  flex: 1 1 auto;
-  min-height: 0;
+.js-plotly-plot .modebar-btn svg,
+.js-plotly-plot .modebar-btn svg path {
+  fill: #6b7280 !important;
 }
 
-.navset-large > .tab-content > .tab-pane.active {
-  display: flex;              /* overrides Bootstrap's display:block, but only for active */
-  flex-direction: column;
+.chart-container .js-plotly-plot .plotly .cursor-crosshair,
+.chart-container .js-plotly-plot .plotly .nsewdrag {
+  cursor: default !important;
 }
 
-
-/* =========================================================
-   6. Navigation cards (primary & secondary)
-   ========================================================= */
-
-/* Generic radio cards (e.g. main nav) */
-.nav-cards .radio {
-  margin-bottom: 8px;
-}
-
-/* Hide native radio across nav cards */
-.nav-cards input[type="radio"] {
-  position: absolute;
-  opacity: 0;
+.custom-plotly-hover {
+  position: fixed;
+  z-index: 2000;
+  min-width: 190px;
+  max-width: 280px;
   pointer-events: none;
 }
 
-/* Card-style label */
-.nav-cards .radio label {
-  display: block;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
+.chart-hover-card {
+  padding: 10px 0;
+  border: 1px solid rgba(15, 23, 42, 0.12);
   border-radius: var(--radius);
-  background: var(--bg);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
   color: var(--panel-text);
-  cursor: pointer;
-  user-select: none;
-  transition:
-    background 0.15s,
-    border-color 0.15s,
-    box-shadow 0.15s;
 }
 
-/* Hover for main nav cards */
-.nav-cards .radio label:hover {
-  background: var(--panel-bg);
-  border-color: var(--border);
+.chart-hover-row {
+  display: grid;
+  grid-template-columns: minmax(68px, auto) 1fr;
+  align-items: start;
+  gap: 10px;
+  line-height: 1.35;
 }
 
-/* Selected state using :has() */
-.nav-cards .radio label:has(input:checked) {
-  background: var(--panel-bg);
+.chart-hover-row + .chart-hover-row,
+.chart-hover-status {
+  margin-top: 4px;
 }
 
-/* Secondary nav: pill-style inline options */
-.secondary-nav-bar.nav-cards {
-  margin: 1rem 0 0.5rem;
-}
-
-.secondary-nav-bar.nav-cards .shiny-options-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-/* Each option wrapper */
-.secondary-nav-bar.nav-cards .radio-inline {
-  display: inline-flex;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-}
-
-/* Secondary nav buttons styled like the compare pill */
-.secondary-nav-bar.nav-cards .radio-inline > span {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.35rem 0.9rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background-color: var(--bg);
-  color: var(--panel-text);
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 400;
-  margin: 0 6px 0 0;
-  min-height: 37px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03);
-  user-select: none;
-  white-space: nowrap;
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease,
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
-}
-
-.secondary-nav-bar.nav-cards .radio-inline .nav-pill-label {
-  display: block;
-}
-
-.secondary-nav-bar.nav-cards .radio-inline .nav-pill-label::after {
-  content: attr(data-label);
-  display: block;
-  height: 0;
-  overflow: hidden;
-  font-weight: 550;
-  visibility: hidden;
-}
-
-/* Hover state – same feel as compare pill hover */
-.secondary-nav-bar.nav-cards .radio-inline:hover > span {
-  background-color: var(--bs-secondary-muted);
-  border-color: var(--bs-primary-muted);
-  color: var(--bs-primary);
-  font-weight: 450;
-}
-
-/* Selected state – same as checked compare pill */
-.secondary-nav-bar.nav-cards
-  .radio-inline input[type="radio"]:checked + span {
-  background-color: var(--bs-primary);
-  border-color: var(--bs-primary);
-  color: var(--bg);
-  font-weight: 550;
-}
-
-/* Focus ring for keyboard users */
-.secondary-nav-bar.nav-cards
-  .radio-inline input[type="radio"]:focus-visible + span {
-  outline: 2px solid var(--bs-primary);
-  outline-offset: 2px;
-}
-
-.tab-page-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  /* background-color: var(--panel-bg); */
-  padding: 0 0px;
-}
-
-.tab-page-toolbar .secondary-nav-bar {
-  flex: 1 1 auto;
-  min-width: 0;
-  margin-bottom: 0px;
-}
-
-.tab-page-info-btn {
-  flex: 0 0 auto;
-  margin-top: 0;
-  --bs-btn-bg: var(--bg);
-  --bs-btn-color: var(--bs-primary);
-  --bs-btn-border-color: var(--bg);
-  --bs-btn-hover-bg: var(--bg);
-  --bs-btn-hover-color: var(--bs-primary-muted);
-  --bs-btn-hover-border-color: var(--border);
-  --bs-btn-active-bg: var(--bg);
-  --bs-btn-active-color: var(--bs-primary-muted);
-  --bs-btn-active-border-color: var(--border);
-  background-color: var(--bg);
-  border-color: var(--bg);
-  color: var(--bs-primary);
-  background-image: none;
-  box-shadow: none;
-}
-
-.tab-page-info-btn:hover,
-.tab-page-info-btn:focus,
-.tab-page-info-btn:focus-visible,
-.tab-page-info-btn:active,
-.tab-page-info-btn:active:hover,
-.tab-page-info-btn.active,
-.tab-page-info-btn.active:hover {
-  background-color: var(--bg);
-  border-color: var(--bg);
+.chart-hover-label {
+  padding-left: 8px;
   color: var(--bs-primary-muted);
-  background-image: none;
-  box-shadow: none;
-  text-decoration: underline;
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: 0.02em;
+}
+
+.chart-hover-value {
+  padding-right: 8px;
+  color: var(--panel-text);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.chart-hover-status {
+  padding: 4px 8px 0;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  color: var(--bs-primary-muted);
+  font-size: 13px;
+  font-weight: 400;
 }
 
 
 /* =========================================================
-   8. Modals & info buttons
+   6. Modals
    ========================================================= */
 
 .modal-dialog {
@@ -875,9 +946,9 @@ body > .container-fluid {
 }
 
 .modal-content {
-  background-color: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  background-color: var(--bg);
   color: var(--panel-text);
 }
 
@@ -886,163 +957,15 @@ body > .container-fluid {
   font-size: 15px;
 }
 
-.modal-footer .btn,
-.modal-footer .btn-default {
-  --bs-btn-bg: var(--bg);
-  --bs-btn-color: var(--panel-text);
-  --bs-btn-border-color: var(--border);
-  --bs-btn-hover-bg: var(--bg);
-  --bs-btn-hover-color: var(--panel-text);
-  --bs-btn-hover-border-color: var(--border);
-  --bs-btn-active-bg: var(--bg);
-  --bs-btn-active-color: var(--panel-text);
-  --bs-btn-active-border-color: var(--border);
-  background-color: var(--bg);
-  border-color: var(--border);
-  border-radius: var(--radius);
-  color: var(--panel-text);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.4;
-  min-height: var(--header-control-h);
-  padding: 0 10px;
-  background-image: none;
-  box-shadow: none;
-}
-
-.modal-footer .btn:hover,
-.modal-footer .btn:focus,
-.modal-footer .btn:focus-visible,
-.modal-footer .btn:active,
-.modal-footer .btn:active:hover,
-.modal-footer .btn.active,
-.modal-footer .btn.active:hover,
-.modal-footer .btn-default:hover,
-.modal-footer .btn-default:focus,
-.modal-footer .btn-default:focus-visible,
-.modal-footer .btn-default:active,
-.modal-footer .btn-default:active:hover,
-.modal-footer .btn-default.active,
-.modal-footer .btn-default.active:hover {
-  background-color: var(--bg);
-  border-color: var(--border);
-  color: var(--panel-text);
-  background-image: none;
-  box-shadow: none;
-}
-
-/* Inline info button (e.g. "i" icon) */
-.info-btn {
-  padding: 0 0.35rem;
-  border: none;
-  border-radius: var(--radius);
-  font-weight: 700;
-  line-height: 1;
-  margin-left: 0.35rem;
-  background: transparent;
-  color: var(--bs-primary-muted);
-  font-size: 1rem;
-  cursor: pointer;
-  transition: color 0.15s ease;
-}
-
-.info-btn:hover {
-  color: var(--bs-primary);
-  background: transparent;
-}
-
-.navset-large > .nav-tabs {
-  background-color: var(--panel-bg);
-  border-bottom: 0;
-  padding: 0 0px;
-  gap: 0px;
-}
-
-.navset-large > .nav-tabs .nav-item {
-  margin-bottom: 0;
-}
-
-.navset-large > .nav-tabs .nav-link {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: var(--panel-bg);
-  color: var(--panel-text);
-  font-weight: 400;
-  border: 0;
-  border-top: 4px solid transparent;
-  border-radius: 0 0 0 0;
-  margin-bottom: 0;
-  white-space: nowrap;
-}
-
-.navset-large > .nav-tabs .nav-link::after {
-  content: attr(data-value);
-  display: block;
-  height: 0;
-  overflow: hidden;
-  font-weight: 450;
-  visibility: hidden;
-}
-
-.navset-large > .nav-tabs .nav-link:hover,
-.navset-large > .nav-tabs .nav-link:focus {
-  background-color: var(--bg);
-  color: var(--bs-primary);
-  font-weight: 450;
-  border-top: 4px solid transparent;
-}
-
-.navset-large > .nav-tabs .nav-link.active,
-.navset-large > .nav-tabs .nav-link.active:hover,
-.navset-large > .nav-tabs .nav-link.active:focus {
-  background-color: var(--bg);
-  color: var(--panel-text);
-  font-weight: 450;
-  border: 0;
-  border-top: 4px solid var(--bs-primary);
-}
-
-.navset-large > .nav-tabs .nav-link .info-btn {
-  font-size: 1rem;
-  vertical-align: middle;
-  color: var(--bs-primary-muted);
-}
-
 
 /* =========================================================
-   9. Header info buttons (page-level)
+   7. Shiny Selectize Inputs
    ========================================================= */
 
-.header-info-btn {
-  background: var(--bg);
-  width: 160px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 4px 8px;
-  cursor: pointer;
-  box-sizing: border-box;
-  line-height: 1.6;
-  font-weight: 400;
-}
-
-.header-info-btn:hover {
-  background: var(--panel-bg);
-  border-color: var(--border);
-  color: var(--panel-text);
-}
-
-
-/* =========================================================
-   10. Shiny selectize inputs
-   ========================================================= */
-
-.shiny-input-select {
-  border-color: var(--border);
-  border-radius: var(--radius);
-}
-
-.shiny-input-select .selectize-input {
+.shiny-input-select,
+.shiny-input-select .selectize-input,
+.shiny-input-select .selectize-dropdown,
+.selectize-dropdown-content {
   border-color: var(--border);
   border-radius: var(--radius);
 }
@@ -1055,22 +978,19 @@ body > .container-fluid {
   outline: none;
 }
 
-.shiny-input-select.selectize-control.single .selectize-input.has-items > .item {
-  background: transparent;
-  border: 0;
-  color: var(--panel-text);
-  border-radius: 0;
-  padding: 0;
-}
-
-.shiny-input-select.selectize-control.single .selectize-input.has-items {
-  background: var(--bg);
-  border-color: var(--border);
-  color: var(--panel-text);
-}
-
+.shiny-input-select.selectize-control.single .selectize-input.has-items,
 .shiny-input-select.selectize-control.single .selectize-input.has-items.input-active {
+  border-color: var(--border);
   background: var(--bg);
+  color: var(--panel-text);
+}
+
+.shiny-input-select.selectize-control.single .selectize-input.has-items > .item {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--panel-text);
 }
 
 .shiny-input-select.selectize-control.single .selectize-input.has-items > input {
@@ -1078,9 +998,7 @@ body > .container-fluid {
 }
 
 .shiny-input-select .selectize-dropdown {
-  margin-top: 2px; 
-  border-color: var(--border);
-  border-radius: var(--radius);
+  margin-top: 2px;
 }
 
 .shiny-input-select .selectize-dropdown .option.active {
@@ -1098,17 +1016,17 @@ body > .container-fluid {
 
 .shiny-input-select.selectize-control.multi .selectize-input > .item,
 .shiny-input-select.selectize-control.multi .selectize-input > div[data-value] {
-  background: var(--bs-secondary);
   border: 1px solid transparent;
   border-radius: 0;
+  background: var(--bs-secondary);
   color: var(--bs-primary);
   font-weight: 550;
 }
 
 .shiny-input-select.selectize-control.multi .selectize-input > .item.active,
 .shiny-input-select.selectize-control.multi .selectize-input > div[data-value].active {
-  background: var(--bs-secondary-muted);
   border-color: var(--bs-primary-muted);
+  background: var(--bs-secondary-muted);
 }
 
 .shiny-input-select.selectize-control.multi .selectize-input > .item .remove,
@@ -1119,25 +1037,10 @@ body > .container-fluid {
 
 .shiny-input-select.selectize-control.multi .selectize-input > .item .remove:hover,
 .shiny-input-select.selectize-control.multi .selectize-input > div[data-value] .remove:hover {
-  background-color: var(--bs-secondary-muted);
   border-left-color: var(--bs-secondary-muted);
+  background-color: var(--bs-secondary-muted);
 }
 
 .selectize-dropdown-content {
   padding-top: 0;
-  border-color: var(--border);
-  border-radius: var(--radius);
-}
-
-
-
-/* =========================================================
-   11. App 
-   ========================================================= */
-
-
-#app-parent {
-  width: 100%;
-  min-height: 866px;
-  height: auto;
 }
