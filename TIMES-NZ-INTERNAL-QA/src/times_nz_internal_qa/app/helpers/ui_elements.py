@@ -59,10 +59,9 @@ def tab_page_info_icon(btn_id: str):
         btn_id,
         ui.TagList(
             ui.tags.i(class_="fa fa-question-circle"),
-            " About this tab",
+            "About this page",
         ),
         class_="btn tab-page-info-btn",
-        title="About this tab",
     )
 
 
@@ -101,13 +100,7 @@ def section_block(parameters):
         # FILTERS
         ui.div(
             ui.tags.h4("Filter:", class_="filter-section-title"),
-            ui.input_action_button(
-                f"{chart_id}_chart_clear_filters",
-                label="Clear",  # None = no text
-                icon=ui.tags.i(class_="fa fa-times"),  # font-awesome eraser
-                class_="btn btn-sm clear-filters",
-                title="Clear all filters",  # hover text
-            ),
+            ui.output_ui(f"{chart_id}_chart_clear_filters_ui"),
             class_="filter-header",
         ),
         *filter_output_ui_list(filters),
@@ -200,7 +193,14 @@ def make_explorer_page_ui(sections, id_prefix, page_info_button_id=None):
     """
 
     # Map sec_id -> label
-    choices = {s["sec_id"]: s["section_title"] for s in sections}
+    choices = {
+        s["sec_id"]: ui.span(
+            s["section_title"],
+            class_="nav-pill-label",
+            **{"data-label": s["section_title"]},
+        )
+        for s in sections
+    }
     first_sec_id = sections[0]["sec_id"]
 
     # The main content area: only one section visible at a time

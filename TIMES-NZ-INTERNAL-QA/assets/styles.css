@@ -1,521 +1,222 @@
 /* =========================================================
-   1. Global variables & base layout
+   1. Theme & App Shell
    ========================================================= */
 
 :root {
   /* colours */
   --bg: #fbfbfb;
-  --panel-bg: #e8ecee; /*#eef1f4;*/
-  --panel-text: #000000; /*#1f2937;*/
-  --muted: #6b7280;
-  --border: #d1d5db;
-  --bs-primary: #0072B3;
+  --panel-bg: #e8ecee;
+  --panel-text: #000000;
+  --border: #dadada;
+  --bs-primary: #0A3C61;
+  --bs-primary-muted: #3C6280;
+  --bs-secondary: #74dcdb;
+  --bs-secondary-muted: #C0EBEB;
 
   /* sizes */
-  --radius: 4px;
+  --radius: 0px;
   --gap: 12px;
   --chart-panel-h: 520px;
   --header-control-h: 36px;
 }
 
 body {
+  margin: 0;
   background: var(--bg);
   color: var(--panel-text);
   font-family: "Roboto", sans-serif;
-  margin: 0;
-  padding: 0;
 }
 
-/* Top-level Shiny container */
-body > .container-fluid {
+body > #app-parent {
+  padding-top: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+body > .container-fluid,
+#app-parent > .container-fluid {
   display: flex;
   flex-direction: column;
   padding: 0;
+}
+
+#app-parent {
+  width: 100%;
+  min-height: 866px;
+  height: auto;
 }
 
 
 /* =========================================================
-   2. Chart side panels, filters & headers
+   2. Shared Labels & Controls
    ========================================================= */
-
-.chart-control-panel {
-  background: var(--panel-bg);
-  color: var(--panel-text);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-right: -8px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
 
 .filter-section-title {
-  font-size: 13px;
-  font-weight: 650;
-  text-transform: uppercase;
   margin: 4px 0;
-  color: var(--muted);
-}
-
-.chart-control-panel .individual-filter .form-group {
-  display: inline;
-  margin-bottom: 0;
-  width: 100%;
-}
-
-/* Individual filter labels */
-.chart-control-panel .individual-filter label {
-  flex: 0 0 90px;
-  font-size: 13px;
-  font-weight: 550;
-  color: var(--muted);
-  margin: 0;
-}
-
-/* Filter header row (title + clear button) */
-.filter-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.filter-header h4 {
-  margin: 0;
-}
-
-.clear-filters {
-  background: none;
-  border: none;
-  color: #666;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 650;
-}
-
-
-/* =========================================================
-   3. Chart cards, titles & download controls
-   ========================================================= */
-
-/* Chart section wrapper */
-.chart-with-title {
-  min-height: var(--chart-panel-h);
-  text-align: left;
-}
-
-.chart-header-card,
-.chart-body-card {
-  background: var(--panel-bg);
-  border-radius: var(--radius);
-}
-
-.chart-header-card {
-  padding: 16px;
-  margin-bottom: 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.chart-body-card {
-  padding: 16px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.custom-plotly-hover-ready .js-plotly-plot .hoverlayer {
-  display: none;
-}
-
-.js-plotly-plot .modebar,
-.js-plotly-plot .modebar-group {
-  background: transparent !important;
-}
-
-.js-plotly-plot .modebar-btn:not([data-title="Download plot as a PNG"]):not([data-title="Reset axes"]) {
-  display: none !important;
-  width: 0 !important;
-}
-
-.js-plotly-plot .modebar-btn,
-.js-plotly-plot .modebar-btn:hover {
-  background: transparent !important;
-  color: #6b7280 !important;
-}
-
-.js-plotly-plot .modebar-btn svg,
-.js-plotly-plot .modebar-btn svg path {
-  fill: #6b7280 !important;
-}
-
-.custom-plotly-hover {
-  position: fixed;
-  z-index: 2000;
-  pointer-events: none;
-  min-width: 190px;
-  max-width: 280px;
-}
-
-.chart-hover-card {
-  background: rgba(255, 255, 255, 0.98);
-  border-radius: 6px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
-  color: #1f2937;
-  padding: 10px 12px;
-}
-
-.chart-hover-row {
-  display: grid;
-  grid-template-columns: minmax(68px, auto) 1fr;
-  gap: 10px;
-  align-items: start;
-  line-height: 1.35;
-}
-
-.chart-hover-row + .chart-hover-row,
-.chart-hover-status {
-  margin-top: 4px;
-}
-
-.chart-hover-label {
-  color: #6b7280;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.chart-hover-value {
-  color: #111827;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.chart-hover-status {
-  border-top: 1px solid rgba(15, 23, 42, 0.08);
-  color: #6b7280;
-  font-size: 11px;
-  padding-top: 6px;
-}
-
-/* Generic chart header: vertical stack (title + controls row) */
-.chart-header {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
-}
-
-/* Chart title alignment */
-.chart-section .chart-header h3.chart-title {
-  text-align: left;
-  margin-left: 0;
-  margin-right: auto;
-}
-
-/* Second line of header: controls row */
-.chart-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-}
-
-/* Left side: selector + toggles */
-.chart-header-left {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-/* Group/selector blocks: label stacked above select */
-.chart-header-group,
-.chart-toggle-header {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0;
-}
-
-.chart-toggle-header {
-  margin-top: 0;
-  margin-left: 12px;
-}
-
-.chart-header-group .filter-section-title,
-.chart-toggle-header .filter-section-title {
-  margin-top: 0;
-  margin-bottom: -4px;
-}
-
-.chart-toggle-bar .shiny-input-radiogroup {
-  margin: 0;
-}
-
-.chart-toggle-bar .shiny-options-group {
-  margin-top: 0px !important;
-}
-
-.chart-toggle-bar .control-label.shiny-label-null {
-  display: none;
-}
-
-.chart-toggle-bar .shiny-options-group {
-  display: inline-flex;
+  color: var(--bs-primary-muted);
   font-size: 14px;
-  height: var(--header-control-h) !important;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  box-sizing: border-box;
-  overflow: hidden;
-  background: #fff;
-  gap: 0;
-  margin-left: 0;
+  font-weight: 550;
 }
 
-.chart-toggle-bar .radio-inline {
-  display: inline-flex;
-  align-items: stretch;
-  height: 100%;
-  margin: 0;
-  padding: 0 !important;
-  margin-right: 0 !important;
-}
-
-.chart-toggle-bar .radio-inline > span > span {
+.chart-header-card .btn,
+.tab-page-info-btn,
+.modal-footer .btn,
+.modal-footer .btn-default {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 0;
-  height: auto;
-  background: transparent;
-  color: inherit;
-}
-
-.chart-toggle-bar .radio-inline i {
-  font-size: 0.95em;
-}
-
-.chart-toggle-bar input[type="radio"] {
-  position: absolute;
-  left: 0;
-  opacity: 0;
-  margin: 0;
-  pointer-events: none;
-}
-
-.chart-toggle-bar .radio-inline > span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+  min-height: var(--header-control-h);
   padding: 0 10px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  border-radius: var(--radius);
   box-sizing: border-box;
-  background: #fff;
-  color: var(--panel-text);
-  cursor: pointer;
-  user-select: none;
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease,
-    box-shadow 0.15s ease;
+  background-image: none;
+  box-shadow: none;
+  text-decoration: none;
 }
 
-.chart-toggle-bar .radio-inline + .radio-inline > span {
-  border-left: 1px solid var(--border);
-}
-
-.chart-toggle-bar .radio-inline:hover > span {
-  background: #f3f4f6;
-}
-
-.chart-toggle-bar .radio-inline input[type="radio"]:checked + span {
-  background: var(--bs-primary);
-  color: #fff;
-}
-
-.chart-toggle-bar .radio-inline input[type="radio"]:focus-visible + span {
-  outline: 2px solid var(--bs-primary);
-  outline-offset: -2px;
-}
-
-/* Download button base style inside chart cards */
 .chart-header-card .btn,
 .tab-page-info-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: var(--header-control-h);
-  padding: 0 10px;
-  font-size: 14px;
-  line-height: 1.4;
-  border-radius: 4px;
-  border-color: var(--border);
-  box-sizing: border-box;
-  background: #fff;
-  color: var(--panel-text);
   width: auto;
-  font-weight: 400;
-  text-decoration: none;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--bs-primary);
 }
 
 .chart-header-card .btn span,
 .tab-page-info-btn span {
-  padding-top: 2px; /* align icon + text */
+  padding-top: 2px;
 }
 
-.chart-download-btn {
-  margin-top: 12px;
-}
-
-.chart-download-btn > i.fa-download {
-  margin-right: 6px;
-}
-
-.tab-page-info-btn i.fa-question-circle {
-  margin-right: 6px;
-}
-
-.chart-header-group .shiny-input-container {
-  margin: 8px 0;
-}
-
-.chart-header-group .control-label.shiny-label-null {
-  display: none;
-}
-
-.chart-header-group .form-select {
-  height: var(--header-control-h);
-  padding-top: 0;
-  padding-bottom: 0;
-  font-size: 14px;
-  line-height: 1.4;
-  border-color: var(--border);
-  box-sizing: border-box;
-}
-
-/* Download button position + wrapping in header row */
-.chart-header-row .chart-download-group {
-  margin-left: auto;
-  white-space: nowrap;
-}
-
-/* Download hover */
 .chart-header-card .btn:hover {
-  background: #f3f4f6;
-  border-color: #cbd5e1;
+  background: var(--bg);
+  border-color: var(--border);
 }
 
-.chart-download-group .dropdown-menu {
-  min-width: 0;
-  width: max-content;
-  padding: 6px 0;
+.chart-header-card .btn:focus {
+  border-color: var(--bs-secondary);
 }
 
-.chart-download-group .dropdown-item {
-  font-size: 14px;
+.modal-footer .btn,
+.modal-footer .btn-default {
+  --bs-btn-bg: var(--bg);
+  --bs-btn-color: var(--panel-text);
+  --bs-btn-border-color: var(--border);
+  --bs-btn-hover-bg: var(--bg);
+  --bs-btn-hover-color: var(--panel-text);
+  --bs-btn-hover-border-color: var(--border);
+  --bs-btn-active-bg: var(--bg);
+  --bs-btn-active-color: var(--panel-text);
+  --bs-btn-active-border-color: var(--border);
+  border: 1px solid var(--border);
+  background-color: var(--bg);
   color: var(--panel-text);
 }
 
-.chart-download-group .dropdown-item:hover {
-  background: #f3f4f6;
+.modal-footer .btn:is(:hover, :focus, :focus-visible, :active, .active),
+.modal-footer .btn-default:is(:hover, :focus, :focus-visible, :active, .active) {
+  border-color: var(--border);
+  background-color: var(--bg);
+  color: var(--panel-text);
+  background-image: none;
+  box-shadow: none;
 }
 
 
 /* =========================================================
-   4. Full-height chart layout
+   3. Header & Navigation
    ========================================================= */
 
-/* Let sections follow normal document flow so remounted charts size naturally. */
-.panel-viewport,
-.panel-viewport > div,
-.chart-section {
+.app-header-panel {
+  padding: 10px 16px;
+  background: var(--panel-bg);
+}
+
+.app-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.app-title-block {
+  --app-title-size: 28px;
+  --app-title-line-height: 1.2;
+
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 220px;
+}
+
+.app-title-logo {
   display: block;
-  min-height: 0;
+  width: auto;
+  height: calc(var(--app-title-size) * 1.4);
+  object-fit: contain;
 }
 
-.chart-section .bslib-grid-item,
-.chart-section .html-fill-container,
-.chart-section .html-fill-item,
-.chart-section .chart-with-title,
-.chart-section .chart-body-card,
-.chart-section .chart-container {
-  min-width: 0;
+.app-explorer-title {
+  margin: 0;
+  color: var(--bs-primary);
+  font-size: var(--app-title-size);
+  font-weight: 550;
+  line-height: var(--app-title-line-height);
 }
 
-/* Optional grid element spacing inside chart sections */
-.chart-section .grid {
-  margin-bottom: 16px;
+.scenario-selector-bar {
+  flex: 1 1 560px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
-.chart-section .chart-with-title {
-  display: block;
-  min-height: var(--chart-panel-h);
-  height: auto;
-  overflow: visible;
+.scenario-selector-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-left: auto;
 }
 
-.chart-section .chart-header .shiny-input-container {
-  margin: 8px 0;
+.scenario-selector-controls > .shiny-html-output,
+.scenario-selector-controls > .scenario-selector-field {
+  flex: 1 1 255px;
+  min-width: 255px;
+  max-width: 320px;
 }
 
-.chart-section .chart-single {
-  display: block;
+.scenario-selector-controls > .shiny-html-output > .scenario-selector-field,
+.scenario-selector-controls > .scenario-selector-field {
+  min-width: 255px;
 }
 
-.chart-section .chart-container {
-  height: auto;
-  min-height: 0;
+.scenario-selector-field .form-group.shiny-input-container {
   width: 100%;
-  overflow: visible;
+  margin-bottom: 0;
 }
 
-/* Shiny widget output fills container */
-.chart-container .shiny-ipywidget-output {
-  width: 100%;
-  height: auto;
-  min-height: 0;
-  overflow: visible;
-}
-
-/* Vega / widget wrappers fill container */
-.chart-container .lm-Widget,
-.chart-container .vega-embed,
-.chart-container .chart-wrapper {
-  width: 100%;
-  height: auto;
-  min-height: 0;
-  overflow: visible;
-}
-
-.chart-container .js-plotly-plot,
-.chart-container .plot-container,
-.chart-container .svg-container {
+.scenario-selector-field .selectize-control,
+.scenario-selector-field .selectize-control.single,
+.scenario-selector-field .selectize-input {
   width: 100% !important;
-  max-width: 100%;
 }
 
-/* Canvas fills wrapper */
-.chart-container canvas.marks {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-
-/* =========================================================
-   5. Tabs, navset layout & scrollable content
-   ========================================================= */
-
-/* Tab content borders / background */
 .tab-content {
-  background-color: #fff;
-  border-left: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  border-right: 1px solid var(--border);
-  border-top: 0 solid #fff;
-  border-radius: 0 0 4px 4px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--bg);
 }
 
-/* Tabs + content expand to fill space */
+.tab-content .container-fluid {
+  padding: 0;
+}
+
 .navset-large {
   flex: 1 1 auto;
   display: flex;
@@ -536,35 +237,85 @@ body > .container-fluid {
 }
 
 .navset-large > .tab-content > .tab-pane.active {
-  display: flex;              /* overrides Bootstrap's display:block, but only for active */
+  display: flex;
   flex-direction: column;
 }
 
+.navset-large > .nav-tabs {
+  gap: 0;
+  padding: 0;
+  border-bottom: 0;
+  background-color: var(--panel-bg);
+}
 
-/* =========================================================
-   6. Navigation cards (primary & secondary)
-   ========================================================= */
+.navset-large > .nav-tabs .nav-item {
+  margin-bottom: 0;
+}
 
-/* Generic radio cards (e.g. main nav) */
+.navset-large > .nav-tabs .nav-link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 0;
+  border: 0;
+  border-top: 4px solid transparent;
+  border-radius: 0;
+  background-color: var(--panel-bg);
+  color: var(--panel-text);
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.navset-large > .nav-tabs .nav-link::after {
+  content: attr(data-value);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 450;
+}
+
+.navset-large > .nav-tabs .nav-link:hover,
+.navset-large > .nav-tabs .nav-link:focus {
+  border-top-color: transparent;
+  background-color: var(--bg);
+  color: var(--bs-primary);
+  font-weight: 450;
+}
+
+.navset-large > .nav-tabs .nav-link.active,
+.navset-large > .nav-tabs .nav-link.active:hover,
+.navset-large > .nav-tabs .nav-link.active:focus {
+  border: 0;
+  border-top: 4px solid var(--bs-primary);
+  background-color: var(--bg);
+  color: var(--panel-text);
+  font-weight: 450;
+}
+
+.navset-large > .nav-tabs .nav-link .info-btn {
+  color: var(--bs-primary-muted);
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
 .nav-cards .radio {
   margin-bottom: 8px;
 }
 
-/* Hide native radio across nav cards */
 .nav-cards input[type="radio"] {
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
 
-/* Card-style label */
 .nav-cards .radio label {
   display: block;
   padding: 10px 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  background: #fff;
-  color: #111827;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--panel-text);
   cursor: pointer;
   user-select: none;
   transition:
@@ -573,18 +324,12 @@ body > .container-fluid {
     box-shadow 0.15s;
 }
 
-/* Hover for main nav cards */
-.nav-cards .radio label:hover {
-  background: #f9fafb;
-  border-color: #cbd5e1;
-}
-
-/* Selected state using :has() */
+.nav-cards .radio label:hover,
 .nav-cards .radio label:has(input:checked) {
   background: var(--panel-bg);
+  border-color: var(--border);
 }
 
-/* Secondary nav: pill-style inline options */
 .secondary-nav-bar.nav-cards {
   margin: 1rem 0 0.5rem;
 }
@@ -595,7 +340,6 @@ body > .container-fluid {
   gap: 0.5rem;
 }
 
-/* Each option wrapper */
 .secondary-nav-bar.nav-cards .radio-inline {
   display: inline-flex;
   align-items: center;
@@ -603,22 +347,22 @@ body > .container-fluid {
   padding: 0;
 }
 
-/* Secondary nav buttons styled like the compare pill */
-.secondary-nav-bar.nav-cards .radio-inline span {
+.secondary-nav-bar.nav-cards .radio-inline > span {
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem 0.9rem;
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  background-color: #fff;
-  color: var(--bs-primary);
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 450;
-  margin: 0 6px 0 0;
   min-height: 37px;
+  margin: 0 6px 0 0;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--bg);
+  color: var(--panel-text);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03);
+  cursor: pointer;
   user-select: none;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 400;
   transition:
     background-color 0.15s ease,
     color 0.15s ease,
@@ -626,23 +370,34 @@ body > .container-fluid {
     box-shadow 0.15s ease;
 }
 
-/* Hover state – same feel as compare pill hover */
-.secondary-nav-bar.nav-cards .radio-inline:hover span {
-  background-color: var(--panel-bg);
-  border-color: var(--border);
+.secondary-nav-bar.nav-cards .radio-inline .nav-pill-label {
+  display: block;
 }
 
-/* Selected state – same as checked compare pill */
-.secondary-nav-bar.nav-cards
-  .radio-inline input[type="radio"]:checked + span {
-  background-color: var(--bs-primary);
+.secondary-nav-bar.nav-cards .radio-inline .nav-pill-label::after {
+  content: attr(data-label);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 550;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline:hover > span {
+  border-color: var(--bs-primary-muted);
+  background-color: var(--bs-secondary-muted);
+  color: var(--bs-primary);
+  font-weight: 450;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline input[type="radio"]:checked + span {
   border-color: var(--bs-primary);
-  color: #fff;
+  background-color: var(--bs-primary);
+  color: var(--bg);
+  font-weight: 550;
 }
 
-/* Focus ring for keyboard users */
-.secondary-nav-bar.nav-cards
-  .radio-inline input[type="radio"]:focus-visible + span {
+.secondary-nav-bar.nav-cards .radio-inline input[type="radio"]:focus-visible + span {
   outline: 2px solid var(--bs-primary);
   outline-offset: 2px;
 }
@@ -652,114 +407,537 @@ body > .container-fluid {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  padding: 0;
 }
 
 .tab-page-toolbar .secondary-nav-bar {
   flex: 1 1 auto;
   min-width: 0;
+  margin-bottom: 0;
 }
 
 .tab-page-info-btn {
+  --bs-btn-bg: var(--bg);
+  --bs-btn-color: var(--bs-primary);
+  --bs-btn-border-color: var(--bg);
+  --bs-btn-hover-bg: var(--bg);
+  --bs-btn-hover-color: var(--bs-primary-muted);
+  --bs-btn-hover-border-color: var(--border);
+  --bs-btn-active-bg: var(--bg);
+  --bs-btn-active-color: var(--bs-primary-muted);
+  --bs-btn-active-border-color: var(--border);
+
   flex: 0 0 auto;
   margin-top: 0;
-  /* Ensure the help button matches other light buttons even if Bootstrap overrides `.btn`. */
-  --bs-btn-bg: #fff;
-  --bs-btn-color: var(--panel-text);
-  --bs-btn-border-color: var(--border);
-  --bs-btn-hover-bg: #f3f4f6;
-  --bs-btn-hover-color: var(--panel-text);
-  --bs-btn-hover-border-color: #cbd5e1;
-  --bs-btn-active-bg: #f3f4f6;
-  --bs-btn-active-color: var(--panel-text);
-  --bs-btn-active-border-color: #cbd5e1;
+  border-color: var(--bg);
+  background-color: var(--bg);
+  color: var(--bs-primary);
+}
 
-  background-color: #fff;
+.tab-page-info-btn i.fa-question-circle {
+  margin-right: 6px;
+}
+
+.tab-page-info-btn:is(:hover, :focus, :focus-visible, :active, .active) {
+  border-color: var(--bg);
+  background-color: var(--bg);
+  color: var(--bs-primary-muted);
+  background-image: none;
+  box-shadow: none;
+  text-decoration: underline;
+}
+
+.info-btn {
+  margin-left: 0.35rem;
+  padding: 0 0.35rem;
+  border: none;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--bs-primary-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+.info-btn:hover {
+  background: transparent;
+  color: var(--bs-primary);
+}
+
+.header-info-btn {
+  box-sizing: border-box;
+  width: 160px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--panel-text);
+  cursor: pointer;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.header-info-btn:hover {
   border-color: var(--border);
+  background: var(--panel-bg);
   color: var(--panel-text);
 }
 
-.tab-page-info-btn:hover,
-.tab-page-info-btn:focus,
-.tab-page-info-btn:active {
-  color: var(--panel-text);
-  background-color: #f3f4f6;
-  border-color: #cbd5e1;
+@media (max-width: 900px) {
+  .app-header-row,
+  .scenario-selector-bar,
+  .scenario-selector-controls {
+    align-items: stretch;
+  }
+
+  .scenario-selector-bar,
+  .scenario-selector-controls {
+    justify-content: flex-start;
+  }
+
+  .scenario-selector-controls {
+    margin-left: 0;
+  }
 }
 
 
 /* =========================================================
-   7. Compare toggle pill
+   4. Filter Controls
    ========================================================= */
 
-/* Hide the native switch while keeping it functional */
-#compare_on.form-check-input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
+.chart-control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  margin-right: -8px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--panel-bg);
+  color: var(--panel-text);
 }
 
-/* Container for the compare toggle */
-.form-group.shiny-input-container:has(#compare_on) {
-  flex: 0 0 auto;      /* don't grow, width based on content */
-  width: auto;         /* override any width: 100% from Shiny/bslib */
-  display: inline-flex;
-  margin-bottom: 0;
-  margin-top: 16px;    /* nudge down slightly relative to the selects */
-  margin-left: 4px;
-  margin-right: 4px;
-}
-
-/* Remove the old switch-style padding & margin */
-.form-check.bslib-input-switch.form-switch:has(#compare_on) {
-  width: auto;
-  padding-left: 0;
+.chart-control-panel .individual-filter .form-group {
+  display: inline;
+  width: 100%;
   margin-bottom: 0;
 }
 
-/* Label styled as a pill / input-like box */
-#compare_on + label.form-check-label {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.35rem 0.9rem;
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  background-color: #fff;
-  color: var(--bs-primary);
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 450;
+.chart-control-panel .individual-filter label {
+  flex: 0 0 90px;
   margin: 0;
-  min-height: 37px;                  /* similar to selectize height */
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03);
+  color: var(--bs-primary-muted);
+  font-size: 13px;
+  font-weight: 550;
 }
 
-/* Optional: tweak inner text, if you want */
-#compare_on + label.form-check-label span {
-  line-height: 1.2;
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/* Hover state */
-#compare_on:hover + label.form-check-label {
-  background-color: var(--panel-bg);
+.filter-header h4 {
+  margin: 0;
 }
 
-/* Active / checked state */
-#compare_on:checked + label.form-check-label {
-  background-color: var(--bs-primary);
-  border-color: var(--bs-primary);
-  color: white;
+.clear-filters {
+  --bs-btn-bg: transparent;
+  --bs-btn-color: var(--bs-primary-muted);
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-bg: var(--bs-secondary-muted);
+  --bs-btn-hover-color: var(--bs-primary);
+  --bs-btn-hover-border-color: var(--bs-secondary-muted);
+  --bs-btn-active-bg: var(--bs-secondary-muted);
+  --bs-btn-active-color: var(--bs-primary);
+  --bs-btn-active-border-color: var(--bs-secondary-muted);
+
+  border: none;
+  background: none;
+  color: var(--bs-primary-muted);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 550;
 }
 
-/* Focus outline for keyboard users */
-#compare_on:focus-visible + label.form-check-label {
-  outline: 2px solid var(--bs-primary);
-  outline-offset: 2px;
+.clear-filters:is(:hover, :focus, :focus-visible, :active, .active) {
+  border-color: var(--bs-secondary-muted);
+  border-radius: var(--radius);
+  background: var(--bs-secondary-muted);
+  color: var(--bs-primary);
+  font-weight: 650;
+  background-image: none;
+  box-shadow: none;
 }
 
 
 /* =========================================================
-   8. Modals & info buttons
+   5. Chart Space
+   ========================================================= */
+
+.panel-viewport,
+.panel-viewport > div,
+.chart-section,
+.chart-section .chart-single {
+  display: block;
+  min-height: 0;
+}
+
+.chart-section .bslib-grid-item,
+.chart-section .html-fill-container,
+.chart-section .html-fill-item,
+.chart-with-title,
+.chart-body-card,
+.chart-container {
+  min-width: 0;
+}
+
+.chart-section .grid {
+  margin-bottom: 16px;
+}
+
+.chart-with-title {
+  display: block;
+  min-height: var(--chart-panel-h);
+  height: auto;
+  overflow: visible;
+  text-align: left;
+}
+
+.chart-header-card,
+.chart-body-card {
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--panel-bg);
+}
+
+.chart-header-card {
+  margin-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.chart-body-card {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.chart-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.chart-section .chart-header h3.chart-title {
+  margin-left: 0;
+  margin-right: auto;
+  text-align: left;
+  font-size: 24px;
+}
+
+.chart-header .shiny-input-container {
+  margin: 8px 0;
+}
+
+.chart-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.chart-header-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.chart-header-group,
+.chart-toggle-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.chart-header-group {
+  min-width: 255px;
+}
+
+.chart-header-group .shiny-input-container,
+.chart-header-group .selectize-control,
+.chart-header-group .selectize-control.single,
+.chart-header-group .selectize-input {
+  width: 100% !important;
+}
+
+.chart-toggle-header {
+  margin-top: 0;
+  margin-left: 12px;
+}
+
+.chart-header-group .filter-section-title,
+.chart-toggle-header .filter-section-title {
+  margin-top: 0;
+  margin-bottom: -4px;
+}
+
+.chart-toggle-header .filter-section-title {
+  margin-top: -8px;
+  margin-bottom: 4px;
+}
+
+.chart-header-group .control-label.shiny-label-null,
+.chart-toggle-bar .control-label.shiny-label-null {
+  display: none;
+}
+
+.chart-header-group .form-select {
+  box-sizing: border-box;
+  height: var(--header-control-h);
+  padding-top: 0;
+  padding-bottom: 0;
+  border-color: var(--border);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.chart-header-group .form-select:focus {
+  border-color: var(--border);
+  box-shadow: none;
+  outline: none;
+}
+
+.chart-toggle-bar .shiny-input-radiogroup {
+  margin: 0;
+}
+
+.chart-toggle-bar .shiny-options-group {
+  display: inline-flex;
+  gap: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  height: var(--header-control-h) !important;
+  margin-top: 0 !important;
+  margin-left: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-size: 14px;
+}
+
+.chart-toggle-bar .radio-inline {
+  display: inline-flex;
+  align-items: stretch;
+  height: 100%;
+  margin: 0;
+  margin-right: 0 !important;
+  padding: 0 !important;
+}
+
+.chart-toggle-bar .radio-inline > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 0 10px;
+  background: var(--bg);
+  color: var(--panel-text);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.chart-toggle-bar .radio-inline > span > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: auto;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.chart-toggle-bar .radio-inline + .radio-inline > span {
+  border-left: 1px solid var(--border);
+}
+
+.chart-toggle-bar .radio-inline i {
+  font-size: 0.95em;
+}
+
+.chart-toggle-bar input[type="radio"] {
+  position: absolute;
+  left: 0;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chart-toggle-bar .radio-inline:hover > span {
+  border: 1px solid var(--bs-primary-muted);
+  background: var(--bs-secondary-muted);
+  color: var(--bs-primary);
+  font-weight: 450;
+}
+
+.chart-toggle-bar .radio-inline input[type="radio"]:checked + span {
+  border: 1px solid var(--bs-primary);
+  background: var(--bs-primary);
+  color: var(--bg);
+  font-weight: 550;
+}
+
+.chart-toggle-bar .radio-inline input[type="radio"]:focus-visible + span {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: -2px;
+}
+
+.chart-header-row .chart-download-group {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.chart-download-btn {
+  margin-top: 12px;
+}
+
+.chart-download-btn > i.fa-download {
+  margin-right: 6px;
+}
+
+.chart-download-group .dropdown-menu {
+  min-width: 0;
+  width: max-content;
+  padding: 5px 0;
+}
+
+.chart-download-group .dropdown-item {
+  color: var(--panel-text);
+  font-size: 14px;
+}
+
+.chart-download-group .dropdown-item:hover {
+  background: var(--bs-secondary-muted);
+  color: var(--bs-primary);
+  font-weight: 450;
+}
+
+.chart-container,
+.chart-container .shiny-ipywidget-output,
+.chart-container .lm-Widget,
+.chart-container .vega-embed,
+.chart-container .chart-wrapper {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+.chart-container .js-plotly-plot,
+.chart-container .plot-container,
+.chart-container .svg-container {
+  width: 100% !important;
+  max-width: 100%;
+}
+
+.chart-container canvas.marks {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.custom-plotly-hover-ready .js-plotly-plot.custom-plotly-hover-bound .hoverlayer {
+  display: none;
+}
+
+.js-plotly-plot .modebar,
+.js-plotly-plot .modebar-group,
+.js-plotly-plot .modebar-btn,
+.js-plotly-plot .modebar-btn:hover {
+  background: transparent !important;
+}
+
+.js-plotly-plot .modebar-btn:not([data-title="Download plot as a PNG"]):not([data-title="Reset axes"]) {
+  display: none !important;
+  width: 0 !important;
+}
+
+.js-plotly-plot .modebar-btn {
+  color: #6b7280 !important;
+}
+
+.js-plotly-plot .modebar-btn svg,
+.js-plotly-plot .modebar-btn svg path {
+  fill: #6b7280 !important;
+}
+
+.chart-container .js-plotly-plot .plotly .cursor-crosshair,
+.chart-container .js-plotly-plot .plotly .nsewdrag {
+  cursor: default !important;
+}
+
+.custom-plotly-hover {
+  position: fixed;
+  z-index: 2000;
+  min-width: 190px;
+  max-width: 280px;
+  pointer-events: none;
+}
+
+.chart-hover-card {
+  padding: 10px 0;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
+  color: var(--panel-text);
+}
+
+.chart-hover-row {
+  display: grid;
+  grid-template-columns: minmax(68px, auto) 1fr;
+  align-items: start;
+  gap: 10px;
+  line-height: 1.35;
+}
+
+.chart-hover-row + .chart-hover-row,
+.chart-hover-status {
+  margin-top: 4px;
+}
+
+.chart-hover-label {
+  padding-left: 8px;
+  color: var(--bs-primary-muted);
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: 0.02em;
+}
+
+.chart-hover-value {
+  padding-right: 8px;
+  color: var(--panel-text);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.chart-hover-status {
+  padding: 4px 8px 0;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  color: var(--bs-primary-muted);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   6. Modals
    ========================================================= */
 
 .modal-dialog {
@@ -767,95 +945,102 @@ body > .container-fluid {
   margin-top: 5vh !important;
 }
 
-.modal-body p {
-  margin-bottom: 0.75rem;
-}
-
-/* Inline info button (e.g. "i" icon) */
-.info-btn {
-  padding: 0 0.35rem;
-  border: none;
-  border-radius: 50%;
-  font-weight: 700;
-  line-height: 1;
-  margin-left: 0.35rem;
-  background: transparent;
-  color: #a7a7a7;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: color 0.15s ease;
-}
-
-.info-btn:hover {
-  color: #2d8db9;
-  background: transparent;
-}
-
-.nav-tabs .nav-link {
-  color: var(--bs-primary);
-  font-weight: 450;
-  border-bottom: 1px solid var(--border);
-}
-
-.nav-tabs .nav-link.active {
-  border-top: 1px solid var(--border);
-  border-left: 1px solid var(--border);
-  border-right: 1px solid var(--border);
-}
-
-.nav-tabs .nav-link .info-btn {
-  font-size: 1rem;
-  vertical-align: middle;
-  color: #aaa;
-}
-
-
-/* =========================================================
-   9. Header info buttons (page-level)
-   ========================================================= */
-
-.header-info-btn {
-  background: #fff;
-  width: 160px;
+.modal-content {
   border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 4px 8px;
-  cursor: pointer;
-  box-sizing: border-box;
-  line-height: 1.6;
-  font-weight: 400;
+  border-radius: var(--radius);
+  background-color: var(--bg);
+  color: var(--panel-text);
 }
 
-.header-info-btn:hover {
-  background: var(--panel-bg);
-  border-color: var(--border);
-  color: #000;
+.modal-body p {
+  margin-bottom: 8px;
+  font-size: 15px;
 }
 
 
 /* =========================================================
-   10. Shiny selectize inputs
+   7. Shiny Selectize Inputs
    ========================================================= */
 
-.shiny-input-select {
+.shiny-input-select,
+.shiny-input-select .selectize-input,
+.shiny-input-select .selectize-dropdown,
+.selectize-dropdown-content {
   border-color: var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
 }
 
-.shiny-input-select .selectize-input {
-  border-color: var(--border);
-  border-radius: 4px;
+.shiny-input-select .selectize-input.focus,
+.shiny-input-select .selectize-input:focus,
+.shiny-input-select.selectize-control.single .selectize-input.has-items.input-active {
+  border-color: var(--bs-secondary);
+  box-shadow: none;
+  outline: none;
 }
 
+.shiny-input-select.selectize-control.single .selectize-input.has-items,
+.shiny-input-select.selectize-control.single .selectize-input.has-items.input-active {
+  border-color: var(--border);
+  background: var(--bg);
+  color: var(--panel-text);
+}
 
+.shiny-input-select.selectize-control.single .selectize-input.has-items > .item {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--panel-text);
+}
 
-/* =========================================================
-   11. App 
-   ========================================================= */
+.shiny-input-select.selectize-control.single .selectize-input.has-items > input {
+  color: var(--panel-text);
+}
 
+.shiny-input-select .selectize-dropdown {
+  margin-top: 2px;
+}
 
-#app-parent {
-  width: 100%;
-  min-height: 866px;
-  height: auto;
+.shiny-input-select .selectize-dropdown .option.active {
+  background: var(--bs-secondary-muted);
+  color: var(--panel-text);
+  font-weight: 450;
+}
+
+.shiny-input-select .selectize-dropdown .option.selected,
+.shiny-input-select .selectize-dropdown .option.selected.active {
+  background: var(--bs-secondary);
+  color: var(--bs-primary);
+  font-weight: 550;
+}
+
+.shiny-input-select.selectize-control.multi .selectize-input > .item,
+.shiny-input-select.selectize-control.multi .selectize-input > div[data-value] {
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: var(--bs-secondary);
+  color: var(--bs-primary);
+  font-weight: 550;
+}
+
+.shiny-input-select.selectize-control.multi .selectize-input > .item.active,
+.shiny-input-select.selectize-control.multi .selectize-input > div[data-value].active {
+  border-color: var(--bs-primary-muted);
+  background: var(--bs-secondary-muted);
+}
+
+.shiny-input-select.selectize-control.multi .selectize-input > .item .remove,
+.shiny-input-select.selectize-control.multi .selectize-input > div[data-value] .remove {
+  border-left: 1px solid var(--bs-primary);
+  color: var(--bs-primary);
+}
+
+.shiny-input-select.selectize-control.multi .selectize-input > .item .remove:hover,
+.shiny-input-select.selectize-control.multi .selectize-input > div[data-value] .remove:hover {
+  border-left-color: var(--bs-secondary-muted);
+  background-color: var(--bs-secondary-muted);
+}
+
+.selectize-dropdown-content {
+  padding-top: 0;
 }

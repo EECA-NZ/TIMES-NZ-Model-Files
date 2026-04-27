@@ -1,8 +1,34 @@
+// Replace Plotly's native hover UI with a custom tooltip card.
 (function () {
+  const DEBUG = false;
   const READY_CLASS = "custom-plotly-hover-ready";
+  const BOUND_CLASS = "custom-plotly-hover-bound";
   const TOOLTIP_ID = "custom-plotly-hover";
   const plotStates = new WeakMap();
   let scanScheduled = false;
+  let bootstrapIntervalId = null;
+  let warmupTimerIds = [];
+
+  function debug(...args) {
+    if (DEBUG) {
+      console.log("[custom-plotly-hover]", ...args);
+    }
+  }
+
+  function getPlotDebugId(plot) {
+    if (!plot) {
+      return "unknown-plot";
+    }
+
+    const widget = plot.closest(".shiny-ipywidget-output");
+    return (
+      plot.id ||
+      widget?.id ||
+      widget?.getAttribute("data-output-id") ||
+      plot.getAttribute("data-testid") ||
+      `plot-${document.querySelectorAll(".js-plotly-plot").length}`
+    );
+  }
 
   function ensureTooltip() {
     let tooltip = document.getElementById(TOOLTIP_ID);
@@ -12,6 +38,9 @@
       tooltip.className = "custom-plotly-hover";
       document.body.appendChild(tooltip);
     }
+    tooltip.hidden = true;
+    tooltip.style.display = "none";
+    tooltip.style.visibility = "hidden";
     return tooltip;
   }
 
@@ -23,8 +52,8 @@
     let state = plotStates.get(plot);
     if (!state) {
       state = {
+        bindAttempts: 0,
         domBound: false,
-        resizeObserver: null,
         plotlyHandlersBound: false,
         onMouseMove: null,
         onMouseLeave: null,
@@ -32,7 +61,6 @@
         onPlotlyUnhover: null,
         onPlotlyRelayout: null,
         onPlotlyDoubleClick: null,
-        onPlotlyAfterPlot: null,
       };
       plotStates.set(plot, state);
     }
@@ -77,7 +105,7 @@
   }
 
   function positionTooltip(event) {
-    if (!event || tooltip.hidden) {
+    if (!event || !tooltip || tooltip.style.display === "none") {
       return;
     }
     const offset = 18;
@@ -94,51 +122,39 @@
       return;
     }
     tooltip.hidden = true;
+    tooltip.style.display = "none";
+    tooltip.style.visibility = "hidden";
     tooltip.innerHTML = "";
     activePlot = null;
   }
 
-  function getPlotContainer(plot) {
-    return plot.closest(".shiny-ipywidget-output") || plot.parentElement || plot;
-  }
-
-  function resizePlot(plot) {
-    if (!plot || !plot.isConnected || !window.Plotly?.Plots?.resize) {
+  function showTooltip(plot, html, event) {
+    if (!tooltip) {
       return;
     }
 
-    window.requestAnimationFrame(() => {
-      if (!plot.isConnected) {
-        return;
-      }
+    activePlot = plot;
+    tooltip.innerHTML = html;
+    tooltip.hidden = false;
+    tooltip.style.display = "block";
+    tooltip.style.visibility = "visible";
 
-      const container = getPlotContainer(plot);
-      const width = Math.floor(container.clientWidth || 0);
-
-      if (width > 0 && window.Plotly.relayout) {
-        window.Plotly.relayout(plot, { width });
-        return;
-      }
-
-      window.Plotly.Plots.resize(plot);
-    });
-  }
-
-  function bindResize(plot, state) {
-    if (!plot || state.resizeObserver) {
+    if (event?.clientX != null && event?.clientY != null) {
+      positionTooltip(event);
       return;
     }
 
-    const observer = new ResizeObserver(() => {
-      resizePlot(plot);
+    const rect = plot.getBoundingClientRect();
+    positionTooltip({
+      clientX: rect.left + Math.min(rect.width * 0.5, 80),
+      clientY: rect.top + Math.min(rect.height * 0.25, 80),
     });
+  }
 
-    const container = getPlotContainer(plot);
-    observer.observe(container);
-    if (container.parentElement) {
-      observer.observe(container.parentElement);
-    }
-    state.resizeObserver = observer;
+  function hideNativeHoverLayer(plot) {
+    plot.querySelectorAll(".hoverlayer").forEach((layer) => {
+      layer.style.setProperty("display", "none", "important");
+    });
   }
 
   function unbindPlotlyHandlers(plot, state) {
@@ -150,7 +166,7 @@
     plot.removeListener("plotly_unhover", state.onPlotlyUnhover);
     plot.removeListener("plotly_relayout", state.onPlotlyRelayout);
     plot.removeListener("plotly_doubleclick", state.onPlotlyDoubleClick);
-    plot.removeListener("plotly_afterplot", state.onPlotlyAfterPlot);
+    plot.classList.remove(BOUND_CLASS);
     state.plotlyHandlersBound = false;
   }
 
@@ -178,37 +194,56 @@
   }
 
   function bindPlotlyHandlers(plot, state) {
-    if (typeof plot.on !== "function") {
+    if (state.plotlyHandlersBound) {
+      hideNativeHoverLayer(plot);
       return;
     }
 
-    unbindPlotlyHandlers(plot, state);
+    if (typeof plot.on !== "function") {
+      if (state.bindAttempts < 30) {
+        state.bindAttempts += 1;
+        debug("plot.on not ready yet", getPlotDebugId(plot), {
+          bindAttempts: state.bindAttempts,
+        });
+        scheduleScan();
+      } else if (state.bindAttempts === 30) {
+        debug("giving up waiting for plot.on", getPlotDebugId(plot));
+      }
+      return;
+    }
+
+    debug("binding plotly hover handlers", getPlotDebugId(plot));
+    state.bindAttempts = 0;
+    hideNativeHoverLayer(plot);
 
     state.onPlotlyHover = (eventData) => {
       const point = eventData && eventData.points && eventData.points[0];
       const html = getTooltipHtml(point);
       if (!html) {
+        debug("hover event received but no tooltip html", getPlotDebugId(plot), {
+          hasPoint: Boolean(point),
+          customdataType: typeof point?.customdata,
+          fullCustomdataType: typeof point?.fullData?.customdata,
+        });
         hideTooltip();
         return;
       }
-      activePlot = plot;
-      tooltip.innerHTML = html;
-      tooltip.hidden = false;
-      positionTooltip(latestPointer || eventData.event);
+      hideNativeHoverLayer(plot);
+      debug("hover event received with tooltip html", getPlotDebugId(plot), {
+        htmlLength: html.length,
+      });
+      showTooltip(plot, html, latestPointer || eventData.event);
     };
 
     state.onPlotlyUnhover = hideTooltip;
     state.onPlotlyRelayout = hideTooltip;
     state.onPlotlyDoubleClick = hideTooltip;
-    state.onPlotlyAfterPlot = () => {
-      resizePlot(plot);
-    };
 
     plot.on("plotly_hover", state.onPlotlyHover);
     plot.on("plotly_unhover", state.onPlotlyUnhover);
     plot.on("plotly_relayout", state.onPlotlyRelayout);
     plot.on("plotly_doubleclick", state.onPlotlyDoubleClick);
-    plot.on("plotly_afterplot", state.onPlotlyAfterPlot);
+    plot.classList.add(BOUND_CLASS);
     state.plotlyHandlersBound = true;
   }
 
@@ -217,15 +252,20 @@
       return;
     }
     const state = getPlotState(plot);
-    bindResize(plot, state);
+    debug("binding plot candidate", getPlotDebugId(plot), {
+      domBound: state.domBound,
+      plotlyHandlersBound: state.plotlyHandlersBound,
+      hasPlotOn: typeof plot.on === "function",
+    });
     bindDomHandlers(plot, state);
     bindPlotlyHandlers(plot, state);
-    resizePlot(plot);
   }
 
   function refreshPlots() {
     hideTooltip();
-    document.querySelectorAll(".js-plotly-plot").forEach(bindPlot);
+    const plots = document.querySelectorAll(".js-plotly-plot");
+    debug("refreshing plots", { count: plots.length });
+    plots.forEach(bindPlot);
   }
 
   function scan() {
@@ -241,33 +281,113 @@
     window.requestAnimationFrame(scan);
   }
 
+  function stopBootstrapPolling() {
+    if (bootstrapIntervalId !== null) {
+      window.clearInterval(bootstrapIntervalId);
+      bootstrapIntervalId = null;
+    }
+  }
+
+  function startBootstrapPolling(reason) {
+    stopBootstrapPolling();
+
+    const startedAt = Date.now();
+    const maxDurationMs = 10000;
+    const intervalMs = 250;
+
+    const tick = () => {
+      const plots = Array.from(document.querySelectorAll(".js-plotly-plot"));
+      const allBound =
+        plots.length > 0 &&
+        plots.every((plot) => getPlotState(plot).plotlyHandlersBound);
+
+      debug("bootstrap poll", {
+        reason,
+        plotCount: plots.length,
+        allBound,
+      });
+      scheduleScan();
+
+      if (allBound || Date.now() - startedAt >= maxDurationMs) {
+        debug("stopping bootstrap poll", {
+          reason,
+          plotCount: plots.length,
+          allBound,
+        });
+        stopBootstrapPolling();
+      }
+    };
+
+    tick();
+    bootstrapIntervalId = window.setInterval(tick, intervalMs);
+  }
+
+  function restartWarmupScans(reason) {
+    warmupTimerIds.forEach((id) => window.clearTimeout(id));
+    warmupTimerIds = [];
+
+    [0, 120, 350, 800].forEach((delay) => {
+      const timerId = window.setTimeout(() => {
+        debug("warmup rescan", { reason, delay });
+        scheduleScan();
+      }, delay);
+      warmupTimerIds.push(timerId);
+    });
+  }
+
+  function nodeContainsPlot(node) {
+    if (!node || node.nodeType !== Node.ELEMENT_NODE) {
+      return false;
+    }
+    return (
+      node.matches?.(".js-plotly-plot") ||
+      Boolean(node.querySelector?.(".js-plotly-plot"))
+    );
+  }
+
+  function mutationsAffectPlots(mutations) {
+    return mutations.some((mutation) => {
+      if (
+        mutation.type === "attributes" &&
+        mutation.target instanceof Element &&
+        nodeContainsPlot(mutation.target)
+      ) {
+        return true;
+      }
+
+      return [...mutation.addedNodes, ...mutation.removedNodes].some(nodeContainsPlot);
+    });
+  }
+
   function init() {
+    debug("initializing custom hover script");
     tooltip = ensureTooltip();
     document.body.classList.add(READY_CLASS);
     tooltip.hidden = true;
-    scheduleScan();
-
-    window.addEventListener("resize", () => {
-      scheduleScan();
-    });
+    restartWarmupScans("init");
+    startBootstrapPolling("init");
 
     window.addEventListener("blur", hideTooltip);
-    window.addEventListener("focus", () => {
-      scheduleScan();
-    });
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         hideTooltip();
         return;
       }
-      scheduleScan();
+      restartWarmupScans("visibilitychange");
+      startBootstrapPolling("visibilitychange");
     });
 
-    const observer = new MutationObserver(() => {
-      scheduleScan();
+    const observer = new MutationObserver((mutations) => {
+      if (mutationsAffectPlots(mutations)) {
+        debug("mutation affecting plot detected", { mutationCount: mutations.length });
+        restartWarmupScans("mutation");
+        startBootstrapPolling("mutation");
+      }
     });
 
     observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class"],
       childList: true,
       subtree: true,
     });
