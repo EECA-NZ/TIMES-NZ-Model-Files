@@ -7,7 +7,7 @@ from html import escape
 
 import pandas as pd
 import plotly.graph_objects as go
-from plotly.colors import qualitative
+from plotly.colors import qualitative, sample_colorscale
 from times_nz_internal_qa.app.helpers.timeslices import (
     TIMESLICE_ORDER,
     add_timeslice_chart_columns,
@@ -65,15 +65,25 @@ TIMESLICE_LAYOUT_OPTIONS = LayoutOptions(
 )
 TIMESLICE_OUTPUT_HEIGHT = "680px"
 CHART_FONT_FAMILY = "Roboto"
-CHART_FONT_WEIGHT = 400
+CHART_FONT_WEIGHT = 425
 CHART_VALUE_FONT_SIZE = 14
 CHART_HEADER_FONT_SIZE = 15
-BRAND_COLOURS = [
-    #"#05422D", "#0A3C61", "#5A1A5E"  # Moss Green, Sea Blue, Sunset Purple
-    #"#376856", "#3C6280", "#7B467E"  # 600 (lighter)
-    #"#2ADEA9", "#74DCDB", "#D2B7FE"  # Fresh Teal, Sky Blue, Dusky Lilac
-    #"#57E5BA", "#91E2E2", "#D7C2F5"  # 300 (lighter)
-]
+
+BRAND_COLOURS = {
+    "Moss Green": "#05422D",  # main brand colours
+    "Sea Blue": "#0A3C61",
+    "Sunset Purple": "#5A1A5E",
+    "Fresh Teal": "#2ADEA9",
+    "Sky Blue": "#74DCDB",
+    "Dusky Lilac": "#D2B7FE",
+    "Moss Green 600": "#376856",  # lighter variants
+    "Sea Blue 600": "#3C6280",
+    "Sunset Purple 600": "#7B467E",
+    "Fresh Teal 300": "#57E5BA",
+    "Sky Blue 300": "#91E2E2",
+    "Dusky Lilac 300": "#D7C2F5",
+}
+BRAND_DISCRETE_SEQUENCE = []
 
 
 def _chart_font(size: int) -> dict[str, str | int]:
@@ -207,12 +217,9 @@ def _apply_period_axis(fig: go.Figure, period_range) -> None:
         ticktext=period_order,
     )
 
-
-
-
-def _build_color_map(groups: list[str]) -> dict[str, str]: 
-    palette = BRAND_COLOURS if len(BRAND_COLOURS) > 0 else\
-        qualitative.Plotly + qualitative.Safe + qualitative.Dark24
+def _build_color_map(groups: list[str]) -> dict[str, str]:
+    palette = BRAND_DISCRETE_SEQUENCE if len(BRAND_DISCRETE_SEQUENCE) > 0 else\
+        qualitative.Prism + qualitative.Vivid + qualitative.Safe
     return {group: palette[i % len(palette)] for i, group in enumerate(groups)}
 
 
@@ -316,6 +323,7 @@ def _build_bar_trace(
         x=x_values,
         y=plot_df["Value"],
         customdata=plot_df["TooltipHtml"],
+        hoverinfo="none",
         name=context.group,
         legendgroup=context.group,
         showlegend=style.showlegend,
@@ -360,6 +368,7 @@ def _build_scatter_trace(
         "x": trace_df["PeriodLabel"],
         "y": trace_df["Value"],
         "customdata": tooltip_rows,
+        "hoverinfo": "none",
         "mode": style.mode,
         "name": context.group,
         "legendgroup": context.group,
@@ -392,6 +401,7 @@ def _add_line_series(
             x=series_df["PeriodLabel"],
             y=series_df["Value"],
             mode="lines+markers",
+            hoverinfo="none",
             name=context.group,
             legendgroup=context.group,
             showlegend=style.showlegend,

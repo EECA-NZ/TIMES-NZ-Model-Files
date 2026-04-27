@@ -74,6 +74,10 @@ app_ui = ui.page_fluid(
             type="text/javascript",
         ),
         ui.tags.script(
+            src="js/plotly-chart-resize.js",
+            type="text/javascript",
+        ),
+        ui.tags.script(
             src="js/custom-plotly-hover.js",
             type="text/javascript",
         ),
@@ -82,29 +86,40 @@ app_ui = ui.page_fluid(
     ),
     # HEADER PANEL
     ui.div(
-        # top line
-        # ui.div(
-        #    ui.h1("TIMES-NZ 3.0 Explorer: Internal QA"),
-        #    ui.h1("NOT FOR RELEASE - WIP", style="color:red; font-weight:bold;"),
-        #    style="display:flex; align-items:center; justify-content:space-between;",
-        # ),
-        # bottom line
         ui.div(
-            # left section (scenario controls)
             ui.div(
-                ui.output_ui("select_scenario_a_ui"),
-                ui.input_switch("compare_on", "Compare with..."),
-                ui.output_ui("select_scenario_b_ui"),
-                style="display:flex; align-items:center; gap:10px;",
+                ui.tags.img(
+                    src="assets/only_EECA_black.png",
+                    alt="EECA logo",
+                    class_="app-title-logo",
+                ),
+                ui.tags.h2("TIMES-NZ Explorer", class_="app-explorer-title"),
+                class_="app-title-block",
             ),
-            style=(
-                "display:flex;"
-                "align-items:center;"
-                "justify-content:space-between;"
-                "margin-top:8px;"
+            ui.div(
+                ui.div(
+                    ui.output_ui("select_scenario_a_ui"),
+                    ui.div(
+                        ui.tags.h4(
+                            "Comparison scenario (optional):",
+                            class_="filter-section-title",
+                        ),
+                        ui.input_selectize(
+                            "scenario_b",
+                            label=None,
+                            choices={"__none__": "None"},
+                            selected="__none__",
+                            options={"plugins": ["auto_position"]},
+                        ),
+                        class_="scenario-selector-field",
+                    ),
+                    class_="scenario-selector-controls",
+                ),
+                class_="scenario-selector-bar",
             ),
+            class_="app-header-row",
         ),
-        # style="padding:10px 20px; border-bottom:1px solid #ccc;",
+        class_="app-header-panel",
     ),
     # EXPLORER NAVSET PAGES
     ui.div(
@@ -114,7 +129,7 @@ app_ui = ui.page_fluid(
             ui.nav_panel("Electricity generation", elec_ui),
             ui.nav_panel("Emissions", emissions_ui),
             ui.nav_panel("Energy service demand", esd_ui),
-            ui.nav_panel("For developers", developers_ui),
+            #ui.nav_panel("Infeasibilities", dummy_ui),
         ),
         class_="navset-large",
     ),
