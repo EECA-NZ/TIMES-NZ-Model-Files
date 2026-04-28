@@ -10,6 +10,10 @@
 - Updated GIC demand data to reflect historical Methanex use more accurately. 
 - Removed endogenous Methanex closure method, instead assuming closure when Maui closes end 2026. 
 
+**Model fixes**
+
+- Corrected a bug in NDGHG implementation that allowed coal to still be used for cooking post-2037
+
 ## 3.0.5
 
 **Assumption changes**
