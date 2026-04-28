@@ -53,6 +53,14 @@ LIFE_ROW_YEAR = 2022  # <-- rows we keep from sheet
 CAP2ACT = 0.08  # Max annual travel distance (000 km)
 ACT_BND_0 = -1  # Interpolation rule for ACT_BND
 
+AFA_2024_MATCH_BASE_KEYS = {
+    ("LCV", "Petrol", "ICE"),
+    ("LCV", "Diesel", "ICE"),
+    ("LPV", "Petrol", "ICE Hybrid"),
+    ("LPV", "Diesel", "ICE"),
+    ("LPV", "Petrol", "ICE"),
+}
+
 
 # ════════════════════════════════════════════════════════════════
 # Data-reader helpers
@@ -581,6 +589,12 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
     df["vehicle_count"] = df["vehicle_count"] / 3
     df["annual_utilisation_rate"] = df["vktvalue"] / df["vehicle_count"] / df["Cap2Act"]
     df["annual_utilisation_rate_2024"] = df["annual_utilisation_rate_2024"]
+    match_base_afa = pd.MultiIndex.from_frame(
+        df[["vehicletype", "fueltype", "technology"]]
+    ).isin(AFA_2024_MATCH_BASE_KEYS)
+    df.loc[match_base_afa, "annual_utilisation_rate_2024"] = df.loc[
+        match_base_afa, "annual_utilisation_rate"
+    ]
     df["cost_2023_nzd"] = df["cost_2023_nzd"] / 1000  # converting to 000NZD/vehicle
     df["operation_cost_2023_nzd"] = (
         df["operation_cost_2023_nzd"] / 1000

@@ -9,6 +9,7 @@ Residential gas water heating,2%,,RES\*NGA\*WH_LOW
 Dairy low-heat heatpumps for process heat,1%,50MW,DARY-ELC-HPPH-PH_LOW
 Industrial space heating heat pumps,1%,5MW,\*HPSH-SH_LOW
 Light passenger battery vehicles,50%,,T_\*_CBEVELC_\*
+Light passenger petrol hybrid vehicles,1%,,T_P_CHYBPET_\*
 Commercial LED lighting (except datacentres),4%,,"C_\*LT-LED-ELC, -C_DATA-LT-LED-ELC"
 Commercial fluorescent lighting,1%,,C_\*LT-FLU-ELC
 Commercial electric cooktops,4%,,C_\*CK-CK-ELC
