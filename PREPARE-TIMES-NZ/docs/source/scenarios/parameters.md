@@ -28,7 +28,7 @@ Construction,1.9%,Same as Steady
 Dairy,2.8%  ,-2.8%  
 Iron/steel,EAF operational in 2026,Second EAF operational in 2036 
 Meat,0.7%,-0.7%  
-Methanol,Methanex exits in line with available gas supply,Same as Steady
+Methanol,"Exogenous Methanex demand path based on annual GIC demand: 2024 and 2025 observed demand, 2026 held at the 2025 level, and 0 from 2027 onward",Same as Steady
 Non-Metallic Mineral Product Manufacturing,-4.6%,Same as Steady
 Mining,1.2%,0%
 Other,-0.1%,Same as Steady
@@ -56,12 +56,14 @@ Industrial sector demand curve projections
 
 It is important to note that these projections reflect energy demand projections assuming technologies and fuels remain the same as they were in our model’s base year (2023). They are therefore illustrative only. In the actual model results, efficiency improvements or fuel switching mean that the final energy demand for these sectors will shift over time. 
 
-We do not set exogenous projections for Methanol or Urea demand. Rather, we explicitly allow the model to reduce demand in these sectors to reflect potential deindustrialisation. The marginal price for these is set at 15 NZD/GJ for Methanol, and 18 NZD/GJ for Urea production, reflecting the potential value of lost load[^gas_voll]. These figures are initial estimates only and are subject to feedback and revision.
+We set exogenous projections for Methanol demand based on recent annual Gas Industry Company (GIC) data for Methanex. The pathway uses observed annual demand in 2024 and 2025, carries the 2025 level into 2026, and then sets demand to zero from 2027 onward. Further detail is provided in the industrial demand projections methodology.
+
+The model may reduce Urea demand endogenously to reflect potential deindustrialisation. The marginal price for this is set at 18 NZD/GJ, reflecting the potential value of lost load[^gas_voll]. This figure is an initial estimate only and is subject to feedback and revision. If the internal marginal price of natural gas exceeds this figure, Urea production will reduce. 
 
 We further assume increased energy service demand for data centres and professional services in the Shift scenario, as described in Table 2 on the following page.
 
 
-[^gas_voll]: These are the assumed wholesale prices at which these businesses may exit the market if alternative feedstocks cannot be sourced. TIMES-NZ makes no effort to estimate the cost pressures faced by individual businesses, so they are necessarily rough estimates. 
+[^gas_voll]: This is the assumed price at which this business may exit the market if alternative feedstocks cannot be sourced. TIMES shadow prices reflect either the cost of production or, if demand exceeds supply, the marginal cost of reducing gas demand elsewhere. TIMES-NZ makes no effort to estimate the cost pressures faced by individual businesses, so this value is necessarily a rough estimate. 
 
 
 We further assume increased energy service demand for data centres in the Shift scenario, as described in {numref}`tab_scen_parms_datacentre_demand`.
