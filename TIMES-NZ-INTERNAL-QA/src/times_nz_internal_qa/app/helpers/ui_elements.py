@@ -4,7 +4,10 @@ Ui builders to share between modules
 
 from shiny import ui
 from shinywidgets import output_widget
-from times_nz_internal_qa.app.helpers.charts import TIMESLICE_OUTPUT_HEIGHT
+from times_nz_internal_qa.app.helpers.charts import (
+    DEFAULT_LAYOUT_OPTIONS,
+    TIMESLICE_LAYOUT_OPTIONS,
+)
 from times_nz_internal_qa.app.helpers.filters import (
     filter_output_ui_list,
     identifier_to_title_case,
@@ -47,10 +50,10 @@ def chart_download_dropdown(chart_id):
 
 
 def chart_output_height(parameters):
-    """Return a fixed output height so widget wrappers don't enter fill layout."""
+    """Match the widget wrapper height to the shared Plotly layout height."""
     if parameters.get("chart_type") == "timeslice":
-        return TIMESLICE_OUTPUT_HEIGHT
-    return "560px"
+        return f"{TIMESLICE_LAYOUT_OPTIONS.height}px"
+    return f"{DEFAULT_LAYOUT_OPTIONS.height}px"
 
 
 def tab_page_info_icon(btn_id: str):
@@ -161,7 +164,6 @@ def section_block(parameters):
                 f"{chart_id}_chart",
                 width="100%",
                 height=chart_output_height(parameters),
-                fill=True,
             ),
             class_="chart-container chart-body-card",
         ),

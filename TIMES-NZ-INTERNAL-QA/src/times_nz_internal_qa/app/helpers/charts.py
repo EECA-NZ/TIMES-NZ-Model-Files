@@ -7,7 +7,7 @@ from html import escape
 
 import pandas as pd
 import plotly.graph_objects as go
-from plotly.colors import qualitative, sample_colorscale
+from plotly.colors import qualitative
 from times_nz_internal_qa.app.helpers.timeslices import (
     TIMESLICE_ORDER,
     add_timeslice_chart_columns,
@@ -19,9 +19,13 @@ class LayoutOptions:
     """Optional layout settings shared across chart types."""
 
     xaxis_title: str = "Year"
-    extra_height: int = 0
-    legend_y: float = -0.2
-    bottom_margin: int = 120
+    height: int = 560
+    bottom_margin: int = 140
+    legend_y: float = -0.18
+    legend_max_height: float = 0.12
+
+
+DEFAULT_LAYOUT_OPTIONS = LayoutOptions()
 
 
 @dataclass(frozen=True)
@@ -58,12 +62,12 @@ class ScatterTraceStyle:
 
 
 TIMESLICE_LAYOUT_OPTIONS = LayoutOptions(
-    xaxis_title="Timeslice",
-    extra_height=120,
-    legend_y=-0.5,
-    bottom_margin=180,
+    xaxis_title="",
+    height=700,
+    bottom_margin=60,
+    legend_y=-0.40,
+    legend_max_height=0.10,
 )
-TIMESLICE_OUTPUT_HEIGHT = "680px"
 CHART_FONT_FAMILY = "Roboto"
 CHART_FONT_WEIGHT = 425
 CHART_VALUE_FONT_SIZE = 14
@@ -162,8 +166,8 @@ def _apply_standard_layout(
     unit: str,
     options: LayoutOptions | None = None,
 ) -> go.Figure:
-    """Apply a simple shared layout and keep Plotly's default legend behavior."""
-    options = options or LayoutOptions()
+    """Apply the shared layout used across explorer charts."""
+    options = options or DEFAULT_LAYOUT_OPTIONS
 
     fig.update_layout(
         template="plotly_white",
@@ -172,14 +176,20 @@ def _apply_standard_layout(
         plot_bgcolor="rgba(0,0,0,0)",
         hovermode="closest",
         hoverdistance=100,
-        height=520 + options.extra_height,
-        margin={"l": 70, "r": 30, "t": 30, "b": options.bottom_margin},
+        height=options.height,
+        margin={
+            "l": 70,
+            "r": 30,
+            "t": 30,
+            "b": options.bottom_margin,
+        },
         legend={
             "orientation": "h",
             "yanchor": "top",
             "y": options.legend_y,
-            "xanchor": "left",
-            "x": 0,
+            "xanchor": "center",
+            "x": 0.5,
+            "maxheight": options.legend_max_height,
             "font": _chart_font(CHART_VALUE_FONT_SIZE),
         },
         xaxis_title=options.xaxis_title,
@@ -217,9 +227,13 @@ def _apply_period_axis(fig: go.Figure, period_range) -> None:
         ticktext=period_order,
     )
 
+
 def _build_color_map(groups: list[str]) -> dict[str, str]:
-    palette = BRAND_DISCRETE_SEQUENCE if len(BRAND_DISCRETE_SEQUENCE) > 0 else\
-        qualitative.Prism + qualitative.Vivid + qualitative.Safe
+    palette = (
+        BRAND_DISCRETE_SEQUENCE
+        if len(BRAND_DISCRETE_SEQUENCE) > 0
+        else qualitative.Prism + qualitative.Vivid + qualitative.Safe
+    )
     return {group: palette[i % len(palette)] for i, group in enumerate(groups)}
 
 
@@ -544,11 +558,16 @@ def build_grouped_bar_timeslice(
     fig.update_layout(
         barmode="relative",
     )
-    return _apply_standard_layout(
+    fig = _apply_standard_layout(
         fig,
         unit=unit,
         options=TIMESLICE_LAYOUT_OPTIONS,
     )
+    fig.update_xaxes(
+        automargin=True,
+        tickfont=_chart_font(12),
+    )
+    return fig
 
 
 def build_grouped_line(
