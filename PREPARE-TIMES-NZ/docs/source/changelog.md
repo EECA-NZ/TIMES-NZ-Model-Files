@@ -1,6 +1,15 @@
 
 # Changelog
 
+
+## 3.0.6
+
+**Assumption changes**
+
+- Updated gas supply projections to reflect Maui closure at the end of 2026.
+- Updated GIC demand data to reflect historical Methanex use more accurately. 
+- Removed endogenous Methanex closure method, instead assuming closure when Maui closes end 2026. 
+
 ## 3.0.5
 
 **Assumption changes**

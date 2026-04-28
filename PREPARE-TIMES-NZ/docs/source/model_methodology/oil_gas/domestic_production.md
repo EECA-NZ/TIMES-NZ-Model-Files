@@ -36,7 +36,7 @@ We note that the declining upstream natural gas market will likely have signific
 
 Previous versions of TIMES-NZ assumed that natural gas supply could be delivered at the sector’s historical max deliverability. This does not reflect the current state of the sector, so we ensure max deliverability is instead equal to current forecast production profiles. The model will consider both cumulative reserves, and max deliverability per field, for any given year[^supply_caveat].  
 
-Natural gas supply is therefore limited to the latest MBIE 2P production profiles for each field. We also apply a Maui closure patch, setting Maui gas production to zero from 2027 onward to reflect closure at the end of 2026. These assumptions lead to the following production projections for each field:
+Natural gas supply is therefore limited to the latest MBIE 2P production profiles for each field. We also apply a Maui closure patch, setting Maui gas production to zero from 2027 onward to reflect closure at the end of 2026[^maui_closure]. These assumptions lead to the following production projections for each field:
 
 ```{figure} figures/gas_projections_by_field.png
 ---
@@ -60,6 +60,7 @@ National gas production projection assumptions
 ```
 
 [^reserve_definitions]: Existing reserves are the 2P reserves published in MBIE’s gas reserves data, with Maui production set to zero from 2027 onward.
+[^maui_closure]: RNZ | [OMV signals end of Maui gas field this year](https://www.rnz.co.nz/news/business/593343/omv-signals-end-of-maui-gas-field-this-year).
 
 ## Crude oil and condensate
 
