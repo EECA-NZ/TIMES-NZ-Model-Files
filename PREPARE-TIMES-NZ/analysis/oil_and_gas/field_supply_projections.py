@@ -6,7 +6,7 @@ Generates charts of the results of the stage 3 data for scenario gas projectiosn
 import numpy as np
 import pandas as pd
 from plotnine import *
-from prepare_times_nz.utilities.filepaths import ANALYSIS, STAGE_3_DATA
+from prepare_times_nz.utilities.filepaths import PREP_LOCATION, STAGE_3_DATA
 
 # Directories -------------------------------------------------------
 
@@ -14,12 +14,13 @@ from prepare_times_nz.utilities.filepaths import ANALYSIS, STAGE_3_DATA
 # output
 
 
-OUTPUT_LOCATION = ANALYSIS / "results/oil_and_gas_projections"
+OUTPUT_LOCATION = PREP_LOCATION / "docs/source/model_methodology/oil_gas/figures"
 OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 
 # input data
 OG_DATA = STAGE_3_DATA / "oil_and_gas"
 INPUT_DATA = OG_DATA / "oil_and_gas_projections.csv"
+END_YEAR = 2050
 
 
 # separate analysis functions -----------------
@@ -31,7 +32,10 @@ def aggregate_df(df, n):
     Which is useful for plotting when it should always go last
     """
 
-    df_top = df.groupby("Field")["Value"].sum().reset_index()
+    # Rank fields on 2P production only so named facets reflect the active chart.
+    df_top = (
+        df[df["ResourceType"] == "2P"].groupby("Field")["Value"].sum().reset_index()
+    )
     df_top = df_top.sort_values("Value", ascending=False)
     # get top n fields
     top_n = df_top.nlargest(n, "Value")
@@ -46,9 +50,7 @@ def aggregate_df(df, n):
         .reset_index()
     )
 
-    df_agg["ResourceType"] = np.where(
-        df_agg["ResourceType"] == "2C", "Contingent", "Existing"
-    )
+    df_agg["ResourceType"] = np.where(df_agg["ResourceType"] == "2P", "2P", "2C")
 
     # force order through categoricals
 
@@ -65,10 +67,10 @@ def print_national_chart(df):
 
     # colours
     eeca_teal = "#447474"
-    eeca_coral = "#ED6D63"
-    colours = [eeca_coral, eeca_teal]
+    colours = [eeca_teal]
 
     df = df.groupby(["Year", "ResourceType"])["Value"].sum().reset_index()
+    df = df[df["ResourceType"] == "2P"].copy()
 
     chart = (
         ggplot(df, aes(y="Value", x="Year"))
@@ -80,9 +82,10 @@ def print_national_chart(df):
             colour="Scenario",
             # title="Gas production projections",
             fill="Resource",
-            subtitle="Including 60% contingent",
+            subtitle="National gas production profile (2025 - 2P)",
         )
         + theme_minimal()
+        + theme(legend_position="none")
         # + theme(panel_grid_major=element_blank())
     )
     chart_name = "gas_projections_national.png"
@@ -94,8 +97,8 @@ def print_field_chart(df):
 
     # colours
     eeca_teal = "#447474"
-    eeca_coral = "#ED6D63"
-    colours = [eeca_coral, eeca_teal]
+    colours = [eeca_teal]
+    df = df[df["ResourceType"] == "2P"].copy()
 
     chart = (
         ggplot(df, aes(y="Value", x="Year"))
@@ -109,9 +112,10 @@ def print_field_chart(df):
             colour="Scenario",
             # title="Gas production projections",
             fill="Resource",
-            subtitle="Including 60% contingent",
+            subtitle="Field gas production profile (2025 - 2P)",
         )
         + theme_minimal()
+        + theme(legend_position="none")
         # + theme(panel_grid_major=element_blank())
     )
     chart_name = "gas_projections_by_field.png"
@@ -122,6 +126,7 @@ def main():
     """entrypoint"""
 
     df = pd.read_csv(INPUT_DATA)
+    df = df[df["Year"] <= END_YEAR].copy()
     agg = aggregate_df(df, 8)
 
     print_national_chart(agg)

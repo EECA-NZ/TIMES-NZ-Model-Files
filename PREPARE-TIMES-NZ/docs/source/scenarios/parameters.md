@@ -58,7 +58,7 @@ It is important to note that these projections reflect energy demand projections
 
 We set exogenous projections for Methanol demand based on recent annual Gas Industry Company (GIC) data for Methanex. The pathway uses observed annual demand in 2024 and 2025, carries the 2025 level into 2026, and then sets demand to zero from 2027 onward. Further detail is provided in the industrial demand projections methodology.
 
-The model may reduce Urea demand endogenously to reflect potential deindustrialisation. The marginal price for this is set at 18 NZD/GJ, reflecting the potential value of lost load[^gas_voll]. This figure is an initial estimate only and is subject to feedback and revision. If the internal marginal price of natural gas exceeds this figure, Urea production will reduce. 
+The model may reduce Urea demand endogenously to reflect potential deindustrialisation. The marginal price for this is set at 18 NZD/GJ, reflecting the potential value of lost load[^gas_voll]. This figure is an estimate only. If the internal marginal price of natural gas exceeds this figure, Urea production will reduce. 
 
 We further assume increased energy service demand for data centres and professional services in the Shift scenario, as described in Table 2 on the following page.
 
@@ -130,9 +130,9 @@ Discount rate: Households[^hh_discount],As per businesses.,As per businesses.
 
 We assume that indigenous supply follows the latest reserve estimates. We also assume that investment uncertainty means that there is no successful exploration of new fields in either scenario. 
 
-In the Steady scenario, we assume there is greater investment in the upstream sector, and therefore some contingent reserves can be released to the market. We also assume government support allows investment in LNG imports, although the model will only invest in LNG if it is the least-cost option for the energy system.
+In the Steady scenario, we assume government support allows investment in LNG imports, although the model will only invest in LNG if it is the least-cost option for the energy system.
 
-In the `Shift` scenario, we instead assume that investment is focused on sustainable alternatives, such as biomass, biogas, or hydrogen, and LNG is not considered.
+In the `Shift` scenario, we instead assume that investment is focused on sustainable alternatives, such as biomass, biogas, or hydrogen, and LNG is not considered. Domestic production in both scenarios follows the latest MBIE 2P production profiles, with Maui assumed to close at the end of 2026.
 
 
 ```{csv-table} Gas supply parameters
@@ -141,7 +141,6 @@ In the `Shift` scenario, we instead assume that investment is focused on sustain
 
 Parameter,Steady,Shift
 Proven plus probable reserves,Follows availability and deliverability of latest 2P production profiles,Same as Steady
-Contingent reserves,60% of domestic contingent (2C) reserves are made available to the market.,No domestic contingent reserves are made available to the market
 Domestic natural gas wholesale price,Rises to $35/GJ as supply falls to 0.,Same as Steady
 LNG supply,LNG import options are made available for model investment from 2028.,LNG not available in Shift scenario
 Alternative fuel supply,"Biogas, biomass, and hydrogen costs and availability follow conservative projections",Alternative fuel costs are reduced and availability increased.
