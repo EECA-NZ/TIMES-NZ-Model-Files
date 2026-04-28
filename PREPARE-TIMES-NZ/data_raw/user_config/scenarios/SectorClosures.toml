@@ -21,10 +21,9 @@ DataLocation = "data_intermediate/stage_4_veda_format/scen_demand/closure_parame
 
 [SectorClosureIslands]
 WorkBookName = "SubRES_TMPL/SubRES_SectorClosures_trans"
-Description = "Locks closures to NI for Methanol/Ballance"
+Description = "Locks closure to NI for Urea/Ballance"
 SheetName = "AVA"
 TagName = "TFM_AVA"       
-Pset_PN = ["Methanol-CLOSURE", "Urea-CLOSURE"]
-SI = [0,0]
-NI = [1,1]
-
+Pset_PN = ["Urea-CLOSURE"]
+SI = [0]
+NI = [1]

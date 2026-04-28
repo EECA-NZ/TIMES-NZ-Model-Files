@@ -24,14 +24,13 @@ Note that TIMES-NZ does not currently consider non-energy use of oil products, i
 
 
 
-TIMES-NZ 3.0 adjusts natural gas supply across the two scenarios, as the future of natural gas was considered a key uncertainty by many of our stakeholders[^og_stakeholders]. 
+TIMES-NZ 3.0 adjusts natural gas supply across the two scenarios, as the future of natural gas was considered a key uncertainty by many of our stakeholders[^og_stakeholders].
 
-The Steady scenario includes additional natural gas supply, assuming greater investment in existing natural gas fields. This allows the additional release of 60% of the contingent reserves. We assume the contingent reserves will extend the life of existing fields, rather than increasing short-term deliverability. LNG import options are also made available in this scenario. 
+The Steady scenario includes LNG import options, reflecting greater willingness to invest in gas market support infrastructure. Domestic natural gas supply itself is based on the latest MBIE 2P production profiles. 
 
-In the Shift scenario, we expect no additional investment in domestic gas fields, and so economic or technical circumstances do not shift enough to allow release of contingent reserves. Domestic natural gas reserves are limited to the proven and probable (2P) reserves as of January 2025. LNG import options are disabled in this scenario. 
+In the Shift scenario, LNG import options are disabled. Domestic natural gas supply is likewise limited to the proven and probable (2P) reserves as of January 2025. 
 
 Neither scenario includes additional natural gas supply from as-yet undiscovered fields. No other oil product parameters are adjusted across the scenarios. Notably, we assume global oil prices and our ability to import oil products remain the same in both scenarios. There is potential to adjust these for future sensitivity testing. 
 
 
 [^og_stakeholders]: This stakeholder consultation pre-dated the Government’s recent announcement to begin a procurement process for an LNG facility: [Securing New Zealand’s energy future](https://www.beehive.govt.nz/release/securing-new-zealand%E2%80%99s-energy-future). At the present time, we propose that the two scenarios will continue to reflect different potential outcomes of this process.
-
