@@ -50,6 +50,19 @@ def get_contingent_for_field(
     return df["Value"].item() * share_assumption
 
 
+def update_maui(df):
+    """
+    A small patch to ensure Maui closes at the end of 2026
+    (both 2p and 2c)
+    Note that we can remove this step once updated reserves are available
+    So the year is hardcoded but the function should only be needed for a few weeks
+    ^if you see this function active in late 2026 or beyond then it becomes comedy
+    """
+    maui_mask = (df["Field"] == "Maui") & (df["Year"] > 2026)
+    df.loc[maui_mask, "Value"] = 0
+    return df
+
+
 def get_contingent_start_year_for_field(field, df):
     """
     Based on the input df of production shapes,
@@ -229,6 +242,7 @@ def main():
     df = distribute_all_field_contingents(forecast_df)
     # combine
     df = pd.concat([df, df_new_fields])
+    df = update_maui(df)
     # save
     df.to_csv(OUTPUT_LOCATION / "oil_and_gas_projections.csv", index=False)
 

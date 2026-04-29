@@ -4,7 +4,7 @@ Industry,Construction,0.019,0.019,Assumption,Based on EEUD energy demand history
 Industry,Dairy,0.028,-0.028,Assumption,"Based on EEUD energy demand history, inverted for Shift"
 Industry,Iron & Steel,0,0,Assumption,NZSteel techs handled separately
 Industry,Meat,0.007,-0.007,Assumption,
-Industry,Methanol,0,0,Assumption,Curve this off by setting a price
+Industry,Methanol,0,0,Methanex GIC,Use GIC annual demand for 2024 and 2025 then hold flat
 Industry,Non-Metallic Mineral Product Manufacturing,-0.046,-0.046,Assumption,
 Industry,Mining,0.012,0,Assumption,
 Industry,Other Industry,-0.001,-0.001,Assumption,
