@@ -133,22 +133,37 @@ transport_base_cols = [
 ]
 
 # configure filter options
-transport_filters = [
-    {"col": "Sector", "label": "Transport Sector"},
-    {"col": "Utilisation"},
+transport_capacity_filters_list = [
     {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "EnduseGroup"},
+    {"col": "Utilisation"},
     {"col": "EndUse"},
     {"col": "Region"},
 ]
 
-transport_energy_demand_filters = create_filter_dict("transport_ed", transport_filters)
-transport_capacity_filters = create_filter_dict("transport_capacity", transport_filters)
+transport_energy_demand_filters_list = transport_capacity_filters_list + [
+    {"col": "Fuel"}
+]
+
+transport_energy_demand_filters = create_filter_dict(
+    "transport_ed", transport_energy_demand_filters_list
+)
+transport_capacity_filters = create_filter_dict(
+    "transport_capacity", transport_capacity_filters_list
+)
 
 # Extract group options from filters
-transport_group_options = [d["col"] for d in transport_filters]
-transport_all_group_options = transport_base_cols + transport_group_options
+transport_energy_demand_group_options = [
+    d["col"] for d in transport_energy_demand_filters_list
+]
+transport_capacity_group_options = [d["col"] for d in transport_capacity_filters_list]
+transport_energy_demand_all_group_options = (
+    transport_base_cols + transport_energy_demand_group_options
+)
+transport_capacity_all_group_options = (
+    transport_base_cols + transport_capacity_group_options
+)
 
 transport_energy_demand_parameters = {
     "page_id": ID_PREFIX,
@@ -157,7 +172,7 @@ transport_energy_demand_parameters = {
     "filters": transport_energy_demand_filters,
     "section_title": "Transport energy demand",
     "base_cols": transport_base_cols,
-    "group_options": transport_group_options,
+    "group_options": transport_energy_demand_group_options,
 }
 
 transport_capacity_parameters = {
@@ -167,7 +182,7 @@ transport_capacity_parameters = {
     "filters": transport_capacity_filters,
     "section_title": "Transport capacity",
     "base_cols": transport_base_cols,
-    "group_options": transport_group_options,
+    "group_options": transport_capacity_group_options,
 }
 
 
@@ -242,7 +257,7 @@ def get_base_transport_energy_demand_df(
     Caches results for quick switching
     """
     df = read_data_pl(filepath, scenarios)
-    df = aggregate_by_group(df, transport_all_group_options)
+    df = aggregate_by_group(df, transport_energy_demand_all_group_options)
     df = filter_df_for_variable(df, "Transport Energy Demand", collect=True)
     return df
 
@@ -255,7 +270,7 @@ def get_base_transport_capacity_df(scenarios, filepath=TRANSPORT_CAPACITY_FILE):
     Caches results for quick switching
     """
     df = read_data_pl(filepath, scenarios)
-    df = aggregate_by_group(df, transport_all_group_options)
+    df = aggregate_by_group(df, transport_capacity_all_group_options)
     df = filter_df_for_variable(df, "Transport Capacity", collect=True)
     return df
 
