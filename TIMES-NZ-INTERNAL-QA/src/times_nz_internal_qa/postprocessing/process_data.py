@@ -323,6 +323,8 @@ def process_energy_demand(df):
     Load full scenario data for `scenario_name`
     Identify all energy demand processes and output each with human readable labels
     For these we currently only extract energy demand, not capacity or output.
+    Feedstock demand is still identified and labelled upstream, but excluded from
+    this output so it can be reported separately later.
     """
 
     demand_processes = pd.read_csv(PROCESS_CONCORDANCES / "demand.csv")
@@ -333,6 +335,19 @@ def process_energy_demand(df):
 
     df = df.merge(demand_processes, on="Process", how="left")
     df = df.merge(energy_commodities, on=["Commodity"], how="left")
+
+    # Keep feedstock labelled in the concordances, but exclude it from the
+    # published energy demand output for now.
+    feedstock_df = df[df["EndUse"] == "Feedstock"].copy()
+    if not feedstock_df.empty:
+        feedstock_summary = (
+            feedstock_df.groupby("Scenario", dropna=False)["PV"].sum().sort_index()
+        )
+        print("Note: excluding feedstock from energy demand outputs.")
+        for scenario, value in feedstock_summary.items():
+            print(f"       - {scenario}: {value:,.2f} PJ")
+
+    df = df[df["EndUse"] != "Feedstock"]
 
     # add labels (could also do this in an attributes concordance file, like with ele)
     df["Variable"] = "Energy demand"
