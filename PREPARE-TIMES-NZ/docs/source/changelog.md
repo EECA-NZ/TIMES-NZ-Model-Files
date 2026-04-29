@@ -7,12 +7,16 @@
 **Assumption changes**
 
 - Updated gas supply projections to reflect Maui closure at the end of 2026.
+- Removed mining and construction from the list of subsectors where onsite anaerobic digestion is possible. 
 
 **Model fixes**
 
 - Corrected a bug in NDGHG implementation that allowed coal to still be used for cooking post-2037
 - Updated GIC demand data to reflect historical Methanex use more accurately. 
 - Removed endogenous Methanex closure method, instead assuming closure when Maui closes end 2026. 
+- Adjusted geothermal heatrates to better align with official statistics on primary energy.
+- Corrected a bug in diesel emissions for electricity generation 
+
 
 
 ## 3.0.5
