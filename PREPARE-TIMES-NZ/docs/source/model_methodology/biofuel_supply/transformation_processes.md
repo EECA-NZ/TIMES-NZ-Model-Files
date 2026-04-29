@@ -61,7 +61,7 @@ VAROM = \dfrac{\text{0.2 million NZD/a}}{\text {0.16 PJ/a}} = \text{1.25 NZD per
 
 ```
 
-Biogas and biomethane are represented as distinct pathways in TIMES-NZ 3.0. Biogas may be used directly on-site for heat or CHP without upgrading. Biomethane requires an additional upgrading step and may substitute for natural gas where grid access exists.
+Biogas and biomethane are represented as distinct pathways in TIMES-NZ 3.0. Biogas may be used directly on-site for heat or CHP without upgrading in some specific sectors. See the industrial documentation for more detail on these. Biomethane requires an additional upgrading step and may substitute for natural gas where grid access exists.
 
 Upgrading is modelled as an optional, costed process and is assumed to be economically viable primarily at larger aggregated or municipal waste sources.
 

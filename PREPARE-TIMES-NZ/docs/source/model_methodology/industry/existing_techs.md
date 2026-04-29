@@ -174,6 +174,22 @@ Efficiencies for internal combustion engine (land transport), pump systems (for 
 
 [^cat]: The Cost Assessment Tool can be found on EECA’s website: [EECA | Emissions Plan Guidance](https://www.eeca.govt.nz/regulations/emissions-plan-guidance/)
 
+## Biogas availability in existing industrial technologies
+
+TIMES-NZ 3.0 allows some existing industrial demand processes to use biogas directly, reflecting the possibility of on-site biogas use for heat applications. In practice, this is implemented by adding `INDBIG` as an additional input option for selected processes that already use natural gas or LPG.
+
+This option is currently limited to the following industrial subsectors:
+
+- Chemicals
+- Dairy
+- Food and Beverage
+- Meat
+- Non-Metallic Mineral Product Manufacturing
+- Pulp and Paper
+- Wood Products
+
+In practice, this assumes that anaerobic digestion facilities are built onsite in these subsectors. The model will invest in AD facilities if optimal. More details are available in the biofuel supply documentation.
+
 ## Capital costs 
 
 A full list of capital cost assumptions can be found in Table UPDATE REFERENCE  below. These assumptions are for standard technologies used across various sectors and not for specific bespoke technologies such as the furnaces used at New Zealand aluminium smelter and NZ steel.
