@@ -8,8 +8,17 @@ Residential LPG water heating,2%,,RES\*LPG\*WH_LOW
 Residential gas water heating,2%,,RES\*NGA\*WH_LOW
 Dairy low-heat heatpumps for process heat,1%,50MW,DARY-ELC-HPPH-PH_LOW
 Industrial space heating heat pumps,1%,5MW,\*HPSH-SH_LOW
-Light passenger battery vehicles,50%,,T_\*_CBEVELC_\*
+Light passenger battery vehicles,5%,,T_P_CBEVELC_\*
+Light commercial battery vehicles,10%,,T_C_CBEVELC_\*
 Light passenger petrol hybrid vehicles,1%,,T_P_CHYBPET_\*
+Light passenger petrol vehicles,5%,,T_P_CICEPET_\*
+Light commercial petrol vehicles,1%,,T_C_CICEPET_\*
+Light commercial diesel vehicles,3%,,T_C_CICEDSL_\*
+Light passenger diesel vehicles,4%,,T_P_CICEDSL_\*
+Light truck diesel vehicles,2%,,T_F_LTICEDSL_\*
+Light truck petrol vehicles,2%,,T_F_LTICEPET_\*
+Plug-in hybrid diesel vehicles,1%,5MW,\*_PHEVDSL_\*
+Plug-in hybrid petrol vehicles,1%,5MW,\*_PHEVPET_\*
 Commercial LED lighting (except datacentres),4%,,"C_\*LT-LED-ELC, -C_DATA-LT-LED-ELC"
 Commercial fluorescent lighting,1%,,C_\*LT-FLU-ELC
 Commercial electric cooktops,4%,,C_\*CK-CK-ELC

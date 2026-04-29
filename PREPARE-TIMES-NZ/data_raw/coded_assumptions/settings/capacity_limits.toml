@@ -71,13 +71,60 @@ PSet_PN = "*HPSH-SH_LOW"
 
 [CapLimitPassengerBEV]
 Description = "Light passenger battery vehicles"
-GrowthLimit = 0.5
-PSet_PN = "T_*_CBEVELC_*"
+GrowthLimit = 0.05
+PSet_PN = "T_P_CBEVELC_*"
+
+[CapLimitCommercialBEV]
+Description = "Light commercial battery vehicles"
+GrowthLimit = 0.10
+PSet_PN = "T_C_CBEVELC_*"
 
 [CapLimitPassengerHybridPetrol]
 Description = "Light passenger petrol hybrid vehicles"
 GrowthLimit = 0.01
 PSet_PN = "T_P_CHYBPET_*"
+
+[CapLimitPassengerPetrol]
+Description = "Light passenger petrol vehicles"
+GrowthLimit = 0.05
+PSet_PN = "T_P_CICEPET_*"
+
+[CapLimitCommercialPetrol]
+Description = "Light commercial petrol vehicles"
+GrowthLimit = 0.01
+PSet_PN = "T_C_CICEPET_*"
+
+[CapLimitCommercialDiesel]
+Description = "Light commercial diesel vehicles"
+GrowthLimit = 0.03
+PSet_PN = "T_C_CICEDSL_*"
+
+[CapLimitPassengerDiesel]
+Description = "Light passenger diesel vehicles"
+GrowthLimit = 0.04
+PSet_PN = "T_P_CICEDSL_*"
+
+[CapLimitLightTruckDiesel]
+Description = "Light truck diesel vehicles"
+GrowthLimit = 0.02
+PSet_PN = "T_F_LTICEDSL_*"
+
+[CapLimitLightTruckPetrol]
+Description = "Light truck petrol vehicles"
+GrowthLimit = 0.02
+PSet_PN = "T_F_LTICEPET_*"
+
+[CapLimitPHEVDiesel]
+Description = "Plug-in hybrid diesel vehicles"
+GrowthLimit = 0.01
+SeedValue = 0.005
+PSet_PN = "*_PHEVDSL_*"
+
+[CapLimitPHEVPetrol]
+Description = "Plug-in hybrid petrol vehicles"
+GrowthLimit = 0.01
+SeedValue = 0.005
+PSet_PN = "*_PHEVPET_*"
 
 # COMMERCIAL
 

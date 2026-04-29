@@ -56,9 +56,14 @@ ACT_BND_0 = -1  # Interpolation rule for ACT_BND
 AFA_2024_MATCH_BASE_KEYS = {
     ("LCV", "Petrol", "ICE"),
     ("LCV", "Diesel", "ICE"),
+    ("LCV", "Electricity", "BEV"),
     ("LPV", "Petrol", "ICE Hybrid"),
-    ("LPV", "Diesel", "ICE"),
-    ("LPV", "Petrol", "ICE"),
+    ("Medium Truck", "Electricity", "BEV"),
+    ("Heavy Truck", "Diesel", "ICE"),
+    ("Heavy Truck", "Electricity", "BEV"),
+    ("Light Truck", "Petrol", "ICE"),
+    ("Light Truck", "Diesel", "ICE"),
+    ("Light Truck", "Electricity", "BEV"),
 }
 
 
