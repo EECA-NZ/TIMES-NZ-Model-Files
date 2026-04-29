@@ -130,7 +130,6 @@ app_ui = ui.page_fluid(
             ui.nav_panel("Emissions", emissions_ui),
             ui.nav_panel("Energy service demand", esd_ui),
             ui.nav_panel("Developers", developers_ui),
-            # ui.nav_panel("Infeasibilities", dummy_ui),
         ),
         class_="navset-large",
     ),

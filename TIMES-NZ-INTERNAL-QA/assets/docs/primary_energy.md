@@ -1,3 +1,3 @@
-This tab covers primary energy production.
+This page covers primary energy supply. It includes both imports and domestic production.
 
-This covers all imports and indigenous production of energy. It excludes electricity generation and other transformation processes, such as biogas production or LNG degasification.
+It does not include transformation processes such as electricity generation or biomethane scrubbing. In general, this tab shows energy at the point where it first enters the system.
