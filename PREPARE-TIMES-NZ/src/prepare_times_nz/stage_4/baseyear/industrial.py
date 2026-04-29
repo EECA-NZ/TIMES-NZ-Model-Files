@@ -36,6 +36,15 @@ BIOGAS_SHARE_CONSTRAINTS = {
     "future_share_year": FIRST_FUTURE_MODEL_YEAR,
     "future_share_up": 1,
 }
+BIOGAS_ALLOWED_SECTORS = {
+    "CHEM",
+    "DARY",
+    "FOOD",
+    "MEAT",
+    "MNRL",
+    "PULP",
+    "WOOD",
+}
 
 # pylint: disable=duplicate-code
 
@@ -88,13 +97,10 @@ def get_industry_veda_table(df, input_map, enable_biogas=True):
 
     if enable_biogas:
         ind_nga_processes = get_processes_with_input_commodity(ind_df, "INDNGA")
-        # exclude Methanol/Urea from this
         ind_nga_processes = [
             process
             for process in ind_nga_processes
-            if "METH" not in process and "UREA" not in process and "OTHR" not in process
-            # alternatively: just exclude feedstock options
-            # if "FSTK" not in process
+            if any(sector in process for sector in BIOGAS_ALLOWED_SECTORS)
         ]
         ind_df = add_extra_input_to_topology(
             ind_df,
@@ -105,7 +111,9 @@ def get_industry_veda_table(df, input_map, enable_biogas=True):
 
         ind_lpg_processes = get_processes_with_input_commodity(ind_df, "INDLPG")
         ind_lpg_processes = [
-            process for process in ind_lpg_processes if "OTHR" not in process
+            process
+            for process in ind_lpg_processes
+            if any(sector in process for sector in BIOGAS_ALLOWED_SECTORS)
         ]
         ind_df = add_extra_input_to_topology(
             ind_df,
