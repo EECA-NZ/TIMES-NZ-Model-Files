@@ -8,4 +8,4 @@ Energy service demand is set outside the model. In other words, it is an assumpt
 
 This means energy service demand should usually be read as an input assumption. The model results on this page show which technologies were chosen to meet that assumed level of demand.
 
-Energy service demand is shown in separate charts for different units. Road transport service demand is shown in billion VKT (vehicle kilometres travelled), instead of PJ.
+Energy service demand is shown in separate charts for different units. Road transport service demand is shown in billion vehicle kilometres travelled (VKT), rather than PJ.
