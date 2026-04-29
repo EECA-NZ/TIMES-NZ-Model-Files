@@ -99,10 +99,12 @@ poetry run rsconnect deploy shiny . \
 ```
 
 Some app-ids:
-- `times-nz-internal-explorer`: 16527158
+- `times-nz-internal-explorer`: 16527158 (This is our prerelease version for v300)
 - `times-nz-internal-explorer-v301`: 16588202
 - `times-nz-internal-explorer-v302`: 16596189
 - `times-nz-internal-explorer-v303`: 16757346
 - `times-nz-internal-explorer-v304`: 16904540
 - `times-nz-internal-explorer-v305`: 17015159
 
+Production app-id:
+ - `times-nz-v3`: 17242024
