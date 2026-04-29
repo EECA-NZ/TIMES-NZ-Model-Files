@@ -192,7 +192,7 @@ In practice, this assumes that anaerobic digestion facilities are built onsite i
 
 ## Capital costs 
 
-A full list of capital cost assumptions can be found in Table UPDATE REFERENCE  below. These assumptions are for standard technologies used across various sectors and not for specific bespoke technologies such as the furnaces used at New Zealand aluminium smelter and NZ steel.
+A full list of capital cost assumptions can be found in {numref}`tab-ind_capex` below. These assumptions are for standard technologies used across various sectors and not for specific bespoke technologies such as the furnaces used at New Zealand aluminium smelter and NZ steel.
 
 These capital costs consider the cost of the equipment plus the materials handling equipment for coal and biomass boilers as well as the electrical upgrades for electric boilers and heat pumps and anaerobic digesters for biogas boilers. Operating costs such as fuel and maintenance are also not included.
 

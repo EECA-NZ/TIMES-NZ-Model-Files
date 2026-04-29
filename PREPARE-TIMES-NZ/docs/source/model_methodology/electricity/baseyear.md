@@ -87,6 +87,8 @@ Any generating asset in the model requires detailed technical parameters. The fo
 
 In many cases, we can directly map base year generating assets to MBIE plant names to add these parameters. In cases where plants in the TIMES-NZ base year do not have direct equivalents, we take the mean of these parameters for similar plants and apply those instead.
 
+For geothermal, we do not directly use the default heat rate implied by the MBIE generation stack. If applied as-is, this would understate geothermal fuel input relative to MBIE's official energy statistics. We therefore override existing geothermal generation to use a heat rate of 24,000 GJ/GWh, equivalent to an electrical efficiency of 15%. 
+
 ## Technical parameters by assumption
 Other required parameters are not included in MBIE’s data, so these are applied by assumption. 
 
@@ -181,5 +183,4 @@ All other plants will retire when their age exceeds their technical lifetime bas
 
 [^whareroa]: The Whareroa plant at Hāwera has had its lifetime extended, but 2030 is assumption only.  
 [^huntly_life]:The Rankine units were commissioned across 1982-1985, and we have set the commissioning date to 1983. This lifetime assumption means they will be retired in the model in 2033.
-
 
