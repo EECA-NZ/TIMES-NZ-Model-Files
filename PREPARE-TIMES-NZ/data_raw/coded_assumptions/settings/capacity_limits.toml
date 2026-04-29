@@ -57,9 +57,17 @@ PSet_PN = "RES*NGA*WH_LOW"
 # INDUSTRY 
 [CapLimitDairyHeatpumps]
 Description = "Dairy low-heat heatpumps for process heat"
-GrowthLimit = 0.01
+GrowthLimit = 0.02
 SeedValue = 0.05
 PSet_PN = "DARY-ELC-HPPH-PH_LOW"
+
+
+[CapLimitMeatHeatpumps]
+Description = "Meat processing low-heat heatpumps for process heat"
+GrowthLimit = 0.02
+SeedValue = 0.05
+PSet_PN = "MEAT-ELC-HPPH-PH_LOW"
+
 
 [CapLimitIndustryHeatpumps]
 Description = "Industrial space heating heat pumps"
