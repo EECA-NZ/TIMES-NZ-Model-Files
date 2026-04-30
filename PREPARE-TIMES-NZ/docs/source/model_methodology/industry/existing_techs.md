@@ -201,7 +201,7 @@ Capital costs for internal combustion engine (land transport), pump systems (for
   - $628
 * - Boiler Systems
   - Electricity
-  - $320[^capex_elc_boiler]
+  - $724[^capex_elc_boiler]
 * - Boiler Systems
   - Fuel Oil
   - $628
@@ -246,7 +246,7 @@ Capital costs for internal combustion engine (land transport), pump systems (for
   - $605[^capex_heat_pump]
 * - Heat Pump (process heat)
   - Electricity
-  - $756[^capex_heat_pump]
+  - $1,280[^capex_heat_pump]
 * - Industrial Ovens
   - Coal
   - $314
