@@ -21,7 +21,7 @@ Some sectors use custom treatments rather than a simple EEUD-based growth rate:
 Subsector,Steady,Shift
 Aluminium,0%,Same as Steady
 Construction,1.9%,Same as Steady
-Dairy,"Tracks `Dairy Cattle Farming` demand (`Baseline` / `Total dairy cattle` in ERP2)","Tracks `Dairy Cattle Farming` demand (`Baseline low` / `Total dairy cattle` in ERP2)"
+Dairy,"Tracks `Dairy Cattle Farming` demand (`Baseline high` / `Total dairy cattle` in ERP2)","Tracks `Dairy Cattle Farming` demand (`Baseline low` / `Total dairy cattle` in ERP2)"
 Iron & Steel,EAF operational in 2026,Second EAF operational in 2036
 Meat,0.7%,-0.7%
 Methanol,See exogenous Methanex pathway below,Same as Steady

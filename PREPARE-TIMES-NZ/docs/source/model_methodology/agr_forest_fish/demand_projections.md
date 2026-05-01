@@ -3,7 +3,7 @@
 
 Demand projections for the agriculture, forestry, and fishing sector are based on detailed projections from the Second Emissions Reduction Plan (ERP2) detailed results[^erp_results]. 
 
-TIMES demand projections are all based on activity indexes from the base year (currently 2023). For workbook-based mappings, the ERP2 series is converted to a demand index by dividing each year by the 2023 value. The TIMES-NZ Steady scenario uses the ERP2 `Baseline` scenario and the Shift scenario uses the ERP2 `Baseline low` scenario. Where the ERP2 workbook only provides values for selected years, annual values between those years are linearly interpolated.
+TIMES demand projections are all based on activity indexes from the base year (currently 2023). For workbook-based mappings, the ERP2 series is converted to a demand index by dividing each year by the 2023 value. Most TIMES-NZ `Steady` mappings use the ERP2 `Baseline` scenario, while `Dairy Cattle Farming` uses ERP2 `Baseline high`; the `Shift` scenario uses ERP2 `Baseline low`. Where the ERP2 workbook only provides values for selected years, annual values between those years are linearly interpolated.
 
 Agricultural subsector demand profiles are as follows:
 
@@ -25,7 +25,7 @@ Agricultural subsector demand profiles are as follows:
 :name: tab_agr_demand_proj
 
 Subsector,Steady,Shift
-Dairy Cattle Farming,Baseline / Total dairy cattle (ERP2),Baseline low / Total dairy cattle (ERP2)
+Dairy Cattle Farming,Baseline high / Total dairy cattle (ERP2),Baseline low / Total dairy cattle (ERP2)
 Livestock Farming,"Baseline / Sheep and beef 'stock units'","Baseline low / Sheep and beef 'stock units'"
 Horticulture (Outdoor),Baseline / Horticulture,Baseline low / Horticulture
 Forestry and Logging,Baseline / Forestry (million m3) / Harvested timber (TRV),Baseline low / Forestry (million m3) / Harvested timber (TRV)

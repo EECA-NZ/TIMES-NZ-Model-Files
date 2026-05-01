@@ -41,7 +41,7 @@ TEST_ASSUMPTIONS = [
         "Scenario": "Steady",
         "Method": "Workbook",
         "Workbook": WORKBOOK_NAME,
-        "SheetName": "Baseline",
+        "SheetName": "Baseline high",
         "SourceCategory1": "",
         "SourceCategory2": "Total dairy cattle",
         "ConstantIndex": "",
@@ -118,6 +118,7 @@ def make_test_erp_workbook(path: Path):
 
     for sheet_name, dairy_2050, livestock_2050 in [
         ("Baseline", 70, 80),
+        ("Baseline high", 85, 80),
         ("Baseline low", 60, 65),
     ]:
         ws = (
@@ -227,6 +228,7 @@ def test_get_agriculture_growth_indices_reads_workbook_mappings(tmp_path):
 
     assert get_index(df, "Dairy Cattle Farming", "Steady", 2025) == 0.9
     assert get_index(df, "Dairy Cattle Farming", "Steady", 2024) == 0.95
+    assert get_index(df, "Dairy Cattle Farming", "Steady", 2050) == 0.85
     assert get_index(df, "Dairy Cattle Farming", "Shift", 2050) == 0.6
     assert get_index(df, "Livestock Farming", "Steady", 2050) == 0.8
     assert get_index(df, "Indoor Cropping", "Steady", 2050) == 1.2

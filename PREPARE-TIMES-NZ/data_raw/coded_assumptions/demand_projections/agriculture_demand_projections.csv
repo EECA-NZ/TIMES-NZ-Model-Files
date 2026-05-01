@@ -1,5 +1,5 @@
 SectorGroup,Sector,Scenario,Method,Workbook,SheetName,SourceCategory1,SourceCategory2,ConstantIndex,Note
-"Agriculture, Forestry and Fishing",Dairy Cattle Farming,Steady,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline,,Total dairy cattle,,"Tracks ERP2 total dairy cattle"
+"Agriculture, Forestry and Fishing",Dairy Cattle Farming,Steady,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline high,,Total dairy cattle,,"Tracks ERP2 total dairy cattle"
 "Agriculture, Forestry and Fishing",Dairy Cattle Farming,Shift,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline low,,Total dairy cattle,,"Tracks ERP2 total dairy cattle"
 "Agriculture, Forestry and Fishing",Livestock Farming,Steady,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline,,"Sheep and beef 'stock units'",,"Tracks ERP2 sheep and beef stock units"
 "Agriculture, Forestry and Fishing",Livestock Farming,Shift,Workbook,mfe/Detailed-results-for-ERP2-projection-scenarios.xlsx,Baseline low,,"Sheep and beef 'stock units'",,"Tracks ERP2 sheep and beef stock units"
