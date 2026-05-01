@@ -4,11 +4,11 @@ This section defines how each scenario and critical uncertainty is parameterised
 
 ## Economic Structure
 
-Demand projections for each subsector define our economic structure assumptions. These are listed in {numref}`scen_parms_ind_demand` below. 
+Demand projections for each subsector define our economic structure assumptions. For industrial subsectors, the detailed projection methods and assumptions are documented in the industrial demand projections methodology.
 
 Energy demand projections in TIMES are specifically for energy service demand. This is the useful service provided by the energy, such as kilometres travelled or water heating. For example, the model would not use projections of natural gas demand. It would instead use projections of space heating demand, then find the least-cost way of meeting this using available technologies and input fuels. One exception to this rule is for ‘new industries’ as discussed below.
 
-For the Steady scenario, we use the average growth rates in energy demand for the last 6 years from EECA’s Energy End Use Database (EEUD) and extrapolate these as energy service demand projections across the forecast horizon. The compound annual average growth rates used are listed below. For some subsectors, such as Aluminium, we have set growth rates to zero to imply continuous production. 
+For the Steady scenario, we use the average growth rates in energy demand for the last 6 years from EECA’s Energy End Use Database (EEUD) and extrapolate these as energy service demand projections across the forecast horizon. For some subsectors, such as Aluminium, we have set growth rates to zero to imply continuous production.
 
 For the Shift scenario, we select specific sectors to invert growth (or contraction) rates, representing the economic structure shifting over time. We model a short transition period (e.g. 5 years) to avoid this being an unrealistic step change. We also include a category for ‘new industries’. This is intended to represent the growth of advanced manufacturing, and is considered to be solely electricity demand. We do not model specific technologies (with specific conversion efficiencies) and so the demand is expressed directly as electricity demand, rather than energy service demand.
 
@@ -17,28 +17,6 @@ Each scenario is intended to imply roughly similar overall economic activity lev
 The demand profiles (time of use) of each subsector are the same within each scenario, and specific sectors may or may not switch fuels or technologies to meet their demand, if possible and economically efficient.
 
 By using historical energy demand to project energy service demand, we implicitly assume that incremental energy efficiency improvements within sectors continue across the model horizon. However, TIMES-NZ allows for fuel switching and technology upgrades within each sector, which may further increase efficiency and lower total energy demand.
-
-```{csv-table} Annual growth rates of energy service demand for industrial subsectors
-:name: scen_parms_ind_demand
-:header-rows: 1 
-
-Subsector,Steady,Shift
-Aluminium,0% ,Same as Steady
-Construction,1.9%,Same as Steady
-Dairy,2.8%  ,-2.8%  
-Iron/steel,EAF operational in 2026,Second EAF operational in 2036 
-Meat,0.7%,-0.7%  
-Methanol,"Exogenous Methanex demand path based on annual GIC demand: 2024 and 2025 observed demand, 2026 held at the 2025 level, and 0 from 2027 onward",Same as Steady
-Non-Metallic Mineral Product Manufacturing,-4.6%,Same as Steady
-Mining,1.2%,0%
-Other,-0.1%,Same as Steady
-Other Food Manufacturing,-1.7%,1.7%
-"Other chemicals – excl. methanol, urea",0%,Same as Steady
-Urea,Ballance exits in line with available gas supply,Same as Steady
-Wood products,-1.8%,1.8%
-Pulp and paper,-6.9%,Same as Steady
-New industries,No new industries,50GWh of electricity demand growth per annum. 
-```
 
 These assumptions result in the following demand curve projections to be used in the model: 
 
@@ -54,16 +32,11 @@ Industrial sector demand curve projections
 
 
 
-It is important to note that these projections reflect energy demand projections assuming technologies and fuels remain the same as they were in our model’s base year (2023). They are therefore illustrative only. In the actual model results, efficiency improvements or fuel switching mean that the final energy demand for these sectors will shift over time. 
+It is important to note that these projections reflect energy demand projections assuming technologies and fuels remain the same as they were in our model’s base year (2023). They are therefore illustrative only. In the actual model results, efficiency improvements or fuel switching mean that the final energy demand for these sectors will shift over time.
 
-We set exogenous projections for Methanol demand based on recent annual Gas Industry Company (GIC) data for Methanex. The pathway uses observed annual demand in 2024 and 2025, carries the 2025 level into 2026, and then sets demand to zero from 2027 onward. Further detail is provided in the industrial demand projections methodology.
-
-The model may reduce Urea demand endogenously to reflect potential deindustrialisation. The marginal price for this is set at 18 NZD/GJ, reflecting the potential value of lost load[^gas_voll]. This figure is an estimate only. If the internal marginal price of natural gas exceeds this figure, Urea production will reduce. 
+We set exogenous projections for Methanol demand based on recent annual Gas Industry Company (GIC) data for Methanex. The pathway uses observed annual demand in 2024 and 2025, carries the 2025 level into 2026, and then sets demand to zero from 2027 onward. Further detail, along with the other industrial subsector assumptions and the Urea endogenous reduction treatment, is provided in the industrial demand projections methodology.
 
 We further assume increased energy service demand for data centres and professional services in the Shift scenario, as described in Table 2 on the following page.
-
-
-[^gas_voll]: This is the assumed price at which this business may exit the market if alternative feedstocks cannot be sourced. TIMES shadow prices reflect either the cost of production or, if demand exceeds supply, the marginal cost of reducing gas demand elsewhere. TIMES-NZ makes no effort to estimate the cost pressures faced by individual businesses, so this value is necessarily a rough estimate. 
 
 
 We further assume increased energy service demand for data centres in the Shift scenario, as described in {numref}`tab_scen_parms_datacentre_demand`.
