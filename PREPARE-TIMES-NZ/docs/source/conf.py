@@ -43,7 +43,7 @@ html_theme_options = {
     "navbar_end": ["navbar-icon-links"],
     "logo": {
         "image_light": "_static/eeca.png",
-        "text": "TIMES-NZ documentation",
+        "text": "TIMES-NZ docs",
     },
 }
 
