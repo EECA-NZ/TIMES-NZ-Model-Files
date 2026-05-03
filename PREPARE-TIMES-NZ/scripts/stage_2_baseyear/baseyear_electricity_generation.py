@@ -671,6 +671,10 @@ def main() -> None:
         "specific_fuel_delivery_costs_nzd_gj"
     ].fillna(base_year_gen["generic_fuel_delivery_costs_nzd_gj"])
 
+    # Geothermal input reported by MBIE implies a lower electrical efficiency
+    # than the default genstack heat rate. We adjust this to 15%
+    base_year_gen.loc[base_year_gen["FuelType"] == "Geothermal", "HeatRate"] = 24000
+
     base_year_gen.drop(
         columns=[
             "generic_heatrate_gj_gwh",

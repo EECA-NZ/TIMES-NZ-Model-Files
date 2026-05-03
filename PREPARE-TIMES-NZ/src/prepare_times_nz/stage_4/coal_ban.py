@@ -59,6 +59,7 @@ def get_all_commodities_to_ban():
 
     """
     end_uses = [
+        "Intermediate Heat (100-300 C), Cooking",
         "Intermediate Heat (100-300 C), Process Requirements",
         "Low Temperature Heat (<100 C), Process Requirements",
         "Low Temperature Heat (<100 C), Space Heating",

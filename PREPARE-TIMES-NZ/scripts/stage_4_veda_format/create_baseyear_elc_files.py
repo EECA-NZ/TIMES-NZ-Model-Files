@@ -459,8 +459,8 @@ def create_elc_fuel_emissions(df):
     and saves along the index expected by Veda
 
     Note:
-        We call Diesel oil but we assume all diesel (no fuel oil generation anymore)
-            (assumes 10ppt sulphur)
+        Diesel generation is mapped to the electricity diesel commodity `ELCDSL`
+            (assumes 10ppt sulphur; no fuel oil generation anymore)
         For wood, there's an argument for instead taking other wood types,
             or the mean of other wood types. They're all quite similar.
     """
@@ -468,7 +468,7 @@ def create_elc_fuel_emissions(df):
     elec_ef_mapping = {
         "Coal - Sub-Bituminous": "ELCCOA",
         "Natural Gas": "ELCNGA",
-        "Diesel": "ELCOIL",
+        "Diesel": "ELCDSL",
         "Biogas": "ELCBIG",
         "Wood - Pellets": "ELCWOD",
     }
