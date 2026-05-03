@@ -243,7 +243,7 @@ def create_newtech_process_parameters_df(columns: list[str]) -> pd.DataFrame:
         "EFF",
         "LIFE",
         "CAP2ACT",
-        "AFA~2024",
+        "AFA~2035",
         "INVCOST",
         "FIXOM",
         "Share",
@@ -404,37 +404,37 @@ def create_newtech_process_parameters_df(columns: list[str]) -> pd.DataFrame:
 
     # 1) fill by exact (Comm-In, Comm-Out, Level)
     fill_exact = out.groupby([out["Comm-In"], out["Comm-Out"], _level])[
-        "AFA~2024"
+        "AFA~2035"
     ].transform(first_nonnull)
-    out["AFA~2024"] = out["AFA~2024"].fillna(fill_exact)
+    out["AFA~2035"] = out["AFA~2035"].fillna(fill_exact)
 
-    # --- NEW: for H2R rows still missing AFA~2024, use AFA~2024
+    # --- NEW: for H2R rows still missing AFA~2035, use AFA~2035
     # from TRADSL with same Comm-Out & Level ---
     # make level a temporary column so we can join on it
     out = out.assign(_level=_level)
 
-    # build reference AFA~2024 from TRADSL rows
+    # build reference AFA~2035 from TRADSL rows
     ref = (
         out.loc[
             out["Comm-In"].astype(str).str.contains(r"^TRADSL$", na=False),
-            ["Comm-Out", "_level", "AFA~2024"],
+            ["Comm-Out", "_level", "AFA~2035"],
         ]
-        .dropna(subset=["AFA~2024"])
+        .dropna(subset=["AFA~2035"])
         .drop_duplicates(subset=["Comm-Out", "_level"], keep="first")
-        .rename(columns={"AFA~2024": "AFA~2024_ref"})
+        .rename(columns={"AFA~2035": "AFA~2035_ref"})
     )
 
     # left-join the reference onto all rows
     out = out.merge(ref, how="left", on=["Comm-Out", "_level"])
 
     # fill only H2R rows that are still missing
-    mask_h2r_missing = out["AFA~2024"].isna() & out["Comm-In"].astype(str).str.contains(
+    mask_h2r_missing = out["AFA~2035"].isna() & out["Comm-In"].astype(str).str.contains(
         "H2R", na=False
     )
-    out.loc[mask_h2r_missing, "AFA~2024"] = out.loc[mask_h2r_missing, "AFA~2024_ref"]
+    out.loc[mask_h2r_missing, "AFA~2035"] = out.loc[mask_h2r_missing, "AFA~2035_ref"]
 
     # clean up temp columns
-    out = out.drop(columns=["AFA~2024_ref", "_level"])
+    out = out.drop(columns=["AFA~2035_ref", "_level"])
 
     # --- LIFE fill by (Comm-Out, Level) with robust keys and alignment ---
 
@@ -632,7 +632,7 @@ def main() -> None:
             "SCENARIO",
             "START",
             "EFF",
-            "AFA~2024",
+            "AFA~2035",
             "AFA~2040",
             "LIFE",
             "INVCOST",

@@ -74,6 +74,16 @@ Description = "Light passenger battery vehicles"
 GrowthLimit = 0.5
 PSet_PN = "T_*_CBEVELC_*"
 
+[CapLimitPHEVDiesel]
+Description = "Plug-in hybrid diesel vehicles"
+GrowthLimit = 0.05
+PSet_PN = "*_PHEVDSL_*"
+
+[CapLimitPHEVPetrol]
+Description = "Plug-in hybrid petrol vehicles"
+GrowthLimit = 0.05
+PSet_PN = "*_PHEVPET_*"
+
 # COMMERCIAL
 
 [CapLimitCommercialLED]
