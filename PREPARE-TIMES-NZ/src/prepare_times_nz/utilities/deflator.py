@@ -33,19 +33,14 @@ def deflate_value(current_year, base_year, current_value, method="cpi"):
     - current_year: The year of the current value.
     - base_year: The year to deflate to.
     - current_value: The value to deflate
-    - Treat any 2025 value as if it were 2024 (index tables stop at 2024).
+    - Treat any year beyond the latest available index year as if it were
+      that latest year (currently 2024).
     Returns:
     - deflated_value: The deflated value.
 
     This function relies on cpi_df or cgpi_df, which should be loaded in
     the script, contain the CPI or CGPI indexs for each year.
     """
-
-    if current_year == base_year:
-        return current_value
-
-    if current_year == 2025:
-        current_year = 2024
 
     if method == "cpi":
         idx_df = cpi_df
@@ -57,6 +52,12 @@ def deflate_value(current_year, base_year, current_value, method="cpi"):
         label = "CGPI"
     else:
         raise ValueError("method must be 'cpi' or 'cgpi'")
+
+    if current_year == base_year:
+        return current_value
+
+    latest_available_year = int(idx_df["Year"].max())
+    current_year = min(current_year, latest_available_year)
 
     idx_cur = idx_df.loc[idx_df["Year"] == current_year, idx_col]
     idx_base = idx_df.loc[idx_df["Year"] == base_year, idx_col]

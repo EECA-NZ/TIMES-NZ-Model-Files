@@ -8,7 +8,7 @@ Commercial,WSR,GDP
 Industry,Aluminium,IND_ALUM_DMD
 Industry,Chemicals (excl. Urea and Methanol),IND_CHEM_DMD
 Industry,Construction,IND_CNST_DMD
-Industry,Dairy,IND_DARY_DMD
+Industry,Dairy,AGR_ADCF_DMD
 Industry,Food and Beverage,IND_FOOD_DMD
 Industry,Iron & Steel,IND_STEEL_DMD
 Industry,Meat,IND_MEAT_DMD

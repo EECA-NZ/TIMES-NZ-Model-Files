@@ -224,7 +224,9 @@ To better reflect the real-world distribution of vehicle utilisation, we split a
   -  4,382 
 ```
 
-Note that utilisation in TIMES-NZ is always expressed as an "avialability factor", or share of maximum possible utilisation in a year. We currently set this figure to 80,000km per vehicle, so the above utilisation bands are defined internally as fractions of 80,000km. If necessary, it's possible to express utilisation factors higher than 100%, representing vehicles travelling further than 80,000km per year. 
+Note that utilisation in TIMES-NZ is always expressed as an "availability factor", or share of maximum possible utilisation in a year. We currently set this figure to 80,000km per vehicle, so the above utilisation bands are defined internally as fractions of 80,000km. If necessary, it's possible to express utilisation factors higher than 100%, representing vehicles travelling further than 80,000km per year.
+
+2023 availability factors are based on empirical data on fleet counts and travel distance. This means they can differ within use groups: for example, diesel light passenger vehicles currently have higher utilisation than overall light passenger vehicles. However, when modelling future years, we assume that all technologies within a usage group have the same utilisation factor applied. This ensures that technology choices within use groups are based on like-for-like comparisons. However, it implicitly assumes small changes in driving behaviour for some vehicle classes. To manage this tradeoff between ensuring clear model investment choices and aligning with empirical data, we do not allow any step changes in availability. Instead, availability factors gradually transition from empirical levels to standardised model levels over the first ten years of the model horizon.
 
 
 Please note that these values are averaged over the life of the vehicle. New vehicles (particularly trucks) do travel greater distances while new, which is then balanced by the lower distances they travel later in life. For technologies in early deployment (e.g., BEVs and FCEVs), VKT is proportionally allocated using known fleet counts from MVR and technology-specific energy use per kilometre assumptions (e.g., kWh/km or MJ/km). 
@@ -239,7 +241,7 @@ Non-road modes (aviation, rail, shipping) are incorporated using available MBIE 
 
 To represent the need for Heavy trucks to carry large payloads, we have applied a productivity penalty to BEV trucks due to the weight of their batteries. This is applied as a decrease in VKT per vehicle, resulting in the model needing to purchase more BEV trucks to do the same job as diesel or hydrogen. 
 
-The weight difference was determined by removing the estimated weight of the powertrain and replacing these with the weight of an EV drivetrain and battery. Power train weights were sourced from ICCT[^icct_power_train_weights].  Base year battery weights used 160Wh/kg (current day estimates), moving to 400Wh/kg in 2040[^idtechex_400].  This results in a 13% penalty in 2030, gradually reducing to 3% in 2040.
+The weight difference was determined by removing the estimated weight of the powertrain and replacing these with the weight of an EV drivetrain and battery. Power train weights were sourced from ICCT[^icct_power_train_weights]. Base year battery weights used 160Wh/kg (current day estimates), moving to 400Wh/kg in 2040[^idtechex_400]. This results in a 13% penalty in 2023, gradually reducing to 3% in 2040.
 
 Hydrogen trucks were assumed to be the same weight as their ICE counterparts. 
 

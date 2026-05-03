@@ -184,6 +184,7 @@ def get_process_params(df):
         "EFF",
         "LIFE",
         "INVCOST",
+        "INVCOST~2050",
         "AF",
         "CAP2ACT",
     ]
@@ -250,9 +251,13 @@ def main() -> None:
     # build table
     df = read_newtech_config()
     df = add_parameters(df)
-    df = deflate_data(
-        df, base_year=BASE_YEAR, variables_to_deflate=["INVCOST", "FIXOM"]
-    )
+    variables_to_deflate = [
+        col for col in ["INVCOST", "INVCOST~2050", "FIXOM"] if col in df.columns
+    ]
+    if variables_to_deflate:
+        df = deflate_data(
+            df, base_year=BASE_YEAR, variables_to_deflate=variables_to_deflate
+        )
     # create outputs
     params = get_process_params(df)
     declarations = get_process_declarations(df)

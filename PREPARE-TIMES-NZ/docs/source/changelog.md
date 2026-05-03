@@ -16,7 +16,7 @@
 - Removed endogenous Methanex closure method, instead assuming closure when Maui closes end 2026. 
 - Adjusted geothermal heatrates to better align with official statistics on primary energy.
 - Corrected a bug in diesel emissions for electricity generation 
-
+- (Transport) Delayed convergence from empirical 2023 utilisation to harmonised within-bucket utilisation assumptions until 2035 (previously 2024), avoiding an abrupt shift immediately after the base year for some vehicle classes.
 
 
 ## 3.0.5
@@ -141,4 +141,3 @@
 - Initial build of `TIMES-NZ-INTERNAL-QA` module, which allows for post-processing and interrogation of model results.
     - Results hosted publicly and can be explored at the highest possible level of detail to ensure transparency.
 - Rebuilt and updated model for base year 2023 and new Steady and Shift scenarios.
-
