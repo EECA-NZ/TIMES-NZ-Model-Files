@@ -178,7 +178,7 @@ Efficiencies for internal combustion engine (land transport), pump systems (for 
 
 A full list of capital cost assumptions can be found in Table UPDATE REFERENCE  below. These assumptions are for standard technologies used across various sectors and not for specific bespoke technologies such as the furnaces used at New Zealand aluminium smelter and NZ steel.
 
-These capital costs consider the cost of the equipment plus the materials handling equipment for coal and biomass boilers as well as the electrical upgrades for electric boilers and heat pumps and anaerobic digesters for biogas boilers. Operating costs such as fuel and maintenance are also not included.
+These capital costs cover the core technology cost, with additional handling equipment included for coal and biomass boilers and anaerobic digesters included for biogas boilers where relevant. Operating costs such as fuel and maintenance are not included. Electrical upgrade costs, where relevant, are excluded from capital costs, because those costs are represented elsewhere in the model. See the electricity documentation for more information on grid upgrade cost modelling. 
 
 Capital costs for process heat devices came from the Cost Assessment Tool developed for the RMA National Direction for Greenhouse Gas Emissions from Industrial Process Heat[^cat]. A 30% factor was applied to these numbers due to feedback from industry that these numbers were too low during road testing of the tool.
 
@@ -192,7 +192,7 @@ Capital costs for internal combustion engine (land transport), pump systems (for
   - Capital Cost (NZD/kW), 2023
 * - Boiler Systems
   - Biogas
-  - $4,259
+  - $513
 * - Boiler Systems
   - Coal
   - $1,654
@@ -201,7 +201,7 @@ Capital costs for internal combustion engine (land transport), pump systems (for
   - $628
 * - Boiler Systems
   - Electricity
-  - $1,020[^capex_elc_boiler]
+  - $724[^capex_elc_boiler]
 * - Boiler Systems
   - Fuel Oil
   - $628
@@ -213,7 +213,10 @@ Capital costs for internal combustion engine (land transport), pump systems (for
   - $513
 * - Boiler Systems
   - Wood
-  - $1,103[^capex_wood_burner]
+  - $2,292[^capex_wood_burner]
+* - Heat Exchangers
+  - Geothermal
+  - $178
 * - Burner (Direct Heat)
   - LPG
   - $691
@@ -225,7 +228,7 @@ Capital costs for internal combustion engine (land transport), pump systems (for
   - $136
 * - Electric Motor
   - Electricity
-  - $280
+  - TBC
 * - Furnace/Kiln
   - Coal
   - $1,654
@@ -240,10 +243,10 @@ Capital costs for internal combustion engine (land transport), pump systems (for
   - $691
 * - Heat Pump (space heating)
   - Electricity
-  - $712
+  - $605[^capex_heat_pump]
 * - Heat Pump (process heat)
   - Electricity
-  - $1,506[^capex_heat_pump]
+  - $1,280[^capex_heat_pump]
 * - Industrial Ovens
   - Coal
   - $314
@@ -255,16 +258,19 @@ Capital costs for internal combustion engine (land transport), pump systems (for
   - $262
 * - Internal Combustion Engine
   - Diesel
-  - $700
+  - $2,933
 * - Internal Combustion Engine
   - Natural Gas
-  - $700
+  - $3,345
 * - Internal Combustion Engine
   - Petrol
-  - $700[^diesel_ice]
+  - $2,933[^diesel_ice]
 * - Pump Systems (for Fluids, etc.)
   - Electricity
   - $2,835
+* - Pump Systems (for Fluids, etc.)
+  - Natural Gas
+  - $567
 * - Resistance Heater
   - Electricity
   - $141
@@ -277,9 +283,9 @@ Capital costs for internal combustion engine (land transport), pump systems (for
 ```
 
 
-[^capex_elc_boiler]: Average capital cost taken from GIDI funded projects including electrical upgrades (where required)
-[^capex_wood_burner]: Average capital cost taken from GIDI funded projects including handling system
-[^capex_heat_pump]: Average capital cost taken from GIDI funded projects including electrical upgrades (where required)
+[^capex_elc_boiler]: Average capital cost taken from GIDI funded projects, with a 29% reduction applied to remove electrical upgrades that are represented elsewhere in the model.
+[^capex_wood_burner]: Average capital cost taken from GIDI funded projects, including handling system.
+[^capex_heat_pump]: Average capital cost taken from GIDI funded projects, with a 15% reduction applied to remove electrical upgrades that are represented elsewhere in the model.
 [^diesel_ice]: Limited data for these petrol technologies were available, so we assumed the capital costs matched the equivalent diesel engine costs.
 
 
