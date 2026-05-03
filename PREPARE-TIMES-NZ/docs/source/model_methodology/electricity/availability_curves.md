@@ -142,7 +142,7 @@ Hydro electricity generation uses a different approach. Here we assume generatio
 :header-rows: 1
 :name: tab_hydro_availability
 Season,North Island,South Island
-Sumner,45.3%,60.5%
+Summer,45.3%,60.5%
 Autumn,49.6%,56.1%
 Winter,38.1%,54.0%
 Spring,56.9%,64.0%

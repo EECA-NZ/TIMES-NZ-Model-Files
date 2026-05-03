@@ -521,9 +521,8 @@ The aviation sector has the ability to use SAF or move to Hydrogen aircraft. Fig
 ```
 
 
-Note that this only applies to domestic aviation, international aviation exists in the model for its impact on fuel demand but does not contribute to emissions. Hydrogen was not deemed feasible for international travel so has not provided as an option in this area.
+Note that this only applies to domestic aviation. International aviation exists in the model for its impact on fuel demand but does not contribute to emissions. Hydrogen was not deemed feasible for international travel, so it has not been provided as an option in this area.
 
 Estimates in this area are still very uncertain. The model will be updated when and if more accurate information on alternative aviation fuels becomes available. 
-
 
 
