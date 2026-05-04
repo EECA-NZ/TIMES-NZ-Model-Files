@@ -18,8 +18,6 @@ import polars as pl
 from times_nz_internal_qa.app.helpers.filters import apply_filters
 from times_nz_internal_qa.utilities.value_mappings import apply_value_mappings_pl
 
-MODEL_OUTPUT_YEARS = (2023, 2024, 2025, 2028, 2033, 2038, 2043, 2048)
-
 
 def show_df_size(df):
     """small helper function to print the mb size of a df"""
@@ -78,6 +76,20 @@ def complete_periods(
     result = result.with_columns(pl.col(value_col).fill_null(0))
 
     return result
+
+
+def get_model_output_years(df: pl.LazyFrame | pl.DataFrame) -> set[int]:
+    """Return the years explicitly present in the source model output."""
+    lf = ensure_lazy(df)
+    period_values = (
+        lf.select("Period")
+        .drop_nulls()
+        .unique()
+        .collect()
+        .get_column("Period")
+        .to_list()
+    )
+    return {int(period) for period in period_values}
 
 
 def read_data_pl(file_location, scenarios) -> pl.LazyFrame:
@@ -163,6 +175,7 @@ def make_chart_data(
     """
     # ensure lazy
     lf = ensure_lazy(lf)
+    model_output_years = get_model_output_years(lf)
 
     if complete_missing_periods:
         category_cols = [
@@ -182,7 +195,7 @@ def make_chart_data(
         col for col in pdf.columns if col not in ["Period", "Value", "MissingData"]
     ]
     pdf = pdf.sort_values(interp_group_cols + ["Period"]).copy()
-    pdf["MissingData"] = pdf["MissingData"] & ~pdf["Period"].isin(MODEL_OUTPUT_YEARS)
+    pdf["MissingData"] = pdf["MissingData"] & ~pdf["Period"].isin(model_output_years)
     pdf.loc[pdf["MissingData"], "Value"] = np.nan
     pdf["Value"] = pdf.groupby(interp_group_cols, observed=True)["Value"].transform(
         lambda s: s.interpolate(method="linear", limit_area="inside")

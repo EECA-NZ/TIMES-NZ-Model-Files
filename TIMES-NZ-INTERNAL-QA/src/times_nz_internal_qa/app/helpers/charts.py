@@ -225,6 +225,7 @@ def _apply_period_axis(fig: go.Figure, period_range) -> None:
         tickmode="array",
         tickvals=period_order,
         ticktext=period_order,
+        range=[-0.5, len(period_order) - 0.5],
     )
 
 

@@ -118,11 +118,9 @@ Demand,C_EDU-WH-Boiler-WOD,C_EDU-Boiler-WH,Commercial,Education,Heating/Cooling,
 Demand,C_EDU-WH-Boiler-PLT,C_EDU-Boiler-WH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_EDU-WH-Boiler-BIM,C_EDU-Boiler-WH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_EDU-WH-Boiler-H2R,C_EDU-Boiler-WH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_EDU-WH-AIRHP-ELC,C_EDU-WH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump (for Heating)
 Demand,C_EDU-WH-AIRHP-ELC,C_EDU-WH,Commercial,Education,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump (for Cooling)
 Demand,C_EDU-MPM-MPM-ELC,C_EDU-MPM,Commercial,Education,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,C_EDU-MPM-MPM-H2R,C_EDU-MPM,Commercial,Education,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,C_EDU-MPS-MPS-H2R,C_EDU-MPS,Commercial,Education,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,C_EDU-MPS-MPS-H2R,C_EDU-MPS,Commercial,Education,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,C_HLTH-SH-Boiler-PLT,C_HLTH-Boiler-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-SH-Boiler-ELC,C_HLTH-Boiler-SH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
@@ -137,11 +135,9 @@ Demand,C_HLTH-PH-Boiler-WOD,C_HLTH-Boiler-PH,Commercial,Healthcare,Heating/Cooli
 Demand,C_HLTH-PH-Boiler-PLT,C_HLTH-Boiler-PH,Commercial,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-PH-Boiler-BIM,C_HLTH-Boiler-PH,Commercial,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
 Demand,C_HLTH-PH-Boiler-H2R,C_HLTH-Boiler-PH,Commercial,Healthcare,Heating/Cooling,"Intermediate Heat (100-300 C), Process Requirements",Heat/Cooling Devices,Boiler Systems
-Demand,C_HLTH-WH-AIRHP-ELC,C_HLTH-WH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump (for Heating)
 Demand,C_HLTH-WH-AIRHP-ELC,C_HLTH-WH,Commercial,Healthcare,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump (for Cooling)
 Demand,C_HLTH-MPM-MPM-ELC,C_HLTH-MPM,Commercial,Healthcare,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,C_HLTH-MPM-MPM-H2R,C_HLTH-MPM,Commercial,Healthcare,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,C_HLTH-MPS-MPS-H2R,C_HLTH-MPS,Commercial,Healthcare,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,C_HLTH-MPS-MPS-H2R,C_HLTH-MPS,Commercial,Healthcare,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,C_OFFC-SH-Boiler-WOD,C_OFFC-Boiler-SH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OFFC-SH-Boiler-PLT,C_OFFC-Boiler-SH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
@@ -155,9 +151,7 @@ Demand,C_OFFC-WH-Boiler-BIM,C_OFFC-Boiler-WH,Commercial,Office Blocks,Heating/Co
 Demand,C_OFFC-WH-Boiler-H2R,C_OFFC-Boiler-WH,Commercial,Office Blocks,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OFFC-MPM-MPM-ELC,C_OFFC-MPM,Commercial,Office Blocks,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,C_OFFC-MPM-MPM-H2R,C_OFFC-MPM,Commercial,Office Blocks,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,C_OFFC-MPS-MPS-H2R,C_OFFC-MPS,Commercial,Office Blocks,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,C_OFFC-MPS-MPS-H2R,C_OFFC-MPS,Commercial,Office Blocks,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
-Demand,C_WSR-CK-Induction-ELC,C_WSR-CK,Commercial,WSR,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",,
 Demand,C_WSR-CK-Ovens-H2R,C_WSR-CK,Commercial,WSR,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,Cooking Ovens
 Demand,C_WSR-SH-Boiler-WOD,C_WSR-Boiler-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_WSR-SH-Boiler-PLT,C_WSR-Boiler-SH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
@@ -169,10 +163,8 @@ Demand,C_WSR-WH-Boiler-PLT,C_WSR-Boiler-WH,Commercial,WSR,Heating/Cooling,"Low T
 Demand,C_WSR-WH-Boiler-ELC,C_WSR-Boiler-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_WSR-WH-Boiler-BIM,C_WSR-Boiler-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_WSR-WH-Boiler-H2R,C_WSR-Boiler-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_WSR-WH-AirHP-ELC,C_WSR-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",,
 Demand,C_WSR-MPM-MPM-ELC,C_WSR-MPM,Commercial,WSR,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,C_WSR-MPM-MPM-H2R,C_WSR-MPM,Commercial,WSR,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,C_WSR-MPS-MPS-H2R,C_WSR-MPS,Commercial,WSR,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,C_WSR-MPS-MPS-H2R,C_WSR-MPS,Commercial,WSR,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
 Demand,C_OTH-SH-Boiler-WOD,C_OTH-Boiler-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OTH-SH-Boiler-PLT,C_OTH-Boiler-SH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Boiler Systems
@@ -184,11 +176,12 @@ Demand,C_OTH-WH-Boiler-PLT,C_OTH-Boiler-WH,Commercial,Other Commercial,Heating/C
 Demand,C_OTH-WH-Boiler-ELC,C_OTH-Boiler-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OTH-WH-Boiler-BIM,C_OTH-Boiler-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
 Demand,C_OTH-WH-Boiler-H2R,C_OTH-Boiler-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Boiler Systems
-Demand,C_OTH-WH-AirHP-ELC,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",,
 Demand,C_OTH-MPM-MPM-ELC,C_OTH-MPM,Commercial,Other Commercial,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
 Demand,C_OTH-MPM-MPM-H2R,C_OTH-MPM,Commercial,Other Commercial,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Internal Combustion Engine (Land Transport)
-Demand,C_OTH-MPS-MPS-H2R,C_OTH-MPS,Commercial,Other Commercial,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Electric Motor
 Demand,C_OTH-MPS-MPS-H2R,C_OTH-MPS,Commercial,Other Commercial,Stationary Motive Power,"Motive Power, Stationary",Stationary Motors,Stationary Engine
+Demand,C_WSR-CK-Induction-ELC,C_WSR-CK,Commercial,WSR,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,Cooking Elements
+Demand,C_WSR-WH-AirHP-ELC,C_WSR-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump (for Heating)
+Demand,C_OTH-WH-AirHP-ELC,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump (for Heating)
 Demand,T_P_CICEPET_LOW,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Internal Combustion Engine,Internal Combustion Engine (Petrol)
 Demand,T_P_CICEPET_MED,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Internal Combustion Engine,Internal Combustion Engine (Petrol)
 Demand,T_P_CICEPET_HIGH,T_P_Car,Transport,Road Transport,Light vehicles,Light Passenger Vehicle,Internal Combustion Engine,Internal Combustion Engine (Petrol)
