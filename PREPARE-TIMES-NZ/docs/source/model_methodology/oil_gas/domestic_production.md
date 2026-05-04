@@ -19,6 +19,8 @@ Gas production profiles as reported from 1 January 2020 through 1 January 2025
 ```
 We make no assumptions regarding the wholesale price of natural gas in the model. Rather, we assume the production cost remains flat at 9.03 NZD/GJ[^mbie_prices], and allow the model to optimise how best to distribute the shrinking supply. As demand continues to outstrip supply, this effectively means that the marginal "system cost" of consuming an additional unit of natural gas is equivalent to the cost of replacing it - usually through fuel switching - elsewhere in the system. 
 
+For distribution, TIMES-NZ uses a single North Island gas distribution process to move natural gas and biomethane into distributed gas commodities, and then applies fixed fuel-delivery cost assumptions in each demand sector through the standard fuel delivery processes. This means the gas network is represented as a fixed cost, no matter the volume of delivered gas. This simple approach captures system costs and leads to sensible optimisation behaviour. However, it does not currently allow for model representation of "death spirals", where distribution costs are spread over an ever-decreasing number of consumers. 
+
 We note that the declining upstream natural gas market will likely have significant impacts on the downstream sector, particularly for feedstock use at Methanex and Ballance's Kapuni site. Further details for these and other sites are covered in the industry sector assumptions documentation.
 
 
@@ -73,5 +75,7 @@ As this fuel is entirely exported, we do not allocate it a cost. It does not com
 LPG production forecasts show domestic production falling from 7.15 PJ in 2023  to 0.30 PJ by 2038, at which point Kapuni will be the only field producing LPG. After this point we assume domestic production ceases entirely.
 
 LPG is also imported, and we assume there is no limitation on import volumes. For domestic production, we assume the price is constant through time at 39 NZD/GJ[^lpg_prices]. Import prices are slightly higher, between 42 and 40 NZD/GJ. This is a change from the approach used in TIMES-NZ 2.0, where LPG prices rose significantly across the projection period for both imported and domestically produced LPG.
+
+Unlike natural gas, LPG is not represented through a dedicated distribution network process. It is supplied directly to end-use sectors with simple delivery-cost assumptions applied in the sector fuel delivery processes.
 
 [^lpg_prices]: In the absence of public data on wholesale LPG prices, we reference the [Mont Belvieu TX Propane Spot Price at Mont Belvieu, TX Propane Spot Price FOB (Dollars per Gallon)](https://www.eia.gov/dnav/pet/hist/eer_epllpa_pf4_y44mb_dpgD.htm) to estimate NZ import LPG commodity prices for LPG.

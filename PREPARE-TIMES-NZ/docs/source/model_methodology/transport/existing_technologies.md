@@ -612,7 +612,7 @@ Emissions factors for each thermal fuel are sourced from the Ministry for the En
 
 ```{list-table} Transport fuel emission factors
 :header-rows: 1
-:name: insert-table-name-here
+:name: tab-transport-fuel-emission-factors
 * - Fuel
   - Unit
   - CV MJ/Unit

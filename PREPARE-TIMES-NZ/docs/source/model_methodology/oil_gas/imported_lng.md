@@ -1,26 +1,22 @@
 # Imported LNG
 
-New Zealand does not yet have LNG importing capacity. During development of TIMES-NZ, The New Zealand government confirmed plans[^lng_pr] to establish a liquiefied natural gas import facility. This facility could be operational as early as 2027. 
+New Zealand does not yet have LNG importing capacity, but may install one in future.
 
-[^lng_pr]: MBIE | [Government says yes to liquefied natural gas](https://www.mbie.govt.nz/about/news/government-says-yes-to-liquefied-natural-gas)
-
-
-Previous versions of TIMES-NZ considered the costs of LNG import terminals under different configurations, allowing the model to choose between different terminal options based on overall costs and the requirements of the energy system. We have instead adjusted the LNG approach to ensure a fixed install date of the standard terminal configuration in 2027 in the Steady scenario, and removed LNG import options entirely from the Shift scenario to allow for comparison.
-
+Previous versions of TIMES-NZ considered the costs of LNG import terminals under different configurations, allowing the model to choose between different terminal options based on overall costs and the requirements of the energy system. In the current model build, we instead assume a fixed install date of the standard terminal configuration in 2027 in the Steady scenario.
 
 For LNG import terminal cost modelling, we reference recent reports from Gas Strategies prepared for the New Zealand market. Specifically, we look at the standard configuration option, which allows for flexible wholesale purchasing[^gas_strategies_standard]. It is possible to also model other approaches, such as the small-scale configuration[^gas_strategies_small], but this is not used in the current model version.
 
 ## Standard configuration details
 
-The standard configuration includes a bespoke FSU (Floating Storage Unit) and onshore regasification. The original report notes capital expenditure may range between \$189m and \$1,000m, with annualised costs over a 15-year duration of \$170m-\$210m. We assume the annualised cost represents the annualised capital cost and ongoing (annual) operational cost.
+The standard configuration includes a bespoke FSU (Floating Storage Unit) and onshore regasification. The original report notes capital expenditure may range between \$189m and \$1,000m, with annualised costs over a 15-year duration of \$170m-\$210m. We assume the annualised cost represents the annualised capital cost and ongoing annual operational cost.
 
-For the purposes of TIMES-NZ, we require separate capital and operational expenditure costs, in order that scenario-specific costs of capital can be modelled. To calculate this from the aggregate annualised costs presented in the report, we take the mid-point of the annualised cost range, being \$190m, and assume that this is a 50:50 split of annualised capital cost and operational cost (i.e., each of these costs are \$95m per annum). We then back-calculate the capital cost based on a cost of capital of 8.4% as stated in the report[^lng_discount]. This results in a capital cost of \$794m, which is towards the upper end of the quoted range.
+For the purposes of TIMES-NZ, we require separate capital and operational expenditure costs, in order that scenario-specific costs of capital can be modelled. To calculate this from the aggregate annualised costs presented in the report, we take the midpoint of the annualised cost range, being \$190m, and assume that this is a 50:50 split of annualised capital cost and operational cost. In the current model inputs, this is represented approximately as a capital cost of \$800m and an annual fixed operating cost of \$90m.
 
-We assume no annual limitation of total deliveries under this configuration, and full flexibility of purchasing. 
+In the current model inputs, the standard terminal is represented as a single 40 PJ/a configuration. We therefore assume full flexibility of purchasing within that terminal capacity, rather than unlimited annual deliveries.
 
-The landed cost of LNG under this configuration is estimated between 17.83 and 18.27 NZD/GJ, depending on market conditions. For TIMES-NZ, we assume a midrange value of 18 NZD/GJ. Note that this price is based on forward market prices. International LNG prices have stabilised in recent years, but have shown historical volatility, so this figure is subject to error.
+The landed cost of LNG under this configuration is estimated between 17.83 and 18.27 NZD/GJ, depending on market conditions. In the current model build, this is represented as 20 NZD/GJ in the Steady scenario. Note that these prices are based on forward market prices and scenario assumptions. International LNG prices have stabilised in recent years, but have shown historical volatility, so these figures are subject to error.
 
-We assume a fixed install date of 2027 for the Steady scenario, which is the earlist possible date the terminal may be operational[^lng_factsheet]. 
+We assume a fixed install date of 2027, which is the earliest possible date the terminal may be operational[^lng_factsheet]. 
 
 ```{eval-rst}
 .. note::
@@ -47,24 +43,22 @@ We assume a fixed install date of 2027 for the Steady scenario, which is the ear
 :name: tab_lng_imports
 :header-rows: 1
 
-Variable,Standard terminal 
-Annual maximum output,Unlimited[^import_limits]
-Capital cost NZDm,794
-Operating cost NZDm pa,95
+Variable,Standard terminal
+Annual maximum output,40 PJ/a[^import_limits]
+Capital cost NZDm,800
+Operating cost NZDm pa,90
 LNG commodity cost NZD/GJ,20
-Installation date, 2027
+Output fuel,NGA
+Availability,Available to the natural gas market in the Steady scenario
+Installation date,2027
 ```
 
 
-Note that we assume that LNG consumption will be subject to the same emissions factor as domestic natural gas. Additional emissions factors associated with regasification or leakage of LNG are not currently included. 
+Note that we assume that LNG consumption will be subject to the same emissions factor as domestic natural gas. Additional emissions factors associated with regasification or leakage of LNG are not currently included. The LNG commodity and terminal are further locked to the North Island in the source inputs.
 
 Because we currently set fixed install dates for terminals, assuming a single terminal is installed in 2027, the modelling solution is straightforward. Note that if you wished to expand the method to allow the model to choose optimal installation dates for the terminal, a Mixed Integer Programming[^mip] solution would be required to ensure that no partial terminals could be constructed.
 
-[^import_limits]: We assume that the maximum annual LNG demand will never exceed the throughput of the standard terminal configuration.
+[^import_limits]: The current model input sets `CAP2ACT = 40` for `LNGPORTSTD`, so one configured terminal can supply up to 40 PJ/a.
 
 [^mip]: In its default state, TIMES reaches an optimal model solution as a linear programming solution. This means that it could choose to build, for example, a fraction of an LNG import terminal. This is not realistic, so we limit LNG import options to “integer states”, meaning either the entire facility is built or not at all. This requires a Mixed Integer Programming solution, which increases the computational load of the model but is necessary for plausible results.
 
-
-## Scenario Adjustments 
-
-While both scenarios include LNG import options, we adjust the cost and availability for the Shift scenario. Here, the likely future cost is raised from 20 to 40 NZD/GJ, reflecting the potential of much higher import costs caused by global geopolitical instablity. We further create a "two-tier" market for gas in this scenario, allowing the use of LNG only for electricity generation.

@@ -3,7 +3,7 @@
 
 For the 3.0 release, the hydrogen model was refined based on the developments in the hydrogen industry and broader energy landscape since TIMES-NZ 2.0 was released. Note that this document only covers the production and distribution of hydrogen, end use technologies were captured in the sector consultations.
 
-Hydrogen in the model is exclusively produced exclusively through electrolysis. The model does not need to make “green” hydrogen with only renewable energy, instead it uses grid electricity and optimises the generation mix and timing of hydrogen production to deliver to the lowest cost fuel to the system (noting that carbon emissions from any of these activities occur a cost).
+Hydrogen in the model is produced exclusively through electrolysis. The model does not need to make “green” hydrogen with only renewable energy; instead, it uses grid electricity and optimises the generation mix and timing of hydrogen production to deliver the lowest-cost fuel to the system, noting that carbon emissions from any of these activities occur at a cost.
 
 Blue hydrogen (using Steam Methane Reforming of natural gas with carbon capture and storage) was removed due to the decline in indigenous gas availability making this to be an unlikely solution for NZ. Naturally occurring hydrogen (white hydrogen) was not considered due to it being very early in its development.
 

@@ -8,7 +8,7 @@ For the `Steady` scenario, we extrapolate the compound annual average growth rat
 
 Some sectors use custom treatments rather than a simple EEUD-based growth rate:
 
-- `Dairy` demand is mapped to the same projection used for `Dairy Cattle Farming` in the agriculture module, which tracks the ERP2 `Total dairy cattle` series.
+- `Dairy` demand is mapped to the same projection used for `Dairy Cattle Farming` in the agriculture module, which tracks the ERP2 `Total dairy cattle` series[^erp2_results].
 - `Iron & Steel` demand is further adjusted through the Electric Arc Furnace (EAF) pathway.
 - `Methanol` uses an exogenous Methanex demand path based on observed GIC demand.
 - `Urea` is held flat in the demand projections, but may still reduce endogenously in the model if gas becomes sufficiently scarce and expensive.
@@ -74,3 +74,4 @@ This is implemented using a marginal price of 18 NZD/GJ to represent the potenti
 This means the `Urea` sector is not assigned an exogenous closure year in the demand projections. Instead, closure or partial reduction can emerge from modelled gas market conditions.
 
 [^gas_voll]: This is the assumed price at which this business may exit the market if alternative feedstocks cannot be sourced. TIMES shadow prices reflect either the cost of production or, if demand exceeds supply, the marginal cost of reducing gas demand elsewhere. TIMES-NZ makes no effort to estimate the cost pressures faced by individual businesses, so this value is necessarily a rough estimate.
+[^erp2_results]: MPI | New Zealand's second emissions reduction plan 2026-30: [Technical Annex](https://environment.govt.nz/publications/second-emissions-reduction-plan-technical-annex/) and [Detailed Results (.xlsx)](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fenvironment.govt.nz%2Fassets%2Fpublications%2Fclimate-change%2FERP2%2FDetailed-results-for-ERP2-projection-scenarios.xlsx&wdOrigin=BROWSELINK)

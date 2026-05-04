@@ -92,7 +92,7 @@ Total,29.11,100%
 
 
 
-We have identified many alternative decarbonisation technologies which have already been implemented. We implement  used those base year shares for key technologies ({numref}`tab_agr_current_eeo_uptake`) and off-road vehicle diesel splits ({numref}`tab_agr_diesel_onfarm`). These figures are assumptions, but are based based on the EEUD, in-house expertise, and published estimates (Massey University[^power_systems_dairy_sheds]; University of Canterbury for forestry[^timber_harvesting_fuel]). 
+We have identified many alternative decarbonisation technologies which have already been implemented. We use those base year shares for key technologies ({numref}`tab_agr_current_eeo_uptake`) and off-road vehicle diesel splits ({numref}`tab_agr_diesel_onfarm`). These figures are assumptions, but are based on the EEUD, in-house expertise, and published estimates (Massey University[^power_systems_dairy_sheds]; University of Canterbury for forestry[^timber_harvesting_fuel]). 
 
 [^power_systems_dairy_sheds]: Marshall-Tate, 2017, [Power Systems for Dairy Sheds](https://mro.massey.ac.nz/bitstream/handle/10179/13433/02_whole.pdf?sequence=3&isAllowed=y)
 
@@ -160,5 +160,4 @@ Forestry and Logging,Natural Gas,All,100%
 "Fishing, Hunting and Trapping",All,All,32%
 Other Agriculture,All,All,50%
 ```
-
 

@@ -139,7 +139,7 @@ Emission factors for existing plants during 2023 are sourced from New Zealand Ge
 
 ### Future geothermal plant emissions
 
-Emission factors for future geothermal plants depend on whether NCG reinjection has been signalled at these plants and is otherwise based on assumption. If good information is not available for these plants, we apply a default emission factor of 62 gCO2e/kWh in the first year of operation, with emissions declining over time (see {ref}`'Field reductions over time' <heading-field-reductions>`). The emission factor assumptions for future geothermal plants are as follows: 
+Emission factors for future geothermal plants depend on whether NCG reinjection has been signalled at these plants and are otherwise based on assumptions. If good information is not available for these plants, we apply a default emission factor of 62 gCO2e/kWh in the first year of operation, with emissions declining over time (see {ref}`'Field reductions over time' <heading-field-reductions>`). The emission factor assumptions for future geothermal plants are as follows: 
 
 ```{list-table} Emission factors for future geothermal plants
 :header-rows: 1

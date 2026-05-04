@@ -28,7 +28,7 @@ TIMES-NZ 3.0 adjusts natural gas supply across the two scenarios, as the future 
 
 The Steady scenario includes LNG import options, reflecting greater willingness to invest in gas market support infrastructure. Domestic natural gas supply itself is based on the latest MBIE 2P production profiles. 
 
-In the Shift scenario, LNG import options are disabled. Domestic natural gas supply is likewise limited to the proven and probable (2P) reserves as of January 2025. 
+In the Shift scenario, LNG import options are disabled in the current build. However, a Shift-specific LNG configuration is still retained in the source inputs so it can be re-enabled later if required. Domestic natural gas supply is likewise limited to the proven and probable (2P) reserves as of January 2025. 
 
 Neither scenario includes additional natural gas supply from as-yet undiscovered fields. No other oil product parameters are adjusted across the scenarios. Notably, we assume global oil prices and our ability to import oil products remain the same in both scenarios. There is potential to adjust these for future sensitivity testing. 
 

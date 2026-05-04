@@ -1,8 +1,8 @@
 # Disabled base year technologies
 
-By default, TIMES-NZ will enable all existing technologies to have more of themselves built in the future, at whatever costs were specified in the original data. These existing technologies are called "base year" technologies. 
+By default, TIMES-NZ will enable all existing technologies to be built again in the future, at whatever costs were specified in the original data. These existing technologies are called "base year" technologies. 
 
-In many cases, this is appropriate, such as allowing the model to build more heatpumps based on existing heatpump technology. However, for some technologies, it is not appropriate to build more. 
+In many cases, this is appropriate, such as allowing the model to build more heat pumps based on existing heat pump technology. However, for some technologies, it is not appropriate to build more. 
 
 Key reasons for disabling: 
 

@@ -3,7 +3,7 @@
 
 `data_raw/user_config` contains all the toml files which outline the structure of the excel files that will be produced for TIMES/VEDA. These are effectively metadata describing what data should go into the excel sheets, and how it should be arranged.
 
-## Key toml obects
+## Key toml objects
 
 The `.toml` configuration files must contain the following objects.
 
@@ -11,7 +11,7 @@ The `.toml` configuration files must contain the following objects.
 
 The workbook name (internally referred to as `WorkBookName`). This names the workbook that the data will be saved to.
 
-This workbook name is applied to all tags in the toml file, and they will be saved under this workbook name by default. It is possible to add a different `WorkBookName` to individual table configs within the file, and this will overwrite the default one. THis is sometimes useful when you want to create a small, supplementary file (such as a subres transformation file) but would prefer to keep all the config rules in a single place.
+This workbook name is applied to all tags in the toml file, and they will be saved under this workbook name by default. It is possible to add a different `WorkBookName` to individual table configs within the file, and this will overwrite the default one. This is sometimes useful when you want to create a small, supplementary file (such as a subres transformation file) but would prefer to keep all the config rules in a single place.
 
 Note the following: 
 
@@ -37,21 +37,21 @@ This names the sheet this table is added to. If missing, it will default to crea
 ### `[TagName]`
 This sets the tag for this table (eg "FI_T", etc). Tilde not needed. If missing, it will default to the TableName (this will almost always mean Veda doesn't know what you're talking about, except for some SysSettings tags)
 ### `[UCSets]`
-The uc_sets designation. If missing, will not be used. This is just for the user constraint tables and will often not be necessary. If used, they must be a dict (see below for implentation options )
+The uc_sets designation. If missing, it will not be used. This is just for the user constraint tables and will often not be necessary. If used, it must be a dict (see below for implementation options).
 ### `[Description]`
 Enter a short description of the purpose of this table. Not used by TIMES/VEDA, so can be anything you want. Will be read into the config metadata table, so can be helpful for reviewing the final structure later. Is also printed to the output tables for a quick reference. 
 ### `[DataLocation]`
 The file path for the data this table is expected to contain. If missing, it will instead look for `Data`.
 ### `[Data]`
 A dictionary for the data contained in this TableName. Allows you to specify the data directly in the config file rather than an external file, which can be useful for smaller, simpler tables.
-Note: If both `Data` and `DataLocation` are not included within TableName, then the module will take all variables not listed above and assume these are intended to be a dictionary of data. This means it will insert these into the final excel file. 
+Note: If both `Data` and `DataLocation` are not included within TableName, then the module will take all variables not listed above and assume these are intended to be a dictionary of data. This means it will insert these into the final Excel file. 
 
 
 
 ## Example config files
 
 ### TOML `TableName` examples
-THe below is the simplest possible table, with a `TableName` of `StartYear`. This creates a small table with a single variable and entry, which will be written to a sheet in the workbook 
+The example below is the simplest possible table, with a `TableName` of `StartYear`. This creates a small table with a single variable and entry, which will be written to a sheet in the workbook. 
 
 
   ```toml
@@ -59,7 +59,7 @@ THe below is the simplest possible table, with a `TableName` of `StartYear`. Thi
   StartYear = 2023
   ```
 
-It is possibly to instead store data in `TableName.Data` more directly: 
+It is possible to instead store data in `TableName.Data` more directly: 
 
   ```toml
   [TimePeriods]
@@ -106,7 +106,7 @@ There are two ways to do this in the config `.toml` files. First is using a nest
   T_S = ""
             
   ```
-It's however also possible to just insert the dictionary as a string, like: 
+It is, however, also possible to insert the dictionary as a string, like: 
 
   ```toml
   [UserConstraint]
@@ -115,5 +115,4 @@ It's however also possible to just insert the dictionary as a string, like:
   DataLocation = "data_raw/constraints/some_constraints.csv"
   UCSets = "{'R_S': 'Allregions', 'T_S': ''}"             
   ```
-
 

@@ -81,7 +81,7 @@ This command reads the files in `source` and builds the site in `build`. `build`
 
 You need to establish headings in Markdown, which don't immediately translate if you copy text into Markdown. Just label the page's title with `#` and subheadings with `##`, `###`, and so on. It's best to have only a single top-level heading per document, as this heading is used by the site's contents tables and navigation pane. It might also be useful to break documentation down into several pages, linked with an `index.md` toctree.
 
-Paragraph breaks in Word do not immediately render as paragraph breaks in MyST Markdown, and instead just carry on on the same line. You need to add an additional linebreak. 
+Paragraph breaks in Word do not immediately render as paragraph breaks in MyST Markdown, and instead just carry on the same line. You need to add an additional line break. 
 
 **Incorrect:**
 
@@ -176,13 +176,13 @@ Here's an example:
     | A                       | B                       |
     +-------------------------+-------------------------+
 ```
-You must tab_indent the table and `:name:`. The spacing is very particular. If anything is not placed precisely, the table will fail to render. This is often more trouble than it's worth. It might be better to just leave some cells null, like in {ref}`the battery page <storage-key-assumptions>`.
+You must indent the table and `:name:` using tabs. The spacing is very particular. If anything is not placed precisely, the table will fail to render. This is often more trouble than it's worth. It might be better to just leave some cells null, like in {ref}`the battery page <storage-key-assumptions>`.
 
 #### Expandable (large) tables 
 
-Sometimes we want to add a table but it doesn't quite fit in the theme's banner, and a user will have to scroll to see it all. 
+Sometimes we want to add a table but it doesn't quite fit in the theme's content area, and a user will have to scroll to see it all. 
 
-This is not ideal UX, so we added a custom class called 'expandable-table' for the Myst tables. simply add the class to your table, and it will render with the option to "pop out" and take up a full screen. 
+This is not ideal UX, so we added a custom class called `expandable-table` for MyST tables. Simply add the class to your table, and it will render with the option to "pop out" and take up the full screen. 
 
 ````
 ```{list-table} Example Table (Expandable)
@@ -374,11 +374,11 @@ The Sphinx engine can build Word documents from our documentation pages. This us
 
 2) The document metadata, which is stored as a list called `docx_documents` in `source/conf.py`. Each new document is generated separately, and tied to an existing toctree file in the documentation. In this way we can generate multiple smaller documentation by selecting the relevant toctree's index file. This also contains additional metadata in the `docproperties` dict, which is used to populate the Word document's fields. See `conf.py` for examples of page setups. 
 
-Note that we currently use a powershell script to automatically populate the document's fields, such as Table of Contents page numbers or Date and Title. It is not possible to do this in the input XML, as these are Word client side settings, intended to be manually updated by users. To avoid manually updating everything each time you generate Word documentation, we use a bash and powershell scripts 
+Note that we currently use a PowerShell script to automatically populate the document's fields, such as Table of Contents page numbers or Date and Title. It is not possible to do this in the input XML, as these are Word client-side settings intended to be manually updated by users. To avoid manually updating everything each time you generate Word documentation, we use bash and PowerShell scripts. 
 
 ```{eval-rst}
 .. note::
-   This process assumes you are working in WSL. If you are working in Windows, this process would be simpler as you can invoke powershell directly without moving files to the Windows system. TIMES-NZ developers work in Linux, so the Windows-native process is not documented here.
+   This process assumes you are working in WSL. If you are working in Windows, this process would be simpler as you can invoke PowerShell directly without moving files to the Windows system. TIMES-NZ developers work in Linux, so the Windows-native process is not documented here.
 ```
 ### Running the bash scripts
 
@@ -407,7 +407,6 @@ Then, simply run (again, from `docs/`):
 Note that transfer between WSL and the Windows filesystem can be slow. Output files are stored in `docs/build/docx/`.
 
 For an alternative, simpler process, you can simply run: `sphinx-build -b docx source build/docx`, which does not require any scripts. This creates the Word documents as above, but does not update the TOC, Date, Title, or other fields. 
-
 
 
 

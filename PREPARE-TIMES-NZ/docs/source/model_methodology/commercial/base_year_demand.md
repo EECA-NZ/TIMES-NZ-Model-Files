@@ -109,7 +109,7 @@ Building Services ,<1%,"Lighting, security, fire suppression "
 
 
 
-[^nztech_2025]: NZTech (2025). [Empowering Aotearoa New Zealand’s Digital Future: Our national data centre infrastructure](https://technewzealand.org.nz/wp-content/uploads/sites/8/2025/09/NZTech-Data-Centres-Report-Final-DIGITAL-002.pdf
+[^nztech_2025]: NZTech (2025). [Empowering Aotearoa New Zealand’s Digital Future: Our national data centre infrastructure](https://technewzealand.org.nz/wp-content/uploads/sites/8/2025/09/NZTech-Data-Centres-Report-Final-DIGITAL-002.pdf)
 [^mbie_edgs]: MBIE | EDGS 2024: <https://www.mbie.govt.nz/assets/electricity-demand-and-generation-scenarios-report-2024.pdf>
 
 [^pue_explain]: PUE = Total Facility Energy / IT Equipment Energy. An ideal PUE is 1.0, meaning all electricity goes to IT equipment (no overhead). In practice, some energy is always consumed by cooling, power conditioning, and other support systems.

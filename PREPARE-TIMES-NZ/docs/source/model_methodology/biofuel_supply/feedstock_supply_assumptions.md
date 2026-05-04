@@ -13,7 +13,7 @@ This page summarises the TIMES-NZ feedstock supply assumptions used for biofuel 
   - TIMES implementation
 * - `Steady`
   - Uses the baseyear biofuel supply assumptions.
-  - Variable feedstocks use Scion’s 2024–2053 regional biomass projections with `Recoverability factor 2 (% of gross)`. Constant supply overrides are applied for municipal waste, animal manure, waste oil, and tallow waste.
+  - Variable feedstocks use Scion’s 2024–2053 regional biomass projections[^scion_biomass] with `Recoverability factor 2 (% of gross)`. Constant supply overrides are applied for municipal waste, animal manure, waste oil, and tallow waste.
 * - `Shift`
   - Uses the higher bioenergy supply assumptions represented by `AdditionalBioenergySupply`.
   - Variable feedstocks use `Recoverability factor 1 (% of gross)`. Municipal waste and animal manure constant supply assumptions are multiplied by four. Waste oil and tallow waste assumptions are unchanged. The additional scenario applies from 2026 onward.
@@ -56,3 +56,4 @@ The supply assumptions above apply across the feedstock processes used in the bi
   - Unchanged from `Steady`.
 ```
 
+[^scion_biomass]: IEA Bioenergy | [Residual biomass fuel projections for New Zealand; 2024](https://www.ieabioenergy.com/wp-content/uploads/2024/11/NZ-Woody-Biomass-Residues-and-Resources-2024.pdf). Peter Hall, Scion.

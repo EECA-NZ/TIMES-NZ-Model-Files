@@ -1,11 +1,11 @@
 # Cost and capability assumptions
 
 
-The model can select either Proton Exchange Membrane (PEM) or Alkaline electrolysers, each with their own costs and efficiencies. These values have been sourced from Aurecon, with the work they undertook with the Australian Energy Market Operator (AEMO) the Commonwealth Scientific and Industrial Research Organisation (CSIRO) for their GenCost model[^energy_technology_parameter].
+The model can select either Proton Exchange Membrane (PEM) or Alkaline electrolysers, each with their own costs and efficiencies. These values have been sourced from Aurecon, from work they undertook with the Australian Energy Market Operator (AEMO) and the Commonwealth Scientific and Industrial Research Organisation (CSIRO) for their GenCost model[^energy_technology_parameter].
 
-Electrolyser cost figures can vary significantly by source, the CSIRO/Aurecon figures were chosen due to their recency and Australia being seen as a similar business environment to New Zealand. We are aware of claims of Alkaline electrolysers from China at very low costs, however we note that both Aurecon and the International Energy Agency (IEA)[^global_hydrogen] have found that once installed in Western countries these costs increase significantly. Should this change in future, the values can be updated.
+Electrolyser cost figures can vary significantly by source. The CSIRO/Aurecon figures were chosen due to their recency and because Australia is seen as a similar business environment to New Zealand. We are aware of claims of Alkaline electrolysers from China at very low costs; however, we note that both Aurecon and the International Energy Agency (IEA)[^global_hydrogen] have found that once installed in Western countries these costs increase significantly. Should this change in future, the values can be updated.
 
-Projections for future costs are from the GenCost[^gencost_2024-25] model, using their ‘Current Policies’ scenario for our Steady Scenario, and their ‘Post 2050 net zero’ for our Shiftal scenario.
+Projections for future costs are from the GenCost[^gencost_2024-25] model, using their ‘Current Policies’ scenario for our Steady scenario, and their ‘Post 2050 net zero’ scenario for our Shift scenario.
 
 Electricity costs are excluded from the table below, as they are determined by the model in its solution. Fixed O&M costs include refreshing the electrolyser every 10 years and are from the CSIRO/Aurecon work.
 
