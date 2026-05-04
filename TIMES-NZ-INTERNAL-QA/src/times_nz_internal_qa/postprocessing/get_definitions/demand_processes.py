@@ -132,6 +132,9 @@ def get_commercial_demand_processes():
 
     df = df[demand_process_categories].drop_duplicates()
 
+    newtech_patch = pd.read_csv(COMMERCIAL_CONCORDANCES / "newtech_patches.csv")
+    df = pd.concat([df, newtech_patch]).drop_duplicates(subset=["Process"], keep="last")
+
     return df
 
 
