@@ -46,8 +46,6 @@ group_cols = [
     "Unit",
 ]
 
-DC_ENERGY_DEMAND = 0.856  # PJ, from NZTech data centre report
-
 # Be tolerant of Windows-encoded source CSVs
 READ_OPTS = {"encoding": "cp1252", "encoding_errors": "replace"}
 MISSING_TOKENS = {"", "NA", "N/A", "NONE", "NULL", "UNKNOWN"}
@@ -68,7 +66,6 @@ SPLITS_FILE = (
     COMMERCIAL_ASSUMPTIONS / "fuel_splits_by_sector_enduse.csv"
 )  # Sector, Fuel, Enduse, Share
 LIGHT_SPLITS_FILE = COMMERCIAL_ASSUMPTIONS / "light_splits.csv"
-SPLITS_DATA_CENTRES = COMMERCIAL_ASSUMPTIONS / "data_centre_demand.csv"
 
 # Output names
 OUT_BASEYEAR = "1_times_eeud_alignment_baseyear.csv"
@@ -390,69 +387,30 @@ def split_na_rows(df: pd.DataFrame) -> pd.DataFrame:
 
 def allocate_data_centre_demand(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Allocate DC_ENERGY_DEMAND using splits from data_centre_demand.csv,
-    then (optionally) deduct from ANZSIC J.
+    Use existing EEUD data-centre rows for the base year and deduct the same
+    amount from ANZSIC J to avoid double-counting within commercial demand.
+
+    This is done because we believe there is double-counting in EEUD:
+    so this step should be removed if that is fixed.
     """
-    # Load + normalize column headers
-    splits_raw = pd.read_csv(SPLITS_DATA_CENTRES, encoding="utf-8-sig")
-    cmap = {_norm_header(c): c for c in splits_raw.columns}
-    required = [
-        "fuel",
-        "technologygroup",
-        "technology",
-        "enduse",
-        "endusegroup",
-        "share",
-    ]
-    missing = [k for k in required if k not in cmap]
-    if missing:
-        raise KeyError(
-            f"data_centre_demand.csv missing columns {missing}. Found: {list(splits_raw.columns)}"
+    dc_mask = (
+        (df["Year"] == BASE_YEAR)
+        & (df["SectorGroup"] == "Commercial")
+        & (
+            df["Sector"]
+            .astype(str)
+            .str.contains(r"^Data Cent(?:re|er)s?$", case=False, na=False, regex=True)
         )
-
-    splits = splits_raw[[cmap[k] for k in required]].rename(
-        columns={
-            cmap["fuel"]: "Fuel",
-            cmap["technologygroup"]: "TechnologyGroup",
-            cmap["technology"]: "Technology",
-            cmap["enduse"]: "EndUse",
-            cmap["endusegroup"]: "EnduseGroup",
-            cmap["share"]: "Share",
-        }
     )
-    splits["Share"] = pd.to_numeric(splits["Share"], errors="coerce").fillna(0.0)
-
-    # Normalize shares to sum to 1 (protect against tiny rounding differences)
-    s_sum = splits["Share"].sum()
-    if s_sum <= 0:
-        raise AssertionError("Data-centre split shares sum to zero.")
-    splits["Share"] = splits["Share"] / s_sum
-
-    # Build DC rows — ensure SectorGroup is set
-    dc_rows = []
-    for _, r in splits.iterrows():
-        dc_rows.append(
-            {
-                "SectorGroup": "Commercial",
-                "Sector": "Data Centre",
-                "SectorANZSIC": "J",  # keep if you want to tag DC as J; otherwise "NA"
-                "FuelGroup": r["Fuel"],  # map if FuelGroup != Fuel in your schema
-                "Fuel": r["Fuel"],
-                "TechnologyGroup": r["TechnologyGroup"],
-                "Technology": r["Technology"],
-                "EnduseGroup": r["EnduseGroup"],
-                "EndUse": r["EndUse"],
-                "Transport": "NA",
-                "Year": BASE_YEAR,
-                "Unit": "PJ",
-                "Value": DC_ENERGY_DEMAND * r["Share"],
-            }
+    dc_df = df.loc[dc_mask].copy()
+    if dc_df.empty:
+        logger.warning(
+            "No base-year data-centre rows found in EEUD input; skipping ANZSIC J deduction."
         )
-    dc_df = pd.DataFrame(dc_rows)
+        return df
 
-    # Harmonise NAs to your convention BEFORE concatenation
-    for col in ["TechnologyGroup", "Technology", "EndUse", "EnduseGroup"]:
-        dc_df[col] = dc_df[col].fillna("NA")
+    # Normalise any legacy lighting labels for the deduction matching below.
+    dc_df.loc[(dc_df["EndUse"] == "Lighting"), "Technology"] = "LED"
 
     # Deduct from ANZSIC J (loosened matching for lighting splits)
     for _, r in dc_df.iterrows():
@@ -479,30 +437,22 @@ def allocate_data_centre_demand(df: pd.DataFrame) -> pd.DataFrame:
                 df.loc[mask, "Value"] -= df.loc[mask, "Value"] / total * r["Value"]
                 df.loc[mask, "Value"] = df.loc[mask, "Value"].clip(lower=0)
 
-    # Add DC rows
-    out = pd.concat([df, dc_df], ignore_index=True)
-
     # Diagnostic
-    allocated = out[(out["Sector"] == "Data Centre") & (out["Year"] == BASE_YEAR)][
-        "Value"
-    ].sum()
+    allocated = dc_df["Value"].sum()
     logger.info(
-        "Data Centre allocated: %.3f PJ (target %.3f PJ)", allocated, DC_ENERGY_DEMAND
+        "Data Centers demand found in EEUD and used for ANZSIC J deduction: %.3f PJ",
+        allocated,
     )
-    if abs(allocated - DC_ENERGY_DEMAND) > 1e-6:
-        raise AssertionError("Data Centre allocation did not sum to DC_ENERGY_DEMAND")
 
     save_checks(
-        out[out["Sector"] == "Data Centre"]
-        .groupby(
+        dc_df.groupby(
             ["Fuel", "TechnologyGroup", "Technology", "EnduseGroup", "EndUse"],
             as_index=False,
-        )["Value"]
-        .sum(),
+        )["Value"].sum(),
         "data_centre_allocation.csv",
         "data centre allocation",
     )
-    return out
+    return df
 
 
 def apply_light_splits(
@@ -519,18 +469,25 @@ def apply_light_splits(
 
     key = ["TechnologyGroup", "EndUse", "EnduseGroup", "Fuel"]
 
+    # Exclude data-centre rows from lighting split
     mask = df["Technology"].astype(str).str.strip().eq(base_technology)
-    if not mask.any():
-        logger.info("No '%s' rows to split; skipping lights split", base_technology)
-        return df
+    dc_sector_mask = (
+        df["Sector"]
+        .astype(str)
+        .str.contains(r"^Data Cent(?:re|er)s?$", case=False, na=False, regex=True)
+    )
+    mask_dc = mask & dc_sector_mask
+    mask_non_dc = mask & ~dc_sector_mask
 
-    base_rows = df[mask].copy()
+    base_rows_dc = df[mask_dc].copy()
+    base_rows_non_dc = df[mask_non_dc].copy()
     keep_rows = df[~mask].copy()
 
-    # Give each base row a unique id so we can conserve totals per-row
-    base_rows["_rid"] = base_rows.index
+    # Data Centers lighting rows: keep as-is (100% LED already set)
 
-    # (Optional but recommended) clean split keys
+    # Non-Data Centers lighting rows: apply splits
+    base_rows_non_dc["_rid"] = base_rows_non_dc.index
+    key = ["TechnologyGroup", "EndUse", "EnduseGroup", "Fuel"]
     for c in key:
         if c in ls.columns:
             ls[c] = (
@@ -541,66 +498,52 @@ def apply_light_splits(
                 .str.strip()
             )
     for c in key:
-        if c in base_rows.columns:
-            base_rows[c] = (
-                base_rows[c]
+        if c in base_rows_non_dc.columns:
+            base_rows_non_dc[c] = (
+                base_rows_non_dc[c]
                 .astype(str)
                 .str.replace("\ufeff", "", regex=False)
                 .str.replace(r"\s+", " ", regex=True)
                 .str.strip()
             )
 
-    joined = base_rows.merge(ls[key + ["TechnologyNew", "Share"]], on=key, how="left")
+    joined = base_rows_non_dc.merge(
+        ls[key + ["TechnologyNew", "Share"]], on=key, how="left"
+    )
 
     matched = joined["Share"].notna()
-    # --- 1) keep unmatched base-technology rows AS-IS (no loss)
-    # If a base row has no matches at all, it will appear exactly once with Share NaN
     unmatched_rows = joined[~matched].copy()
-    # Reduce unmatched back to the original base rows (drop split columns)
     if not unmatched_rows.empty:
         unmatched_rows = unmatched_rows.drop(
             columns=["TechnologyNew", "Share"], errors="ignore"
         ).drop_duplicates(subset=["_rid"])
 
-    # --- 2) split matched rows (renormalize shares per _rid to preserve totals)
     split_rows = joined[matched].copy()
     if not split_rows.empty:
-        # Ensure numeric Value
         split_rows["Value"] = pd.to_numeric(split_rows["Value"], errors="coerce")
-
-        # Sum of shares per original row
         share_sum = split_rows.groupby("_rid")["Share"].transform("sum")
-
-        # Avoid divide-by-zero; where share_sum is 0/NaN, fall back to 1 (will keep Value unchanged)
         share_sum_safe = share_sum.where(share_sum > 0, 1.0)
-
-        # Scale so split Values sum exactly to the original Value per _rid
         split_rows["Value"] = split_rows["Value"] * (
             split_rows["Share"] / share_sum_safe
         )
-
-        # Assign new technologies and drop helper columns
         split_rows["Technology"] = split_rows["TechnologyNew"]
         split_rows = split_rows.drop(columns=["TechnologyNew", "Share"])
 
-    # combine and re-aggregate
-    # Note: exclude helper _rid from grouping
-    grouping_cols = [c for c in df.columns if c != "Value"]
-    # Ensure we drop the helper _rid before final groupby
-    for tmp in (keep_rows, unmatched_rows, split_rows):
+    for tmp in (keep_rows, base_rows_dc, unmatched_rows, split_rows):
         if "_rid" in tmp.columns:
             tmp.drop(columns="_rid", inplace=True, errors="ignore")
 
+    grouping_cols = [c for c in df.columns if c != "Value"]
     out = (
-        pd.concat([keep_rows, unmatched_rows, split_rows], ignore_index=True)
+        pd.concat(
+            [keep_rows, base_rows_dc, unmatched_rows, split_rows], ignore_index=True
+        )
         .groupby(grouping_cols, as_index=False, dropna=False)["Value"]
         .sum()
     )
 
-    # optional: tame tiny float drift
     out["Value"] = out["Value"].round(12)
 
-    # sanity check: totals before vs after for the base tech
     before_total = df.loc[mask, "Value"].sum(skipna=True)
     after_total = out.loc[
         out["Technology"].str.startswith("Lights", na=False), "Value"
@@ -617,7 +560,6 @@ def apply_light_splits(
             after_total - before_total,
         )
 
-    # optional: keep your existing check output
     chk = (
         out[out["Technology"].str.startswith("Lights", na=False)]
         .groupby(
@@ -685,7 +627,7 @@ def main() -> None:
     logger.info("Splitting fully-NA tech/enduse rows using sector×enduse shares…")
     df = split_na_rows(df)
 
-    logger.info("Allocating Data Centre demand and deducting from ANZSIC J…")
+    logger.info("Allocating Data Centers demand and deducting from ANZSIC J…")
     df = allocate_data_centre_demand(df)
 
     logger.info("Applying lighting technology splits (Incandescent/Fluorescent/LED)…")

@@ -1,0 +1,30 @@
+# Distributed Solar Forecasts
+# Scenario files to update the distributed solar forecasts for residential, commercial, and industrial sectors
+
+# Add top-level WorkBookName for parser compatibility
+WorkBookName = "SuppXLS/Scen_DistributedSolar_Steady"
+
+##################################################################
+# Steady Scenario 
+##################################################################
+
+
+[SteadyDistributedSolarForecasts]
+WorkBookName = "SuppXLS/Scen_DistributedSolar_Steady"
+Description = "Add exogenous distributed solar forecasts"
+SheetName = "DistributedSolar"
+TagName = "TFM_INS" # TFM tags for scenario files
+DataLocation = "data_intermediate/stage_3_scenario_data/distributed_solar/distributed_solar_Steady.csv"
+
+
+##################################################################
+# Shift Scenario 
+##################################################################
+
+
+[ShiftDistributedSolarForecasts]
+WorkBookName = "SuppXLS/Scen_DistributedSolar_Shift"
+Description = "Add exogenous distributed solar forecasts"
+SheetName = "DistributedSolar"
+TagName = "TFM_INS" # TFM tags for scenario files
+DataLocation = "data_intermediate/stage_3_scenario_data/distributed_solar/distributed_solar_Shift.csv"

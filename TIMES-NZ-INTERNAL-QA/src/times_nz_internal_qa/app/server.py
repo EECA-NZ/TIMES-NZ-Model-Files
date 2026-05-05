@@ -3,6 +3,7 @@ server functions for app.py
 """
 
 from times_nz_internal_qa.app.app_module_demand import demand_server
+from times_nz_internal_qa.app.app_module_developers import developers_server
 from times_nz_internal_qa.app.app_module_elec import elec_server
 from times_nz_internal_qa.app.app_module_emissions import emissions_server
 from times_nz_internal_qa.app.app_module_esd import energy_service_demand_server
@@ -29,3 +30,4 @@ def server(inputs, outputs, session):
     elec_server(inputs, outputs, session, selected_scens)
     emissions_server(inputs, outputs, session, selected_scens)
     pri_server(inputs, outputs, session, selected_scens)
+    developers_server(inputs, outputs, session, selected_scens)

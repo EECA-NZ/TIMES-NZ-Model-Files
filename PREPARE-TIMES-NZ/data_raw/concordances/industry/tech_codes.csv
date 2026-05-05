@@ -15,7 +15,6 @@ Heat Pump (process heat),HPPH,Heat/Cooling Devices
 HVAC,HVAC,Heat/Cooling Devices
 Industrial Ovens,IOVEN,Heat/Cooling Devices
 Internal Combustion Engine (Land Transport),ICENG,Mobile Motors
-Internal Combustion Engine (PHEV),PHEV,Mobile Motors
 Lights,LIGHT,Electronics and Lights
 "Pump Systems (for Fluids, etc.)",PUMP,Stationary Motors
 Refiners,REFIN,Electronics and Lights
@@ -26,3 +25,4 @@ Stationary Engine,ENGIN,Stationary Motors
 Steam Generating Heat Pump (process heat),SGHP,Heat/Cooling Devices
 Mechanical Vapour Recompression (MVR),MVR,Heat/Cooling Devices
 Pulsed Electric Field,PEF,Heat/Cooling Devices
+Unallocated,UNALC,Unallocated

@@ -2,24 +2,36 @@
 Defines the ui for the internal app
 """
 
+import json
+import os
+from pathlib import Path
+
 # Libraries
+from dotenv import load_dotenv
 from shiny import ui
 from times_nz_internal_qa.app.app_module_demand import demand_ui
+
+# from times_nz_internal_qa.app.app_module_developers import developers_ui
 from times_nz_internal_qa.app.app_module_elec import elec_ui
 from times_nz_internal_qa.app.app_module_emissions import emissions_ui
 from times_nz_internal_qa.app.app_module_esd import esd_ui
 from times_nz_internal_qa.app.app_module_primary_energy import primary_energy_ui
-from times_nz_internal_qa.app.helpers.ui_elements import tab_title
 from times_nz_internal_qa.utilities.filepaths import ASSETS
 
 # Constants
 
 global_css = ASSETS / "styles.css"
 
+# Secrets
+
+load_dotenv(dotenv_path=Path.cwd() / ".env")
+PENDO_API_KEY = os.getenv("PENDO_API_KEY", "")
+
 # UI
 
 app_ui = ui.page_fluid(
     ui.head_content(
+        ui.tags.title("TIMES-NZ 3.0 Explorer"),
         # Google Fonts
         ui.tags.link(rel="preconnect", href="https://fonts.googleapis.com"),
         ui.tags.link(
@@ -39,9 +51,35 @@ app_ui = ui.page_fluid(
             rel="stylesheet",
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
         ),
+        # IFrame resizer
         ui.tags.script(
-            # pylint: disable=line-too-long
-            src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.contentWindow.min.js",
+            src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@latest",
+            type="text/javascript",
+        ),
+        # Pendo
+        ui.tags.script(
+            f"window.PENDO_API_KEY = {json.dumps(PENDO_API_KEY)};",
+            type="text/javascript",
+        ),
+        ui.tags.script(
+            src="js/pendo-analytics.js",
+            type="text/javascript",
+        ),
+        # Selectizer auto-position dropdowns
+        ui.tags.script(
+            src="js/auto-position.js",
+            type="text/javascript",
+        ),
+        ui.tags.script(
+            src="js/chart-toggle-width.js",
+            type="text/javascript",
+        ),
+        ui.tags.script(
+            src="js/plotly-chart-resize.js",
+            type="text/javascript",
+        ),
+        ui.tags.script(
+            src="js/custom-plotly-hover.js",
             type="text/javascript",
         ),
         # Your global CSS (last so it can override everything)
@@ -49,71 +87,50 @@ app_ui = ui.page_fluid(
     ),
     # HEADER PANEL
     ui.div(
-        # top line
-        # ui.div(
-        #    ui.h1("TIMES-NZ 3.0 Explorer: Internal QA"),
-        #    ui.h1("NOT FOR RELEASE - WIP", style="color:red; font-weight:bold;"),
-        #    style="display:flex; align-items:center; justify-content:space-between;",
-        # ),
-        # bottom line
         ui.div(
-            # left section (scenario controls)
             ui.div(
-                ui.output_ui("select_scenario_a_ui"),
-                ui.input_switch("compare_on", "Compare with..."),
-                ui.output_ui("select_scenario_b_ui"),
-                style="display:flex; align-items:center; gap:10px;",
+                ui.tags.img(
+                    src="assets/only_EECA_black.png",
+                    alt="EECA logo",
+                    class_="app-title-logo",
+                ),
+                ui.tags.h2("TIMES-NZ Explorer", class_="app-explorer-title"),
+                class_="app-title-block",
             ),
-            # right section (info buttons)
             ui.div(
-                ui.span(
-                    ui.input_action_button(
-                        "info_btn_use",
-                        ui.tags.span(
-                            ui.tags.i(class_="fa fa-question"),
+                ui.div(
+                    ui.output_ui("select_scenario_a_ui"),
+                    ui.div(
+                        ui.tags.h4(
+                            "Comparison scenario (optional):",
+                            class_="filter-section-title",
                         ),
-                        class_="btn info-btn",
-                        title="Using this app",
-                    ),
-                    ui.download_button(
-                        "all_results_zip",
-                        ui.tags.span(
-                            ui.tags.i(class_="fa fa-download"),
+                        ui.input_selectize(
+                            "scenario_b",
+                            label=None,
+                            choices={"__none__": "None"},
+                            selected="__none__",
+                            options={"plugins": ["auto_position"]},
                         ),
-                        class_="btn info-btn",
-                        title="Download all results (.zip)",
+                        class_="scenario-selector-field",
                     ),
-                    # GitHub button (styled the same, but works as a link)
-                    ui.tags.a(
-                        ui.tags.span(
-                            ui.tags.i(class_="fa fa-github"),
-                        ),
-                        href="https://github.com/EECA-NZ/TIMES-NZ-Model-Files",
-                        target="_blank",
-                        class_="btn info-btn",
-                        title="Github",
-                        role="button",
-                    ),
-                )
+                    class_="scenario-selector-controls",
+                ),
+                class_="scenario-selector-bar",
             ),
-            style=(
-                "display:flex;"
-                "align-items:center;"
-                "justify-content:space-between;"
-                "margin-top:8px;"
-            ),
+            class_="app-header-row",
         ),
-        # style="padding:10px 20px; border-bottom:1px solid #ccc;",
+        class_="app-header-panel",
     ),
     # EXPLORER NAVSET PAGES
     ui.div(
         ui.navset_tab(
-            ui.nav_panel(tab_title("Primary energy", "info_pri"), primary_energy_ui),
-            ui.nav_panel(tab_title("Energy demand", "info_dem"), demand_ui),
-            ui.nav_panel(tab_title("Electricity generation", "info_elc"), elec_ui),
-            ui.nav_panel(tab_title("Emissions", "info_ems"), emissions_ui),
-            ui.nav_panel(tab_title("Energy service demand", "info_esd"), esd_ui),
-            # ui.nav_panel(tab_title("Infeasibilities", "info_dum"), dummy_ui),
+            ui.nav_panel("Energy demand", demand_ui),
+            ui.nav_panel("Electricity generation", elec_ui),
+            ui.nav_panel("Emissions", emissions_ui),
+            ui.nav_panel("Energy service demand", esd_ui),
+            ui.nav_panel("Primary energy", primary_energy_ui),
+            # ui.nav_panel("Developers", developers_ui),
         ),
         class_="navset-large",
     ),

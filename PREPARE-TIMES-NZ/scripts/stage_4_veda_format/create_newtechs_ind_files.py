@@ -2,11 +2,15 @@
 Runs all industry newtechs
 """
 
+from prepare_times_nz.stage_4.baseyear.industrial import main as ind
 from prepare_times_nz.stage_4.industry.eaf import main as eaf
 from prepare_times_nz.stage_4.industry.new_demand import main as new_demand
 from prepare_times_nz.stage_4.industry.new_techs import main as new_techs
 
 if __name__ == "__main__":
+    # the baseyear industry should also be run - we put it here to ensure
+    # it is available for dependency purposes
+    ind()
     new_techs()
     new_demand()
     eaf()

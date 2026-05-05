@@ -61,5 +61,5 @@ DataLocation = "data_intermediate/stage_4_veda_format/base_year_agr/agr_baseyear
 [AgrEmissionsFactors]
 Description = "Defines emissions factors for agr fuels"
 SheetName = "AGR_Emissions"  
-TagName = "AGREMI"
+TagName = "COMEMI"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_agr/agr_emission_factors.csv"

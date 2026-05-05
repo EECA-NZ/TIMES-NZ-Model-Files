@@ -48,6 +48,7 @@ CHECK_DIR = OUTPUT_DIR / "checks"
 
 
 TECH_CODES = CONCORDANCES / "electricity/tech_codes.csv"
+SOLAR_TECH_TYPES = CUSTOM_ELE_ASSUMPTIONS / "SolarTechTypes.csv"
 
 pd.set_option("display.float_format", lambda x: f"{x:.6f}")
 
@@ -109,7 +110,7 @@ def generate_techname(df):
     A reminder that it's recommended no techname is above 27 characters,
     and certainly can't exceed 32
     """
-    df["TechName"] = (  # Alert! this is going to break something downstream!
+    df["TechName"] = (
         "ELC_"
         + df["Tech_TIMES"]
         + "_"
@@ -129,6 +130,9 @@ def generate_techname(df):
         "ELC_CCGT_TaranakiCombinedCycle": "ELC_CCGT_TCC",
         "ELC_HydRR_BranchRiverArgyleWairau": "ELC_HydRR_BranchRiver",
         "ELC_GasCHP_FonterraDairyWhareroa": "ELC_GasCHP_FonterraWhareroa",
+        "ELC_SolarDistBifacial_Commercial": "ELC_SolarDistBifacial_Com",
+        "ELC_SolarDistBifacial_Industrial": "ELC_SolarDistBifacial_Ind",
+        "ELC_SolarDistSmall_Residential": "ELC_SolarDistSmall_Res",
     }
     df["TechName"] = df["TechName"].replace(manual_name_adjustments)
 
@@ -151,6 +155,70 @@ def generate_techname(df):
     return df
 
 
+def apply_solar_tech_overrides(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Override base-year solar Tech_TIMES codes using keyed assumptions.
+    """
+    if not SOLAR_TECH_TYPES.exists():
+        logger.warning("Solar tech override file not found: %s", SOLAR_TECH_TYPES)
+        return df
+
+    solar_map = pd.read_csv(SOLAR_TECH_TYPES)
+    required_cols = ["FuelType", "PlantName", "Tech_TIMES_Override"]
+    missing_cols = set(required_cols).difference(solar_map.columns)
+    if missing_cols:
+        raise ValueError(
+            f"Missing required columns in {SOLAR_TECH_TYPES}: {sorted(missing_cols)}"
+        )
+
+    solar_map = solar_map[required_cols].copy()
+    for col in required_cols:
+        solar_map[col] = solar_map[col].astype(str).str.strip()
+
+    if solar_map[["FuelType", "PlantName"]].duplicated().any():
+        duplicates = solar_map.loc[
+            solar_map[["FuelType", "PlantName"]].duplicated(), ["FuelType", "PlantName"]
+        ]
+        raise ValueError(
+            f"Duplicate FuelType/PlantName entries in {SOLAR_TECH_TYPES}: "
+            f"{duplicates.to_dict(orient='records')}"
+        )
+
+    out = df.copy()
+    out["FuelType"] = out["FuelType"].astype(str).str.strip()
+    out["PlantName"] = out["PlantName"].astype(str).str.strip()
+
+    out = out.merge(solar_map, on=["FuelType", "PlantName"], how="left")
+    out["Tech_TIMES"] = out["Tech_TIMES_Override"].fillna(out["Tech_TIMES"])
+    out = out.drop(columns=["Tech_TIMES_Override"])
+    return out
+
+
+def sum_activity_for_dual_fuel(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    For technologies with multiple input fuels, set each row's base-year
+    activity to the sum across fuels so downstream ACT_BND uses the shared total.
+    Also record each input fuel's share of the original activity.
+
+    NOTE: this is done because the model will only use one ACT_BND
+    per process. it will not sum multiple ACT_BNDs, nor treat them differently
+    per input fuel.
+
+    This means this setup works for the model, but does not work by standard
+    tidy data assumptions. the ACT_BNDs now cannot be summed sensibly.
+    """
+    out = df.copy()
+    group_cols = ["TechName", "Region", "Comm-OUT"]
+    fuel_count = out.groupby(group_cols)["Comm-IN"].transform("nunique")
+    summed_activity = out.groupby(group_cols)["EECA_Value"].transform("sum")
+    out["InputFuelShare"] = np.where(
+        fuel_count > 1, out["EECA_Value"] / summed_activity, np.nan
+    )
+
+    out["EECA_Value"] = np.where(fuel_count > 1, summed_activity, out["EECA_Value"])
+    return out
+
+
 # --------------------------------------------------------------------------- #
 # Main routine
 # --------------------------------------------------------------------------- #
@@ -158,6 +226,8 @@ def generate_techname(df):
 
 # Suppress pylint warnings (big, but minimal-change refactor)
 # pylint: disable=too-many-locals,too-many-statements
+
+
 def main() -> None:
     """Entry-point wrapping the original procedural script."""
     # --------------------------------------------------------------------- #
@@ -485,10 +555,17 @@ def main() -> None:
         base_year_gen["PlantLife"],
     ).astype(int)
 
-    # whareroa closure - not sure when - set 2027. closes too early otherwise
+    # whareroa closure - not sure when - set 2030. closes too early otherwise
     base_year_gen["PlantLife"] = np.where(
         base_year_gen["PlantName"] == "Fonterra Dairy - Whareroa",
-        (2027 - base_year_gen["YearCommissioned"]),
+        (2030 - base_year_gen["YearCommissioned"]),
+        base_year_gen["PlantLife"],
+    ).astype(int)
+
+    # te rapa closure - set to 2024
+    base_year_gen["PlantLife"] = np.where(
+        base_year_gen["PlantName"] == "Te Rapa",
+        (2024 - base_year_gen["YearCommissioned"]),
         base_year_gen["PlantLife"],
     ).astype(int)
 
@@ -500,6 +577,12 @@ def main() -> None:
     ).astype(int)
 
     # other assumptions
+    # Set distributed solar TechNames to 100 years (this is so that TIMES doesn't throw them away)
+    base_year_gen["PlantLife"] = np.where(
+        base_year_gen["PlantName"].isin(["Commercial", "Industrial", "Residential"]),
+        100,
+        base_year_gen["PlantLife"],
+    )
 
     base_year_gen.rename(
         columns={"CapacityFactor": "ImpliedCapacityFactor"}, inplace=True
@@ -560,12 +643,17 @@ def main() -> None:
         )
     )
 
+    # add main tech codes
     tech_codes = pd.read_csv(TECH_CODES)
+
     base_year_gen = base_year_gen.merge(
         tech_codes, on=["FuelType", "TechnologyCode"], how="left"
     )
-    # this is literally the only thing the techname is used for
-    # perhaps should clarify it's the MBIE techname
+
+    # distinguish different solar techs using the sector-specific override file
+    base_year_gen = apply_solar_tech_overrides(base_year_gen)
+
+    # merge parameters on MBIE tech name (MBIE tech-based parameters)
     base_year_gen = base_year_gen.merge(
         genstack_avg_parameters, on="MBIETechName", how="left"
     )
@@ -582,6 +670,10 @@ def main() -> None:
     base_year_gen["FuelDelivCost"] = base_year_gen[
         "specific_fuel_delivery_costs_nzd_gj"
     ].fillna(base_year_gen["generic_fuel_delivery_costs_nzd_gj"])
+
+    # Geothermal input reported by MBIE implies a lower electrical efficiency
+    # than the default genstack heat rate. We adjust this to 15%
+    base_year_gen.loc[base_year_gen["FuelType"] == "Geothermal", "HeatRate"] = 24000
 
     base_year_gen.drop(
         columns=[
@@ -606,6 +698,33 @@ def main() -> None:
     base_year_gen = add_output_commodity(base_year_gen)
     # input commodity functin works on full df not per row
     base_year_gen = add_input_commodity(base_year_gen)
+    base_year_gen = sum_activity_for_dual_fuel(base_year_gen)
+
+    # Duplicate rows with input commodity 'ELCNGA' to create 'ELCBIG',
+    # but exclude plants where Tech_TIMES contains 'CCGT'. This preserves
+    # all other columns and will carry through to the long-format melt.
+    # mask = (base_year_gen["Comm-IN"] == "ELCNGA") & ~base_year_gen["Tech_TIMES"].fillna(
+    #     ""
+    # ).str.contains("CCGT")
+    # if mask.any():
+    #     dup = base_year_gen[mask].copy()
+    #     dup["Comm-IN"] = "ELCBIG"
+    #     base_year_gen = pd.concat([base_year_gen, dup], ignore_index=True)
+    #     logger.info(
+    #         "Duplicated %d rows from ELCNGA to ELCBIG (excluding Tech_TIMES with CCGT)",
+    #         len(dup),
+    #     )
+    #
+    # # Also duplicate rows with input commodity 'ELCCOA' to create 'ELCBPLT',
+    # mask_coa = base_year_gen["Comm-IN"] == "ELCCOA"
+    # if mask_coa.any():
+    #     dup_coa = base_year_gen[mask_coa].copy()
+    #     dup_coa["Comm-IN"] = "ELCBPLT"
+    #     base_year_gen = pd.concat([base_year_gen, dup_coa], ignore_index=True)
+    #     logger.info(
+    #         "Duplicated %d rows from ELCCOA to ELCBPLT",
+    #         len(dup_coa),
+    #     )
 
     # --------------------------------------------------------------------- #
     # Tidy to long-format with units
@@ -620,6 +739,7 @@ def main() -> None:
         "PlantLife": "Years",
         "PeakContribution": "%",
         "FuelEfficiency": "%",
+        "InputFuelShare": "%",
     }
 
     base_year_gen = base_year_gen.rename(

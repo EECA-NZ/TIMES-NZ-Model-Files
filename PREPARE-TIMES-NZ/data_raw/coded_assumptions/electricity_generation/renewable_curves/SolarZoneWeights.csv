@@ -1,0 +1,19 @@
+ZoneCode,Region,Island,Weight
+NL,Northland,NI,1
+AK,Auckland,NI,1
+HN,Hamilton,NI,1
+BP,Bay of Plenty,NI,1
+RR,Rotorua,NI,1
+TP,Taupo,NI,1
+NP,New Plymouth,NI,1
+EC,East Coast,NI,1
+MW,Manawatu,NI,1
+WI,Wairarapa,NI,1
+WN,Wellington,NI,1
+NM,Nelson-Marlborough,SI,1
+WC,West Coast,SI,1
+CC,Christchurch,SI,1
+QL,Queenstown-Lakes,SI,1
+OC,Central Otago,SI,1
+DN,Dunedin,SI,1
+IN,Invercargill,SI,1

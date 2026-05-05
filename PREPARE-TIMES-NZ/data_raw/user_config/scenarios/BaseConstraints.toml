@@ -1,0 +1,39 @@
+# Base constraints for the model
+# Currently includes vehicle utilisation constraints in the transport sector
+
+
+WorkBookName = "SuppXLS/Scen_Base_Constraints"
+
+[VehicleUtilisationConstraints]
+Description = "Defines the utilisation of each group is at 33% stock."
+SheetName = "VehicleUtilisation"
+TagName = "UC_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_tra/transport_utilisation_user_constraint.csv"
+# define uc_sets here
+[VehicleUtilisationConstraints.UCSets]
+  R_E = ""
+  T_E = ""
+
+
+[GasNetworkBlendingConstraints]
+
+Description = "Ensures the input share of gas/biomethanol matches the output share of the gas network."
+SheetName = "GasNetwork"
+TagName = "TFM_INS"
+Attribute = ["FLO_EFF","FLO_EFF","FLO_EFF","FLO_EFF"]
+Pset_CO = ["NGADD","BIMDD","NGADD","BIMDD"]
+Pset_CI = ["NGA","BIM","BIM","NGA",]
+Other_Indexes = ["NGA","BIM","BIM","NGA",]
+Cset_CN = ["NGADD","BIMDD","NGADD","BIMDD"]
+NI = [1,1,0,0]
+
+
+[UptakeCapacityConstraints]
+
+Description = "Limits uptake rates of selected technologies to ensure plausible results."
+SheetName = "CapacityLimits"
+TagName = "UC_T"
+DataLocation = "data_intermediate/stage_4_veda_format/sys_settings/capacity_limits_uc.csv"
+[UptakeCapacityConstraints.UCSets]
+R_S = "AllRegions"
+T_S = ""

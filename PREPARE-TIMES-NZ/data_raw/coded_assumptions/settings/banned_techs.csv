@@ -1,0 +1,13 @@
+Code,Label
+ELC_*,All electricity
+RES*COA*,Residential coal
+RES*WOD*,Residential wood
+T_F*PET*,Light petrol trucks
+T_P_B*PET*,Petrol buses
+T_P_B*LPG*,LPG buses
+C_*-HEATX-GEO,Commercial geothermal
+C*-COA*,Commercial coal
+C*MPM-PET*,Commercial Mobile motive power petrol
+"*PET-ICENG-MTV_MOB, -RES-*-PET-ICENG-MTV_MOB",Industrial petrol mobile motive power (excluding residential)
+*NGA-ICENG-MTV_MOB,Industrial natural gas mobile motive power
+*PET-ENGIN-MTV_STA,Industrial petrol stationary motive power

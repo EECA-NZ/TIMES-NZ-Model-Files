@@ -34,7 +34,7 @@ COMMERCIAL_DEMAND_VARIABLE_MAP = {
     "CommodityOut": "Comm-OUT",
     "Island": "Region",
     "Capacity": "PRC_RESID",
-    "AFA": "AF",
+    "AFA": "AFA",
     "CAPEX": "INVCOST",
     "OPEX": "FIXOM",
     "Efficiency": "EFF",
@@ -45,7 +45,6 @@ COMMERCIAL_DEMAND_VARIABLE_MAP = {
 
 DELIVERY_COST_ASSUMPTIONS = {
     # NZDm/PJ or NZD/GJ
-    "COMNGA": 9.35,
     "COMDSL": 0.92,
     "COMPET": 0.92,
 }
@@ -79,7 +78,7 @@ def get_commercial_veda_table(df, input_map, enable_biogas=True):
         # if a tech could use these fuels, we say it can also use biogas
 
         com_nga_processes = get_processes_with_input_commodity(com_df, "COMNGA")
-        com_df = add_extra_input_to_topology(com_df, com_nga_processes, "COMBIG")
+        com_df = add_extra_input_to_topology(com_df, com_nga_processes, "COMBIM")
 
     return com_df
 
@@ -98,9 +97,7 @@ def define_demand_processes(df, filename, label):
     demand_df["Sets"] = "DMD"
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
-    demand_df["Tslvl"] = np.where(
-        demand_df["TechName"].str.contains("ELC"), "DAYNITE", ""
-    )
+    demand_df["Tslvl"] = ""
 
     save_commercial_veda_file(demand_df, name=filename, label=label)
 
@@ -144,7 +141,6 @@ def define_fuel_commodities(df, filename, label):
     fuel_df["TsLvl"] = fuel_df["CommName"].apply(
         lambda x: "DAYNITE" if x == "COMELC" else ""
     )
-
     save_commercial_veda_file(fuel_df, name=filename, label=label)
 
 
@@ -173,10 +169,11 @@ def define_fuel_delivery(df):
         DELIVERY_COST_ASSUMPTIONS
     )
 
-    # Ensure this uses only distributed electricity
+    # Ensure this uses only distributed electricity, gas, or biomethanol
+    dist_fuels = ["ELC", "NGA", "BIM"]
     fuel_deliv_parameters["Comm-IN"] = np.where(
-        fuel_deliv_parameters["Comm-IN"] == "ELC",
-        "ELCDD",
+        fuel_deliv_parameters["Comm-IN"].isin(dist_fuels),
+        fuel_deliv_parameters["Comm-IN"] + "DD",
         fuel_deliv_parameters["Comm-IN"],
     )
 
@@ -218,6 +215,7 @@ def emission_factors_df(emi_df, filename, label):
     emi_df["COMLPG"] = [59.32]
     emi_df["COMDSL"] = [69.63]
     emi_df["COMBIG"] = [None]
+    emi_df["COMBIM"] = [None]
     emi_df["COMGEO"] = [None]
     emi_df["COMPET"] = [68.79]
     emi_df["COMWOD"] = [None]

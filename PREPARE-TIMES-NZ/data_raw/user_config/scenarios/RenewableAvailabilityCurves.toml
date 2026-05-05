@@ -8,9 +8,6 @@
 
 WorkBookName = "SuppXLS/Scen_Renewable_Availability"
 
-
-# This is going to be much simpler than the original file, because everything gets processed together so we only need two tags
-
 [AvailabilityCurveExtrapolation]
 Description = "Interpolation/extrapolation of AFs for whole time horizon at all timeslices"
 SheetName = "Renewable Availability" 
@@ -29,6 +26,13 @@ Description = "All availability curves for renewable technologies"
 SheetName = "Renewable Availability" 
 TagName = "TFM_INS"
 DataLocation = "data_intermediate/stage_4_veda_format/scen_ren_af/renewable_availability.csv"
+
+[FixedInstallPrecision]
+Description = "Adjusts availability for fixed install date plants to reflect more precise start timings."
+SheetName = "Renewable Availability" 
+TagName = "TFM_INS"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_ren_af/renewable_availability_fixed_adjustments.csv"
+
 
 
 

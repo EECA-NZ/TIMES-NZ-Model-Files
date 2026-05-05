@@ -4,10 +4,77 @@ Ui builders to share between modules
 
 from shiny import ui
 from shinywidgets import output_widget
+from times_nz_internal_qa.app.helpers.charts import (
+    DEFAULT_LAYOUT_OPTIONS,
+    TIMESLICE_LAYOUT_OPTIONS,
+)
 from times_nz_internal_qa.app.helpers.filters import (
     filter_output_ui_list,
+    identifier_to_title_case,
 )
 
+
+def chart_download_dropdown(chart_id):
+    """Download menu shared by explorer charts."""
+    menu_button_id = f"{chart_id}_download_menu_btn"
+
+    return ui.div(
+        ui.tags.button(
+            ui.tags.i(class_="fa fa-download"),
+            " Download data ",
+            type="button",
+            id=menu_button_id,
+            class_="btn chart-download-btn dropdown-toggle",
+            **{"data-bs-toggle": "dropdown", "aria-expanded": "false"},
+        ),
+        ui.tags.ul(
+            ui.tags.li(
+                ui.download_link(
+                    f"{chart_id}_chart_data_download",
+                    "Download chart data",
+                    class_="dropdown-item",
+                )
+            ),
+            ui.tags.li(
+                ui.download_link(
+                    f"{chart_id}_unfiltered_data_download",
+                    "Download unfiltered data",
+                    class_="dropdown-item",
+                )
+            ),
+            class_="dropdown-menu dropdown-menu-end",
+            **{"aria-labelledby": menu_button_id},
+        ),
+        class_="btn-group chart-download-group",
+    )
+
+
+def chart_output_height(parameters):
+    """Match the widget wrapper height to the shared Plotly layout height."""
+    if parameters.get("chart_type") == "timeslice":
+        return f"{TIMESLICE_LAYOUT_OPTIONS.height}px"
+    return f"{DEFAULT_LAYOUT_OPTIONS.height}px"
+
+
+def tab_page_info_icon(btn_id: str):
+    """Clickable help icon shown beside the page-level section selector."""
+    return ui.input_action_button(
+        btn_id,
+        ui.TagList(
+            ui.tags.i(class_="fa fa-question-circle"),
+            "About this page",
+        ),
+        class_="btn tab-page-info-btn",
+    )
+
+
+def chart_type_choices():
+    """Radio labels with icons for supported chart types."""
+    return {
+        "bar": ui.span(ui.tags.i(class_="fa-solid fa-chart-column"), " Bar"),
+        "line": ui.span(ui.tags.i(class_="fa-solid fa-chart-line"), " Line"),
+        "area": ui.span(ui.tags.i(class_="fa-solid fa-chart-area"), " Area"),
+    }
 
 
 # pylint:disable = too-many-positional-arguments, too-many-arguments, duplicate-code
@@ -21,6 +88,10 @@ def section_block(parameters):
     chart_id = parameters["chart_id"]
     title = parameters["section_title"]
     group_options = parameters["group_options"]
+    if isinstance(group_options, list):
+        group_options = {
+            option: identifier_to_title_case(option) for option in group_options
+        }
     filters = parameters["filters"]
 
     # generate additional
@@ -32,13 +103,7 @@ def section_block(parameters):
         # FILTERS
         ui.div(
             ui.tags.h4("Filter:", class_="filter-section-title"),
-            ui.input_action_button(
-                f"{chart_id}_chart_clear_filters",
-                None,  # no text
-                icon=ui.tags.i(class_="fa fa-times"),  # font-awesome "X"
-                class_="btn btn-sm clear-filters",
-                title="Clear all filters",  # hover text
-            ),
+            ui.output_ui(f"{chart_id}_chart_clear_filters_ui"),
             class_="filter-header",
         ),
         *filter_output_ui_list(filters),
@@ -52,17 +117,13 @@ def section_block(parameters):
         toggle_block = ui.div(
             ui.tags.h4("Chart type:", class_="filter-section-title"),
             ui.div(
-                ui.input_action_button(
-                    f"{chart_id}_show_bar",
-                    ui.tags.i(class_="fa fa-bar-chart"),
-                    class_="chart-toggle-btn",
-                    title="Show bar chart",
-                ),
-                ui.input_action_button(
-                    f"{chart_id}_show_line",
-                    ui.tags.i(class_="fa fa-line-chart"),
-                    class_="chart-toggle-btn",
-                    title="Show line chart",
+                ui.input_radio_buttons(
+                    f"{chart_id}_chart_type",
+                    label=None,
+                    choices=chart_type_choices(),
+                    selected="bar",
+                    inline=True,
+                    width="auto",
                 ),
                 class_="chart-toggle-bar",
             ),
@@ -72,44 +133,46 @@ def section_block(parameters):
     chart_header = ui.div(
         # Line 1: title on its own
         ui.tags.h3(title, id=sec_id, class_="chart-title"),
-
         # Line 2: left (group + toggles) and right (download)
         ui.div(
             ui.div(
                 # left block: group selector + toggle buttons
                 ui.div(
                     ui.tags.h4("Grouped by:", class_="filter-section-title"),
-                    ui.input_select(group_input_id, label=None, choices=group_options),
+                    ui.input_selectize(
+                        group_input_id,
+                        label=None,
+                        multiple=False,
+                        choices=group_options,
+                        options={"plugins": ["auto_position"]},
+                    ),
                     class_="chart-header-group",
                 ),
                 toggle_block,
                 class_="chart-header-left",
             ),
-            # right block: download button
-            ui.download_button(
-                f"{chart_id}_chart_data_download",
-                ui.tags.span(
-                    ui.tags.i(class_="fa fa-download"),
-                    " Download chart data",
-                ),
-                class_="btn chart-download-btn",
-            ),
+            # right block: download dropdown
+            chart_download_dropdown(chart_id),
             class_="chart-header-row",
         ),
         class_="chart-header",
     )
-    
+
     chart_columns = ui.layout_columns(
         ui.div(
-            output_widget(f"{chart_id}_chart"),
-            class_="chart-container",
+            output_widget(
+                f"{chart_id}_chart",
+                width="100%",
+                height=chart_output_height(parameters),
+            ),
+            class_="chart-container chart-body-card",
         ),
         col_widths=(12,),
         class_="chart-single",
     )
 
     chart_with_title = ui.div(
-        chart_header,
+        ui.div(chart_header, class_="chart-header-card"),
         chart_columns,  # <-- the selected layout
         class_="chart-with-title",
     )
@@ -124,15 +187,22 @@ def section_block(parameters):
     )
 
 
-def make_explorer_page_ui(sections, id_prefix):
+def make_explorer_page_ui(sections, id_prefix, page_info_button_id=None):
     """
     Creates the explorer page, including a 'second tier' horizontal navbar
-    for subsections. Each section is a dictionary of input params, and 
+    for subsections. Each section is a dictionary of input params, and
     sections are a list of these dicts.
     """
 
     # Map sec_id -> label
-    choices = {s["sec_id"]: s["section_title"] for s in sections}
+    choices = {
+        s["sec_id"]: ui.span(
+            s["section_title"],
+            class_="nav-pill-label",
+            **{"data-label": s["section_title"]},
+        )
+        for s in sections
+    }
     first_sec_id = sections[0]["sec_id"]
 
     # The main content area: only one section visible at a time
@@ -149,14 +219,18 @@ def make_explorer_page_ui(sections, id_prefix):
 
     # Horizontal second-level nav bar
     nav_bar = ui.div(
-        ui.input_radio_buttons(
-            f"{id_prefix}_nav",
-            None,
-            choices=choices,
-            selected=first_sec_id,
-            inline=True,          # <- makes choices render horizontally
+        ui.div(
+            ui.input_radio_buttons(
+                f"{id_prefix}_nav",
+                None,
+                choices=choices,
+                selected=first_sec_id,
+                inline=True,  # <- makes choices render horizontally
+            ),
+            class_="secondary-nav-bar nav-cards",
         ),
-        class_="secondary-nav-bar nav-cards",  # reuse your nav-cards styling if you like
+        tab_page_info_icon(page_info_button_id) if page_info_button_id else None,
+        class_="tab-page-toolbar",
     )
 
     out_ui = ui.page_fluid(
@@ -167,16 +241,3 @@ def make_explorer_page_ui(sections, id_prefix):
     )
 
     return out_ui
-
-
-def tab_title(label: str, btn_id: str):
-    """Small helper to add an info button to section headers"""
-    return ui.tags.span(
-        label,
-        ui.input_action_button(
-            btn_id,
-            ui.tags.i(class_="fa fa-question-circle"),
-            class_="info-btn",
-            title="About this tab",
-        ),
-    )

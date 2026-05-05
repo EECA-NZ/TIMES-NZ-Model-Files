@@ -1,14 +1,14 @@
 """
-Function factories for replicable server functions
-
-Mostly because we were repeating methods a lot
+Function factories for replicable server functions.
 """
 
-import altair as alt
-import pandas as pd
+from collections import OrderedDict
+
 from shiny import reactive, render
-from shinywidgets import render_altair
+from shinywidgets import render_plotly
 from times_nz_internal_qa.app.helpers.charts import (
+    build_empty_figure,
+    build_grouped_area,
     build_grouped_bar,
     build_grouped_bar_timeslice,
     build_grouped_line,
@@ -21,8 +21,106 @@ from times_nz_internal_qa.app.helpers.data_processing import (
     write_polars_to_csv,
 )
 from times_nz_internal_qa.app.helpers.filters import (
+    apply_filters,
     register_all_filters_and_clear,
 )
+from times_nz_internal_qa.utilities.value_mappings import remap_values
+
+
+def _selection_key(value):
+    if value is None:
+        return ()
+    if isinstance(value, (list, tuple, set)):
+        return tuple(sorted("" if v is None else str(v) for v in value))
+    return ("",) if value == "" else (str(value),)
+
+
+# pylint:disable = too-many-arguments
+def _build_cached_chart_data(
+    *,
+    cache: OrderedDict,
+    cache_key,
+    df_filtered,
+    base_cols,
+    selected_group,
+    scenarios,
+    chart_type: str,
+    cache_limit: int,
+):
+    if cache_key in cache:
+        cache.move_to_end(cache_key)
+        return cache[cache_key]
+
+    if df_filtered is None or df_filtered.height == 0:
+        cache[cache_key] = None
+        return None
+
+    chart_data = make_chart_data(
+        df_filtered,
+        base_cols,
+        selected_group,
+        scenarios,
+        complete_missing_periods=chart_type != "timeslice",
+    )
+    cache[cache_key] = chart_data
+    cache.move_to_end(cache_key)
+    if len(cache) > cache_limit:
+        cache.popitem(last=False)
+    return chart_data
+
+
+def _build_chart(params, chart_type, chart_id, inputs, is_comparison):
+    chart = None
+
+    if not params or params["pdf"].empty:
+        chart = build_empty_figure("No data available")
+    elif params["pdf"]["Value"].sum() == 0:
+        chart = build_empty_figure("No meaningful values to plot")
+    elif chart_type == "timeslice":
+        chart = build_grouped_bar_timeslice(
+            pdf=params["pdf"],
+            unit=params["unit"],
+            group_col=params["group_col"],
+            scen_list=params["scen_list"],
+        )
+    else:
+        mode = getattr(inputs, f"{chart_id}_chart_type")()
+        if is_comparison() and mode == "area":
+            chart = build_empty_figure(
+                "Area charts are not available when comparing scenarios"
+            )
+        elif mode == "bar":
+            chart = build_grouped_bar(**params)
+        elif mode == "line":
+            chart = build_grouped_line(**params)
+        elif mode == "area":
+            chart = build_grouped_area(**params)
+        else:
+            chart = build_empty_figure("No chart")
+
+    return chart
+
+
+def _register_explorer_downloads(outputs, chart_id, section_title, chart_df, raw_df):
+    chart_download_function_name = f"{chart_id}_chart_data_download"
+    chart_download_filename = f"times_nz_{to_snake_case(section_title)}_chart_data.csv"
+    register_download(
+        outputs,
+        chart_download_function_name,
+        chart_download_filename,
+        chart_df,
+    )
+
+    unfiltered_download_function_name = f"{chart_id}_unfiltered_data_download"
+    unfiltered_download_filename = (
+        f"times_nz_{to_snake_case(section_title)}_unfiltered_data.csv"
+    )
+    register_download(
+        outputs,
+        unfiltered_download_function_name,
+        unfiltered_download_filename,
+        raw_df,
+    )
 
 
 def register_download(outputs, out_id, filename, df_reactive):
@@ -51,7 +149,13 @@ def register_download(outputs, out_id, filename, df_reactive):
 
 # pylint:disable = too-many-arguments, too-many-positional-arguments, too-many-locals
 def register_server_functions_for_explorer(
-    chart_parameters_dict: dict, df_function, scenarios, inputs, outputs, session
+    chart_parameters_dict: dict,
+    df_function,
+    scenarios,
+    is_comparison,
+    inputs,
+    outputs,
+    session,
 ):
     """
 
@@ -75,15 +179,37 @@ def register_server_functions_for_explorer(
     chart_id = chart_parameters_dict["chart_id"]
     base_cols = chart_parameters_dict["base_cols"]
     page_id = chart_parameters_dict["page_id"]
+    sec_id = chart_parameters_dict["sec_id"]
     section_title = chart_parameters_dict["section_title"]
 
     # default to grouped bar if there's nothing in the dict
     chart_type = chart_parameters_dict.get("chart_type", "grouped_bar")
+    chart_cache: OrderedDict[tuple, dict | None] = OrderedDict()
+    chart_cache_limit = 24
 
     # get reactive to return data following scenario selection
     @reactive.calc
     def _df():
         return df_function(scenarios())
+
+    @reactive.calc
+    def _is_active_section():
+        return getattr(inputs, f"{page_id}_nav")() == sec_id
+
+    @reactive.calc
+    def _chart_cache_key():
+        selected_group = getattr(inputs, f"{chart_id}_group")()
+        scenario_key = tuple(remap_values("Scenario", scenarios()))
+        filter_key = tuple(
+            (
+                f["col"],
+                _selection_key(
+                    getattr(inputs, f'filter_{f["chart_id"]}_{f["id"]}_selected')()
+                ),
+            )
+            for f in filters
+        )
+        return (chart_id, selected_group, scenario_key, filter_key)
 
     # define filter options for this data based on input filter dict
     @reactive.calc
@@ -101,105 +227,39 @@ def register_server_functions_for_explorer(
         df = get_agg_data(_df(), filters, inputs, group_vars)
         return df
 
+    @reactive.calc
+    def _df_chart_download():
+        return apply_filters(_df(), filters, inputs)
+
     # Create chart data
     @reactive.calc
     def _chart_df():
-        # if using altair, must touch the nav input to ensure rerendering
-        _ = getattr(inputs, f"{page_id}_nav")()
+        if not _is_active_section():
+            return None
+
         selected_group = getattr(inputs, f"{chart_id}_group")()
-
-        df_filtered = _df_filtered()
-
-        # FIX #3 – prevent empty-data crash
-        if df_filtered is None or df_filtered.height == 0:
-            return None  # chart renderers will handle this
-
-        return make_chart_data(
-            df_filtered,
-            base_cols,
-            selected_group,
-            scenarios(),
+        cache_key = _chart_cache_key()
+        return _build_cached_chart_data(
+            cache=chart_cache,
+            cache_key=cache_key,
+            df_filtered=_df_filtered(),
+            base_cols=base_cols,
+            selected_group=selected_group,
+            scenarios=remap_values("Scenario", scenarios()),
+            chart_type=chart_type,
+            cache_limit=chart_cache_limit,
         )
-
-    toggle_mode = reactive.Value("bar")  # default
-
-    @reactive.effect
-    @reactive.event(getattr(inputs, f"{chart_id}_show_bar"))
-    def _set_to_bar():
-        toggle_mode.set("bar")
-
-    @reactive.effect
-    @reactive.event(getattr(inputs, f"{chart_id}_show_line"))
-    def _set_to_line():
-        toggle_mode.set("line")
 
     # DRAW CHARTS
     @outputs(id=f"{chart_id}_chart")
-    @render_altair
+    @render_plotly
     def _chart_unified():
-        params = _chart_df()
+        if not _is_active_section():
+            return build_empty_figure("")
 
-        # Early exit 1: no chart data at all
-        if not params or params["pdf"].empty:
-            chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
-                text="No data available"
-            )
-            return chart.properties(width="container", height="container")
+        chart = _build_chart(_chart_df(), chart_type, chart_id, inputs, is_comparison)
+        return chart
 
-        pdf = params["pdf"]
-
-        # Early exit 2: no non-zero values → infeasible or meaningless for line charts
-        if pdf["Value"].sum() == 0:
-            chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
-                text="No meaningful values to plot"
-            )
-            return chart.properties(width="container", height="container")
-
-        # Handle chart types
-        if chart_type == "timeslice":
-            chart = build_grouped_bar_timeslice(
-                pdf=params["pdf"],
-                unit=params["unit"],
-                group_col=params["group_col"],
-                scen_list=params["scen_list"],
-            )
-
-        else:
-            mode = toggle_mode()
-
-            if mode == "bar":
-                chart = build_grouped_bar(**params)
-            elif mode == "line":
-                chart = build_grouped_line(**params)
-            else:
-                chart = alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_text(
-                    text="No chart"
-                )
-                
-        # Global-ish styling: font sizes etc.
-        chart = (
-            chart
-            .configure_axis(
-                labelFontSize=13,
-                titleFontSize=14,
-                titleFontWeight="normal",
-            )
-            .configure_legend(
-                labelFontSize=13,
-                titleFontSize=14,
-            )
-            .configure_title(
-                fontSize=14,
-            )
-        )
-
-        # Single place where sizing is applied for *all* chart types
-        return chart.properties(
-            width="container",
-            height="container",  # or a fixed number if height="container" is fussy
-        )
-
-    # Setup downloads
-    download_function_name = f"{chart_id}_chart_data_download"
-    download_filename = f"times_nz_{to_snake_case(section_title)}.csv"
-    register_download(outputs, download_function_name, download_filename, _df)
+    _register_explorer_downloads(
+        outputs, chart_id, section_title, _df_chart_download, _df
+    )

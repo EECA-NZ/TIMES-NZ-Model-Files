@@ -11,12 +11,12 @@ Burner (Direct Heat),Biogas,,,TBD
 Heat Pump (for Cooling),Electricity,,,TBD
 Heat Pump (for Heating),Electricity,,,TBD
 Resistance Heater,Electricity,,,TBD
-Direct Heat,Geothermal,,,TBD
+Heat Exchangers,Geothermal,,,TBD
 Hot Water Cylinder,Electricity,,,TBD
 Hot Water Cylinder,Natural Gas,,,TBD
-Lights (Incandescent) ,Electricity,,,TBD
-Lights (Fluorescent) ,Electricity,,,TBD
-Lights (LED),Electricity,,,TBD
+Incandescent/Halogen,Electricity,,,TBD
+Fluorescent,Electricity,,,TBD
+LED,Electricity,,,TBD
 Internal Combustion Engine (Land Transport),Diesel,7,2018,TIMES-NZ 2.0
 Internal Combustion Engine (Land Transport),LPG,7,2018,TIMES-NZ 2.0
 Internal Combustion Engine (Land Transport),Natural Gas,7,2018,Similar to LPG above

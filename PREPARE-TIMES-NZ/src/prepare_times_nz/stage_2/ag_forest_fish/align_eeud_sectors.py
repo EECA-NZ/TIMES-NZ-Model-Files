@@ -392,7 +392,7 @@ def fill_indoor_cropping_geothermal(
         "FuelGroup": "Renewables",
         "Fuel": "Geothermal",
         "TechnologyGroup": "Heat/Cooling Devices",
-        "Technology": "Direct Heat",
+        "Technology": "Heat Exchangers",
         "EnduseGroup": "Heating/Cooling",
         "EndUse": "Low Temperature Heat (<100 C), Space Heating",
         "Transport": "Non-Transport",
@@ -625,7 +625,6 @@ def main() -> None:
 
     logger.info("Filtering to base year and saving preprocessing output…")
     df_baseyear = filter_output_to_base_year(df)
-    print("Final DataFrame columns:", df_baseyear.columns)
     save_output(df_baseyear, OUT_BASEYEAR)
 
     logger.info("Done.")

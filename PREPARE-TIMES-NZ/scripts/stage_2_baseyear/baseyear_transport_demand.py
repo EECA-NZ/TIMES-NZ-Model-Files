@@ -237,6 +237,7 @@ def apply_productivity_penalty_on_afa(df: pd.DataFrame, year: int) -> pd.DataFra
     )
 
     df.loc[mask, "vktvalue"] *= 1 - penalty
+    df.loc[mask, "annual_utilisation_rate_2035"] *= 1 - penalty
 
     return df
 
@@ -396,11 +397,13 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
     )
     vkt_long = ensure_h2r_rows(vkt_long, cost_df)
     vkt_utils = pd.read_csv(INPUT_LOCATION_FLEET / f"vkt_in_utils_{year}.csv")
-    vkt_shares = vkt_utils[["vehicletype", "tertile", "vktshare"]]
+    vkt_shares = vkt_utils[["vehicletype", "tertile", "vktshare", "tertile_AFA"]]
+    annual_utilisation_2035 = vkt_utils[
+        ["vehicletype", "tertile", "tertile_AFA"]
+    ].rename(columns={"tertile_AFA": "annual_utilisation_rate_2035"})
     life = vkt_utils[["vehicletype", "tertile", "scrap_p70"]].copy()
     life = life.rename(columns={"scrap_p70": "life(years)"})
     vehicle_counts = pd.read_csv(INPUT_LOCATION_FLEET / f"vehicle_counts_{year}.csv")
-    # life_df = process_life_data()   # uses LIFE_ROW_YEAR & FLEET_WORKBOOK_YEAR
     counts_expanded = vehicle_counts_expanded(vehicle_counts)
     road_df = mbie_total_road_energy(year)
 
@@ -421,7 +424,6 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
     ]
 
     # enrichment chain
-    # df = enrich_with_life(vkt_long, life_df)
     df = enrich_with_costs(vkt_long, cost_df)
     df = enrich_with_efficiency(df, rail_eff)
     df = df.merge(
@@ -458,6 +460,7 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
     )
 
     df = df.merge(life, on=["vehicletype", "tertile"], how="left")
+    df = df.merge(annual_utilisation_2035, on=["vehicletype", "tertile"], how="left")
 
     df.loc[
         df["vehicletype"].isin(
@@ -577,6 +580,7 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
     df["vehicle_count"] = df["vehicle_count"] / 1000  # converting to 000vehicles
     df["vehicle_count"] = df["vehicle_count"] / 3
     df["annual_utilisation_rate"] = df["vktvalue"] / df["vehicle_count"] / df["Cap2Act"]
+    df["annual_utilisation_rate_2035"] = df["annual_utilisation_rate_2035"]
     df["cost_2023_nzd"] = df["cost_2023_nzd"] / 1000  # converting to 000NZD/vehicle
     df["operation_cost_2023_nzd"] = (
         df["operation_cost_2023_nzd"] / 1000
@@ -611,6 +615,7 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
         "vehicle_count",
         "Cap2Act",
         "annual_utilisation_rate",
+        "annual_utilisation_rate_2035",
         "efficiency",
         "fuel_consumption",
         "energy_consumption",
@@ -627,6 +632,7 @@ def build_baseyear_table(year: int) -> pd.DataFrame:
         "vehicle_count": "000vehicles",
         "Cap2Act": "000km",
         "annual_utilisation_rate": "%",
+        "annual_utilisation_rate_2035": "%",
         "efficiency": "billion km/PJ",
         "fuel_consumption": "L/100km",
         "energy_consumption": "kWh/100km",

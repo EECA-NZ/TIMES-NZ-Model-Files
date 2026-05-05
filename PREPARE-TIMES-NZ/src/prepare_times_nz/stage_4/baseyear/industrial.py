@@ -30,6 +30,21 @@ CAPACITY_UNIT = "GW"
 TSLVL = "DAYNITE"
 CTSLVL = "DAYNITE"
 CAP2ACT = 31.536
+FIRST_FUTURE_MODEL_YEAR = 2026
+BIOGAS_SHARE_CONSTRAINTS = {
+    "base_year_share_up": 0,
+    "future_share_year": FIRST_FUTURE_MODEL_YEAR,
+    "future_share_up": 1,
+}
+BIOGAS_ALLOWED_SECTORS = {
+    "CHEM",
+    "DARY",
+    "FOOD",
+    "MEAT",
+    "MNRL",
+    "PULP",
+    "WOOD",
+}
 
 # pylint: disable=duplicate-code
 
@@ -49,7 +64,6 @@ INDUSTRY_DEMAND_VARIABLE_MAP = {
 }
 
 DELIVERY_COST_ASSUMPTIONS = {
-    "INDNGA": 0.746,
     "INDDSL": 0.92,
     "INDPET": 0.92,
     "INDFOL": 0.92,
@@ -83,10 +97,30 @@ def get_industry_veda_table(df, input_map, enable_biogas=True):
 
     if enable_biogas:
         ind_nga_processes = get_processes_with_input_commodity(ind_df, "INDNGA")
-        ind_df = add_extra_input_to_topology(ind_df, ind_nga_processes, "INDBIG")
+        ind_nga_processes = [
+            process
+            for process in ind_nga_processes
+            if any(sector in process for sector in BIOGAS_ALLOWED_SECTORS)
+        ]
+        ind_df = add_extra_input_to_topology(
+            ind_df,
+            ind_nga_processes,
+            "INDBIG",
+            share_constraints=BIOGAS_SHARE_CONSTRAINTS,
+        )
 
         ind_lpg_processes = get_processes_with_input_commodity(ind_df, "INDLPG")
-        ind_df = add_extra_input_to_topology(ind_df, ind_lpg_processes, "INDBIG")
+        ind_lpg_processes = [
+            process
+            for process in ind_lpg_processes
+            if any(sector in process for sector in BIOGAS_ALLOWED_SECTORS)
+        ]
+        ind_df = add_extra_input_to_topology(
+            ind_df,
+            ind_lpg_processes,
+            "INDBIG",
+            share_constraints=BIOGAS_SHARE_CONSTRAINTS,
+        )
 
     return ind_df
 
@@ -111,9 +145,7 @@ def define_demand_processes(df, filename, label):
     demand_df["Sets"] = "DMD"
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
-    demand_df["Tslvl"] = np.where(
-        demand_df["TechName"].str.contains("ELC"), "DAYNITE", ""
-    )
+    demand_df["Tslvl"] = ""
 
     save_industry_veda_file(demand_df, name=filename, label=label)
 
@@ -142,7 +174,11 @@ def define_fuel_commodities(df, filename, label):
     """Distinct fuel commodities for the FI_Comm table
     Also add activity and capacity units just for clarity"""
 
-    fuels = df["Comm-IN"].unique()
+    fuels = df["Comm-IN"].dropna().unique().tolist()
+
+    # patch: addhydrogen
+    if "INDH2R" not in fuels:
+        fuels.append("INDH2R")
 
     fuel_df = pd.DataFrame()
     fuel_df["CommName"] = fuels
@@ -163,13 +199,22 @@ def define_fuel_delivery(df):
     Adds fuel delivery costs by assumption
     """
 
-    fuels = df["Comm-IN"].unique()
+    fuels = pd.Series(df["Comm-IN"]).dropna().unique().tolist()
+
+    # patch: add hydrogen
+    if "INDH2R" not in fuels:
+        fuels.append("INDH2R")
 
     fuel_deliv_parameters = pd.DataFrame()
     fuel_deliv_parameters["Comm-OUT"] = fuels
     fuel_deliv_parameters["Comm-IN"] = fuel_deliv_parameters[
         "Comm-OUT"
     ].str.removeprefix("IND")
+
+    fuel_deliv_parameters["Comm-IN"] = fuel_deliv_parameters[
+        "Comm-IN"
+    ].str.removeprefix("FSTK")
+
     fuel_deliv_parameters["TechName"] = "FTE_" + fuel_deliv_parameters["Comm-OUT"]
 
     fuel_deliv_parameters["LIFE"] = 100  # pretty sure we don't need this
@@ -185,13 +230,13 @@ def define_fuel_delivery(df):
         fuel_deliv_parameters["Comm-IN"] != fuel_deliv_parameters["Comm-OUT"]
     ]
 
-    # ensure uses only distributed electricity so as to incur those associated costs
+    # Ensure this uses only distributed electricity, gas, or biomethanol
+    dist_fuels = ["ELC", "NGA", "BIM"]
     fuel_deliv_parameters["Comm-IN"] = np.where(
-        fuel_deliv_parameters["Comm-IN"] == "ELC",
-        "ELCDD",
+        fuel_deliv_parameters["Comm-IN"].isin(dist_fuels),
+        fuel_deliv_parameters["Comm-IN"] + "DD",
         fuel_deliv_parameters["Comm-IN"],
     )
-
     # with the structure defined, we also define the new processes in a separate file (FI_Process)
     fuel_deliv_definitions = pd.DataFrame(
         {
@@ -217,6 +262,57 @@ def define_fuel_delivery(df):
     )
 
 
+# "Other" industry flo_shares
+
+
+def lock_other_industry(df, exceptions, slack=0.01):
+    """
+    Identifies "other" industry and creates FLO_MARKs
+    to lock demand splits over time
+
+    Adds a new column with each process's share of total output
+    within its CommodityOut group.
+
+    We list exceptions for specific input commodities:
+    For these we add no lower bounds
+
+    We also add a slack variable - allowing production to fall
+    x% lower than the share provided
+    This is mostly just to help the model perform a little easier
+    (rigidity makes for slower solves)
+    """
+    # other industry output energy
+    df = df[df["Sector"] == "Other Industry"].copy()
+    df = df[df["Variable"] == "OutputEnergy"]
+
+    # get process shares of production
+    df["Total"] = df.groupby(["Region", "CommodityOut"])["Value"].transform("sum")
+    df["Share"] = np.where(
+        df["Total"] != 0,
+        df["Value"] / df["Total"],
+        0,
+    )
+    # apply slack to share
+    df["Share"] = df["Share"] * (1 - slack)
+    # remove lower bound qualifiers for our exceptions
+    df["Share"] = np.where(df["CommodityIn"].isin(exceptions), 0, df["Share"])
+    # zero-share rows do not create meaningful locks, so omit them entirely
+    df = df[df["Share"] > 0].copy()
+
+    # column renaming
+    flo_mark_map = {
+        "Process": "TechName",
+        "CommodityOut": "Comm-OUT",
+        "Region": "Region",
+        "Share": "FLO_MARK~LO",
+    }
+    df = select_and_rename(df, flo_mark_map)
+    # add interp
+    df["FLO_MARK~LO~0"] = 5
+
+    return df
+
+
 # Main ----------------------------------------------------------------------
 
 
@@ -238,12 +334,27 @@ def main():
     agg_df = get_commodity_demand(ind_veda)
 
     # main table
-
     save_industry_veda_file(
         agg_df,
         name="industry_commodity_demand.csv",
         label="industry commodity demand",
     )
+    # locking other industry
+
+    # Note: must exclude coal to allow flex away for NDGHG
+    # must exclude NGA to allow flex away for declining supply
+    # must exclude pet/fol as capacity may not meet demand
+    # (these are in banned base year techs as we assume no more construction)
+    other_industry = lock_other_industry(
+        raw_df, exceptions=["INDNGA", "INDCOA", "INDPET", "INDFOL"]
+    )
+
+    save_industry_veda_file(
+        other_industry,
+        name="lock_other_industry.csv",
+        label="'Other Industry' locks",
+    )
+
     # commodity definitions for fi_comm
     # (Note emissions commodity declared directly in user config file)
     define_enduse_commodities(

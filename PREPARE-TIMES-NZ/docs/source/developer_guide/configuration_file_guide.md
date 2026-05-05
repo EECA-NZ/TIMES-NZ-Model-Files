@@ -1,0 +1,118 @@
+# Configuration file guide
+
+
+`data_raw/user_config` contains all the toml files which outline the structure of the excel files that will be produced for TIMES/VEDA. These are effectively metadata describing what data should go into the excel sheets, and how it should be arranged.
+
+## Key toml objects
+
+The `.toml` configuration files must contain the following objects.
+
+### `[WorkBookName]`
+
+The workbook name (internally referred to as `WorkBookName`). This names the workbook that the data will be saved to.
+
+This workbook name is applied to all tags in the toml file, and they will be saved under this workbook name by default. It is possible to add a different `WorkBookName` to individual table configs within the file, and this will overwrite the default one. This is sometimes useful when you want to create a small, supplementary file (such as a subres transformation file) but would prefer to keep all the config rules in a single place.
+
+Note the following: 
+
+ - Note that the workbook name should follow the appropriate Veda rules for distinguishing different kinds of files (baseyear, scenario, etc). 
+ - The `.xlsx` suffix should not be included - this is added later when files are generated 
+ - if it's intended to be a baseyear workbook (using the `VT_[NAME]_[SECTOR]_[VERSION]` structure) then it also needs to be mapped the same way in the TIMES `BookRegion_Map` variable 
+
+### `[TableName]`
+
+Each `.toml` configuration file contains a list of tables to be fed into the model. Each individual table is given a `TableName`, which acts as this table's ID. This name is not actually used by TIMES or Veda, so it can be whatever you want. Come up with a descriptive name for whatever the table is, or match the Veda name (like "TimePeriods" or something). 
+
+The table names must be unique for each table and workbook, as `WorkBookName`/`TableName` are used as a lookup key for these. 
+
+
+## Objects within each table
+
+Tags within each `TableName` are described below. They can contain anything you want, but some variables will be explicitly treated: 
+
+### `[WorkBookName]` (optional)
+  This specifies a different workbook name for this table, overwriting the file-wide [WorkBookName]. Almost never needed, but useful if you need to output a subres or transformation or scenario workbook related to what you're doing and don't want to make a whole new config file for it. 
+### `[SheetName]`
+This names the sheet this table is added to. If missing, it will default to creating a sheet that matches [WorkBookName].
+### `[TagName]`
+This sets the tag for this table (eg "FI_T", etc). Tilde not needed. If missing, it will default to the TableName (this will almost always mean Veda doesn't know what you're talking about, except for some SysSettings tags)
+### `[UCSets]`
+The uc_sets designation. If missing, it will not be used. This is just for the user constraint tables and will often not be necessary. If used, it must be a dict (see below for implementation options).
+### `[Description]`
+Enter a short description of the purpose of this table. Not used by TIMES/VEDA, so can be anything you want. Will be read into the config metadata table, so can be helpful for reviewing the final structure later. Is also printed to the output tables for a quick reference. 
+### `[DataLocation]`
+The file path for the data this table is expected to contain. If missing, it will instead look for `Data`.
+### `[Data]`
+A dictionary for the data contained in this TableName. Allows you to specify the data directly in the config file rather than an external file, which can be useful for smaller, simpler tables.
+Note: If both `Data` and `DataLocation` are not included within TableName, then the module will take all variables not listed above and assume these are intended to be a dictionary of data. This means it will insert these into the final Excel file. 
+
+
+
+## Example config files
+
+### TOML `TableName` examples
+The example below is the simplest possible table, with a `TableName` of `StartYear`. This creates a small table with a single variable and entry, which will be written to a sheet in the workbook. 
+
+
+  ```toml
+  [StartYear]
+  StartYear = 2023
+  ```
+
+It is possible to instead store data in `TableName.Data` more directly: 
+
+  ```toml
+  [TimePeriods]
+  TagName = "TimePeriods" # not actually needed, as TagName inherits from TableName    
+  [TimePeriods.Data]
+  5Year_increments = [1,2,5,5,5,5,5,5,5]
+  1Year_increments = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+  ```
+  Effectively what's happening here is that anything under `[TableName.Data]` is considered the data, but so are any values in each `TableName` that aren't explicitly set to metadata. So the above file will process exactly the same as this: 
+
+  ```toml
+  [TimePeriods]
+  TagName = "TimePeriods" # not actually needed, as TagName inherits from TableName      
+  5Year_increments = [1,2,5,5,5,5,5,5,5]
+  1Year_increments = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+  ```
+  Adding `TableName.Data` is just a good way to explicitly clarify what your data items are. This can be especially useful if you're also using `UCSets` (below)
+
+  However, most `TableNames` ingest data directly from the system, and will likely look more like this: 
+
+  ```toml
+  [YearFractions]
+  SheetName = "YearFractions"
+  TagName = "TFM_INS"
+  DataLocation = "data_raw/0_config/year_fractions.csv"
+  ```
+
+ Config files that are mostly quick assumptions are generally written directly in the toml file to reduce data manipulation overheads. 
+
+
+### Writing UCSets 
+
+UCSets expect a python dictionary, in order to write the appropriate sets to the Veda files.
+
+There are two ways to do this in the config `.toml` files. First is using a nested toml object (recommended):
+
+  ```toml
+  [UserConstraint]
+  SheetName = "UserConstraints"
+  TagName = "UC_T"
+  DataLocation = "data_raw/constraints/some_constraints.csv"
+  [UserConstraint.UCSets]
+  R_S = "Allregions"
+  T_S = ""
+            
+  ```
+It is, however, also possible to insert the dictionary as a string, like: 
+
+  ```toml
+  [UserConstraint]
+  SheetName = "UserConstraints"
+  TagName = "UC_T"
+  DataLocation = "data_raw/constraints/some_constraints.csv"
+  UCSets = "{'R_S': 'Allregions', 'T_S': ''}"             
+  ```
+

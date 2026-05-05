@@ -2,9 +2,46 @@
 A list of functional helpers and factories for the app
 """
 
+import re
+import warnings
+
 import polars as pl
 from shiny import reactive, render, ui
 from shiny.types import SilentException
+
+_warned_acronym_tokens = set()
+_identifier_label_overrides = {
+    "Enduse": "End Use",
+    "EnduseGroup": "End Use Group",
+}
+
+
+def identifier_to_title_case(identifier: str) -> str:
+    """
+    Convert snake_case or camelCase/PascalCase identifiers into human labels.
+
+    Warn once per acronym-like token when the identifier contains two or more
+    consecutive capital letters with no lowercase letters between them.
+    """
+    if identifier in _identifier_label_overrides:
+        return _identifier_label_overrides[identifier]
+
+    for token in re.findall(r"[A-Z]{2,}", identifier):
+        if token not in _warned_acronym_tokens:
+            warnings.warn(
+                (
+                    f"Potential acronym detected in identifier '{identifier}': '{token}'. "
+                    "Consider providing an explicit label if the auto-formatted text is not ideal."
+                ),
+                stacklevel=2,
+            )
+            _warned_acronym_tokens.add(token)
+
+    label = identifier.replace("_", " ")
+    label = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", label)
+    label = re.sub(r"(?<=[A-Z])(?=[A-Z][a-z])", " ", label)
+    words = re.split(r"\s+", label.strip())
+    return " ".join(word if word.isupper() else word.capitalize() for word in words if word)
 
 
 def create_filter_dict(chart_id, filters):
@@ -20,7 +57,7 @@ def create_filter_dict(chart_id, filters):
     for f in filters:
         col = f["col"]
         fid = f.get("id", col.lower())
-        label = f.get("label", col.replace("_", " ").title())
+        label = f.get("label", identifier_to_title_case(col))
         multiple = f.get("multiple", True)
         result.append(
             {"chart_id": chart_id, "id": fid, "label": label, "multiple": multiple, **f}
@@ -40,6 +77,11 @@ def filter_input_id(f):
     Expects a filter spec dict to combine chart_id and id
     in a consistent way"""
     return f"filter_{f["chart_id"]}_{f["id"]}_selected"
+
+
+def clear_button_output_id(chart_id):
+    """output id for the clear-filters button UI"""
+    return f"{chart_id}_chart_clear_filters_ui"
 
 
 # @lru_cache(maxsize=16)
@@ -131,17 +173,15 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
 
         if allows_multiple:
             ui_filter = ui.input_selectize(
-                iid, fspec.get("label", col), choices, multiple=True
+                iid, fspec.get("label", col), choices, multiple=True,
+                options={"plugins": ["auto_position"]},
             )
 
         else:
-            ui_filter = ui.input_select(
-                iid,
-                fspec.get("label", col),
-                choices,
-                selected=(
-                    choices[1] if len(choices) > 1 else choices[0] if choices else None
-                ),
+            ui_filter = ui.input_selectize(
+                iid, fspec.get("label", col), choices, multiple=False,
+                options={"plugins": ["auto_position"]},
+                selected=(choices[0] if choices else None),
             )
 
         return ui.div(
@@ -231,13 +271,14 @@ def filter_output_ui_rows(filters, per_row=6, ns=lambda x: x):
     return [ui.row(*items[i : i + per_row]) for i in range(0, len(items), per_row)]
 
 
-def register_filter_clear_button(filter_dict: list[dict], inputs, session):
+def register_filter_clear_button(filter_dict: list[dict], inputs, outputs, session):
     """
     Defines server methods for clearing filters
     """
     ns = session.ns
 
     chart_id = filter_dict[0]["chart_id"]
+    clearable_filters = [fs for fs in filter_dict if fs.get("multiple", True)]
 
     # IMPORTANT NOTE:
     # the serverside "chart-id" does not have a _chart suffix
@@ -245,6 +286,36 @@ def register_filter_clear_button(filter_dict: list[dict], inputs, session):
     # so we add a _chart suffix here
 
     btn_id = f"{chart_id}_chart_clear_filters"
+    btn_output_id = ns(clear_button_output_id(chart_id))
+
+    @reactive.calc
+    def _has_active_filters():
+        for fs in clearable_filters:
+            iid = ns(filter_input_id(fs))
+            try:
+                val = getattr(inputs, iid)()
+            except SilentException:
+                val = None
+
+            if val is None or val == "":
+                continue
+            if isinstance(val, (list, tuple, set)) and len(val) == 0:
+                continue
+            return True
+
+        return False
+
+    @outputs(id=btn_output_id)
+    @render.ui
+    def _clear_button_ui():
+        return ui.input_action_button(
+            btn_id,
+            label="Clear",
+            icon=ui.tags.i(class_="fa fa-times"),
+            class_="btn btn-sm clear-filters",
+            title="Clear all filters",
+            style=None if _has_active_filters() else "visibility:hidden; pointer-events:none;",
+        )
 
     def reset_input(iid: str):
         """
@@ -283,4 +354,4 @@ def register_all_filters_and_clear(filters, base_options, inputs, outputs, sessi
             fs, base_options, filters, inputs, outputs, session
         )
     # register clear button
-    register_filter_clear_button(filters, inputs, session)
+    register_filter_clear_button(filters, inputs, outputs, session)

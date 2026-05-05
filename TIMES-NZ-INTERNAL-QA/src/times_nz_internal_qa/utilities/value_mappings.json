@@ -1,0 +1,12 @@
+{
+  "column_value_mappings": {
+    "Region": {
+      "NI": "North Island",
+      "SI": "South Island"
+    },
+    "Scenario": {
+      "steady-v306": "Steady",
+      "shift-v306": "Shift"
+    }
+  }
+}

@@ -7,7 +7,8 @@ default_language_version:
 
 repos:
   - repo: https://github.com/psf/black
-    rev: 25.1.0
+    # Keep this pinned to the same version as PREPARE-TIMES-NZ's Poetry dev dependency.
+    rev: 26.3.1
     hooks:
       - id: black
         types: [python]
@@ -15,7 +16,8 @@ repos:
         exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
 
   - repo: https://github.com/pycqa/isort
-    rev: 6.0.1
+    # Keep this pinned to the same version as PREPARE-TIMES-NZ's Poetry dev dependency.
+    rev: 6.1.0
     hooks:
       - id: isort
         args: ["--profile=black"]
@@ -55,6 +57,9 @@ repos:
         entry: poetry --directory PREPARE-TIMES-NZ run pip-audit
         args:
           - --progress-spinner=off
+          # Pygments 2.19.2 is currently the latest PyPI release; remove this
+          # ignore once CVE-2026-4539 has a patched upstream release.
+          - --ignore-vuln=CVE-2026-4539
         pass_filenames: false
         always_run: true
         stages: [pre-push]

@@ -7,7 +7,29 @@ building Veda tables
 import pandas as pd
 
 
-def add_extra_input_to_topology(df, processes_to_expand, new_input):
+def apply_share_constraints(df, share_constraints=None):
+    """Apply optional share constraints to copied topology rows."""
+    if share_constraints is None:
+        return df
+
+    base_year_share_up = share_constraints.get("base_year_share_up")
+    future_share_year = share_constraints.get("future_share_year")
+    future_share_up = share_constraints.get("future_share_up")
+
+    if base_year_share_up is not None:
+        df["Share-I~UP"] = base_year_share_up
+    if future_share_year is not None and future_share_up is not None:
+        df[f"Share-I~UP~{future_share_year}"] = future_share_up
+
+    return df
+
+
+def add_extra_input_to_topology(
+    df,
+    processes_to_expand,
+    new_input,
+    share_constraints=None,
+):
     """
     A method for adding an extra input option for base year parameters
 
@@ -17,6 +39,8 @@ def add_extra_input_to_topology(df, processes_to_expand, new_input):
         and standard 'Comm-IN'/'Comm-OUT' variables
         as expected in baseyear FI_T tables
 
+    Optional share constraints can be added to keep the new input unavailable
+    in the base year while allowing it in later years.
     """
 
     # if a tech could use these fuels, we say it can also use biogas
@@ -24,8 +48,12 @@ def add_extra_input_to_topology(df, processes_to_expand, new_input):
     new_input_df = df[df["TechName"].isin(processes_to_expand)].copy()
     # tech can use biogas
     new_input_df["Comm-IN"] = new_input
-    # set the base activity for these to 0
-    new_input_df["ACT_BND"] = 0
+    # ACT_BND is a process-level base-year activity. Leave it blank on copied
+    # input rows so we don't double-count demand or accidentally fix the
+    # multi-input process activity through the duplicate row.
+    if "ACT_BND" in new_input_df.columns:
+        new_input_df["ACT_BND"] = pd.NA
+    new_input_df = apply_share_constraints(new_input_df, share_constraints)
     # add to main table
     df = pd.concat([df, new_input_df])
     # sort for clearer reads

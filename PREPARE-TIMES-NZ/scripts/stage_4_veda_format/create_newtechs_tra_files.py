@@ -36,7 +36,7 @@ FUTURE_COSTS_FILE: Path = (
 # Constants for calculations
 START = 2024
 INVCOST_0 = 5
-SCENARIO = ["Traditional", "Transformation"]
+SCENARIO = ["Steady", "Shift"]
 
 COMM_TO_VEHICLE = {
     "T_P_Car": "LPV",
@@ -162,10 +162,10 @@ def first_nonnull(s: pd.Series) -> float:
 # -----------------------------------------------------------------------------
 
 
-def create_newtech_process_df(cfg):
+def create_newtech_process_df(columns: list[str]) -> pd.DataFrame:
     """Creates a DataFrame defining new transport technologies."""
     # get TechName values from create_process_df
-    df_base = create_process_df({"Columns": ["TechName"]}).copy()
+    df_base = create_process_df(["TechName"]).copy()
 
     # normalize
     df_base["TechName"] = df_base["TechName"].str.replace(r"NEW", "ELC", regex=True)
@@ -227,11 +227,12 @@ def create_newtech_process_df(cfg):
         }
     )
 
-    return df[cfg["Columns"]]
+    return df[columns]
 
 
-def create_newtech_process_parameters_df(cfg):
+def create_newtech_process_parameters_df(columns: list[str]) -> pd.DataFrame:
     """Get newtech parameters from coded assumptions"""
+    columns = columns.copy()
 
     costs = pd.read_csv(FUTURE_COSTS_FILE)
     costs_wide = load_cost_tables(costs)
@@ -242,13 +243,13 @@ def create_newtech_process_parameters_df(cfg):
         "EFF",
         "LIFE",
         "CAP2ACT",
-        "AFA",
+        "AFA~2035",
         "INVCOST",
         "FIXOM",
         "Share",
     ]
 
-    newtechs_process = create_process_parameters_df({"Columns": cols}).copy()
+    newtechs_process = create_process_parameters_df(cols).copy()
 
     # Normalize TechName
     newtechs_process["TechName"] = (
@@ -388,7 +389,7 @@ def create_newtech_process_parameters_df(cfg):
     )
 
     # Add empty columns from cfg if missing
-    for col in cfg["Columns"]:
+    for col in columns:
         if col not in out.columns:
             out[col] = np.nan
 
@@ -403,36 +404,37 @@ def create_newtech_process_parameters_df(cfg):
 
     # 1) fill by exact (Comm-In, Comm-Out, Level)
     fill_exact = out.groupby([out["Comm-In"], out["Comm-Out"], _level])[
-        "AFA"
+        "AFA~2035"
     ].transform(first_nonnull)
-    out["AFA"] = out["AFA"].fillna(fill_exact)
+    out["AFA~2035"] = out["AFA~2035"].fillna(fill_exact)
 
-    # --- NEW: for H2R rows still missing AFA, use AFA from TRADSL with same Comm-Out & Level ---
+    # --- NEW: for H2R rows still missing AFA~2035, use AFA~2035
+    # from TRADSL with same Comm-Out & Level ---
     # make level a temporary column so we can join on it
     out = out.assign(_level=_level)
 
-    # build reference AFA from TRADSL rows
+    # build reference AFA~2035 from TRADSL rows
     ref = (
         out.loc[
             out["Comm-In"].astype(str).str.contains(r"^TRADSL$", na=False),
-            ["Comm-Out", "_level", "AFA"],
+            ["Comm-Out", "_level", "AFA~2035"],
         ]
-        .dropna(subset=["AFA"])
+        .dropna(subset=["AFA~2035"])
         .drop_duplicates(subset=["Comm-Out", "_level"], keep="first")
-        .rename(columns={"AFA": "AFA_ref"})
+        .rename(columns={"AFA~2035": "AFA~2035_ref"})
     )
 
     # left-join the reference onto all rows
     out = out.merge(ref, how="left", on=["Comm-Out", "_level"])
 
     # fill only H2R rows that are still missing
-    mask_h2r_missing = out["AFA"].isna() & out["Comm-In"].astype(str).str.contains(
+    mask_h2r_missing = out["AFA~2035"].isna() & out["Comm-In"].astype(str).str.contains(
         "H2R", na=False
     )
-    out.loc[mask_h2r_missing, "AFA"] = out.loc[mask_h2r_missing, "AFA_ref"]
+    out.loc[mask_h2r_missing, "AFA~2035"] = out.loc[mask_h2r_missing, "AFA~2035_ref"]
 
     # clean up temp columns
-    out = out.drop(columns=["AFA_ref", "_level"])
+    out = out.drop(columns=["AFA~2035_ref", "_level"])
 
     # --- LIFE fill by (Comm-Out, Level) with robust keys and alignment ---
 
@@ -493,24 +495,22 @@ def create_newtech_process_parameters_df(cfg):
     out["SCENARIO"] = np.tile(SCENARIO, orig_n)
 
     # keep it in the final output
-    if "SCENARIO" not in cfg["Columns"]:
-        cfg["Columns"].append("SCENARIO")
+    if "SCENARIO" not in columns:
+        columns.append("SCENARIO")
 
-    afa_2050 = {
-        "T_F_HTICEDSL": 1.55,
-        "T_F_HTBEVELC": 1.44,
-        "T_F_HTFCH2R": 1.55,
+    afa_2040 = {
+        "T_F_HTBEVELC_LOW": 0.25 * 0.97,
+        "T_F_HTBEVELC_MED": 0.65 * 0.97,
+        "T_F_HTBEVELC_HIGH": 1.1 * 0.97,
     }
 
-    afa_2050_num = dict(afa_2050)
+    afa_2040_num = dict(afa_2040)
 
-    # 2) Map by base TechName (ignore _LOW/_MED/_HIGH suffix)
-    _base = out["TechName"].astype(str).str.replace(r"_(LOW|MED|HIGH)$", "", regex=True)
-    out["AFA~2050"] = _base.map(afa_2050_num)
+    out["AFA~2040"] = out["TechName"].map(afa_2040_num)
 
     # 3) Ensure it’s in your output columns
-    if "AFA~2050" not in cfg["Columns"]:
-        cfg["Columns"].append("AFA~2050")
+    if "AFA~2040" not in columns:
+        columns.append("AFA~2040")
 
     # ---- Merge yeared costs (2030/2040/2050) by attributes + scenario ----
     # 2b) parse veh/fuel/tech for each row in `out` using your existing parser
@@ -604,13 +604,13 @@ def create_newtech_process_parameters_df(cfg):
 
     # 8) keep columns in cfg
     for col in ["INVCOST", "FIXOM", *present.values()]:
-        if col in merged.columns and col not in cfg["Columns"]:
-            cfg["Columns"].append(col)
+        if col in merged.columns and col not in columns:
+            columns.append(col)
 
     merged["CAP2ACT"] = merged["CAP2ACT"].fillna(0.08)
 
     out = merged
-    return out[cfg["Columns"]]
+    return out[columns]
 
 
 # -----------------------------------------------------------------------------
@@ -621,38 +621,32 @@ def main() -> None:
     definition and parameter tables."""
 
     processes = create_newtech_process_df(
-        {"Columns": ["Sets", "TechName", "Tact", "Tcap", "Vintage"]}
+        ["Sets", "TechName", "Tact", "Tcap", "Vintage"]
     )
 
     df = create_newtech_process_parameters_df(
-        {
-            "Columns": [
-                "TechName",
-                "Comm-In",
-                "Comm-Out",
-                "SCENARIO",
-                "START",
-                "EFF",
-                "AFA",
-                "AFA~2050",
-                "LIFE",
-                "INVCOST",
-                "INVCOST~2030",
-                "INVCOST~2040",
-                "INVCOST~2050",
-                "INVCOST~0",
-                "FIXOM",
-                "CAP2ACT",
-                "Share",
-            ]
-        }
+        [
+            "TechName",
+            "Comm-In",
+            "Comm-Out",
+            "SCENARIO",
+            "START",
+            "EFF",
+            "AFA~2035",
+            "AFA~2040",
+            "LIFE",
+            "INVCOST",
+            "INVCOST~2030",
+            "INVCOST~2040",
+            "INVCOST~2050",
+            "INVCOST~0",
+            "FIXOM",
+            "CAP2ACT",
+            "Share",
+        ]
     )
-    df_standard_cost_curve = df[df["SCENARIO"] == "Traditional"].drop(
-        columns="SCENARIO"
-    )
-    df_advanced_cost_curve = df[df["SCENARIO"] == "Transformation"].drop(
-        columns="SCENARIO"
-    )
+    df_standard_cost_curve = df[df["SCENARIO"] == "Steady"].drop(columns="SCENARIO")
+    df_advanced_cost_curve = df[df["SCENARIO"] == "Shift"].drop(columns="SCENARIO")
 
     # save
 

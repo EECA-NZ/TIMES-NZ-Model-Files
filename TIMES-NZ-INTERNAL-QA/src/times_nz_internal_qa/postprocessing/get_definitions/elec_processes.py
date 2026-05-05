@@ -71,21 +71,6 @@ def get_elc_offshore():
     return df
 
 
-def get_elc_dist_solar():
-    """
-    Read all dist solar processes from staging data
-    Return codes and categories
-    """
-    df = pd.read_csv(PREP_STAGE_3 / "electricity/residential_solar.csv")
-    df = df[["TechName", "Tech_TIMES"]].drop_duplicates()
-    # weird patch
-    df["TechName"] = df["TechName"].str.removesuffix("New")
-    df = df.rename(columns={"TechName": "Process"})
-    df["ProcessGroup"] = PROCESS_GROUP
-
-    return df
-
-
 def main():
     """
     Entry point. Simply reads all elc processes,
@@ -97,7 +82,6 @@ def main():
             get_elc_base_processes(),
             get_elc_genstack(),
             get_elc_offshore(),
-            get_elc_dist_solar(),
         ]
     ).drop_duplicates()
 
@@ -107,7 +91,7 @@ def main():
     tech_codes = pd.read_csv(CONCORDANCE_PATCHES / "electricity/tech_codes.csv")
     df = df.merge(tech_codes, on="Tech_TIMES", how="left")
 
-    # just some placeholders if we ever want to combine these with demand processes
+    # applying some values for correct labelling in emissions charts
     df["EnduseGroup"] = PROCESS_GROUP
     df["EndUse"] = PROCESS_GROUP
     df["SectorGroup"] = PROCESS_GROUP

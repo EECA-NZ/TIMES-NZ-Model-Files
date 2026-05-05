@@ -10,13 +10,16 @@ from prepare_times_nz.stage_4.common import (
     get_processes_with_input_commodity,
 )
 from prepare_times_nz.utilities.data_in_out import _save_data
-from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
+from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_4_DATA
 from prepare_times_nz.utilities.helpers import select_and_rename
 
 # FILEPATHS ---------------------------------------------------------------
 
 INPUT_FILE = STAGE_2_DATA / "residential/baseyear_residential_demand.csv"
 OUTPUT_DIR = STAGE_4_DATA / "base_year_res"
+DEMAND_FLEX_ENABLED_TECHS_FILE = (
+    ASSUMPTIONS / "residential/demand_flex_enabled_techs.csv"
+)
 
 # should instead use save function pattern here!!
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -34,8 +37,7 @@ RESIDENTIAL_DEMAND_VARIABLE_MAP = {
     "CommodityOut": "Comm-OUT",
     "Island": "Region",
     "Capacity": "PRC_RESID",
-    # converting to AF for any DAYNITE processes
-    "AFA": "AF",
+    "AFA": "AFA",
     "CAPEX": "INVCOST",
     "OPEX": "FIXOM",
     "Efficiency": "EFF",
@@ -48,7 +50,6 @@ DELIVERY_COST_ASSUMPTIONS = {
     # put me in an assumptions file!!
     # these are NZDm/PJ or NZD/GJ
     # anything not listed is assumed 0 (incl LPG)
-    "RESNGA": 25,
     "RESDSL": 0.92,
     "RESPET": 0.92,
     "RESWOD": 10,
@@ -81,7 +82,7 @@ def get_residential_veda_table(df, input_map, enable_biogas=True):
     if enable_biogas:
         # if a tech could use nga, we say it can also use biogas
         res_nga_processes = get_processes_with_input_commodity(res_df, "RESNGA")
-        res_df = add_extra_input_to_topology(res_df, res_nga_processes, "RESBIG")
+        res_df = add_extra_input_to_topology(res_df, res_nga_processes, "RESBIM")
 
     return res_df
 
@@ -94,14 +95,24 @@ def get_commodity_demand(df):
     return agg_df
 
 
+def get_demand_flex_enabled_techs(filepath=DEMAND_FLEX_ENABLED_TECHS_FILE):
+    """Load demand-flex-enabled residential technologies."""
+    if not filepath.exists():
+        return set()
+
+    df = pd.read_csv(filepath, encoding="utf-8-sig")
+    return set(df["TechName"].dropna())
+
+
 # Define processes ----------------------------------------------------------
 
 
-def define_demand_processes(df, filename, label):
+def define_demand_processes(df, filename, label, demand_flex_enabled_techs=None):
     """Distinct processes for the FI_PRocess table
     Also add activity and capacity units just for clarity"""
 
     processes = df["TechName"].unique()
+    demand_flex_enabled_techs = demand_flex_enabled_techs or set()
 
     demand_df = pd.DataFrame()
     demand_df["TechName"] = processes
@@ -109,7 +120,7 @@ def define_demand_processes(df, filename, label):
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
     demand_df["Tslvl"] = np.where(
-        demand_df["TechName"].str.contains("ELC"), "DAYNITE", ""
+        demand_df["TechName"].isin(demand_flex_enabled_techs), "DAYNITE", ""
     )
 
     save_residential_veda_file(demand_df, name=filename, label=label)
@@ -174,10 +185,11 @@ def define_fuel_delivery(df):
         DELIVERY_COST_ASSUMPTIONS
     )
 
-    # Ensure this uses only distributed electricity
+    # Ensure this uses only distributed electricity, gas, or biomethanol
+    dist_fuels = ["ELC", "NGA", "BIM"]
     fuel_deliv_parameters["Comm-IN"] = np.where(
-        fuel_deliv_parameters["Comm-IN"] == "ELC",
-        "ELCDD",
+        fuel_deliv_parameters["Comm-IN"].isin(dist_fuels),
+        fuel_deliv_parameters["Comm-IN"] + "DD",
         fuel_deliv_parameters["Comm-IN"],
     )
 
@@ -215,6 +227,7 @@ def main():
     raw_df = pd.read_csv(INPUT_FILE)
     res_veda = get_residential_veda_table(raw_df, RESIDENTIAL_DEMAND_VARIABLE_MAP)
     agg_df = get_commodity_demand(res_veda)
+    demand_flex_enabled_techs = get_demand_flex_enabled_techs()
 
     # main table
     save_residential_veda_file(
@@ -246,6 +259,7 @@ def main():
         res_veda,
         filename="demand_process_definitions.csv",
         label="demand process definitions",
+        demand_flex_enabled_techs=demand_flex_enabled_techs,
     )
 
     define_fuel_delivery(res_veda)

@@ -99,9 +99,7 @@ def define_demand_processes(df, filename, label):
     demand_df["Sets"] = "DMD"
     demand_df["Tact"] = ACTIVITY_UNIT
     demand_df["Tcap"] = CAPACITY_UNIT
-    demand_df["Tslvl"] = np.where(
-        demand_df["TechName"].str.contains("ELC"), "DAYNITE", ""
-    )
+    demand_df["Tslvl"] = ""
 
     save_agr_veda_file(demand_df, name=filename, label=label)
 
@@ -149,8 +147,6 @@ def define_fuel_commodities(df, filename, label):
     fuel_df["CTSLvl"] = fuel_df["CommName"].apply(
         lambda x: "DAYNITE" if x == "AGRELC" else ""
     )
-
-    print(fuel_df)
 
     save_agr_veda_file(fuel_df, name=filename, label=label)
 
@@ -204,9 +200,11 @@ def define_fuel_delivery(df: pd.DataFrame) -> None:
     for c in cols_to_blank:
         fuel_deliv_parameters.loc[did_mask, c] = pd.NA
 
+    # Ensure this uses only distributed electricity, gas, or biomethanol
+    dist_fuels = ["ELC", "NGA", "BIM"]
     fuel_deliv_parameters["Comm-IN"] = np.where(
-        fuel_deliv_parameters["Comm-IN"] == "ELC",
-        "ELCDD",
+        fuel_deliv_parameters["Comm-IN"].isin(dist_fuels),
+        fuel_deliv_parameters["Comm-IN"] + "DD",
         fuel_deliv_parameters["Comm-IN"],
     )
 

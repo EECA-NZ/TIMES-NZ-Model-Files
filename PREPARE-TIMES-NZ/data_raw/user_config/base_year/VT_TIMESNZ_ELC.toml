@@ -73,8 +73,6 @@ TagName = "FI_T"
 # Some floating point errors creeping through into the generated data - need to check this.
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/existing_tech_capacity.csv"
 
-
-
 [ElectricityProcessSpecificCapacityFactors]
 Description = "Locking specific capacity factors for plants where we have precise data, to ensure alignment."
 SheetName = "Existing Technologies"
@@ -107,6 +105,51 @@ Description = "Sets technical parameters for distribution processes (eg losses, 
 SheetName = "Distribution"  
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_elc/distribution_parameters.csv"
+
+###############################################################################
+# Statdiff Adjustments 
+# This process allows the model to reflect MBIE statdiff. This is required to keep our alignment correct. 
+
+# In official data, generation is 1.5% higher than reported consumption
+# this means if we don't include the statdiff as an extra "demand", then the model will
+# shrink generation demand to match. It does this exclusively from the highest-cost (thermal)
+# generation, leading to incorrect emission outputs. 
+
+# to ensure balance, we add the statdiff as a "demand" function, and carry this forward
+# with ACT_BND~FX (ensuring fixed activity). 
+
+# in 2023, the difference between observed and calculated demand (so, our statdiff)
+# was 1.5%, or 624 GWh. in 2024 this increases to 2.4%, or 981 GWh. 
+
+# we convert these to PJ and add them to false demand. This carries forward flat, so remains at 
+# 981 GWh throughout the full model horizon. 
+
+###############################################################################
+
+[StatDiffDemandProcessDeclarations]
+Description = "Declare processes we'll use to force the model to account for MBIE statdiffs. Useful for calibration."
+SheetName = "StatDiffAdjustments"
+TagName = "FI_Process"
+Sets = ["PRE"]
+TechName = ["StatDiffDemand_ELC"]
+Tact = ["PJ"]
+Tcap = ["PJa"]
+
+[StatDiffProcessParameters]
+Description = "Parameters for statdiff settings. These are rounded down from expected gaps just to add more flexibility and ensure no infeasibility."
+SheetName = "StatDiffAdjustments"
+TagName = "FI_T"
+TechName = ["StatDiffDemand_ELC"]
+Comm-IN = ["ELC"]
+"ACT_BND~FX~2023" = 1.3
+"ACT_BND~FX~2024" = 3.2
+"ACT_BND~FX~0" = 5 # carry forward
+
+
+
+
+
+
 
 ###############################################################################
 # Emission Factors 

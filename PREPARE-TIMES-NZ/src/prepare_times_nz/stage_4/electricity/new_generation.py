@@ -1,14 +1,14 @@
 """
 Outputs electricity tech files for Veda
 
-Organised separately for genstack, offshore, and distributed solar
+Organised separately for genstack and offshore
 
 For genstack files, the outputs are a function of selected
 MBIE and NREL scenarios. So we output specific scenario files based on
 MBIE/NREL selected inputs. These can be adjusted quite easily as needed.
 
-For offshore/distributed solar, only the NREL scenario is relevant
-As these are excluded from the MBIE data. We currently just
+For offshore, only the NREL scenario is relevant
+as these are excluded from the MBIE data. We currently just
 output every file for these (advanced/moderate/conservative),
 and the config file can select which to use for whatever TIMES scenario
 
@@ -17,7 +17,6 @@ and the config file can select which to use for whatever TIMES scenario
 import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_0.stage_0_settings import (
-    BASE_YEAR,
     CAP2ACT_PJGW,
     MILESTONE_YEAR_LIST,
 )
@@ -29,6 +28,7 @@ from prepare_times_nz.utilities.filepaths import (
     STAGE_3_DATA,
     STAGE_4_DATA,
 )
+from prepare_times_nz.utilities.logger_setup import logger
 
 # Constants ----------------------------------------------------
 
@@ -50,7 +50,6 @@ ELC_ASSUMPTIONS = ASSUMPTIONS / "electricity_generation/future_techs"
 
 genstack_file = ELECTRICITY_DATA / "genstack.csv"
 offshore_wind = ELECTRICITY_DATA / "offshore_wind.csv"
-residential_solar = ELECTRICITY_DATA / "residential_solar.csv"
 
 # Assumptions and concordances
 region_islands = CONCORDANCES / "region_island_concordance.csv"
@@ -63,7 +62,6 @@ tech_assumptions = ELC_ASSUMPTIONS / "TechnologyAssumptions.csv"
 OUTPUT_LOCATION = STAGE_4_DATA / "subres_elc"
 OFFSHORE_OUT = OUTPUT_LOCATION / "offshore"
 GENSTACK_OUT = OUTPUT_LOCATION / "genstack"
-DSTSOLAR_OUT = OUTPUT_LOCATION / "dist_solar"
 
 
 # ------------------------------------------------------------------------------------------
@@ -75,12 +73,6 @@ DSTSOLAR_OUT = OUTPUT_LOCATION / "dist_solar"
 def save_offshore(df, name, filepath=OFFSHORE_OUT):
     """Wrapper for offshore wind outputs"""
     label = "New offshore techs"
-    _save_data(df, name, label, filepath=filepath)
-
-
-def save_dist_solar(df, name, filepath=DSTSOLAR_OUT):
-    """Wrapper for saving res solar files"""
-    label = "Saving solar data"
     _save_data(df, name, label, filepath=filepath)
 
 
@@ -115,10 +107,7 @@ def trim_cost_curves(df):
     return df
 
 
-def get_nrel_cost_curves(
-    df,
-    scenario="Moderate",
-):
+def get_nrel_cost_curves(df, scenario="Moderate"):
     """Simple function that renames CAPEX and FOM to Veda equivalents
     Outputs as "Attribute" so can be sent directly to a Veda table after"""
 
@@ -312,30 +301,6 @@ def load_genstack():
     return df
 
 
-def tidy_genstack(df):
-    """
-
-    Moderate manipulation of the genstack data
-    This should probably be done in stage 3 instead for consistency.
-
-    Generates the distinct process name for genstack plants
-    Adds the island variable NI/SI
-    Removes the Huntly wood plant in MBIE's genstack as TIMES can just input different
-    fuels into the same plant, rather than being forced to
-    create new plants for different fuels
-
-    """
-    #  really this whole function should go in stage 3. the surfaced s3 data should be tidier
-    df = add_islands(df)
-
-    # MBIE includes Huntly black pellets as a separate plant.
-    # We will remove this because we can just feed different fuels to the rankines
-    plants_to_remove = ["Huntly Unit 1 (Wood)", "Huntly Unit 2 (Wood)"]
-    df = df[~df["Plant"].isin(plants_to_remove)]
-
-    return df
-
-
 def select_mbie_scenario(df, scenario):
     """filters a df on MBIE scenario"""
     df = df[df["Scenario"] == scenario]
@@ -404,6 +369,34 @@ def reshape_genstack(df):
 
     df["Comm-OUT"] = "ELC"
     df["Comm-IN"] = "ELC" + df["Fuel_TIMES"]
+
+    # Clean identifiers to avoid mismatches (trim whitespace, ensure strings)
+    df["Comm-IN"] = df["Comm-IN"].astype(str).str.strip()
+    df["Tech_TIMES"] = df.get("Tech_TIMES", "")
+    df["Tech_TIMES"] = df["Tech_TIMES"].fillna("").astype(str)
+
+    # Duplicate comms for specific mappings used elsewhere in the pipeline:
+    # - ELCNGA -> ELCBIG
+    mask_ng = df["Comm-IN"] == "ELCNGA"
+    if mask_ng.any():
+        dup_ng = df[mask_ng].copy()
+        dup_ng["Comm-IN"] = "ELCBIG"
+        df = pd.concat([df, dup_ng], ignore_index=True)
+        logger.info(
+            "Duplicated %d genstack rows from ELCNGA to ELCBIG",
+            len(dup_ng),
+        )
+    else:
+        logger.debug(
+            "No genstack rows found for ELCNGA->ELCBIG duplication. Comm-IN uniques: %s",
+            df["Comm-IN"].unique()[:20],
+        )
+
+    # add lower-bound outputs for selected techs
+
+    df["AFA~LO"] = np.nan
+    df["AFA~LO"] = np.where(df["Tech"].isin(["GasPkr", "OCGT"]), 0.02, df["AFA~LO"])
+
     df["CAP2ACT"] = CAP2ACT_PJGW
 
     return df
@@ -427,6 +420,7 @@ def select_veda_genstack_vars(df):
             "Life",
             "NCAP_PKCNT",
             "AFA",
+            "AFA~LO",
             "CAP_BND",
             "CAP_BND~0",
         ]
@@ -458,7 +452,9 @@ def get_fixed_installation_dates(df):
     return df
 
 
-def process_genstack_files(times_scenario, mbie_scenario, nrel_scenario):
+def process_genstack_files(
+    times_scenario, mbie_scenario, nrel_scenario, sensitivity=True
+):
     """
     Orchestrates the genstack files.
 
@@ -477,7 +473,6 @@ def process_genstack_files(times_scenario, mbie_scenario, nrel_scenario):
     """
     df = load_genstack()
     df = select_mbie_scenario(df, scenario=mbie_scenario)
-    df = tidy_genstack(df)
 
     df_veda = reshape_genstack(df)
 
@@ -500,103 +495,13 @@ def process_genstack_files(times_scenario, mbie_scenario, nrel_scenario):
     save_genstack(cost_curves, f"{times_scenario}_cost_curves.csv")
     save_genstack(island_definitions, f"{times_scenario}_island_definitions.csv")
 
+    # optionally add a sensitivity output
+    if sensitivity:
+        sens_df = cost_curves.copy()
+        for var in ["FIXOM", "INVCOST"]:
+            sens_df[var] = sens_df[var] * 0.01
 
-# ------------------------------------------------------------------------------------------
-# Solar ------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------
-
-
-def load_solar():
-    """Just reads solar data and renames the TechName to meet standards"""
-    df = pd.read_csv(residential_solar)
-    # adjust techname to be a bit more sensible. Move to stage 3 probably
-    df["TechName"] = "ELC_" + df["Tech"] + "_Res"
-    return df
-
-
-def reshape_solar_file(df):
-    """Creates parameter file for dist solar"""
-
-    # we'll make a base file by removing the curve data
-
-    df = df[df["Variable"] == "Capacity"].copy()
-    # summarise regions
-    df = df.groupby(["Tech", "TechName", "Fuel_TIMES"])["Value"].sum().reset_index()
-    df["CAP_BND"] = df["Value"] / 1000  # convert GW
-
-    df = add_assumptions(df)
-
-    df["Comm-IN"] = "ELC" + df["Fuel_TIMES"]
-    df["Comm-OUT"] = "ELCDD"
-
-    df = df.rename(
-        columns={
-            "PeakContribution": "NCAP_PKCNT",
-            "PlantLife": "Life",
-        }
-    )
-
-    df["CAP_BND~0"] = 5  # extrapolate the capacity bound through whole horizon
-
-    df["EFF"] = 1
-    df["NCAP_START"] = BASE_YEAR + 1
-    df["CAP2ACT"] = CAP2ACT_PJGW
-
-    return df
-
-
-def get_solar_params(df):
-    """Just Selects whats needed for the solar parameters"""
-
-    df = df[
-        [
-            "TechName",
-            "Comm-IN",
-            "Comm-OUT",
-            "CAP2ACT",
-            "NCAP_START",
-            "EFF",
-            "Life",
-            "NCAP_PKCNT",
-            "AFA",
-            "CAP_BND",
-            "CAP_BND~0",
-        ]
-    ]
-    return df
-
-
-def process_solar_files():
-    """Orchestrates all distributed solar Veda outputs"""
-
-    df = load_solar()
-
-    base_file = reshape_solar_file(df)
-    params = get_solar_params(base_file)
-
-    save_dist_solar(params, "parameters.csv")
-
-    process_definitions = create_process_file(base_file)
-    save_dist_solar(process_definitions, "process_definitions.csv")
-
-    # island definitions
-    island_definitions = assume_available_all_islands(df)
-    # here, all the distributed solar plants can be on either island
-    # so the method is a bit different
-    save_dist_solar(island_definitions, "island_definitions.csv")
-
-    # cost curves
-    # Advanced
-    cost_curves_advanced = get_nrel_cost_curves(df, "Advanced")
-    save_dist_solar(cost_curves_advanced, "cost_curves_advanced.csv")
-
-    # Moderate
-    cost_curves_moderate = get_nrel_cost_curves(df, "Moderate")
-    save_dist_solar(cost_curves_moderate, "cost_curves_moderate.csv")
-
-    # Conservative
-    cost_curves_conservative = get_nrel_cost_curves(df, "Conservative")
-    save_dist_solar(cost_curves_conservative, "cost_curves_conservative.csv")
+        save_genstack(sens_df, f"{times_scenario}_cost_curves_sensitivity.csv")
 
 
 # ------------------------------------------------------------------------------------------
@@ -607,20 +512,19 @@ def process_solar_files():
 def main():
     """Wrapper for all functions
     Note that here is where we define the MBIE/NREL scenarios used
-    for Traditional/Transformation
+    for Steady/Shift
     It would be straightforward to either adjust the scenarios used
     Or create new ones by specifying new genstack processing"""
 
     # offshore wind and dist solar outputs all cost curves
     # can select options by changing inputs in config file
     process_offshore_wind_data()
-    process_solar_files()
-    # Traditional settings for genstack:
+    # Steady settings for genstack:
     # Reference MBIE + conservative NREL
-    process_genstack_files("Traditional", "Reference", "Conservative")
-    # Transformation settings for genstack:
+    process_genstack_files("Steady", "Reference", "Moderate")
+    # Shift settings for genstack:
     # Innovation MBIE + Moderate NREL
-    process_genstack_files("Transformation", "Innovation", "Moderate")
+    process_genstack_files("Shift", "Innovation", "Advanced")
 
 
 if __name__ == "__main__":

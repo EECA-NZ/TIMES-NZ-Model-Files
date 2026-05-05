@@ -1,19 +1,19 @@
 # Carbon price scenarios
 # Very simple single table per file that we can swap in and out of model runs 
-# Default to Traditional, but each output gets its own workbook.
+# Default to Steady, but each output gets its own workbook.
 
-WorkBookName = "SuppXLS/Scen_Carbon_Traditional"
+WorkBookName = "SuppXLS/Scen_Carbon_Steady"
 
-[CarbonPriceTraditional]
-Description = "Defines the carbon path as a tax on total co2 output. Traditional scenario."
-WorkBookName = "SuppXLS/Scen_Carbon_Traditional"
+[CarbonPriceSteady]
+Description = "Defines the carbon path as a tax on total co2 output. Steady scenario."
+WorkBookName = "SuppXLS/Scen_Carbon_Steady"
 SheetName = "CarbonPrice"
 TagName = "TFM_INS"
-DataLocation = "data_intermediate/stage_4_veda_format/scen_carbon_price/carbon_price_traditional.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_carbon_price/carbon_price_steady.csv"
 
-[CarbonPriceTransformation]
-Description = "Defines the carbon path as a tax on total co2 output. Traditional scenario (uses CCC demo path)"
-WorkBookName = "SuppXLS/Scen_Carbon_Transformation"
+[CarbonPriceShift]
+Description = "Defines the carbon path as a tax on total co2 output. Shift scenario (uses CCC demo path)"
+WorkBookName = "SuppXLS/Scen_Carbon_Shift"
 SheetName = "CarbonPrice"
 TagName = "TFM_INS"
-DataLocation = "data_intermediate/stage_4_veda_format/scen_carbon_price/carbon_price_transformation.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/scen_carbon_price/carbon_price_shift.csv"

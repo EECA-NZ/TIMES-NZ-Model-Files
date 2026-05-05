@@ -29,6 +29,7 @@ Sets = ["MIN", "MIN"] # this actually doesn't need to dupe - rows inherit so "MI
 TechName = ["MINNGA-KAP", "MINNGA-OTH"] # All other fields and Kapuni
 Tact = ["PJ","PJ"]
 Tcap = ["PJa","PJa"]
+Region = ["NI", "NI"]
 
 
 [GasSupplyParameters]
@@ -37,6 +38,18 @@ SheetName = "Natural Gas"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/natural_gas_production_parameters.csv"
 
+
+[GasSupplyHistorical]
+Description = "Hardcoded gas production limits for fields according to historical net outputs. Should code this from historical."
+# copy-pasted from MBIE sheets. Could do a better job of this. subtracted kapuni from totals
+SheetName = "Natural Gas"
+TagName = "FI_T"
+Attribute = ["ACT_BND~FX","ACT_BND~FX","ACT_BND~FX","ACT_BND~FX"]
+TechName = ["MINNGA-KAP","MINNGA-KAP", "MINNGA-OTH","MINNGA-OTH"]
+Year = [2023,2024,2023,2024]
+NI = [12.11,14.24, 135.94, 104.73]
+
+
 [GasSupplyForecasts]
 Description = "Add natural gas production forecast limits. Excludes contingent - only the 2P reserves."
 # Note contingent reserves are specified as a separate/optional scenario table
@@ -44,93 +57,60 @@ SheetName = "Natural Gas"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/deliverability_forecasts_2p.csv"
 
-# this will include costs and activity bounds 
-# cost will be a linear interpolation, but activity bound needs to be annual inputs from reserves 
-# the process definitions can be pulled from this as per normal 
-# later might need to mess with this a bit to standardise for reporting 
 
-###########################################
-# LNG
-# NOTE: LNG goes into SUBRES files here 
-# BUT some parts need to go into a scenario file for lumpy investment
-# kept in this config file for tidiness (it's small) 
-# we do not limit this to the north island, because the south island can't do anything with NGA
-# so this shouldnt' matter (but to keep an eye on that)
-###########################################
 
-[LNGSupplyCommodityDefinitions]
-WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
-Description = "Declare LNG commodity"
-SheetName = "LNG"
+# Distribution network 
+
+
+[GasDistributionCommodities]
+Description = "Defines distributed gas commodities"
+# Note contingent reserves are specified as a separate/optional scenario table
+SheetName = "Gas Distribution"
 TagName = "FI_Comm"
-Csets = ["NRG"]
-Region = ["NI"]
-CommName = ["LNG"]
-Unit = ["PJ"]
+CSets = ["NRG", "NRG"]
+CommName = ["NGADD", "BIMDD"]
+Unit = ["PJ", "PJ"]
+LimType = ["FX", "FX"]
 
 
-[LNGSupplyProcessDefinitions]
-WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
-Description = "Declare LNG production/regasification processes"
-SheetName = "LNG"
+[GasDistributionNetworkDeclaration]
+Description = "Defines gas distribution network"
+# Note contingent reserves are specified as a separate/optional scenario table
+SheetName = "Gas Distribution"
 TagName = "FI_Process"
-
-# setting discrete investments on the LNG ports
-# actual values are set in the scenario file
-Sets = ["IMP", "PRE, DISCINV", "PRE, DISCINV"] 
-
-TechName = ["IMPLNG", # just import the commodity
-            "LNGPORTSML", # small-scale configuration
-            "LNGPORTSTD" # standard configuration
-            ]
-
+Sets = "PRE"
+TechName = "G_NGA_DIST"
 Tact = "PJ"
-Tcap = ["PJa", "SmallScalePort", "StandardPort"] # we are defining abstract units for these ports to work around
+Tcap = "Pja"
 
 
-[LNGCommodityCosts]
-WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
-Description = "Defines costs for LNG import (Just the commodity, not infrastructure or delivery)"
-SheetName = "LNG"
+[GasDistributionNetworkParameters]
+Description = "Defines gas distribution network"
+# Note contingent reserves are specified as a separate/optional scenario table
+SheetName = "Gas Distribution"
+TagName = "FI_Process"
+Sets = "PRE"
+TechName = "G_NGA_DIST"
+Region = "NI"
+NCAP_PASTI = 150 # this doesn't really matter - just enough to meet demand
+CAP2ACT = 1 # just PJa capacity 
+FIXOM = 200 # placeholder value. To determine correctly later. Note only important for objective function unless we're allowing the network to shrink.
+Life = 100
+[GasDistributionNetworkTopology]
+
+
+Description = "Defines In/Out for network. Note that flo_eff must be set in base constraints or this will turn gas into biomethane for free"
+# Note contingent reserves are specified as a separate/optional scenario table
+SheetName = "Gas Distribution"
 TagName = "FI_T"
-TechName = "IMPLNG"
-Comm-IN = ""
-Comm-OUT = "LNG"
-COST = 18 # NZD/GJ
 
-[LNGImportConfigurations]
-WorkBookName = "SubRES_TMPL/SubRES_NewTech_LNG_Imports"
-Description = "Defines parameters for different LNG configurations. These are integers, calling MIP."
-SheetName = "LNG"
-TagName = "FI_T"           
+TechName = ["G_NGA_DIST", "G_NGA_DIST"]
+Comm-IN = ["NGA", "BIM"] # natural gas or biomethane. Note must add new fuels here and base constraints for additional blending 
+Comm-OUT = ["NGADD", "BIMDD"] 
+Ceff = [1,1] # might not need this? but had weird results without it in early testing where input commodities weren't needed. test removing.
+Region = ["NI", "NI"]
 
-[LNGImportConfigurations.Data]
-TechName = ["LNGPORTSML", "LNGPORTSTD"]
-Comm-IN = ["LNG","LNG"]
-Comm-OUT = ["NGA","NGA"]
-INVCOST = [295,800] # again, this is total per "port" unit. We can only build one port unit, and this is the price NZDm
-CAP2ACT = [9,40] # ie, the small port can produce 9 a year, and the big port 40: now all our capacity unit is "port" so everything simpler 
-Eff = [1,1] # this is by default anyway, but we'll make explicit
-AFA = [1,1] # defaults, but explicit - can run at max capacity 
-"AFA~LO" = [1,0] # force the small port to always run at max capacity, as per the reporting on these setups. You buy LNG ahead of time and must deliver. 
-FIXOM = [10, 90] # operating costs per capacity unit (NZDm per port setup excl capex) 
-FLO_DELIV = [2.55,0] # delivery costs NZD/GJ (penalty for small-scale, no penalty for standard) 
-
-
-[LNGImportBuildOptions]
-# this is basically straight from section 3.1.2 of the Part IV model docs. Would be good to make it a little cleaner if possible. 
-WorkBookName = "SuppXLS/Scen_LNG_build_timing"
-Description = "Integer settings for building discrete LNG ports. This is included in a scenario file which is apparently needed for discrete builds?"
-SheetName = "LNG"
-TagName = "TFM_INS"
-
-[LNGImportBuildOptions.Data]
-Attribute = ["NCAP_DISC","NCAP_DISC", "NCAP_DISC","NCAP_DISC"]
-Pset_PN =["LNGPORTSML","LNGPORTSTD", "LNGPORTSML","LNGPORTSTD"]
-Year = [2027,2028,0,0 ] # 0s for interp 
-AllRegions = [1,1,5,5] # ie : one unit available for each unit, and 2 5s for interp (can be built any time)
-Other_Indexes = [1,1,1,1] # I have no idea what this is doing and should test a run removing it 
-            
+           
 
 ###########################################
 # Oil
@@ -240,9 +220,8 @@ Description = "Declare biofuel energy commodities"
 SheetName = "Biofuels"
 TagName = "FI_Comm"
 Csets = ["NRG"] # (all energy commodities) 
-CommName = ["WODWST", "AGRWST", "MNCWST", "ANMMNR", "WOD", "OSWOD", "BPLT", "BDSL", "BIL", "DID", "DIJ", "SAF", "BIG"]
-Unit = ["PJ"] # All PJ 
-LimType = ["FX"]
+CommName = ["WODWST", "AGRWST", "MNCWST", "ANMMNR", "WOD", "OSWOD", "BPLT", "BDSL", "BIL", "DID", "DIJ", "SAF", "BIG", "BIM"]
+Unit = ["PJ"] # All PJ
 
 
 [BiofuelProcessDeclarations]
@@ -265,38 +244,4 @@ DataLocation = "data_raw/coded_assumptions/biofuels/plant_processes.csv"
 
 
 
-###########################################
-# Hydrogen 
-###########################################
-
-
-[DeclareHydrogenCommodity]
-Description = "Hydrogen commodity"
-SheetName = "Hydrogen"
-TagName = "FI_Comm"
-Csets = ["NRG"] # (all energy commodities) 
-CommName = ["H2R"] 
-Unit = ["PJ"] # All PJ 
-LimType = ["FX"]
-
-
-[HydrogenProcessDeclarations]
-Description = "Declare hydrogen production placeholder. We need to later build actual electrolysis."
-SheetName = "Hydrogen"
-TagName = "FI_Process"
-Sets = ["MIN"] 
-TechName = ["MINH2R_PLACEHOLDER"]
-Tact = "PJ"
-Tcap = "PJa"
-
-
-
-[HydrogenPlaceHolderParameterDeclarations]
-
-Description = "Placeholder hydrogen production process, just to ensure the model doesn't get free hydrogen before electrolysis added "
-SheetName = "Hydrogen"
-TagName = "FI_T"
-TechName = ["MINH2R_PLACEHOLDER"]
-Comm-Out = ["H2R"]
-Cost = [40] # place holder price - high, but not insanely so
 

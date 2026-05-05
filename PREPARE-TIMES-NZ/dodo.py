@@ -50,6 +50,7 @@ from prepare_times_nz.utilities.filepaths import (
     DATA_INTERMEDIATE,
     DATA_RAW,
     OUTPUT_LOCATION,
+    PREP_LOCATION,
     STAGE_0_SCRIPTS,
     STAGE_1_SCRIPTS,
     STAGE_2_SCRIPTS,
@@ -197,6 +198,7 @@ STAGE_1: dict[str, list[str]] = {
     ],
     "extract_mbie_data": ["mbie/gen_stack.csv"],
     "extract_nrel_data": ["nrel/future_electricity_costs.csv"],
+    "extract_rbs_data": ["rbs/power_demand_by_tou.parquet.csv"],
     "extract_snz_data": ["statsnz/cpi.csv", "statsnz/cgpi.csv"],
     "extract_gic_data": ["gic/gic_production_consumption.csv"],
     "extract_mvr_fleet_data": ["fleet_vkt_pj/vehicle_counts_2023.csv"],
@@ -239,6 +241,14 @@ STAGE_2: dict[str, list[str]] = {
 STAGE_3: dict[str, list[str]] = {
     "demand_projections": ["demand_projections/industrial_demand_index.csv"],
     "supply_projections": ["oil_and_gas/oil_and_gas_projections.csv"],
+    "electricity/solar_prepare_epw": ["electricity/solar_af/prepared_epw/.prepared"],
+    "electricity/solar_run_hourly_profiles": [
+        "electricity/solar_af/hourly/all_scenarios_hourly_long.csv"
+    ],
+    "electricity/solar_build_curves": [
+        "electricity/solar_af/timeslices/solar_availability_factors.csv",
+        "electricity/renewable_curves.csv",
+    ],
     # subres
     "electricity/electricity_new_gen_tech": ["electricity/future_generation_tech.csv"],
     "transport/extract_vehicle_future_costs_data": [
@@ -246,7 +256,29 @@ STAGE_3: dict[str, list[str]] = {
     ],
     # scenarios
     "electricity/wem_wcm": ["wem_user_constraints/uc_wem.csv"],
+    "electricity/distributed_solar_forecasts": [
+        "distributed_solar/steady_distributed_solar_forecasts.csv"
+    ],
 }
+
+STAGE_3_INPUTS: dict[str, list[Path]] = {
+    "electricity/solar_prepare_epw": _files_in_path(DATA_RAW / "external_data/niwa"),
+}
+
+STAGE_3_DEPS: dict[str, list[str]] = {
+    "electricity/solar_run_hourly_profiles": ["electricity/solar_prepare_epw"],
+    "electricity/solar_build_curves": ["electricity/solar_run_hourly_profiles"],
+    "electricity/wem_wcm": ["electricity/solar_build_curves"],
+}
+
+DOC_TABLE_OUTPUTS = [
+    PREP_LOCATION
+    / "docs/source/model_methodology/electricity/tables/solar_availability_dist.csv",
+    PREP_LOCATION
+    / "docs/source/model_methodology/electricity/tables/solar_availability_dist_bifacial.csv",
+    PREP_LOCATION
+    / "docs/source/model_methodology/electricity/tables/solar_availability_utility_track.csv",
+]
 
 # Stage-4: VEDA-format CSVs. Single sentinel per script
 STAGE_4: dict[str, list[str]] = {
@@ -256,14 +288,15 @@ STAGE_4: dict[str, list[str]] = {
     "create_baseyear_pri_files": ["base_year_pri/deliverability_forecasts_2p.csv"],
     # new techs (subres files)
     "create_newtechs_tra_files": ["subres_tra/future_transport_processes.csv"],
-    "create_newtechs_elc_files": ["subres_elc/genstack/Traditional_process.csv"],
+    "create_newtechs_elc_files": ["subres_elc/genstack/Steady_process.csv"],
     "create_newtechs_com_files": ["subres_com/future_commercial_processes.csv"],
     "create_newtechs_agr_files": ["subres_agr/future_agriculture_processes.csv"],
     "create_newtechs_ind_files": ["subres_ind/future_industry_processes.csv"],
     # settings
     "create_settings": ["sys_settings/active_periods.csv"],
+    "create_common_constraints": ["sys_settings/banned_techs.csv"],
     # scenario files
-    "create_standard_scenarios": ["scen_carbon_prices/carbon_price_traditional.csv"],
+    "create_standard_scenarios": ["scen_carbon_prices/carbon_price_steady.csv"],
     "create_dem_proj_files": ["scen_demand/driver_allocations.csv"],
     "create_load_curves": ["scen_com_fr/com_fr_industry.csv"],
 }
@@ -294,6 +327,7 @@ def task_stage_0_parse_tomls():
     return {
         "actions": [_run(str(script))],
         "file_dep": STAGE_0_INPUTS + [script],
+        "uptodate": [False],
         "targets": [CONFIG_META_CSV],
         "clean": True,
     }
@@ -357,17 +391,48 @@ def task_stage_3_scenarios() -> Iterator[dict]:
     """Stage-3: derive scenario demand-growth assumptions."""
     for rel_script, rel_outs in STAGE_3.items():
         script = STAGE_3_SCRIPTS / f"{rel_script}.py"
+        extra_in = [
+            _intermediate_out(rel, S3_DIR)
+            for dep in STAGE_3_DEPS.get(rel_script, [])
+            for rel in STAGE_3[dep]
+        ]
+        input_files = list(STAGE_3_INPUTS.get(rel_script, []))
         yield {
             "name": rel_script.replace("/", "_"),
             "actions": [_run(str(script))],
             "file_dep": [script]
             + _files_in_stage(S1_DIR)
             + ASSUMPTION_INPUTS
-            + CONCORDANCE_INPUTS,
+            + CONCORDANCE_INPUTS
+            + input_files
+            + extra_in,
             "targets": [_intermediate_out(rel, S3_DIR) for rel in rel_outs],
-            "task_dep": [f"stage_2_baseyear:{n}" for n in STAGE_2],
+            "task_dep": [f"stage_2_baseyear:{n}" for n in STAGE_2]
+            + [
+                f"stage_3_scenarios:{n.replace('/', '_')}"
+                for n in STAGE_3_DEPS.get(rel_script, [])
+            ],
             "clean": True,
         }
+
+
+def task_stage_3_docs() -> dict:
+    """Generate committed documentation tables from stage-3 solar outputs."""
+    script = STAGE_3_SCRIPTS / "electricity/solar_export_doc_tables.py"
+    return {
+        "actions": [_run(str(script))],
+        "file_dep": [script]
+        + [
+            _intermediate_out(
+                "electricity/solar_af/timeslices/solar_availability_factors.csv", S3_DIR
+            ),
+            _intermediate_out(
+                "electricity/solar_af/hourly/all_scenarios_hourly_long.csv", S3_DIR
+            ),
+        ],
+        "targets": DOC_TABLE_OUTPUTS,
+        "task_dep": ["stage_3_scenarios:electricity_solar_build_curves"],
+    }
 
 
 ###############################################################################
@@ -389,7 +454,8 @@ def task_stage_4_veda_csvs() -> Iterator[dict]:
             + ASSUMPTION_INPUTS
             + CONCORDANCE_INPUTS,
             "targets": [_intermediate_out(rel, S4_DIR) for rel in rel_outs],
-            "task_dep": [f"stage_3_scenarios:{n.replace('/', '_')}" for n in STAGE_3],
+            "task_dep": [f"stage_3_scenarios:{n.replace('/', '_')}" for n in STAGE_3]
+            + ["stage_3_docs"],
             "clean": True,
         }
 
@@ -404,6 +470,7 @@ def task_stage_5_build_excel():
     script = STAGE_4_SCRIPTS / "write_excel.py"
     return {
         "actions": [_run(str(script))],
+        "uptodate": [False],
         "file_dep": [script]
         + STAGE_0_INPUTS
         + _files_in_stage(S4_DIR)

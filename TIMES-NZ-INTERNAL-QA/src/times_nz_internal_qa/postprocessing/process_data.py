@@ -23,6 +23,53 @@ from times_nz_internal_qa.utilities.filepaths import (
     SCENARIO_FILES,
 )
 
+BASE_YEAR = 2023
+MAX_YEAR = 2050
+
+
+def coerce_period_to_int(df):
+    """
+    Ensure Period is numeric and stored as nullable integer.
+    Reports attributes where invalid years show up
+    To do: list the attributes where this is acceptable
+        and throw loud error if it happens to attributes that need a period
+        currently judgement is required.
+    """
+    attributes_to_ignore = [
+        # these attributes aren't relevant to "period" so should be NAs
+        "Cost_Salv",
+        "ObjZ",
+        "Reg_irec",
+        "Reg_obj",
+        "Reg_wobj",
+        "User_con",
+    ]
+    period_numeric = pd.to_numeric(df["Period"], errors="coerce")
+    invalid_mask = (
+        period_numeric.isna()
+        & df["Period"].notna()
+        & ~df["Attribute"].isin(attributes_to_ignore)
+    )
+
+    if invalid_mask.any():
+        invalid_attributes = (
+            df.loc[invalid_mask, "Attribute"]
+            .dropna()
+            .astype(str)
+            .sort_values()
+            .unique()
+        )
+        print("Note: the following attributes contain some invalid years.")
+        print(
+            "Please ensure these are not attributes that should have valid years for every entry:"
+        )
+        for atty in invalid_attributes:
+            print("       -", atty)
+
+    df = df.copy()
+    df["Period"] = period_numeric.astype("Int64")
+    return df
+
 
 def save_data(df, name, method="parquet"):
     """Save final outputs to <repo>/data (creates folder if missing)."""
@@ -47,6 +94,7 @@ def load_scenario_results(scenarios):
         result_list.append(df)
 
     df_all = pd.concat(result_list)
+    df_all = coerce_period_to_int(df_all)
     return df_all
 
 
@@ -174,6 +222,8 @@ def process_generation_by_timeslice(df):
     ]
 
     df = df[ele_variables]
+    # remove base year from timeslice data
+    df = df[df["Period"] != BASE_YEAR]
 
     save_data(df, "generation_by_timeslice.csv")
 
@@ -261,8 +311,10 @@ def process_electricity_demand_by_timeslice(df):
     df["Unit"] = "GW"
     df["Value"] = df["GW"]
 
-    # order and select output variables
+    # remove base year from timeslice data
+    df = df[df["Period"] != BASE_YEAR]
 
+    # order and select output variables
     save_data(df, "electricity_demand_by_timeslice.csv")
 
 
@@ -271,6 +323,8 @@ def process_energy_demand(df):
     Load full scenario data for `scenario_name`
     Identify all energy demand processes and output each with human readable labels
     For these we currently only extract energy demand, not capacity or output.
+    Feedstock demand is still identified and labelled upstream, but excluded from
+    this output so it can be reported separately later.
     """
 
     demand_processes = pd.read_csv(PROCESS_CONCORDANCES / "demand.csv")
@@ -281,6 +335,19 @@ def process_energy_demand(df):
 
     df = df.merge(demand_processes, on="Process", how="left")
     df = df.merge(energy_commodities, on=["Commodity"], how="left")
+
+    # Keep feedstock labelled in the concordances, but exclude it from the
+    # published energy demand output for now.
+    feedstock_df = df[df["EndUse"] == "Feedstock"].copy()
+    if not feedstock_df.empty:
+        feedstock_summary = (
+            feedstock_df.groupby("Scenario", dropna=False)["PV"].sum().sort_index()
+        )
+        print("Note: excluding feedstock from energy demand outputs.")
+        for scenario, value in feedstock_summary.items():
+            print(f"       - {scenario}: {value:,.2f} PJ")
+
+    df = df[df["EndUse"] != "Feedstock"]
 
     # add labels (could also do this in an attributes concordance file, like with ele)
     df["Variable"] = "Energy demand"
@@ -390,6 +457,7 @@ def process_energy_service_demand(df):
     ESD methods, or the output of demand devices
     These should basically line up with our constraints so will be good to measure these
     We have to be quite careful with units both in processing and display
+    Excludes Road Transport which is handled separately in process_transport_energy_service_demand
     """
 
     demand_processes = pd.read_csv(
@@ -397,6 +465,14 @@ def process_energy_service_demand(df):
     ).drop_duplicates()
     demand_commodities = pd.read_csv(COMMODITY_CONCORDANCES / "demand.csv")
     com_units = pd.read_csv(COMMODITY_CONCORDANCES / "commodity_sets_and_units.csv")
+
+    # Exclude Road Transport sector processes (handled separately)
+    demand_processes = demand_processes[
+        ~(
+            (demand_processes["SectorGroup"] == "Transport")
+            & (demand_processes["Sector"] == "Road Transport")
+        )
+    ].copy()
 
     # get the output of all demand processes
     esd = df[df["Process"].isin(demand_processes["Process"].unique())].copy()
@@ -478,6 +554,10 @@ def get_data_by_timeslice(filename):
     df["Unit"] = "GW"
     df["Value"] = df["GW"]
 
+    # remove BY from this
+    df = coerce_period_to_int(df)
+    df = df[df["Period"] != BASE_YEAR]
+
     return df
 
 
@@ -531,6 +611,11 @@ def process_emissions(df):
     ele_generation_concordance = pd.read_csv(
         PROCESS_CONCORDANCES / "elec_generation.csv"
     )
+
+    # for all-purpose emissions, we add extra labels to electricity generation
+    for label in ["SectorGroup", "Sector", "EnduseGroup", "EndUse"]:
+        ele_generation_concordance[label] = "Electricity generation"
+
     production_concordance = pd.read_csv(PROCESS_CONCORDANCES / "production.csv")
 
     conc = pd.concat(
@@ -545,12 +630,322 @@ def process_emissions(df):
     # remove TOTCO2 (not helpful)
     df_emissions = df_emissions[df_emissions["Commodity"] != "TOTCO2"]
 
-    # some labels
+    # add labels
     df_emissions["Unit"] = "kt CO2e"
     df_emissions = df_emissions.rename(columns={"PV": "Value"})
     df_emissions = df_emissions.merge(conc, on="Process", how="left")
 
+    # remove international transport from emissions
+    uses_to_remove = ["International Shipping", "International Aviation"]
+    df_emissions = df_emissions[~df_emissions["EndUse"].isin(uses_to_remove)]
+
     save_data(df_emissions, "emissions.csv")
+
+
+def process_transport_energy_demand(df):
+    """
+    Road transport sector-specific energy demand processing with utilization breakdown.
+
+    Filters energy demand for Road Transport only and extracts utilization
+    information (Low/Med/High) from process names to provide detailed breakdowns
+    by vehicle type and utilization level.
+
+    Key differences from process_energy_demand:
+    - Filters only Road Transport sector
+    - Extracts utilization level (LOW/MED/HIGH) from process identifiers
+    - Maintains detailed vehicle technology information for each mode
+    """
+
+    demand_processes = pd.read_csv(
+        PROCESS_CONCORDANCES / "demand.csv"
+    ).drop_duplicates()
+    energy_commodities = pd.read_csv(COMMODITY_CONCORDANCES / "energy.csv")
+
+    # Filter for Road Transport sector only
+    transport_processes = demand_processes[
+        (demand_processes["SectorGroup"] == "Transport")
+        & (demand_processes["Sector"] == "Road Transport")
+    ].copy()
+
+    # Get transport energy demand from the main dataframe
+    df_transport = df[df["Process"].isin(transport_processes["Process"].unique())]
+    df_transport = df_transport[df_transport["Attribute"] == "VAR_FIn"]
+
+    df_transport = df_transport.merge(transport_processes, on="Process", how="left")
+    df_transport = df_transport.merge(energy_commodities, on=["Commodity"], how="left")
+
+    # Extract utilization level from process name (LOW, MED, HIGH)
+    # Process names like T_P_CICEPET_LOW contain utilization info
+    df_transport["Utilisation"] = df_transport["Process"].str.extract(
+        r"(_LOW|_MED|_HIGH)$"
+    )
+    df_transport["Utilisation"] = (
+        df_transport["Utilisation"].str.lstrip("_").fillna("UNSPECIFIED")
+    )
+
+    # Add labels
+    df_transport["Variable"] = "Transport Energy Demand"
+    df_transport["Unit"] = "PJ"
+    df_transport["Value"] = df_transport["PV"]
+
+    # Order and select output variables with utilization breakdown
+    transport_energy_demand_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "Sector",
+        "ProcessGroup",
+        "Process",
+        "Utilisation",
+        "CommodityGroup",
+        "Commodity",
+        "Fuel",
+        "Period",
+        "Region",
+        "Vintage",
+        "TimeSlice",
+        "EnduseGroup",
+        "EndUse",
+        "TechnologyGroup",
+        "Technology",
+        "Unit",
+        "Value",
+    ]
+
+    df_transport = df_transport[transport_energy_demand_variables]
+
+    save_data(df_transport, "transport_energy_demand.csv")
+
+
+def process_transport_energy_service_demand(df):
+    """
+    Road transport sector-specific energy service demand processing with utilization breakdown.
+
+    ESD (Energy Service Demand) methods for Road Transport only.
+    Extracts utilization levels (Low/Med/High) to show how different vehicle
+    utilization scenarios impact service demand.
+
+    These outputs can be compared against transport demand constraints and show the
+    breakdown by vehicle type and utilization level, essential for understanding
+    technology deployment and modal choices.
+
+    All values are in BVkm (Billion Vehicle Kilometers).
+    """
+
+    demand_processes = pd.read_csv(
+        PROCESS_CONCORDANCES / "demand.csv"
+    ).drop_duplicates()
+    demand_commodities = pd.read_csv(COMMODITY_CONCORDANCES / "demand.csv")
+
+    # Filter for Road Transport sector only
+    transport_processes = demand_processes[
+        (demand_processes["SectorGroup"] == "Transport")
+        & (demand_processes["Sector"] == "Road Transport")
+    ].copy()
+
+    # Get the output of transport demand processes
+    tesd = df[df["Process"].isin(transport_processes["Process"].unique())].copy()
+    tesd = tesd[tesd["Commodity"].isin(demand_commodities["Commodity"].unique())]
+    tesd = tesd[tesd["Attribute"] == "VAR_FOut"]
+
+    # Include only demand commodity outputs
+    tesd = tesd.merge(transport_processes, on="Process", how="left")
+
+    # Extract utilization level from process name (LOW, MED, HIGH)
+    tesd["Utilisation"] = tesd["Process"].str.extract(r"(_LOW|_MED|_HIGH)$")
+    tesd["Utilisation"] = tesd["Utilisation"].str.lstrip("_").fillna("UNSPECIFIED")
+
+    # Variable adjustments - set unit to BVkm for all transport ESD
+    tesd["Unit"] = "BVkm"
+    tesd["Variable"] = "Transport Energy Service Demand"
+    tesd = tesd.rename(columns={"PV": "Value"})
+
+    esd_transport_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "Sector",
+        "ProcessGroup",
+        "Process",
+        "Utilisation",
+        "Commodity",
+        "Period",
+        "Region",
+        "Vintage",
+        "TimeSlice",
+        "EnduseGroup",
+        "EndUse",
+        "TechnologyGroup",
+        "Technology",
+        "Unit",
+        "Value",
+    ]
+
+    tesd = tesd[esd_transport_variables]
+
+    save_data(tesd, "transport_energy_service_demand.csv")
+
+
+def process_transport_capacity(df):
+    """
+    Road transport sector-specific capacity processing with utilization breakdown.
+
+    Processes transport capacity (VAR_CAP) for Road Transport only.
+    Extracts utilization levels (Low/Med/High) from process names to show how
+    different vehicle utilization scenarios affect fleet capacity requirements.
+
+    Essential for understanding technology deployment trajectories and vehicle
+    fleet composition evolution across different utilization scenarios.
+    """
+
+    demand_processes = pd.read_csv(
+        PROCESS_CONCORDANCES / "demand.csv"
+    ).drop_duplicates()
+
+    # Filter for Road Transport sector only
+    transport_processes = demand_processes[
+        (demand_processes["SectorGroup"] == "Transport")
+        & (demand_processes["Sector"] == "Road Transport")
+    ].copy()
+
+    # Get transport capacity data
+    transport_capacity_df = df[
+        df["Process"].isin(transport_processes["Process"].unique())
+    ].copy()
+    transport_capacity_df = transport_capacity_df[
+        transport_capacity_df["Attribute"] == "VAR_Cap"
+    ]
+
+    # Include only transport processes with labels
+    transport_capacity_df = transport_capacity_df.merge(
+        transport_processes, on="Process", how="left"
+    )
+
+    # Extract utilization level from process name (LOW, MED, HIGH)
+    transport_capacity_df["Utilisation"] = transport_capacity_df["Process"].str.extract(
+        r"(_LOW|_MED|_HIGH)$"
+    )
+    transport_capacity_df["Utilisation"] = (
+        transport_capacity_df["Utilisation"].str.lstrip("_").fillna("UNSPECIFIED")
+    )
+
+    # Variable adjustments
+    transport_capacity_df["Variable"] = "Transport Capacity"
+    transport_capacity_df["Unit"] = "000vehicles"
+    transport_capacity_df = transport_capacity_df.rename(columns={"PV": "Value"})
+
+    transport_capacity_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "Sector",
+        "ProcessGroup",
+        "Process",
+        "Utilisation",
+        "Period",
+        "Region",
+        "Vintage",
+        "TimeSlice",
+        "EnduseGroup",
+        "EndUse",
+        "TechnologyGroup",
+        "Technology",
+        "Unit",
+        "Value",
+    ]
+
+    transport_capacity_df = transport_capacity_df[transport_capacity_variables]
+
+    save_data(transport_capacity_df, "transport_capacity.csv")
+
+
+def process_technology_capacity(df):
+    """
+    Capacity of non-transport demand technologies.
+
+    Uses VAR_Cap for non-transport demand processes and assigns capacity units
+    from process_sets_and_units.csv via the process-specific `tcap` field.
+    Road Transport is excluded and handled separately in process_transport_capacity.
+    """
+
+    demand_processes = pd.read_csv(
+        PROCESS_CONCORDANCES / "demand.csv"
+    ).drop_duplicates()
+    process_units = pd.read_csv(PROCESS_CONCORDANCES / "process_sets_and_units.csv")
+    process_units = process_units[process_units["sets"] == "DMD"].rename(
+        columns={
+            "techname": "Process",
+            "tcap": "Unit",
+        }
+    )
+    process_units = process_units[["Process", "Unit"]].drop_duplicates()
+
+    # Exclude Road Transport sector processes
+    demand_processes = demand_processes[
+        ~((demand_processes["SectorGroup"] == "Transport"))
+    ].copy()
+
+    # Get capacity rows for demand processes
+    technology_capacity_df = df[
+        df["Process"].isin(demand_processes["Process"].unique())
+    ].copy()
+    technology_capacity_df = technology_capacity_df[
+        technology_capacity_df["Attribute"] == "VAR_Cap"
+    ]
+
+    # Add process labels and process-specific capacity units
+    technology_capacity_df = technology_capacity_df.merge(
+        demand_processes, on="Process", how="left"
+    )
+    technology_capacity_df = technology_capacity_df.merge(
+        process_units, on="Process", how="left"
+    )
+    technology_capacity_df = technology_capacity_df[
+        technology_capacity_df["Unit"].notna()
+    ]
+    technology_capacity_df = technology_capacity_df[
+        technology_capacity_df["Unit"] != "PJa"
+    ]
+
+    technology_capacity_df["Variable"] = "Technology Capacity"
+    technology_capacity_df = technology_capacity_df.rename(columns={"PV": "Value"})
+
+    technology_capacity_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "ProcessGroup",
+        "Process",
+        "CommodityOut",
+        "Period",
+        "Region",
+        "Vintage",
+        "TimeSlice",
+        "SectorGroup",
+        "Sector",
+        "EnduseGroup",
+        "EndUse",
+        "TechnologyGroup",
+        "Technology",
+        "Unit",
+        "Value",
+    ]
+    technology_capacity_df = technology_capacity_df[technology_capacity_variables]
+
+    save_data(technology_capacity_df, "technology_capacity.csv")
+
+
+def check_df(df):
+    """scratch function"""
+
+    df = df.copy()
+
+    df = df[df["Attribute"] == "VAR_FOut"]
+    df = df[df["Commodity"] == "ELC"]
+    df = df[df["Period"] == 2023]
+
+    df = df.groupby(["Period", "Scenario"])["PV"].sum().reset_index()
+    print(df)
 
 
 def main():
@@ -560,20 +955,7 @@ def main():
     print("Processing all scenario files...")
     df = load_scenario_results(current_scenarios)
 
-    excess_years = [
-        "2051",
-        "2052",
-        "2053",
-        "2054",
-        "2055",
-        "2056",
-        "2057",
-        "2058",
-        "2059",
-        "2060",
-    ]
-
-    df = df[~df["Period"].isin(excess_years)]
+    df = df[(df["Period"] <= MAX_YEAR).fillna(False)]
 
     process_primary_energy(df)
     process_energy_service_demand(df)
@@ -585,6 +967,11 @@ def main():
     process_electricity_demand_by_timeslice(df)
 
     process_batteries(df)
+
+    process_transport_energy_demand(df)
+    process_transport_energy_service_demand(df)
+    process_transport_capacity(df)
+    process_technology_capacity(df)
 
     get_esd_by_timeslice()
 

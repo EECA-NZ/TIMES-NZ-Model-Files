@@ -1,0 +1,23 @@
+{#
+  Sphinx provides a `parents` list (breadcrumbs).
+  Typical structure:
+    Home → Top-level section → Current page
+
+  So:
+    parents[1] = top-level section (most of the time)
+#}
+
+{% if parents and parents|length > 1 %}
+  {% set section = parents[1] %}
+{% elif parents and parents|length == 1 %}
+  {% set section = parents[0] %}
+{% else %}
+  {% set section = None %}
+{% endif %}
+
+{% if section %}
+  <p>
+    {{ section.title }}    
+    TEST
+  </p>
+{% endif %}

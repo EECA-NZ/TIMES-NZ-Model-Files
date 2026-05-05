@@ -4,8 +4,8 @@ extract_vehicle_future_costs_data.py
 • Reads
       data_raw/external_data/nrel/NREL_vehicles_fuels_<year>.csv
       ↳ generate_vehicle_costs()  from extract_vehicle_costs_data.py
-• Projects future purchase costs using NREL “Conservative” (transformation) and
-  “Mid” (traditional) scenarios.
+• Projects future purchase costs using NREL “Conservative” (shift) and
+  “Mid” (steady) scenarios.
 • Writes the result to
       data_intermediate/stage_1_internal_data/vehicle_costs/
           vehicle_costs_by_type_fuel_projected.csv
@@ -130,11 +130,11 @@ def apply_indices_to_costs(
 def reshape_to_scenario_wide(df: pd.DataFrame, keep_cols: list[str]) -> pd.DataFrame:
     """
     Take a DataFrame that has wide projected columns like:
-      transformation_cost_2025, ..., transformation_cost_2050,
-      traditional_cost_2025, ..., traditional_cost_2050
+      shift_cost_2025, ..., shift_cost_2050,
+      steady_cost_2025, ..., steady_cost_2050
     and return a stacked frame with:
       [<ids from keep_cols>], scenario, cost_2025, ..., cost_2050
-    where scenario ∈ {"transformation", "traditional"}.
+    where scenario ∈ {"shift", "steady"}.
     """
     # ── normalise & dedupe ───────────────────────────────────────
     df = df.loc[:, ~df.columns.duplicated()].copy()
@@ -147,12 +147,10 @@ def reshape_to_scenario_wide(df: pd.DataFrame, keep_cols: list[str]) -> pd.DataF
         raise KeyError(f"id_vars missing from cost_df: {missing_ids}")
 
     # find projected columns
-    trans_cols = [c for c in df.columns if c.startswith("transformation_cost_")]
-    trad_cols = [c for c in df.columns if c.startswith("traditional_cost_")]
-    if not trans_cols and not trad_cols:
-        raise ValueError(
-            "No columns found (transformation_cost_* or traditional_cost_*)."
-        )
+    shift_cols = [c for c in df.columns if c.startswith("shift_cost_")]
+    steady_cols = [c for c in df.columns if c.startswith("steady_cost_")]
+    if not shift_cols and not steady_cols:
+        raise ValueError("No columns found (shift_cost_* or steady_cost_*).")
 
     # helper to build a scenario block and rename "<scenario>_cost_YYYY" -> "cost_YYYY"
     def make_block(cols: list[str], scenario_label: str) -> pd.DataFrame:
@@ -160,17 +158,15 @@ def reshape_to_scenario_wide(df: pd.DataFrame, keep_cols: list[str]) -> pd.DataF
             # empty block with correct shape
             return pd.DataFrame(columns=keep_cols + ["scenario"])
         block = df[keep_cols + cols].copy()
-        rename_map = {
-            c: re.sub(r"^(?:transformation|traditional)_", "", c) for c in cols
-        }
+        rename_map = {c: re.sub(r"^(?:shift|steady)_", "", c) for c in cols}
         block.rename(columns=rename_map, inplace=True)
         block.insert(len(keep_cols), "scenario", scenario_label)
         return block
 
-    trans_block = make_block(trans_cols, "transformation")
-    trad_block = make_block(trad_cols, "traditional")
+    shift_block = make_block(shift_cols, "shift")
+    steady_block = make_block(steady_cols, "steady")
 
-    out = pd.concat([trans_block, trad_block], ignore_index=True)
+    out = pd.concat([shift_block, steady_block], ignore_index=True)
 
     # order columns: ids, scenario, then cost_YYYY ascending
     cost_cols = sorted(
@@ -193,7 +189,7 @@ def generate_future_costs(year: int) -> pd.DataFrame:
     """
     Generate future vehicle costs based on NREL data, producing a frame with:
       [<ids from COST_COLS>], scenario, cost_2025, ..., cost_2050
-    scenario ∈ {"transformation", "traditional"}.
+    scenario ∈ {"shift", "steady"}.
     Relies on the existing helpers in this module:
       load_data, filter_nrel_data, build_nrel_cost_pivot,
       compute_average_costs_by_category, compute_cost_indices, apply_indices_to_costs
@@ -202,7 +198,7 @@ def generate_future_costs(year: int) -> pd.DataFrame:
     cost_df, nrel_df = load_data(year)
 
     # build projections for both scenarios → wide columns
-    for scenario, label in [("Conservative", "transformation"), ("Mid", "traditional")]:
+    for scenario, label in [("Conservative", "steady"), ("Mid", "shift")]:
         filtered = filter_nrel_data(nrel_df, scenario)
         pivot = build_nrel_cost_pivot(filtered)
         avg = compute_average_costs_by_category(pivot)
@@ -220,9 +216,7 @@ def generate_future_costs(year: int) -> pd.DataFrame:
         raise KeyError(f"Missing base columns in cost_df: {missing}")
 
     projected = [
-        c
-        for c in cost_df.columns
-        if c.startswith(("transformation_cost_", "traditional_cost_"))
+        c for c in cost_df.columns if c.startswith(("shift_cost_", "steady_cost_"))
     ]
     if not projected:
         raise ValueError("No projected columns found after applying indices.")

@@ -1,0 +1,132 @@
+# This file configures the technologies where we add additional constraints on uptake 
+
+# Each constraint is represented as a CAP GROWTH user constraint
+
+# Required entries: 
+
+# Description: Some plain english description of what's going on 
+# Growth Limit: the % increase capacity can grow by 
+# Pset_[Set|PN|CI|CO] Process sets, names, commodities in, or commodities out. wildcards possible, any combination is possible
+
+
+# Possible Entries: 
+
+# SeedValue: Optional additional capacity which can be installed above the % limit.
+#    (Necessary if capacity is 0 to start with before growth becomes dynamic.)
+# StartYear - a year for the constraint to activate from. Note default to baseyear.
+
+
+
+# Residential
+
+[CapLimitResidentialLED]
+Description = "Residential LED lighting"
+GrowthLimit = 0.04
+PSet_PN = "RES*LED-LIGHT" 
+
+[CapLimitResidentialFluro]
+Description = "Residential fluorescent lighting"
+GrowthLimit = 0.01 
+PSet_PN = "RES*FLUOR-LIGHT" 
+
+[CapLimitResidentialHeatPumps]
+Description = "Residential heatpumps"
+GrowthLimit = 0.03
+PSet_PN = "RES*HPSH-S_HEAT"
+
+[CapLimitResLPGHeating]
+Description = "Residential LPG heaters"
+GrowthLimit = 0.02
+PSet_PN = "RES*LPG-BURNR-S_HEAT"
+
+[CapLimitResGasHeating]
+Description = "Residential gas heaters"
+GrowthLimit = 0.02
+PSet_PN = "RES*NGA-BURNR-S_HEAT"
+
+[CapLimitResLPGHotwater]
+Description = "Residential LPG water heating"
+GrowthLimit = 0.02
+PSet_PN = "RES*LPG*WH_LOW"
+
+[CapLimitResGasHotwater]
+Description = "Residential gas water heating"
+GrowthLimit = 0.02
+PSet_PN = "RES*NGA*WH_LOW"
+
+# INDUSTRY 
+[CapLimitDairyHeatpumps]
+Description = "Dairy low-heat heatpumps for process heat"
+GrowthLimit = 0.02
+SeedValue = 0.05
+PSet_PN = "DARY-ELC-HPPH-PH_LOW"
+
+
+[CapLimitMeatHeatpumps]
+Description = "Meat processing low-heat heatpumps for process heat"
+GrowthLimit = 0.02
+SeedValue = 0.05
+PSet_PN = "MEAT-ELC-HPPH-PH_LOW"
+
+
+[CapLimitIndustryHeatpumps]
+Description = "Industrial space heating heat pumps"
+GrowthLimit = 0.01
+SeedValue = 0.005
+PSet_PN = "*HPSH-SH_LOW"
+
+# TRANSPORT
+
+[CapLimitPassengerBEV]
+Description = "Light passenger battery vehicles"
+GrowthLimit = 0.5
+PSet_PN = "T_*_CBEVELC_*"
+
+[CapLimitPHEVDiesel]
+Description = "Plug-in hybrid diesel vehicles"
+GrowthLimit = 0.05
+PSet_PN = "*_PHEVDSL_*"
+
+[CapLimitPHEVPetrol]
+Description = "Plug-in hybrid petrol vehicles"
+GrowthLimit = 0.05
+PSet_PN = "*_PHEVPET_*"
+
+# COMMERCIAL
+
+[CapLimitCommercialLED]
+Description = "Commercial LED lighting (except datacentres)"
+GrowthLimit = 0.04
+PSet_PN = "C_*LT-LED-ELC, -C_DATA-LT-LED-ELC" 
+
+[CapLimitCommercialFluro]
+Description = "Commercial fluorescent lighting"
+GrowthLimit = 0.01 
+PSet_PN = "C_*LT-FLU-ELC" 
+
+[CapLimitCommercialCooktopsELC]
+Description = "Commercial electric cooktops"
+GrowthLimit = 0.04
+PSet_PN = "C_*CK-CK-ELC"
+
+[CapLimitCommercialOvensELC]
+Description = "Commercial electric ovens"
+GrowthLimit = 0.04
+PSet_PN = "C_*CK-Ovens-ELC"
+
+[CapLimitCommercialOvensLPG]
+Description = "Commercial LPG ovens"
+GrowthLimit = 0.02
+PSet_PN = "C_*CK-Ovens-LPG"
+
+[CapLimitCommercialOvensNGA]
+Description = "Commercial gas ovens"
+GrowthLimit = 0.02
+PSet_PN = "C_*CK-Ovens-NGA"
+
+[CapLimitBIGAD]
+Description = "Biogas Anaerobic Digestion facilities"
+GrowthLimit = 0.5
+PSet_PN = "REF_ANDGST"
+
+

@@ -28,20 +28,20 @@ PRI_FILE_LOCATION = FINAL_DATA / "primary_energy.parquet"
 # SET FILTER/GROUP OPTIONS
 
 pri_filters = [
-    {"col": "FuelGroup", "label": "Fuel group"},
+    {"col": "FuelGroup"},
     {"col": "Fuel"},
     {"col": "Renewable"},
     {"col": "Imported"},
-    {"col": "FuelDetail", "label": "Fuel detail"},
+    {"col": "FuelDetail"},
+    #{"col": "Process"},
 ]
 
 # we add fuel to main
-
-pri_filters = create_filter_dict("prd", pri_filters)
+# NOTE: this should be chart ID not page ID
+pri_filters = create_filter_dict("energy_prod", pri_filters)
 
 
 pri_group_options = [d["col"] for d in pri_filters]
-
 # Core variables we always group by
 # pylint:disable = duplicate-code
 base_cols = [
@@ -98,7 +98,13 @@ def pri_server(inputs, outputs, session, selected_scens):
         return tuple(selected_scens["scenario_list"]())
 
     register_server_functions_for_explorer(
-        pri_parameters, get_base_pri_df, scen_tuple, inputs, outputs, session
+        pri_parameters,
+        get_base_pri_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
     )
 
 
@@ -108,4 +114,8 @@ def pri_server(inputs, outputs, session, selected_scens):
 sections = [pri_parameters]
 
 
-primary_energy_ui = make_explorer_page_ui(sections, ID_PREFIX)
+primary_energy_ui = make_explorer_page_ui(
+    sections,
+    ID_PREFIX,
+    page_info_button_id="info_pri",
+)

@@ -34,7 +34,7 @@ NEW_TECHS_ENDUSE = COMMERCIAL_CONCORDANCES / "use_codes.csv"
 # ---------------------------------------------------------------------
 # Modelling constants
 # ---------------------------------------------------------------------
-START = 2025
+START = 2024
 ACTIVITY_UNIT = "PJ"
 CAPACITY_UNIT = "GW"
 
@@ -221,9 +221,6 @@ def main() -> None:
                 "INVCOST~2050",
                 "FIXOM",
                 "AF",
-                "FLO_MARK~2030",
-                "FLO_MARK~2050",
-                "FLO_MARK~0",
             ]
         }
     )

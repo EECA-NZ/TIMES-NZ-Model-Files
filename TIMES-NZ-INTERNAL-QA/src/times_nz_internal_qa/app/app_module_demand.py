@@ -21,32 +21,32 @@ from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
 from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
 
 # CONSTANTS --------------------------------------------------
-
+# pylint:disable = duplicate-code
 # all modules get a unique id code to generate other IDs with
 ID_PREFIX = "dem"
 
 PJ_TO_GWH = 277.778
 DEM_FILE_LOCATION = FINAL_DATA / "energy_demand.parquet"
 ELC_DEM_CURVE_FILE = FINAL_DATA / "electricity_demand_by_timeslice.parquet"
-
+TRANSPORT_ENERGY_DEMAND_FILE = FINAL_DATA / "transport_energy_demand.parquet"
+TRANSPORT_CAPACITY_FILE = FINAL_DATA / "transport_capacity.parquet"
 # SET FILTER/GROUP OPTIONS
 
 dem_filters = [
-    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "SectorGroup"},
     {"col": "Sector"},
     {"col": "Fuel"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "EnduseGroup"},
     {"col": "EndUse"},
     {"col": "Region"},
 ]
 
-
 elc_dem_filters = [
-    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "SectorGroup"},
     {"col": "Sector"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "EnduseGroup"},
     {"col": "EndUse"},
@@ -55,9 +55,9 @@ elc_dem_filters = [
 
 elc_dem_curve_filters = [
     {"col": "Period", "multiple": False, "label": "Year"},
-    {"col": "SectorGroup", "label": "Sector Group"},
+    {"col": "SectorGroup"},
     {"col": "Sector"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "EnduseGroup"},
     {"col": "EndUse"},
@@ -120,9 +120,71 @@ elc_dem_curve_parameters = {
 }
 
 
-elc_dem_curve_all_groups = (
-    elc_dem_curve_parameters["base_cols"] + elc_dem_curve_parameters["group_options"]
+elc_dem_curve_all_groups = elc_dem_curve_parameters["base_cols"] + elc_dem_group_options
+
+# TRANSPORT-SPECIFIC CONSTANTS (Energy Demand & Capacity) -----
+
+# define base columns that we must always group by
+transport_base_cols = [
+    "Scenario",
+    "Variable",
+    "Period",
+    "Unit",
+]
+
+# configure filter options
+transport_capacity_filters_list = [
+    {"col": "TechnologyGroup"},
+    {"col": "Technology"},
+    {"col": "EnduseGroup"},
+    {"col": "Utilisation"},
+    {"col": "EndUse"},
+    {"col": "Region"},
+]
+
+transport_energy_demand_filters_list = transport_capacity_filters_list + [
+    {"col": "Fuel"}
+]
+
+transport_energy_demand_filters = create_filter_dict(
+    "transport_ed", transport_energy_demand_filters_list
 )
+transport_capacity_filters = create_filter_dict(
+    "transport_capacity", transport_capacity_filters_list
+)
+
+# Extract group options from filters
+transport_energy_demand_group_options = [
+    d["col"] for d in transport_energy_demand_filters_list
+]
+transport_capacity_group_options = [d["col"] for d in transport_capacity_filters_list]
+transport_energy_demand_all_group_options = (
+    transport_base_cols + transport_energy_demand_group_options
+)
+transport_capacity_all_group_options = (
+    transport_base_cols + transport_capacity_group_options
+)
+
+transport_energy_demand_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "transport_ed",
+    "sec_id": "transport-ed",
+    "filters": transport_energy_demand_filters,
+    "section_title": "Transport energy demand",
+    "base_cols": transport_base_cols,
+    "group_options": transport_energy_demand_group_options,
+}
+
+transport_capacity_parameters = {
+    "page_id": ID_PREFIX,
+    "chart_id": "transport_capacity",
+    "sec_id": "transport-capacity",
+    "filters": transport_capacity_filters,
+    "section_title": "Transport capacity",
+    "base_cols": transport_base_cols,
+    "group_options": transport_capacity_group_options,
+}
+
 
 # GET DATA ------------------------------------------
 
@@ -185,6 +247,34 @@ def get_base_elc_dem_curve_df(scenarios, filepath=ELC_DEM_CURVE_FILE):
     return df.collect()
 
 
+@lru_cache(maxsize=8)
+def get_base_transport_energy_demand_df(
+    scenarios, filepath=TRANSPORT_ENERGY_DEMAND_FILE
+):
+    """
+    Returns transport energy demand data with utilization breakdown
+    Based on scenario selections
+    Caches results for quick switching
+    """
+    df = read_data_pl(filepath, scenarios)
+    df = aggregate_by_group(df, transport_energy_demand_all_group_options)
+    df = filter_df_for_variable(df, "Transport Energy Demand", collect=True)
+    return df
+
+
+@lru_cache(maxsize=8)
+def get_base_transport_capacity_df(scenarios, filepath=TRANSPORT_CAPACITY_FILE):
+    """
+    Returns transport capacity data with utilization breakdown
+    Based on scenario selections
+    Caches results for quick switching
+    """
+    df = read_data_pl(filepath, scenarios)
+    df = aggregate_by_group(df, transport_capacity_all_group_options)
+    df = filter_df_for_variable(df, "Transport Capacity", collect=True)
+    return df
+
+
 # SERVER ------------------------------------------
 
 
@@ -200,17 +290,50 @@ def demand_server(inputs, outputs, session, selected_scens):
         return tuple(selected_scens["scenario_list"]())
 
     register_server_functions_for_explorer(
-        dem_parameters, get_base_dem_df, scen_tuple, inputs, outputs, session
+        dem_parameters,
+        get_base_dem_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
     )
 
     register_server_functions_for_explorer(
-        elc_dem_parameters, get_base_elc_dem_df, scen_tuple, inputs, outputs, session
+        elc_dem_parameters,
+        get_base_elc_dem_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
     )
 
     register_server_functions_for_explorer(
         elc_dem_curve_parameters,
         get_base_elc_dem_curve_df,
         scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
+    )
+
+    register_server_functions_for_explorer(
+        transport_energy_demand_parameters,
+        get_base_transport_energy_demand_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
+    )
+
+    register_server_functions_for_explorer(
+        transport_capacity_parameters,
+        get_base_transport_capacity_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
         inputs,
         outputs,
         session,
@@ -224,7 +347,13 @@ sections = [
     dem_parameters,
     elc_dem_parameters,
     elc_dem_curve_parameters,
+    transport_energy_demand_parameters,
+    transport_capacity_parameters,
 ]
 
 
-demand_ui = make_explorer_page_ui(sections, ID_PREFIX)
+demand_ui = make_explorer_page_ui(
+    sections,
+    ID_PREFIX,
+    page_info_button_id="info_dem",
+)

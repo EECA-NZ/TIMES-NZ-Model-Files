@@ -12,9 +12,11 @@ These are effectively chart aggregation functions, intended to be used dynamical
 
 import io
 
+import numpy as np
 import pandas as pd
 import polars as pl
 from times_nz_internal_qa.app.helpers.filters import apply_filters
+from times_nz_internal_qa.utilities.value_mappings import apply_value_mappings_pl
 
 
 def show_df_size(df):
@@ -66,10 +68,28 @@ def complete_periods(
         # Just merge periods with original data
         result = periods_lf.join(df, on="Period", how="left")
 
+    # Preserve whether a row was absent in source data so charts can distinguish
+    # true zeroes from completed placeholder periods.
+    result = result.with_columns(pl.col(value_col).is_null().alias("MissingData"))
+
     # Fill missing values with 0 in the value column
     result = result.with_columns(pl.col(value_col).fill_null(0))
 
     return result
+
+
+def get_model_output_years(df: pl.LazyFrame | pl.DataFrame) -> set[int]:
+    """Return the years explicitly present in the source model output."""
+    lf = ensure_lazy(df)
+    period_values = (
+        lf.select("Period")
+        .drop_nulls()
+        .unique()
+        .collect()
+        .get_column("Period")
+        .to_list()
+    )
+    return {int(period) for period in period_values}
 
 
 def read_data_pl(file_location, scenarios) -> pl.LazyFrame:
@@ -88,7 +108,7 @@ def read_data_pl(file_location, scenarios) -> pl.LazyFrame:
         .filter(pl.col("Scenario").is_in(scenarios))
     )
 
-    return df
+    return apply_value_mappings_pl(df)
 
 
 def filter_df_for_variable(
@@ -137,7 +157,12 @@ def get_filter_options_from_data(df: pl.DataFrame, filters: dict):
 
 # @lru_cache(maxsize=16)
 def make_chart_data(
-    lf: pl.LazyFrame, _base_cols, group_col, scen_list, period_range=range(2023, 2051)
+    lf: pl.LazyFrame,
+    _base_cols,
+    group_col,
+    scen_list,
+    period_range=range(2023, 2051),
+    complete_missing_periods: bool = True,
 ) -> dict:
     """
     A cached collection of a pandas df expected to go directly to plotly
@@ -150,11 +175,31 @@ def make_chart_data(
     """
     # ensure lazy
     lf = ensure_lazy(lf)
+    model_output_years = get_model_output_years(lf)
 
-    # we might do other things here like adding totals, later
+    if complete_missing_periods:
+        category_cols = [
+            col for col in lf.collect_schema().names() if col not in ["Period", "Value"]
+        ]
+        lf = complete_periods(lf, list(period_range), category_cols=category_cols)
 
     # collect as pandas df
     pdf = lf.collect().to_pandas(use_pyarrow_extension_array=True)
+
+    if "MissingData" not in pdf.columns:
+        pdf["MissingData"] = False
+
+    # Only non-model years are eligible for interpolation. Model output years
+    # remain real values, including explicit or completed zeroes.
+    interp_group_cols = [
+        col for col in pdf.columns if col not in ["Period", "Value", "MissingData"]
+    ]
+    pdf = pdf.sort_values(interp_group_cols + ["Period"]).copy()
+    pdf["MissingData"] = pdf["MissingData"] & ~pdf["Period"].isin(model_output_years)
+    pdf.loc[pdf["MissingData"], "Value"] = np.nan
+    pdf["Value"] = pdf.groupby(interp_group_cols, observed=True)["Value"].transform(
+        lambda s: s.interpolate(method="linear", limit_area="inside")
+    )
 
     # unit defined in the data itself
     unit_list = pdf["Unit"].unique().tolist()
@@ -166,6 +211,8 @@ def make_chart_data(
 
     # Normalize dtypes and ordering once
     period_order = [str(p) for p in period_range]
+    # ensure we only take data that fits the range
+    pdf = pdf[pdf["Period"].isin(period_range)]
     pdf["Period"] = pd.Categorical(
         pdf["Period"].astype(str), categories=period_order, ordered=True
     )
@@ -174,6 +221,7 @@ def make_chart_data(
     pdf["Scenario"] = pd.Categorical(
         pdf["Scenario"], categories=scen_list, ordered=True
     )
+    pdf["MissingData"] = pdf["MissingData"].fillna(False).astype(bool)
 
     # identify unit
     if not unit_list:
@@ -198,6 +246,9 @@ def write_polars_to_csv(df):
     We need to encode the buffer with utf-bom
     so that our generated downloads include macrons properly
     """
+    if isinstance(df, pl.LazyFrame):
+        df = df.collect()
+
     # df = df.sort(["Scenario", "Variable", "Period"])
     # make a buffer
     t = io.StringIO()

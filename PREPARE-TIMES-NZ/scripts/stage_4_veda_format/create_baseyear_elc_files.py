@@ -31,6 +31,12 @@ DISTRIBUTION_INPUT_FILE = (
 )
 EF_INPUT_FILE = ASSUMPTIONS / "electricity_generation/EmissionFactors.csv"
 
+DIST_SOLAR_TECHS = [
+    "ELC_SolarDistBifacial_Com",
+    "ELC_SolarDistBifacial_Ind",
+    "ELC_SolarDistSmall_Res",
+]
+
 
 # ----- Generation units  --------------------------------------- #
 GENERATION_UNIT_MAP = {
@@ -270,6 +276,9 @@ def define_generation_capacity(df):
     ].copy()
 
     def _capacity_attribute(row: pd.Series) -> str:
+        # Force distributed solar TechNames to NCAP_PASTI
+        if row["TechName"] in DIST_SOLAR_TECHS:
+            return "NCAP_PASTI"
         return "PRC_RESID" if pd.isna(row["YearCommissioned"]) else "NCAP_PASTI"
 
     existing_techs_capacity["Attribute"] = existing_techs_capacity.apply(
@@ -339,12 +348,13 @@ def define_generation_parameters(df):
             columns={
                 "CapacityFactor": "AFA",
                 "FuelDelivCost": "FLO_DELIV",
+                "InputFuelShare": f"FLO_SHAR~{BASE_YEAR}",
                 "Generation": f"ACT_BND~{BASE_YEAR}",
                 "PeakContribution": "NCAP_PKCNT",
                 "PlantLife": "NCAP_TLIFE",
                 "VarOM": "ACTCOST",
                 "FixOM": "NCAP_FOM",
-                "FuelEfficiency": "EFF",
+                "FuelEfficiency": "CEFF",
             }
         )
     )
@@ -360,11 +370,7 @@ def define_generation_parameters(df):
 
     # hacky patch - need to fix AFAs for ren techs!!
 
-    techs_to_loosen = [
-        "ELC_SolarDist_Commercial",
-        "ELC_SolarDist_Residential",
-        "ELC_SolarDist_Industrial",
-    ]
+    techs_to_loosen = DIST_SOLAR_TECHS
 
     logger.warning("Inserting manual patch into outputs for some base year generation!")
     # This removes activity bound limits for some techs
@@ -384,9 +390,13 @@ def define_generation_parameters(df):
     save_elc_data(existing_techs_parameters, "existing_tech_parameters.csv")
 
 
-def create_distribution_tables():
+def create_distribution_tables(sensitivity=True, sensitivity_factor=0.01):
     """
     Builds the distribution data csvs from raw table input and saves
+
+    Optionally adds an additional output to represent extremely low transmission costs
+
+    Saves this as a separate output which we can use to build comparisons
     """
 
     distribution_df = pd.read_csv(DISTRIBUTION_INPUT_FILE)
@@ -414,6 +424,32 @@ def create_distribution_tables():
     save_elc_data(distribution_processes, "distribution_processes.csv")
     save_elc_data(distribution_parameters, "distribution_parameters.csv")
 
+    # Optionally, create a separate cost sensitivity file
+
+    if sensitivity:
+        sensitivity = distribution_parameters.copy()
+        sensitivity["INVCOST"] = sensitivity["INVCOST"] * sensitivity_factor
+        sensitivity["FIXOM"] = sensitivity["FIXOM"] * sensitivity_factor
+
+        sensitivity = sensitivity[["TechName", "Region", "FIXOM", "INVCOST"]]
+
+        # pivot long attribute
+        sensitivity = sensitivity.melt(
+            id_vars=["TechName", "Region"],
+            value_vars=["FIXOM", "INVCOST"],
+            var_name="Attribute",
+            value_name="Value",
+        )
+
+        # pivot wide regions
+        sensitivity = sensitivity.pivot(
+            index=["TechName", "Attribute"],  # rows
+            columns="Region",  # spread Region wide
+            values="Value",  # values to fill
+        ).reset_index()
+
+        save_elc_data(sensitivity, "distribution_parameters_sensitivity.csv")
+
 
 def create_elc_fuel_emissions(df):
     """
@@ -423,8 +459,8 @@ def create_elc_fuel_emissions(df):
     and saves along the index expected by Veda
 
     Note:
-        We call Diesel oil but we assume all diesel (no fuel oil generation anymore)
-            (assumes 10ppt sulphur)
+        Diesel generation is mapped to the electricity diesel commodity `ELCDSL`
+            (assumes 10ppt sulphur; no fuel oil generation anymore)
         For wood, there's an argument for instead taking other wood types,
             or the mean of other wood types. They're all quite similar.
     """
@@ -432,7 +468,7 @@ def create_elc_fuel_emissions(df):
     elec_ef_mapping = {
         "Coal - Sub-Bituminous": "ELCCOA",
         "Natural Gas": "ELCNGA",
-        "Diesel": "ELCOIL",
+        "Diesel": "ELCDSL",
         "Biogas": "ELCBIG",
         "Wood - Pellets": "ELCWOD",
     }
@@ -518,8 +554,11 @@ def make_capacity_factors(df):
     )
     df[next_afa_var] = df["Value"]
     df["AFA~0"] = 5
-    df = df[["TechName", base_afa_var, next_afa_var, "AFA~0"]].drop_duplicates()
 
+    # remove solar AFAs after 2024 - allow AFs to take over
+    df[next_afa_var] = np.where(df["TechnologyCode"] == "SOL", 1, df[next_afa_var])
+
+    df = df[["TechName", base_afa_var, next_afa_var, "AFA~0"]].drop_duplicates()
     save_elc_data(df, "base_year_capacity_factors.csv")
 
 

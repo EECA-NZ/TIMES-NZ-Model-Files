@@ -61,10 +61,36 @@ def define_residential_process_commodities(
     ].agg("-".join, axis=1)
 
     df["CommodityIn"] = "RES" + df[["Fuel_TIMES"]].agg("-".join, axis=1)
-    # NOTE: All output commodities are tech-agnostic in the residential sector
+    # Output commodities are usually tech- and fuel-agnostic in the residential
+    # sector, except for motive power where the fuel needs to remain explicit.
+    # We do this because we have poor understanding of the underlying techs/uses,
+    # so this approach means there can be no switching between diesel/petrol motive power
     df["CommodityOut"] = df[["DwellingType_TIMES", "EndUse_TIMES"]].agg(
         "-".join, axis=1
     )
+    motive_power_mobile_mask = df["EndUse"] == "Motive Power, Mobile"
+    df.loc[motive_power_mobile_mask, "CommodityOut"] = df.loc[
+        motive_power_mobile_mask,
+        ["DwellingType_TIMES", "Fuel_TIMES", "EndUse_TIMES"],
+    ].agg("-".join, axis=1)
+
+    solar_hot_water_mask = df["Technology_TIMES"] == "HWATER_SC"
+    df.loc[solar_hot_water_mask, "CommodityOut"] = df.loc[
+        solar_hot_water_mask,
+        ["DwellingType_TIMES", "Technology_TIMES", "EndUse_TIMES"],
+    ].agg("-".join, axis=1)
+
+    # we also lock the miscellaneous electronics (met by it/entertainment or "misc")
+    # to require specific technologies - no switching of these techs is allowed.
+    # Similar to the above, this is done by defining the end use commodities
+    # as a function of technology
+    # (by adding Technology_TIMES as a component of the code for these)
+    electronics_mask = df["EndUse"] == "Electronics and Other Electrical Uses"
+
+    df.loc[electronics_mask, "CommodityOut"] = df.loc[
+        electronics_mask,
+        ["DwellingType_TIMES", "Technology_TIMES", "EndUse_TIMES"],
+    ].agg("-".join, axis=1)
 
     return df[["Process", "CommodityIn", "CommodityOut"] + original_columns]
 
@@ -80,3 +106,7 @@ def main():
     df = pd.read_csv(PREPROCESSING_DIR / PREPRO_DF_NAME_STEP3)
     df = define_residential_process_commodities(df)
     save_preprocessing(df, PREPRO_DF_NAME_STEP4, "Residential process data")
+
+
+if __name__ == "__main__":
+    main()

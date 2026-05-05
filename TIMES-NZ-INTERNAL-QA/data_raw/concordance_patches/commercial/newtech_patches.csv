@@ -1,0 +1,4 @@
+ProcessGroup,Process,CommodityOut,SectorGroup,Sector,EnduseGroup,EndUse,TechnologyGroup,Technology
+Demand,C_WSR-CK-Induction-ELC,C_WSR-CK,Commercial,WSR,Heating/Cooling,"Intermediate Heat (100-300 C), Cooking",Heat/Cooling Devices,Cooking Elements
+Demand,C_WSR-WH-AirHP-ELC,C_WSR-WH,Commercial,WSR,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump (for Heating)
+Demand,C_OTH-WH-AirHP-ELC,C_OTH-WH,Commercial,Other Commercial,Heating/Cooling,"Low Temperature Heat (<100 C), Water Heating",Heat/Cooling Devices,Heat Pump (for Heating)

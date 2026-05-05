@@ -1,0 +1,43 @@
+
+[[patches]]
+Plant = "Kawerau (TOPP2)"
+CommissioningType = "Fixed"
+CommissioningYear = 2025
+
+[[patches]]
+Plant = "Kaiwaikawe"
+CommissioningType = "Fixed"
+CommissioningYear = 2026
+
+[[patches]]
+# Skysolar went into liquidation - removing this plant from fixed 2024, but allowing new build later.
+Plant = "Ongaonga solar farm (Sky Solar)"
+CommissioningType = "Earliest"
+CommissioningYear = 2028
+
+
+[[patches]]
+# still not built despite fixed date 2025. pushing out a bit.
+Plant = "Kaimai wind farm"
+CommissioningType = "Earliest"
+CommissioningYear = 2027
+
+
+# these may have been a mistake in the original: believe they refer to Te Rahui?
+
+# https://www.meridianenergy.co.nz/new-projects/te-rahui-solar-farm
+# If so, not fixed dates: pushing back
+[[patches]]
+Plant = "Rangitāiki solar (Stage 1)"
+CommissioningType = "Earliest"
+CommissioningYear = 2027
+
+[[patches]]
+Plant = "Rangitāiki solar (Stage 2)"
+CommissioningType = "Earliest"
+CommissioningYear = 2029
+
+[[patches]]
+Plant = "Rangitāiki solar (Stage 3)"
+CommissioningType = "Earliest"
+CommissioningYear = 2030

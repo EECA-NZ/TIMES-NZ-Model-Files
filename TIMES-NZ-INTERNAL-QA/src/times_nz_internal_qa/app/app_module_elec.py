@@ -54,7 +54,7 @@ ele_fuel_group_options = ele_core_group_options + ["Fuel"]
 
 # configure filter options
 core_filters = [
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "Region"},
     {"col": "PlantName", "label": "Plant"},
@@ -63,7 +63,7 @@ core_filters = [
 # Specific filters for generation curves (adding single period select)
 ele_gen_curve_filters = [
     {"col": "Period", "multiple": False, "label": "Year"},
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "Region"},
     {"col": "PlantName", "label": "Plant"},
@@ -71,14 +71,16 @@ ele_gen_curve_filters = [
 
 
 battery_filters = [
-    {"col": "TechnologyGroup", "label": "Technology Group"},
+    {"col": "TechnologyGroup"},
     {"col": "Technology"},
     {"col": "Region"},
 ]
 
 ele_gen_filters = create_filter_dict("ele_gen", core_filters)
 ele_cap_filters = create_filter_dict("ele_cap", core_filters)
-ele_use_filters = create_filter_dict("ele_use", core_filters + [{"col": "Fuel"}])
+ele_use_filters = create_filter_dict(
+    "ele_use", core_filters + [{"col": "Fuel"}]
+)
 ele_gen_curve_filters = create_filter_dict("ele_gen_curve", ele_gen_curve_filters)
 bat_cap_filters = create_filter_dict("bat_cap", battery_filters)
 
@@ -115,7 +117,7 @@ ele_use_parameters = {
     "filters": ele_use_filters,
     "section_title": "Fuel used for generation",
     "base_cols": ele_base_cols,
-    "group_options": ele_core_group_options,
+    "group_options": ele_fuel_group_options,
 }
 
 
@@ -142,9 +144,9 @@ bat_cap_parameters = {
 
 # all groups combined: used for processing main datasets
 ele_all_group_options = ele_base_cols + ele_core_group_options + ["Fuel"]
-bat_all_group_options = ele_base_cols + bat_cap_parameters["group_options"]
+bat_all_group_options = ele_base_cols + ["TechnologyGroup", "Technology", "Region"]
 gen_curve_all_groups = (
-    ele_gen_curve_parameters["base_cols"] + ele_gen_curve_parameters["group_options"]
+    ele_gen_curve_parameters["base_cols"] + ele_core_group_options
 )
 
 # ELECTRICITY-SPECIFIC DATA HANDLING -----------------------------------------------
@@ -221,15 +223,8 @@ def get_base_bat_cap_df(scenarios, filepath=ELE_BAT_FILE_LOCATION):
     Based on scenario selections
     Caches results for quick switching
     """
-    print("HI")
     df = read_data_pl(filepath, scenarios)
-    test = df.collect()
-    print(test)
     df = aggregate_by_group(df, bat_all_group_options)
-    test = df.collect()
-    print(test)
-    column_names = df.columns
-    print(column_names)
     df = filter_df_for_variable(df, "Capacity", collect=True)
     return df
 
@@ -250,28 +245,53 @@ def elec_server(inputs, outputs, session, selected_scens):
     # register all functions
 
     register_server_functions_for_explorer(
-        ele_gen_parameters, get_base_ele_gen_df, scen_tuple, inputs, outputs, session
-    )
-
-    register_server_functions_for_explorer(
-        ele_cap_parameters, get_base_ele_cap_df, scen_tuple, inputs, outputs, session
-    )
-
-    register_server_functions_for_explorer(
-        ele_use_parameters, get_base_ele_use_df, scen_tuple, inputs, outputs, session
-    )
-
-    register_server_functions_for_explorer(
-        ele_gen_curve_parameters,
-        get_base_ele_gen_curve_df,
+        ele_gen_parameters,
+        get_base_ele_gen_df,
         scen_tuple,
+        selected_scens["is_comparison"],
         inputs,
         outputs,
         session,
     )
 
     register_server_functions_for_explorer(
-        bat_cap_parameters, get_base_bat_cap_df, scen_tuple, inputs, outputs, session
+        ele_cap_parameters,
+        get_base_ele_cap_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
+    )
+
+    register_server_functions_for_explorer(
+        ele_use_parameters,
+        get_base_ele_use_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
+    )
+
+    register_server_functions_for_explorer(
+        ele_gen_curve_parameters,
+        get_base_ele_gen_curve_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
+    )
+
+    register_server_functions_for_explorer(
+        bat_cap_parameters,
+        get_base_bat_cap_df,
+        scen_tuple,
+        selected_scens["is_comparison"],
+        inputs,
+        outputs,
+        session,
     )
 
 
@@ -287,4 +307,8 @@ sections = [
     bat_cap_parameters,
 ]
 
-elec_ui = make_explorer_page_ui(sections, ID_PREFIX)
+elec_ui = make_explorer_page_ui(
+    sections,
+    ID_PREFIX,
+    page_info_button_id="info_elc",
+)

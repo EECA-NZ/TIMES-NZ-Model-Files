@@ -76,6 +76,8 @@ def create_battery_main_file():
         }
     )
 
+    df["Comm-IN"] = df["Comm-OUT"]
+
     # availability curve set as a fraction of 24 hours
     # we max out at 1 (not possible to have ratios above 24)
     df["NCAP_AFC"] = np.minimum(df["NCAP_AFC"] / 24, 1)
@@ -96,8 +98,8 @@ def get_battery_cost_curves():
 
     df = pd.read_csv(BATTERY_COSTS_CSIRO)
     scenario_mapping = {
-        "Current policies": "Traditional",
-        "Global NZE by 2050": "Transformation",
+        "Current policies": "Steady",
+        "Global NZE by 2050": "Shift",
     }
 
     # Get Our scenarios
@@ -179,16 +181,12 @@ def main():
 
     battery_cost_curves = get_battery_cost_curves()
 
-    batt_cost_traditional = get_battery_scenario_curves(
-        battery_cost_curves, "Traditional"
-    )
+    batt_cost_steady = get_battery_scenario_curves(battery_cost_curves, "Steady")
 
-    batt_cost_transformation = get_battery_scenario_curves(
-        battery_cost_curves, "Transformation"
-    )
+    batt_cost_shift = get_battery_scenario_curves(battery_cost_curves, "Shift")
 
-    save_battery_data(batt_cost_traditional, "battery_costs_traditional.csv")
-    save_battery_data(batt_cost_transformation, "battery_costs_transformation.csv")
+    save_battery_data(batt_cost_steady, "battery_costs_steady.csv")
+    save_battery_data(batt_cost_shift, "battery_costs_shift.csv")
 
 
 if __name__ == "__main__":

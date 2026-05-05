@@ -14,40 +14,41 @@ But this did not seem to register properly for future years
 
 import pandas as pd
 from prepare_times_nz.utilities.data_in_out import _save_data
-from prepare_times_nz.utilities.filepaths import STAGE_4_DATA
-from prepare_times_nz.utilities.logger_setup import blue_text, logger
+from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_4_DATA
 
 # CONSTANTS -----------------------
 
-# just the ban list. the labels are just for the log/clarity:
-# only the code is important for TIMES
-
-baseyear_techs_to_ban = {
-    "ELC_*": "All electricity",
-    "RES*COA**": "Residential coal",
-    "RES*WOD*": "Residential wood",
-    "T_F*PET*": "Light petrol trucks",
-    "T_P_B*PET*": "Petrol buses",
-    "T_P_B*LPG*": "LPG buses",
-    "C_WSR-*-DirectH-GEO": "Commercial geothermal",
-}
+BANNED_TECHS_FILE = ASSUMPTIONS / "settings/banned_techs.csv"
 
 
 # Functions --------------------------------------
-def register_codes_to_ban(code_dict):
+def register_codes_to_ban(filepath=BANNED_TECHS_FILE):
     """
-    Convert input dict to list of codes
+    Read banned tech codes from CSV and convert to ban table input format.
+
+    CSV expects columns:
+      - Code
+      - Label
+
     And output clear labels for what techs are banned
     """
+    df = pd.read_csv(filepath)
+    required_columns = {"Code", "Label"}
+    missing_columns = required_columns - set(df.columns)
+    if missing_columns:
+        raise ValueError(
+            f"{filepath} is missing required columns: {sorted(missing_columns)}"
+        )
+
     codes = []
-    for code, label in code_dict.items():
-        logger.info("Banning %s (%s)", blue_text(label), code)
+    for _, row in df.iterrows():
+        code = row["Code"]
         codes.append(code)
 
-    df = pd.DataFrame()
-    df["TechName"] = codes
+    out_df = pd.DataFrame()
+    out_df["TechName"] = codes
 
-    return df
+    return out_df
 
 
 def create_ban_table(df):
@@ -71,14 +72,14 @@ def main():
     """
     Entry point
     """
-    df = register_codes_to_ban(baseyear_techs_to_ban)
+    df = register_codes_to_ban()
     df = create_ban_table(df)
 
     _save_data(
         df,
         name="banned_techs.csv",
         label="Saving banned base year techs",
-        filepath=STAGE_4_DATA / "syssettings",
+        filepath=STAGE_4_DATA / "sys_settings",
     )
 
 

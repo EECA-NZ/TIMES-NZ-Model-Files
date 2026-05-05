@@ -10,7 +10,8 @@ Loads in all the markdown as objects for reactives to pull from
 
 # Libraries
 from shiny import reactive, render, ui
-from times_nz_internal_qa.utilities.filepaths import ASSETS, DATA
+from times_nz_internal_qa.postprocessing.package_outputs import build_outputs_zip_bytes
+from times_nz_internal_qa.utilities.filepaths import ASSETS, FINAL_DATA
 
 # Load markdown inputs
 
@@ -19,7 +20,7 @@ readme_app_use = (ASSETS / "app_use.md").read_text(encoding="utf-8")
 
 info_pri_doc = (ASSETS / "docs/primary_energy.md").read_text(encoding="utf-8")
 info_elc_doc = (ASSETS / "docs/electricity_generation.md").read_text(encoding="utf-8")
-info_dum_doc = (ASSETS / "docs/infeasibilities.md").read_text(encoding="utf-8")
+info_dev_doc = (ASSETS / "docs/infeasibilities.md").read_text(encoding="utf-8")
 info_ems_doc = (ASSETS / "docs/emissions.md").read_text(encoding="utf-8")
 info_dem_doc = (ASSETS / "docs/energy_demand.md").read_text(encoding="utf-8")
 info_esd_doc = (ASSETS / "docs/energy_service_demand.md").read_text(encoding="utf-8")
@@ -58,11 +59,9 @@ def info_server(inputs, outputs, session):
     attach_info("info_ems", info_ems_doc, "Emissions")
     attach_info("info_dem", info_dem_doc, "Energy demand")
     attach_info("info_esd", info_esd_doc, "Energy service demand")
-    attach_info("info_dum", info_dum_doc, "Infeasibilities")
+    attach_info("info_dev", info_dev_doc, "For developers")
 
     # full results download zip
     @render.download(filename="times_nz_3_wip_all_results.zip")
     def all_results_zip():
-        # Yield the bytes of the existing zip file
-        with open(DATA / "times_nz_3_wip_all_results.zip", "rb") as f:
-            yield f.read()
+        yield build_outputs_zip_bytes(FINAL_DATA)

@@ -112,6 +112,7 @@ def get_dwelling_heating_data(path: Path) -> pd.DataFrame:
     dwelling_type_map = {
         "10": "Private dwelling not further defined",
         "11": "Separate house",
+        "12": "Joined dwelling",
         "13": "Other private dwelling",
         "999": "Total - private dwelling type",
     }

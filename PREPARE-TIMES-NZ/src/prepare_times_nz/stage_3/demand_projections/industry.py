@@ -13,16 +13,26 @@ Other sectors need to be added
 import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
+from prepare_times_nz.stage_3.demand_projections.common import get_baseyear_demand
 from prepare_times_nz.utilities.data_in_out import _save_data
-from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_3_DATA
+from prepare_times_nz.utilities.filepaths import (
+    ASSUMPTIONS,
+    STAGE_1_DATA,
+    STAGE_2_DATA,
+    STAGE_3_DATA,
+)
 
 # CONSTANTS
 # file paths
 PROJECTIONS_ASSUMPTIONS = ASSUMPTIONS / "demand_projections"
 OUTPUT = STAGE_3_DATA / "demand_projections"
 OUTPUT_CHECKS = OUTPUT / "checks"
+GIC_FILE = STAGE_1_DATA / "gic" / "gic_production_consumption.csv"
 # end year setting
 END_YEAR = 2050
+METHANEX_GIC_YEARS = [2024, 2025]
+METHANEX_CLOSURE_YEAR = 2026
+METHANEX_PARTICIPANTS = ["Methanex Motunui", "Methanex Waitara Valley"]
 
 
 # HELPERS
@@ -56,26 +66,26 @@ def expand_years(df, base_year=BASE_YEAR, end_year=END_YEAR):
     return df
 
 
-# FUNCTIONS
+def _melt_indices(df, index_vars):
+    """Convert wide scenario index columns to tidy format."""
+    indices = ["Steady_Index", "Shift_Index"]
+    df = df[index_vars + indices]
+    df = df.melt(
+        value_vars=indices, id_vars=index_vars, value_name="Index", var_name="Scenario"
+    )
+    df["Scenario"] = df["Scenario"].str.removesuffix("_Index")
+    return df
 
 
-def get_industrial_growth_indices(transition_period):
-    """
-    Creates indices for all sectors labelled in the input assumptions
-    Where each sector has growth rates specified for "Traditional" and "Transformation"
-    Uses optional transition period for Transformation growth rates,
-    which blends the growth rates together for the first X years
-    This just smooths things out a little bit
-    """
-    df = pd.read_csv(PROJECTIONS_ASSUMPTIONS / "industry_demand_projections.csv")
-
-    df = df[df["Method"] == "Assumption"]
+def get_assumption_growth_indices(df, transition_period):
+    """Create indices for sectors using constant growth assumptions."""
+    df = df[df["Method"] == "Assumption"].copy()
     df = df[df["SectorGroup"] == "Industry"]
 
     # define group variables
     # should define the grain
     # currently, scenario isn't included in the grain
-    # because "transformation" and "traditional" are separate columns
+    # because "shift" and "steady" are separate columns
     # so if we wanted to expand the method we'd need to change this
     group_vars = ["SectorGroup", "Sector"]
 
@@ -84,24 +94,24 @@ def get_industrial_growth_indices(transition_period):
 
     # i dont love how this approach isn't very scalable to diff scenarios
     # but maybe it is fit for purpose
-    df["delta"] = df["Traditional"] - df["Transformation"]
+    df["delta"] = df["Steady"] - df["Shift"]
 
     # create indices for the vars with constant growth rates (simple)
-    df["Traditional_Index"] = 1 * ((1 + df["Traditional"]) ** df["t"])
-    df["Transformation_Index"] = 1 * ((1 + df["Transformation"]) ** df["t"])
+    df["Steady_Index"] = 1 * ((1 + df["Steady"]) ** df["t"])
+    df["Shift_Index"] = 1 * ((1 + df["Shift"]) ** df["t"])
     df = df.sort_values(group_vars + ["Year"])
 
     if transition_period:
-        # Transition the transformation curves if transition period provided
+        # Transition the shift curves if transition period provided
         df["sigma"] = (df["delta"] / transition_period) * df["t"]
         # shifting (transitional) growth rates
-        df["Transformation_Transition"] = np.where(
+        df["Shift_Transition"] = np.where(
             df["t"] <= transition_period,
-            df["Traditional"] - df["sigma"],
-            df["Transformation"],
+            df["Steady"] - df["sigma"],
+            df["Shift"],
         )
-        df["Transformation_Index"] = (
-            (1 + df["Transformation_Transition"])
+        df["Shift_Index"] = (
+            (1 + df["Shift_Transition"])
             .groupby([df[c] for c in group_vars])
             .cumprod()
             # base year 1 (fill value on nan, as this is the base year)
@@ -110,21 +120,80 @@ def get_industrial_growth_indices(transition_period):
             .shift(1, fill_value=1.0)
         )
 
-    # we just need the group, year, and each index
-    # pivot on selected indices as variables
-    indices = [
-        "Traditional_Index",
-        "Transformation_Index",
-    ]
-    index_vars = ["Sector", "Year"]
-    df = df[index_vars + indices]
-    df = df.melt(
-        value_vars=indices, id_vars=index_vars, value_name="Index", var_name="Scenario"
-    )
+    return _melt_indices(df, ["Sector", "Year"])
 
-    # tidy the scenario names now
-    df["Scenario"] = df["Scenario"].str.removesuffix("_Index")
-    return df
+
+def get_methanex_gic_growth_indices(df):
+    """
+    Create Methanex demand indices using annual GIC totals for 2024 and 2025,
+    carry the 2025 level into 2026, then set demand to zero from 2027 onward.
+    """
+    df = df[df["Method"] == "Methanex GIC"].copy()
+    df = df[df["SectorGroup"] == "Industry"]
+    if df.empty:
+        return pd.DataFrame(columns=["Sector", "Year", "Scenario", "Index"])
+
+    gic_data = pd.read_csv(GIC_FILE)
+    gic_data = gic_data[gic_data["Participant"].isin(METHANEX_PARTICIPANTS)].copy()
+    gic_data["Date"] = pd.to_datetime(gic_data["Date"])
+    gic_data["Year"] = gic_data["Date"].dt.year
+    gic_data = gic_data.groupby("Year", as_index=False)["Value"].sum()
+    gic_data["Value"] = gic_data["Value"] / 1e3
+    annual_totals = gic_data.set_index("Year")["Value"]
+
+    required_years = [BASE_YEAR] + METHANEX_GIC_YEARS
+    missing_years = [year for year in required_years if year not in annual_totals.index]
+    if missing_years:
+        raise ValueError(
+            "Missing annual GIC Methanex demand for years: "
+            + ", ".join(str(year) for year in missing_years)
+        )
+
+    base_value = annual_totals.loc[BASE_YEAR]
+    carryforward_index = annual_totals.loc[max(METHANEX_GIC_YEARS)] / base_value
+
+    rows = []
+    for sector in df["Sector"].unique():
+        for year in range(BASE_YEAR, END_YEAR + 1):
+            if year == BASE_YEAR:
+                index = 1.0
+            elif year in METHANEX_GIC_YEARS:
+                index = annual_totals.loc[year] / base_value
+            elif year == METHANEX_CLOSURE_YEAR:
+                index = carryforward_index
+            elif year > METHANEX_CLOSURE_YEAR:
+                index = 0.0
+            else:
+                index = 1.0
+
+            rows.append(
+                {
+                    "Sector": sector,
+                    "Year": year,
+                    "Steady_Index": index,
+                    "Shift_Index": index,
+                }
+            )
+
+    out = pd.DataFrame(rows)
+    return _melt_indices(out, ["Sector", "Year"])
+
+
+# FUNCTIONS
+
+
+def get_industrial_growth_indices(transition_period):
+    """
+    Creates indices for all sectors labelled in the input assumptions
+    Where each sector has growth rates specified for "Steady" and "Shift"
+    Uses optional transition period for Shift growth rates,
+    which blends the growth rates together for the first X years
+    This just smooths things out a little bit
+    """
+    df = pd.read_csv(PROJECTIONS_ASSUMPTIONS / "industry_demand_projections.csv")
+    assumption_indices = get_assumption_growth_indices(df, transition_period)
+    methanex_indices = get_methanex_gic_growth_indices(df)
+    return pd.concat([assumption_indices, methanex_indices], ignore_index=True)
 
 
 def get_industry_baseyear_demand(var):
@@ -138,29 +207,11 @@ def get_industry_baseyear_demand(var):
 
     variable must be one of InputEnergy, OutputEnergy
     """
-    if var not in ["OutputEnergy", "InputEnergy"]:
-        raise ValueError(
-            f"Invalid variable '{var}'. Must be 'InputEnergy' or 'OutputEnergy'."
-        )
-
-    df = pd.read_csv(STAGE_2_DATA / "industry/baseyear_industry_demand.csv")
-    df = df[df["Variable"] == var]
-    df = (
-        df.groupby(
-            [
-                "Sector",
-                "CommodityOut",
-                "Region",
-                "Technology",
-                "EndUse",
-                "Variable",
-                "Unit",
-            ]
-        )["Value"]
-        .sum()
-        .reset_index()
+    return get_baseyear_demand(
+        STAGE_2_DATA / "industry/baseyear_industry_demand.csv",
+        var,
+        "Region",
     )
-    return df
 
 
 def get_new_industries_demand(ni_share=0.3):
@@ -174,11 +225,11 @@ def get_new_industries_demand(ni_share=0.3):
     df = df[df["SectorGroup"] == "Industry"]
 
     # only relevant
-    df = df[["Sector", "Traditional", "Transformation"]]
+    df = df[["Sector", "Steady", "Shift"]]
     # melt
     df = df.melt(
         id_vars=["Sector"],
-        value_vars=["Traditional", "Transformation"],
+        value_vars=["Steady", "Shift"],
         value_name="Value",
         var_name="Scenario",
     )
@@ -206,7 +257,6 @@ def get_new_industries_demand(ni_share=0.3):
     )
 
     # add labels
-    print(df)
     return df
 
 
