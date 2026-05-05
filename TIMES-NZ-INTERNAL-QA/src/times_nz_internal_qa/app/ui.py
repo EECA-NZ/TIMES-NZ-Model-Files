@@ -125,13 +125,12 @@ app_ui = ui.page_fluid(
     # EXPLORER NAVSET PAGES
     ui.div(
         ui.navset_tab(
-            ui.nav_panel("Primary energy", primary_energy_ui),
             ui.nav_panel("Energy demand", demand_ui),
             ui.nav_panel("Electricity generation", elec_ui),
             ui.nav_panel("Emissions", emissions_ui),
             ui.nav_panel("Energy service demand", esd_ui),
+            ui.nav_panel("Primary energy", primary_energy_ui),
             # ui.nav_panel("Developers", developers_ui),
-            selected="Energy demand",
         ),
         class_="navset-large",
     ),
