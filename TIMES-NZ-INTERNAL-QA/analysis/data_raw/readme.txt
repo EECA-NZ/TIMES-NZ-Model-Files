@@ -1,0 +1,1 @@
+raw data stored for analysis is not part of TIMES modelling, but instead refers to other models for use as comparison/context in any analysis

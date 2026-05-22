@@ -6,4 +6,4 @@ data/*.zip
 rsconnect-python/*
 .env
 scratch.py
-analysis/*
+analysis/*.png
