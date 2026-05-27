@@ -5,40 +5,26 @@ This module reads final TIMES output datasets, applies light aggregation or
 classification, and returns dataframes intended for plotting use. It also
 contains the small amount of comparison-data loading used by the analysis
 charts.
+
+It's a bit more adhoc than other modules for retrieval, as it's designed
+to create small, custom datasets for specific purposes.
 """
 
-
-import pandas as pd
 import numpy as np
-from times_nz_internal_qa.utilities.filepaths import FINAL_DATA, CONCORDANCE_PATCHES
-
+import pandas as pd
+from times_nz_internal_qa.utilities.filepaths import (
+    CONCORDANCE_PATCHES,
+    FINAL_DATA,
+    PREP_STAGE_3,
+)
 
 # Scenario display names ------------------------------------------------------
 
-SCENARIO_MAP  = {
-    "steady-v306":"Steady",
-    "shift-v306":"Shift"
-}
-
-
-# Electricity technology classifications --------------------------------------
-
-# it's not ideal to code these here, should move to somewhere else in the postprocessing
-REN_ELEC_TECHS = [
-    "Geothermal",
-    "Onshore wind",
-    "Utility Solar (Tracking)",
-    "Hydro (Schedulable)",
-    "Reciprocating Biogas",
-    "Hydro (Run-of-river)",
-    "Biogas Cogen",
-    "Geothermal Cogen",
-    "Distributed solar",
-    "Wood Cogen",
-]
+SCENARIO_MAP = {"steady-v306": "Steady", "shift-v306": "Shift"}
 
 
 # Renewable fuel classifications ----------------------------------------------
+
 
 def get_renewable_fuels():
     """
@@ -54,12 +40,13 @@ def get_renewable_fuels():
 
     df = pd.read_csv(CONCORDANCE_PATCHES / "code_mapping/fuel_codes.csv")
 
-    df = df.rename(columns = {"Commodity":"Fuel"})
+    df = df.rename(columns={"Commodity": "Fuel"})
 
     return df[["Fuel", "Renewable"]]
 
 
 # External comparison datasets ------------------------------------------------
+
 
 def get_other_model_generation():
     """Reads pre-tidied df of non-TIMES generation results"""
@@ -73,6 +60,7 @@ def get_other_model_emissions():
 
 # Final TIMES output loading --------------------------------------------------
 
+
 def get_times_data(filename):
     """Read a final TIMES parquet file and map scenario codes to display names."""
 
@@ -82,9 +70,36 @@ def get_times_data(filename):
     return df
 
 
+def as_filter_list(values):
+    """Return list-like filter values, with None or empty meaning no filter."""
+
+    if values is None:
+        return []
+    if isinstance(values, str):
+        return [values]
+    return list(values)
+
+
+def apply_filter_list(df, column, values):
+    """Filter a dataframe column by list-like values if any are provided."""
+
+    values = as_filter_list(values)
+    if not values:
+        return df
+    return df[df[column].isin(values)]
+
+
+def normalise_scenario_filter(scenarios):
+    """Allow scenario filters to use either raw scenario codes or display names."""
+
+    scenarios = as_filter_list(scenarios)
+    return [SCENARIO_MAP.get(scenario, scenario) for scenario in scenarios]
+
+
 # Main analysis datasets ------------------------------------------------------
 
-def get_elec_gen(compare_other_models = False, groupby_cols=None):
+
+def get_elec_gen(compare_other_models=False, groupby_cols=None):
     """Return annual electricity generation in TWh, optionally grouped by extra columns."""
 
     df = get_times_data("elec_generation.parquet")
@@ -98,11 +113,13 @@ def get_elec_gen(compare_other_models = False, groupby_cols=None):
         groupby_cols = list(groupby_cols)
 
     if groupby_cols and compare_other_models:
-        raise ValueError("compare_other_models cannot be used with detailed groupby_cols.")
+        raise ValueError(
+            "compare_other_models cannot be used with detailed groupby_cols."
+        )
 
     groupby_cols = ["Scenario", "Period", "Unit"] + groupby_cols
     df = df.groupby(groupby_cols)["Value"].sum().reset_index()
-    df["Value"] = df["Value"] *277.77777778
+    df["Value"] = df["Value"] * 277.77777778
     df["Value"] = df["Value"] / 1000
     df["Unit"] = "TWh"
     if compare_other_models:
@@ -112,11 +129,54 @@ def get_elec_gen(compare_other_models = False, groupby_cols=None):
 
     return df
 
-def get_emissions(compare_other_models = False):
+
+def get_thermal_generation_fuel_use():
+    """Return fuel used by thermal electricity generation plants in PJ."""
+
+    df = get_times_data("elec_generation.parquet")
+    df = df[df["Variable"] == "Electricity fuel use"]
+    df = df[df["TechnologyGroup"] == "Thermal"]
+    df = df.groupby(["Scenario", "Period", "Unit", "Fuel"])["Value"].sum().reset_index()
+    return df
+
+
+def get_battery_capacity(groupby_cols="TechnologyGroup"):
+    """Return battery capacity in GW, grouped by technology group by default."""
+
+    df = get_times_data("batteries.parquet")
+    df = df[df["Variable"] == "Capacity"]
+
+    if groupby_cols is None:
+        groupby_cols = []
+    elif isinstance(groupby_cols, str):
+        groupby_cols = [groupby_cols]
+    else:
+        groupby_cols = list(groupby_cols)
+
+    groupby_cols = ["Scenario", "Period", "Unit"] + groupby_cols
+    df = df.groupby(groupby_cols)["Value"].sum().reset_index()
+    return df
+
+
+def get_lpv_transport_capacity():
+    """Return light passenger vehicle capacity by technology group."""
+
+    df = get_times_data("transport_capacity.parquet")
+    df = df[df["EndUse"] == "Light Passenger Vehicle"]
+    df = (
+        df.groupby(["Scenario", "Period", "Unit", "TechnologyGroup"])["Value"]
+        .sum()
+        .reset_index()
+    )
+    df.loc[df["Value"].abs() < 1e-6, "Value"] = 0
+    return df
+
+
+def get_emissions(compare_other_models=False):
     """Return annual energy emissions by scenario in megatonnes CO2e."""
 
     df = get_times_data("emissions.parquet")
-    df = df.groupby(["Scenario","Period", "Unit"])["Value"].sum().reset_index()
+    df = df.groupby(["Scenario", "Period", "Unit"])["Value"].sum().reset_index()
 
     df["Value"] = df["Value"] / 1000
     df["Unit"] = "MT CO2e"
@@ -128,6 +188,64 @@ def get_emissions(compare_other_models = False):
 
     return df
 
+
+def get_emissions_by_sector_group():
+    """Return annual energy emissions by scenario, year, and sector group."""
+
+    df = get_times_data("emissions.parquet")
+    df = (
+        df.groupby(["Scenario", "Period", "Unit", "SectorGroup"])["Value"]
+        .sum()
+        .reset_index()
+    )
+    df["Value"] = df["Value"] / 1000
+    df["Unit"] = "MT CO2e"
+    return df
+
+
+def get_fuel_use_by_island_and_sector(end_use=None, sector_group=None, scenario=None):
+    """
+    Return fuel use by island, sector, and fuel for configurable filter lists.
+
+    Args:
+        end_use: EndUse values to include. None or an empty list includes all.
+        sector_group: SectorGroup values to include. None or an empty list includes all.
+        scenario: Scenario display names or raw scenario codes to include. None
+            or an empty list includes all.
+    """
+
+    df = get_times_data("energy_demand.parquet")
+    df = df[df["Variable"] == "Energy demand"].copy()
+
+    df = apply_filter_list(df, "EndUse", end_use)
+    df = apply_filter_list(df, "SectorGroup", sector_group)
+    df = apply_filter_list(df, "Scenario", normalise_scenario_filter(scenario))
+
+    island_map = {
+        "NI": "North Island",
+        "SI": "South Island",
+    }
+    df["Island"] = df["Region"].map(island_map).fillna(df["Region"])
+
+    df = (
+        df.groupby(
+            [
+                "Scenario",
+                "Period",
+                "Unit",
+                "Island",
+                "SectorGroup",
+                "Sector",
+                "Fuel",
+            ]
+        )["Value"]
+        .sum()
+        .reset_index()
+    )
+    df.loc[df["Value"].abs() < 1e-6, "Value"] = 0
+    return df
+
+
 def get_process_heat():
     """Return industrial process heat demand by scenario, year, and fuel."""
 
@@ -136,37 +254,37 @@ def get_process_heat():
     # industrial process heat
 
     df = df[df["SectorGroup"] == "Industry"]
-    df = df[df["EnduseGroup"] ==  "Heating/Cooling"]
+    df = df[df["EnduseGroup"] == "Heating/Cooling"]
 
     heat_uses = [
         "Intermediate Heat (100-300 C), Process Requirements",
         "High Temperature Heat (>300 C), Process Requirements",
-        "Low Temperature Heat (<100 C), Process Requirements"
+        "Low Temperature Heat (<100 C), Process Requirements",
     ]
 
     df = df[df["EndUse"].isin(heat_uses)]
 
     # agg fuels a bit more
-    fuel_map =  {
-        "Biogas":"Biogas",
-        "Coal":"Coal",
-        "Diesel":"Other",
-        "Electricity":"Electricity",
-        "Fuel oil":"Other",
-        "Geothermal":"Other",
-        "LPG":"Other",
-        "Natural gas":"Natural gas",
-        "Wood":"Biomass",
-        "Wood residuals (onsite)":"Biomass",
-
+    fuel_map = {
+        "Biogas": "Biogas",
+        "Coal": "Coal",
+        "Diesel": "Other",
+        "Electricity": "Electricity",
+        "Fuel oil": "Other",
+        "Geothermal": "Other",
+        "LPG": "Other",
+        "Natural gas": "Natural gas",
+        "Wood": "Biomass",
+        "Wood residuals (onsite)": "Biomass",
     }
 
     df["Fuel"] = df["Fuel"].map(fuel_map)
-    df = df.groupby(["Scenario","Period", "Unit", "Fuel"])["Value"].sum().reset_index()
+    df = df.groupby(["Scenario", "Period", "Unit", "Fuel"])["Value"].sum().reset_index()
     return df
 
 
 # Renewable share metrics -----------------------------------------------------
+
 
 def get_renewable_electricity_share():
     """
@@ -213,8 +331,7 @@ def get_renewable_electricity_share():
     )
     if missing_fuels:
         raise ValueError(
-            "Missing renewable fuel classification for: "
-            + ", ".join(missing_fuels)
+            "Missing renewable fuel classification for: " + ", ".join(missing_fuels)
         )
 
     # Calculate each plant's annual renewable input share.
@@ -256,17 +373,14 @@ def get_renewable_electricity_share():
         )
 
     # Multi-fuel plants are allocated by input fuel share, assuming equal efficiency.
-    generation["RenewableGeneration"] = (
-        generation["Value"] * generation["RenewableFuelShare"].fillna(0)
-    )
+    generation["RenewableGeneration"] = generation["Value"] * generation[
+        "RenewableFuelShare"
+    ].fillna(0)
 
     # Aggregate all plant-level allocations to scenario/year electricity share.
-    df = (
-        generation.groupby(["Scenario", "Period"], as_index=False)
-        .agg(
-            TotalGeneration=("Value", "sum"),
-            RenewableGeneration=("RenewableGeneration", "sum"),
-        )
+    df = generation.groupby(["Scenario", "Period"], as_index=False).agg(
+        TotalGeneration=("Value", "sum"),
+        RenewableGeneration=("RenewableGeneration", "sum"),
     )
     df["RenewableShareOfElectricity"] = np.where(
         df["TotalGeneration"] == 0,
@@ -276,7 +390,6 @@ def get_renewable_electricity_share():
     df["Unit"] = "Share"
 
     return df[["Scenario", "Period", "Unit", "RenewableShareOfElectricity"]]
-
 
 
 def get_renewable_tfec():
@@ -315,8 +428,7 @@ def get_renewable_tfec():
     missing_fuels = sorted(df.loc[df["Renewable"].isna(), "Fuel"].dropna().unique())
     if missing_fuels:
         raise ValueError(
-            "Missing renewable fuel classification for: "
-            + ", ".join(missing_fuels)
+            "Missing renewable fuel classification for: " + ", ".join(missing_fuels)
         )
 
     # Electricity receives the modelled renewable generation share for that year.
@@ -353,19 +465,16 @@ def get_renewable_tfec():
     df.loc[df["Renewable"] == "Electricity", "RenewableDemandShare"] = df.loc[
         df["Renewable"] == "Electricity", "RenewableShareOfElectricity"
     ]
-    df["RenewableFinalEnergyConsumption"] = (
-        df["Value"] * df["RenewableDemandShare"].fillna(0)
-    )
+    df["RenewableFinalEnergyConsumption"] = df["Value"] * df[
+        "RenewableDemandShare"
+    ].fillna(0)
 
-    df = (
-        df.groupby(["Scenario", "Period"], as_index=False)
-        .agg(
-            TotalFinalEnergyConsumption=("Value", "sum"),
-            RenewableFinalEnergyConsumption=(
-                "RenewableFinalEnergyConsumption",
-                "sum",
-            ),
-        )
+    df = df.groupby(["Scenario", "Period"], as_index=False).agg(
+        TotalFinalEnergyConsumption=("Value", "sum"),
+        RenewableFinalEnergyConsumption=(
+            "RenewableFinalEnergyConsumption",
+            "sum",
+        ),
     )
     df["RenewableShareOfTFEC"] = np.where(
         df["TotalFinalEnergyConsumption"] == 0,
@@ -377,14 +486,26 @@ def get_renewable_tfec():
     return df[["Scenario", "Period", "Unit", "RenewableShareOfTFEC"]]
 
 
+def get_genstack():
+    """
+    This function relies on the workflow for PREPARE-TIMES-NZ
+
+    as it uses the data_intermediate folders
+    """
+
+    genstack = pd.read_csv(PREP_STAGE_3 / "electricity/genstack.csv")
+
+    return genstack
+
+
 # Scratch entrypoint ----------------------------------------------------------
+
 
 def main():
     """entrypoint (scratch only)"""
 
-    df = get_renewable_tfec()
+    df = get_genstack()
     print(df)
-
 
 
 if __name__ == "__main__":
