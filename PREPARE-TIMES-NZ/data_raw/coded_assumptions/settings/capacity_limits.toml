@@ -75,6 +75,22 @@ GrowthLimit = 0.01
 SeedValue = 0.005
 PSet_PN = "*HPSH-SH_LOW"
 
+
+[CapLimitELCMobileMotive]
+Description = "Industrial electric mobile motive"
+GrowthLimit = 0.01
+SeedValue = 0.005
+PSet_PN = "*ELC-BEV-MTV_MOB"
+
+
+[CapLimitHydMobileMotive]
+Description = "Industrial hydrogen mobile motive"
+GrowthLimit = 0.01
+SeedValue = 0.005
+PSet_PN = "*H2R-HFCV-MTV_MOB"
+
+
+
 # TRANSPORT
 
 [CapLimitPassengerBEV]

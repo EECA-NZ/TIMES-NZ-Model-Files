@@ -2,6 +2,11 @@
 # Changelog
 
 
+## 3.0.7
+
+**Model fixes**
+- Resolved incorrect constraints on industrial mobile motive power.
+
 ## 3.0.6
 
 **Assumption changes**
