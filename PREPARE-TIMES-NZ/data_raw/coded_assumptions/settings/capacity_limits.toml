@@ -21,12 +21,12 @@
 
 [CapLimitResidentialLED]
 Description = "Residential LED lighting"
-GrowthLimit = 0.04
+GrowthLimit = 0.03
 PSet_PN = "RES*LED-LIGHT" 
 
 [CapLimitResidentialFluro]
 Description = "Residential fluorescent lighting"
-GrowthLimit = 0.01 
+GrowthLimit = 0.03
 PSet_PN = "RES*FLUOR-LIGHT" 
 
 [CapLimitResidentialHeatPumps]
@@ -71,14 +71,14 @@ PSet_PN = "MEAT-ELC-HPPH-PH_LOW"
 
 [CapLimitIndustryHeatpumps]
 Description = "Industrial space heating heat pumps"
-GrowthLimit = 0.01
+GrowthLimit = 0.03
 SeedValue = 0.005
 PSet_PN = "*HPSH-SH_LOW"
 
 
 [CapLimitELCMobileMotive]
 Description = "Industrial electric mobile motive"
-GrowthLimit = 0.01
+GrowthLimit = 0.05
 SeedValue = 0.005
 PSet_PN = "*ELC-BEV-MTV_MOB"
 
@@ -112,12 +112,12 @@ PSet_PN = "*_PHEVPET_*"
 
 [CapLimitCommercialLED]
 Description = "Commercial LED lighting (except datacentres)"
-GrowthLimit = 0.04
+GrowthLimit = 0.06
 PSet_PN = "C_*LT-LED-ELC, -C_DATA-LT-LED-ELC" 
 
 [CapLimitCommercialFluro]
 Description = "Commercial fluorescent lighting"
-GrowthLimit = 0.01 
+GrowthLimit = 0.02
 PSet_PN = "C_*LT-FLU-ELC" 
 
 [CapLimitCommercialCooktopsELC]
@@ -130,15 +130,6 @@ Description = "Commercial electric ovens"
 GrowthLimit = 0.04
 PSet_PN = "C_*CK-Ovens-ELC"
 
-[CapLimitCommercialOvensLPG]
-Description = "Commercial LPG ovens"
-GrowthLimit = 0.02
-PSet_PN = "C_*CK-Ovens-LPG"
-
-[CapLimitCommercialOvensNGA]
-Description = "Commercial gas ovens"
-GrowthLimit = 0.02
-PSet_PN = "C_*CK-Ovens-NGA"
 
 [CapLimitBIGAD]
 Description = "Biogas Anaerobic Digestion facilities"
