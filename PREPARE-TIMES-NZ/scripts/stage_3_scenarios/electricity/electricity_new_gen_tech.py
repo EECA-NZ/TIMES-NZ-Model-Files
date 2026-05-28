@@ -56,10 +56,7 @@ DSLPKR_HEATRATE = 11000
 # Filepath shortcuts
 FUTURE_TECH_ASSUMPTIONS = ASSUMPTIONS / "electricity_generation/future_techs"
 OUTPUT_LOCATION = STAGE_3_DATA / "electricity"
-GENSTACK_PATCH_FILES = [
-    FUTURE_TECH_ASSUMPTIONS / "GenstackPatches.toml",
-    FUTURE_TECH_ASSUMPTIONS / "GenStackPatches.toml",
-]
+GENSTACK_PATCH_FILE = FUTURE_TECH_ASSUMPTIONS / "GenstackPatches.toml"
 
 # manual mapping of raw genstack variable names to model variable names and units
 GENSTACK_VARS = {
@@ -158,14 +155,6 @@ def load_genstack():
     # we specify the year (our base year)
     df["Year"] = BASE_YEAR
     return df
-
-
-def _find_genstack_patch_file():
-    """Returns the first available genstack patch file path."""
-    for filepath in GENSTACK_PATCH_FILES:
-        if filepath.exists():
-            return filepath
-    return GENSTACK_PATCH_FILES[0]
 
 
 def _empty_patch_df():
@@ -269,11 +258,11 @@ def load_genstack_patches(filepath=None):
             CAPEX = 1234
             FOM = 45
     """
-    filepath = filepath or _find_genstack_patch_file()
+    filepath = filepath or GENSTACK_PATCH_FILE
     if not filepath.exists():
         logger.info(
             "No genstack patch file found at %s - skipping patches",
-            ", ".join(str(path) for path in GENSTACK_PATCH_FILES),
+            filepath,
         )
         return _empty_patch_df()
 
