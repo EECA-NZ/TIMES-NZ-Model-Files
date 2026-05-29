@@ -1,6 +1,6 @@
 ﻿Description,Annual growth limit,Additional capacity,Process name
 Residential LED lighting,3%,,RES\*LED-LIGHT
-Residential fluorescent lighting,2%,,RES\*FLUOR-LIGHT
+Residential fluorescent lighting,3%,,RES\*FLUOR-LIGHT
 Residential heatpumps,3%,,RES\*HPSH-S_HEAT
 Residential LPG heaters,2%,,RES\*LPG-BURNR-S_HEAT
 Residential gas heaters,2%,,RES\*NGA-BURNR-S_HEAT
