@@ -280,6 +280,7 @@ def get_process_heat():
 
     df["Fuel"] = df["Fuel"].map(fuel_map)
     df = df.groupby(["Scenario", "Period", "Unit", "Fuel"])["Value"].sum().reset_index()
+
     return df
 
 
@@ -503,9 +504,7 @@ def get_genstack():
 
 def main():
     """entrypoint (scratch only)"""
-
-    df = get_genstack()
-    print(df)
+    print("This script is just for imports")
 
 
 if __name__ == "__main__":
