@@ -158,18 +158,62 @@ def get_battery_capacity(groupby_cols="TechnologyGroup"):
     return df
 
 
-def get_lpv_transport_capacity():
+def get_transport_capacity(enduse_list):
     """Return light passenger vehicle capacity by technology group."""
 
     df = get_times_data("transport_capacity.parquet")
-    df = df[df["EndUse"] == "Light Passenger Vehicle"]
+
+    # print('transport enduses')
+    # for e in df["EndUse"].unique():
+    #   print(e)
+    df = df[df["EndUse"].isin(enduse_list)]
     df = (
-        df.groupby(["Scenario", "Period", "Unit", "TechnologyGroup"])["Value"]
+        df.groupby(["Scenario", "Period", "Unit", "TechnologyGroup", "EndUse"])["Value"]
         .sum()
         .reset_index()
     )
     df.loc[df["Value"].abs() < 1e-6, "Value"] = 0
     return df
+
+
+def get_lpv_transport_capacity():
+    """
+    Getting transport capacity for LPV
+    """
+    df = get_transport_capacity(["Light Passenger Vehicle"])
+    df = (
+        df.groupby(["Scenario", "Period", "Unit", "TechnologyGroup"])["Value"]
+        .sum()
+        .reset_index()
+    )
+    return df
+
+
+def get_lcv_transport_capacity():
+    """
+    Getting transport capacity for LPV
+    """
+    df = get_transport_capacity(["Light Commercial Vehicle"])
+    df = (
+        df.groupby(["Scenario", "Period", "Unit", "TechnologyGroup"])["Value"]
+        .sum()
+        .reset_index()
+    )
+    return df
+
+
+def get_truck_transport_capacity():
+    """
+    truck capacity. migrate these filter methods to chart section, probably
+    """
+
+    truck_list = [
+        "Heavy Truck",
+        "Light Truck",
+        "Medium Truck",
+    ]
+
+    return get_transport_capacity(truck_list)
 
 
 def get_emissions(compare_other_models=False):
@@ -504,7 +548,7 @@ def get_genstack():
 
 def main():
     """entrypoint (scratch only)"""
-    print("This script is just for imports")
+    get_lpv_transport_capacity()
 
 
 if __name__ == "__main__":
