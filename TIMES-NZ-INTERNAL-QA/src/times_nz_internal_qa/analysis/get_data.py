@@ -172,7 +172,9 @@ def get_transport_capacity(enduse_list):
         .sum()
         .reset_index()
     )
+    # ensure 0s
     df.loc[df["Value"].abs() < 1e-6, "Value"] = 0
+    df["Unit"] = "Thousand vehicles"
     return df
 
 
