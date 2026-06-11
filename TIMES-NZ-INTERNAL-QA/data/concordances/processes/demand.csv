@@ -535,12 +535,6 @@ Demand,PULP-ELC-HPSH-SH_LOW,PULP-SH_LOW,Industry,Pulp and Paper,Heating/Cooling,
 Demand,UREA-ELC-HPSH-SH_LOW,UREA-SH_LOW,Industry,Urea,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
 Demand,WOOD-ELC-HPSH-SH_LOW,WOOD-SH_LOW,Industry,Wood Products,Heating/Cooling,"Low Temperature Heat (<100 C), Space Heating",Heat/Cooling Devices,Heat Pump (space heating)
 Demand,MNRL-WOD-BIOFURNC-PH_HIGH,MNRL-FURNC-PH_HIGH,Industry,Non-Metallic Mineral Product Manufacturing,Heating/Cooling,"High Temperature Heat (>300 C), Process Requirements",Heat/Cooling Devices,Furnace/Kiln
-Demand,CNST-ELC-BEV-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Electric Vehicle
-Demand,OTHR-ELC-BEV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Electric Vehicle
-Demand,MINE-ELC-BEV-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Electric Vehicle
-Demand,CNST-H2R-HFCV-MTV_MOB,CNST-ICENG-MTV_MOB,Industry,Construction,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Hydrogen Vehicle
-Demand,OTHR-H2R-HFCV-MTV_MOB,OTHR-ICENG-MTV_MOB,Industry,Other Industry,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Hydrogen Vehicle
-Demand,MINE-H2R-HFCV-MTV_MOB,MINE-ICENG-MTV_MOB,Industry,Mining,Mobile Motive Power,"Motive Power, Mobile",Mobile Motors,Hydrogen Vehicle
 Demand,NEWTECH,NEWTECH-DEM,Commercial,NewTechs,NewTechs,NewTechs,NewTechs,NewTechs
 Demand,STEEL-ELC-EAF,STEEL-FURNC-RSTEEL,Industry,Iron & Steel,Iron and Steel,Recycled Steel,Heat/Cooling Devices,Electric Arc Furnace (EAF)
 Demand,ADCF-IRG-Irg-ELC,ADCF-IRG,"Agriculture, Forestry, and Fishing",Dairy Cattle Farming,Electronics and Lighting,Irrigation,Electronics and Lights,Irrigation

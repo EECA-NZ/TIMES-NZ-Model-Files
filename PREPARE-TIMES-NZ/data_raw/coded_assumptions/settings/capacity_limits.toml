@@ -15,7 +15,8 @@
 #    (Necessary if capacity is 0 to start with before growth becomes dynamic.)
 # StartYear - a year for the constraint to activate from. Note default to baseyear.
 
-
+# NOTE! under current settings, the seed value applies to EACH ISLAND 
+# so at a national l;evel these are doubled
 
 # Residential
 
@@ -65,7 +66,7 @@ PSet_PN = "DARY-ELC-HPPH-PH_LOW"
 [CapLimitMeatHeatpumps]
 Description = "Meat processing low-heat heatpumps for process heat"
 GrowthLimit = 0.02
-SeedValue = 0.05
+SeedValue = 0.005
 PSet_PN = "MEAT-ELC-HPPH-PH_LOW"
 
 
