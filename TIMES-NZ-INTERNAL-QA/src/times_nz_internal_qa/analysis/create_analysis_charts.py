@@ -295,8 +295,16 @@ def _prepare_area_chart_df(df, group_var, facet_rows=None, facet_columns=None):
     if not extra_rows:
         return chart_df
 
+    extra_df = pd.DataFrame(extra_rows)
+    for col in chart_df.select_dtypes(include="category").columns:
+        extra_df[col] = pd.Categorical(
+            extra_df[col],
+            categories=chart_df[col].cat.categories,
+            ordered=chart_df[col].cat.ordered,
+        )
+
     return (
-        pd.concat([chart_df, pd.DataFrame(extra_rows)], ignore_index=True)
+        pd.concat([chart_df, extra_df], ignore_index=True)
         .sort_values(series_cols + ["Period"])
         .reset_index(drop=True)
     )
@@ -494,6 +502,33 @@ def create_emissions_charts():
     create_emissions_line()
     create_emissions_line(comparison=True)
     create_emissions_breakdown()
+
+
+# PRIMARY ENERGY
+
+
+def create_lng_and_natural_gas_supply_chart():
+    """
+    Area chart showing domestic natural gas supply and LNG imports from
+    primary energy production data.
+    """
+
+    gas_df = chart_data.get_lng_and_natural_gas_supply()
+    gas_df = standardise_chart_data(gas_df)
+
+    p = create_scenario_facet_chart(
+        gas_df,
+        "LNG and natural gas supply",
+        group_var="SupplySource",
+    )
+
+    save_chart(p, "primary_energy_lng_natural_gas_supply.png")
+
+
+def create_primary_energy_charts():
+    """Wrapper for primary energy chart outputs."""
+
+    create_lng_and_natural_gas_supply_chart()
 
 
 # TRANSPORT
@@ -775,6 +810,7 @@ def main():
 
     create_indicators()
     create_emissions_charts()
+    create_primary_energy_charts()
     create_residential_demand_chart()
     create_commercial_demand_chart()
     create_industry_demand_charts()

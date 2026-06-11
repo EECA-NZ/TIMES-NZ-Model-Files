@@ -249,6 +249,28 @@ def get_emissions_by_sector_group():
     return df
 
 
+def get_lng_and_natural_gas_supply():
+    """Return primary energy supply for domestic natural gas and LNG imports."""
+
+    df = get_times_data("primary_energy.parquet")
+    df = df[df["Variable"] == "Primary Energy Production"].copy()
+    df = df[df["Fuel"].isin(["Natural gas", "LNG"])]
+
+    supply_source_map = {
+        "Natural gas": "Domestic natural gas",
+        "LNG": "LNG imports",
+    }
+    df["SupplySource"] = df["Fuel"].map(supply_source_map)
+
+    df = (
+        df.groupby(["Scenario", "Period", "Unit", "SupplySource"])["Value"]
+        .sum()
+        .reset_index()
+    )
+    df.loc[df["Value"].abs() < 1e-6, "Value"] = 0
+    return df
+
+
 def get_fuel_use_by_island_and_sector(end_use=None, sector_group=None, scenario=None):
     """
     Return fuel use by island, sector, and fuel for configurable filter lists.
