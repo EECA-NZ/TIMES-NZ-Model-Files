@@ -368,12 +368,36 @@ def create_scenario_line_chart(df, chart_title, yaxis_0=True):
     """
 
     unit = get_df_unit(df)
+    min_y = min(0, df["Value"].min()) if yaxis_0 else df["Value"].min()
+    max_y = df["Value"].max()
+    y_range = max_y - min_y
+    min_label_gap = y_range * 0.12 if y_range else 1
 
     # new df for filling in labels
-    label_data = df.sort_values("Period").groupby("Scenario", as_index=False).tail(1)
-    label_data["x_location"] = label_data["Period"] + 1
+    label_data = (
+        df.sort_values("Period")
+        .groupby("Scenario", as_index=False, observed=True)
+        .tail(1)
+    )
+    label_data["x_location"] = label_data["Period"] + 1.5
+    label_data = label_data.sort_values("Value").reset_index(drop=True)
+    label_data["label_y"] = label_data["Value"]
+
+    for index in range(1, len(label_data)):
+        previous_y = label_data.loc[index - 1, "label_y"]
+        current_y = label_data.loc[index, "label_y"]
+        label_data.loc[index, "label_y"] = max(current_y, previous_y + min_label_gap)
+
+    top_overrun = label_data["label_y"].max() - max_y
+    if top_overrun > 0:
+        label_data["label_y"] = label_data["label_y"] - top_overrun
+
+    bottom_overrun = min_y - label_data["label_y"].min()
+    if bottom_overrun > 0:
+        label_data["label_y"] = label_data["label_y"] + bottom_overrun
+
     label_data["Label"] = (
-        label_data["Scenario"]
+        label_data["Scenario"].astype(str)
         + ": \n"
         + label_data["Value"].apply(lambda x: f"{x:,.2f}")
         + label_data["Unit"]
@@ -382,17 +406,31 @@ def create_scenario_line_chart(df, chart_title, yaxis_0=True):
     p = (
         ggplot(df, aes(x="Period", y="Value", colour="Scenario"))
         + geom_line(size=1)
+        + geom_segment(
+            data=label_data,
+            mapping=aes(
+                x="Period",
+                xend="x_location",
+                y="Value",
+                yend="label_y",
+                colour="Scenario",
+            ),
+            size=0.4,
+        )
         + geom_label(
             data=label_data,
-            mapping=aes(x="x_location", label="Label", fill="Scenario"),
+            mapping=aes(x="x_location", y="label_y", label="Label", fill="Scenario"),
             colour="white",
         )
         + labs(title=chart_title, x="Year", y=unit, colour="Scenario")
         # + lwd(1)
         + scale_x_continuous(
-            breaks=[2025, 2030, 2035, 2040, 2045, 2050], limits=[2023, 2052]
+            breaks=[2025, 2030, 2035, 2040, 2045, 2050], limits=[2023, 2053]
         )
-        + scale_y_continuous(labels=adaptive_tick_labels)
+        + scale_y_continuous(
+            labels=adaptive_tick_labels,
+            limits=(0, None) if yaxis_0 else None,
+        )
         # default needed for linter here
         + scale_colour_manual(values=chart_cols, na_value="grey")
         + scale_fill_manual(values=chart_cols)
@@ -400,9 +438,6 @@ def create_scenario_line_chart(df, chart_title, yaxis_0=True):
         + theme(legend_position="none")
     )
 
-    # usually we zero the y axis, but not always
-    if yaxis_0:
-        p = p + scale_y_continuous(limits=(0, None))
     return p
 
 
@@ -482,7 +517,18 @@ def create_emissions_line(comparison=False):
     """
     Line chart comparing up to 5 emission tracks with labels etc
     """
-    print("Hello please write me ")
+    emissions_df = chart_data.get_emissions(compare_other_models=comparison)
+    emissions_df = standardise_chart_data(emissions_df)
+
+    chart_title = "Energy emissions"
+    filename = "emissions_line.png"
+
+    if comparison:
+        chart_title = "Energy emissions comparison"
+        filename = "emissions_line_comparison.png"
+
+    p = create_scenario_line_chart(emissions_df, chart_title)
+    save_chart(p, filename)
 
 
 def create_emissions_breakdown():
