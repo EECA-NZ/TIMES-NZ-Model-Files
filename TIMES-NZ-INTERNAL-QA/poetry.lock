@@ -2594,6 +2594,17 @@ tests = ["check-manifest", "coverage (>=7.4.2)", "defusedxml", "markdown2", "ole
 xmp = ["defusedxml"]
 
 [[package]]
+name = "pip"
+version = "26.1.2"
+description = "The PyPA recommended tool for installing Python packages."
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "pip-26.1.2-py3-none-any.whl", hash = "sha256:382ff9f685ee3bc25864f820aa50505825f10f5458ffff07e30a6d96e5715cab"},
+    {file = "pip-26.1.2.tar.gz", hash = "sha256:f49cd134c61cf2fd75e0ce2676db03e4054504a5a4986d00f8299ae632dc4605"},
+]
+
+[[package]]
 name = "platformdirs"
 version = "4.10.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a `user data dir`."
@@ -2935,6 +2946,20 @@ files = [
 
 [package.extras]
 windows-terminal = ["colorama (>=0.4.6)"]
+
+[[package]]
+name = "pyjwt"
+version = "2.13.0"
+description = "JSON Web Token implementation in Python"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "pyjwt-2.13.0-py3-none-any.whl", hash = "sha256:66adcc2aff09b3f1bbd95fc1e1577df8ac8723c978552fd43304c8a290ac5728"},
+    {file = "pyjwt-2.13.0.tar.gz", hash = "sha256:41571c89ca91598c79e8ef18a2d07367d4810fbbd6f637794879baf1b7703423"},
+]
+
+[package.extras]
+crypto = ["cryptography (>=3.4.0)"]
 
 [[package]]
 name = "pylint"
@@ -3481,6 +3506,30 @@ files = [
 ]
 
 [[package]]
+name = "rsconnect-python"
+version = "1.29.0"
+description = "The Posit Connect command-line interface."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "rsconnect_python-1.29.0-py2.py3-none-any.whl", hash = "sha256:187960581cd5f277409b94d01d30e47e731d89eb28bb62b74aea551b921f7f6d"},
+]
+
+[package.dependencies]
+click = ">=8.0.0"
+pip = ">=10.0.0"
+pyjwt = ">=2.4.0"
+semver = ">=2.0.0,<4.0.0"
+typing-extensions = ">=4.8.0"
+uv = ">=0.9.0"
+
+[package.extras]
+docs = ["mkdocs-click", "mkdocs-macros-plugin", "mkdocs-material", "pymdown-extensions"]
+mcp = ["fastmcp (==2.12.4)"]
+snowflake = ["snowflake-cli"]
+test = ["black (==24.3.0)", "coverage", "fastmcp (==2.12.4)", "flake8", "flake8-pyproject", "httpretty", "ipykernel", "nbconvert", "pyright", "pytest", "pytest-cov", "setuptools (>=61)", "setuptools-scm[toml] (>=3.4)", "twine", "types-Flask"]
+
+[[package]]
 name = "scipy"
 version = "1.17.1"
 description = "Fundamental algorithms for scientific computing in Python"
@@ -3578,6 +3627,17 @@ pandas = ">=1.2"
 dev = ["flake8", "flit", "mypy", "pandas-stubs", "pre-commit", "pytest", "pytest-cov", "pytest-xdist"]
 docs = ["ipykernel", "nbconvert", "numpydoc", "pydata_sphinx_theme (==0.10.0rc2)", "pyyaml", "sphinx (<6.0.0)", "sphinx-copybutton", "sphinx-design", "sphinx-issues"]
 stats = ["scipy (>=1.7)", "statsmodels (>=0.12)"]
+
+[[package]]
+name = "semver"
+version = "3.0.4"
+description = "Python helper for Semantic Versioning (https://semver.org)"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "semver-3.0.4-py3-none-any.whl", hash = "sha256:9c824d87ba7f7ab4a1890799cec8596f15c1241cb473404ea1cb0c55e4b04746"},
+    {file = "semver-3.0.4.tar.gz", hash = "sha256:afc7d8c584a5ed0a11033af086e8af226a9c0b206f313e0301f8dd7b6b589602"},
+]
 
 [[package]]
 name = "send2trash"
@@ -4015,6 +4075,34 @@ socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["backports-zstd (>=1.0.0)"]
 
 [[package]]
+name = "uv"
+version = "0.11.21"
+description = "An extremely fast Python package and project manager, written in Rust."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "uv-0.11.21-py3-none-linux_armv6l.whl", hash = "sha256:48c36eb170a5e7a668c1d13d2c8edeb017a3e6484c224f1521b540a6bda9e50b"},
+    {file = "uv-0.11.21-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:88d8283f6ea9f0cdbb7717e6e08e916c32a8b8b7e11c72fcc6426a4c4eeb89e0"},
+    {file = "uv-0.11.21-py3-none-macosx_11_0_arm64.whl", hash = "sha256:9c11169a049ec8bf9ddc6a9f55fba9a240942ec8005faaaf4393f00ff7a4c16e"},
+    {file = "uv-0.11.21-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.musllinux_1_1_aarch64.whl", hash = "sha256:00193e4e077c27ee3d66da356744dbf0b3aa59356dfbd9a9efb1dc8469af8ad7"},
+    {file = "uv-0.11.21-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.musllinux_1_1_armv7l.whl", hash = "sha256:870f48082df673016f465b068f40ad5aa7d2d3cfbcfb4e73724630684003a2ab"},
+    {file = "uv-0.11.21-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:af08e0d8f43da43bc68930aee56ca5f38ccfbc79d45b6e8a7d5051f1e975684f"},
+    {file = "uv-0.11.21-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:4530761c565f3a519a68f36628ee51f2b467b66573e2023e9073641219b60d23"},
+    {file = "uv-0.11.21-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:66906cfa7c29c2cf4ea5117cf5614b0b83078ff669e664e2187071fcb24c85c1"},
+    {file = "uv-0.11.21-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:525ef0eb56ff982357a321eca953307d824ab6f58473630c69521e8085f12b0a"},
+    {file = "uv-0.11.21-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b9ecdefa81db7e966d1655988cad6f840316228381dd69131ebc4ae9362bbccd"},
+    {file = "uv-0.11.21-py3-none-manylinux_2_28_aarch64.whl", hash = "sha256:4ed98ff3165bf7b339692d0df918b87e6d36eb0bed5183466330d27d5730d57b"},
+    {file = "uv-0.11.21-py3-none-manylinux_2_31_riscv64.musllinux_1_1_riscv64.whl", hash = "sha256:0e7916874f125a6f6af4cddd95f892ef19a4bb65c146afea7e544b0f98c63d02"},
+    {file = "uv-0.11.21-py3-none-manylinux_2_31_riscv64.whl", hash = "sha256:05e2f2e0fbf7c423f8287011ba0d2d69464f26a5f13b33df05cd491fbe5a910a"},
+    {file = "uv-0.11.21-py3-none-musllinux_1_1_i686.whl", hash = "sha256:b756dd2b368d7cc4aeb48249d06e1250bfcf81f0313ff7d7ec2ccafcd3ee4c93"},
+    {file = "uv-0.11.21-py3-none-musllinux_1_1_x86_64.whl", hash = "sha256:88668a27959df9188ff72b0314f6b14f6acf6090964bb0748974239183ecb51c"},
+    {file = "uv-0.11.21-py3-none-win32.whl", hash = "sha256:a00c78f3eea6db7967d98a505b01b7d80354517c7ff34f51701949f39c7b53e6"},
+    {file = "uv-0.11.21-py3-none-win_amd64.whl", hash = "sha256:d956ba9470d5267cc0ea3d7572cac3bf045bc78adad5b031b5558c6df13d2e19"},
+    {file = "uv-0.11.21-py3-none-win_arm64.whl", hash = "sha256:f64a851e429e6afb96f3a0b688995757ed3697bf1078509e2da8220ffc9805cd"},
+    {file = "uv-0.11.21.tar.gz", hash = "sha256:083882c73373a16de4c136d54e3386a52388dead5048a07505e25578b157182f"},
+]
+
+[[package]]
 name = "uvicorn"
 version = "0.49.0"
 description = "The lightning-fast ASGI server."
@@ -4319,4 +4407,4 @@ type = ["pytest-mypy (>=1.0.1)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.12,<4"
-content-hash = "aa5529f0aa5ff6aa2fed274528e3dda655b360ca31c678e7a040e3f9cc7392b6"
+content-hash = "43a40c789cd3d167860891d2d78223b2dc596a3fabc09078b1456732e781e469"
