@@ -170,7 +170,7 @@ def _get_reserves_data(sheet, cols, skip, size):
 
 
 reserve_sheets = [
-    "Oil Production Profile",    
+    "Oil Production Profile",
     "Gas Production Profile",
     "LPG Production Profile",
     "2C Resources",
