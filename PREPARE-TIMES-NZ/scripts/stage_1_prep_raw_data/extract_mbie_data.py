@@ -160,7 +160,7 @@ def _get_mbie_gas_pj(
 
 def _get_reserves_data(sheet, cols, skip, size):
     """Reads a hardcoded table path from the published reserves workbook"""
-    reserves_path = INPUT_DIR / "petroleum-reserves-1-jan-2025.xlsx"
+    reserves_path = INPUT_DIR / "petroleum-reserves-1-jan-2026.xlsx"
 
     df = pd.read_excel(
         reserves_path, sheet_name=sheet, usecols=cols, skiprows=skip, nrows=size
@@ -170,8 +170,9 @@ def _get_reserves_data(sheet, cols, skip, size):
 
 
 reserve_sheets = [
-    "Oil Production Profile",
-    "Gas LPG Production Profile",
+    "Oil Production Profile",    
+    "Gas Production Profile",
+    "LPG Production Profile",
     "2C Resources",
 ]
 
@@ -216,6 +217,7 @@ def _get_contingent_reserve_data():
         "Natural gas": "PJ",
     }
     df["Unit"] = df["Fuel"].map(unit_map)
+    print(df)
     return df
 
 
@@ -272,17 +274,17 @@ def main() -> None:
 
     # Natural gas
     _get_forecasts(
-        sheet="Gas LPG Production Profile",
-        col_range="B:BA",
+        sheet="Gas Production Profile",
+        col_range="B:AK",
         skiprows=3,
-        table_height=20,
+        table_height=19,
         var_label="Natural gas forecasts",
     ).to_csv(OUTPUT_DIR / "natural_gas_forecasts.csv", index=False)
     # LPG
     _get_forecasts(
-        sheet="Gas LPG Production Profile",
-        col_range="B:P",
-        skiprows=27,
+        sheet="LPG Production Profile",
+        col_range="B:M",
+        skiprows=3,
         table_height=5,
         var_label="LPG forecasts",
     ).to_csv(OUTPUT_DIR / "lpg_forecasts.csv", index=False)
@@ -290,9 +292,9 @@ def main() -> None:
     # crude and condensate
     _get_forecasts(
         sheet="Oil Production Profile",
-        col_range="B:BA",
+        col_range="B:AK",
         skiprows=3,
-        table_height=20,
+        table_height=19,
         var_label="Oil and condensate",
     ).to_csv(OUTPUT_DIR / "oil_forecasts.csv", index=False)
 
