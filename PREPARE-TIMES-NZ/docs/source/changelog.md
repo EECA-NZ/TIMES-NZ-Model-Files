@@ -6,6 +6,11 @@
 
 **Model fixes**
 - Resolved incorrect constraints on industrial mobile motive power.
+- Adjust incorrect capital constraints applied to meat processing heatpumps. 
+- Corrected operating costs for commercial wood boilers.
+
+**Assumption changes**
+- Changed Te Mihi expansion timing to fixed 2027 build.
 
 ## 3.0.6
 
