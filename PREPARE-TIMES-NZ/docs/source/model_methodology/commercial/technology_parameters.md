@@ -171,6 +171,7 @@ Operating and maintenance costs assumptions for some technologies can be found i
 
 Technology,Fuel,O&M cost (NZD/kW/year)
 Boiler Systems,Coal,15
+Boiler Systems,Woody biomass,15
 Boiler Systems,Diesel,3
 Boiler Systems,LPG,2
 Boiler Systems,Natural Gas,2
