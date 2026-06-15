@@ -117,6 +117,13 @@ GrowthLimit = 0.04
 PSet_PN = "C_*CK-Ovens-ELC"
 
 
+[CapLimitCommercialHPELC]
+Description = "Commercial hotwater heatpumps"
+GrowthLimit = 0.03
+SeedValue = 0.001
+PSet_PN = "C_*WH-AirHP-ELC"
+
+
 [CapLimitBIGAD]
 Description = "Biogas Anaerobic Digestion facilities"
 GrowthLimit = 0.5
