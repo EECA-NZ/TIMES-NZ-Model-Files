@@ -6,7 +6,9 @@
     },
     "Scenario": {
       "steady-v306": "Steady",
-      "shift-v306": "Shift"
+      "shift-v306": "Shift",
+      "steady-v307": "Steady",
+      "shift-v307": "Shift"
     }
   }
 }
