@@ -106,7 +106,7 @@ Some app-ids:
 - `times-nz-internal-explorer-v304`: 16904540
 - `times-nz-internal-explorer-v305`: 17015159
 - `times-nz-internal-explorer-v306`: 17262489
-- `times-nz-internal-explorer-v306`: 17500112
+- `times-nz-internal-explorer-v307`: 17500112
 
 
 Production app-id:
