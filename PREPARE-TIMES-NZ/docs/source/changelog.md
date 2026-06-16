@@ -5,7 +5,8 @@
 ## 3.0.7
 
 **Model fixes**
-- Resolved incorrect constraints on industrial mobile motive power.
+- Adjusts bounds for electrification of mobile motive power for insutrial use.
+- Removed electric and hydrogen from those industrial sectors where plausible technologies were unlikely to follow standard (freight-based) electric or hydrogen capital cost structures. More data is needed for these areas. 
 - Adjust incorrect capital constraints applied to meat processing heatpumps. 
 - Corrected operating costs for commercial wood boilers.
 - Ensured commercial switching behaviour was appropriately capital-bounded. 
