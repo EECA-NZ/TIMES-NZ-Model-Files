@@ -8,48 +8,32 @@ Demand,C_EDU-SC,Commercial,Education,Space Cooling
 Demand,C_EDU-SH,Commercial,Education,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_EDU-WH,Commercial,Education,"Low Temperature Heat (<100 C), Water Heating"
 Demand,C_EDU-RF,Commercial,Education,Refrigeration
-Demand,C_EDU-RH-SH,Commercial,Education,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_EDU-MPS,Commercial,Education,"Motive Power, Stationary"
-Demand,C_EDU-Boiler-SH,Commercial,Education,"Low Temperature Heat (<100 C), Space Heating"
-Demand,C_EDU-Boiler-WH,Commercial,Education,"Low Temperature Heat (<100 C), Water Heating"
 Demand,C_EDU-MPM,Commercial,Education,"Motive Power, Mobile"
-Demand,C_EDU-Burner-SH,Commercial,Education,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_HLTH-OTH,Commercial,Healthcare,Electronics and Other Electrical Uses
 Demand,C_HLTH-LT,Commercial,Healthcare,Lighting
 Demand,C_HLTH-SC,Commercial,Healthcare,Space Cooling
 Demand,C_HLTH-SH,Commercial,Healthcare,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_HLTH-WH,Commercial,Healthcare,"Low Temperature Heat (<100 C), Water Heating"
 Demand,C_HLTH-RF,Commercial,Healthcare,Refrigeration
-Demand,C_HLTH-RH-PH,Commercial,Healthcare,"Intermediate Heat (100-300 C), Process Requirements"
-Demand,C_HLTH-RH-SH,Commercial,Healthcare,"Low Temperature Heat (<100 C), Space Heating"
+Demand,C_HLTH-PH,Commercial,Healthcare,"Intermediate Heat (100-300 C), Process Requirements"
 Demand,C_HLTH-MPS,Commercial,Healthcare,"Motive Power, Stationary"
-Demand,C_HLTH-Boiler-PH,Commercial,Healthcare,"Intermediate Heat (100-300 C), Process Requirements"
-Demand,C_HLTH-Boiler-SH,Commercial,Healthcare,"Low Temperature Heat (<100 C), Space Heating"
-Demand,C_HLTH-Boiler-WH,Commercial,Healthcare,"Low Temperature Heat (<100 C), Water Heating"
 Demand,C_HLTH-MPM,Commercial,Healthcare,"Motive Power, Mobile"
 Demand,C_OFFC-OTH,Commercial,Office Blocks,Electronics and Other Electrical Uses
 Demand,C_OFFC-LT,Commercial,Office Blocks,Lighting
 Demand,C_OFFC-SC,Commercial,Office Blocks,Space Cooling
 Demand,C_OFFC-SH,Commercial,Office Blocks,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_OFFC-WH,Commercial,Office Blocks,"Low Temperature Heat (<100 C), Water Heating"
-Demand,C_OFFC-RH-SH,Commercial,Office Blocks,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_OFFC-MPS,Commercial,Office Blocks,"Motive Power, Stationary"
-Demand,C_OFFC-Boiler-SH,Commercial,Office Blocks,"Low Temperature Heat (<100 C), Space Heating"
-Demand,C_OFFC-Boiler-WH,Commercial,Office Blocks,"Low Temperature Heat (<100 C), Water Heating"
 Demand,C_OFFC-MPM,Commercial,Office Blocks,"Motive Power, Mobile"
-Demand,C_OFFC-Burner-SH,Commercial,Office Blocks,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_OTH-OTH,Commercial,Other Commercial,Electronics and Other Electrical Uses
 Demand,C_OTH-LT,Commercial,Other Commercial,Lighting
 Demand,C_OTH-SC,Commercial,Other Commercial,Space Cooling
 Demand,C_OTH-SH,Commercial,Other Commercial,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_OTH-WH,Commercial,Other Commercial,"Low Temperature Heat (<100 C), Water Heating"
-Demand,C_OTH-RH-SH,Commercial,Other Commercial,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_OTH-MPS,Commercial,Other Commercial,"Motive Power, Stationary"
 Demand,C_OTH-PUMP,Commercial,Other Commercial,Pumping
-Demand,C_OTH-Boiler-SH,Commercial,Other Commercial,"Low Temperature Heat (<100 C), Space Heating"
-Demand,C_OTH-Boiler-WH,Commercial,Other Commercial,"Low Temperature Heat (<100 C), Water Heating"
 Demand,C_OTH-MPM,Commercial,Other Commercial,"Motive Power, Mobile"
-Demand,C_OTH-Burner-SH,Commercial,Other Commercial,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_WSR-OTH,Commercial,WSR,Electronics and Other Electrical Uses
 Demand,C_WSR-LT,Commercial,WSR,Lighting
 Demand,C_WSR-CK,Commercial,WSR,"Intermediate Heat (100-300 C), Cooking"
@@ -57,14 +41,20 @@ Demand,C_WSR-SC,Commercial,WSR,Space Cooling
 Demand,C_WSR-SH,Commercial,WSR,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_WSR-WH,Commercial,WSR,"Low Temperature Heat (<100 C), Water Heating"
 Demand,C_WSR-RF,Commercial,WSR,Refrigeration
-Demand,C_WSR-RH-SH,Commercial,WSR,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_WSR-MPS,Commercial,WSR,"Motive Power, Stationary"
+Demand,C_WSR-MPM,Commercial,WSR,"Motive Power, Mobile"
+Demand,C_OTH-PH,Commercial,Other Commercial,"Intermediate Heat (100-300 C), Process Requirements"
+Demand,C_EDU-Boiler-SH,Commercial,Education,"Low Temperature Heat (<100 C), Space Heating"
+Demand,C_EDU-Boiler-WH,Commercial,Education,"Low Temperature Heat (<100 C), Water Heating"
+Demand,C_HLTH-Boiler-SH,Commercial,Healthcare,"Low Temperature Heat (<100 C), Space Heating"
+Demand,C_HLTH-Boiler-WH,Commercial,Healthcare,"Low Temperature Heat (<100 C), Water Heating"
+Demand,C_HLTH-Boiler-PH,Commercial,Healthcare,"Intermediate Heat (100-300 C), Process Requirements"
+Demand,C_OFFC-Boiler-SH,Commercial,Office Blocks,"Low Temperature Heat (<100 C), Space Heating"
+Demand,C_OFFC-Boiler-WH,Commercial,Office Blocks,"Low Temperature Heat (<100 C), Water Heating"
 Demand,C_WSR-Boiler-SH,Commercial,WSR,"Low Temperature Heat (<100 C), Space Heating"
 Demand,C_WSR-Boiler-WH,Commercial,WSR,"Low Temperature Heat (<100 C), Water Heating"
-Demand,C_WSR-Burner-SH,Commercial,WSR,"Low Temperature Heat (<100 C), Space Heating"
-Demand,C_WSR-MPM,Commercial,WSR,"Motive Power, Mobile"
-Demand,C_HLTH-Burner-PH,Commercial,Healthcare,"Intermediate Heat (100-300 C), Process Requirements"
-Demand,C_OTH-Burner-PH,Commercial,Other Commercial,"Intermediate Heat (100-300 C), Process Requirements"
+Demand,C_OTH-Boiler-SH,Commercial,Other Commercial,"Low Temperature Heat (<100 C), Space Heating"
+Demand,C_OTH-Boiler-WH,Commercial,Other Commercial,"Low Temperature Heat (<100 C), Water Heating"
 Demand,T_P_Car,Transport,Road Transport,Light Passenger Vehicle
 Demand,T_C_Car,Transport,Road Transport,Light Commercial Vehicle
 Demand,T_P_Mcy,Transport,Road Transport,Motorcycle

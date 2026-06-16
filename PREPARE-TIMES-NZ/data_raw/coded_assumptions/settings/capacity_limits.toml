@@ -66,7 +66,7 @@ PSet_PN = "DARY-ELC-HPPH-PH_LOW"
 [CapLimitMeatHeatpumps]
 Description = "Meat processing low-heat heatpumps for process heat"
 GrowthLimit = 0.02
-SeedValue = 0.005
+SeedValue = 0.003
 PSet_PN = "MEAT-ELC-HPPH-PH_LOW"
 
 
@@ -111,10 +111,10 @@ Description = "Commercial electric cooktops"
 GrowthLimit = 0.04
 PSet_PN = "C_*CK-CK-ELC"
 
-[CapLimitCommercialOvensELC]
-Description = "Commercial electric ovens"
+[CapLimitCommercialOvens]
+Description = "Commercial ovens"
 GrowthLimit = 0.04
-PSet_PN = "C_*CK-Ovens-ELC"
+PSet_PN = "C_*CK-Ovens*"
 
 
 [CapLimitCommercialHPELC]
@@ -122,6 +122,52 @@ Description = "Commercial hotwater heatpumps"
 GrowthLimit = 0.03
 SeedValue = 0.001
 PSet_PN = "C_*WH-AirHP-ELC"
+
+[CapLimitCommercialGasWaterHeating]
+Description = "Commercial natural gas water heating"
+GrowthLimit = 0.02
+PSet_PN = "C_*WH-Cylinder-NGA"
+
+[CapLimitCommercialWaterHeatingBoilers]
+Description = "Commercial water heating boilers"
+GrowthLimit = 0.04
+PSet_PN = "C_*WH-Boiler*"
+
+[CapLimitCommercialGasSpaceHeating]
+Description = "Commercial natural gas space heating"
+GrowthLimit = 0.02
+PSet_PN = "C_*SH-Boiler-NGA"
+
+[CapLimitCommercialGasSpaceHeatingBurner]
+Description = "Commercial natural gas space heating"
+GrowthLimit = 0.02
+PSet_PN = "C_*SH-Burner-NGA"
+
+[CapLimitCommercialLPGSpaceHeating]
+Description = "Commercial LPG space heating"
+GrowthLimit = 0.02
+PSet_PN = "C_*SH-*-LPG"
+
+[CapLimitCommercialRHSpaceHeating]
+Description = "Commercial resistance heaters"
+GrowthLimit = 0.02
+PSet_PN = "C_*SH-RH-ELC"
+
+[CapLimitCommercialHPSpaceHeating]
+Description = "Commercial heatpumps"
+GrowthLimit = 0.03
+PSet_PN = "C_*SH-AIRHP-ELC"
+
+
+[CapLimitCommercialMPM]
+Description = "Commercial Mobile Motive Power"
+GrowthLimit = 0.03
+PSet_PN = "C_*MPM*"
+
+[CapLimitCommercialMPS]
+Description = "Commercial Stationary Motive Power"
+GrowthLimit = 0.03
+PSet_PN = "C_*MPS*"
 
 
 [CapLimitBIGAD]

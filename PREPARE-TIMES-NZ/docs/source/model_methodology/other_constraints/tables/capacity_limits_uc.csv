@@ -7,7 +7,7 @@ Residential gas heaters,2%,,RES\*NGA-BURNR-S_HEAT
 Residential LPG water heating,2%,,RES\*LPG\*WH_LOW
 Residential gas water heating,2%,,RES\*NGA\*WH_LOW
 Dairy low-heat heatpumps for process heat,2%,50MW,DARY-ELC-HPPH-PH_LOW
-Meat processing low-heat heatpumps for process heat,2%,5MW,MEAT-ELC-HPPH-PH_LOW
+Meat processing low-heat heatpumps for process heat,2%,3MW,MEAT-ELC-HPPH-PH_LOW
 Industrial space heating heat pumps,3%,5MW,\*HPSH-SH_LOW
 Light passenger battery vehicles,50%,,T_\*_CBEVELC_\*
 Plug-in hybrid diesel vehicles,5%,,\*_PHEVDSL_\*
@@ -15,6 +15,15 @@ Plug-in hybrid petrol vehicles,5%,,\*_PHEVPET_\*
 Commercial LED lighting (except datacentres),6%,,"C_\*LT-LED-ELC, -C_DATA-LT-LED-ELC"
 Commercial fluorescent lighting,2%,,C_\*LT-FLU-ELC
 Commercial electric cooktops,4%,,C_\*CK-CK-ELC
-Commercial electric ovens,4%,,C_\*CK-Ovens-ELC
+Commercial ovens,4%,,C_\*CK-Ovens\*
 Commercial hotwater heatpumps,3%,1MW,C_\*WH-AirHP-ELC
+Commercial natural gas water heating,2%,,C_\*WH-Cylinder-NGA
+Commercial water heating boilers,4%,,C_\*WH-Boiler\*
+Commercial natural gas space heating,2%,,C_\*SH-Boiler-NGA
+Commercial natural gas space heating,2%,,C_\*SH-Burner-NGA
+Commercial LPG space heating,2%,,C_\*SH-\*-LPG
+Commercial resistance heaters,2%,,C_\*SH-RH-ELC
+Commercial heatpumps,3%,,C_\*SH-AIRHP-ELC
+Commercial Mobile Motive Power,3%,,C_\*MPM\*
+Commercial Stationary Motive Power,3%,,C_\*MPS\*
 Biogas Anaerobic Digestion facilities,50%,,REF_ANDGST
