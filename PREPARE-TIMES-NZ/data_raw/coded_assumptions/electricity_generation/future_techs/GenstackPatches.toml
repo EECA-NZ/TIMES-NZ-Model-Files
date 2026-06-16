@@ -23,6 +23,15 @@ CommissioningType = "Earliest"
 CommissioningYear = 2027
 
 
+[[patches]]
+# bringing forward te mihi expansion to align with contact announcements and wairakei closure
+
+Plant = "Te Mihi (expansion)"
+CommissioningType = "Fixed"
+CommissioningYear = 2027
+
+
+
 # these may have been a mistake in the original: believe they refer to Te Rahui?
 
 # https://www.meridianenergy.co.nz/new-projects/te-rahui-solar-farm

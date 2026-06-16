@@ -10,13 +10,14 @@ from pathlib import Path
 from dotenv import load_dotenv
 from shiny import ui
 from times_nz_internal_qa.app.app_module_demand import demand_ui
-
-# from times_nz_internal_qa.app.app_module_developers import developers_ui
 from times_nz_internal_qa.app.app_module_elec import elec_ui
 from times_nz_internal_qa.app.app_module_emissions import emissions_ui
 from times_nz_internal_qa.app.app_module_esd import esd_ui
 from times_nz_internal_qa.app.app_module_primary_energy import primary_energy_ui
 from times_nz_internal_qa.utilities.filepaths import ASSETS
+
+# from times_nz_internal_qa.app.app_module_developers import developers_ui
+
 
 # Constants
 

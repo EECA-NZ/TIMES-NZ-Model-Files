@@ -2,6 +2,19 @@
 # Changelog
 
 
+## 3.0.7
+
+**Model fixes**
+- Adjusts bounds for electrification of mobile motive power for insutrial use.
+- Removed electric and hydrogen from those industrial sectors where plausible technologies were unlikely to follow standard (freight-based) electric or hydrogen capital cost structures. More data is needed for these areas. 
+- Adjust incorrect capital constraints applied to meat processing heatpumps. 
+- Corrected operating costs for commercial wood boilers.
+- Ensured commercial switching behaviour was appropriately capital-bounded. 
+
+**Assumption changes**
+- Changed Te Mihi expansion timing to fixed 2027 build.
+- Updated gas supply projections to MBIE 2026 reserves data.
+
 ## 3.0.6
 
 **Assumption changes**

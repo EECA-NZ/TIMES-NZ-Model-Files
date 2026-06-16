@@ -34,7 +34,7 @@ DUMMY_ENERGY_FILEPATH = CLEAN_RESULTS / "dummy_energy.parquet"
 DUMMY_DEMAND_FILEPATH = CLEAN_RESULTS / "dummy_demand.parquet"
 TECHNOLOGY_CAPACITY_FILE = FINAL_DATA / "technology_capacity.parquet"
 
-dummy_energy_group_options = ["Fuel", "Commodity", "Region"]
+dummy_energy_group_options = ["Commodity", "Region", "Fuel"]
 dummy_demand_group_options = [
     "SectorGroup",
     "Sector",

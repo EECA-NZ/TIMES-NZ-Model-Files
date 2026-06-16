@@ -56,21 +56,3 @@ EndUse = ["PH_HIGH"]
 ReplacedTechs = ["FURNC"]
 InputFuel = ["WOD"]
 Sectors = ["MNRL"]
-
-[newtechsBEV]
-TechCode = "BEV"
-Technology = "Electric Vehicle"
-TechnologyGroup = "Mobile Motors"
-EndUse = ["MTV_MOB"] 
-ReplacedTechs = ["ICENG"]
-InputFuel = ["ELC"]
-Sectors = ["CNST", "OTHR", "MINE"]
- 
-[newtechsHFCV]
-TechCode = "HFCV"
-Technology = "Hydrogen Vehicle"
-TechnologyGroup = "Mobile Motors"
-EndUse = ["MTV_MOB"] 
-ReplacedTechs = ["ICENG"]
-InputFuel = ["H2R"]
-Sectors = ["CNST", "OTHR", "MINE"]

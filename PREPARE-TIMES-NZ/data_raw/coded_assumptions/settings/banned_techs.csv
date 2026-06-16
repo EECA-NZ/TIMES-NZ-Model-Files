@@ -7,7 +7,10 @@ T_P_B*PET*,Petrol buses
 T_P_B*LPG*,LPG buses
 C_*-HEATX-GEO,Commercial geothermal
 C*-COA*,Commercial coal
+C*Boiler-DSL*,Commercial diesel boilers
+C*Boiler-NGA*,Commercial gas boilers
 C*MPM-PET*,Commercial Mobile motive power petrol
+C*MPM-NGA*,Commercial Mobile motive power natural gas
 "*PET-ICENG-MTV_MOB, -RES-*-PET-ICENG-MTV_MOB",Industrial petrol mobile motive power (excluding residential)
 *NGA-ICENG-MTV_MOB,Industrial natural gas mobile motive power
 *PET-ENGIN-MTV_STA,Industrial petrol stationary motive power
