@@ -108,7 +108,7 @@ def adaptive_tick_labels(values):
     ]
 
 
-def save_chart(p, filename):
+def save_chart(p, filename, height=4, width=6):
     """
     Convenience wrapper for save function.
 
@@ -120,7 +120,7 @@ def save_chart(p, filename):
     with warnings.catch_warnings():
         warnings.filterwarnings(
             "ignore",
-            message=r"Saving \d+ x \d+ in image\.",
+            message=r"Saving \d+(\.\d+)? x \d+(\.\d+)? in image\.",
             category=PlotnineWarning,
         )
         warnings.filterwarnings(
@@ -131,8 +131,8 @@ def save_chart(p, filename):
         p.save(
             f"analysis/{filename}",
             dpi=300,
-            height=4,
-            width=6,
+            height=height,
+            width=width,
             limitsize=False,
         )
 

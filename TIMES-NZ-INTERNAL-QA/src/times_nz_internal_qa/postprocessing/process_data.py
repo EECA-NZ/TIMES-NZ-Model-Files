@@ -11,6 +11,8 @@ etc (more to come)
 
 """
 
+# pylint: disable=too-many-lines
+
 import numpy as np
 import pandas as pd
 from times_nz_internal_qa.config import current_scenarios
@@ -264,6 +266,51 @@ def process_batteries(df):
 
     df = df[battery_variables]
     save_data(df, "batteries.csv")
+
+
+def process_battery_flows(df):
+    """
+    Identify battery charge and discharge flows with human readable labels.
+    """
+
+    battery_processes = pd.read_csv(PROCESS_CONCORDANCES / "batteries.csv")
+    commodities = pd.read_csv(COMMODITY_CONCORDANCES / "energy.csv")
+
+    flow_variables = {
+        "VAR_FIn": "Battery charging",
+        "VAR_FOut": "Battery discharging",
+    }
+
+    df = df[df["Process"].isin(battery_processes["Process"])]
+    df = df[df["Attribute"].isin(flow_variables)]
+
+    df = df.merge(battery_processes, on="Process", how="left")
+    df = df.merge(commodities, on="Commodity", how="left")
+
+    df = df.rename(columns={"PV": "Value"})
+    df["Variable"] = df["Attribute"].map(flow_variables)
+    df["Unit"] = "PJ"
+
+    battery_flow_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "Process",
+        "TechnologyGroup",
+        "Technology",
+        "CommodityGroup",
+        "Commodity",
+        "Fuel",
+        "Region",
+        "Period",
+        "TimeSlice",
+        "Vintage",
+        "Unit",
+        "Value",
+    ]
+
+    df = df[battery_flow_variables]
+    save_data(df, "battery_flows.csv")
 
 
 def process_electricity_demand_by_timeslice(df):
@@ -967,6 +1014,7 @@ def main():
     process_electricity_demand_by_timeslice(df)
 
     process_batteries(df)
+    process_battery_flows(df)
 
     process_transport_energy_demand(df)
     process_transport_energy_service_demand(df)
