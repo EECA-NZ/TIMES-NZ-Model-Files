@@ -130,13 +130,19 @@ def get_elec_gen(compare_other_models=False, groupby_cols=None):
     return df
 
 
-def get_thermal_generation_fuel_use():
-    """Return fuel used by thermal electricity generation plants in PJ."""
+def get_elec_gen_fuel_use():
+    """Return fuel use by electricity generation plants in PJ."""
 
     df = get_times_data("elec_generation.parquet")
     df = df[df["Variable"] == "Electricity fuel use"]
-    df = df[df["TechnologyGroup"] == "Thermal"]
     df = df.groupby(["Scenario", "Period", "Unit", "Fuel"])["Value"].sum().reset_index()
+    return df
+
+
+def get_thermal_generation_fuel_use():
+    """Return fuel used by thermal electricity generation plants in PJ."""
+    df = get_elec_gen_fuel_use()
+    df = df[df["TechnologyGroup"] == "Thermal"]
     return df
 
 
