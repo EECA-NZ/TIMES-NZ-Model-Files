@@ -72,7 +72,7 @@ def create_battery_main_file():
             # just setting the output to the commodity - should default to this being input also
             "Commodity": "Comm-OUT",
             "PlantLife": "Life",
-            "StorageRatio": "NCAP_AFC",
+            "StorageRatio": "NCAP_AFC~DAYNITE",
         }
     )
 
@@ -80,7 +80,7 @@ def create_battery_main_file():
 
     # availability curve set as a fraction of 24 hours
     # we max out at 1 (not possible to have ratios above 24)
-    df["NCAP_AFC"] = np.minimum(df["NCAP_AFC"] / 24, 1)
+    df["NCAP_AFC~DAYNITE"] = np.minimum(df["NCAP_AFC~DAYNITE"] / 24, 1)
     df["CAP2ACT"] = CAP2ACT
     df["START"] = BASE_YEAR + 2
 
