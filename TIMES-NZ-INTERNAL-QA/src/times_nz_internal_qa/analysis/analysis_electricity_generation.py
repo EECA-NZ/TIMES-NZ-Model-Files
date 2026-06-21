@@ -36,6 +36,9 @@ from times_nz_internal_qa.app.helpers.timeslices import (
     TIMESLICE_ORDER,
     add_timeslice_chart_columns,
 )
+from times_nz_internal_qa.utilities.filepaths import PREP_STAGE_2
+
+CAP2ACT = 31.536
 
 
 def create_generation_line_chart():
@@ -83,19 +86,20 @@ def create_thermal_generation_charts():
     print("Hello please write me ")
 
 
-def create_battery_flows():
+def create_battery_flows(group_by_col="Technology"):
     """Battery charge and discharge flows by readable timeslice."""
 
     df = chart_data.get_times_data("battery_flows.parquet")
 
-    group_vars = [
+    grain_vars = [
         "Scenario",
         "Variable",
-        "TechnologyGroup",
         "Period",
         "TimeSlice",
         "Unit",
     ]
+
+    group_vars = grain_vars + [group_by_col]
 
     df = df.groupby(group_vars)["Value"].sum().reset_index()
     df = add_timeslice_chart_columns(df)
@@ -103,11 +107,11 @@ def create_battery_flows():
     return df
 
 
-def _complete_battery_flow_timeslices(df, year):
+def _complete_battery_flow_timeslices(df, year, group_by_col="Technology"):
     """Add zero rows so every flow/group has every model timeslice."""
 
     timeslices = [timeslice for timeslice in TIMESLICE_ORDER if timeslice != "ANNUAL"]
-    group_cols = ["Scenario", "Variable", "TechnologyGroup"]
+    group_cols = ["Scenario", "Variable", group_by_col]
     groups = df[group_cols].drop_duplicates()
     complete_index = pd.MultiIndex.from_frame(groups).to_frame(index=False)
     complete_index = complete_index.merge(
@@ -165,11 +169,11 @@ def _get_battery_flow_axis_labels(chart_df):
     return x_labels, season_starts
 
 
-def create_battery_flows_chart(df=None, year=2050):
+def create_battery_flows_chart(df=None, year=2050, group_by_col="Technology"):
     """Create battery charge/discharge chart for a single model year."""
 
     if df is None:
-        df = create_battery_flows()
+        df = create_battery_flows(group_by_col=group_by_col)
 
     chart_df = df[df["Period"].astype(int) == year].copy()
     chart_df = chart_df[chart_df["TimeSlice"].astype(str).isin(TIMESLICE_ORDER)].copy()
@@ -182,7 +186,9 @@ def create_battery_flows_chart(df=None, year=2050):
     chart_df["Value"] = chart_df["Value"] * 277.77777778
     chart_df["Unit"] = "GWh"
 
-    chart_df = _complete_battery_flow_timeslices(chart_df, year)
+    chart_df = _complete_battery_flow_timeslices(
+        chart_df, year, group_by_col=group_by_col
+    )
     chart_df["TimeSlice"] = chart_df["TimeSlice"].astype(str)
     chart_df["TimeSliceOrder"] = chart_df["TimeSlice"].map(TIMESLICE_ORDER.index) - 1
     chart_df = chart_df.sort_values(["Scenario", "TimeSliceOrder"])
@@ -192,7 +198,7 @@ def create_battery_flows_chart(df=None, year=2050):
     p = (
         ggplot(
             chart_df,
-            aes(x="TimeSliceOrder", y="Value", fill="TechnologyGroup"),
+            aes(x="TimeSliceOrder", y="Value", fill=group_by_col),
         )
         + geom_col(width=0.82)
         + geom_hline(yintercept=0, colour="#2F2F2F", size=0.4)
@@ -206,7 +212,7 @@ def create_battery_flows_chart(df=None, year=2050):
             title=f"Battery charging and discharging by timeslice, {year}",
             x="",
             y="GWh",
-            fill="Technology group",
+            fill=group_by_col,
         )
         + scale_x_continuous(
             breaks=x_labels["TimeSliceOrder"].tolist(),
@@ -228,13 +234,77 @@ def create_battery_flows_chart(df=None, year=2050):
     return p
 
 
+def test_battery_afs():
+    """
+    a brief checking function intended to:
+    1) get battery output flows per slice
+    2) get battery capacity per slice
+    3) run comparisons
+    """
+
+    # 1: battery output flows
+
+    df_flow = chart_data.get_times_data("battery_flows.parquet")
+
+    df_cap = chart_data.get_times_data("batteries.parquet")
+    df_cap["CapacityGW"] = df_cap["Value"]
+
+    flow_grain = [
+        "Scenario",
+        "TechnologyGroup",
+        "Technology",
+        "Region",
+        "Period",
+        "Variable",
+        "TimeSlice",
+    ]
+
+    flow_agg = df_flow.groupby(flow_grain)["Value"].sum().reset_index()
+    flow_agg = flow_agg.rename(columns={"Value": "FlowPJ"})
+
+    for c in df_cap.columns:
+        print(c)
+
+    cap_grain = [
+        "Scenario",
+        "TechnologyGroup",
+        "Technology",
+        "Region",
+        "Period",
+    ]
+
+    cap_agg = df_cap.groupby(cap_grain)["Value"].sum().reset_index()
+    cap_agg = cap_agg.rename(columns={"Value": "CapacityGW"})
+
+    df = pd.merge(flow_agg, cap_agg, how="left", on=cap_grain)
+
+    # add year fractions
+    yrfr = pd.read_csv(PREP_STAGE_2 / "settings/load_curves/yrfr.csv")
+
+    df = pd.merge(df, yrfr, on="TimeSlice", how="left")
+    # hours not strictly necessary but sometimes helpful
+    df["Hours"] = df["YRFR"] * 24 * 365
+    # max output two watys
+
+    df["MaxFlowPJ"] = df["CapacityGW"] * df["YRFR"] * CAP2ACT
+
+    df["ActivityShare"] = df["FlowPJ"] / df["MaxFlowPJ"]
+
+    print(flow_agg)
+    print(cap_agg)
+
+    print(df)
+
+
 def main():
     """Write all electricity generation charts."""
 
-    create_generation_line_chart()
-    create_generation_mix_chart()
-    create_thermal_generation_charts()
-    create_battery_flows_chart()
+    # create_generation_line_chart()
+    # create_generation_mix_chart()
+    # create_thermal_generation_charts()
+    create_battery_flows_chart(group_by_col="Technology")
+
+    test_battery_afs()
 
 
 if __name__ == "__main__":

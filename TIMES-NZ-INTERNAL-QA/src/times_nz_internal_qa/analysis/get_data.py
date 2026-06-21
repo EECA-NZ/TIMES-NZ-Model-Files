@@ -20,7 +20,7 @@ from times_nz_internal_qa.utilities.filepaths import (
 
 # Scenario display names ------------------------------------------------------
 
-SCENARIO_MAP = {"steady-v307": "Steady", "shift-v307": "Shift"}
+SCENARIO_MAP = {"steady-v308": "Steady", "shift-v308": "Shift"}
 
 
 # Renewable fuel classifications ----------------------------------------------
