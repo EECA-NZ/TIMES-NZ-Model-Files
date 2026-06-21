@@ -61,6 +61,12 @@ SheetName = "ELC_Batteries"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_parameters.csv"
 
+[BatteryActivity]
+Description = "Defines capacity (via activity limits) for batteries"
+SheetName = "ELC_Batteries"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_activity.csv"
+
 [BatteryCostCurves]
 Description = "Adds cost curves to battery technologies"
 SheetName = "ELC_Batteries"
