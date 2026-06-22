@@ -1,6 +1,11 @@
 
 # Changelog
 
+## 3.0.8
+
+**Model fixes**
+- Resolved an issue with battery storage settings.
+
 
 ## 3.0.7
 
