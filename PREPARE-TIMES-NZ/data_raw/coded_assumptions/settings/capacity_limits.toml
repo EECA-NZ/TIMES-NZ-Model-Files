@@ -176,3 +176,15 @@ GrowthLimit = 0.5
 PSet_PN = "REF_ANDGST"
 
 
+[CapLimitDistributedBESS]
+Description = "Distributed Batteries"
+GrowthLimit = 0.1
+SeedValue = 0.05
+PSet_PN = "ELC_BAT_DIST"
+
+[CapLimitGridBESS]
+Description = "Grid Batteries"
+GrowthLimit = 0.1
+SeedValue = 0.5
+PSet_PN = "ELC_BAT_*H"
+
