@@ -26,14 +26,14 @@ Tcap = ["PJa","PJa"]
 Description = "Defines parameters for residential ripple control (50%)"
 SheetName = "Residential"
 TagName = "FI_T"
-TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX"]
-Comm-Out = ["JD-WH_LOW", "DD-WH_LOW"]
-Attribute = ["STG_SIFT", "STG_SIFT"]
-2023 = [0.5,0.5] # can shift 50% of load
-2050 = [0.5,0.5] # can shift 50% of load
-STG_EFF = [0.99, 0.99] # 1% heatloss
+TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX","JD-S_HEAT-FLEX", "DD-S_HEAT-FLEX"]
+Comm-In = ["JD-WH_LOW", "DD-WH_LOW","JD-S_HEAT", "DD-S_HEAT"]
+Comm-Out = ["JD-WH_LOW", "DD-WH_LOW","JD-S_HEAT", "DD-S_HEAT"]
+INVCOST = ["","","250","250"]
+Attribute = ["STG_SIFT", "STG_SIFT","STG_SIFT", "STG_SIFT"]
+2023 = [0.5,0.5,0.5,0.5] # can shift 50% of load
+STG_EFF = [0.99, 0.99, 0.9,0.9] # 1% heatloss for water, 10 for hp controller
 START = [2024, 2024]
-
 
 
 
@@ -50,16 +50,18 @@ Tact = ["PJ", "PJ"]
 Tcap = ["PJa","PJa"]
 
 [ResidentialFlexParameters90]
-Description = "Defines parameters for residential ripple control (scaling to 90%)"
+Description = "Defines parameters for residential demand flex shifts"
 WorkBookName = "SubRES_TMPL/SubRES_DemandFlex_Shift"
 SheetName = "Residential"
 TagName = "FI_T"
-TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX"]
-Comm-Out = ["JD-WH_LOW", "DD-WH_LOW"]
-Attribute = ["STG_SIFT", "STG_SIFT"]
-2023 = [0.5,0.5] # can shift 50% of load
-2050 = [0.9,0.9] # scales to 90% by 2050
-STG_EFF = [0.99, 0.99] # 1% heatloss
+TechName = ["JD-WH_LOW-FLEX", "DD-WH_LOW-FLEX","JD-S_HEAT-FLEX", "DD-S_HEAT-FLEX"]
+Comm-In = ["JD-WH_LOW", "DD-WH_LOW","JD-S_HEAT", "DD-S_HEAT"]
+Comm-Out = ["JD-WH_LOW", "DD-WH_LOW","JD-S_HEAT", "DD-S_HEAT"]
+INVCOST = ["","","250","250"]
+Attribute = ["STG_SIFT", "STG_SIFT","STG_SIFT", "STG_SIFT"]
+2023 = [0.5,0.5,0.5,0.5] # can shift 50% of load
+2050 = [0.9,0.9,0.9,0.9] # scales to 90% by 2050
+STG_EFF = [0.99, 0.99, 0.9,0.9] # 1% heatloss for water, 10 for hp controller
 START = [2024, 2024]
 
 
