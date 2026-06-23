@@ -86,6 +86,21 @@ def create_thermal_generation_charts():
     print("Hello please write me ")
 
 
+def create_battery_capacity_chart(group_by_col="Technology"):
+    """Create battery capacity comparison chart."""
+
+    df = chart_data.get_battery_capacity(groupby_cols=group_by_col)
+    df = standardise_chart_data(df)
+
+    p = create_scenario_facet_chart(
+        df,
+        chart_title="Battery capacity",
+        group_var=group_by_col,
+    )
+    save_chart(p, "battery_capacity.png")
+    return p
+
+
 def create_battery_flows(group_by_col="Technology"):
     """Battery charge and discharge flows by readable timeslice."""
 
@@ -302,9 +317,8 @@ def main():
     # create_generation_line_chart()
     # create_generation_mix_chart()
     # create_thermal_generation_charts()
+    create_battery_capacity_chart(group_by_col="Technology")
     create_battery_flows_chart(group_by_col="Technology")
-
-    test_battery_afs()
 
 
 if __name__ == "__main__":
