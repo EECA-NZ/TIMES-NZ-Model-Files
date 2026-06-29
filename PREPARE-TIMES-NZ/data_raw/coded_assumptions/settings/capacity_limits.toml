@@ -37,18 +37,23 @@ PSet_PN = "RES*HPSH-S_HEAT"
 
 [CapLimitResLPGHeating]
 Description = "Residential LPG heaters"
-GrowthLimit = 0.02
+GrowthLimit = 0.03
 PSet_PN = "RES*LPG-BURNR-S_HEAT"
 
 [CapLimitResGasHeating]
 Description = "Residential gas heaters"
-GrowthLimit = 0.02
+GrowthLimit = 0.03
 PSet_PN = "RES*NGA-BURNR-S_HEAT"
 
 [CapLimitResLPGHotwater]
 Description = "Residential LPG water heating"
-GrowthLimit = 0.02
+GrowthLimit = 0.03
 PSet_PN = "RES*LPG*WH_LOW"
+
+[CapLimitResLPGCooking]
+Description = "Residential LPG cooking"
+GrowthLimit = 0.03
+PSet_PN = "RES*LPG*COOK-CH_INT"
 
 [CapLimitResGasHotwater]
 Description = "Residential gas water heating"
