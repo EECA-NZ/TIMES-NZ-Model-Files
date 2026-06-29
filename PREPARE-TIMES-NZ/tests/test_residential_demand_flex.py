@@ -16,6 +16,13 @@ def test_get_intermediate_commodity_name_uses_region_and_tech_detail():
     assert get_intermediate_commodity_name(tech_name) == "DD-HWATER_C-WH_LOW"
 
 
+def test_get_intermediate_commodity_name_handles_space_heating_heat_pumps():
+    """Residential heat pump space heating should route through HPSH detail."""
+    tech_name = "RES-JD-ELC-HPSH-S_HEAT"
+
+    assert get_intermediate_commodity_name(tech_name) == "JD-HPSH-S_HEAT"
+
+
 def test_demand_flex_topology_keeps_final_demand_on_original_commodity():
     """Flexible demand topology should not move final demand to intermediates."""
     df = pd.DataFrame(
