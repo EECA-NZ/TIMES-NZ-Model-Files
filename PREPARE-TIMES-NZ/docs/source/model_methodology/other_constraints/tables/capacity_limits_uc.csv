@@ -2,9 +2,10 @@
 Residential LED lighting,3%,,RES\*LED-LIGHT
 Residential fluorescent lighting,3%,,RES\*FLUOR-LIGHT
 Residential heatpumps,3%,,RES\*HPSH-S_HEAT
-Residential LPG heaters,2%,,RES\*LPG-BURNR-S_HEAT
-Residential gas heaters,2%,,RES\*NGA-BURNR-S_HEAT
-Residential LPG water heating,2%,,RES\*LPG\*WH_LOW
+Residential LPG heaters,3%,,RES\*LPG-BURNR-S_HEAT
+Residential gas heaters,3%,,RES\*NGA-BURNR-S_HEAT
+Residential LPG water heating,3%,,RES\*LPG\*WH_LOW
+Residential LPG cooking,3%,,RES\*LPG\*COOK-CH_INT
 Residential gas water heating,2%,,RES\*NGA\*WH_LOW
 Dairy low-heat heatpumps for process heat,2%,50MW,DARY-ELC-HPPH-PH_LOW
 Meat processing low-heat heatpumps for process heat,2%,3MW,MEAT-ELC-HPPH-PH_LOW
