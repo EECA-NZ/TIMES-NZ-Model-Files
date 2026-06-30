@@ -48,10 +48,9 @@ def create_commercial_demand_chart():
 
     com_df = chart_data.get_fuel_use_by_island_and_sector(sector_group="Commercial")
 
-    fuels = com_df["Fuel"].unique()
-
-    for fuel in fuels:
-        print(fuel)
+    # fuels = com_df["Fuel"].unique()s
+    # for fuel in fuels:
+    # print(fuel)
 
     com_fuel_aggregation = {
         "Coal": "Other",
@@ -88,10 +87,9 @@ def create_industrial_demand_chart():
         sector_group="Industry",
     )
 
-    fuels = ind_df["Fuel"].unique()
-
-    for fuel in fuels:
-        print(fuel)
+    # fuels = ind_df["Fuel"].unique()
+    # for fuel in fuels:
+    #     print(fuel)
 
     ind_fuel_aggregation = {
         "Coal": "Other",

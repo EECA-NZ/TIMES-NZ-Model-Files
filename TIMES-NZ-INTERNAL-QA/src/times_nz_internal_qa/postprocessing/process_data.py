@@ -935,6 +935,23 @@ def process_technology_capacity(df):
     save_data(technology_capacity_df, "technology_capacity.csv")
 
 
+def process_objective_functions(df):
+    """
+    Simple output of objective function - single value per scenario
+    Unit is NZDm
+    """
+
+    #     df_objz = df[df["Attribute"]] == "OBJZ"
+
+    attys = df["Attribute"].unique()
+    for a in attys:
+        print(a)
+
+    print(df)
+
+    # print(df_objz)
+
+
 def check_df(df):
     """scratch function"""
 
@@ -974,6 +991,7 @@ def main():
     process_technology_capacity(df)
 
     get_esd_by_timeslice()
+    process_objective_functions(df)
 
 
 if __name__ == "__main__":
