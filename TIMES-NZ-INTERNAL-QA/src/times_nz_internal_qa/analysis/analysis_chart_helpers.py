@@ -18,6 +18,7 @@ import warnings
 import pandas as pd
 from plotnine import *
 from plotnine.exceptions import PlotnineWarning
+from times_nz_internal_qa.utilities.filepaths import PREP_STAGE_2
 
 # CONSTANTS - colour settings
 
@@ -59,6 +60,9 @@ SCENARIO_ORDER = [
 ]
 
 PREFERRED_ISLAND_ORDER = ["North Island", "South Island"]
+
+PJ_TO_GWH = 277.77777778
+HOURS_PER_YEAR = 8760
 
 
 # HELPER FUNCTIONS
@@ -102,10 +106,54 @@ def adaptive_tick_labels(values):
     else:
         decimals = 4
 
+    if decimals == 0:
+        return ["" if pd.isna(value) else f"{value:,.0f}" for value in values]
+
     return [
         "" if pd.isna(value) else f"{value:,.{decimals}f}".rstrip("0").rstrip(".")
         for value in values
     ]
+
+
+def normalise_flow_chart_type(chart_type):
+    """Return the canonical flow chart unit option."""
+
+    chart_type = str(chart_type).strip().casefold()
+    chart_types = {
+        "gw": "GW",
+        "gwh": "GWh",
+    }
+
+    if chart_type not in chart_types:
+        raise ValueError("chart_type must be either 'GW' or 'GWh'")
+
+    return chart_types[chart_type]
+
+
+def convert_timeslice_flow_units(df, chart_type="GW"):
+    """Convert PJ timeslice flow values to average GW or timeslice GWh."""
+
+    chart_type = normalise_flow_chart_type(chart_type)
+    df = df.copy()
+
+    if chart_type == "GWh":
+        df["Value"] = df["Value"] * PJ_TO_GWH
+        df["Unit"] = "GWh"
+        return df, chart_type
+
+    yrfr = pd.read_csv(PREP_STAGE_2 / "settings/load_curves/yrfr.csv")
+    df = df.merge(yrfr, on="TimeSlice", how="left")
+
+    if df["YRFR"].isna().any():
+        missing_timeslices = sorted(df.loc[df["YRFR"].isna(), "TimeSlice"].unique())
+        raise ValueError(
+            "Missing year fraction values for timeslices: "
+            + ", ".join(missing_timeslices)
+        )
+
+    df["Value"] = df["Value"] * PJ_TO_GWH / (df["YRFR"] * HOURS_PER_YEAR)
+    df["Unit"] = "GW"
+    return df.drop(columns=["YRFR"]), chart_type
 
 
 def save_chart(p, filename, height=4, width=6):

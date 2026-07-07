@@ -9,6 +9,7 @@ from plotnine import *
 from times_nz_internal_qa.analysis.analysis_chart_helpers import (
     adaptive_tick_labels,
     chart_cols,
+    convert_timeslice_flow_units,
     create_scenario_facet_chart,
     create_scenario_line_chart,
     eeca_colours,
@@ -110,7 +111,7 @@ def create_battery_flows(group_by_col="Technology"):
     return df
 
 
-def _complete_battery_flow_timeslices(df, year, group_by_col="Technology"):
+def _complete_battery_flow_timeslices(df, year, group_by_col="Technology", unit="GW"):
     """Add zero rows so every flow/group has every model timeslice."""
 
     timeslices = [timeslice for timeslice in TIMESLICE_ORDER if timeslice != "ANNUAL"]
@@ -129,7 +130,7 @@ def _complete_battery_flow_timeslices(df, year, group_by_col="Technology"):
         how="left",
     )
     chart_df["Value"] = chart_df["Value"].fillna(0)
-    chart_df["Unit"] = "GWh"
+    chart_df["Unit"] = unit
     return add_timeslice_chart_columns(chart_df)
 
 
@@ -172,7 +173,9 @@ def _get_battery_flow_axis_labels(chart_df):
     return x_labels, season_starts
 
 
-def create_battery_flows_chart(df=None, year=2050, group_by_col="Technology"):
+def create_battery_flows_chart(
+    df=None, year=2050, group_by_col="Technology", chart_type="GW"
+):
     """Create battery charge/discharge chart for a single model year."""
 
     if df is None:
@@ -188,11 +191,10 @@ def create_battery_flows_chart(df=None, year=2050, group_by_col="Technology"):
 
     charge_mask = chart_df["Variable"].eq("Battery charging")
     chart_df.loc[charge_mask, "Value"] = -chart_df.loc[charge_mask, "Value"]
-    chart_df["Value"] = chart_df["Value"] * 277.77777778
-    chart_df["Unit"] = "GWh"
+    chart_df, chart_type = convert_timeslice_flow_units(chart_df, chart_type=chart_type)
 
     chart_df = _complete_battery_flow_timeslices(
-        chart_df, year, group_by_col=group_by_col
+        chart_df, year, group_by_col=group_by_col, unit=chart_type
     )
     chart_df["TimeSlice"] = chart_df["TimeSlice"].astype(str)
     chart_df["TimeSliceOrder"] = chart_df["TimeSlice"].map(TIMESLICE_ORDER.index) - 1
@@ -216,7 +218,7 @@ def create_battery_flows_chart(df=None, year=2050, group_by_col="Technology"):
         + labs(
             title=f"Battery charging and discharging by timeslice, {year}",
             x="",
-            y="GWh",
+            y=chart_type,
             fill=group_by_col,
         )
         + scale_x_continuous(
@@ -235,7 +237,9 @@ def create_battery_flows_chart(df=None, year=2050, group_by_col="Technology"):
         )
     )
 
-    save_chart(p, f"battery_flows_{year}.png", height=7.5, width=14)
+    save_chart(
+        p, f"battery_flows_{chart_type.lower()}_{year}.png", height=7.5, width=14
+    )
     return p
 
 
@@ -304,12 +308,13 @@ def test_battery_afs():
 def main():
     """Write all electricity generation charts."""
 
-    # create_generation_line_chart()
-    # create_generation_mix_chart()
-    # create_thermal_generation_charts()
+    create_generation_line_chart()
+    create_generation_mix_chart()
     create_battery_capacity_chart(group_by_col="Technology")
-    create_battery_flows_chart(group_by_col="Region", year=2035)
-    create_battery_flows_chart(group_by_col="Region", year=2050)
+    create_battery_flows_chart(group_by_col="Technology", year=2035)
+    create_battery_flows_chart(group_by_col="Technology", year=2050)
+    create_battery_flows_chart(group_by_col="Technology", year=2035, chart_type="GWh")
+    create_battery_flows_chart(group_by_col="Technology", year=2050, chart_type="GWh")
 
 
 if __name__ == "__main__":

@@ -20,7 +20,8 @@ from times_nz_internal_qa.utilities.filepaths import (
 
 # Scenario display names ------------------------------------------------------
 
-SCENARIO_MAP = {"steady-v308": "Steady", "shift-v308": "Shift"}
+STANDARD_SCENARIO_MAP = {"steady-v308": "Steady", "shift-v308": "Shift"}
+SCENARIO_MAP = STANDARD_SCENARIO_MAP
 
 
 # Renewable fuel classifications ----------------------------------------------
@@ -61,12 +62,14 @@ def get_other_model_emissions():
 # Final TIMES output loading --------------------------------------------------
 
 
-def get_times_data(filename):
-    """Read a final TIMES parquet file and map scenario codes to display names."""
+def get_times_data(filename, scenario_map=STANDARD_SCENARIO_MAP):
+    """Read final TIMES parquet data and map selected scenario codes to names."""
 
     # read parquet
     df = pd.read_parquet(FINAL_DATA / filename)
-    df["Scenario"] = df["Scenario"].map(SCENARIO_MAP)
+    if scenario_map is not None:
+        df = df[df["Scenario"].isin(scenario_map)].copy()
+        df["Scenario"] = df["Scenario"].map(scenario_map)
     return df
 
 
@@ -89,11 +92,11 @@ def apply_filter_list(df, column, values):
     return df[df[column].isin(values)]
 
 
-def normalise_scenario_filter(scenarios):
+def normalise_scenario_filter(scenarios, scenario_map=STANDARD_SCENARIO_MAP):
     """Allow scenario filters to use either raw scenario codes or display names."""
 
     scenarios = as_filter_list(scenarios)
-    return [SCENARIO_MAP.get(scenario, scenario) for scenario in scenarios]
+    return [scenario_map.get(scenario, scenario) for scenario in scenarios]
 
 
 # Main analysis datasets ------------------------------------------------------

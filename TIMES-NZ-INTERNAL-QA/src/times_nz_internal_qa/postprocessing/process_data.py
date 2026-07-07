@@ -266,6 +266,51 @@ def process_batteries(df):
     save_data(df, "batteries.csv")
 
 
+def process_demand_flex_flows(df):
+    """Create demand-flex input/output flows in the battery_flows output shape."""
+
+    demand_flex_processes = pd.read_csv(
+        CONCORDANCE_PATCHES / "demand_flex/demand_flex.csv"
+    )
+    demand_flex_processes = demand_flex_processes.rename(
+        columns={"TechName": "Process", "Description": "Technology"}
+    )
+    demand_flex_processes["TechnologyGroup"] = "Demand flex"
+
+    df = df[df["Process"].isin(demand_flex_processes["Process"])]
+    df = df[df["Attribute"].isin(["VAR_FIn", "VAR_FOut"])]
+
+    df = df.merge(demand_flex_processes, on="Process", how="left")
+    df = df.rename(columns={"PV": "Value"})
+
+    df.loc[df["Attribute"] == "VAR_FIn", "Variable"] = "Demand flex input"
+    df.loc[df["Attribute"] == "VAR_FOut", "Variable"] = "Demand flex output"
+    df["CommodityGroup"] = "Demand flex intermediate"
+    df["Fuel"] = "Demand flex"
+    df["Unit"] = "PJ"
+
+    demand_flex_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "Process",
+        "TechnologyGroup",
+        "Technology",
+        "CommodityGroup",
+        "Commodity",
+        "Fuel",
+        "Region",
+        "Period",
+        "TimeSlice",
+        "Vintage",
+        "Unit",
+        "Value",
+    ]
+
+    df = df[demand_flex_variables]
+    save_data(df, "demand_flex_flows.csv")
+
+
 def process_electricity_demand_by_timeslice(df):
     """
     Load full scenario data for `scenario_name`
@@ -642,6 +687,99 @@ def process_emissions(df):
     save_data(df_emissions, "emissions.csv")
 
 
+def process_carbon_costs(df):
+    """
+    Carbon price, emissions, and cost outputs from total CO2 model results.
+
+    Note: implied carbon prices should match those in the carbon price
+    assumptions file for each scenario. This function does not read that file or
+    perform that test, because scenario-specific price mapping belongs outside
+    this generic post-processing step.
+    """
+
+    emissions = df[
+        (df["Commodity"] == "TOTCO2") & (df["Attribute"] == "VAR_FOut")
+    ].copy()
+    emissions = (
+        emissions.groupby(
+            ["Scenario", "Period", "Region", "Commodity"], as_index=False
+        )["PV"]
+        .sum()
+        .rename(columns={"PV": "Emissions_ktCO2"})
+    )
+
+    costs = df[
+        (df["Commodity"] == "TOTCO2") & (df["Attribute"] == "Cost_Comx")
+    ].copy()
+    if costs.empty:
+        costs = emissions[["Scenario", "Period", "Region", "Commodity"]].copy()
+        costs["CarbonCost_MioNZD"] = 0
+    else:
+        costs = (
+            costs.groupby(
+                ["Scenario", "Period", "Region", "Commodity"], as_index=False
+            )["PV"]
+            .sum()
+            .rename(columns={"PV": "CarbonCost_MioNZD"})
+        )
+
+    carbon_df = emissions.merge(
+        costs,
+        on=["Scenario", "Period", "Region", "Commodity"],
+        how="left",
+    )
+    carbon_df["CarbonCost_MioNZD"] = carbon_df["CarbonCost_MioNZD"].fillna(0)
+
+    nonzero_cost_zero_emissions = (
+        carbon_df["Emissions_ktCO2"].eq(0) & carbon_df["CarbonCost_MioNZD"].ne(0)
+    )
+    if nonzero_cost_zero_emissions.any():
+        invalid_rows = carbon_df.loc[
+            nonzero_cost_zero_emissions, ["Scenario", "Period", "Region"]
+        ]
+        raise ValueError(
+            "Cannot calculate implied carbon price where emissions are zero and "
+            f"carbon cost is non-zero:\n{invalid_rows.to_string(index=False)}"
+        )
+
+    carbon_df["ImpliedCarbonPrice_NZD_per_tCO2"] = np.where(
+        carbon_df["Emissions_ktCO2"].ne(0),
+        carbon_df["CarbonCost_MioNZD"] / carbon_df["Emissions_ktCO2"] * 1000,
+        0,
+    )
+
+    value_columns = {
+        "Emissions_ktCO2": ("Total CO2 emissions", "kt CO2"),
+        "CarbonCost_MioNZD": ("Carbon cost", "Mio NZD"),
+        "ImpliedCarbonPrice_NZD_per_tCO2": ("Carbon price", "NZD/t CO2"),
+    }
+    carbon_costs = carbon_df.melt(
+        id_vars=["Scenario", "Period", "Region", "Commodity"],
+        value_vars=list(value_columns),
+        var_name="VariableCode",
+        value_name="Value",
+    )
+    carbon_costs["Variable"] = carbon_costs["VariableCode"].map(
+        {code: label for code, (label, _unit) in value_columns.items()}
+    )
+    carbon_costs["Unit"] = carbon_costs["VariableCode"].map(
+        {code: unit for code, (_label, unit) in value_columns.items()}
+    )
+    carbon_costs = carbon_costs[
+        [
+            "Scenario",
+            "Period",
+            "Region",
+            "Commodity",
+            "Variable",
+            "Unit",
+            "Value",
+        ]
+    ].sort_values(["Scenario", "Period", "Region", "Variable"])
+
+    save_data(carbon_costs, "carbon_costs.parquet")
+
+
 def process_transport_energy_demand(df):
     """
     Road transport sector-specific energy demand processing with utilization breakdown.
@@ -938,18 +1076,41 @@ def process_technology_capacity(df):
 def process_objective_functions(df):
     """
     Simple output of objective function - single value per scenario
-    Unit is NZDm
+    Unit is NZDb
     """
 
-    #     df_objz = df[df["Attribute"]] == "OBJZ"
+    objective_df = df[df["Attribute"] == "ObjZ"].copy()
 
-    attys = df["Attribute"].unique()
-    for a in attys:
-        print(a)
+    objective_counts = objective_df.groupby("Scenario").size()
+    duplicate_scenarios = objective_counts[objective_counts > 1]
+    if not duplicate_scenarios.empty:
+        scenarios = ", ".join(duplicate_scenarios.index.astype(str))
+        raise ValueError(
+            f"Expected one objective function value per scenario: {scenarios}"
+        )
 
-    print(df)
+    missing_scenarios = sorted(set(current_scenarios) - set(objective_df["Scenario"]))
+    if missing_scenarios:
+        scenarios = ", ".join(missing_scenarios)
+        raise ValueError(
+            f"Missing objective function value for scenario(s): {scenarios}"
+        )
 
-    # print(df_objz)
+    objective_df = objective_df.rename(columns={"PV": "Value"})
+    objective_df["Value"] = objective_df["Value"] / 1e3
+    objective_df["Variable"] = "Objective Function"
+    objective_df["Unit"] = "NZDb"
+
+    objective_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "Unit",
+        "Value",
+    ]
+    objective_df = objective_df[objective_variables].sort_values("Scenario")
+
+    save_data(objective_df, "objective_function.parquet")
 
 
 def check_df(df):
@@ -972,8 +1133,11 @@ def main():
     print("Processing all scenario files...")
     df = load_scenario_results(current_scenarios)
 
+    process_objective_functions(df)
+
     df = df[(df["Period"] <= MAX_YEAR).fillna(False)]
 
+    process_carbon_costs(df)
     process_primary_energy(df)
     process_energy_service_demand(df)
     process_energy_demand(df)
@@ -984,6 +1148,7 @@ def main():
     process_electricity_demand_by_timeslice(df)
 
     process_batteries(df)
+    process_demand_flex_flows(df)
 
     process_transport_energy_demand(df)
     process_transport_energy_service_demand(df)
@@ -991,7 +1156,6 @@ def main():
     process_technology_capacity(df)
 
     get_esd_by_timeslice()
-    process_objective_functions(df)
 
 
 if __name__ == "__main__":

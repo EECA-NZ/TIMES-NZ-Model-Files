@@ -1,11 +1,14 @@
 """Tests for residential demand flexibility topology helpers."""
 
 import pandas as pd
+import pytest
 from prepare_times_nz.stage_4.baseyear.residential import (
     add_demand_flex_intermediate_outputs,
     get_commodity_demand,
     get_demand_flex_topology,
     get_intermediate_commodity_name,
+    get_model_switch,
+    parse_switch_value,
 )
 
 
@@ -51,3 +54,29 @@ def test_demand_flex_topology_keeps_final_demand_on_original_commodity():
     ]
     assert set(rewritten["Comm-OUT"]) == {"DD-HWATER_C-WH_LOW", "DD-WH_LOW"}
     assert "DD-HWATER_C-WH_LOW" not in set(demand["CommName"])
+
+
+def test_get_model_switch_reads_enabled_value(tmp_path):
+    """User switch CSV should control residential demand-flex intermediates."""
+    switch_file = tmp_path / "model_switches.csv"
+    switch_file.write_text(
+        "Switch,Enabled\nResidentialDemandFlexIntermediates,false\n",
+        encoding="utf-8",
+    )
+
+    assert not get_model_switch(
+        "ResidentialDemandFlexIntermediates", filepath=switch_file
+    )
+
+
+def test_get_model_switch_uses_default_for_missing_file(tmp_path):
+    """Missing switch files should preserve the current enabled behaviour."""
+    assert get_model_switch(
+        "ResidentialDemandFlexIntermediates", filepath=tmp_path / "missing.csv"
+    )
+
+
+def test_parse_switch_value_rejects_unclear_values():
+    """Switch values should fail loudly if they are ambiguous."""
+    with pytest.raises(ValueError):
+        parse_switch_value("maybe")

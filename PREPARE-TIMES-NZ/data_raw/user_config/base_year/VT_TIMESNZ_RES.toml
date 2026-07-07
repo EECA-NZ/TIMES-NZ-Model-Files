@@ -49,7 +49,7 @@ SheetName = "Residential demand"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/intermediate_process_parameters.csv"
 
-[ResidentialDemand2]
+[ResidentialServiceDemandTotals]
 Description = "Residential total commodity demand (met by activity bound per process)"
 SheetName = "Residential demand"
 TagName = "FI_T: Demand"
@@ -97,4 +97,3 @@ RESLPG = 60.43
 RESPET = 68.79
 RESDSL = 69.69
 RESWOD = 4 # rough estimate - need to update with better residential wood calorific value assumptions!
-
