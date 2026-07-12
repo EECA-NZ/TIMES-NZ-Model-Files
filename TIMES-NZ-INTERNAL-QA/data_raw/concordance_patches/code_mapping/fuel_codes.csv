@@ -1,30 +1,30 @@
-CommodityCode,Commodity
-AGRWST,Agricultural waste
-ANMMNR,Animal manure
-MNCWST,Municipal waste
-OSWOD,Wood residuals (onsite)
-INDOSDWOD,Wood residuals (onsite industrial)
-WODWST,Wood waste
-BDSL,Biodiesel
-COA,Coal
-DID,Drop-in Diesel
-DIJ,Drop-in Jet fuel
-DSL,Diesel
-ELC,Electricity
-FOL,Fuel oil
-H2R,Hydrogen
-JET,Jet fuel
-LNG,LNG
-LPG,LPG
-NGA,Natural gas
-PET,Petrol
-BIG,Biogas
-BIM,Biomethane
-WOD,Wood
-PLT,Wood Pellet
-GEO,Geothermal
-HYD,Hydro
-WIN,Wind
-SOL,Solar
-BPLT,Black Pellet
-BIL,Bioethanol
+CommodityCode,Commodity,Renewable
+AGRWST,Agricultural waste,Renewable
+ANMMNR,Animal manure,Renewable
+MNCWST,Municipal waste,Renewable
+OSWOD,Wood residuals (onsite),Renewable
+INDOSDWOD,Wood residuals (onsite industrial),Renewable
+WODWST,Wood waste,Renewable
+BDSL,Biodiesel,Renewable
+COA,Coal,Non-renewable
+DID,Drop-in Diesel,Renewable
+DIJ,Drop-in Jet fuel,Renewable
+DSL,Diesel,Non-renewable
+ELC,Electricity,Electricity
+FOL,Fuel oil,Non-renewable
+H2R,Hydrogen,Renewable
+JET,Jet fuel,Non-renewable
+LNG,LNG,Non-renewable
+LPG,LPG,Non-renewable
+NGA,Natural gas,Non-renewable
+PET,Petrol,Non-renewable
+BIG,Biogas,Renewable
+BIM,Biomethane,Renewable
+WOD,Wood,Renewable
+PLT,Wood Pellet,Renewable
+GEO,Geothermal,Renewable
+HYD,Hydro,Renewable
+WIN,Wind,Renewable
+SOL,Solar,Renewable
+BPLT,Black Pellet,Renewable
+BIL,Bioethanol,Renewable

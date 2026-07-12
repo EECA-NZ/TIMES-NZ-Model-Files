@@ -14,11 +14,12 @@ categories to be aggregated slightly.
 
 import re
 import warnings
+from pathlib import Path
 
 import pandas as pd
 from plotnine import *
 from plotnine.exceptions import PlotnineWarning
-from times_nz_internal_qa.utilities.filepaths import PREP_STAGE_2
+from times_nz_internal_qa.utilities.filepaths import ANALYSIS_RESULTS, PREP_STAGE_2
 
 # CONSTANTS - colour settings
 
@@ -165,6 +166,9 @@ def save_chart(p, filename, height=4, width=6):
     necessary.
     """
 
+    output_file = ANALYSIS_RESULTS / "charts" / Path(filename)
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+
     with warnings.catch_warnings():
         warnings.filterwarnings(
             "ignore",
@@ -177,12 +181,32 @@ def save_chart(p, filename, height=4, width=6):
             category=PlotnineWarning,
         )
         p.save(
-            f"analysis/{filename}",
+            output_file,
             dpi=300,
             height=height,
             width=width,
             limitsize=False,
         )
+
+
+def save_chart_data(df, filename):
+    """
+    Save chart data under the analysis results data_for_charts directory.
+    """
+
+    output_file = ANALYSIS_RESULTS / "data_for_charts" / Path(filename)
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(output_file, index=False)
+
+
+def save_chart_and_data(df, p, filename, height=4, width=6):
+    """
+    Save a chart as PNG and its summarised data as CSV using the same filename.
+    """
+
+    filename = Path(filename)
+    save_chart(p, filename.with_suffix(".png"), height=height, width=width)
+    save_chart_data(df, filename.with_suffix(".csv"))
 
 
 # HELPER FUNCTIONS - SORTING
@@ -435,7 +459,7 @@ def create_scenario_line_chart(df, chart_title, yaxis_0=True):
         label_data["label_y"] = label_data["label_y"] + bottom_overrun
 
     label_padding = y_range * 0.12 if y_range else 1
-    y_upper = label_data["label_y"].max() + label_padding
+    y_upper = max(max_y, label_data["label_y"].max()) + label_padding
 
     label_data["Label"] = (
         label_data["Scenario"].astype(str)

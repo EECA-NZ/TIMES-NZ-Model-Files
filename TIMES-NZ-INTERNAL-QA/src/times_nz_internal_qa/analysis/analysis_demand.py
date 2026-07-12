@@ -2,9 +2,10 @@
 
 import times_nz_internal_qa.analysis.get_data as chart_data
 from times_nz_internal_qa.analysis.analysis_chart_helpers import (
+    PJ_TO_GWH,
     create_scenario_facet_chart,
     make_filename,
-    save_chart,
+    save_chart_and_data,
     standardise_chart_data,
 )
 
@@ -38,7 +39,7 @@ def create_residential_demand_chart():
 
     p = create_scenario_facet_chart(res_df, "Residential demand", group_var="Fuel")
 
-    save_chart(p, "residential_demand.png")
+    save_chart_and_data(res_df, p, "residential_demand.png")
 
 
 def create_commercial_demand_chart():
@@ -75,7 +76,7 @@ def create_commercial_demand_chart():
         com_df, group_var="Fuel", chart_title="Commercial demand "
     )
 
-    save_chart(p, "commercial_demand.png")
+    save_chart_and_data(com_df, p, "commercial_demand.png")
 
 
 def create_industrial_demand_chart():
@@ -113,7 +114,7 @@ def create_industrial_demand_chart():
         ind_df, group_var="Fuel", chart_title="Industrial demand "
     )
 
-    save_chart(p, "industrial_demand.png")
+    save_chart_and_data(ind_df, p, "industrial_demand.png")
 
 
 def create_industry_sector_demand_chart(subsector_list, name):
@@ -147,7 +148,7 @@ def create_industry_sector_demand_chart(subsector_list, name):
     filename = make_filename(name)
     df = standardise_chart_data(df)
     p = create_scenario_facet_chart(df, group_var="Fuel", chart_title=f"{name} demand")
-    save_chart(p, f"demand_profile_{filename}.png")
+    save_chart_and_data(df, p, f"demand_profile_{filename}.png")
 
 
 def create_industry_use_demand_chart(enduse_list, name):
@@ -181,7 +182,7 @@ def create_industry_use_demand_chart(enduse_list, name):
     filename = make_filename(name)
     df = standardise_chart_data(df)
     p = create_scenario_facet_chart(df, group_var="Fuel", chart_title=f"{name} demand")
-    save_chart(p, f"demand_profile_{filename}.png")
+    save_chart_and_data(df, p, f"demand_profile_{filename}.png")
 
 
 def create_industry_demand_charts():
@@ -202,12 +203,36 @@ def create_industry_demand_charts():
     )
 
 
+def create_electricity_demant_chart():
+    """Create electricity demand area chart by sector group."""
+
+    group_vars = ["Scenario", "Period", "Unit", "SectorGroup"]
+
+    df = chart_data.get_fuel_use_by_island_and_sector()
+    df = df[df["Fuel"] == "Electricity"].copy()
+    df["SectorGroup"] = df["SectorGroup"].replace(
+        {"Agriculture, Forestry, and Fishing": "Industry"}
+    )
+    df = df.groupby(group_vars)["Value"].sum().reset_index()
+    df["Value"] = df["Value"] * PJ_TO_GWH / 1000
+    df["Unit"] = "TWh"
+
+    df = standardise_chart_data(df)
+    p = create_scenario_facet_chart(
+        df,
+        group_var="SectorGroup",
+        chart_title="Electricity demand by sector",
+    )
+    save_chart_and_data(df, p, "electricity_demand_by_sector_group.png")
+
+
 def main():
     """Write all demand charts."""
 
     create_residential_demand_chart()
     create_commercial_demand_chart()
     create_industry_demand_charts()
+    create_electricity_demant_chart()
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 import times_nz_internal_qa.analysis.get_data as chart_data
 from times_nz_internal_qa.analysis.analysis_chart_helpers import (
     create_scenario_facet_chart,
-    save_chart,
+    save_chart_and_data,
     standardise_chart_data,
 )
 
@@ -23,7 +23,7 @@ def create_lng_and_natural_gas_supply_chart():
         group_var="SupplySource",
     )
 
-    save_chart(p, "primary_energy_lng_natural_gas_supply.png")
+    save_chart_and_data(gas_df, p, "primary_energy_lng_natural_gas_supply.png")
 
 
 def main():

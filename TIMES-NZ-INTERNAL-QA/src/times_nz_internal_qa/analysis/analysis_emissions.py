@@ -5,7 +5,7 @@ import times_nz_internal_qa.analysis.get_data as chart_data
 from times_nz_internal_qa.analysis.analysis_chart_helpers import (
     create_scenario_facet_chart,
     create_scenario_line_chart,
-    save_chart,
+    save_chart_and_data,
     standardise_chart_data,
 )
 
@@ -19,15 +19,14 @@ def create_emissions_line(comparison=False):
     emissions_df = standardise_chart_data(emissions_df)
 
     chart_title = "Energy emissions"
-    filename = "emissions_line.png"
+    filename = "emissions_line"
 
     if comparison:
         chart_title = "Energy emissions comparison"
-        filename = "emissions_line_comparison.png"
-        emissions_df = emissions_df[emissions_df["Period"] >= 2025]
+        filename = "emissions_line_comparison"
 
     p = create_scenario_line_chart(emissions_df, chart_title)
-    save_chart(p, filename)
+    save_chart_and_data(emissions_df, p, filename)
 
 
 def create_emissions_breakdown():
@@ -53,14 +52,14 @@ def create_emissions_breakdown():
     emissions_df = standardise_chart_data(emissions_df)
 
     p = create_scenario_facet_chart(emissions_df, "Emissions by sector", "SectorGroup")
-    save_chart(p, "emissions_sector_facet.png")
+    save_chart_and_data(emissions_df, p, "emissions_sector_facet.png")
 
 
 def main():
     """Write all emissions charts."""
 
     create_emissions_line()
-    create_emissions_line(comparison=True)
+    # create_emissions_line(comparison=True)
     create_emissions_breakdown()
 
 

@@ -12,7 +12,7 @@ from times_nz_internal_qa.analysis.analysis_chart_helpers import (
     adaptive_tick_labels,
     chart_cols,
     convert_timeslice_flow_units,
-    save_chart,
+    save_chart_and_data,
     standardise_chart_data,
 )
 from times_nz_internal_qa.app.helpers.timeslices import (
@@ -312,8 +312,12 @@ def create_demand_flex_flows_chart(
         )
     )
 
-    save_chart(
-        p, f"demand_flex_flows_{chart_type.lower()}_{year}.png", height=7.5, width=14
+    save_chart_and_data(
+        chart_df,
+        p,
+        f"demand_flex_flows_{chart_type.lower()}_{year}.png",
+        height=7.5,
+        width=14,
     )
     return p
 

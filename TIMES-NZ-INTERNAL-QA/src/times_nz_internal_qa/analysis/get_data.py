@@ -22,6 +22,7 @@ from times_nz_internal_qa.utilities.filepaths import (
 
 STANDARD_SCENARIO_MAP = {"steady-v308": "Steady", "shift-v308": "Shift"}
 SCENARIO_MAP = STANDARD_SCENARIO_MAP
+_DEFAULT_SCENARIO_MAP = object()
 
 
 # Renewable fuel classifications ----------------------------------------------
@@ -62,8 +63,11 @@ def get_other_model_emissions():
 # Final TIMES output loading --------------------------------------------------
 
 
-def get_times_data(filename, scenario_map=STANDARD_SCENARIO_MAP):
+def get_times_data(filename, scenario_map=_DEFAULT_SCENARIO_MAP):
     """Read final TIMES parquet data and map selected scenario codes to names."""
+
+    if scenario_map is _DEFAULT_SCENARIO_MAP:
+        scenario_map = STANDARD_SCENARIO_MAP
 
     # read parquet
     df = pd.read_parquet(FINAL_DATA / filename)
@@ -92,8 +96,11 @@ def apply_filter_list(df, column, values):
     return df[df[column].isin(values)]
 
 
-def normalise_scenario_filter(scenarios, scenario_map=STANDARD_SCENARIO_MAP):
+def normalise_scenario_filter(scenarios, scenario_map=_DEFAULT_SCENARIO_MAP):
     """Allow scenario filters to use either raw scenario codes or display names."""
+
+    if scenario_map is _DEFAULT_SCENARIO_MAP:
+        scenario_map = STANDARD_SCENARIO_MAP
 
     scenarios = as_filter_list(scenarios)
     return [scenario_map.get(scenario, scenario) for scenario in scenarios]
@@ -234,7 +241,7 @@ def get_emissions(compare_other_models=False):
     df = df.groupby(["Scenario", "Period", "Unit"])["Value"].sum().reset_index()
 
     df["Value"] = df["Value"] / 1000
-    df["Unit"] = "MT CO2e"
+    df["Unit"] = "Mt CO2e"
 
     if compare_other_models:
         # get emissions data
@@ -254,7 +261,7 @@ def get_emissions_by_sector_group():
         .reset_index()
     )
     df["Value"] = df["Value"] / 1000
-    df["Unit"] = "MT CO2e"
+    df["Unit"] = "Mt CO2e"
     return df
 
 

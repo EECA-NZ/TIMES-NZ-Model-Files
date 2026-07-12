@@ -3,7 +3,7 @@
 import times_nz_internal_qa.analysis.get_data as chart_data
 from times_nz_internal_qa.analysis.analysis_chart_helpers import (
     create_scenario_line_chart,
-    save_chart,
+    save_chart_and_data,
 )
 
 
@@ -15,7 +15,7 @@ def create_ren_tfec_chart():
     tfec_df["Unit"] = "%"
 
     p = create_scenario_line_chart(tfec_df, "Renewable share of TFEC")
-    save_chart(p, "indicator_ren_tfec.png")
+    save_chart_and_data(tfec_df, p, "indicator_ren_tfec.png")
 
 
 def create_ren_gen_chart():
@@ -28,7 +28,7 @@ def create_ren_gen_chart():
     p = create_scenario_line_chart(
         ren_elec, "Renewable share of electricity generation", yaxis_0=False
     )
-    save_chart(p, "indicator_ren_gen.png")
+    save_chart_and_data(ren_elec, p, "indicator_ren_gen.png")
 
 
 def main():

@@ -14,13 +14,13 @@ import times_nz_internal_qa.analysis.get_data as chart_data
 os.environ.setdefault("MPLCONFIGDIR", str(Path("/tmp") / "matplotlib"))
 
 # isort is clashing with pylint on what order these should go in, so disable pylint
-# pylint:disable = wildcard-import, unused-wildcard-import, wrong-import-order
+# pylint:disable = wildcard-import, unused-wildcard-import, wrong-import-position, wrong-import-order, duplicate-code
 from plotnine import *
 from times_nz_internal_qa.analysis.analysis_chart_helpers import (
     PJ_TO_GWH,
     adaptive_tick_labels,
     chart_cols_line,
-    save_chart,
+    save_chart_and_data,
     standardise_island_order,
     standardise_scenario_order,
 )
@@ -51,8 +51,11 @@ def ensure_sensitivity_output_dir():
     SENSITIVITY_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def _resolve_scenario_map(scenarios=None, scenario_map=ETS_PRICE_SENSITIVITY_SCENARIOS):
+def _resolve_scenario_map(scenarios=None, scenario_map=None):
     """Return a code/name mapping from a dict, list of codes, or default."""
+
+    if scenario_map is None:
+        scenario_map = ETS_PRICE_SENSITIVITY_SCENARIOS
 
     if scenarios is None:
         return dict(scenario_map)
@@ -66,15 +69,16 @@ def _resolve_scenario_map(scenarios=None, scenario_map=ETS_PRICE_SENSITIVITY_SCE
     }
 
 
-def _sensitivity_scenario_order(scenario_map=ETS_PRICE_SENSITIVITY_SCENARIOS):
+def _sensitivity_scenario_order(scenario_map=None):
     """Return scenario display names in the order defined by the local mapping."""
+
+    if scenario_map is None:
+        scenario_map = ETS_PRICE_SENSITIVITY_SCENARIOS
 
     return list(dict.fromkeys(scenario_map.values()))
 
 
-def _standardise_sensitivity_chart_data(
-    df, scenario_map=ETS_PRICE_SENSITIVITY_SCENARIOS
-):
+def _standardise_sensitivity_chart_data(df, scenario_map=None):
     """Apply chart ordering using this module's local scenario names."""
 
     df = standardise_island_order(df)
@@ -139,7 +143,7 @@ def _create_sensitivity_line_chart(df, title, filename):
         )
         + scale_x_continuous(limits=(x_min, x_max + 3))
         + scale_y_continuous(labels=adaptive_tick_labels)
-        + scale_colour_manual(values=chart_cols_line)
+        + scale_colour_manual(values=chart_cols_line, na_value="#7F7F7F")
         + theme_minimal()
         + theme(
             legend_position="bottom",
@@ -147,7 +151,7 @@ def _create_sensitivity_line_chart(df, title, filename):
         )
     )
 
-    save_chart(p, f"sensitivity/{filename}", height=4.5, width=7)
+    save_chart_and_data(df, p, f"sensitivity/{filename}", height=4.5, width=7)
     return p
 
 

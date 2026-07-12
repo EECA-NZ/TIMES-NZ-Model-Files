@@ -3,7 +3,7 @@
 import times_nz_internal_qa.analysis.get_data as chart_data
 from times_nz_internal_qa.analysis.analysis_chart_helpers import (
     create_scenario_facet_chart,
-    save_chart,
+    save_chart_and_data,
     standardise_chart_data,
 )
 
@@ -28,7 +28,7 @@ def create_fleet_composition_chart(enduse_list, title, filename, facet_rows=None
 
     p = create_scenario_facet_chart(fleet_df, title, "TechnologyGroup", facet_rows)
 
-    save_chart(p, filename)
+    save_chart_and_data(fleet_df, p, filename)
 
 
 def quick_truck_maths():

@@ -13,7 +13,7 @@ from times_nz_internal_qa.analysis.analysis_chart_helpers import (
     create_scenario_facet_chart,
     create_scenario_line_chart,
     eeca_colours,
-    save_chart,
+    save_chart_and_data,
     standardise_chart_data,
 )
 from times_nz_internal_qa.app.helpers.timeslices import (
@@ -38,7 +38,7 @@ def create_generation_line_chart():
 
     p = create_scenario_line_chart(df, "Electricity generation")
 
-    save_chart(p, "elec_gen_line.png")
+    save_chart_and_data(df, p, "elec_gen_line.png")
 
 
 def create_generation_mix_chart():
@@ -66,7 +66,7 @@ def create_generation_mix_chart():
         group_var="TechnologyGroup",
         palette=ele_colours,
     )
-    save_chart(p, "elec_gen_by_tech.png")
+    save_chart_and_data(df, p, "elec_gen_by_tech.png")
 
 
 def create_thermal_generation_charts():
@@ -86,7 +86,7 @@ def create_battery_capacity_chart(group_by_col="Technology"):
         chart_title="Battery capacity",
         group_var=group_by_col,
     )
-    save_chart(p, "battery_capacity.png")
+    save_chart_and_data(df, p, "battery_capacity.png")
     return p
 
 
@@ -237,8 +237,12 @@ def create_battery_flows_chart(
         )
     )
 
-    save_chart(
-        p, f"battery_flows_{chart_type.lower()}_{year}.png", height=7.5, width=14
+    save_chart_and_data(
+        chart_df,
+        p,
+        f"battery_flows_{chart_type.lower()}_{year}.png",
+        height=7.5,
+        width=14,
     )
     return p
 
