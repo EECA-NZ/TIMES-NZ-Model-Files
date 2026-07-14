@@ -151,9 +151,14 @@ def get_elec_gen_fuel_use():
 
 def get_thermal_generation_fuel_use():
     """Return fuel used by thermal electricity generation plants in PJ."""
-    df = get_elec_gen_fuel_use()
-    df = df[df["TechnologyGroup"] == "Thermal"]
-    return df
+    df = get_times_data("elec_generation.parquet")
+    df = df[
+        (df["Variable"] == "Electricity fuel use")
+        & (df["TechnologyGroup"] == "Thermal")
+    ]
+    return (
+        df.groupby(["Scenario", "Period", "Unit", "Fuel"])["Value"].sum().reset_index()
+    )
 
 
 def get_battery_capacity(groupby_cols="TechnologyGroup"):

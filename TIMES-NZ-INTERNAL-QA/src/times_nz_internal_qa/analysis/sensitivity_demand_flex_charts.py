@@ -167,7 +167,7 @@ def _create_sensitivity_line_chart(df, title, filename):
         )
     )
 
-    save_chart_and_data(df, p, f"sensitivity/{filename}", height=4.5, width=7)
+    save_chart_and_data(df, p, f"sensitivity_{filename}", height=4.5, width=7)
     return p
 
 
