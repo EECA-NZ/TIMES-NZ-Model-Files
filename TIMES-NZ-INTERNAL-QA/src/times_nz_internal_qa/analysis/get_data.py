@@ -287,6 +287,52 @@ def get_lng_and_natural_gas_supply():
     return df
 
 
+def get_lng_natural_gas_and_biogas_supply():
+    """Return primary energy supply for natural gas, LNG, and biogas."""
+
+    df = get_times_data("primary_energy.parquet")
+    df = df[df["Variable"] == "Primary Energy Production"].copy()
+    df = df[df["Fuel"].isin(["Natural gas", "LNG", "Biogas"])]
+
+    supply_source_map = {
+        "Natural gas": "Domestic natural gas",
+        "LNG": "LNG imports",
+        "Biogas": "Biogas",
+    }
+    df["SupplySource"] = df["Fuel"].map(supply_source_map)
+
+    df = (
+        df.groupby(["Scenario", "Period", "Unit", "SupplySource"])["Value"]
+        .sum()
+        .reset_index()
+    )
+    df.loc[df["Value"].abs() < 1e-6, "Value"] = 0
+    return df
+
+
+def get_biomass_and_biogas_supply():
+    """Return primary energy supply for biomass and biogas."""
+
+    df = get_times_data("primary_energy.parquet")
+    df = df[df["Variable"] == "Primary Energy Production"].copy()
+    df = df[df["Fuel"].isin(["Biogas", "Wood", "Wood residuals (onsite)"])]
+
+    supply_source_map = {
+        "Biogas": "Biogas",
+        "Wood": "Biomass",
+        "Wood residuals (onsite)": "Biomass",
+    }
+    df["SupplySource"] = df["Fuel"].map(supply_source_map)
+
+    df = (
+        df.groupby(["Scenario", "Period", "Unit", "SupplySource"])["Value"]
+        .sum()
+        .reset_index()
+    )
+    df.loc[df["Value"].abs() < 1e-6, "Value"] = 0
+    return df
+
+
 def get_fuel_use_by_island_and_sector(end_use=None, sector_group=None, scenario=None):
     """
     Return fuel use by island, sector, and fuel for configurable filter lists.

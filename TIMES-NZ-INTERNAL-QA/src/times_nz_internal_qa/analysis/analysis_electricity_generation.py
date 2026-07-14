@@ -111,6 +111,49 @@ def create_battery_flows(group_by_col="Technology"):
     return df
 
 
+def show_peak_discharge(timeslice="WIN-WK-P", technology_group="Distributed battery"):
+    """Print battery discharge in GW for a selected peak timeslice."""
+
+    df = chart_data.get_times_data("battery_flows.parquet")
+    df = df[df["Variable"] == "Battery discharging"].copy()
+    df = df[df["TechnologyGroup"] == technology_group].copy()
+    df = df[df["TimeSlice"].astype(str) == timeslice].copy()
+
+    if df.empty:
+        raise ValueError(
+            f"No {technology_group} battery discharging data found for {timeslice}"
+        )
+
+    group_vars = [
+        "Scenario",
+        "Period",
+        "TimeSlice",
+        "TechnologyGroup",
+        "Unit",
+    ]
+    df = df.groupby(group_vars)["Value"].sum().reset_index()
+    df, _chart_type = convert_timeslice_flow_units(df, chart_type="GW")
+    df = add_timeslice_chart_columns(df)
+    df = df.rename(columns={"Value": "DischargeGW"})
+    df = df.sort_values(["Scenario", "Period"]).reset_index(drop=True)
+    df = df[
+        [
+            "Scenario",
+            "Period",
+            "TimeSlice",
+            "TechnologyGroup",
+            "Season",
+            "DayType",
+            "TimeOfDay",
+            "DischargeGW",
+            "Unit",
+        ]
+    ]
+
+    print(df.to_string(index=False))
+    return df
+
+
 def _complete_battery_flow_timeslices(df, year, group_by_col="Technology", unit="GW"):
     """Add zero rows so every flow/group has every model timeslice."""
 
@@ -319,6 +362,8 @@ def main():
     create_battery_flows_chart(group_by_col="Technology", year=2050)
     create_battery_flows_chart(group_by_col="Technology", year=2035, chart_type="GWh")
     create_battery_flows_chart(group_by_col="Technology", year=2050, chart_type="GWh")
+
+    show_peak_discharge()
 
 
 if __name__ == "__main__":
