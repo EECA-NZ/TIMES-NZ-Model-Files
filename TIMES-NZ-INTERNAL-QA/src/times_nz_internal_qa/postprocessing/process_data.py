@@ -11,6 +11,9 @@ etc (more to come)
 
 """
 
+# The processing stages are kept together as a single executable pipeline.
+# pylint: disable=too-many-lines
+
 import numpy as np
 import pandas as pd
 from times_nz_internal_qa.config import current_scenarios
@@ -264,6 +267,45 @@ def process_batteries(df):
 
     df = df[battery_variables]
     save_data(df, "batteries.csv")
+
+
+def process_battery_flows(df):
+    """Identify battery charge and discharge flows with readable labels."""
+
+    battery_processes = pd.read_csv(PROCESS_CONCORDANCES / "batteries.csv")
+    commodities = pd.read_csv(COMMODITY_CONCORDANCES / "energy.csv")
+    flow_variables = {
+        "VAR_FIn": "Battery charging",
+        "VAR_FOut": "Battery discharging",
+    }
+
+    df = df[df["Process"].isin(battery_processes["Process"])]
+    df = df[df["Attribute"].isin(flow_variables)].copy()
+    df = df.merge(battery_processes, on="Process", how="left")
+    df = df.merge(commodities, on="Commodity", how="left")
+    df = df.rename(columns={"PV": "Value"})
+    df["Variable"] = df["Attribute"].map(flow_variables)
+    df["Unit"] = "PJ"
+    df["Vintage"] = df["Vintage"].astype(str)
+
+    battery_flow_variables = [
+        "Scenario",
+        "Attribute",
+        "Variable",
+        "Process",
+        "TechnologyGroup",
+        "Technology",
+        "CommodityGroup",
+        "Commodity",
+        "Fuel",
+        "Region",
+        "Period",
+        "TimeSlice",
+        "Vintage",
+        "Unit",
+        "Value",
+    ]
+    save_data(df[battery_flow_variables], "battery_flows.csv")
 
 
 def process_demand_flex_flows(df):
@@ -708,9 +750,7 @@ def process_carbon_costs(df):
         .rename(columns={"PV": "Emissions_ktCO2"})
     )
 
-    costs = df[
-        (df["Commodity"] == "TOTCO2") & (df["Attribute"] == "Cost_Comx")
-    ].copy()
+    costs = df[(df["Commodity"] == "TOTCO2") & (df["Attribute"] == "Cost_Comx")].copy()
     if costs.empty:
         costs = emissions[["Scenario", "Period", "Region", "Commodity"]].copy()
         costs["CarbonCost_MioNZD"] = 0
@@ -730,9 +770,9 @@ def process_carbon_costs(df):
     )
     carbon_df["CarbonCost_MioNZD"] = carbon_df["CarbonCost_MioNZD"].fillna(0)
 
-    nonzero_cost_zero_emissions = (
-        carbon_df["Emissions_ktCO2"].eq(0) & carbon_df["CarbonCost_MioNZD"].ne(0)
-    )
+    nonzero_cost_zero_emissions = carbon_df["Emissions_ktCO2"].eq(0) & carbon_df[
+        "CarbonCost_MioNZD"
+    ].ne(0)
     if nonzero_cost_zero_emissions.any():
         invalid_rows = carbon_df.loc[
             nonzero_cost_zero_emissions, ["Scenario", "Period", "Region"]
@@ -1148,6 +1188,7 @@ def main():
     process_electricity_demand_by_timeslice(df)
 
     process_batteries(df)
+    process_battery_flows(df)
     process_demand_flex_flows(df)
 
     process_transport_energy_demand(df)

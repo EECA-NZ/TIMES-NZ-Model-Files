@@ -15,6 +15,7 @@ def create_ren_tfec_chart():
     tfec_df["Unit"] = "%"
 
     p = create_scenario_line_chart(tfec_df, "Renewable share of TFEC")
+    tfec_df = tfec_df.drop("RenewableShareOfTFEC", axis=1)
     save_chart_and_data(tfec_df, p, "indicator_ren_tfec.png")
 
 
@@ -28,6 +29,7 @@ def create_ren_gen_chart():
     p = create_scenario_line_chart(
         ren_elec, "Renewable share of electricity generation", yaxis_0=False
     )
+    ren_elec = ren_elec.drop("RenewableShareOfElectricity", axis=1)
     save_chart_and_data(ren_elec, p, "indicator_ren_gen.png")
 
 
