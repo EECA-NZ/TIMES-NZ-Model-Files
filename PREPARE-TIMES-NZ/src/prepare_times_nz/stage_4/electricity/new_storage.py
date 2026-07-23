@@ -72,7 +72,7 @@ def create_battery_main_file():
             # just setting the output to the commodity - should default to this being input also
             "Commodity": "Comm-OUT",
             "PlantLife": "Life",
-            "StorageRatio": "NCAP_AFC",
+            "StorageRatio": "NCAP_AFC~DAYNITE",
         }
     )
 
@@ -80,9 +80,45 @@ def create_battery_main_file():
 
     # availability curve set as a fraction of 24 hours
     # we max out at 1 (not possible to have ratios above 24)
-    df["NCAP_AFC"] = np.minimum(df["NCAP_AFC"] / 24, 1)
+    df["NCAP_AFC~DAYNITE"] = np.minimum(df["NCAP_AFC~DAYNITE"] / 24, 1)
     df["CAP2ACT"] = CAP2ACT
     df["START"] = BASE_YEAR + 2
+
+    return df
+
+
+def get_battery_activity(df):
+    """
+    From main battery file, writes the separate activity params
+    (different grain to main)
+    """
+    df_act = df.copy()
+
+    # activity availability limited by storage
+    df_act["CommGrp"] = "ACT"
+    df_act = df_act[["TechName", "CommGrp", "NCAP_AFC~DAYNITE"]]
+
+    # ensure NRG activity maxed
+    df_nrg = df_act.copy()
+    df_nrg["CommGrp"] = "NRG"
+    df_nrg["NCAP_AFC~DAYNITE"] = 1
+
+    # combine for outputs
+
+    df = pd.concat([df_nrg, df_act])
+
+    return df
+
+
+def get_battery_params(df):
+    """
+    Reading the main file, return only key parameters
+    (anything with only one entry per tech)
+    """
+
+    # remove afc (used in act instead)
+
+    df = df.drop("NCAP_AFC~DAYNITE", axis=1)
 
     return df
 
@@ -168,7 +204,11 @@ def main():
     """Wrapper for all battery formatting functions"""
 
     df = create_battery_main_file()
-    save_battery_data(df, "battery_parameters.csv")
+    df_act = get_battery_activity(df)
+    df_params = get_battery_params(df)
+
+    save_battery_data(df_act, "battery_activity.csv")
+    save_battery_data(df_params, "battery_parameters.csv")
 
     df_process = create_process_file(df, sets=SETS_STG)
     save_battery_data(df_process, "battery_processes.csv")

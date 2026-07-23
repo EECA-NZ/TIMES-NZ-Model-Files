@@ -388,7 +388,7 @@ def make_uc_wem_si(df):
     df_for_si = df[~df["UC_CAP~SI"].isnull()].copy().reset_index()
 
     out = create_uc_table(
-        df_for_si, "WEM_SI", "UC_RHSRTS", "SI Winter energy margin", margin=0.3
+        df_for_si, "WEM_SI", "UC_RHSRTS", "SI Winter energy margin", margin=0.28
     )
 
     # only relevant capacity factor coefficient is the SI one

@@ -31,3 +31,6 @@ COMMODITY_CONCORDANCES = DATA / "concordances/commodities"
 
 # For storing results
 FINAL_DATA = DATA / "clean_results"
+
+ANALYSIS = QA_LOCATION / "analysis"
+ANALYSIS_RESULTS = ANALYSIS / "results"

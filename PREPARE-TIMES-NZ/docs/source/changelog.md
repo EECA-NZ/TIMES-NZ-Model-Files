@@ -1,11 +1,21 @@
 
 # Changelog
 
+## 3.0.8
+
+**Model fixes**
+- Resolved an issue with battery storage settings that overestimated internal capacity. 
+- Ensured residential demand flex technologies were appropriately linked to the underlying demand devices rather than the aggregated service demand. 
+
+**Assumption changes**
+- Expanded residential demand flex technologies to include hot water and heat pump controllers, limited by uptake assumptions. 
+- Very slightly decreased the Winter Energy Margin constraints, which were causing infeasibilities in modelled instances of 2024.
+
 
 ## 3.0.7
 
 **Model fixes**
-- Adjusts bounds for electrification of mobile motive power for insutrial use.
+- Adjusts bounds for electrification of mobile motive power for industrial use.
 - Removed electric and hydrogen from those industrial sectors where plausible technologies were unlikely to follow standard (freight-based) electric or hydrogen capital cost structures. More data is needed for these areas. 
 - Adjust incorrect capital constraints applied to meat processing heatpumps. 
 - Corrected operating costs for commercial wood boilers.

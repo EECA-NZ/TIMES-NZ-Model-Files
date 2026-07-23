@@ -1,0 +1,40 @@
+###############################################################################
+# Battery technologies
+###############################################################################
+
+
+
+WorkBookName = "SubRES_TMPL/SubRES_NewTech_Storage_Shift"
+
+
+
+[BatteryProcessDeclarations]
+Description = "Declares processes for battery technologies"
+SheetName = "ELC_Batteries"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_processes.csv"
+
+[BatteryParameters]
+Description = "Describes key assumptions for battery technologies"
+SheetName = "ELC_Batteries"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_parameters.csv"
+
+[BatteryActivity]
+Description = "Defines capacity (via activity limits) for batteries"
+SheetName = "ELC_Batteries"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_activity.csv"
+
+[BatteryCostCurves]
+Description = "Adds cost curves to battery technologies"
+SheetName = "ELC_Batteries"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_costs_shift.csv"
+
+[BatteryAvailability]
+Description = "Ensures batteries available on either island"
+SheetName = "AVA"
+WorkBookName = "SubRES_TMPL/SubRES_NewTech_Storage_Shift_trans"
+TagName = "TFM_AVA"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_elc/storage/battery_availability.csv"

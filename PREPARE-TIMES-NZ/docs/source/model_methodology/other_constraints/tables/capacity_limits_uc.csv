@@ -2,9 +2,11 @@
 Residential LED lighting,3%,,RES\*LED-LIGHT
 Residential fluorescent lighting,3%,,RES\*FLUOR-LIGHT
 Residential heatpumps,3%,,RES\*HPSH-S_HEAT
-Residential LPG heaters,2%,,RES\*LPG-BURNR-S_HEAT
-Residential gas heaters,2%,,RES\*NGA-BURNR-S_HEAT
-Residential LPG water heating,2%,,RES\*LPG\*WH_LOW
+Residential LPG heaters,3%,,RES\*LPG-BURNR-S_HEAT
+Residential gas heaters,3%,,RES\*NGA-BURNR-S_HEAT
+Residential LPG water heating,3%,,RES\*LPG\*WH_LOW
+Residential LPG cooking,3%,,RES\*LPG\*COOK-CH_INT
+Residential gas cooking,3%,,RES\*NGA\*COOK-CH_INT
 Residential gas water heating,2%,,RES\*NGA\*WH_LOW
 Dairy low-heat heatpumps for process heat,2%,50MW,DARY-ELC-HPPH-PH_LOW
 Meat processing low-heat heatpumps for process heat,2%,3MW,MEAT-ELC-HPPH-PH_LOW
@@ -21,9 +23,10 @@ Commercial natural gas water heating,2%,,C_\*WH-Cylinder-NGA
 Commercial water heating boilers,4%,,C_\*WH-Boiler\*
 Commercial natural gas space heating,2%,,C_\*SH-Boiler-NGA
 Commercial natural gas space heating,2%,,C_\*SH-Burner-NGA
-Commercial LPG space heating,2%,,C_\*SH-\*-LPG
-Commercial resistance heaters,2%,,C_\*SH-RH-ELC
+Commercial LPG space heating,3%,,C_\*SH-\*-LPG
+Commercial resistance heaters,4%,,C_\*SH-RH-ELC
 Commercial heatpumps,3%,,C_\*SH-AIRHP-ELC
 Commercial Mobile Motive Power,3%,,C_\*MPM\*
 Commercial Stationary Motive Power,3%,,C_\*MPS\*
 Biogas Anaerobic Digestion facilities,50%,,REF_ANDGST
+Distributed Batteries,15%,50MW,ELC_BAT_DIST

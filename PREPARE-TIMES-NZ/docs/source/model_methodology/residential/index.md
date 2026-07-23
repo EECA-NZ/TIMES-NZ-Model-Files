@@ -11,6 +11,7 @@ demand_projections
 technology_parameters
 new_techs
 residential_demand_curves
+demand_flex
 topology
 appendix
 ```

@@ -10,7 +10,12 @@ from prepare_times_nz.stage_4.common import (
     get_processes_with_input_commodity,
 )
 from prepare_times_nz.utilities.data_in_out import _save_data
-from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_4_DATA
+from prepare_times_nz.utilities.filepaths import (
+    ASSUMPTIONS,
+    DATA_RAW,
+    STAGE_2_DATA,
+    STAGE_4_DATA,
+)
 from prepare_times_nz.utilities.helpers import select_and_rename
 
 # FILEPATHS ---------------------------------------------------------------
@@ -20,6 +25,8 @@ OUTPUT_DIR = STAGE_4_DATA / "base_year_res"
 DEMAND_FLEX_ENABLED_TECHS_FILE = (
     ASSUMPTIONS / "residential/demand_flex_enabled_techs.csv"
 )
+MODEL_SWITCHES_FILE = DATA_RAW / "user_config/settings/model_switches.csv"
+DEMAND_FLEX_INTERMEDIATES_SWITCH = "ResidentialDemandFlexIntermediates"
 
 # should instead use save function pattern here!!
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -55,6 +62,43 @@ DELIVERY_COST_ASSUMPTIONS = {
     "RESWOD": 10,
 }
 # Helpers -----------------------------------------------------------------------
+
+
+def parse_switch_value(value):
+    """Parse a user switch value from CSV."""
+    if isinstance(value, bool):
+        return value
+
+    normalized = str(value).strip().lower()
+    if normalized in {"true", "1", "yes", "y", "on"}:
+        return True
+    if normalized in {"false", "0", "no", "n", "off"}:
+        return False
+
+    raise ValueError(f"Invalid switch value: {value}")
+
+
+def get_model_switch(switch_name, default=True, filepath=MODEL_SWITCHES_FILE):
+    """Read a named user-defined model switch from a simple CSV file."""
+    if not filepath.exists():
+        return default
+
+    df = pd.read_csv(filepath, encoding="utf-8-sig")
+    if not {"Switch", "Enabled"}.issubset(df.columns):
+        raise ValueError(f"{filepath} must include 'Switch' and 'Enabled' columns")
+
+    matches = df[df["Switch"] == switch_name]
+    if matches.empty:
+        return default
+    if len(matches) > 1:
+        raise ValueError(f"Duplicate model switch entries found for {switch_name}")
+
+    return parse_switch_value(matches.iloc[0]["Enabled"])
+
+
+def use_demand_flex_intermediates():
+    """Return whether residential demand-flex intermediates are enabled."""
+    return get_model_switch(DEMAND_FLEX_INTERMEDIATES_SWITCH, default=True)
 
 
 def save_residential_veda_file(df, name, label, filepath=OUTPUT_DIR):
@@ -102,6 +146,50 @@ def get_demand_flex_enabled_techs(filepath=DEMAND_FLEX_ENABLED_TECHS_FILE):
 
     df = pd.read_csv(filepath, encoding="utf-8-sig")
     return set(df["TechName"].dropna())
+
+
+def get_intermediate_commodity_name(tech_name):
+    """Return the detailed service commodity for a residential demand process."""
+    parts = tech_name.split("-", maxsplit=3)
+    if len(parts) != 4 or parts[0] != "RES":
+        raise ValueError(f"Unexpected residential TechName format: {tech_name}")
+
+    _, region, _fuel, tech_detail = parts
+    return f"{region}-{tech_detail}"
+
+
+def get_demand_flex_topology(df, demand_flex_enabled_techs):
+    """Create intermediate commodity mapping for flex-enabled demand processes."""
+    flex_df = df[df["TechName"].isin(demand_flex_enabled_techs)].copy()
+    if flex_df.empty:
+        return pd.DataFrame(columns=["TechName", "Comm-OUT", "Comm-IN"])
+
+    flex_df["Comm-IN"] = flex_df["TechName"].map(get_intermediate_commodity_name)
+    flex_df = flex_df[["TechName", "Comm-OUT", "Comm-IN"]].drop_duplicates()
+
+    duplicates = flex_df.duplicated("TechName", keep=False)
+    if duplicates.any():
+        duplicate_techs = sorted(flex_df.loc[duplicates, "TechName"].unique())
+        raise ValueError(
+            "Demand-flex technologies map to multiple output commodities: "
+            + ", ".join(duplicate_techs)
+        )
+
+    return flex_df
+
+
+def add_demand_flex_intermediate_outputs(df, demand_flex_topology):
+    """Route demand-flex technologies through detailed intermediate commodities."""
+    if demand_flex_topology.empty:
+        return df
+
+    intermediate_commodities = demand_flex_topology.set_index("TechName")["Comm-IN"]
+    df = df.copy()
+    flex_mask = df["TechName"].isin(intermediate_commodities.index)
+    df.loc[flex_mask, "Comm-OUT"] = df.loc[flex_mask, "TechName"].map(
+        intermediate_commodities
+    )
+    return df
 
 
 # Define processes ----------------------------------------------------------
@@ -160,6 +248,77 @@ def define_fuel_commodities(df, filename, label):
     save_residential_veda_file(fuel_df, name=filename, label=label)
 
 
+def define_demand_flex_intermediates(demand_flex_topology):
+    """Generate intermediate commodity and pass-through process tables."""
+    if demand_flex_topology.empty:
+        intermediate_commodities = pd.DataFrame(
+            columns=["CommName", "Csets", "Unit", "LimType", "TsLvl"]
+        )
+        intermediate_definitions = pd.DataFrame(
+            columns=["TechName", "Sets", "Tact", "Tcap", "TsLvl"]
+        )
+        intermediate_parameters = pd.DataFrame(
+            columns=["Comm-OUT", "Comm-IN", "TechName", "LIFE", "EFF"]
+        )
+
+        save_residential_veda_file(
+            intermediate_commodities,
+            "intermediate_commodity_definitions.csv",
+            "demand flex intermediate commodity definitions",
+        )
+        save_residential_veda_file(
+            intermediate_definitions,
+            "intermediate_process_definitions.csv",
+            "demand flex intermediate process definitions",
+        )
+        save_residential_veda_file(
+            intermediate_parameters,
+            "intermediate_process_parameters.csv",
+            "demand flex intermediate process parameters",
+        )
+        return
+
+    intermediate_commodities = pd.DataFrame()
+    intermediate_commodities["CommName"] = demand_flex_topology["Comm-IN"].unique()
+    intermediate_commodities["Csets"] = "NRG"
+    intermediate_commodities["Unit"] = ACTIVITY_UNIT
+    intermediate_commodities["LimType"] = "FX"
+    intermediate_commodities["TsLvl"] = "DAYNITE"
+
+    intermediate_parameters = demand_flex_topology[
+        ["Comm-OUT", "Comm-IN"]
+    ].drop_duplicates()
+    intermediate_parameters["TechName"] = "FTE_" + intermediate_parameters["Comm-IN"]
+    intermediate_parameters["LIFE"] = 100
+    intermediate_parameters["EFF"] = 1
+
+    intermediate_definitions = pd.DataFrame(
+        {
+            "TechName": intermediate_parameters["TechName"].unique(),
+            "Sets": "PRE",
+            "Tact": ACTIVITY_UNIT,
+            "Tcap": "PJa",
+            "TsLvl": "DAYNITE",
+        }
+    )
+
+    save_residential_veda_file(
+        intermediate_commodities,
+        "intermediate_commodity_definitions.csv",
+        "demand flex intermediate commodity definitions",
+    )
+    save_residential_veda_file(
+        intermediate_definitions,
+        "intermediate_process_definitions.csv",
+        "demand flex intermediate process definitions",
+    )
+    save_residential_veda_file(
+        intermediate_parameters,
+        "intermediate_process_parameters.csv",
+        "demand flex intermediate process parameters",
+    )
+
+
 # Fuel delivery tables ------------------------------------------------------
 
 
@@ -178,7 +337,7 @@ def define_fuel_delivery(df):
     ].str.removeprefix("RES")
     fuel_deliv_parameters["TechName"] = "FTE_" + fuel_deliv_parameters["Comm-OUT"]
 
-    fuel_deliv_parameters["LIFE"] = 100  # pretty sure we don't need this
+    fuel_deliv_parameters["LIFE"] = 100  # note default to ten years otherwise
     fuel_deliv_parameters["EFF"] = 1  # pretty sure we don't need this
 
     fuel_deliv_parameters["VAROM"] = fuel_deliv_parameters["Comm-OUT"].map(
@@ -225,9 +384,15 @@ def main():
     """script entry point"""
     # get and transform data
     raw_df = pd.read_csv(INPUT_FILE)
-    res_veda = get_residential_veda_table(raw_df, RESIDENTIAL_DEMAND_VARIABLE_MAP)
-    agg_df = get_commodity_demand(res_veda)
-    demand_flex_enabled_techs = get_demand_flex_enabled_techs()
+    base_res_veda = get_residential_veda_table(raw_df, RESIDENTIAL_DEMAND_VARIABLE_MAP)
+    agg_df = get_commodity_demand(base_res_veda)
+    demand_flex_enabled_techs = (
+        get_demand_flex_enabled_techs() if use_demand_flex_intermediates() else set()
+    )
+    demand_flex_topology = get_demand_flex_topology(
+        base_res_veda, demand_flex_enabled_techs
+    )
+    res_veda = add_demand_flex_intermediate_outputs(base_res_veda, demand_flex_topology)
 
     # main table
     save_residential_veda_file(
@@ -244,7 +409,7 @@ def main():
     # commodity definitions for fi_comm
     # (Note emissions commodity declared directly in user config file)
     define_enduse_commodities(
-        res_veda,
+        base_res_veda,
         filename="enduse_commodity_definitions.csv",
         label="enduse commodity definitions",
     )
@@ -253,6 +418,7 @@ def main():
         filename="fuel_commodity_definitions.csv",
         label="fuel commodity definitions",
     )
+    define_demand_flex_intermediates(demand_flex_topology)
 
     # process definitions for fi_process
     define_demand_processes(

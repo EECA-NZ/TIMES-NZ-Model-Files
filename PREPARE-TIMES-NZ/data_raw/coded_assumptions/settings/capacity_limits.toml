@@ -37,18 +37,28 @@ PSet_PN = "RES*HPSH-S_HEAT"
 
 [CapLimitResLPGHeating]
 Description = "Residential LPG heaters"
-GrowthLimit = 0.02
+GrowthLimit = 0.03
 PSet_PN = "RES*LPG-BURNR-S_HEAT"
 
 [CapLimitResGasHeating]
 Description = "Residential gas heaters"
-GrowthLimit = 0.02
+GrowthLimit = 0.03
 PSet_PN = "RES*NGA-BURNR-S_HEAT"
 
 [CapLimitResLPGHotwater]
 Description = "Residential LPG water heating"
-GrowthLimit = 0.02
+GrowthLimit = 0.03
 PSet_PN = "RES*LPG*WH_LOW"
+
+[CapLimitResLPGCooking] 
+Description = "Residential LPG cooking"
+GrowthLimit = 0.03
+PSet_PN = "RES*LPG*COOK-CH_INT"
+
+[CapLimitResNGACooking] 
+Description = "Residential gas cooking"
+GrowthLimit = 0.03
+PSet_PN = "RES*NGA*COOK-CH_INT"
 
 [CapLimitResGasHotwater]
 Description = "Residential gas water heating"
@@ -145,12 +155,12 @@ PSet_PN = "C_*SH-Burner-NGA"
 
 [CapLimitCommercialLPGSpaceHeating]
 Description = "Commercial LPG space heating"
-GrowthLimit = 0.02
+GrowthLimit = 0.03
 PSet_PN = "C_*SH-*-LPG"
 
 [CapLimitCommercialRHSpaceHeating]
 Description = "Commercial resistance heaters"
-GrowthLimit = 0.02
+GrowthLimit = 0.04
 PSet_PN = "C_*SH-RH-ELC"
 
 [CapLimitCommercialHPSpaceHeating]
@@ -174,5 +184,13 @@ PSet_PN = "C_*MPS*"
 Description = "Biogas Anaerobic Digestion facilities"
 GrowthLimit = 0.5
 PSet_PN = "REF_ANDGST"
+
+
+[CapLimitDistributedBESS]
+Description = "Distributed Batteries"
+GrowthLimit = 0.15
+SeedValue = 0.05
+PSet_PN = "ELC_BAT_DIST"
+
 
 
