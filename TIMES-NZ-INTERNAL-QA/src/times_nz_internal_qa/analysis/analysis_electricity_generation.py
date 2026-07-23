@@ -70,9 +70,18 @@ def create_generation_mix_chart():
 
 
 def create_thermal_generation_charts():
-    """Grouped area facet for thermal generation."""
+    """Create a scenario-faceted chart of thermal generation fuel use."""
 
-    print("Hello please write me ")
+    df = chart_data.get_thermal_generation_fuel_use()
+    df = standardise_chart_data(df)
+
+    p = create_scenario_facet_chart(
+        df,
+        chart_title="Fuel used by thermal electricity generation",
+        group_var="Fuel",
+    )
+    save_chart_and_data(df, p, "thermal_generation_fuel_use.png")
+    return p
 
 
 def create_battery_capacity_chart(group_by_col="Technology"):
@@ -357,6 +366,7 @@ def main():
 
     create_generation_line_chart()
     create_generation_mix_chart()
+    create_thermal_generation_charts()
     create_battery_capacity_chart(group_by_col="Technology")
     create_battery_flows_chart(group_by_col="Technology", year=2035)
     create_battery_flows_chart(group_by_col="Technology", year=2050)

@@ -28,6 +28,9 @@ def create_fleet_composition_chart(enduse_list, title, filename, facet_rows=None
 
     p = create_scenario_facet_chart(fleet_df, title, "TechnologyGroup", facet_rows)
 
+    if facet_rows is None:
+        fleet_df = fleet_df.drop("EndUse", axis=1)
+
     save_chart_and_data(fleet_df, p, filename)
 
 

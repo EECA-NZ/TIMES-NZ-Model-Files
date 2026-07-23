@@ -65,12 +65,12 @@ def create_commercial_demand_chart():
         "Coal": "Other",
         "Diesel": "Diesel/Petrol",
         "Electricity": "Electricity",
-        "LPG": "LPG",
+        "LPG": "Other",
         "Natural gas": "Natural gas",
         "Petrol": "Diesel/Petrol",
         "Solar": "Other",
         "Geothermal": "Other",
-        "Biogas": "Biogas",
+        "Biogas": "Other",
         "Biomethane": "Biomethane",
         "Wood": "Woody biomass",
     }
@@ -101,15 +101,15 @@ def create_industrial_demand_chart():
     #     print(fuel)
 
     ind_fuel_aggregation = {
-        "Coal": "Other",
+        "Coal": "Coal",
         "Diesel": "Diesel/Petrol",
         "Electricity": "Electricity",
-        "LPG": "LPG",
+        "LPG": "Other",
         "Natural gas": "Natural gas",
         "Petrol": "Diesel/Petrol",
         "Solar": "Other",
         "Geothermal": "Other",
-        "Biogas": "Biogas",
+        "Biogas": "Other",
         "Biomethane": "Biomethane",
         "Wood": "Woody biomass",
     }
