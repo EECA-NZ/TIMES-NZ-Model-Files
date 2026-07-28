@@ -9,7 +9,7 @@
 
 project = "TIMES-NZ"
 author = "Luke Searle, Achini Weerasinghe"
-release = "v3.0.7"
+release = "v3.0.8"
 
 html_show_copyright = False
 # -- General configuration ---------------------------------------------------
