@@ -8,7 +8,15 @@
       "steady-v306": "Steady",
       "shift-v306": "Shift",
       "steady-v307": "Steady",
-      "shift-v307": "Shift"
+      "shift-v307": "Shift",
+      "steady-v308": "Steady",
+      "shift-v308": "Shift",
+      "shift-v308-noflex":"Shift (without DF or batteries)",
+      "shift-v308-nodf":"Shift (without DF)",
+      "shift-v308-nobatt":"Shift (without batteries)",
+      "steady-v308-noflex":"Steady (without DF or batteries)",
+      "steady-v308-nodf":"Steady (without DF)",
+      "steady-v308-nobatt":"Steady (without batteries)"      
     }
   }
 }
