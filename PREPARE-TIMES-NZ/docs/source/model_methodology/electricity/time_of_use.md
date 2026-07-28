@@ -45,7 +45,7 @@ The Winter Capacity margin is included in TIMES-NZ as a percentage share of tota
 
 ### Winter energy margin
 
-We further introduce additional constraints on the model solution to represent winter energy margins for electricity supply. The model must provide a solution where total electricity capacity exceeds demand by specific margins in autumn and winter. The margins are set at 30% additional capacity in the South Island, and 16% nationally. 
+We further introduce additional constraints on the model solution to represent winter energy margins for electricity supply. The model must provide a solution where total electricity capacity exceeds demand by specific margins in autumn and winter. The margins are set at 28% additional capacity in the South Island, and 16% nationally. 
 
 This constraint is applied through the following constraint equation, which must hold true in the model solution: 
 
@@ -62,7 +62,7 @@ This constraint is applied through the following constraint equation, which must
 Where:
  - $Capacity_{i,r}$ is the capacity of each plant $i$ in region $r$
  - $Availability_{{AW}_{i,r}}$ is the average availability during Autumn and Winter for each plant $i$ in region $r$
- - $\alpha$ is the relevant parameter (30% for the South Island, 16% for the whole country)
+ - $\alpha$ is the relevant parameter (28% for the South Island, 16% for the whole country)
  - $CapacityDemand_{{AW}_{r}}$ is the capacity that would be required to meet total electricity demand during Autumn and Winter in region $r$
 
 

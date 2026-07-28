@@ -106,6 +106,8 @@ Some app-ids:
 - `times-nz-internal-explorer-v304`: 16904540
 - `times-nz-internal-explorer-v305`: 17015159
 - `times-nz-internal-explorer-v306`: 17262489
+- `times-nz-internal-explorer-v307`: 17500112
+- `times-nz-internal-explorer-v308-df-sensitivity`: 17584023
 
 
 Production app-id:

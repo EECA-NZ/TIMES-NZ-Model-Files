@@ -19,11 +19,23 @@ SheetName = "Residential demand"
 TagName = "FI_Comm"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/fuel_commodity_definitions.csv"
 
+[ResidentialIntermediateCommodityDefinitions]
+Description = "Defines detailed residential demand-flex intermediate commodities"
+SheetName = "Residential demand"
+TagName = "FI_Comm"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/intermediate_commodity_definitions.csv"
+
 [ResidentialProcessDefinitions]
 Description = "Defines residential enduse processes, such as heatpumps"
 SheetName = "Residential demand"
 TagName = "FI_Process"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/demand_process_definitions.csv"
+
+[ResidentialIntermediateProcessDefinitions]
+Description = "Defines residential demand-flex pass-through processes"
+SheetName = "Residential demand"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/intermediate_process_definitions.csv"
 
 [ResidentialDemand]
 Description = "Residential base year demand topology and technical parameters"
@@ -31,7 +43,13 @@ SheetName = "Residential demand"
 TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/residential_baseyear_details.csv"
 
-[ResidentialDemand2]
+[ResidentialIntermediateProcessParameters]
+Description = "Defines residential demand-flex pass-through process parameters"
+SheetName = "Residential demand"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_res/intermediate_process_parameters.csv"
+
+[ResidentialServiceDemandTotals]
 Description = "Residential total commodity demand (met by activity bound per process)"
 SheetName = "Residential demand"
 TagName = "FI_T: Demand"
@@ -79,5 +97,3 @@ RESLPG = 60.43
 RESPET = 68.79
 RESDSL = 69.69
 RESWOD = 4 # rough estimate - need to update with better residential wood calorific value assumptions!
-
-

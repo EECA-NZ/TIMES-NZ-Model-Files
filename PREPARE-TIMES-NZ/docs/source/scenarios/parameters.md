@@ -107,7 +107,7 @@ Utility-scale and distributed battery technology,"Costs follow expected trends, 
 Process heat demand technologies,Existing process heat technology costs remain constant in real terms. New process heat technology costs reduce.,Same as Steady
 ```
 
-## Individualistic or cooperative
+## Climate policy and societal trends
 
 This key uncertainty describes policy settings and consumer behaviour, and influences how we prioritise sustainability against affordability and energy security.
 
@@ -119,7 +119,7 @@ Parameter,Steady,Shift
 Carbon price,Reaches $52/tonne by 2035 then stabilises[^mfe_erp2_detail],"Reaches $260/tonne by 2050, matching the Climate Change Commission’s updated demonstration path[^ccc_demopath]."
 Consenting environment for electricity generation projects,"Some community resistance to new generation. The electricity generation pipeline is slightly constrained, using the EDGS Reference scenario[^genstack].","No community resistance to new generation. More plants made available to the pipeline, using the additional plants from the EDGS Innovation scenario[^genstack]."
 Travel mode shifting,Standard VKT demand projections (using MoT projections),Passenger VKT per capita decreases by 1% annually. This leads to roughly flat passenger VKT demand over time. 
-Residential hot water peak load shifts, 50% of peak demand can be shifted, Level of demand shift grows to 90% by 2050
+Residential demand flexibility uptake, "Some uptake of demand flex technologies, such as heat pump and hot water controllers.", Greater  uptake rate of demand flex technologies.
 Low Emission Heavy Vehicle Fund,Ends in 2028,Continues to 2032
 Discount rate: Public sector[^tsy_discount],8%,2%
 Discount rate: Businesses[^firm_discount],10%,"8% default rate and 5% for green investments. This reflects a longer-term view being taken across the economy, and a focus of global finance on green investments."
@@ -132,7 +132,7 @@ Discount rate: Households[^hh_discount],As per businesses.,As per businesses.
 [^genstack]: EDGS 2024 generation stacks available at: [Electricity Demand and Generation Scenarios (EDGS)](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-modelling/electricity-demand-and-generation-scenarios)
 [^ccc_demopath]: Climate Change Commission | [Updated demonstration path and current policy reference settings (.xlsx)](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fwww.climatecommission.govt.nz%2Fassets%2FAdvice-to-govt-docs%2FERP2%2Fdraft-erp2%2Fsupporting-documents%2FERP2-supporting-spreadsheet-Updated-demonstration-path-and-CPR-2022.xlsx)
 
-
+[^times_demand_flex]: More information on demand flex treatment can be found at the [TIMES-NZ Residential Service Demand Flexibility documentation](https://times-nz-docs.readthedocs.io/en/latest/model_methodology/residential/demand_flex.html).
 
 
 [^tsy_discount]: The 8% and 2% rates are taken from Treasury’s [public sector discount rates](https://www.treasury.govt.nz/information-and-services/public-sector-leadership/guidance/reporting-financial/discount-rates). For ease of implementation in TIMES-NZ, these are applied to schools and hospitals only. This excludes defence (which sits within ‘other’), other smaller categories, and the public sector vehicle fleet.
@@ -155,11 +155,14 @@ In the Shift scenario, we instead assume that investment is focused on sustainab
 
 Parameter,Steady,Shift
 Proven plus probable reserves,Follows availability and deliverability of the latest MBIE 2P production profiles,Same as Steady
-Domestic natural gas wholesale price,Rises to $35/GJ as indigenous supply declines,Same as Steady
-LNG supply,Standard LNG terminal available in 2027 if selected by the model as the least-cost option,LNG not available in Shift scenario
+LNG supply,LNG terminal operational in 2027,LNG not available in Shift scenario
 Biogas supply,"Base bioenergy supply assumptions. Municipal organic waste fixed at 5.035 PJ/year and animal manure fixed at 7.56 PJ/year; additional biogas potential remains limited by current recovery settings.","Higher bioenergy supply assumptions. Municipal organic waste and animal manure supply each scale significantly from 2026 onward, assuming new policies allow for much greater collection rates."
 Biomass supply,"Woody residues, agricultural residues, and municipal wood waste use Scion regional biomass projections[^scion_biomass] scaled with Recoverability factor 2 (% of gross).","The same feedstocks use the higher Recoverability factor 1 (% of gross), increasing accessible biomass supply from 2026 onward."
-Hydrogen supply,"Hydrogen is produced only via electrolysis. Costs follow the CSIRO/Aurecon Current Policies pathway, with 2035 electrolyser CAPEX of about NZD 2,120-2,225/kW and 2050 CAPEX of NZD 1,732-1,824/kW depending on technology.","Hydrogen is produced only via electrolysis. Costs follow the CSIRO Post 2050 net zero pathway, with lower 2035 electrolyser CAPEX of about NZD 1,331-1,396/kW and 2050 CAPEX of NZD 1,127-1,183/kW."
+Hydrogen supply[^times_hydrogen],"Hydrogen is produced only via electrolysis, using Proton Exchange Membrane (PEM) or alkaline methods. Projections for future costs use the GenCost[^gencost_csiro] model, and specifically the “Current
+Policies” scenario.","As Steady, but future cost projections follow the “Post 2050 net zero” scenario."
 ```
 
 [^scion_biomass]: IEA Bioenergy | [Residual biomass fuel projections for New Zealand; 2024](https://www.ieabioenergy.com/wp-content/uploads/2024/11/NZ-Woody-Biomass-Residues-and-Resources-2024.pdf). Peter Hall, Scion.
+[^gencost_csiro]: CSIRO | [GenCost 2024-25 - Consultation draft, pg. 67](https://www.csiro.au/-/media/Energy/GenCost/GenCost2024-25ConsultDraft_20241205.pdf)
+
+[^times_hydrogen]: More detail on TIMES hydrogen can be found at the [TIMES-NZ documentation for hydrogen](https://times-nz-docs.readthedocs.io/en/latest/model_methodology/hydrogen/index.html)

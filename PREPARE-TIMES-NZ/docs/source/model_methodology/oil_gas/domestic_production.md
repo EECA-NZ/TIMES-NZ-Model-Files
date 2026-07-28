@@ -5,9 +5,9 @@ Domestic supply of natural gas, LPG, and crude oil and condensate is based on th
 ## Natural gas 
 
 
-Natural gas supply data comes from oil and gas reserve data, which describes the state of production on January 1st, 2025. This covers the latest assessment of Proven and Probable (2P) gas reserves remaining in each field and expected profiles of future production.
+Natural gas supply data comes from oil and gas reserve data, which describes the state of production on January 1st, 2026. This covers the latest assessment of Proven and Probable (2P) gas reserves remaining in each field and expected profiles of future production.
 
-{numref}`fig_mbie_prod_profile`, originally published by MBIE with Energy in New Zealand 2025[^mbie_enz_gas], shows the latest production forecasts, and how actual production often fell short of the forecast production profile over the last five years:
+{numref}`fig_mbie_prod_profile`, originally published by MBIE with Energy in New Zealand 2025[^mbie_enz_gas], shows a range of previous forecasts, and how actual production often fell short of the forecast production profile over the last five years:
 
 
 ```{figure} figures/energy_in_new_zealand_2025_g5_production_profile_years.png
@@ -32,7 +32,7 @@ We note that the declining upstream natural gas market will likely have signific
 [^mbie_prices]: Historical natural gas wholesale prices are published by MBIE at [Energy prices](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/energy-prices). 
 
 
-[^supply_caveat]: As implemented using the TIMES model, this will mean that any unused production in a given year is lost. We do not expect this circumstance to occur, but this setup may require adjustment. 
+[^supply_caveat]: As implemented within the TIMES-NZ model, this will mean that any unused production in a given year is lost. We do not expect this circumstance to occur, but this setup may require adjustment. 
 
 ## Future deliverability
 

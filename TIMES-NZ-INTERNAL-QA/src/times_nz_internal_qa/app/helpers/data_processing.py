@@ -18,6 +18,8 @@ import polars as pl
 from times_nz_internal_qa.app.helpers.filters import apply_filters
 from times_nz_internal_qa.utilities.value_mappings import apply_value_mappings_pl
 
+_MEASURE_COLUMNS = {"Period", "Value"}
+
 
 def show_df_size(df):
     """small helper function to print the mb size of a df"""
@@ -36,6 +38,34 @@ def ensure_lazy(x) -> pl.LazyFrame:
     if isinstance(x, pl.DataFrame):
         return x.lazy()
     raise TypeError(f"Expected LazyFrame or DataFrame, got {type(x)}")
+
+
+def fill_null_dimension_values(
+    df: pl.LazyFrame | pl.DataFrame,
+) -> pl.LazyFrame | pl.DataFrame:
+    """
+    Fill nulls in label/dimension columns with the app's placeholder value.
+
+    Polars' dataframe-level fill_null("-") does not affect Null-typed columns.
+    Those can appear when a dimension is entirely missing in a parquet input,
+    such as Fuel for infeasible energy dummy commodities.
+    """
+    schema = df.collect_schema() if isinstance(df, pl.LazyFrame) else df.schema
+    expressions = []
+
+    for column, dtype in schema.items():
+        if column in _MEASURE_COLUMNS:
+            continue
+
+        if dtype == pl.Null:
+            expressions.append(pl.lit("-").alias(column))
+        elif dtype in (pl.String, pl.Categorical):
+            expressions.append(pl.col(column).cast(pl.String).fill_null("-").alias(column))
+
+    if not expressions:
+        return df
+
+    return df.with_columns(expressions)
 
 
 def complete_periods(
@@ -101,14 +131,14 @@ def read_data_pl(file_location, scenarios) -> pl.LazyFrame:
     # eager read; for lazy, use pl.scan_parquet
     df = (
         pl.scan_parquet(file_location)
-        .fill_null("-")
         .with_columns(pl.col("Period").cast(pl.Int64))
         # filter here? we reread when the scenario filter changes.
         # this keeps excess scenarios out of memory
         .filter(pl.col("Scenario").is_in(scenarios))
     )
 
-    return apply_value_mappings_pl(df)
+    df = apply_value_mappings_pl(df)
+    return fill_null_dimension_values(df)
 
 
 def filter_df_for_variable(
