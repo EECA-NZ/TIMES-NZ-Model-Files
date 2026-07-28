@@ -2,16 +2,21 @@
 
 The TIMES-NZ scenario narratives reflect four critical qualitative uncertainties. These critical uncertainties are different paths that the country could take, and the different narratives for each inform the driving forces that have been selected to define each modelled scenario. Each scenario is intended to represent a plausible and realistic future pathway.
 
-The critical uncertainties identified are: 
-
-- **Economic structure**: Whether our economy continues with its traditional structure or undergoes a structural shift. In both scenarios, the level of economic activity is broadly similar.
-- **Technology costs**: Trade and synchronicity between New Zealand and the rest of the world. This impacts global demand for our export goods, and the availability and costs of imported technologies. 
-- **Individualistic or cooperative**: Our predisposition to cooperation domestically or everyone for themselves. This impacts policy settings under successive governments and consumer behaviour. 
-- **Natural gas**: The role of natural gas in the energy system. 
-
 We define two distinct narratives along these critical uncertainties: Steady and Shift. These represent mutually exclusive combinations: all critical uncertainties differ between the two scenarios.
 
+The critical uncertainties are: 
 
+**Economic structure and energy demand:** Steady has relatively more primary production, while
+Shift has relatively more growth in technologies that support adoption of renewables advanced
+manufacturing and data centres.
+
+**Technology costs:** Steady has moderate cost reductions for clean technologies, while Shift has more
+rapid cost reductions. Clean technologies encompass solar, wind and batteries, and EV costs.
+
+**Climate policy and societal trends:** Steady has lower carbon prices and higher discount rates, while
+Shift has the opposite. Shift also has lower private passenger vehicle use.
+
+**The role of gas:** Steady has LNG, while Shift has greater availability of biomass and biogas.
 
 
 ## Narrative descriptions
