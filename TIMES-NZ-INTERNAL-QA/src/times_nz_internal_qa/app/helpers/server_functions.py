@@ -21,7 +21,6 @@ from times_nz_internal_qa.app.helpers.data_processing import (
     write_polars_to_csv,
 )
 from times_nz_internal_qa.app.helpers.filters import (
-    apply_filters,
     register_all_filters_and_clear,
 )
 from times_nz_internal_qa.utilities.value_mappings import remap_values
@@ -101,24 +100,43 @@ def _build_chart(params, chart_type, chart_id, inputs, is_comparison):
     return chart
 
 
-def _register_explorer_downloads(outputs, chart_id, section_title, chart_df, raw_df):
+def _register_explorer_downloads(
+    outputs, chart_id, section_title, chart_df, raw_df, *, scenarios
+):
+    """
+    Registers two separate downloads with IDs to give options in the dropdowns
+    defines the data functions used to render, and a few components to
+    define the filename based on current user settings
+    """
+
+    def download_filename(data_description):
+        selected_scenarios = scenarios()
+        main_scenario = selected_scenarios[0] if selected_scenarios else "scenario"
+        comp_scenario = (
+            f"and-{to_snake_case(selected_scenarios[1])}-"
+            if len(selected_scenarios) == 2
+            else ""
+        )
+        return (
+            f"{to_snake_case(str(main_scenario))}-"
+            f"{comp_scenario}"
+            f"{to_snake_case(section_title)}-"
+            f"{data_description}.csv"
+        )
+
     chart_download_function_name = f"{chart_id}_chart_data_download"
-    chart_download_filename = f"times_nz_{to_snake_case(section_title)}_chart_data.csv"
     register_download(
         outputs,
         chart_download_function_name,
-        chart_download_filename,
+        lambda: download_filename("chart_data"),
         chart_df,
     )
 
     unfiltered_download_function_name = f"{chart_id}_unfiltered_data_download"
-    unfiltered_download_filename = (
-        f"times_nz_{to_snake_case(section_title)}_unfiltered_data.csv"
-    )
     register_download(
         outputs,
         unfiltered_download_function_name,
-        unfiltered_download_filename,
+        lambda: download_filename("raw_data"),
         raw_df,
     )
 
@@ -227,10 +245,6 @@ def register_server_functions_for_explorer(
         df = get_agg_data(_df(), filters, inputs, group_vars)
         return df
 
-    @reactive.calc
-    def _df_chart_download():
-        return apply_filters(_df(), filters, inputs)
-
     # Create chart data
     @reactive.calc
     def _chart_df():
@@ -261,5 +275,12 @@ def register_server_functions_for_explorer(
         return chart
 
     _register_explorer_downloads(
-        outputs, chart_id, section_title, _df_chart_download, _df
+        outputs,
+        chart_id,
+        section_title,
+        # data function for the "filtered" download
+        _df_filtered,
+        # data function for the "unfiltered" download
+        _df,
+        scenarios=scenarios,
     )
