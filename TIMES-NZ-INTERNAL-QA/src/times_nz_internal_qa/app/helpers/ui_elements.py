@@ -8,6 +8,10 @@ from times_nz_internal_qa.app.helpers.charts import (
     DEFAULT_LAYOUT_OPTIONS,
     TIMESLICE_LAYOUT_OPTIONS,
 )
+from times_nz_internal_qa.app.helpers.data_processing import (
+    TOTAL_GROUP_OPTION,
+    TOTAL_GROUP_VALUE,
+)
 from times_nz_internal_qa.app.helpers.filters import (
     filter_output_ui_list,
     identifier_to_title_case,
@@ -92,6 +96,9 @@ def section_block(parameters):
         group_options = {
             option: identifier_to_title_case(option) for option in group_options
         }
+    else:
+        group_options = dict(group_options)
+    group_options[TOTAL_GROUP_OPTION] = TOTAL_GROUP_VALUE
     filters = parameters["filters"]
 
     # generate additional

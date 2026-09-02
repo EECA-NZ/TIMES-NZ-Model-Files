@@ -20,6 +20,13 @@ from times_nz_internal_qa.utilities.value_mappings import apply_value_mappings_p
 
 _MEASURE_COLUMNS = {"Period", "Value"}
 
+# The chart layer always expects a grouping column. When users select Total,
+# aggregate over the real grouping dimensions and provide this single-valued
+# synthetic group instead.
+TOTAL_GROUP_OPTION = "__total__"
+TOTAL_GROUP_COLUMN = "Grouping"
+TOTAL_GROUP_VALUE = "Total"
+
 
 def show_df_size(df):
     """small helper function to print the mb size of a df"""
@@ -60,7 +67,9 @@ def fill_null_dimension_values(
         if dtype == pl.Null:
             expressions.append(pl.lit("-").alias(column))
         elif dtype in (pl.String, pl.Categorical):
-            expressions.append(pl.col(column).cast(pl.String).fill_null("-").alias(column))
+            expressions.append(
+                pl.col(column).cast(pl.String).fill_null("-").alias(column)
+            )
 
     if not expressions:
         return df
@@ -130,8 +139,7 @@ def read_data_pl(file_location, scenarios) -> pl.LazyFrame:
 
     # eager read; for lazy, use pl.scan_parquet
     df = (
-        pl.scan_parquet(file_location)
-        .with_columns(pl.col("Period").cast(pl.Int64))
+        pl.scan_parquet(file_location).with_columns(pl.col("Period").cast(pl.Int64))
         # filter here? we reread when the scenario filter changes.
         # this keeps excess scenarios out of memory
         .filter(pl.col("Scenario").is_in(scenarios))

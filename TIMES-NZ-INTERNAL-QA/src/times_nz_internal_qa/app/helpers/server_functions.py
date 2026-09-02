@@ -4,6 +4,7 @@ Function factories for replicable server functions.
 
 from collections import OrderedDict
 
+import polars as pl
 from shiny import reactive, render
 from shinywidgets import render_plotly
 from times_nz_internal_qa.app.helpers.charts import (
@@ -14,6 +15,9 @@ from times_nz_internal_qa.app.helpers.charts import (
     build_grouped_line,
 )
 from times_nz_internal_qa.app.helpers.data_processing import (
+    TOTAL_GROUP_COLUMN,
+    TOTAL_GROUP_OPTION,
+    TOTAL_GROUP_VALUE,
     get_agg_data,
     get_filter_options_from_data,
     make_chart_data,
@@ -32,6 +36,13 @@ def _selection_key(value):
     if isinstance(value, (list, tuple, set)):
         return tuple(sorted("" if v is None else str(v) for v in value))
     return ("",) if value == "" else (str(value),)
+
+
+def _effective_group_column(selected_group):
+    """Return the real or synthetic column used to build chart series."""
+    if selected_group == TOTAL_GROUP_OPTION:
+        return TOTAL_GROUP_COLUMN
+    return selected_group
 
 
 # pylint:disable = too-many-arguments
@@ -241,8 +252,11 @@ def register_server_functions_for_explorer(
     @reactive.calc
     def _df_filtered():
         selected_group = getattr(inputs, f"{chart_id}_group")()
-        group_vars = base_cols + [selected_group]
+        is_total = selected_group == TOTAL_GROUP_OPTION
+        group_vars = base_cols if is_total else base_cols + [selected_group]
         df = get_agg_data(_df(), filters, inputs, group_vars)
+        if is_total:
+            df = df.with_columns(pl.lit(TOTAL_GROUP_VALUE).alias(TOTAL_GROUP_COLUMN))
         return df
 
     # Create chart data
@@ -251,7 +265,7 @@ def register_server_functions_for_explorer(
         if not _is_active_section():
             return None
 
-        selected_group = getattr(inputs, f"{chart_id}_group")()
+        selected_group = _effective_group_column(getattr(inputs, f"{chart_id}_group")())
         cache_key = _chart_cache_key()
         return _build_cached_chart_data(
             cache=chart_cache,
