@@ -23,6 +23,7 @@ from times_nz_internal_qa.app.helpers.data_processing import (
     get_agg_data,
     get_filter_options_from_data,
     make_chart_data,
+    make_display_table_data,
     make_table_data,
     to_snake_case,
     write_polars_to_csv,
@@ -281,6 +282,22 @@ def register_server_functions_for_explorer(
             cache_limit=chart_cache_limit,
         )
 
+    @reactive.calc
+    def _table_df():
+        if not _is_active_section():
+            return None
+
+        return make_table_data(_df_filtered())
+
+    @reactive.calc
+    def _display_table_df():
+        table_df = _table_df()
+        if table_df is None:
+            return None
+
+        selected_group = _effective_group_column(getattr(inputs, f"{chart_id}_group")())
+        return make_display_table_data(table_df, selected_group)
+
     # DRAW CHARTS
     @outputs(id=f"{chart_id}_chart")
     @render_plotly
@@ -294,11 +311,10 @@ def register_server_functions_for_explorer(
     @outputs(id=f"{chart_id}_table")
     @render.data_frame
     def _table_unified():
-        if not _is_active_section():
+        table_df = _display_table_df()
+        if table_df is None:
             return None
 
-        selected_group = _effective_group_column(getattr(inputs, f"{chart_id}_group")())
-        table_df = make_table_data(_df_filtered(), selected_group)
         height = (
             TIMESLICE_LAYOUT_OPTIONS.height
             if chart_type == "timeslice"
@@ -319,8 +335,8 @@ def register_server_functions_for_explorer(
         outputs,
         chart_id,
         section_title,
-        # data function for the "filtered" download
-        _df_filtered,
+        # Match the filtered download to the wide, labelled on-screen table.
+        _table_df,
         # data function for the "unfiltered" download
         _df,
         scenarios=scenarios,

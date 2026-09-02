@@ -16,9 +16,16 @@ import numpy as np
 import pandas as pd
 import polars as pl
 from times_nz_internal_qa.app.helpers.filters import apply_filters
+from times_nz_internal_qa.app.helpers.timeslices import (
+    TIMESLICE_ORDER,
+    get_timeslice_long_label,
+)
 from times_nz_internal_qa.utilities.value_mappings import apply_value_mappings_pl
 
 _MEASURE_COLUMNS = {"Period", "Value"}
+_TIMESLICE_LONG_LABELS = {
+    timeslice: get_timeslice_long_label(timeslice) for timeslice in TIMESLICE_ORDER
+}
 
 # The chart layer always expects a grouping column. When users select Total,
 # aggregate over the real grouping dimensions and provide this single-valued
@@ -279,23 +286,39 @@ def make_chart_data(
     }
 
 
-def make_table_data(
+def make_table_data(df: pl.LazyFrame | pl.DataFrame) -> pl.LazyFrame:
+    """Add download-friendly fields without altering model-output values."""
+    lf = ensure_lazy(df)
+    available_columns = lf.collect_schema().names()
+
+    if "TimeSlice" in available_columns:
+        lf = lf.with_columns(
+            pl.col("TimeSlice").replace(_TIMESLICE_LONG_LABELS).alias("TimeSliceLabel")
+        )
+
+    return lf
+
+
+def make_display_table_data(
     df: pl.LazyFrame | pl.DataFrame,
     group_col: str,
 ) -> pl.DataFrame:
-    """Build a wide display table from actual filtered model-output rows.
+    """Round and pivot download-ready data for the on-screen table.
 
-    Unlike ``make_chart_data``, this helper does not complete missing periods or
-    interpolate values. The on-screen table therefore stays aligned with the
-    filtered chart-data download. Values from the selected grouping column become
-    individual table columns.
+    This helper does not complete missing periods or interpolate values. Grouping
+    values become individual columns in the returned wide dataframe.
     """
     lf = ensure_lazy(df)
     available_columns = lf.collect_schema().names()
 
     index_columns = ["Scenario", "Period"]
-    if "TimeSlice" in available_columns:
-        index_columns.append("TimeSlice")
+    timeslice_column = None
+    if "TimeSliceLabel" in available_columns:
+        timeslice_column = "TimeSliceLabel"
+    elif "TimeSlice" in available_columns:
+        timeslice_column = "TimeSlice"
+    if timeslice_column is not None:
+        index_columns.append(timeslice_column)
     index_columns.append("Unit")
     index_columns = [column for column in index_columns if column in available_columns]
 
@@ -313,7 +336,11 @@ def make_table_data(
         .sort(index_columns)
     )
 
-    return table_df.rename({"Period": "Year"})
+    rename_columns = {"Period": "Year"}
+    if timeslice_column == "TimeSliceLabel":
+        rename_columns["TimeSliceLabel"] = "TimeSlice"
+
+    return table_df.rename(rename_columns)
 
 
 def write_polars_to_csv(df):

@@ -3,7 +3,10 @@
 import unittest
 
 import polars as pl
-from times_nz_internal_qa.app.helpers.data_processing import make_table_data
+from times_nz_internal_qa.app.helpers.data_processing import (
+    make_display_table_data,
+    make_table_data,
+)
 from times_nz_internal_qa.app.helpers.ui_elements import chart_type_choices
 
 
@@ -23,8 +26,13 @@ class MakeTableDataTests(unittest.TestCase):
             }
         )
 
-        result = make_table_data(source.lazy(), "TechnologyGroup")
+        download_data = make_table_data(source.lazy())
+        result = make_display_table_data(download_data, "TechnologyGroup")
 
+        self.assertEqual(
+            download_data.collect().get_column("Value").to_list(),
+            [10.123456, 14.0],
+        )
         self.assertEqual(
             result.columns,
             ["Scenario", "Year", "Unit", "Wind"],
@@ -40,15 +48,29 @@ class MakeTableDataTests(unittest.TestCase):
                 "Scenario": ["Second", "Base", "Base"],
                 "Variable": ["Generation"] * 3,
                 "Period": [2030, 2030, 2025],
-                "TimeSlice": ["S2", "S1", "S2"],
+                "TimeSlice": ["WIN-WK-D", "SUM-WE-P", "SPR-WK-N"],
                 "Unit": ["GW"] * 3,
                 "Technology": ["Wind", "Solar", "Wind"],
                 "Value": [3.0, 2.0, 1.0],
             }
         )
 
-        result = make_table_data(source, "Technology")
+        download_data = make_table_data(source)
+        collected_download = download_data.collect()
+        result = make_display_table_data(download_data, "Technology")
 
+        self.assertEqual(
+            collected_download.get_column("TimeSlice").to_list(),
+            ["WIN-WK-D", "SUM-WE-P", "SPR-WK-N"],
+        )
+        self.assertEqual(
+            collected_download.get_column("TimeSliceLabel").to_list(),
+            [
+                "Winter / Weekday / Day",
+                "Summer / Weekend / Peak",
+                "Spring / Weekday / Night",
+            ],
+        )
         self.assertEqual(
             result.columns,
             ["Scenario", "Year", "TimeSlice", "Unit", "Solar", "Wind"],
@@ -57,6 +79,14 @@ class MakeTableDataTests(unittest.TestCase):
             result.get_column("Scenario").to_list(), ["Base", "Base", "Second"]
         )
         self.assertEqual(result.get_column("Year").to_list(), [2025, 2030, 2030])
+        self.assertEqual(
+            result.get_column("TimeSlice").to_list(),
+            [
+                "Spring / Weekday / Night",
+                "Summer / Weekend / Peak",
+                "Winter / Weekday / Day",
+            ],
+        )
         self.assertEqual(result.get_column("Solar").to_list(), [None, 2.0, None])
         self.assertEqual(result.get_column("Wind").to_list(), [1.0, None, 3.0])
 
@@ -73,7 +103,7 @@ class MakeTableDataTests(unittest.TestCase):
             }
         )
 
-        result = make_table_data(source, "Grouping")
+        result = make_display_table_data(make_table_data(source), "Grouping")
 
         self.assertEqual(result.columns, ["Scenario", "Year", "Unit", "Total"])
         self.assertEqual(result.get_column("Total").to_list(), [20.0])
