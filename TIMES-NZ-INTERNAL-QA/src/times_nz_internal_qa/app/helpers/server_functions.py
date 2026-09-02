@@ -6,6 +6,7 @@ from collections import OrderedDict
 
 import polars as pl
 from shiny import reactive, render
+from shiny.types import SilentException
 from shinywidgets import render_plotly
 from times_nz_internal_qa.app.helpers.charts import (
     DEFAULT_LAYOUT_OPTIONS,
@@ -20,6 +21,7 @@ from times_nz_internal_qa.app.helpers.data_processing import (
     TOTAL_GROUP_COLUMN,
     TOTAL_GROUP_OPTION,
     TOTAL_GROUP_VALUE,
+    aggregate_by_group,
     get_agg_data,
     get_filter_options_from_data,
     make_chart_data,
@@ -28,9 +30,7 @@ from times_nz_internal_qa.app.helpers.data_processing import (
     to_snake_case,
     write_polars_to_csv,
 )
-from times_nz_internal_qa.app.helpers.filters import (
-    register_all_filters_and_clear,
-)
+from times_nz_internal_qa.app.helpers.filters import register_all_filters_and_clear
 from times_nz_internal_qa.utilities.value_mappings import remap_values
 
 
@@ -47,6 +47,29 @@ def _effective_group_column(selected_group):
     if selected_group == TOTAL_GROUP_OPTION:
         return TOTAL_GROUP_COLUMN
     return selected_group
+
+
+def _active_filter_columns(filters, inputs):
+    """Return filter columns whose controls currently have a selection."""
+    active_columns = []
+    for filter_spec in filters:
+        input_id = f'filter_{filter_spec["chart_id"]}_{filter_spec["id"]}_selected'
+        try:
+            selection = getattr(inputs, input_id)()
+        except SilentException:
+            selection = None
+        if selection:
+            active_columns.append(filter_spec["col"])
+    return active_columns
+
+
+def _detail_group_columns(base_cols, selected_group, filters, inputs):
+    """Return the table grain from its base, grouping, and active filters."""
+    group_columns = list(base_cols)
+    if selected_group != TOTAL_GROUP_OPTION:
+        group_columns.append(selected_group)
+    group_columns.extend(_active_filter_columns(filters, inputs))
+    return list(dict.fromkeys(group_columns))
 
 
 # pylint:disable = too-many-arguments
@@ -252,13 +275,28 @@ def register_server_functions_for_explorer(
     # register all filter controls and clear button
     register_all_filters_and_clear(filters, _filter_options, inputs, outputs, session)
 
-    # Apply filters to data dynamically and lazily
+    # Keep the selected chart grouping and active filter dimensions for tables
+    # and downloads, aggregating out unrelated detail dimensions.
+    @reactive.calc
+    def _df_filtered_detail():
+        selected_group = getattr(inputs, f"{chart_id}_group")()
+        is_total = selected_group == TOTAL_GROUP_OPTION
+        detail_group_vars = _detail_group_columns(
+            base_cols, selected_group, filters, inputs
+        )
+
+        df = get_agg_data(_df(), filters, inputs, detail_group_vars)
+        if is_total:
+            df = df.with_columns(pl.lit(TOTAL_GROUP_VALUE).alias(TOTAL_GROUP_COLUMN))
+        return df
+
+    # Aggregate the filtered detail to the grain required by the chart.
     @reactive.calc
     def _df_filtered():
         selected_group = getattr(inputs, f"{chart_id}_group")()
         is_total = selected_group == TOTAL_GROUP_OPTION
         group_vars = base_cols if is_total else base_cols + [selected_group]
-        df = get_agg_data(_df(), filters, inputs, group_vars)
+        df = aggregate_by_group(_df_filtered_detail(), group_vars)
         if is_total:
             df = df.with_columns(pl.lit(TOTAL_GROUP_VALUE).alias(TOTAL_GROUP_COLUMN))
         return df
@@ -287,7 +325,7 @@ def register_server_functions_for_explorer(
         if not _is_active_section():
             return None
 
-        return make_table_data(_df_filtered())
+        return make_table_data(_df_filtered_detail())
 
     @reactive.calc
     def _display_table_df():
@@ -295,8 +333,7 @@ def register_server_functions_for_explorer(
         if table_df is None:
             return None
 
-        selected_group = _effective_group_column(getattr(inputs, f"{chart_id}_group")())
-        return make_display_table_data(table_df, selected_group)
+        return make_display_table_data(table_df)
 
     # DRAW CHARTS
     @outputs(id=f"{chart_id}_chart")

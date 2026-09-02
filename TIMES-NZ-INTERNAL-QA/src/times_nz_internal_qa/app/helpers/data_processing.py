@@ -301,43 +301,31 @@ def make_table_data(df: pl.LazyFrame | pl.DataFrame) -> pl.LazyFrame:
 
 def make_display_table_data(
     df: pl.LazyFrame | pl.DataFrame,
-    group_col: str,
 ) -> pl.DataFrame:
-    """Round and pivot download-ready data for the on-screen table.
+    """Format filtered, detailed data for the on-screen table.
 
-    This helper does not complete missing periods or interpolate values. Grouping
-    values become individual columns in the returned wide dataframe.
+    This helper does not aggregate, complete missing periods, or interpolate values.
+    All source dimensions remain as columns in the returned long-form dataframe.
     """
     lf = ensure_lazy(df)
     available_columns = lf.collect_schema().names()
 
-    index_columns = ["Scenario", "Period"]
-    timeslice_column = None
-    if "TimeSliceLabel" in available_columns:
-        timeslice_column = "TimeSliceLabel"
-    elif "TimeSlice" in available_columns:
-        timeslice_column = "TimeSlice"
-    if timeslice_column is not None:
-        index_columns.append(timeslice_column)
-    index_columns.append("Unit")
-    index_columns = [column for column in index_columns if column in available_columns]
-
-    table_df = (
-        lf.select(index_columns + [group_col, "Value"])
-        .with_columns(pl.col("Value").round(4))
-        .collect()
-        .pivot(
-            on=group_col,
-            index=index_columns,
-            values="Value",
-            aggregate_function=None,
-            sort_columns=True,
-        )
-        .sort(index_columns)
+    sort_columns = [
+        column
+        for column in ["Scenario", "Period", "TimeSliceLabel", "TimeSlice", "Unit"]
+        if column in available_columns
+    ]
+    sort_columns.extend(
+        column
+        for column in available_columns
+        if column not in sort_columns and column != "Value"
     )
 
+    table_df = lf.with_columns(pl.col("Value").round(4)).sort(sort_columns).collect()
+
     rename_columns = {"Period": "Year"}
-    if timeslice_column == "TimeSliceLabel":
+    if "TimeSliceLabel" in available_columns:
+        table_df = table_df.drop("TimeSlice")
         rename_columns["TimeSliceLabel"] = "TimeSlice"
 
     return table_df.rename(rename_columns)
