@@ -15,7 +15,10 @@ import io
 import numpy as np
 import pandas as pd
 import polars as pl
-from times_nz_internal_qa.app.helpers.filters import apply_filters
+from times_nz_internal_qa.app.helpers.filters import (
+    apply_filters,
+    identifier_to_title_case,
+)
 from times_nz_internal_qa.utilities.value_mappings import apply_value_mappings_pl
 
 _MEASURE_COLUMNS = {"Period", "Value"}
@@ -277,6 +280,45 @@ def make_chart_data(
         "group_col": group_col,
         "scen_list": scen_list,
     }
+
+
+def make_table_data(
+    df: pl.LazyFrame | pl.DataFrame,
+    group_col: str,
+) -> pl.DataFrame:
+    """Build a display table from actual filtered model-output rows.
+
+    Unlike ``make_chart_data``, this helper does not complete missing periods or
+    interpolate values. The on-screen table therefore stays aligned with the
+    filtered chart-data download.
+    """
+    lf = ensure_lazy(df)
+    available_columns = lf.collect_schema().names()
+
+    display_columns = ["Scenario", "Period"]
+    if "TimeSlice" in available_columns:
+        display_columns.append("TimeSlice")
+    if group_col not in display_columns:
+        display_columns.append(group_col)
+    display_columns.extend(["Value", "Unit"])
+    display_columns = [
+        column for column in display_columns if column in available_columns
+    ]
+
+    sort_columns = [
+        column
+        for column in ["Scenario", "Period", "TimeSlice", group_col]
+        if column in display_columns
+    ]
+    table_df = lf.select(display_columns)
+    if sort_columns:
+        table_df = table_df.sort(sort_columns)
+
+    rename_columns = {"Period": "Year"}
+    if group_col in display_columns:
+        rename_columns[group_col] = identifier_to_title_case(group_col)
+
+    return table_df.collect().rename(rename_columns)
 
 
 def write_polars_to_csv(df):

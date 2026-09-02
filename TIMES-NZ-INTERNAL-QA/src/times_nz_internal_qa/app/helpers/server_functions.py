@@ -8,6 +8,8 @@ import polars as pl
 from shiny import reactive, render
 from shinywidgets import render_plotly
 from times_nz_internal_qa.app.helpers.charts import (
+    DEFAULT_LAYOUT_OPTIONS,
+    TIMESLICE_LAYOUT_OPTIONS,
     build_empty_figure,
     build_grouped_area,
     build_grouped_bar,
@@ -21,6 +23,7 @@ from times_nz_internal_qa.app.helpers.data_processing import (
     get_agg_data,
     get_filter_options_from_data,
     make_chart_data,
+    make_table_data,
     to_snake_case,
     write_polars_to_csv,
 )
@@ -287,6 +290,29 @@ def register_server_functions_for_explorer(
 
         chart = _build_chart(_chart_df(), chart_type, chart_id, inputs, is_comparison)
         return chart
+
+    @outputs(id=f"{chart_id}_table")
+    @render.data_frame
+    def _table_unified():
+        if not _is_active_section():
+            return None
+
+        selected_group = _effective_group_column(getattr(inputs, f"{chart_id}_group")())
+        table_df = make_table_data(_df_filtered(), selected_group)
+        height = (
+            TIMESLICE_LAYOUT_OPTIONS.height
+            if chart_type == "timeslice"
+            else DEFAULT_LAYOUT_OPTIONS.height
+        )
+        return render.DataGrid(
+            table_df,
+            width="100%",
+            height=f"{height}px",
+            summary=True,
+            filters=False,
+            editable=False,
+            selection_mode="none",
+        )
 
     _register_explorer_downloads(
         outputs,
