@@ -645,12 +645,15 @@ body > .container-fluid,
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   width: 100%;
 }
 
 .chart-header-left {
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.75rem;
 }
 
@@ -838,6 +841,27 @@ body > .container-fluid,
   height: auto;
   min-height: 0;
   overflow: visible;
+}
+
+.chart-view-panel,
+.chart-table-view,
+.chart-table-view shiny-data-frame {
+  width: 100%;
+  min-width: 0;
+}
+
+.chart-table-view {
+  overflow-x: auto;
+}
+
+.chart-table-view shiny-data-frame .shiny-data-grid > table {
+  width: max-content !important;
+  min-width: 100%;
+}
+
+.chart-table-view shiny-data-frame .shiny-data-grid > table th,
+.chart-table-view shiny-data-frame .shiny-data-grid > table td {
+  white-space: nowrap;
 }
 
 .chart-container .js-plotly-plot,
