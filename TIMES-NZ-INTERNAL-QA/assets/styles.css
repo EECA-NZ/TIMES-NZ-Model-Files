@@ -845,13 +845,23 @@ body > .container-fluid,
 
 .chart-view-panel,
 .chart-table-view,
-.chart-table-view .shiny-data-frame {
+.chart-table-view shiny-data-frame {
   width: 100%;
   min-width: 0;
 }
 
 .chart-table-view {
   overflow-x: auto;
+}
+
+.chart-table-view shiny-data-frame .shiny-data-grid > table {
+  width: max-content !important;
+  min-width: 100%;
+}
+
+.chart-table-view shiny-data-frame .shiny-data-grid > table th,
+.chart-table-view shiny-data-frame .shiny-data-grid > table td {
+  white-space: nowrap;
 }
 
 .chart-container .js-plotly-plot,

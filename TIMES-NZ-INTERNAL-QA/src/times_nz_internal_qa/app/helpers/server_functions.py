@@ -312,6 +312,7 @@ def register_server_functions_for_explorer(
             filters=False,
             editable=False,
             selection_mode="none",
+            styles={"style": {"white-space": "nowrap"}},
         )
 
     _register_explorer_downloads(

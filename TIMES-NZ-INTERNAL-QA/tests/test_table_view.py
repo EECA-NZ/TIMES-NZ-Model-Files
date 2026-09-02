@@ -19,7 +19,7 @@ class MakeTableDataTests(unittest.TestCase):
                 "Period": [2023, 2025],
                 "Unit": ["GWh", "GWh"],
                 "TechnologyGroup": ["Wind", "Wind"],
-                "Value": [10.0, 14.0],
+                "Value": [10.123456, 14.0],
             }
         )
 
@@ -27,10 +27,11 @@ class MakeTableDataTests(unittest.TestCase):
 
         self.assertEqual(
             result.columns,
-            ["Scenario", "Year", "Technology Group", "Value", "Unit"],
+            ["Scenario", "Year", "Unit", "Wind"],
         )
         self.assertEqual(result.get_column("Year").to_list(), [2023, 2025])
         self.assertNotIn(2024, result.get_column("Year").to_list())
+        self.assertEqual(result.get_column("Wind").to_list(), [10.1235, 14.0])
 
     def test_includes_timeslice_and_sorts_rows(self):
         """Timeslice identifiers remain visible and rows have stable ordering."""
@@ -50,12 +51,14 @@ class MakeTableDataTests(unittest.TestCase):
 
         self.assertEqual(
             result.columns,
-            ["Scenario", "Year", "TimeSlice", "Technology", "Value", "Unit"],
+            ["Scenario", "Year", "TimeSlice", "Unit", "Solar", "Wind"],
         )
         self.assertEqual(
             result.get_column("Scenario").to_list(), ["Base", "Base", "Second"]
         )
         self.assertEqual(result.get_column("Year").to_list(), [2025, 2030, 2030])
+        self.assertEqual(result.get_column("Solar").to_list(), [None, 2.0, None])
+        self.assertEqual(result.get_column("Wind").to_list(), [1.0, None, 3.0])
 
     def test_total_group_is_retained(self):
         """The synthetic Total grouping remains visible in the table."""
@@ -72,7 +75,8 @@ class MakeTableDataTests(unittest.TestCase):
 
         result = make_table_data(source, "Grouping")
 
-        self.assertEqual(result.get_column("Grouping").to_list(), ["Total"])
+        self.assertEqual(result.columns, ["Scenario", "Year", "Unit", "Total"])
+        self.assertEqual(result.get_column("Total").to_list(), [20.0])
 
 
 class ChartTypeChoiceTests(unittest.TestCase):
