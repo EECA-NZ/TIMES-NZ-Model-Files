@@ -8,6 +8,10 @@ from times_nz_internal_qa.app.helpers.charts import (
     DEFAULT_LAYOUT_OPTIONS,
     TIMESLICE_LAYOUT_OPTIONS,
 )
+from times_nz_internal_qa.app.helpers.data_processing import (
+    TOTAL_GROUP_OPTION,
+    TOTAL_GROUP_VALUE,
+)
 from times_nz_internal_qa.app.helpers.filters import (
     filter_output_ui_list,
     identifier_to_title_case,
@@ -68,13 +72,17 @@ def tab_page_info_icon(btn_id: str):
     )
 
 
-def chart_type_choices():
-    """Radio labels with icons for supported chart types."""
-    return {
+def chart_type_choices(chart_type=None):
+    """Radio labels with icons for the views supported by a section."""
+    choices = {
         "bar": ui.span(ui.tags.i(class_="fa-solid fa-chart-column"), " Bar"),
         "line": ui.span(ui.tags.i(class_="fa-solid fa-chart-line"), " Line"),
         "area": ui.span(ui.tags.i(class_="fa-solid fa-chart-area"), " Area"),
+        "table": ui.span(ui.tags.i(class_="fa-solid fa-table"), " Table"),
     }
+    if chart_type == "timeslice":
+        return {key: choices[key] for key in ("bar", "table")}
+    return choices
 
 
 # pylint:disable = too-many-positional-arguments, too-many-arguments, duplicate-code
@@ -92,6 +100,9 @@ def section_block(parameters):
         group_options = {
             option: identifier_to_title_case(option) for option in group_options
         }
+    else:
+        group_options = dict(group_options)
+    group_options[TOTAL_GROUP_OPTION] = TOTAL_GROUP_VALUE
     filters = parameters["filters"]
 
     # generate additional
@@ -111,24 +122,22 @@ def section_block(parameters):
         class_="chart-control-panel",
     )
 
-    # Build toggle block only when charts support it
-    toggle_block = None
-    if parameters.get("chart_type") != "timeslice":
-        toggle_block = ui.div(
-            ui.tags.h4("Chart type:", class_="filter-section-title"),
-            ui.div(
-                ui.input_radio_buttons(
-                    f"{chart_id}_chart_type",
-                    label=None,
-                    choices=chart_type_choices(),
-                    selected="bar",
-                    inline=True,
-                    width="auto",
-                ),
-                class_="chart-toggle-bar",
+    view_input_id = f"{chart_id}_chart_type"
+    toggle_block = ui.div(
+        ui.tags.h4("View as:", class_="filter-section-title"),
+        ui.div(
+            ui.input_radio_buttons(
+                view_input_id,
+                label=None,
+                choices=chart_type_choices(parameters.get("chart_type")),
+                selected="bar",
+                inline=True,
+                width="auto",
             ),
-            class_="chart-toggle-header",
-        )
+            class_="chart-toggle-bar",
+        ),
+        class_="chart-toggle-header",
+    )
 
     chart_header = ui.div(
         # Line 1: title on its own
@@ -160,10 +169,19 @@ def section_block(parameters):
 
     chart_columns = ui.layout_columns(
         ui.div(
-            output_widget(
-                f"{chart_id}_chart",
-                width="100%",
-                height=chart_output_height(parameters),
+            ui.panel_conditional(
+                f'input.{view_input_id} != "table"',
+                output_widget(
+                    f"{chart_id}_chart",
+                    width="100%",
+                    height=chart_output_height(parameters),
+                ),
+                class_="chart-view-panel",
+            ),
+            ui.panel_conditional(
+                f'input.{view_input_id} == "table"',
+                ui.output_data_frame(f"{chart_id}_table"),
+                class_="chart-view-panel chart-table-view",
             ),
             class_="chart-container chart-body-card",
         ),

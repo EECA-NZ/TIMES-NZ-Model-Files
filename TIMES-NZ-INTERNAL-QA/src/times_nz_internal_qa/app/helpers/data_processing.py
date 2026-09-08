@@ -16,9 +16,23 @@ import numpy as np
 import pandas as pd
 import polars as pl
 from times_nz_internal_qa.app.helpers.filters import apply_filters
+from times_nz_internal_qa.app.helpers.timeslices import (
+    TIMESLICE_ORDER,
+    get_timeslice_long_label,
+)
 from times_nz_internal_qa.utilities.value_mappings import apply_value_mappings_pl
 
 _MEASURE_COLUMNS = {"Period", "Value"}
+_TIMESLICE_LONG_LABELS = {
+    timeslice: get_timeslice_long_label(timeslice) for timeslice in TIMESLICE_ORDER
+}
+
+# The chart layer always expects a grouping column. When users select Total,
+# aggregate over the real grouping dimensions and provide this single-valued
+# synthetic group instead.
+TOTAL_GROUP_OPTION = "__total__"
+TOTAL_GROUP_COLUMN = "Grouping"
+TOTAL_GROUP_VALUE = "Total"
 
 
 def show_df_size(df):
@@ -60,7 +74,9 @@ def fill_null_dimension_values(
         if dtype == pl.Null:
             expressions.append(pl.lit("-").alias(column))
         elif dtype in (pl.String, pl.Categorical):
-            expressions.append(pl.col(column).cast(pl.String).fill_null("-").alias(column))
+            expressions.append(
+                pl.col(column).cast(pl.String).fill_null("-").alias(column)
+            )
 
     if not expressions:
         return df
@@ -130,8 +146,7 @@ def read_data_pl(file_location, scenarios) -> pl.LazyFrame:
 
     # eager read; for lazy, use pl.scan_parquet
     df = (
-        pl.scan_parquet(file_location)
-        .with_columns(pl.col("Period").cast(pl.Int64))
+        pl.scan_parquet(file_location).with_columns(pl.col("Period").cast(pl.Int64))
         # filter here? we reread when the scenario filter changes.
         # this keeps excess scenarios out of memory
         .filter(pl.col("Scenario").is_in(scenarios))
@@ -269,6 +284,51 @@ def make_chart_data(
         "group_col": group_col,
         "scen_list": scen_list,
     }
+
+
+def make_table_data(df: pl.LazyFrame | pl.DataFrame) -> pl.LazyFrame:
+    """Add download-friendly fields without altering model-output values."""
+    lf = ensure_lazy(df)
+    available_columns = lf.collect_schema().names()
+
+    if "TimeSlice" in available_columns:
+        lf = lf.with_columns(
+            pl.col("TimeSlice").replace(_TIMESLICE_LONG_LABELS).alias("TimeSliceLabel")
+        )
+
+    return lf
+
+
+def make_display_table_data(
+    df: pl.LazyFrame | pl.DataFrame,
+) -> pl.DataFrame:
+    """Format filtered, detailed data for the on-screen table.
+
+    This helper does not aggregate, complete missing periods, or interpolate values.
+    All source dimensions remain as columns in the returned long-form dataframe.
+    """
+    lf = ensure_lazy(df)
+    available_columns = lf.collect_schema().names()
+
+    sort_columns = [
+        column
+        for column in ["Scenario", "Period", "TimeSliceLabel", "TimeSlice", "Unit"]
+        if column in available_columns
+    ]
+    sort_columns.extend(
+        column
+        for column in available_columns
+        if column not in sort_columns and column != "Value"
+    )
+
+    table_df = lf.with_columns(pl.col("Value").round(4)).sort(sort_columns).collect()
+
+    rename_columns = {"Period": "Year"}
+    if "TimeSliceLabel" in available_columns:
+        table_df = table_df.drop("TimeSlice")
+        rename_columns["TimeSliceLabel"] = "TimeSlice"
+
+    return table_df.rename(rename_columns)
 
 
 def write_polars_to_csv(df):

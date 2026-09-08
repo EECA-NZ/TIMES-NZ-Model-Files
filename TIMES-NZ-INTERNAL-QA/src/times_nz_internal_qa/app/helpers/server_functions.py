@@ -4,9 +4,13 @@ Function factories for replicable server functions.
 
 from collections import OrderedDict
 
+import polars as pl
 from shiny import reactive, render
+from shiny.types import SilentException
 from shinywidgets import render_plotly
 from times_nz_internal_qa.app.helpers.charts import (
+    DEFAULT_LAYOUT_OPTIONS,
+    TIMESLICE_LAYOUT_OPTIONS,
     build_empty_figure,
     build_grouped_area,
     build_grouped_bar,
@@ -14,16 +18,19 @@ from times_nz_internal_qa.app.helpers.charts import (
     build_grouped_line,
 )
 from times_nz_internal_qa.app.helpers.data_processing import (
+    TOTAL_GROUP_COLUMN,
+    TOTAL_GROUP_OPTION,
+    TOTAL_GROUP_VALUE,
+    aggregate_by_group,
     get_agg_data,
     get_filter_options_from_data,
     make_chart_data,
+    make_display_table_data,
+    make_table_data,
     to_snake_case,
     write_polars_to_csv,
 )
-from times_nz_internal_qa.app.helpers.filters import (
-    apply_filters,
-    register_all_filters_and_clear,
-)
+from times_nz_internal_qa.app.helpers.filters import register_all_filters_and_clear
 from times_nz_internal_qa.utilities.value_mappings import remap_values
 
 
@@ -33,6 +40,36 @@ def _selection_key(value):
     if isinstance(value, (list, tuple, set)):
         return tuple(sorted("" if v is None else str(v) for v in value))
     return ("",) if value == "" else (str(value),)
+
+
+def _effective_group_column(selected_group):
+    """Return the real or synthetic column used to build chart series."""
+    if selected_group == TOTAL_GROUP_OPTION:
+        return TOTAL_GROUP_COLUMN
+    return selected_group
+
+
+def _active_filter_columns(filters, inputs):
+    """Return filter columns whose controls currently have a selection."""
+    active_columns = []
+    for filter_spec in filters:
+        input_id = f'filter_{filter_spec["chart_id"]}_{filter_spec["id"]}_selected'
+        try:
+            selection = getattr(inputs, input_id)()
+        except SilentException:
+            selection = None
+        if selection:
+            active_columns.append(filter_spec["col"])
+    return active_columns
+
+
+def _detail_group_columns(base_cols, selected_group, filters, inputs):
+    """Return the table grain from its base, grouping, and active filters."""
+    group_columns = list(base_cols)
+    if selected_group != TOTAL_GROUP_OPTION:
+        group_columns.append(selected_group)
+    group_columns.extend(_active_filter_columns(filters, inputs))
+    return list(dict.fromkeys(group_columns))
 
 
 # pylint:disable = too-many-arguments
@@ -101,24 +138,43 @@ def _build_chart(params, chart_type, chart_id, inputs, is_comparison):
     return chart
 
 
-def _register_explorer_downloads(outputs, chart_id, section_title, chart_df, raw_df):
+def _register_explorer_downloads(
+    outputs, chart_id, section_title, chart_df, raw_df, *, scenarios
+):
+    """
+    Registers two separate downloads with IDs to give options in the dropdowns
+    defines the data functions used to render, and a few components to
+    define the filename based on current user settings
+    """
+
+    def download_filename(data_description):
+        selected_scenarios = scenarios()
+        main_scenario = selected_scenarios[0] if selected_scenarios else "scenario"
+        comp_scenario = (
+            f"and-{to_snake_case(selected_scenarios[1])}-"
+            if len(selected_scenarios) == 2
+            else ""
+        )
+        return (
+            f"{to_snake_case(str(main_scenario))}-"
+            f"{comp_scenario}"
+            f"{to_snake_case(section_title)}-"
+            f"{data_description}.csv"
+        )
+
     chart_download_function_name = f"{chart_id}_chart_data_download"
-    chart_download_filename = f"times_nz_{to_snake_case(section_title)}_chart_data.csv"
     register_download(
         outputs,
         chart_download_function_name,
-        chart_download_filename,
+        lambda: download_filename("chart_data"),
         chart_df,
     )
 
     unfiltered_download_function_name = f"{chart_id}_unfiltered_data_download"
-    unfiltered_download_filename = (
-        f"times_nz_{to_snake_case(section_title)}_unfiltered_data.csv"
-    )
     register_download(
         outputs,
         unfiltered_download_function_name,
-        unfiltered_download_filename,
+        lambda: download_filename("raw_data"),
         raw_df,
     )
 
@@ -219,17 +275,31 @@ def register_server_functions_for_explorer(
     # register all filter controls and clear button
     register_all_filters_and_clear(filters, _filter_options, inputs, outputs, session)
 
-    # Apply filters to data dynamically and lazily
+    # Keep the selected chart grouping and active filter dimensions for tables
+    # and downloads, aggregating out unrelated detail dimensions.
+    @reactive.calc
+    def _df_filtered_detail():
+        selected_group = getattr(inputs, f"{chart_id}_group")()
+        is_total = selected_group == TOTAL_GROUP_OPTION
+        detail_group_vars = _detail_group_columns(
+            base_cols, selected_group, filters, inputs
+        )
+
+        df = get_agg_data(_df(), filters, inputs, detail_group_vars)
+        if is_total:
+            df = df.with_columns(pl.lit(TOTAL_GROUP_VALUE).alias(TOTAL_GROUP_COLUMN))
+        return df
+
+    # Aggregate the filtered detail to the grain required by the chart.
     @reactive.calc
     def _df_filtered():
         selected_group = getattr(inputs, f"{chart_id}_group")()
-        group_vars = base_cols + [selected_group]
-        df = get_agg_data(_df(), filters, inputs, group_vars)
+        is_total = selected_group == TOTAL_GROUP_OPTION
+        group_vars = base_cols if is_total else base_cols + [selected_group]
+        df = aggregate_by_group(_df_filtered_detail(), group_vars)
+        if is_total:
+            df = df.with_columns(pl.lit(TOTAL_GROUP_VALUE).alias(TOTAL_GROUP_COLUMN))
         return df
-
-    @reactive.calc
-    def _df_chart_download():
-        return apply_filters(_df(), filters, inputs)
 
     # Create chart data
     @reactive.calc
@@ -237,7 +307,7 @@ def register_server_functions_for_explorer(
         if not _is_active_section():
             return None
 
-        selected_group = getattr(inputs, f"{chart_id}_group")()
+        selected_group = _effective_group_column(getattr(inputs, f"{chart_id}_group")())
         cache_key = _chart_cache_key()
         return _build_cached_chart_data(
             cache=chart_cache,
@@ -250,6 +320,21 @@ def register_server_functions_for_explorer(
             cache_limit=chart_cache_limit,
         )
 
+    @reactive.calc
+    def _table_df():
+        if not _is_active_section():
+            return None
+
+        return make_table_data(_df_filtered_detail())
+
+    @reactive.calc
+    def _display_table_df():
+        table_df = _table_df()
+        if table_df is None:
+            return None
+
+        return make_display_table_data(table_df)
+
     # DRAW CHARTS
     @outputs(id=f"{chart_id}_chart")
     @render_plotly
@@ -260,6 +345,36 @@ def register_server_functions_for_explorer(
         chart = _build_chart(_chart_df(), chart_type, chart_id, inputs, is_comparison)
         return chart
 
+    @outputs(id=f"{chart_id}_table")
+    @render.data_frame
+    def _table_unified():
+        table_df = _display_table_df()
+        if table_df is None:
+            return None
+
+        height = (
+            TIMESLICE_LAYOUT_OPTIONS.height
+            if chart_type == "timeslice"
+            else DEFAULT_LAYOUT_OPTIONS.height
+        )
+        return render.DataGrid(
+            table_df,
+            width="100%",
+            height=f"{height}px",
+            summary=True,
+            filters=False,
+            editable=False,
+            selection_mode="none",
+            styles={"style": {"white-space": "nowrap"}},
+        )
+
     _register_explorer_downloads(
-        outputs, chart_id, section_title, _df_chart_download, _df
+        outputs,
+        chart_id,
+        section_title,
+        # Match the filtered download to the wide, labelled on-screen table.
+        _table_df,
+        # data function for the "unfiltered" download
+        _df,
+        scenarios=scenarios,
     )
