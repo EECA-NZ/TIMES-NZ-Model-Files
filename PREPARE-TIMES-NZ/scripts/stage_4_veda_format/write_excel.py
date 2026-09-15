@@ -124,6 +124,11 @@ def write_workbook(workbook: str, workbook_meta: pd.DataFrame) -> None:
                 startrow=start_row,
                 table_name=row.TableName,
                 table_description=row.Description,
+                # StartYear is a VEDA one-value table: its sole value occupies
+                # the header cell, so it must retain its numeric cell type.
+                header_is_data=(
+                    workbook == "SysSettings" and row.TableName == "StartYear"
+                ),
             )
 
             # ------------------------------------------------------------------

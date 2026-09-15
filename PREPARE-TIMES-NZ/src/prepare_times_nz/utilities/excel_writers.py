@@ -15,6 +15,9 @@
 
 # Libraries ------------------------------------------------------------------
 import os
+import re
+from decimal import ROUND_HALF_EVEN, Decimal, InvalidOperation
+from numbers import Integral, Real
 
 import pandas as pd
 from openpyxl import Workbook, load_workbook
@@ -22,8 +25,74 @@ from openpyxl.styles import Font
 from prepare_times_nz.utilities.filepaths import OUTPUT_LOCATION
 from prepare_times_nz.utilities.logger_setup import logger
 
+INTEGER_TEXT = re.compile(r"^[+-]?\d+$")
+FLOAT_TEXT = re.compile(
+    r"^[+-]?(?:(?:\d+\.\d*|\.\d+)(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+)$"
+)
+
 
 # Functions ------------------------------------------------------------------
+def _round_decimal_to_significant_figures(
+    value: Decimal, significant_figures: int = 15
+) -> Decimal:
+    """Round a finite Decimal to the precision Excel can retain."""
+    if value.is_zero():
+        return value
+
+    exponent = value.adjusted() - significant_figures + 1
+    return value.quantize(Decimal("1").scaleb(exponent), rounding=ROUND_HALF_EVEN)
+
+
+def _excel_float(value: str | float | Decimal) -> float | str:
+    """Return a 15-significant-figure float, or preserve non-finite text."""
+    try:
+        decimal_value = Decimal(str(value))
+    except (InvalidOperation, ValueError):
+        return str(value)
+
+    if not decimal_value.is_finite():
+        return str(value)
+
+    return float(_round_decimal_to_significant_figures(decimal_value))
+
+
+def _coerce_excel_text(value: str) -> int | float | str:
+    """Convert numeric-form text while preserving all other text verbatim."""
+    if INTEGER_TEXT.fullmatch(value):
+        return int(value)
+    if FLOAT_TEXT.fullmatch(value):
+        return _excel_float(value)
+    return value
+
+
+def coerce_excel_data_value(value):
+    """Convert a table data value to its intended Excel cell type.
+
+    CSV inputs are read as text so their spelling can be inspected before
+    conversion. Integer-form text becomes an ``int``; decimal or scientific
+    notation becomes a ``float`` rounded to 15 significant figures, Excel's
+    usable numeric precision. All other values remain text. This function is
+    deliberately applied only to table data cells: headers, tags, and other
+    workbook metadata are always written as strings.
+    """
+    if value is None or pd.isna(value):
+        return None
+
+    if isinstance(value, bool):
+        return value
+
+    if isinstance(value, Integral):
+        return int(value)
+
+    if isinstance(value, (Real, Decimal)):
+        return _excel_float(value)
+
+    if isinstance(value, str):
+        return _coerce_excel_text(value)
+
+    return str(value)
+
+
 def get_csv_data(file_location):
     """
     Returns the datafrom from a file_location,
@@ -127,6 +196,7 @@ def write_data(
     startrow=0,
     table_name="TABLE NAME",
     table_description="TABLE DESCRIPTION",
+    header_is_data=False,
 ):
     """
     Writes data to the existing book
@@ -143,6 +213,9 @@ def write_data(
     needs to increase the start row so our tables don't overwrite each other.
 
     THis allows us to print many tagged tables to a single worksheet
+
+    ``header_is_data`` is reserved for VEDA's unusual one-value-table layout,
+    where the value is placed in a column header rather than a data row.
 
     """
 
@@ -176,23 +249,30 @@ def write_data(
 
     # Now can write things:
     # Write the table name and description, inherited from config files
-    sheet.cell(row=description_row, column=1, value=table_name)
-    sheet.cell(row=description_row, column=2, value=table_description)
+    sheet.cell(row=description_row, column=1, value=str(table_name))
+    sheet.cell(row=description_row, column=2, value=str(table_description))
     # make bold, for fun
     sheet.cell(row=description_row, column=1).font = Font(bold=True)
     sheet.cell(row=description_row, column=2).font = Font(bold=True)
 
     # Write the header row
     for col_idx, column_name in enumerate(df.columns, 1):
-        sheet.cell(row=header_row, column=col_idx, value=column_name)
+        header_value = (
+            coerce_excel_data_value(column_name) if header_is_data else str(column_name)
+        )
+        sheet.cell(row=header_row, column=col_idx, value=header_value)
 
     # Write the data
     for row_idx, row in enumerate(df.values, data_start_row):
         for col_idx, value in enumerate(row, 1):
-            sheet.cell(row=row_idx, column=col_idx, value=value)
+            sheet.cell(
+                row=row_idx,
+                column=col_idx,
+                value=coerce_excel_data_value(value),
+            )
 
     # Write the tag
-    sheet.cell(row=tag_row, column=1, value=tag)
+    sheet.cell(row=tag_row, column=1, value=str(tag))
 
     # Add UC_Set tags if needed
     if uc_set_length > 0:
