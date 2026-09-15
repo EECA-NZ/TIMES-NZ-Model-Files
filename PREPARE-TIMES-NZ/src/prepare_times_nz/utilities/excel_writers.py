@@ -232,20 +232,20 @@ def write_data(
     # expand the width of the first column (often important for names)
     sheet.column_dimensions["A"].width = 30
 
-    # quick definitions of row layout
+    # Quick definitions of row layout. UC sets share the row immediately
+    # above the table tag so xl2times associates them with that table without
+    # treating a neighbouring cell as the tag's scalar value.
     description_row = startrow + 1
-    # Get uc_set length and adjust startrow if needed
-    # (after setting description row, which is always at the top)
     uc_set_length = len(uc_set)
     if uc_set_length > 0:
         logger.debug("uc_sets detected")
-        startrow += uc_set_length - 1
     else:
         logger.debug("no uc_sets detected ")
 
-    tag_row = startrow + 2
-    header_row = startrow + 3
-    data_start_row = startrow + 4
+    # A UC-set row is inserted between the description and table tag.
+    tag_row = startrow + 2 + bool(uc_set_length)
+    header_row = tag_row + 1
+    data_start_row = tag_row + 2
 
     # Now can write things:
     # Write the table name and description, inherited from config files
@@ -276,11 +276,13 @@ def write_data(
 
     # Add UC_Set tags if needed
     if uc_set_length > 0:
-        for n in range(uc_set_length):
-            uc_set_tag_row = startrow - n + 2
-            key = list(uc_set.keys())[n]
-            value = uc_set[key]
-            sheet.cell(row=uc_set_tag_row, column=2, value=f"~UC_Sets: {key}: {value}")
+        uc_set_tag_row = tag_row - 1
+        for column, (key, value) in enumerate(uc_set.items(), start=1):
+            sheet.cell(
+                row=uc_set_tag_row,
+                column=column,
+                value=f"~UC_Sets: {key}: {value}",
+            )
 
     # Save the workbook
     book.save(f"{OUTPUT_LOCATION}/{book_name}.xlsx")

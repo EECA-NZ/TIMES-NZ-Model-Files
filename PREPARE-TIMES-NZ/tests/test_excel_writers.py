@@ -82,3 +82,24 @@ def test_write_data_can_treat_a_single_value_header_as_data(tmp_path, monkeypatc
     header_cell = load_workbook(tmp_path / "test.xlsx")["Sheet1"].cell(3, 1)
     assert header_cell.value == 2023
     assert header_cell.data_type == "n"
+
+
+def test_write_data_places_uc_sets_above_the_table_tag(tmp_path, monkeypatch):
+    """UC sets precede the tag, whose adjacent cell must stay blank."""
+    monkeypatch.setattr(excel_writers, "OUTPUT_LOCATION", tmp_path)
+    excel_writers.create_empty_workbook("test", ["Sheet1"])
+
+    excel_writers.write_data(
+        pd.DataFrame({"UC_N": ["BatteryLimit"]}),
+        book_name="test",
+        sheet_name="Sheet1",
+        tag="~UC_T",
+        uc_set={"R_S": "AllRegions", "T_S": ""},
+    )
+
+    sheet = load_workbook(tmp_path / "test.xlsx")["Sheet1"]
+    assert sheet.cell(2, 1).value == "~UC_Sets: R_S: AllRegions"
+    assert sheet.cell(2, 2).value == "~UC_Sets: T_S: "
+    assert sheet.cell(3, 1).value == "~UC_T"
+    assert sheet.cell(3, 2).value is None
+    assert sheet.cell(4, 1).value == "UC_N"

@@ -132,10 +132,10 @@ def write_workbook(workbook: str, workbook_meta: pd.DataFrame) -> None:
             )
 
             # ------------------------------------------------------------------
-            # Increment start_row for the NEXT table
-            # Requires 5 to ensure space
+            # Increment start_row for the NEXT table. All UC-set declarations
+            # share one row above their table tag.
             # ------------------------------------------------------------------
-            start_row += len(df) + len(uc_sets) + 4
+            start_row += len(df) + 4 + bool(uc_sets)
 
 
 # -----------------------------------------------------------------------------
