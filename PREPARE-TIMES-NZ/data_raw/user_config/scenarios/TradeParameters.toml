@@ -20,7 +20,7 @@ WorkBookName = "SuppXLS/Trades/ScenTrade__Trade_Links" # its interesting that th
 
 [UnilateralLPGTrade]
 Description = "Declares LPG trade from NI -> SI"
-SheetName = "Unilateral"
+SheetName = "Uni"
 TagName = "TradeLinks"
 LPG = ["NI", "SI"] # NOTE: this must be the commodity code 
 NI = ["", ""]
@@ -29,7 +29,7 @@ SI = ["1", ""]
 
 [BilateralCoalTrade]
 Description = "Declares Coal trade between NI/SI"
-SheetName = "Bilateral"
+SheetName = "Bi"
 TagName = "TradeLinks"
 COA = ["NI", "SI"] # NOTE: this must be the commodity code 
 NI = ["", "1"]
@@ -37,7 +37,7 @@ SI = ["1", ""]
 
 [BilateralElectricityTrade]
 Description = "Declares Electricity trade (HVDC) between NI/SI"
-SheetName = "Bilateral"
+SheetName = "Bi"
 TagName = "TradeLinks"
 ELC = ["NI", "SI"] # NOTE: this must be the commodity code 
 NI = ["", "1"]
