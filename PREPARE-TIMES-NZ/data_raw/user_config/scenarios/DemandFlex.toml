@@ -56,6 +56,15 @@ Comm-Out = [
     "JD-HPSH-S_HEAT",
     "DD-HPSH-S_HEAT",
 ]
+CommName = [
+    # CommName is required for xl2times, but not Veda. It should match Comm-Out
+    "JD-HWATER_C-WH_LOW",
+    "DD-HWATER_C-WH_LOW",
+    "JD-HWATER_C-WH_LOW",
+    "DD-HWATER_C-WH_LOW",
+    "JD-HPSH-S_HEAT",
+    "DD-HPSH-S_HEAT",
+]
 Attribute = ["STG_SIFT", "STG_SIFT", "STG_SIFT", "STG_SIFT", "STG_SIFT", "STG_SIFT"]
 2023 = [0.5, 0.5, 0.05, 0.05, 0, 0]
 2050 = [0.4, 0.4, 0.1, 0.1, 0.2, 0.2]
@@ -104,6 +113,15 @@ Comm-In = [
     "DD-HPSH-S_HEAT",
 ]
 Comm-Out = [
+    "JD-HWATER_C-WH_LOW",
+    "DD-HWATER_C-WH_LOW",
+    "JD-HWATER_C-WH_LOW",
+    "DD-HWATER_C-WH_LOW",
+    "JD-HPSH-S_HEAT",
+    "DD-HPSH-S_HEAT",
+]
+CommName = [
+    # CommName is required for xl2times, but not Veda. It should match Comm-Out
     "JD-HWATER_C-WH_LOW",
     "DD-HWATER_C-WH_LOW",
     "JD-HWATER_C-WH_LOW",
