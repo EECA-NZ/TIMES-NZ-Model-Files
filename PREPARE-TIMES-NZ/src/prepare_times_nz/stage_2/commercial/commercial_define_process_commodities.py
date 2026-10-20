@@ -16,6 +16,7 @@ from prepare_times_nz.stage_2.commercial.common import (
     PREPRO_DF_NAME_STEP4,
     PREPROCESSING_DIR,
     RUN_TESTS,
+    create_service_commodity,
     save_preprocessing,
 )
 from prepare_times_nz.stage_2.common.add_times_codes import add_times_codes
@@ -54,7 +55,9 @@ def define_process_commodities(df: pd.DataFrame, run_tests=RUN_TESTS) -> pd.Data
     )
 
     df["CommodityIn"] = "COM" + df[["Fuel_TIMES"]].agg("-".join, axis=1)
-    df["CommodityOut"] = df[["Sector_TIMES", "EndUse_TIMES"]].agg("-".join, axis=1)
+    df["CommodityOut"] = create_service_commodity(
+        df["Sector_TIMES"], df["EndUse_TIMES"]
+    )
 
     return df[["Process", "CommodityIn", "CommodityOut"] + original_columns]
 
