@@ -120,15 +120,7 @@ Region = ["NI", "NI"]
 Description = "Define Oil and oil product commodities"
 SheetName = "Oil"
 TagName = "FI_Comm"
-Csets = ["NRG"] # (all energy commodities) 
-CommName = ["OILI",
-            "LPG",
-            "PET",
-            "PET",
-            "DSL",
-            "FOL",
-            "JET",]
-Unit = ["PJ"] # All PJ 
+DataLocation = "data_raw/coded_assumptions/oil_and_gas/oil_commodity_definitions.csv"
 
 [OilProcessDeclarations]
 Description = "Declare oil and oil product supply processes (mining, imports). Include exports"
@@ -219,9 +211,7 @@ GASCO2 = 1
 Description = "Declare biofuel energy commodities"
 SheetName = "Biofuels"
 TagName = "FI_Comm"
-Csets = ["NRG"] # (all energy commodities) 
-CommName = ["WODWST", "AGRWST", "MNCWST", "ANMMNR", "WOD", "OSWOD", "BPLT", "BDSL", "BIL", "DID", "DIJ", "SAF", "BIG", "BIM"]
-Unit = ["PJ"] # All PJ
+DataLocation = "data_raw/coded_assumptions/biofuels/biofuel_commodity_definitions.csv"
 
 
 [BiofuelProcessDeclarations]
