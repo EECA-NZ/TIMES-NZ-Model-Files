@@ -77,6 +77,9 @@ def get_agr_veda_table(df, input_map, enable_biogas=True):
     df["CAP2ACT"] = CAP2ACT
     # shape output
     agr_df = select_and_rename(df, input_map)
+    # Treat missing lifetime assumptions as effectively infinite, consistent
+    # with the industry base-year demand conversion.
+    agr_df["Life"] = agr_df["Life"].fillna(100)
 
     if enable_biogas:
         agr_nga_processes = get_processes_with_input_commodity(agr_df, "AGRNGA")
