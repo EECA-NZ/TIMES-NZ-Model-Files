@@ -88,8 +88,7 @@ Tcap = "Pja"
 Description = "Defines gas distribution network"
 # Note contingent reserves are specified as a separate/optional scenario table
 SheetName = "Gas Distribution"
-TagName = "FI_Process"
-Sets = "PRE"
+TagName = "FI_T"
 TechName = "G_NGA_DIST"
 Region = "NI"
 NCAP_PASTI = 150 # this doesn't really matter - just enough to meet demand
@@ -157,8 +156,8 @@ SheetName = "Coal"
 TagName = "FI_Process"
 Sets = ["MIN", "IMP"] 
 TechName = ["MINCOA", "IMPCOA"]
-Tact = "PJ"
-Tcap = "PJa"
+Tact = ["PJ", "PJ"]
+Tcap = ["PJa", "PJa"]
 
 [CoalParameterDeclarations]
 

@@ -23,7 +23,7 @@ Sets = ["IMP", "PRE"]
 TechName = ["IMPLNG", # just import the commodity            
             "LNGPORTSTD" # standard configuration (small possible but not currently included)
             ]
-Tact = "PJ"
+Tact = ["PJ", "PJ"]
 Tcap = ["PJa", "StandardPort"] # we are defining abstract units for these ports to work around
 
 [LNGCommodityCosts]
