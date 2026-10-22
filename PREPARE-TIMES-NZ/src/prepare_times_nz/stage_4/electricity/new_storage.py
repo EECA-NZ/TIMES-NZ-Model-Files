@@ -216,7 +216,7 @@ def main():
     # ensure batteries available on either island
     battery_ava = df_process[["TechName"]]
     battery_ava = battery_ava.rename(columns={"TechName": "PSet_PN"})
-    battery_ava["AllRegions"] = 1
+    battery_ava["Value"] = 1
     save_battery_data(battery_ava, "battery_availability.csv")
 
     battery_cost_curves = get_battery_cost_curves()

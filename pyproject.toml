@@ -1,0 +1,53 @@
+[project]
+name = "times-nz-model-files"
+version = "3.0.8"
+description = "Development workspace for TIMES-NZ model tooling"
+requires-python = ">=3.12,<4"
+dependencies = [
+    "prepare-times-nz",
+    "solve-times-nz",
+    "times-nz-internal-qa",
+]
+
+[dependency-groups]
+dev = [
+    "black==26.3.1",
+    "commitizen>=4.13,<5",
+    "coverage>=7.0,<8",
+    "isort>=6.0,<7",
+    "openpyxl>=3.0,<4",
+    "pip-audit>=2.0,<3",
+    "plotnine>=0.15.3,<0.16",
+    "pre-commit>=4.0,<5",
+    "pylint>=3.3.8,<4",
+    "pytest>=9.0.3,<10",
+    "rsconnect-python>=1.29.0,<2",
+    "tomli-w>=1.2,<2",
+    "yamllint>=1.0,<2",
+]
+docs = [
+    "docxbuilder[math]>=1.2.0,<2",
+    "furo>=2025.9.25,<2026",
+    "myst-parser>=4.0.1,<5",
+    "roman-numerals>=4.1.0,<5",
+    "sphinx-autobuild>=2024.1,<2025",
+    "sphinx-book-theme>=1.1.4,<2",
+    "sphinx>=8.0,<9",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+prepare-times-nz = { workspace = true }
+solve-times-nz = { workspace = true }
+times-nz-internal-qa = { workspace = true }
+
+[tool.uv.workspace]
+members = ["PREPARE-TIMES-NZ", "SOLVE-TIMES-NZ", "TIMES-NZ-INTERNAL-QA"]
+
+[tool.black]
+target-version = ["py312"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
