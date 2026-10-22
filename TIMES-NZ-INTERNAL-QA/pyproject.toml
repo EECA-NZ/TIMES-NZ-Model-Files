@@ -1,35 +1,31 @@
-[tool.poetry]
+[project]
 name = "TIMES-NZ-INTERNAL-QA"
 version = "0.1.0"
 description = "Internal handling and visualisation of TIMES-NZ result files"
 readme = "readme.md"
-authors = ["Your Name <your.email@example.com>"]
-
-[tool.poetry.dependencies]
-python = ">=3.12,<4"
-pandas = "^2.2"
-numpy = "^2.0"
-doit = "^0.36"
-seaborn = "^0.13"
-shiny = "^1.5.0"
-shinywidgets = "^0.7.0"
-pyarrow = "^23.0.1"
-vega = "^4.1.0"
-plotly = "^6.3.1"
-polars = "^1.34.0"
-python-dotenv = "^1.2.1"
-pygments = "2.20.0"
-
-[tool.poetry.group.dev.dependencies]
-pip = "26.2"
-pylint = "^3.3.8"
-plotly = "^6.3.1"
-plotnine = "^0.15.3"
-rsconnect-python = "^1.29.0"
+authors = [{ name = "EECA" }]
+requires-python = ">=3.12,<4"
+dependencies = [
+    "doit>=0.36,<0.37",
+    "numpy>=2.0,<3",
+    "pandas>=2.2,<3",
+    "plotly>=6.3.1,<7",
+    "polars>=1.34.0,<2",
+    "pyarrow>=23.0.1,<24",
+    "pygments==2.20.0",
+    "python-dotenv>=1.2.1,<2",
+    "seaborn>=0.13,<0.14",
+    "shiny>=1.5.0,<2",
+    "shinywidgets>=0.7.0,<0.8",
+    "vega>=4.1.0,<5",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/times_nz_internal_qa"]
 
 [tool.pylint.main]
 source-roots = ["src"]

@@ -58,10 +58,13 @@ Note that all the categorised data is available for download from the public ver
 
 ## Deploying the app 
 
-A few adjustments are made to our standard poetry structure to enable the app to build on shinyapps.io: 
+A few adjustments are made to the shared uv workspace structure to enable the app to build on shinyapps.io:
 
-1) app.py in root includes a line adding `src` to the system path. This enables shinyapps to identify the src modules and the usual imports work. Locally, this isn't necessary, because `src` is identified by the pylint dependencies in `pyproject.toml`. 
-2) Shinyapps.io uses the `requirements.txt` file to install the necessary packages. Again, we don't usually do this with poetry. If you have added packages, you need to refresh requirements.txt by exporting your poetry requirements using `poetry export -f requirements.txt -o requirements.txt --without-hashes`.
+1) `app.py` adds `src` to the system path. This enables Shinyapps.io to import the application package without the workspace's editable installation.
+2) Shinyapps.io uses `requirements.txt` for its separate hosted environment. If runtime dependencies change, regenerate it from the root lockfile:
+   ```bash
+   uv export --locked --package times-nz-internal-qa --no-dev --no-emit-workspace --no-hashes -o TIMES-NZ-INTERNAL-QA/requirements.txt
+   ```
 
 In general, you can deploy the app locally by simply running the script `run_local.py`.
 
@@ -69,7 +72,7 @@ In general, you can deploy the app locally by simply running the script `run_loc
 
 When deploying to the production app on shinyapps.io (the one that will be presented on the EECA website for public use), use the following terminal command:
 ```
-poetry run rsconnect deploy shiny . .env \
+uv run --directory TIMES-NZ-INTERNAL-QA rsconnect deploy shiny . .env \
   --entrypoint app \
   --app-id <PRODUCTION_APP_ID>
 ```
@@ -85,7 +88,7 @@ Replace `<KEY>` with the production Pendo API key. The production Pendo key is s
 
 Alternatively, you can deploy a new version-specific development build like so: 
 ```
-poetry run rsconnect deploy shiny . \
+uv run --directory TIMES-NZ-INTERNAL-QA rsconnect deploy shiny . \
   --entrypoint app \
   --title times-nz-internal-explorer-v<VERSION> \
   --new
@@ -93,7 +96,7 @@ poetry run rsconnect deploy shiny . \
 
 If there is an existing development build that you wish to overwrite, the following command can be used. The <APP-ID> must be replaced the with the appropriate deployed development application id, which can be found on shinyapps.io or below.
 ```
-poetry run rsconnect deploy shiny . \
+uv run --directory TIMES-NZ-INTERNAL-QA rsconnect deploy shiny . \
   --entrypoint app \
   --app-id <APP-ID>
 ```
