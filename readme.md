@@ -51,22 +51,17 @@ uv run --directory PREPARE-TIMES-NZ doit
 
 This generates the TIMES model files in `PREPARE-TIMES-NZ/output`.
 
-Useful alternatives:
+### Developers: install hooks 
 
-```bash
-uv run --directory PREPARE-TIMES-NZ python scripts/prepare_times_nz.py
-uv run --directory PREPARE-TIMES-NZ pytest
-```
-
-Install the repository hooks after the first sync. Commit messages use the
-[Conventional Commits](https://www.conventionalcommits.org/) format; use
-`uv run cz commit` for an interactive prompt if helpful.
+Install the repository hooks after the first sync. Commit messages must use the[Conventional Commits](https://www.conventionalcommits.org/) format; use `uv run cz commit` for an interactive prompt if helpful.
 
 ```bash
 uv run pre-commit install --hook-type pre-commit --hook-type commit-msg --hook-type pre-push
 ```
 
 ### Run the internal Shiny app
+
+NOTE: this whole section needs to be reworked to integrate the pipeline in a more robust way. 
 
 Install the app module dependencies and start the app locally:
 
