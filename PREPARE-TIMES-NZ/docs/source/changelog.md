@@ -1,6 +1,27 @@
 
 # Changelog
 
+## 3.0.9
+
+This version focuses on ensuring the pipeline is compatible with xl2times. This hardened some inputs and highlighted some minor input inconsistencies.
+
+**Compatibility adjustments**
+
+- Explicitly declared several units that were previously relying on defaults. 
+- Standardised trade worksheet names with `bi_` or `uni_`.
+- Added explicit commodity names to demand-flex tables rather than rely on Veda inference.
+- Excel writer now distinguishes strings, floats, integers, and booleans, and rounds floats.
+- Reworked UC sets placement. 
+- Adjusted `FLO_SHAR` calls to `Share-I` for consistent interpretation. 
+- Battery availability set to `Value` rather than `AllRegions`. 
+
+**Model fixes (may change generated model inputs or xl2times results)**
+
+- Corrected gas-distribution parameter declarations.
+- Ensured consistency of commercial technology commodity definitions for subres files. 
+- Added a 100-year default lifetime for agriculture, forestry, and fishing base-year technologies where no lifetime is specified.
+- Declared OILWST correctly. 
+
 ## 3.0.8
 
 **Model fixes**
