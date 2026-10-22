@@ -19,7 +19,7 @@ repos:
         language: system
         entry: uv run black
         types: [python]
-        files: ^(PREPARE-TIMES-NZ|TIMES-NZ-INTERNAL-QA)/.*\.py$
+        files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|TIMES-NZ-INTERNAL-QA)/.*\.py$
         exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
 
       - id: isort
@@ -27,7 +27,7 @@ repos:
         language: system
         entry: uv run isort --profile=black
         types: [python]
-        files: ^(PREPARE-TIMES-NZ|TIMES-NZ-INTERNAL-QA)/.*\.py$
+        files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|TIMES-NZ-INTERNAL-QA)/.*\.py$
         exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
 
       - id: pylint-prep
@@ -46,6 +46,15 @@ repos:
         types: [python]
         files: ^TIMES-NZ-INTERNAL-QA/.*\.py$
         exclude: ^TIMES-NZ-INTERNAL-QA/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
+        pass_filenames: false
+
+      - id: pylint-solve
+        name: pylint (SOLVE-TIMES-NZ)
+        language: system
+        entry: uv run --directory SOLVE-TIMES-NZ pylint src/solve_times_nz
+        types: [python]
+        files: ^SOLVE-TIMES-NZ/.*\.py$
+        exclude: ^SOLVE-TIMES-NZ/(?:build|dist|\.venv|\.mypy_cache|\.pytest_cache)/
         pass_filenames: false
 
   - repo: https://github.com/adrienverge/yamllint

@@ -24,6 +24,7 @@ TIMES-NZ/SyncLogs/
 .coverage
 PREPARE-TIMES-NZ/data_intermediate/
 PREPARE-TIMES-NZ/output/
+SOLVE-TIMES-NZ/build/
 
 # Ignore all generated files
 # Note: keeping the Veda data for easier checking

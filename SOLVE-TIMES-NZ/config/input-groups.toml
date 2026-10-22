@@ -1,0 +1,13 @@
+# Workbook selections are relative to PREPARE-TIMES-NZ/output by default.
+# Populate these groups with the authoritative files for each scenario.
+
+[groups.base]
+files = []
+
+[groups.steady]
+includes = ["base"]
+files = []
+
+[groups.shift]
+includes = ["base"]
+files = []

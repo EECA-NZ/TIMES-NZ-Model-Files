@@ -1,0 +1,10 @@
+name = "steady"
+groups = ["steady"]
+
+[xl2times]
+regions = ["NI", "SI"]
+include_dummy_imports = false
+
+[times]
+solver = "cplex"
+reslim = 50000

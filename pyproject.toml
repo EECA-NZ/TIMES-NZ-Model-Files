@@ -5,6 +5,7 @@ description = "Development workspace for TIMES-NZ model tooling"
 requires-python = ">=3.12,<4"
 dependencies = [
     "prepare-times-nz",
+    "solve-times-nz",
     "times-nz-internal-qa",
 ]
 
@@ -39,10 +40,11 @@ package = false
 
 [tool.uv.sources]
 prepare-times-nz = { workspace = true }
+solve-times-nz = { workspace = true }
 times-nz-internal-qa = { workspace = true }
 
 [tool.uv.workspace]
-members = ["PREPARE-TIMES-NZ", "TIMES-NZ-INTERNAL-QA"]
+members = ["PREPARE-TIMES-NZ", "SOLVE-TIMES-NZ", "TIMES-NZ-INTERNAL-QA"]
 
 [tool.black]
 target-version = ["py312"]
