@@ -1,5 +1,14 @@
 name = "steady"
-groups = ["steady"]
+groups = [
+    "base",
+    "newtech_steady",
+    "newtech_common",
+    "scenario_common",
+    "scenarios_steady",
+    "lng_imports_steady",
+    "demand_flex_steady",
+    "demands_steady",
+]
 
 [xl2times]
 regions = ["NI", "SI"]
