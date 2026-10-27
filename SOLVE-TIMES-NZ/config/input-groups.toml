@@ -7,7 +7,6 @@
 [groups.base]
 # VEDA's BASE selection, plus outputs not exposed as separate VEDA components.
 files = [
-    "SysSettings.xlsx",
     "BY_Trans.xlsx",
     "VT_TIMESNZ_AGR.xlsx",
     "VT_TIMESNZ_COM.xlsx",
@@ -16,7 +15,8 @@ files = [
     "VT_TIMESNZ_PRI.xlsx",
     "VT_TIMESNZ_RES.xlsx",
     "VT_TIMESNZ_TRA.xlsx",    
-    "SuppXLS/Trades/ScenTrade__Trade_Links.xlsx",    
+    "SuppXLS/Trades/ScenTrade__Trade_Links.xlsx",
+    "SysSettings.xlsx",
 ]
 
 # subres - new technologies 
@@ -37,31 +37,29 @@ files = [
 
 [groups.newtech_common]
 files = [
-    "SubRES_TMPL/SubRES_NewTechs_COM.xlsx",
-    "SubRES_TMPL/SubRES_NewTechs_IND.xlsx"
+    "SubRES_TMPL/SubRES_NewTechs_IND.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_COM.xlsx"
 ]
 
 # common scenarios 
 
 [groups.scenario_common]
 files = [
-
-    "SuppXLS/Scen_Base_Constraints.xlsx",
-    # trade parameters 
-    
-    "SuppXLS/Trades/ScenTrade_TRADE_PARMS.xlsx",
-    "SuppXLS/Scen_WEM_WCM.xlsx",
-
-    # coal ban 
-    "SuppXLS/Scen_ProcessHeatCoalBan.xlsx",
     # sector closures (these are subres as they introduce dummy processes) 
     "SubRES_TMPL/SubRES_SectorClosures.xlsx",
     "SubRES_TMPL/SubRES_SectorClosures_trans.xlsx",
+
+    # trade parameters
+    "SuppXLS/Trades/ScenTrade_TRADE_PARMS.xlsx",
+    "SuppXLS/Scen_Base_Constraints.xlsx",
+    "SuppXLS/Scen_ProcessHeatCoalBan.xlsx",
+
+    # load curves and generation supply curves
+    "SuppXLS/Scen_Renewable_Availability.xlsx",
     # Battery genstack (fixed known build)
     "SuppXLS/Scen_ExistingBatteryInvestment.xlsx",
-    # load curves and generation supply curves 
-    "SuppXLS/Scen_LoadCurve.xlsx",
-    "SuppXLS/Scen_Renewable_Availability.xlsx"
+    "SuppXLS/Scen_WEM_WCM.xlsx",
+    "SuppXLS/Scen_LoadCurve.xlsx"
 ]
 
 # standard shift/steady scenario splits
@@ -69,26 +67,25 @@ files = [
 # just to keep things orderly 
 [groups.scenarios_shift]
 files = [
-    # not in steady: 
+    # not in steady
+    "SuppXLS/Scen_Carbon_Shift.xlsx",
     "SuppXLS/Scen_AdditionalBioenergySupply.xlsx",
-    "SuppXLS/Scen_LimitResidentialFossil.xlsx",
-
-    # just different versions to steady: 
+    # just different versions to steady
     "SuppXLS/Scen_DiscountRates_Shift.xlsx",
     "SuppXLS/Scen_DistributedSolar_Shift.xlsx",
-    "SuppXLS/Scen_EAFDemand_Shift.xlsx", 
-    "SuppXLS/Scen_Carbon_Shift.xlsx",
+    "SuppXLS/Scen_EAFDemand_Shift.xlsx",
+    "SuppXLS/Scen_LimitResidentialFossil.xlsx",
+    "SuppXLS/Scen_NewTechDemand.xlsx",
 ]
 
 
 [groups.scenarios_steady]
 files = [
+    "SuppXLS/Scen_Carbon_Steady.xlsx",
     "SuppXLS/Scen_DiscountRates_Steady.xlsx",
     "SuppXLS/Scen_DistributedSolar_Steady.xlsx",
     "SuppXLS/Scen_EAFDemand_Steady.xlsx",
-    "SuppXLS/Scen_Carbon_Steady.xlsx"
-
-    ]
+]
 
 # If we're intending on swapping components for sensitivity testing, it's convenient to list them here
 # Although not really necessary
@@ -128,9 +125,6 @@ files = [
 files = [
     "SuppXLS/Demands/Dem_Alloc+Series.xlsx",
     "SuppXLS/Demands/ScenDem_Shift.xlsx",
-    # note additional - need to structure as scen for new esd demand 
-    # rather than growing/shrinking existing demand 
-    "SuppXLS/Scen_NewTechDemand.xlsx"
     ]
 
 

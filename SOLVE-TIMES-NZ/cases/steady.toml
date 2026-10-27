@@ -4,10 +4,10 @@ groups = [
     "newtech_steady",
     "newtech_common",
     "scenario_common",
-    "scenarios_steady",
-    "lng_imports_steady",
     "demand_flex_steady",
+    "lng_imports_steady",
     "demands_steady",
+    "scenarios_steady",
 ]
 
 [xl2times]
