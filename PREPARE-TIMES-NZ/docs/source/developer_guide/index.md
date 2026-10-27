@@ -14,32 +14,10 @@ Processing scripts are organised by sector (electricity generation, commercial d
 
 ```{toctree}
 :maxdepth: 2
-:caption: Developer setup
 
-developer-setup-guide
-github-flow-readme
-```
-
-```{toctree}
-:maxdepth: 2
-:caption: PREPARE-TIMES-NZ
-
-configuration_file_guide
-data_structures
-code-lookups
-```
-
-```{toctree}
-:maxdepth: 1
-:caption: SOLVE-TIMES-NZ
-
-scenario-configuration
-```
-
-```{toctree}
-:maxdepth: 1
-:caption: Miscellaneous
-
-documentation_maintenance
+setup/index
+prepare_times_nz/index
+solve_times_nz/index
+miscellaneous/index
 ```
 

@@ -50,22 +50,11 @@ and `manifest.json`; the manifest records the resolved inputs, their hashes,
 and the selected TIMES toolchain. Do not target a
 directory containing hand-maintained files.
 
-### Stage a case for an executor
-
-Cases select a portable TIMES toolchain in their `[solve]` table; an ignored
-machine-local `config/solve.local.toml` binds that toolchain to an executor and
-its installed paths. `stage` copies a completed case to a unique directory
-under that executor's staging root, without overwriting a previous run:
-
-```bash
-uv run solve-times-nz stage build/cases/steady --executor windows_veda
-```
-
-When WSL stages a case for native Windows GAMS, the configured staging root
-must be a mounted native Windows location such as `/mnt/c/TIMES-NZ/runs`.
-The command currently stages only: native GAMS/CPLEX execution and return of
-VEDA result files are not implemented yet. Do not represent a successful DD
-export or staging step as a completed model solve.
+Solver installations and staging are configured separately from scenario
+composition. See [TIMES and GAMS setup](times-gams-setup.md) before staging a
+generated case. Native GAMS/CPLEX execution and return of VEDA result files are
+not implemented yet, so do not represent a successful DD export as a completed
+model solve.
 
 ## Workbook groups
 
