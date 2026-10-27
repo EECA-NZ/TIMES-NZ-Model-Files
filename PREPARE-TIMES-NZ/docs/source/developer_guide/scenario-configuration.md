@@ -18,7 +18,7 @@ SOLVE-TIMES-NZ/
 
 ## Available methods
 
-The current implementation has two Linux-side commands. Run them from
+The current implementation has three Linux-side commands. Run them from
 `SOLVE-TIMES-NZ`.
 
 ### Resolve a case
@@ -45,13 +45,27 @@ uv run solve-times-nz build cases/steady.toml \
 ```
 
 `build` replaces the requested generated output directory. A successful build
-contains `ts.dd`, `milestonyr.dd`, `output.dd`, and `manifest.json`; the
-manifest records the resolved inputs and their hashes. Do not target a
+contains `ts.dd`, `milestonyr.dd`, `output.dd`, a generated `<case-name>.run`,
+and `manifest.json`; the manifest records the resolved inputs, their hashes,
+and the selected TIMES toolchain. Do not target a
 directory containing hand-maintained files.
 
-Windows staging, GAMS/CPLEX execution, and return of VEDA result files are
-not implemented by this command yet. Do not represent a successful DD export
-as a completed model solve.
+### Stage a case for an executor
+
+Cases select a portable TIMES toolchain in their `[solve]` table; an ignored
+machine-local `config/solve.local.toml` binds that toolchain to an executor and
+its installed paths. `stage` copies a completed case to a unique directory
+under that executor's staging root, without overwriting a previous run:
+
+```bash
+uv run solve-times-nz stage build/cases/steady --executor windows_veda
+```
+
+When WSL stages a case for native Windows GAMS, the configured staging root
+must be a mounted native Windows location such as `/mnt/c/TIMES-NZ/runs`.
+The command currently stages only: native GAMS/CPLEX execution and return of
+VEDA result files are not implemented yet. Do not represent a successful DD
+export or staging step as a completed model solve.
 
 ## Workbook groups
 
@@ -114,6 +128,9 @@ groups = [
     "scenario_common",
     "scenarios_steady",
 ]
+
+[solve]
+toolchain = "veda-times-4.8.3"
 
 [xl2times]
 regions = ["NI", "SI"]

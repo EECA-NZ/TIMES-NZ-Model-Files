@@ -16,6 +16,7 @@ from typing import Any, Callable
 REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_INPUT_ROOT = REPOSITORY_ROOT / "PREPARE-TIMES-NZ" / "output"
 REQUIRED_DD_FILES = ("ts.dd", "milestonyr.dd", "output.dd")
+RUN_TEMPLATE = REPOSITORY_ROOT / "SOLVE-TIMES-NZ" / "templates" / "times.run.template"
 
 
 class CaseConfigurationError(ValueError):
@@ -34,7 +35,8 @@ class ResolvedCase:
     manifest: dict[str, Any]
 
 
-def _read_toml(path: Path) -> dict[str, Any]:
+def read_toml(path: Path) -> dict[str, Any]:
+    """Read a TOML file with consistent configuration errors."""
     try:
         with path.open("rb") as handle:
             return tomllib.load(handle)
@@ -53,7 +55,7 @@ def _string_list(value: Any, field: str, source: Path) -> list[str]:
 
 
 def _load_manifest(path: Path) -> dict[str, Any]:
-    manifest = _read_toml(path)
+    manifest = read_toml(path)
     parent = manifest.get("extends")
     if parent is None:
         return manifest
@@ -146,7 +148,7 @@ def resolve_case(
     groups_path = (
         groups_path or manifest_path.parents[1] / "config" / "input-groups.toml"
     )
-    group_data = _read_toml(groups_path).get("groups")
+    group_data = read_toml(groups_path).get("groups")
     if not isinstance(group_data, dict):
         raise CaseConfigurationError(f"{groups_path}: expected a [groups] table")
     patterns = [
@@ -191,6 +193,54 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _solve_settings(case: ResolvedCase) -> tuple[str, str, int]:
+    """Return the portable toolchain and basic TIMES settings for a case."""
+    settings = case.manifest.get("solve", {})
+    if not isinstance(settings, dict):
+        raise CaseConfigurationError(
+            f"{case.manifest_path}: [solve] must be a TOML table"
+        )
+    toolchain = settings.get("toolchain")
+    if not isinstance(toolchain, str) or not toolchain:
+        raise CaseConfigurationError(
+            f"{case.manifest_path}: [solve].toolchain must be a non-empty string"
+        )
+    times = case.manifest.get("times", {})
+    if not isinstance(times, dict):
+        raise CaseConfigurationError(
+            f"{case.manifest_path}: [times] must be a TOML table"
+        )
+    solver = times.get("solver", "cplex")
+    reslim = times.get("reslim", 50000)
+    if not isinstance(solver, str) or not solver:
+        raise CaseConfigurationError(
+            f"{case.manifest_path}: [times].solver must be a non-empty string"
+        )
+    if not isinstance(reslim, int) or isinstance(reslim, bool) or reslim < 0:
+        raise CaseConfigurationError(
+            f"{case.manifest_path}: [times].reslim must be a non-negative integer"
+        )
+    return toolchain, solver, reslim
+
+
+def _render_run_file(case: ResolvedCase, output_dir: Path) -> Path:
+    """Render the project-owned, path-independent TIMES run program."""
+    toolchain, solver, reslim = _solve_settings(case)
+    try:
+        template = RUN_TEMPLATE.read_text(encoding="utf-8")
+    except FileNotFoundError as error:
+        raise RuntimeError(f"Missing TIMES run template: {RUN_TEMPLATE}") from error
+    rendered = (
+        template.replace("__CASE_NAME__", case.name)
+        .replace("__SOLVER__", solver)
+        .replace("__RESLIM__", str(reslim))
+        .replace("__TOOLCHAIN__", toolchain)
+    )
+    run_path = output_dir / f"{case.name}.run"
+    run_path.write_text(rendered, encoding="utf-8")
+    return run_path
+
+
 def build_case(
     case: ResolvedCase,
     output_dir: Path,
@@ -225,6 +275,8 @@ def build_case(
         raise RuntimeError(
             f"xl2times did not create required DD file(s): {', '.join(missing)}"
         )
+    toolchain, solver, reslim = _solve_settings(case)
+    run_path = _render_run_file(case, output_dir)
     manifest = {
         "case_name": case.name,
         "built_at": datetime.now(UTC).isoformat(),
@@ -241,6 +293,10 @@ def build_case(
         "command": command,
         "python_version": sys.version,
         "xl2times": "0.3.0",
+        "toolchain": toolchain,
+        "times": {"solver": solver, "reslim": reslim},
+        "run_file": run_path.name,
+        "run_template_sha256": _sha256(RUN_TEMPLATE),
     }
     (output_dir / "manifest.json").write_text(
         json.dumps(manifest, indent=2) + "\n", encoding="utf-8"

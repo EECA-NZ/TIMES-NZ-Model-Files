@@ -1,2 +1,3 @@
 build/*
 veda_ground_truths/*
+config/solve.local.toml

@@ -10,6 +10,9 @@ groups = [
     "scenarios_steady",
 ]
 
+[solve]
+toolchain = "veda-times-4.8.3"
+
 [xl2times]
 regions = ["NI", "SI"]
 include_dummy_imports = false

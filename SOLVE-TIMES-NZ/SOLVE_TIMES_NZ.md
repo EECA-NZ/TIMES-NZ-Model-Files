@@ -77,9 +77,10 @@ SOLVE-TIMES-NZ/
       steady_shift_carbon.toml
   config/
     input-groups.toml            # versioned workbook groups, maintained by modellers
-    windows.local.toml           # ignored: local Windows paths/licensing setup
+    solve.local.toml             # ignored: local executor paths/licensing setup
+    solve.local.example.toml     # versioned example of local bindings
   templates/
-    times.run.j2                 # generic VEDA/TIMES run template
+    times.run.template           # generic, path-independent TIMES run template
     cplex.opt                    # optional, versioned solver options
   src/solve_times_nz/
     build_case.py
@@ -160,6 +161,9 @@ include_dummy_imports = false
 [times]
 solver = "cplex"
 reslim = 50000
+
+[solve]
+toolchain = "veda-times-4.8.3"
 ```
 
 Experiments inherit and make intentional substitutions:
@@ -211,7 +215,7 @@ Its steps should be:
    xl2times-fixed file1.xlsx file2.xlsx ... \
      --dd --output_dir build/cases/steady
    ```
-5. Render `<case-name>.run` from `templates/times.run.j2`, substituting only
+5. Render `<case-name>.run` from `templates/times.run.template`, substituting only
    case-level options such as solver, resource limit, validation/reduction
    switches, and the model name. Copy `cplex.opt` only if the selected solver
    configuration uses it.
@@ -264,23 +268,32 @@ should then use those relative includes and receive the generator source
 directory through the Windows launcher/GAMS input directory mechanism. Do not
 embed a user-specific `C:\Users\...` path in the template.
 
-## Windows execution boundary
+## Execution boundary
 
 The Windows GAMS/CPLEX licence must be used by native Windows GAMS. A Linux/WSL
 GAMS installation cannot use a licence issued for Windows.
 
-Store machine-specific settings outside version control:
+Store machine-specific executor bindings outside version control. A toolchain
+is selected by a versioned case manifest; an executor describes where that
+toolchain is available on one machine. This keeps the case portable between a
+Windows-mounted installation today and a later native WSL/Linux installation.
 
 ```toml
-# config/windows.local.toml -- ignored
-[windows]
-staging_root = "C:\\Users\\<user>\\Veda\\GAMS_WrkTIMES"
+# config/solve.local.toml -- ignored
+[executors.windows_veda]
+kind = "windows"
+toolchains = ["veda-times-4.8.3"]
+staging_root = "/mnt/c/TIMES-NZ/runs"
 gams_system_dir = "C:\\GAMS\\44"
 times_source_dir = "C:\\Users\\<user>\\Veda\\GAMS_SrcTIMES.v4.8.3"
-runner = "C:\\Users\\<user>\\Veda\\GAMS_SrcTIMES.v4.8.3\\VT_GAMS"
+launcher = "C:\\Users\\<user>\\Veda\\GAMS_SrcTIMES.v4.8.3\\VT_GAMS"
+result_exporter = "C:\\Users\\<user>\\Veda\\GAMS_SrcTIMES.v4.8.3\\GDX2VEDA"
 ```
 
-`solve-times-nz solve <case-id>` should then:
+`solve-times-nz stage build/cases/steady --executor windows_veda` copies the
+complete generated case to a unique directory under the configured staging root
+and refuses to overwrite an existing staged run. Once the reference launcher
+invocation is confirmed, `solve` should:
 
 1. Verify that the generated case is complete and has not changed since its
    manifest was written.

@@ -1,0 +1,23 @@
+# Copy to solve.local.toml and edit for this machine.  The real file is ignored.
+#
+# A toolchain names a compatible TIMES generator protocol; an executor binds it
+# to paths available on one machine.  `staging_root` is the path visible to the
+# process that runs solve-times-nz.  In WSL, use /mnt/c/... for a Windows drive.
+
+[executors.windows_veda]
+kind = "windows"
+toolchains = ["veda-times-4.8.3"]
+staging_root = "/mnt/c/TIMES-NZ/runs"
+gams_system_dir = "C:\\GAMS\\<version>"
+times_source_dir = "C:\\Users\\searlel\\Veda\\GAMS_SrcTIMES.v4.8.3"
+launcher = "C:\\Users\\searlel\\Veda\\GAMS_SrcTIMES.v4.8.3\\VT_GAMS"
+result_exporter = "C:\\Users\\searlel\\Veda\\GAMS_SrcTIMES.v4.8.3\\GDX2VEDA"
+
+# A later native Linux/WSL installation uses the same case toolchain but a
+# different local binding.  Add it only when that installation exists.
+# [executors.wsl_local]
+# kind = "native"
+# toolchains = ["veda-times-4.8.3"]
+# staging_root = "/home/searlel/times-nz-runs"
+# gams_system_dir = "/opt/gams/<version>"
+# times_source_dir = "/opt/GAMS_SrcTIMES.v4.8.3"
