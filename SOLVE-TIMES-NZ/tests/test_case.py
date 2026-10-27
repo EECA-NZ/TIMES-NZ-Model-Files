@@ -60,9 +60,11 @@ def test_build_runs_wrapper_and_writes_manifest(tmp_path: Path) -> None:
     case = resolve_case(manifest, input_root, groups)
     output = tmp_path / "build" / "steady"
     commands: list[list[str]] = []
+    working_directories: list[Path] = []
 
-    def fake_runner(command, **_kwargs):
+    def fake_runner(command, **kwargs):
         commands.append(command)
+        working_directories.append(kwargs["cwd"])
         for name in ("ts.dd", "milestonyr.dd", "output.dd"):
             (output / name).write_text(name, encoding="utf-8")
         return subprocess.CompletedProcess(command, 0)
@@ -70,15 +72,25 @@ def test_build_runs_wrapper_and_writes_manifest(tmp_path: Path) -> None:
     build_case(case, output, runner=fake_runner)
 
     assert commands[0][1:3] == ["-m", "solve_times_nz.xl2times_compat"]
+    assert working_directories == [output.resolve()]
     written = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
     assert [item["path"] for item in written["inputs"]] == ["Base.xlsx", "Steady.xlsx"]
 
 
-def test_build_does_not_overwrite_case(tmp_path: Path) -> None:
+def test_build_replaces_previous_generated_case(tmp_path: Path) -> None:
     input_root, groups, manifest = _configuration(tmp_path)
     case = resolve_case(manifest, input_root, groups)
     output = tmp_path / "build" / "steady"
-    output.mkdir(parents=True)
 
-    with pytest.raises(CaseConfigurationError, match="Refusing to overwrite"):
-        build_case(case, output)
+    def fake_runner(_command, **_kwargs):
+        for name in ("ts.dd", "milestonyr.dd", "output.dd"):
+            (output / name).write_text(name, encoding="utf-8")
+        return subprocess.CompletedProcess([], 0)
+
+    build_case(case, output, runner=fake_runner)
+    (output / "stale.txt").write_text("old", encoding="utf-8")
+
+    build_case(case, output, runner=fake_runner)
+
+    assert not (output / "stale.txt").exists()
+    assert (output / "manifest.json").is_file()

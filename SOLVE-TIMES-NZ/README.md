@@ -14,6 +14,9 @@ Build a case with `build`:
 uv run solve-times-nz build cases/steady.toml --output build/cases/steady
 ```
 
+`build` replaces the requested generated output directory on each run. Do not
+use it to target a directory containing hand-maintained files.
+
 By default, workbook paths are resolved relative to
 `PREPARE-TIMES-NZ/output`. Override this with `--input-root` when necessary.
 

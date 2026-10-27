@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
 import tomllib
@@ -195,12 +196,14 @@ def build_case(
     output_dir: Path,
     runner: Callable[..., subprocess.CompletedProcess[str]] = subprocess.run,
 ) -> Path:
-    """Run the project wrapper to make DD inputs and write their provenance."""
+    """Replace a generated case directory with a fresh DD export."""
     output_dir = output_dir.resolve()
     if output_dir.exists():
-        raise CaseConfigurationError(
-            f"Refusing to overwrite existing case directory: {output_dir}"
-        )
+        if not output_dir.is_dir() or output_dir.is_symlink():
+            raise CaseConfigurationError(
+                f"Refusing to replace non-directory or symlink output path: {output_dir}"
+            )
+        shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True)
     command = [
         sys.executable,
@@ -212,7 +215,7 @@ def build_case(
         str(output_dir),
     ]
     try:
-        runner(command, check=True, text=True)
+        runner(command, check=True, text=True, cwd=output_dir)
     except subprocess.CalledProcessError as error:
         raise RuntimeError(
             f"xl2times DD export failed with exit code {error.returncode}"

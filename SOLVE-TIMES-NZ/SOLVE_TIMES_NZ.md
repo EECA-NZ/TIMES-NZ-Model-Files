@@ -199,9 +199,11 @@ Its steps should be:
      `shift`) is present;
    - no filename labelled `Steady` and `Shift` is selected for the same
      scenario family unless that mixture is explicitly allowed.
-3. Create a new case directory. Never reuse a previous directory silently.
-   A simple initial convention is `build/cases/<case-name>/`; a stronger one
-   adds a short content hash or timestamp.
+3. Replace the requested generated case directory. Generated DD inputs must
+   always be reproducible from the selected workbooks and configuration, so do
+   not retain or edit prior contents in place. A simple initial convention is
+   `build/cases/<case-name>/`; a stronger one adds a short content hash or
+   timestamp when multiple builds must be retained for comparison.
 4. Invoke `xl2times-fixed` with explicit paths, not with the whole input
    directory:
 

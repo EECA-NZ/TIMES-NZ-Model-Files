@@ -44,9 +44,10 @@ uv run solve-times-nz build cases/steady.toml \
   --output build/cases/steady
 ```
 
-The output directory must not already exist. A successful build contains
-`ts.dd`, `milestonyr.dd`, `output.dd`, and `manifest.json`; the manifest
-records the resolved inputs and their hashes.
+`build` replaces the requested generated output directory. A successful build
+contains `ts.dd`, `milestonyr.dd`, `output.dd`, and `manifest.json`; the
+manifest records the resolved inputs and their hashes. Do not target a
+directory containing hand-maintained files.
 
 Windows staging, GAMS/CPLEX execution, and return of VEDA result files are
 not implemented by this command yet. Do not represent a successful DD export
