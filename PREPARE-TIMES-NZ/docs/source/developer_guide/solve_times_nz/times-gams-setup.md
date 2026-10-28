@@ -83,22 +83,28 @@ times_source_dir = "/mnt/c/Users/<username>/Veda/GAMS_SrcTIMES.v4.8.3"
 It is recommended to use a descriptive executor name, for example `windows_times_v483` as above. This ensures its
 underlying versions are apparent during review, and enables clear and easy changes to versions or configurations. It is the developer's responsibility to ensure their named executor is configured to the appropriate GAMS and TIMES versions such that the chosen name actually means something. 
 
-Please note you must create the defined staging directory yourself before trying to stage a case. It must be
+Please note you must create the defined staging directory yourself before trying to solve a case. It must be
 writable both through the WSL mount and by the GAMS process.
 
-## Stage a generated case
+## Solve a generated case
 
-Build the case first, then stage it for the configured executor:
+Build the case first, then solve it with the configured executor:
 
 ```bash
 uv run solve-times-nz build cases/steady.toml --output build/cases/steady
-uv run solve-times-nz stage build/cases/steady
+uv run solve-times-nz solve steady
 ```
 
-`stage` creates a timestamped child directory below `staging_root`, copies the
-complete generated case, adds staging information to its manifest, and refuses
-to overwrite an existing staged run.
+`solve` creates a timestamped child directory below `staging_root`, copies the
+complete generated case, and invokes native Windows GAMS through `cmd.exe`.
+It invokes `GAMS` and `GDX2VEDA` from the native Windows `PATH`, and supplies
+the configured TIMES source as `IDIR`. GAMS output remains visible in the
+calling terminal.
+After a successful GAMS run, it invokes `GDX2VEDA` using the configured GAMS
+installation and TIMES `times2veda.vdd` directives. The staged manifest records
+whether execution completed or failed, and the Windows run directory is
+retained in either case for inspection.
 
-At present, staging is the final automated step. Native `VT_GAMS` invocation,
-GDX2VEDA export, and return of solver results will be added after the reference
-launcher command has been confirmed against the staged Steady case.
+The exported `.vd`, `.vde`, `.vds`, and `.vdt` result files and a copy of the
+run manifest are copied to the ignored repository-local directory
+`SOLVE-TIMES-NZ/build/solves/<case>-<run-id>/`.

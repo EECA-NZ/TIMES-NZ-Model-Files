@@ -12,11 +12,12 @@ from solve_times_nz.case import (
     build_case,
     resolve_case,
 )
-from solve_times_nz.execution import stage_case
+from solve_times_nz.execution import solve_case
 
 DEFAULT_LOCAL_CONFIG = (
     REPOSITORY_ROOT / "SOLVE-TIMES-NZ" / "config" / "solve.local.toml"
 )
+DEFAULT_CASE_BUILD_ROOT = REPOSITORY_ROOT / "SOLVE-TIMES-NZ" / "build" / "cases"
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -33,12 +34,12 @@ def _parser() -> argparse.ArgumentParser:
             subparser.add_argument(
                 "--output", type=Path, required=True, help="New case directory"
             )
-    stage = commands.add_parser(
-        "stage", help="Copy a generated case to an executor staging root"
+    solve = commands.add_parser(
+        "solve", help="Run native Windows GAMS and collect VEDA result files"
     )
-    stage.add_argument("case_dir", type=Path, help="Generated case directory")
-    stage.add_argument("--local-config", type=Path, default=DEFAULT_LOCAL_CONFIG)
-    stage.add_argument("--run-id", help="Unique suffix for the staged run directory")
+    solve.add_argument("case", help="Generated case name under build/cases")
+    solve.add_argument("--local-config", type=Path, default=DEFAULT_LOCAL_CONFIG)
+    solve.add_argument("--run-id", help="Unique suffix for the staged run directory")
     return parser
 
 
@@ -46,9 +47,13 @@ def main() -> None:
     """Resolve a case, optionally exporting its DD inputs."""
     arguments = _parser().parse_args()
     try:
-        if arguments.command == "stage":
+        if arguments.command == "solve":
             print(
-                stage_case(arguments.case_dir, arguments.local_config, arguments.run_id)
+                solve_case(
+                    DEFAULT_CASE_BUILD_ROOT / arguments.case,
+                    arguments.local_config,
+                    arguments.run_id,
+                )
             )
             return
         case = resolve_case(arguments.case, arguments.input_root, arguments.groups)
@@ -57,7 +62,7 @@ def main() -> None:
                 print(path.relative_to(case.input_root).as_posix())
             return
         build_case(case, arguments.output)
-    except CaseConfigurationError as error:
+    except (CaseConfigurationError, RuntimeError) as error:
         raise SystemExit(f"error: {error}") from error
 
 

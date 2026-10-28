@@ -35,13 +35,13 @@ GAMS, use mounted paths for the staging root, GAMS installation, and TIMES
 source—for example `/mnt/c/TIMES-NZ/runs` and `/mnt/c/Users/...`.
 
 ```bash
-uv run solve-times-nz stage build/cases/steady
+uv run solve-times-nz solve steady
 ```
 
-`stage` copies a complete generated case to a unique run directory and refuses
-to overwrite an existing staged run. It deliberately does not yet invoke
-`VT_GAMS` or `GDX2VEDA`: their reference command line must first be validated
-against the generated Steady case.
+`solve` copies a complete generated case to a unique run directory and invokes
+native Windows GAMS, then runs GDX2VEDA. It retains the Windows run directory,
+records the execution status in its manifest, and copies VEDA result files to
+`build/solves/<case>-<run-id>/`.
 
 ## Next steps
 

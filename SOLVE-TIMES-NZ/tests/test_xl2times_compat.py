@@ -3,12 +3,37 @@
 import pandas as pd
 import pytest
 from solve_times_nz.xl2times_compat import (
+    _convert_to_veda_precision,
     _expand_multi_region_user_constraints,
     _export_implied_emission_topology,
+    _output_directory_from_args,
     _project_demands_with_zero_continuation,
     _with_optional_descriptions,
 )
 from xl2times.datatypes import EmbeddedXlTable, Tag
+
+
+def test_veda_precision_retains_fifteen_significant_digits() -> None:
+    """Keep coefficients at the precision found in VEDA DD exports."""
+    tables = {
+        "UC_CAP": pd.DataFrame({"value": [0.278596898776721, -0.077999194847021, 1.0]})
+    }
+
+    result = _convert_to_veda_precision(tables)
+
+    assert result["UC_CAP"]["value"].tolist() == [
+        "0.278596898776721",
+        "-0.077999194847021",
+        "1",
+    ]
+
+
+def test_output_directory_comes_from_xl2times_argument(tmp_path) -> None:
+    """Place the xl2times log in the requested DD output directory."""
+    output = tmp_path / "build" / "case"
+
+    assert _output_directory_from_args(["--output_dir", str(output)]) == output
+    assert _output_directory_from_args([f"--output_dir={output}"]) == output
 
 
 def test_optional_description_columns_are_added(monkeypatch) -> None:

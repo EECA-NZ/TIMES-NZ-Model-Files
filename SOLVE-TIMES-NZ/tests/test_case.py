@@ -5,8 +5,9 @@ import subprocess
 from pathlib import Path
 
 import pytest
+import solve_times_nz.execution as execution
 from solve_times_nz.case import CaseConfigurationError, build_case, resolve_case
-from solve_times_nz.execution import load_executor, stage_case
+from solve_times_nz.execution import load_executor, solve_case
 
 
 def _write(path: Path, text: str) -> None:
@@ -102,28 +103,59 @@ def test_build_replaces_previous_generated_case(tmp_path: Path) -> None:
     assert (output / "manifest.json").is_file()
 
 
-def test_stage_copies_a_complete_case_to_matching_executor(tmp_path: Path) -> None:
+def test_solve_stages_case_and_invokes_windows_gams(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     input_root, groups, manifest = _configuration(tmp_path)
     case = resolve_case(manifest, input_root, groups)
     output = tmp_path / "build" / "steady"
 
-    def fake_runner(_command, **_kwargs):
+    def fake_export(_command, **_kwargs):
         for name in ("ts.dd", "milestonyr.dd", "output.dd"):
             (output / name).write_text(name, encoding="utf-8")
         return subprocess.CompletedProcess([], 0)
 
-    build_case(case, output, runner=fake_runner)
+    build_case(case, output, runner=fake_export)
     staging_root = tmp_path / "staging"
     staging_root.mkdir()
+    results_root = tmp_path / "results"
+    monkeypatch.setattr(execution, "RESULTS_ROOT", results_root)
+    gams_root = tmp_path / "gams"
+    gams_root.mkdir()
+    (gams_root / "gams.exe").write_text("", encoding="utf-8")
+    (gams_root / "gdx2veda.exe").write_text("", encoding="utf-8")
+    times_root = tmp_path / "times"
+    times_root.mkdir()
+    (times_root / "_times.g00").write_text("", encoding="utf-8")
+    (times_root / "times2veda.vdd").write_text("", encoding="utf-8")
     local_config = tmp_path / "solve.local.toml"
     _write(
         local_config,
-        f"""[executors.test]\nstaging_root = "{staging_root}"\ngams_system_dir = "/opt/gams"\ntimes_source_dir = "/opt/times"\n""",
+        "[executors.test]\n"
+        f'staging_root = "{staging_root}"\n'
+        f'gams_system_dir = "{gams_root}"\n'
+        f'times_source_dir = "{times_root}"\n',
+    )
+    commands: list[list[str]] = []
+
+    def fake_gams(command, **_kwargs):
+        commands.append(command)
+        staged_dir = staging_root / "steady-trial"
+        (staged_dir / "steady.vd").write_text("results", encoding="utf-8")
+        return subprocess.CompletedProcess(command, 0)
+
+    destination = solve_case(
+        output,
+        local_config,
+        "trial",
+        runner=fake_gams,
+        windows_path=lambda path: f"WIN:{path.name}",
     )
 
-    destination = stage_case(output, local_config, "trial")
-
-    assert destination == staging_root / "steady-trial"
-    assert (destination / "steady.run").is_file()
-    staged_manifest = json.loads((destination / "manifest.json").read_text())
-    assert staged_manifest["staging"]["executor"] == "test"
+    assert destination == results_root / "steady-trial"
+    assert commands[0][:3] == ["cmd.exe", "/d", "/c"]
+    assert "GAMS steady.run IDIR=WIN:times" in commands[0][3]
+    assert "GDX2VEDA GAMSSAVE\\steady" in commands[0][3]
+    assert (destination / "steady.vd").is_file()
+    solved_manifest = json.loads((destination / "manifest.json").read_text())
+    assert solved_manifest["execution"]["status"] == "completed"

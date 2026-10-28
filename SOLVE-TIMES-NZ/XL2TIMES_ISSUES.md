@@ -13,15 +13,16 @@ The current command completed successfully on 22 October 2026, producing 79
 tables and 99,410 rows. It passed both `process_transform_availability()` and
 `apply_final_fixup()`.
 
-## How `xl2times-fixed` works
+## How the compatibility wrapper works
 
-`xl2times-fixed` is a small, project-local entry point implemented in
-`src/xl2times_test/cli.py`. It imports the installed xl2times functions,
-retains references to the original functions, then replaces four transform
-hooks immediately before invoking the ordinary xl2times CLI. It does not edit
+`solve_times_nz.xl2times_compat` is a small, project-local entry point
+implemented in `src/solve_times_nz/xl2times_compat.py`. It imports the
+installed xl2times functions, retains references to the original functions,
+then replaces five transform hooks and redirects its log immediately before
+invoking the ordinary xl2times CLI. It does not edit
 the installed package or alter Excel inputs.
 
-The hooks run at these points:
+The hooks and log configuration run at these points:
 
 1. `generate_topology_dictionary`: inserts a blank `description` column into
    process and commodity dataframes when an optional description was omitted.
@@ -40,10 +41,28 @@ The hooks run at these points:
    direction. xl2times derives this topology for ENV-targeted `FLO_EMIS`; the
    hook makes it reach the TIMES `TOP` table without changing the model's
    physical topology during transformation.
+5. `convert_to_string`: formats non-integer floating-point values with 15
+   significant digits rather than xl2times' upstream 10. VEDA DD output uses
+   up to 15 significant digits; retaining that precision prevents avoidable
+   numerical perturbations in a tightly constrained model.
+6. `setup_logger`: directs the xl2times log to the requested `--output_dir`,
+   alongside the generated DD files, rather than the directory from which the
+   command was invoked.
 
 The wrapper deliberately does not correct input-data region expansion,
 commodity-group generation, or process naming. Those remain PREPARE-TIMES-NZ
 responsibilities and are tracked in the current difference inventory.
+
+### Patch policy
+
+All temporary or model-specific xl2times compatibility changes belong in
+`src/solve_times_nz/xl2times_compat.py`, with a regression test in
+`tests/test_xl2times_compat.py` and an entry in this file. Do not patch files
+in the installed `xl2times` package: those changes are machine-local, are lost
+when `uv sync` refreshes the environment, and cannot be reproduced by another
+modeller. Prefer correcting malformed or ambiguous source data in
+PREPARE-TIMES-NZ; add a wrapper hook only when the input is valid but xl2times
+cannot represent the established TIMES/ VEDA behaviour.
 
 ## Resolved by project configuration
 
@@ -345,6 +364,34 @@ links now match the VEDA ground truth.
 comparison output.
 
 ## Resolved by xl2times patch
+
+### DD numeric values were truncated to 10 significant digits
+
+**Symptom**
+
+The generated DD files rounded all non-integer float values to 10 significant
+digits. For example, the South Island winter energy margin coefficient was
+written as `0.2785968988`, whereas VEDA wrote `0.278596898776721`.
+
+**Cause**
+
+xl2times 0.3.0's `convert_to_string()` explicitly formats floats using
+`{value:.10g}` before the DD writer receives them. This is a numerical
+conversion difference, rather than a display-only difference: the rounded
+strings are the values read by GAMS.
+
+**Resolution**
+
+The project-local wrapper replaces `convert_to_string()` with equivalent
+handling that uses `{value:.15g}` for non-integer Python floats. A scan of the
+VEDA Steady DD files found a maximum of 15 significant digits in numeric
+values, so this aligns generated DD precision with the reference exporter
+without modifying the installed xl2times package.
+
+Implementation: `src/solve_times_nz/xl2times_compat.py`
+
+**Status:** Resolved locally. Rebuild and re-solve before using result-level
+comparisons to investigate remaining compatibility differences.
 
 ### Environmental `FLO_EMIS` output links were omitted from `TOP`
 

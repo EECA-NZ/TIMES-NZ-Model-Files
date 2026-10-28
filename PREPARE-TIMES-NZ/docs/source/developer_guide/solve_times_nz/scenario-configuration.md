@@ -50,11 +50,10 @@ and `manifest.json`; the manifest records the resolved inputs, their hashes,
 and the selected executor. Do not target a
 directory containing hand-maintained files.
 
-Solver installations and staging are configured separately from scenario
-composition. See [TIMES and GAMS setup](times-gams-setup.md) before staging a
-generated case. Native GAMS/CPLEX execution and return of VEDA result files are
-not implemented yet, so do not represent a successful DD export as a completed
-model solve.
+Solver installations and execution are configured separately from scenario
+composition. See [TIMES and GAMS setup](times-gams-setup.md) before solving a
+generated case. A successful DD export is not itself a completed model solve:
+the generated case must still be executed by GAMS.
 
 ## Workbook groups
 

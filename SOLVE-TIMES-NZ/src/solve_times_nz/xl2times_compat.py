@@ -4,17 +4,57 @@
 # its demand transformation structurally close to the upstream implementation.
 # pylint: disable=protected-access,too-many-locals
 
+import sys
 from dataclasses import replace
+from pathlib import Path
 
 import pandas as pd
 from pandas import DataFrame
-from xl2times import transforms
+from xl2times import transforms, utils
 from xl2times.__main__ import main as xl2times_main
 from xl2times.datatypes import Tag, TimesModel
 
 _generate_topology_dictionary = transforms.generate_topology_dictionary
 _process_user_constraint_tables = transforms.process_user_constraint_tables
 _complete_dictionary = transforms.complete_dictionary
+_setup_logger = utils.setup_logger
+
+
+def _output_directory_from_args(arguments: list[str]) -> Path:
+    """Return xl2times' requested output directory from command-line arguments."""
+    for index, argument in enumerate(arguments):
+        if argument == "--output_dir" and index + 1 < len(arguments):
+            return Path(arguments[index + 1]).resolve()
+        if argument.startswith("--output_dir="):
+            return Path(argument.removeprefix("--output_dir=")).resolve()
+    return (Path.cwd() / "output").resolve()
+
+
+def _setup_logger_in_output_directory(
+    level: int | None,
+    log_name: str = utils.default_log_name,
+    log_dir: str = ".",
+) -> None:
+    """Keep xl2times' log alongside its DD output rather than in the caller CWD."""
+    del log_dir
+    output_dir = _output_directory_from_args(sys.argv[1:])
+    output_dir.mkdir(parents=True, exist_ok=True)
+    _setup_logger(level, log_name=log_name, log_dir=str(output_dir))
+
+
+def _convert_to_veda_precision(tables: dict[str, DataFrame]) -> dict[str, DataFrame]:
+    """Format floating-point DD values with VEDA's observed 15-digit precision."""
+
+    def convert(value: object) -> str:
+        if isinstance(value, float):
+            if value.is_integer():
+                return str(int(value))
+            return f"{value:.15g}"
+        return str(value)
+
+    for key, dataframe in tables.items():
+        tables[key] = dataframe.map(convert)
+    return tables
 
 
 def _with_optional_descriptions(
@@ -197,6 +237,8 @@ def main() -> None:
     transforms._project_demands = _project_demands_with_zero_continuation
     transforms.process_user_constraint_tables = _expand_multi_region_user_constraints
     transforms.complete_dictionary = _export_implied_emission_topology
+    transforms.convert_to_string = _convert_to_veda_precision
+    utils.setup_logger = _setup_logger_in_output_directory
     xl2times_main()
 
 

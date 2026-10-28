@@ -251,7 +251,8 @@ def build_case(
     if output_dir.exists():
         if not output_dir.is_dir() or output_dir.is_symlink():
             raise CaseConfigurationError(
-                f"Refusing to replace non-directory or symlink output path: {output_dir}"
+                "Refusing to replace non-directory or symlink output path: "
+                f"{output_dir}"
             )
         shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True)
