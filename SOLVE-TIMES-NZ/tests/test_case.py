@@ -26,7 +26,7 @@ def _configuration(tmp_path: Path) -> tuple[Path, Path, Path]:
     manifest = tmp_path / "cases" / "steady.toml"
     _write(
         manifest,
-        'name = "steady"\ngroups = ["steady"]\n\n[solve]\ntoolchain = "test-times"\n',
+        'name = "steady"\ngroups = ["steady"]\n\n[solve]\nexecutor = "test"\n',
     )
     return input_root, groups, manifest
 
@@ -79,7 +79,7 @@ def test_build_runs_wrapper_and_writes_manifest(tmp_path: Path) -> None:
     assert working_directories == [output.resolve()]
     written = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
     assert [item["path"] for item in written["inputs"]] == ["Base.xlsx", "Steady.xlsx"]
-    assert written["toolchain"] == "test-times"
+    assert written["executor"] == "test"
     assert (output / "steady.run").is_file()
 
 
@@ -118,35 +118,12 @@ def test_stage_copies_a_complete_case_to_matching_executor(tmp_path: Path) -> No
     local_config = tmp_path / "solve.local.toml"
     _write(
         local_config,
-        f"""[executors.test]\nkind = "native"\nstaging_root = "{staging_root}"\ntoolchains = ["test-times"]\n""",
+        f"""[executors.test]\nstaging_root = "{staging_root}"\ngams_system_dir = "/opt/gams"\ntimes_source_dir = "/opt/times"\n""",
     )
 
-    destination = stage_case(output, load_executor(local_config, "test"), "trial")
+    destination = stage_case(output, local_config, "trial")
 
     assert destination == staging_root / "steady-trial"
     assert (destination / "steady.run").is_file()
     staged_manifest = json.loads((destination / "manifest.json").read_text())
     assert staged_manifest["staging"]["executor"] == "test"
-
-
-def test_stage_rejects_executor_without_case_toolchain(tmp_path: Path) -> None:
-    input_root, groups, manifest = _configuration(tmp_path)
-    case = resolve_case(manifest, input_root, groups)
-    output = tmp_path / "build" / "steady"
-
-    def fake_runner(_command, **_kwargs):
-        for name in ("ts.dd", "milestonyr.dd", "output.dd"):
-            (output / name).write_text(name, encoding="utf-8")
-        return subprocess.CompletedProcess([], 0)
-
-    build_case(case, output, runner=fake_runner)
-    staging_root = tmp_path / "staging"
-    staging_root.mkdir()
-    local_config = tmp_path / "solve.local.toml"
-    _write(
-        local_config,
-        f"""[executors.other]\nkind = "native"\nstaging_root = "{staging_root}"\ntoolchains = ["other-times"]\n""",
-    )
-
-    with pytest.raises(CaseConfigurationError, match="does not support toolchain"):
-        stage_case(output, load_executor(local_config, "other"), "trial")

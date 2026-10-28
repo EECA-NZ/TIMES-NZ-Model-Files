@@ -13,13 +13,12 @@ from solve_times_nz.case import REQUIRED_DD_FILES, CaseConfigurationError, read_
 
 @dataclass(frozen=True)
 class Executor:
-    """A machine-local binding capable of running one or more toolchains."""
+    """The three machine-local paths needed to stage a TIMES case."""
 
     name: str
-    kind: str
     staging_root: Path
-    toolchains: tuple[str, ...]
-    settings: dict[str, str]
+    gams_system_dir: Path
+    times_source_dir: Path
 
 
 def load_executor(path: Path, name: str) -> Executor:
@@ -33,31 +32,31 @@ def load_executor(path: Path, name: str) -> Executor:
     if not isinstance(executors, dict) or not isinstance(executors.get(name), dict):
         raise CaseConfigurationError(f"{path}: unknown executor {name!r}")
     config = executors[name]
-    kind = config.get("kind")
     staging_root = config.get("staging_root")
-    toolchains = config.get("toolchains")
-    if not isinstance(kind, str) or not kind:
-        raise CaseConfigurationError(f"{path}: executors.{name}.kind must be a string")
+    gams_system_dir = config.get("gams_system_dir")
+    times_source_dir = config.get("times_source_dir")
     if not isinstance(staging_root, str) or not staging_root:
         raise CaseConfigurationError(
             f"{path}: executors.{name}.staging_root must be a non-empty path"
         )
-    if not isinstance(toolchains, list) or not all(
-        isinstance(item, str) and item for item in toolchains
-    ):
+    if not isinstance(gams_system_dir, str) or not gams_system_dir:
         raise CaseConfigurationError(
-            f"{path}: executors.{name}.toolchains must be a list of strings"
+            f"{path}: executors.{name}.gams_system_dir must be a non-empty path"
         )
-    settings = {
-        key: value
-        for key, value in config.items()
-        if key not in {"kind", "staging_root", "toolchains"} and isinstance(value, str)
-    }
-    return Executor(name, kind, Path(staging_root), tuple(toolchains), settings)
+    if not isinstance(times_source_dir, str) or not times_source_dir:
+        raise CaseConfigurationError(
+            f"{path}: executors.{name}.times_source_dir must be a non-empty path"
+        )
+    return Executor(
+        name,
+        Path(staging_root),
+        Path(gams_system_dir),
+        Path(times_source_dir),
+    )
 
 
-def stage_case(case_dir: Path, executor: Executor, run_id: str | None = None) -> Path:
-    """Copy a complete generated case to a new executor-local run directory."""
+def stage_case(case_dir: Path, local_config: Path, run_id: str | None = None) -> Path:
+    """Copy a complete generated case to its configured executor staging root."""
     case_dir = case_dir.resolve()
     manifest_path = case_dir / "manifest.json"
     if not manifest_path.is_file():
@@ -69,18 +68,16 @@ def stage_case(case_dir: Path, executor: Executor, run_id: str | None = None) ->
             f"Invalid generated-case manifest: {manifest_path}"
         ) from error
     case_name = manifest.get("case_name")
-    toolchain = manifest.get("toolchain")
+    executor_name = manifest.get("executor")
     run_file = manifest.get("run_file")
     if not all(
-        isinstance(value, str) and value for value in (case_name, toolchain, run_file)
+        isinstance(value, str) and value
+        for value in (case_name, executor_name, run_file)
     ):
         raise CaseConfigurationError(
-            f"{manifest_path}: case_name, toolchain, and run_file are required"
+            f"{manifest_path}: case_name, executor, and run_file are required"
         )
-    if toolchain not in executor.toolchains:
-        raise CaseConfigurationError(
-            f"Executor {executor.name!r} does not support toolchain {toolchain!r}"
-        )
+    executor = load_executor(local_config, executor_name)
     missing = [
         filename
         for filename in (*REQUIRED_DD_FILES, run_file)
@@ -110,7 +107,6 @@ def stage_case(case_dir: Path, executor: Executor, run_id: str | None = None) ->
     )
     staged_manifest["staging"] = {
         "executor": executor.name,
-        "kind": executor.kind,
         "staged_at": datetime.now(UTC).isoformat(),
         "source_case_dir": str(case_dir),
     }

@@ -193,17 +193,17 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _solve_settings(case: ResolvedCase) -> tuple[str, str, int]:
-    """Return the portable toolchain and basic TIMES settings for a case."""
-    settings = case.manifest.get("solve", {})
-    if not isinstance(settings, dict):
+def _case_settings(case: ResolvedCase) -> tuple[str, str, int]:
+    """Return the selected executor and basic TIMES settings for a case."""
+    solve = case.manifest.get("solve", {})
+    if not isinstance(solve, dict):
         raise CaseConfigurationError(
             f"{case.manifest_path}: [solve] must be a TOML table"
         )
-    toolchain = settings.get("toolchain")
-    if not isinstance(toolchain, str) or not toolchain:
+    executor = solve.get("executor")
+    if not isinstance(executor, str) or not executor:
         raise CaseConfigurationError(
-            f"{case.manifest_path}: [solve].toolchain must be a non-empty string"
+            f"{case.manifest_path}: [solve].executor must be a non-empty string"
         )
     times = case.manifest.get("times", {})
     if not isinstance(times, dict):
@@ -220,12 +220,13 @@ def _solve_settings(case: ResolvedCase) -> tuple[str, str, int]:
         raise CaseConfigurationError(
             f"{case.manifest_path}: [times].reslim must be a non-negative integer"
         )
-    return toolchain, solver, reslim
+    return executor, solver, reslim
 
 
-def _render_run_file(case: ResolvedCase, output_dir: Path) -> Path:
+def _render_run_file(
+    case: ResolvedCase, output_dir: Path, solver: str, reslim: int
+) -> Path:
     """Render the project-owned, path-independent TIMES run program."""
-    toolchain, solver, reslim = _solve_settings(case)
     try:
         template = RUN_TEMPLATE.read_text(encoding="utf-8")
     except FileNotFoundError as error:
@@ -234,7 +235,6 @@ def _render_run_file(case: ResolvedCase, output_dir: Path) -> Path:
         template.replace("__CASE_NAME__", case.name)
         .replace("__SOLVER__", solver)
         .replace("__RESLIM__", str(reslim))
-        .replace("__TOOLCHAIN__", toolchain)
     )
     run_path = output_dir / f"{case.name}.run"
     run_path.write_text(rendered, encoding="utf-8")
@@ -275,8 +275,8 @@ def build_case(
         raise RuntimeError(
             f"xl2times did not create required DD file(s): {', '.join(missing)}"
         )
-    toolchain, solver, reslim = _solve_settings(case)
-    run_path = _render_run_file(case, output_dir)
+    executor, solver, reslim = _case_settings(case)
+    run_path = _render_run_file(case, output_dir, solver, reslim)
     manifest = {
         "case_name": case.name,
         "built_at": datetime.now(UTC).isoformat(),
@@ -293,7 +293,7 @@ def build_case(
         "command": command,
         "python_version": sys.version,
         "xl2times": "0.3.0",
-        "toolchain": toolchain,
+        "executor": executor,
         "times": {"solver": solver, "reslim": reslim},
         "run_file": run_path.name,
         "run_template_sha256": _sha256(RUN_TEMPLATE),

@@ -163,7 +163,7 @@ solver = "cplex"
 reslim = 50000
 
 [solve]
-toolchain = "veda-times-4.8.3"
+executor = "windows_veda"
 ```
 
 Experiments inherit and make intentional substitutions:
@@ -273,24 +273,28 @@ embed a user-specific `C:\Users\...` path in the template.
 The Windows GAMS/CPLEX licence must be used by native Windows GAMS. A Linux/WSL
 GAMS installation cannot use a licence issued for Windows.
 
-Store machine-specific executor bindings outside version control. A toolchain
-is selected by a versioned case manifest; an executor describes where that
-toolchain is available on one machine. This keeps the case portable between a
-Windows-mounted installation today and a later native WSL/Linux installation.
+Store machine-specific executor bindings outside version control. A case
+selects a named executor; that executor describes the GAMS, TIMES source, and
+staging locations available on one machine.
 
 ```toml
 # config/solve.local.toml -- ignored
 [executors.windows_veda]
-kind = "windows"
-toolchains = ["veda-times-4.8.3"]
 staging_root = "/mnt/c/TIMES-NZ/runs"
-gams_system_dir = "C:\\GAMS\\44"
-times_source_dir = "C:\\Users\\<user>\\Veda\\GAMS_SrcTIMES.v4.8.3"
-launcher = "C:\\Users\\<user>\\Veda\\GAMS_SrcTIMES.v4.8.3\\VT_GAMS"
-result_exporter = "C:\\Users\\<user>\\Veda\\GAMS_SrcTIMES.v4.8.3\\GDX2VEDA"
+gams_system_dir = "/mnt/c/GAMS/44"
+times_source_dir = "/mnt/c/Users/<user>/Veda/GAMS_SrcTIMES.v4.8.3"
 ```
 
-`solve-times-nz stage build/cases/steady --executor windows_veda` copies the
+The launcher and `times2veda.vdd` are derived from `times_source_dir`.
+`GDX2VEDA` is supplied by the configured GAMS installation (currently
+`C:\\GAMS\\44\\gdx2veda.exe`). Add that GAMS system directory to the native
+Windows `PATH`: `VT_GAMS.CMD` calls `GAMS` by name and the VEDA result-export
+command calls `GDX2VEDA` by name. Verify both with `where GAMS` and
+`where GDX2VEDA` in a new Windows Command Prompt. The local configuration is
+read by WSL, so every configured path uses WSL mount syntax; the eventual
+Windows launcher converts those paths at its execution boundary.
+
+`solve-times-nz stage build/cases/steady` copies the
 complete generated case to a unique directory under the configured staging root
 and refuses to overwrite an existing staged run. Once the reference launcher
 invocation is confirmed, `solve` should:

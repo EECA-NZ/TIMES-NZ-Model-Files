@@ -47,7 +47,7 @@ uv run solve-times-nz build cases/steady.toml \
 `build` replaces the requested generated output directory. A successful build
 contains `ts.dd`, `milestonyr.dd`, `output.dd`, a generated `<case-name>.run`,
 and `manifest.json`; the manifest records the resolved inputs, their hashes,
-and the selected TIMES toolchain. Do not target a
+and the selected executor. Do not target a
 directory containing hand-maintained files.
 
 Solver installations and staging are configured separately from scenario
@@ -119,7 +119,7 @@ groups = [
 ]
 
 [solve]
-toolchain = "veda-times-4.8.3"
+executor = "windows_times_v483"
 
 [xl2times]
 regions = ["NI", "SI"]
@@ -134,6 +134,9 @@ The canonical Steady and Shift cases list their component groups explicitly.
 This makes the case composition reviewable and avoids hiding a baseline behind
 a broad, mutable composite group. A case may instead select a single composite
 group when that is clearer.
+
+The `executor` is user-defined; see [TIMES and GAMS setup](times-gams-setup.md)
+for its local configuration.
 
 ### Experiments and overrides
 

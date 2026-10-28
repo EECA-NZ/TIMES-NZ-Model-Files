@@ -1,75 +1,90 @@
 # TIMES and GAMS setup
 
-This page describes the local software and paths needed to turn a generated
-TIMES-NZ DD case into a GAMS solve. These are machine-specific details: do not
-commit them to a case manifest or the repository.
+The TIMES model generator is written in GAMS. While the TIMES code itself is open-source, GAMS and proprietary solvers are not. You will need a working GAMS installation and license to perform model solves.
 
-For the first integration test, use the same GAMS installation and
-`GAMS_SrcTIMES` version as the successful VEDA reference case. This removes a
-generator-version change as a possible explanation for any difference. A newer
-TIMES installation can be introduced later as a separate toolchain and tested
-deliberately.
+Currently, this is built for a Windows GAMS installation while this repo operates in WSL. This is an unusual configuration, so the pipeline is designed for more flexible configuration setups relevant to your machine and tooling. 
 
 ## Required local components
 
-The initial Windows executor needs:
+The pipeline needs:
 
-- Native Windows GAMS, with a valid licence and the licensed CPLEX solver.
-- The known-good TIMES generator source directory used by VEDA, for example
-  `GAMS_SrcTIMES.v4.8.3`. Treat this directory as read-only.
-- The matching `VT_GAMS`, `GDX2VEDA`, and `times2veda.vdd` tools supplied with
-  that generator installation.
+- A GAMS installation, with a valid license and the licensed CPLEX solver.
+- TIMES model generator source code. 
 - A writable, native Windows staging directory for generated case folders and
   solver outputs. Prefer a short independent location such as
   `C:\TIMES-NZ\runs`, rather than a VEDA-managed working folder.
 
-When running `SOLVE-TIMES-NZ` in WSL, the staging directory must also be
-visible through a mount such as `/mnt/c/TIMES-NZ/runs`. Do not run native
-Windows GAMS directly against a `\\wsl$` repository path; stage the completed
-case onto the Windows filesystem first.
 
-## Toolchains and executors
+## Configure the Windows PATH
 
-A case chooses a portable *toolchain*, not a machine path:
+Add the configured Windows GAMS system directory—for example `C:\GAMS\44`—to
+the native Windows `PATH`. This is required even though `gams_system_dir` is
+also recorded in `solve.local.toml`: the current `VT_GAMS.CMD` calls `GAMS` by
+name, and the VEDA run command calls `GDX2VEDA` by name. Both executables are
+in the GAMS system directory.
+
+Open a new native Windows Command Prompt after changing `PATH`, then verify:
+
+```text
+where GAMS
+where GDX2VEDA
+```
+
+Both commands should resolve under the same configured GAMS installation.
+
+## Installing the TIMES model generator
+
+TIMES source files can be downloaded in an appropriate directory with:
+
+```
+git clone https://github.com/etsap-TIMES/TIMES_model.git
+```
+In general, it is best to simply keep this up to date. However, currently, this version points deliberately at the Veda-installed TIMES v4.8.3 for testing against older Veda versions. However, later this will need to be updated.
+
+## Executors
+
+This pipeline relies on `executors`, which are simple configuration items listing the locations of GAMS, TIMES source code, and the working directory. Current cases all include the named local executor that should run it:
 
 ```toml
 [solve]
-toolchain = "veda-times-4.8.3"
+executor = "windows_times_v483"
 ```
 
-An executor is the local binding that makes a toolchain runnable on a given
-machine. The same case could later use a native WSL/Linux executor, provided
-that executor supports the selected toolchain. This separation keeps case
-definitions portable while still recording the intended generator protocol.
+An executor is the local binding that supplies GAMS, TIMES source, and a
+staging directory on one machine. It is possible to define multiple executors for different cases. Because these may rely on machine-specific filepaths, they are deliberately ignored by git. 
 
-## Configure this machine
+### Configure your executors
 
-Copy the versioned example without adding the real configuration to Git:
+You must create `solve.local.toml` in the `config/` directory, and define your executors there. This will identify the relevant locations for the pipeline to find your machine's GAMS installation and TIMES source code.
+
+To get started, you can copy the example config file, eg:
 
 ```bash
 cd SOLVE-TIMES-NZ
 cp config/solve.local.example.toml config/solve.local.toml
 ```
 
-Edit `config/solve.local.toml` to name the local executor and its paths:
+Any given executor must contain:
+
+- `staging_root`: The directory where GAMS and TIMES will write results, logs, etc.
+- `gams_system_dir`: Location of your GAMS installation.
+- `times_source_dir`: Location of your TIMES installation.
+
+Edit `config/solve.local.toml` to name the local executor `[executors.your_name_here]` and its paths:
 
 ```toml
-[executors.windows_veda]
-kind = "windows"
-toolchains = ["veda-times-4.8.3"]
-
-# Path visible to the WSL process performing the copy.
-staging_root = "/mnt/c/TIMES-NZ/runs"
-
-# Paths consumed by native Windows tools.
-gams_system_dir = "C:\\GAMS\\<version>"
-times_source_dir = "C:\\Users\\searlel\\Veda\\GAMS_SrcTIMES.v4.8.3"
-launcher = "C:\\Users\\searlel\\Veda\\GAMS_SrcTIMES.v4.8.3\\VT_GAMS"
-result_exporter = "C:\\Users\\searlel\\Veda\\GAMS_SrcTIMES.v4.8.3\\GDX2VEDA"
+[executors.windows_times_v483]
+staging_root = "/mnt/c/Users/<username>/TIMES-NZ/runs"
+gams_system_dir = "/mnt/c/GAMS/<version>"
+times_source_dir = "/mnt/c/Users/<username>/Veda/GAMS_SrcTIMES.v4.8.3"
 ```
 
-Create the Windows staging directory before trying to stage a case. It must be
-writable both through the WSL mount and by the Windows GAMS process.
+
+It is recommended to use a descriptive executor name, for example `windows_times_v483` as above. This ensures its
+underlying versions are apparent during review, and enables clear and easy changes to versions or configurations. It is the developer's responsibility to ensure their named executor is configured to the appropriate GAMS and TIMES versions such that the chosen name actually means something. 
+
+Please note you must create the defined staging directory yourself before trying to stage a case. It must be
+writable both through the WSL mount and by the GAMS process.
 
 ## Stage a generated case
 
@@ -77,7 +92,7 @@ Build the case first, then stage it for the configured executor:
 
 ```bash
 uv run solve-times-nz build cases/steady.toml --output build/cases/steady
-uv run solve-times-nz stage build/cases/steady --executor windows_veda
+uv run solve-times-nz stage build/cases/steady
 ```
 
 `stage` creates a timestamped child directory below `staging_root`, copies the

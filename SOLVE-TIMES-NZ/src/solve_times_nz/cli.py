@@ -12,7 +12,7 @@ from solve_times_nz.case import (
     build_case,
     resolve_case,
 )
-from solve_times_nz.execution import load_executor, stage_case
+from solve_times_nz.execution import stage_case
 
 DEFAULT_LOCAL_CONFIG = (
     REPOSITORY_ROOT / "SOLVE-TIMES-NZ" / "config" / "solve.local.toml"
@@ -37,9 +37,6 @@ def _parser() -> argparse.ArgumentParser:
         "stage", help="Copy a generated case to an executor staging root"
     )
     stage.add_argument("case_dir", type=Path, help="Generated case directory")
-    stage.add_argument(
-        "--executor", required=True, help="Executor name in local config"
-    )
     stage.add_argument("--local-config", type=Path, default=DEFAULT_LOCAL_CONFIG)
     stage.add_argument("--run-id", help="Unique suffix for the staged run directory")
     return parser
@@ -50,8 +47,9 @@ def main() -> None:
     arguments = _parser().parse_args()
     try:
         if arguments.command == "stage":
-            executor = load_executor(arguments.local_config, arguments.executor)
-            print(stage_case(arguments.case_dir, executor, arguments.run_id))
+            print(
+                stage_case(arguments.case_dir, arguments.local_config, arguments.run_id)
+            )
             return
         case = resolve_case(arguments.case, arguments.input_root, arguments.groups)
         if arguments.command == "resolve":

@@ -11,7 +11,7 @@ groups = [
 ]
 
 [solve]
-toolchain = "veda-times-4.8.3"
+executor = "windows_times_v483"
 
 [xl2times]
 regions = ["NI", "SI"]
