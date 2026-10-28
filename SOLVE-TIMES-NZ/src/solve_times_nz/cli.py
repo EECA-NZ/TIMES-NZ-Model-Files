@@ -30,6 +30,9 @@ def _parser() -> argparse.ArgumentParser:
         subparser.add_argument(
             "--groups", type=Path, help="Override config/input-groups.toml"
         )
+        subparser.add_argument(
+            "--file-order", type=Path, help="Override config/input-order.toml"
+        )
         if command == "build":
             subparser.add_argument(
                 "--output", type=Path, required=True, help="New case directory"
@@ -40,6 +43,11 @@ def _parser() -> argparse.ArgumentParser:
     solve.add_argument("case", help="Generated case name under build/cases")
     solve.add_argument("--local-config", type=Path, default=DEFAULT_LOCAL_CONFIG)
     solve.add_argument("--run-id", help="Unique suffix for the staged run directory")
+    solve.add_argument(
+        "--diagnostic",
+        action="store_true",
+        help="Export the full named GAMS matrix and dictionary after solving",
+    )
     return parser
 
 
@@ -53,10 +61,16 @@ def main() -> None:
                     DEFAULT_CASE_BUILD_ROOT / arguments.case,
                     arguments.local_config,
                     arguments.run_id,
+                    diagnostic=arguments.diagnostic,
                 )
             )
             return
-        case = resolve_case(arguments.case, arguments.input_root, arguments.groups)
+        case = resolve_case(
+            arguments.case,
+            arguments.input_root,
+            arguments.groups,
+            arguments.file_order,
+        )
         if arguments.command == "resolve":
             for path in case.files:
                 print(path.relative_to(case.input_root).as_posix())

@@ -29,10 +29,16 @@ time-slice hierarchy and its ordering.
 
 `BOTIME` and `EOTIME` define the broad `ALLYEAR` universe used by the TIMES
 source. They are not the model's optimisation horizon. In particular,
-`EOTIME = 2250` permits data and lifetime-related years through 2250; the
-milestone periods in `milestonyr.dd` still determine the years over which the
-model is solved. Both settings must precede `initsys.mod`, where the TIMES
-source declares `ALLYEAR`.
+`EOTIME = 2200` matches the established VEDA case horizon. The milestone
+periods in `milestonyr.dd` still determine the years over which the model is
+solved. Both settings must precede `initsys.mod`, where the TIMES source
+declares `ALLYEAR`.
+
+xl2times can derive a zero `PRC_RESID` record at the end of an existing
+technology's lifetime. The project compatibility wrapper omits only such
+derived rows after 2200: they cannot be represented in VEDA's 2200 year domain.
+It does not change the underlying lifetime or remove an explicitly supplied
+source row.
 
 ## Initialise TIMES and load case data
 

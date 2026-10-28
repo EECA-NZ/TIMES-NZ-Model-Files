@@ -77,6 +77,7 @@ SOLVE-TIMES-NZ/
       steady_shift_carbon.toml
   config/
     input-groups.toml            # versioned workbook groups, maintained by modellers
+    input-order.toml             # versioned global workbook precedence
     solve.local.toml             # ignored: local executor paths/licensing setup
     solve.local.example.toml     # versioned example of local bindings
   templates/

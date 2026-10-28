@@ -23,7 +23,7 @@ also recorded in `solve.local.toml`: the current `VT_GAMS.CMD` calls `GAMS` by
 name, and the VEDA run command calls `GDX2VEDA` by name. Both executables are
 in the GAMS system directory.
 
-Open a new native Windows Command Prompt after changing `PATH`, then verify:
+Usually these items should be added to `PATH` correctly upon GAMS installation. To verify this has been done correctly, open a new native Windows Command Prompt, then enter:
 
 ```text
 where GAMS
@@ -93,6 +93,20 @@ Build the case first, then solve it with the configured executor:
 ```bash
 uv run solve-times-nz build cases/steady.toml --output build/cases/steady
 uv run solve-times-nz solve steady
+```
+
+For a full GAMS matrix diagnostic, add `--diagnostic`. The command first
+performs the ordinary solve and VEDA export, then runs GAMS CONVERT to save a
+named sparse matrix and dictionary under
+`SOLVE-TIMES-NZ/build/solves/<case>-<run-id>/diagnostics/`. This is opt-in
+because the full matrix can be hundreds of megabytes.
+
+GAMS CONVERT writes a matrix rather than a solution, so the standard TIMES
+post-solve reporting code can return a non-zero code afterwards. `solve`
+validates the two requested GDX files and accepts that expected outcome.
+
+```bash
+uv run solve-times-nz solve steady --diagnostic
 ```
 
 `solve` creates a timestamped child directory below `staging_root`, copies the

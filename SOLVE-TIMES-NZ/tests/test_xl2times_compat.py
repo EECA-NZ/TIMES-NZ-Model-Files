@@ -4,6 +4,7 @@ import pandas as pd
 import pytest
 from solve_times_nz.xl2times_compat import (
     _convert_to_veda_precision,
+    _drop_generated_residuals_after_legacy_horizon,
     _expand_multi_region_user_constraints,
     _export_implied_emission_topology,
     _output_directory_from_args,
@@ -135,6 +136,29 @@ def test_implied_environmental_topology_is_exported(monkeypatch) -> None:
     )
     result = _export_implied_emission_topology(model)
     assert result["Topology"]["commodity"].tolist() == ["GAS", "CO2"]
+
+
+def test_generated_residual_after_legacy_horizon_is_omitted(monkeypatch) -> None:
+    tables = {
+        Tag.fi_t: pd.DataFrame(
+            {
+                "attribute": ["PRC_RESID", "PRC_RESID", "PRC_RESID"],
+                "year": [2223, 2223, 2200],
+                "value": [0, 0, 0],
+                "source_filename": [pd.NA, "source.xlsx", pd.NA],
+            }
+        )
+    }
+    monkeypatch.setattr(
+        "solve_times_nz.xl2times_compat._apply_final_fixup",
+        lambda _config, result, _model: result,
+    )
+
+    result = _drop_generated_residuals_after_legacy_horizon(None, tables, None)
+
+    assert result[Tag.fi_t]["year"].tolist() == [2223, 2200]
+    assert result[Tag.fi_t]["source_filename"].iloc[0] == "source.xlsx"
+    assert pd.isna(result[Tag.fi_t]["source_filename"].iloc[1])
 
 
 def test_generic_uc_flo_is_expanded_for_each_declared_region(monkeypatch) -> None:

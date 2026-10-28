@@ -43,6 +43,20 @@ native Windows GAMS, then runs GDX2VEDA. It retains the Windows run directory,
 records the execution status in its manifest, and copies VEDA result files to
 `build/solves/<case>-<run-id>/`.
 
+Add `--diagnostic` to perform a second, non-solving GAMS CONVERT pass after a
+successful solve. It writes the complete named model matrix and its dictionary
+to `build/solves/<case>-<run-id>/diagnostics/`, together with a CPLEX LP file
+containing the equation right-hand sides and variable bounds. This is
+intentionally opt-in: the full TIMES formulation can be hundreds of megabytes.
+
+The Convert pass does not return a solution, so the existing TIMES reporting
+steps may return a non-zero GAMS code afterwards. The command treats the
+diagnostic as successful when both requested GDX artifacts were written.
+
+```bash
+uv run solve-times-nz solve steady --diagnostic
+```
+
 ## Next steps
 
 1. Populate `config/input-groups.toml` with the authoritative workbook set for

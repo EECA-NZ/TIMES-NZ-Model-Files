@@ -538,6 +538,29 @@ Regression tests: `tests/test_cli.py`
 
 **Status:** Resolved locally and covered by focused regression tests.
 
+### Derived `PRC_RESID` rows exceeded VEDA's 2200 year domain
+
+**Symptom**
+
+`ELC_HYDSC_GENERIC` has a 200-year lifetime from 2023. xl2times therefore
+derived zero `PRC_RESID` rows for 2223, which required expanding the generated
+GAMS run's `EOTIME` to 2250.
+
+**Cause**
+
+The established VEDA run uses the default 2200 end year. Its input domain does
+not contain 2223, so it cannot retain that derived expiry row. Extending only
+the xl2times run changed the terminal horizon and made result comparisons
+non-equivalent.
+
+**Resolution**
+
+The project-local wrapper now removes only derived zero `PRC_RESID` rows after
+2200. Explicit source data and process lifetimes are retained. The generated
+run template again sets `EOTIME = 2200`, matching VEDA's effective domain.
+
+**Status:** Resolved locally; rebuild and re-solve before comparing objectives.
+
 ## Non-fatal warnings to revisit
 
 The following messages have not stopped conversion but may indicate incomplete

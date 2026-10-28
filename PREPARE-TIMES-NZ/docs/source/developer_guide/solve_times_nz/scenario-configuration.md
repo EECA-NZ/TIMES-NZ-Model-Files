@@ -12,6 +12,7 @@ configuration is held separately in `SOLVE-TIMES-NZ`:
 ```text
 SOLVE-TIMES-NZ/
   config/input-groups.toml  # reusable workbook selections
+  config/input-order.toml   # project-wide workbook precedence
   cases/                    # case manifests
   build/                    # generated, unversioned DD cases
 ```
@@ -161,7 +162,24 @@ clearly and remains correct if that component gains another workbook.
 ## Ordering and reproducibility
 
 Workbook order can matter when more than one workbook supplies overlapping
-TIMES records. `resolve` uses the following order:
+TIMES records. `config/input-order.toml` owns that order independently of case
+composition. It is a single explicit list of workbook paths relative to
+`PREPARE-TIMES-NZ/output`; its current sequence follows the VEDA Steady v309
+DD include order as closely as the workbook-level inputs allow.
+
+After resolving groups, patterns, additions, removals, and duplicates,
+`resolve` sorts every selected workbook according to that list. Consequently,
+changing a case's group order does not change workbook precedence. This makes
+an experiment that selects the same files use the same input order as its
+baseline.
+
+Every selected workbook must have exactly one entry in `input-order.toml`.
+Resolution fails for an unlisted selected workbook or a duplicate order entry;
+add a new prepared workbook to its intended precedence position before adding
+it to a group or case. This is deliberate: appending unknown files would be
+deterministic but could silently change the meaning of overlapping records.
+
+The selection process before the final ordering remains:
 
 1. Groups appear in the order listed by the case manifest.
 2. A composite group's `includes` are expanded in their listed order.
@@ -171,15 +189,9 @@ TIMES records. `resolve` uses the following order:
 6. `add_files` is appended after group-derived files; `remove_files` is then
    filtered out.
 
-The physical order of group tables in `input-groups.toml` has no effect.
-
-The current Steady and Shift manifests arrange their groups and files to
-approximate the VEDA v308 scenario component order. This is an aid to
-continuity, not a claim that the historical VEDA order was universally
-meaningful: the current readable groups intentionally bundle some components
-that VEDA positioned apart. When a change might affect an overlapping record,
-compare the `resolve` output and then compare the generated DD records with a
-known case.
+The physical order of group tables in `input-groups.toml` has no effect. When
+a change might affect an overlapping record, review the `resolve` output and
+then compare the generated DD records with a known case.
 
 ## Modeller checklist
 
@@ -188,7 +200,9 @@ Before accepting a new or changed case:
 1. Run `PREPARE-TIMES-NZ` so the selected workbooks exist in `output`.
 2. Add or update the smallest appropriate groups in `input-groups.toml`.
 3. Define or update the case manifest; prefer named groups over direct files.
-4. Run `resolve` and review the complete ordered workbook list.
+4. Add every newly selected workbook to `input-order.toml` at its intended
+   precedence position, then run `resolve` and review the complete ordered
+   workbook list.
 5. Run `build` into a new, empty directory.
 6. Inspect the generated DD files and compare relevant records with the
    intended baseline or sensitivity case before solving.

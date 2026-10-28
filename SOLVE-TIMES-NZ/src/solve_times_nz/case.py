@@ -30,6 +30,7 @@ class ResolvedCase:
     manifest_path: Path
     name: str
     input_root: Path
+    file_order_path: Path
     groups: tuple[str, ...]
     files: tuple[Path, ...]
     manifest: dict[str, Any]
@@ -121,12 +122,37 @@ def _expand_patterns(input_root: Path, patterns: list[str]) -> list[Path]:
     return files
 
 
+def _apply_file_order(
+    files: tuple[Path, ...], input_root: Path, order_path: Path
+) -> tuple[Path, ...]:
+    """Order selected workbooks according to the project-wide file-order list."""
+    configured_order = _string_list(
+        read_toml(order_path).get("files"), "files", order_path
+    )
+    if len(set(configured_order)) != len(configured_order):
+        raise CaseConfigurationError(f"{order_path}: files contains duplicate paths")
+    ranks = {path: rank for rank, path in enumerate(configured_order)}
+    relative_paths = {path: path.relative_to(input_root).as_posix() for path in files}
+    unlisted = [
+        relative_path
+        for relative_path in relative_paths.values()
+        if relative_path not in ranks
+    ]
+    if unlisted:
+        raise CaseConfigurationError(
+            f"{order_path}: selected workbook(s) have no file-order entry: "
+            + ", ".join(unlisted)
+        )
+    return tuple(sorted(files, key=lambda path: ranks[relative_paths[path]]))
+
+
 def resolve_case(
     manifest_path: Path,
     input_root: Path = DEFAULT_INPUT_ROOT,
     groups_path: Path | None = None,
+    file_order_path: Path | None = None,
 ) -> ResolvedCase:
-    """Resolve a case manifest to an ordered, de-duplicated workbook list."""
+    """Resolve a case manifest to a de-duplicated, globally ordered workbook list."""
     manifest_path = manifest_path.resolve()
     input_root = input_root.resolve()
     if not input_root.is_dir():
@@ -148,6 +174,7 @@ def resolve_case(
     groups_path = (
         groups_path or manifest_path.parents[1] / "config" / "input-groups.toml"
     )
+    file_order_path = file_order_path or groups_path.with_name("input-order.toml")
     group_data = read_toml(groups_path).get("groups")
     if not isinstance(group_data, dict):
         raise CaseConfigurationError(f"{groups_path}: expected a [groups] table")
@@ -180,8 +207,15 @@ def resolve_case(
         raise CaseConfigurationError(
             f"Unsupported workbook type(s): {', '.join(map(str, unsupported))}"
         )
+    ordered_files = _apply_file_order(unique_files, input_root, file_order_path)
     return ResolvedCase(
-        manifest_path, name, input_root, tuple(selected_groups), unique_files, manifest
+        manifest_path,
+        name,
+        input_root,
+        file_order_path,
+        tuple(selected_groups),
+        ordered_files,
+        manifest,
     )
 
 
@@ -283,6 +317,7 @@ def build_case(
         "built_at": datetime.now(UTC).isoformat(),
         "input_root": str(case.input_root),
         "case_manifest": str(case.manifest_path),
+        "file_order_config": str(case.file_order_path),
         "groups": list(case.groups),
         "inputs": [
             {

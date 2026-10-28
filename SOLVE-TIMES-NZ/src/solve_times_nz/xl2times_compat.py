@@ -17,7 +17,10 @@ from xl2times.datatypes import Tag, TimesModel
 _generate_topology_dictionary = transforms.generate_topology_dictionary
 _process_user_constraint_tables = transforms.process_user_constraint_tables
 _complete_dictionary = transforms.complete_dictionary
+_apply_final_fixup = transforms.apply_final_fixup
 _setup_logger = utils.setup_logger
+
+LEGACY_EOTIME = 2200
 
 
 def _output_directory_from_args(arguments: list[str]) -> Path:
@@ -231,12 +234,37 @@ def _export_implied_emission_topology(model: TimesModel) -> dict[str, DataFrame]
     return tables
 
 
+def _drop_generated_residuals_after_legacy_horizon(
+    config, tables: dict[str, DataFrame], model: TimesModel
+) -> dict[str, DataFrame]:
+    """Match VEDA by excluding derived stock-expiry rows outside `EOTIME`.
+
+    VEDA's legacy 2200 year domain cannot contain an implied ``PRC_RESID = 0``
+    row after that year.  xl2times creates such rows during its final fix-up
+    from a process's lifetime.  Retain all source rows and lifetimes, but omit
+    only generated zero residual rows outside the legacy domain.
+    """
+    fixed = _apply_final_fixup(config, tables, model)
+    dataframe = fixed[Tag.fi_t]
+    years = pd.to_numeric(dataframe["year"], errors="coerce")
+    generated = dataframe["source_filename"].isna()
+    implied_residual = (
+        dataframe["attribute"].eq("PRC_RESID")
+        & dataframe["value"].eq(0)
+        & years.gt(LEGACY_EOTIME)
+        & generated
+    )
+    fixed[Tag.fi_t] = dataframe.loc[~implied_residual].copy()
+    return fixed
+
+
 def main() -> None:
     """Run xl2times with the TIMES-NZ compatibility hooks applied."""
     transforms.generate_topology_dictionary = _with_optional_descriptions
     transforms._project_demands = _project_demands_with_zero_continuation
     transforms.process_user_constraint_tables = _expand_multi_region_user_constraints
     transforms.complete_dictionary = _export_implied_emission_topology
+    transforms.apply_final_fixup = _drop_generated_residuals_after_legacy_horizon
     transforms.convert_to_string = _convert_to_veda_precision
     utils.setup_logger = _setup_logger_in_output_directory
     xl2times_main()
