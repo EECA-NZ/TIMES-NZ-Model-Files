@@ -33,6 +33,7 @@ $ONMULTI
 * Time-slices must be declared before TIMES initialisation.
 $BATINCLUDE ts.dd
 $SET BOTIME 1902
+$SET EOTIME 2250
 $BATINCLUDE initsys.mod
 $BATINCLUDE initmty.mod
 $IF NOT DECLARED REG_BNDCST $Abort "You need to use TIMES v2.3.1 or higher"

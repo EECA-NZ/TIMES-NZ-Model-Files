@@ -8,4 +8,10 @@ staging them for a solver executor.
 
 scenario-configuration
 times-gams-setup
+run-file
 ```
+
+## TODO
+
+- Separate file ordering from scenario compilation, to standardise file input
+  order independently of scenario grouping.

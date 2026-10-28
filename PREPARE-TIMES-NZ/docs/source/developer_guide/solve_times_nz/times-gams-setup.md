@@ -11,9 +11,9 @@ The pipeline needs:
 - A GAMS installation, with a valid license and the licensed CPLEX solver.
 - TIMES model generator source code. 
 - A writable, native Windows staging directory for generated case folders and
-  solver outputs. Prefer a short independent location such as
-  `C:\TIMES-NZ\runs`, rather than a VEDA-managed working folder.
+  solver outputs. 
 
+Note that your staging directory must exist; the pipeline will note create it automatically. The developer can create it wherever is most appropriate. 
 
 ## Configure the Windows PATH
 
