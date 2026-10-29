@@ -131,17 +131,13 @@ def _with_optional_descriptions(
     return _generate_topology_dictionary(tables, model)
 
 
-def _apply_veda_supplementary_energy_pcgs(config, tables, model):
-    """Apply VEDA's demand and NRGO PCG conventions to SubRES processes.
+def _apply_agricultural_demand_pcgs(config, tables, model):
+    """Apply the temporary VEDA demand-service PCG convention to AGR SubRES.
 
-    VEDA gives a process-specific ``*_NRGO`` activity commodity to a
-    Supplemental Resource process that has an energy (``NRG``) output. This
-    applies equally to declarations whose values are supplied only through
-    process metadata or scenario tables: requiring an explicit ``~FI_T`` row
-    incorrectly excluded most VEDA supplementary electricity processes. The
-    convention is based on source class and topology; it is not an instruction
-    embedded in the source workbook. Base-model processes continue to use
-    xl2times' normal default-PCG inference.
+    The broad VEDA ``NRGO`` fallback for unassigned Supplemental Resource
+    energy processes has been removed. Electricity peak-capable processes now
+    declare their ``ELC`` primary commodity group in prepared source data;
+    other processes use xl2times' normal primary-CG inference.
     """
     # See VEDA_AGRICULTURAL_DEMAND_PCGS above.  Apply only to unassigned SubRES
     # processes, so an explicit source primary-CG always remains authoritative.
@@ -150,26 +146,6 @@ def _apply_veda_supplementary_energy_pcgs(config, tables, model):
         affected = dataframe["module_type"].eq("subres") & dataframe["primarycg"].isna()
         dataframe.loc[affected & target_pcg.notna(), "primarycg"] = target_pcg
 
-    commodity_sets = model.commodities[["region", "commodity", "csets"]]
-    energy_outputs = model.topology.loc[
-        model.topology["io"].eq("OUT"), ["region", "process", "commodity"]
-    ].merge(commodity_sets, on=["region", "commodity"])
-    energy_processes = energy_outputs.loc[
-        energy_outputs["csets"].eq("NRG"), ["region", "process"]
-    ].drop_duplicates()
-    target_keys = pd.MultiIndex.from_frame(energy_processes)
-
-    # include_cgs_in_topology reads the process declaration table, whereas
-    # fill_in_missing_pcgs reads model.processes.  Both must agree or xl2times
-    # emits PRC_ACTUNT for an undeclared commodity group.
-    for dataframe in (tables[Tag.fi_process], model.processes):
-        process_keys = pd.MultiIndex.from_frame(dataframe[["region", "process"]])
-        affected = (
-            process_keys.isin(target_keys)
-            & dataframe["module_type"].eq("subres")
-            & dataframe["primarycg"].isna()
-        )
-        dataframe.loc[affected, "primarycg"] = "NRGO"
     return _include_cgs_in_topology(config, tables, model)
 
 
@@ -373,7 +349,7 @@ def main() -> None:
     transforms.generate_topology_dictionary = _with_optional_descriptions
     transforms._project_demands = _project_demands_with_zero_continuation
     transforms.process_user_constraint_tables = _expand_multi_region_user_constraints
-    transforms.include_cgs_in_topology = _apply_veda_supplementary_energy_pcgs
+    transforms.include_cgs_in_topology = _apply_agricultural_demand_pcgs
     transforms.complete_dictionary = _export_implied_emission_topology
     transforms.apply_final_fixup = _drop_generated_residuals_after_legacy_horizon
     transforms.convert_to_string = _convert_to_veda_precision

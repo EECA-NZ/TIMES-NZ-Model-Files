@@ -18,12 +18,31 @@ tested after this result. Adding VEDA's 27 missing demand-service PCGs gave
 an objective of 1,470,449.766200 MioNZ$: only +0.000671 MioNZ$ different.
 That compatibility correction does not explain the residual gap.
 
+Note this needs a rerun following patches
+
 Currently remaining things to solve: 
 
 - ag demand processes in steady subres are mis-specified, flagging commodities that don't exist. fix. 
-- decide the intended post-VEDA PCG/peak-credit design;
 - move the five biofuel conversions into SubRES, then remove the temporary VEDA cost-omission workaround.
 - new build has added gas network maintenance prices (previously missing because of an accident). these are fixed so don't impact solve but do impact cost reporting. 
+
+## Deliberate electricity peak-credit method
+
+`PREPARE-TIMES-NZ` now declares `PrimaryCG = ELC` on base-year grid
+generators, genstack generation, offshore wind, and battery storage. This
+makes their capacity contribution to the electricity peak constraint explicit
+rather than dependent on xl2times topology inference. Batteries have a
+configured `NCAP_PKCNT` and can support peak even though their physical output
+commodity is `ELCHV` or `ELCDD`. Distribution, trade, demand-side processes,
+and distributed solar are excluded. Distributed solar produces `ELCDD`, not
+`ELC`; it continues to lower upstream grid peak demand through time-slice
+generation rather than receiving direct grid-capacity peak credit.
+
+This is a model-method change, not a correction to the historical VEDA
+formulation. The broad VEDA `NRGO` compatibility fallback has been removed:
+unassigned processes now use normal xl2times primary-commodity-group inference.
+Regenerate the VEDA workbooks and compare the resulting `EQ_PEAK` rows and
+solution before rebaselining any objective comparison.
 
 
 ## Compatibility wrapper inventory
@@ -57,7 +76,7 @@ deliberately redesigned model.
 
 | Wrapper behaviour | Observed effect | Decision needed before replacing it |
 | --- | --- | --- |
-| Assign `NRGO` as the primary commodity group to every Supplemental Resource process with an energy (`NRG`) output and no explicit PCG | Reproduces all 213 VEDA `*_NRGO` activity-unit pairs. Before this, xl2times generated only 12, leaving 528 `EQ_PEAK` rows to use capacity where VEDA used time-slice activity. Matching the groups removed those active peak-row differences and closed 96% of the original objective gap. | Define the intended peak-credit method independently of VEDA. The likely future approach is to give electricity-*generating* processes an explicit `ELC` PCG, with a clearly defined scope that excludes storage, networks, trade, and demand-side processes as appropriate. Treat that as a documented model-method change and revalidate peak equations. |
+| Assign `NRGO` as the primary commodity group to a Supplemental Resource process with an energy (`NRG`) output and no explicit PCG | Historically, this reproduces all 213 VEDA `*_NRGO` activity-unit pairs. Before the compatibility rule, xl2times generated only 12, leaving 528 `EQ_PEAK` rows to use capacity where VEDA used time-slice activity. The rule removed those active peak-row differences and closed 96% of the original objective gap. | Explicit `ELC` PCGs are now supplied upstream for grid electricity generators. Retain the fallback for remaining unassigned Supplemental Resource processes while VEDA compatibility is required; revalidate its reduced scope after regeneration. |
 | Assign VEDA's demand-service PCG to 27 agricultural `DMD` processes | Reproduces the missing 15,552 `EQ_ACTFLO` equations. The Steady objective changed by only +0.000671 MioNZ$, confirming this inactive family does not explain the remaining gap. | Replace the explicit mapping with a tested, general xl2times implementation of the demand-process convention. Do not extend it from process-name similarity alone. |
 
 `NRGO` is an internal activity-unit group, not an extra energy commodity or a

@@ -21,6 +21,7 @@ This version focuses on ensuring the pipeline is compatible with xl2times. This 
 - Ensured consistency of commercial technology commodity definitions for subres files. 
 - Added a 100-year default lifetime for agriculture, forestry, and fishing base-year technologies where no lifetime is specified.
 - Declared OILWST correctly. 
+- Enforce capacity-based contribution to peak demand (through explicit PCG settings)
 
 ## 3.0.8
 
