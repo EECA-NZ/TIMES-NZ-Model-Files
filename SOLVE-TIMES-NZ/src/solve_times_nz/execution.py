@@ -207,7 +207,7 @@ def _gams_command(
         "&& if not exist GAMSSAVE mkdir GAMSSAVE "
         f"&& GAMS {run_file} IDIR={source_windows} "
         f"GDX=GAMSSAVE\\{case_name} PS=99999 "
-        f"R={source_windows}\\_times LO=1 "
+        f"R={source_windows}\\_times LO=1 OPTFILE=1 "
         f"&& GDX2VEDA GAMSSAVE\\{case_name} "
         f"{source_windows}\\times2veda.vdd {case_name}"
     )

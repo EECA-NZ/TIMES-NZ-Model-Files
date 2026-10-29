@@ -106,6 +106,22 @@ def test_build_runs_wrapper_and_writes_manifest(tmp_path: Path) -> None:
     assert [item["path"] for item in written["inputs"]] == ["Base.xlsx", "Steady.xlsx"]
     assert written["executor"] == "test"
     assert (output / "steady.run").is_file()
+    assert "OPTION OPTFILE=1;" not in (output / "steady.run").read_text(
+        encoding="utf-8"
+    )
+    assert (output / "cplex.opt").read_text(encoding="utf-8") == (
+        "scaind 1\n"
+        "rerun yes\n"
+        "iis 1\n"
+        "lpmethod 4\n"
+        "baralg 1\n"
+        "barcrossalg 0\n"
+        "barorder 0\n"
+        "THREADS=7\n"
+        "aggind 3\n"
+        "Names no\n"
+        "advind=0\n"
+    )
 
 
 def test_build_replaces_previous_generated_case(tmp_path: Path) -> None:
@@ -179,6 +195,7 @@ def test_solve_stages_case_and_invokes_windows_gams(
     assert destination == results_root / "steady-trial"
     assert commands[0][:3] == ["cmd.exe", "/d", "/c"]
     assert "GAMS steady.run IDIR=WIN:times" in commands[0][3]
+    assert "OPTFILE=1" in commands[0][3]
     assert "GDX2VEDA GAMSSAVE\\steady" in commands[0][3]
     assert (destination / "steady.vd").is_file()
     solved_manifest = json.loads((destination / "manifest.json").read_text())
@@ -247,6 +264,7 @@ def test_solve_diagnostic_exports_and_collects_matrix(
     )
 
     assert len(commands) == 2
+    assert "OPTFILE=1" in commands[0][3]
     assert "GAMS diagnostic-steady.run" in commands[1][3]
     assert "OPTFILE=1" in commands[1][3]
     diagnostic_run = (

@@ -15,6 +15,11 @@ The opening `OPTION` statements select the LP solver and set execution limits,
 listing behaviour, and solver output options. The selected solver and resource
 limit are rendered from the case's `[times]` settings.
 
+For CPLEX cases, the Windows executor invokes GAMS with `OPTFILE=1`, causing
+GAMS to read the generated `cplex.opt`. See
+[Solver options](solver-options.md) for the versioned settings and the workflow
+for changing them.
+
 ## TIMES switches
 
 The `$SET` statements select the standard TIMES switches for this project,

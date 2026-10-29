@@ -9,4 +9,5 @@ staging them for a solver executor.
 scenario-configuration
 times-gams-setup
 run-file
+solver-options
 ```

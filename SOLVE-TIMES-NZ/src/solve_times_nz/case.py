@@ -17,6 +17,7 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_INPUT_ROOT = REPOSITORY_ROOT / "PREPARE-TIMES-NZ" / "output"
 REQUIRED_DD_FILES = ("ts.dd", "milestonyr.dd", "output.dd")
 RUN_TEMPLATE = REPOSITORY_ROOT / "SOLVE-TIMES-NZ" / "templates" / "times.run.template"
+CPLEX_OPTIONS_TEMPLATE = REPOSITORY_ROOT / "SOLVE-TIMES-NZ" / "templates" / "cplex.opt"
 
 
 class CaseConfigurationError(ValueError):
@@ -312,6 +313,13 @@ def build_case(
         )
     executor, solver, reslim = _case_settings(case)
     run_path = _render_run_file(case, output_dir, solver, reslim)
+    if solver.lower() == "cplex":
+        try:
+            shutil.copy2(CPLEX_OPTIONS_TEMPLATE, output_dir / "cplex.opt")
+        except FileNotFoundError as error:
+            raise RuntimeError(
+                f"Missing CPLEX options template: {CPLEX_OPTIONS_TEMPLATE}"
+            ) from error
     manifest = {
         "case_name": case.name,
         "built_at": datetime.now(UTC).isoformat(),
@@ -333,6 +341,9 @@ def build_case(
         "times": {"solver": solver, "reslim": reslim},
         "run_file": run_path.name,
         "run_template_sha256": _sha256(RUN_TEMPLATE),
+        "cplex_options_template_sha256": (
+            _sha256(CPLEX_OPTIONS_TEMPLATE) if solver.lower() == "cplex" else None
+        ),
     }
     (output_dir / "manifest.json").write_text(
         json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
