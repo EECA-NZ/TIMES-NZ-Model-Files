@@ -11,7 +11,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "black==26.3.1",
+    "black>=26.10.1,<27",
     "commitizen>=4.13,<5",
     "coverage>=7.0,<8",
     "isort>=6.0,<7",
@@ -19,7 +19,7 @@ dev = [
     "pip-audit>=2.0,<3",
     "plotnine>=0.15.3,<0.16",
     "pre-commit>=4.0,<5",
-    "pylint>=3.3.8,<4",
+    "pylint>=4.0.9,<5",
     "pytest>=9.0.3,<10",
     "rsconnect-python>=1.29.0,<2",
     "tomli-w>=1.2,<2",
@@ -37,6 +37,12 @@ docs = [
 
 [tool.uv]
 package = false
+# xl2times==0.3.0 has an upper bound of GitPython<3.2.  Override it so the
+# workspace can use the security-fixed GitPython release until xl2times
+# publishes a compatible dependency declaration.
+override-dependencies = [
+    "GitPython>=3.2.1,<4",
+]
 
 [tool.uv.sources]
 prepare-times-nz = { workspace = true }

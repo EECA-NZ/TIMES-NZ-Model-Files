@@ -7,7 +7,7 @@ authors = [{ name = "EECA" }]
 requires-python = ">=3.12,<4"
 dependencies = [
     "doit>=0.36,<0.37",
-    "filelock>=3.20.1,<4",
+    "filelock>=4.2.1,<5",
     "nrel-pysam>=7.1,<8",
     "numpy>=2.0,<3",
     "pandas>=2.2,<3",

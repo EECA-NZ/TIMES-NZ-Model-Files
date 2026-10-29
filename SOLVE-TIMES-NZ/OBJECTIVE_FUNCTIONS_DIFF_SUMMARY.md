@@ -23,6 +23,7 @@ Currently remaining things to solve:
 - ag demand processes in steady subres are mis-specified, flagging commodities that don't exist. fix. 
 - decide the intended post-VEDA PCG/peak-credit design;
 - move the five biofuel conversions into SubRES, then remove the temporary VEDA cost-omission workaround.
+- new build has added gas network maintenance prices (previously missing because of an accident). these are fixed so don't impact solve but do impact cost reporting. 
 
 
 ## Compatibility wrapper inventory

@@ -23,3 +23,4 @@ packages = ["src/solve_times_nz"]
 
 [tool.pylint.main]
 source-roots = ["SOLVE-TIMES-NZ/src"]
+
