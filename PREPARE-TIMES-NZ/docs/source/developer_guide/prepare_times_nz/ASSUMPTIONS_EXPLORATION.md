@@ -300,3 +300,46 @@ different value and expect a different scenario or calibration result.  Also,
 avoid silently retaining fallback values in code after migration: fail clearly
 when a required assumption is missing, while keeping only explicitly documented
 defaults where a default is an intended model choice.
+
+### Deferred documentation-build optimisation
+
+Once the assumption structure and documentation method have been settled, it
+may be worthwhile to reduce the Read the Docs (RTD) checkout to the files that
+the documentation build actually consumes.  This is explicitly deferred: the
+current priority is making assumptions authoritative, legible, and reliably
+rendered in documentation.
+
+At present, the repository-level `.readthedocs.yaml` points Sphinx to
+`PREPARE-TIMES-NZ/docs/source/conf.py`.  The Sphinx build does not import the
+PREPARE source package, read `data_raw`, or use filesystem links outside the
+documentation tree.  Documentation tables referenced with `csv-table` are
+currently stored below `docs/source`, including tables generated and committed
+by separate preparation tasks.  References to raw data elsewhere in the prose
+are descriptive text or GitHub hyperlinks, not build-time file dependencies.
+
+The intended documentation method is to make the documentation source tree
+self-contained, rather than to read raw assumptions directly on RTD:
+
+```text
+data_raw/assumptions/...                    # authoritative model inputs
+docs/source/_generated/assumptions/...      # selected generated copies
+docs/source/_data/assumption_substitutions.toml
+```
+
+A documentation-assets task will copy only the TOML/CSV files selected for
+documentation from `data_raw/assumptions` to
+`docs/source/_generated/assumptions`.  The files in `_generated` are derived
+assets: they must not be edited directly, and the task should be run and its
+outputs committed whenever their source assumptions change.  The substitution
+manifest will assign stable documentation names and display formats to values
+in those copied files; `conf.py` can then expose them to MyST as, for example,
+`{{ national_wem }}`.  Existing `csv-table` documentation can likewise read
+the copied CSV assets.
+
+The task should have a CI staleness check, so a raw-assumption change fails the
+documentation check until its selected documentation asset has been refreshed.
+After this method is in place, an RTD sparse checkout can include only `docs/`
+and need not include the raw assumption tree or PREPARE source package.  The
+RTD custom checkout should be configured and tested only after those
+dependencies are explicit; it is an external RTD-project setting and is not a
+replacement for the assumptions migration.

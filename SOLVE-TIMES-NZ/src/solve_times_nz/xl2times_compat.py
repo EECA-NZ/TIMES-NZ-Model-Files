@@ -18,9 +18,70 @@ _generate_topology_dictionary = transforms.generate_topology_dictionary
 _process_user_constraint_tables = transforms.process_user_constraint_tables
 _complete_dictionary = transforms.complete_dictionary
 _apply_final_fixup = transforms.apply_final_fixup
+_include_cgs_in_topology = transforms.include_cgs_in_topology
 _setup_logger = utils.setup_logger
 
 LEGACY_EOTIME = 2200
+
+# TEMPORARY VEDA COMPATIBILITY ONLY.
+#
+# These future biofuel conversion technologies are currently declared in the
+# base-workbook ``Biofuels`` ~FI_T table. Although that table supplies an
+# INVCOST, the reference VEDA DD export omits its corresponding NCAP_COST
+# records. VEDA therefore treats the conversions as unconstrained activities,
+# rather than capacity investments. Keep this named, deliberately narrow
+# exception only while reproducing the legacy VEDA result. The proper model
+# fix is to declare the technologies through the appropriate SubRES pathway,
+# then remove this compatibility rule.
+VEDA_BASE_BIOFUEL_NCAP_COST_OMISSIONS = frozenset(
+    {
+        "CT_COILBDS",
+        "CT_CWODBPL",
+        "CT_CWODDID",
+        "CT_CWODETH",
+        "WSTWOD2WOD",
+    }
+)
+
+# TEMPORARY VEDA COMPATIBILITY ONLY.
+#
+# VEDA assigns the demand-service commodity, rather than the electricity or
+# hydrogen input commodity, as the activity unit for these Supplemental
+# Resource agricultural technologies.  xl2times otherwise selects the input
+# commodity.  The former construction creates the associated EQ_ACTFLO rows.
+# The mapping is intentionally explicit while the underlying DMD convention
+# is designed and implemented upstream; it was derived from the reference DD
+# and covers precisely the 27 processes with a current Steady matrix
+# difference.  Do not extend it by analogy without an input/matrix comparison.
+VEDA_AGRICULTURAL_DEMAND_PCGS = {
+    "ADCF-MOTP-MOB-BIKE-ELC": "ADCF-BIKE-MOTP-MOB",
+    "ADCF-MOTP-MOB-MTR-ELC": "ADCF-MTR-MOTP-MOB",
+    "ADCF-MOTP-MOB-MTR-H2R": "ADCF-MTR-MOTP-MOB",
+    "ADCF-MOTP-MOB-TRAC-ELC": "ADCF-TRAC-MOTP-MOB",
+    "ADCF-MOTP-MOB-TRAC-H2R": "ADCF-TRAC-MOTP-MOB",
+    "ADCF-MOTP-MOB-UTI-ELC": "ADCF-UTI-MOTP-MOB",
+    "ADCF-MOTP-MOB-UTI-H2R": "ADCF-UTI-MOTP-MOB",
+    "AFORE-MOTP-MOB-BIKE-ELC": "AFORE-BIKE-MOTP-MOB",
+    "AFORE-MOTP-MOB-CY-ELC": "AFORE-CY-MOTP-MOB",
+    "AFORE-MOTP-MOB-CY-H2R": "AFORE-CY-MOTP-MOB",
+    "AFORE-MOTP-MOB-GB-ELC": "AFORE-GB-MOTP-MOB",
+    "AFORE-MOTP-MOB-GB-H2R": "AFORE-GB-MOTP-MOB",
+    "AHORT-MOTP-MOB-MTR-ELC": "AHORT-MTR-MOTP-MOB",
+    "AHORT-MOTP-MOB-MTR-H2R": "AHORT-MTR-MOTP-MOB",
+    "AHORT-MOTP-MOB-TRAC-ELC": "AHORT-TRAC-MOTP-MOB",
+    "AHORT-MOTP-MOB-TRAC-H2R": "AHORT-TRAC-MOTP-MOB",
+    "AHORT-MOTP-MOB-UTI-ELC": "AHORT-UTI-MOTP-MOB",
+    "AHORT-MOTP-MOB-UTI-H2R": "AHORT-UTI-MOTP-MOB",
+    "AINDC-SH-BOILER-ELC": "AINDC-BOILER-SH",
+    "AINDC-SH-BOILER-H2R": "AINDC-BOILER-SH",
+    "ALIVE-MOTP-MOB-BIKE-ELC": "ALIVE-BIKE-MOTP-MOB",
+    "ALIVE-MOTP-MOB-MTR-ELC": "ALIVE-MTR-MOTP-MOB",
+    "ALIVE-MOTP-MOB-MTR-H2R": "ALIVE-MTR-MOTP-MOB",
+    "ALIVE-MOTP-MOB-TRAC-ELC": "ALIVE-TRAC-MOTP-MOB",
+    "ALIVE-MOTP-MOB-TRAC-H2R": "ALIVE-TRAC-MOTP-MOB",
+    "ALIVE-MOTP-MOB-UTI-ELC": "ALIVE-UTI-MOTP-MOB",
+    "ALIVE-MOTP-MOB-UTI-H2R": "ALIVE-UTI-MOTP-MOB",
+}
 
 
 def _output_directory_from_args(arguments: list[str]) -> Path:
@@ -68,6 +129,48 @@ def _with_optional_descriptions(
         if "description" not in dataframe.columns:
             dataframe["description"] = pd.NA
     return _generate_topology_dictionary(tables, model)
+
+
+def _apply_veda_supplementary_energy_pcgs(config, tables, model):
+    """Apply VEDA's demand and NRGO PCG conventions to SubRES processes.
+
+    VEDA gives a process-specific ``*_NRGO`` activity commodity to a
+    Supplemental Resource process that has an energy (``NRG``) output. This
+    applies equally to declarations whose values are supplied only through
+    process metadata or scenario tables: requiring an explicit ``~FI_T`` row
+    incorrectly excluded most VEDA supplementary electricity processes. The
+    convention is based on source class and topology; it is not an instruction
+    embedded in the source workbook. Base-model processes continue to use
+    xl2times' normal default-PCG inference.
+    """
+    # See VEDA_AGRICULTURAL_DEMAND_PCGS above.  Apply only to unassigned SubRES
+    # processes, so an explicit source primary-CG always remains authoritative.
+    for dataframe in (tables[Tag.fi_process], model.processes):
+        target_pcg = dataframe["process"].str.upper().map(VEDA_AGRICULTURAL_DEMAND_PCGS)
+        affected = dataframe["module_type"].eq("subres") & dataframe["primarycg"].isna()
+        dataframe.loc[affected & target_pcg.notna(), "primarycg"] = target_pcg
+
+    commodity_sets = model.commodities[["region", "commodity", "csets"]]
+    energy_outputs = model.topology.loc[
+        model.topology["io"].eq("OUT"), ["region", "process", "commodity"]
+    ].merge(commodity_sets, on=["region", "commodity"])
+    energy_processes = energy_outputs.loc[
+        energy_outputs["csets"].eq("NRG"), ["region", "process"]
+    ].drop_duplicates()
+    target_keys = pd.MultiIndex.from_frame(energy_processes)
+
+    # include_cgs_in_topology reads the process declaration table, whereas
+    # fill_in_missing_pcgs reads model.processes.  Both must agree or xl2times
+    # emits PRC_ACTUNT for an undeclared commodity group.
+    for dataframe in (tables[Tag.fi_process], model.processes):
+        process_keys = pd.MultiIndex.from_frame(dataframe[["region", "process"]])
+        affected = (
+            process_keys.isin(target_keys)
+            & dataframe["module_type"].eq("subres")
+            & dataframe["primarycg"].isna()
+        )
+        dataframe.loc[affected, "primarycg"] = "NRGO"
+    return _include_cgs_in_topology(config, tables, model)
 
 
 def _project_demands_with_zero_continuation(
@@ -254,7 +357,14 @@ def _drop_generated_residuals_after_legacy_horizon(
         & years.gt(LEGACY_EOTIME)
         & generated
     )
-    fixed[Tag.fi_t] = dataframe.loc[~implied_residual].copy()
+    # See VEDA_BASE_BIOFUEL_NCAP_COST_OMISSIONS above. Removing NCAP_COST is
+    # sufficient to reproduce VEDA's absence of the associated capacity
+    # investment formulation; all other source data remain intact.
+    processes = dataframe.get("process", pd.Series(pd.NA, index=dataframe.index))
+    veda_omitted_ncap_cost = dataframe["attribute"].eq("NCAP_COST") & processes.isin(
+        VEDA_BASE_BIOFUEL_NCAP_COST_OMISSIONS
+    )
+    fixed[Tag.fi_t] = dataframe.loc[~(implied_residual | veda_omitted_ncap_cost)].copy()
     return fixed
 
 
@@ -263,6 +373,7 @@ def main() -> None:
     transforms.generate_topology_dictionary = _with_optional_descriptions
     transforms._project_demands = _project_demands_with_zero_continuation
     transforms.process_user_constraint_tables = _expand_multi_region_user_constraints
+    transforms.include_cgs_in_topology = _apply_veda_supplementary_energy_pcgs
     transforms.complete_dictionary = _export_implied_emission_topology
     transforms.apply_final_fixup = _drop_generated_residuals_after_legacy_horizon
     transforms.convert_to_string = _convert_to_veda_precision

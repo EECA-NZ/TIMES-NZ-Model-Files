@@ -3,6 +3,7 @@
 import pandas as pd
 import pytest
 from solve_times_nz.xl2times_compat import (
+    _apply_veda_supplementary_energy_pcgs,
     _convert_to_veda_precision,
     _drop_generated_residuals_after_legacy_horizon,
     _expand_multi_region_user_constraints,
@@ -56,6 +57,111 @@ def test_optional_description_columns_are_added(monkeypatch) -> None:
         "solve_times_nz.xl2times_compat._generate_topology_dictionary", fake_generate
     )
     assert "ok" in _with_optional_descriptions({}, model)
+
+
+def test_supplementary_energy_processes_use_veda_nrgo_pcgs(monkeypatch) -> None:
+    model = type(
+        "Model",
+        (),
+        {
+            "processes": pd.DataFrame(
+                {
+                    "region": ["NI", "NI", "SI"],
+                    "process": ["NEW_ELC", "BASE_ELC", "NEW_MAT"],
+                    "primarycg": [pd.NA, pd.NA, pd.NA],
+                    "module_type": ["subres", "base", "subres"],
+                    "source_filename": ["new", "base", "new"],
+                }
+            ),
+            "commodities": pd.DataFrame(
+                {
+                    "region": ["NI", "NI", "SI"],
+                    "commodity": ["ELC", "ELC", "STEEL"],
+                    "csets": ["NRG", "NRG", "MAT"],
+                }
+            ),
+            "topology": pd.DataFrame(
+                {
+                    "region": ["NI", "NI", "SI"],
+                    "process": ["NEW_ELC", "BASE_ELC", "NEW_MAT"],
+                    "commodity": ["ELC", "ELC", "STEEL"],
+                    "io": ["OUT", "OUT", "OUT"],
+                }
+            ),
+        },
+    )()
+
+    def fake_include(_config, _tables, patched_model):
+        assert patched_model.processes["primarycg"].tolist() == ["NRGO", pd.NA, pd.NA]
+        assert _tables[Tag.fi_process]["primarycg"].tolist() == ["NRGO", pd.NA, pd.NA]
+        return {"ok": pd.DataFrame()}
+
+    monkeypatch.setattr(
+        "solve_times_nz.xl2times_compat._include_cgs_in_topology", fake_include
+    )
+
+    tables = {
+        Tag.fi_process: pd.DataFrame(
+            {
+                "region": ["NI", "NI", "SI"],
+                "process": ["NEW_ELC", "BASE_ELC", "NEW_MAT"],
+                "primarycg": [pd.NA, pd.NA, pd.NA],
+                "module_type": ["subres", "base", "subres"],
+                "source_filename": ["new", "base", "new"],
+            }
+        ),
+    }
+
+    assert "ok" in _apply_veda_supplementary_energy_pcgs({}, tables, model)
+
+
+def test_agricultural_demand_processes_use_veda_service_pcgs(monkeypatch) -> None:
+    """Use the VEDA demand-service activity unit for the known AGR family."""
+    model = type(
+        "Model",
+        (),
+        {
+            "processes": pd.DataFrame(
+                {
+                    "region": ["NI", "NI"],
+                    "process": ["ADCF-MOTP-MOB-BIKE-ELC", "OTHER"],
+                    "primarycg": [pd.NA, pd.NA],
+                    "module_type": ["subres", "subres"],
+                }
+            ),
+            "commodities": pd.DataFrame(
+                {
+                    "region": ["NI", "NI"],
+                    "commodity": ["AGRELC", "ADCF-BIKE-MOTP-MOB"],
+                    "csets": ["NRG", "DEM"],
+                }
+            ),
+            "topology": pd.DataFrame(
+                {
+                    "region": ["NI", "NI"],
+                    "process": ["ADCF-MOTP-MOB-BIKE-ELC", "OTHER"],
+                    "commodity": ["AGRELC", "AGRELC"],
+                    "io": ["IN", "OUT"],
+                }
+            ),
+        },
+    )()
+
+    def fake_include(_config, _tables, patched_model):
+        assert patched_model.processes["primarycg"].tolist() == [
+            "ADCF-BIKE-MOTP-MOB",
+            "NRGO",
+        ]
+        return {"ok": pd.DataFrame()}
+
+    monkeypatch.setattr(
+        "solve_times_nz.xl2times_compat._include_cgs_in_topology", fake_include
+    )
+    tables = {
+        Tag.fi_process: model.processes.copy(),
+    }
+
+    assert "ok" in _apply_veda_supplementary_energy_pcgs({}, tables, model)
 
 
 def _demand_tables(values: list[float]) -> dict[str, pd.DataFrame]:
@@ -159,6 +265,32 @@ def test_generated_residual_after_legacy_horizon_is_omitted(monkeypatch) -> None
     assert result[Tag.fi_t]["year"].tolist() == [2223, 2200]
     assert result[Tag.fi_t]["source_filename"].iloc[0] == "source.xlsx"
     assert pd.isna(result[Tag.fi_t]["source_filename"].iloc[1])
+
+
+def test_legacy_base_biofuel_investment_costs_are_omitted(monkeypatch) -> None:
+    """Match VEDA's temporary omission of base-workbook conversion costs."""
+    tables = {
+        Tag.fi_t: pd.DataFrame(
+            {
+                "attribute": ["NCAP_COST", "NCAP_COST", "ACT_COST"],
+                "process": ["CT_CWODDID", "OTHER_PROCESS", "CT_CWODDID"],
+                "year": [2023, 2023, 2023],
+                "value": [10483, 100, 8.67],
+                "source_filename": ["VT_TIMESNZ_PRI.xlsx"] * 3,
+            }
+        )
+    }
+    monkeypatch.setattr(
+        "solve_times_nz.xl2times_compat._apply_final_fixup",
+        lambda _config, result, _model: result,
+    )
+
+    result = _drop_generated_residuals_after_legacy_horizon(None, tables, None)
+
+    assert result[Tag.fi_t][["attribute", "process"]].values.tolist() == [
+        ["NCAP_COST", "OTHER_PROCESS"],
+        ["ACT_COST", "CT_CWODDID"],
+    ]
 
 
 def test_generic_uc_flo_is_expanded_for_each_declared_region(monkeypatch) -> None:

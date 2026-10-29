@@ -495,6 +495,49 @@ and peak-capacity factors agree. This is the compatibility defect to correct;
 changing the peak coefficients or trimming capacity data would treat the
 symptom rather than reproduce VEDA's model construction.
 
+As a deliberately narrow, uncommitted diagnostic experiment, the seven
+process declarations were temporarily assigned VEDA-style `NRGO` primary
+commodity groups before xl2times generated its commodity groups. The corrected
+test run completed normally and confirms that the difference affects the
+optimisation, but it is not the dominant cause of the objective gap:
+
+| Run | `ObjZ` (MioNZ$) | Difference from VEDA |
+| --- | ---: | ---: |
+| VEDA reference | 1,470,450.003441 | 0 |
+| Baseline xl2times | 1,469,035.482420 | -1,414.521021 |
+| xl2times with seven-process diagnostic patch | 1,469,051.390602 | -1,398.612839 |
+| xl2times with inferred VEDA NRGO rule | 1,469,051.390602 | -1,398.612839 |
+
+The seven-process diagnostic patch increases the objective by 15.908182
+MioNZ$, closing about 1.1% of the original gap. The inferred rule gives
+exactly the same objective. It therefore validates the peak-capacity route
+diagnosis and establishes that all other VEDA NRGO assignments are immaterial
+to this Steady optimum. The remaining objective gap is 1,398.612839 MioNZ$;
+other active compatibility differences remain.
+
+The apparent `NRGO` declarations are **not source-workbook declarations**. A
+direct scan of the input workbooks finds no `NRGO` cell. The revised
+compatibility rule instead derives VEDA's observed convention: a
+Supplemental-Resource process receives an `NRGO` PCG when it has an `NRG`
+output in its topology and region-specific `~FI_T` data. The `~FI_T` condition
+prevents the generic generation declarations from being assigned in both
+regions. Base-model processes retain xl2times' normal default-PCG inference.
+This proposed generalisation was later rechecked against the current built DD
+and found to be incomplete; see [Latest active-matrix comparison: incomplete
+NRGO compatibility rule](#latest-active-matrix-comparison-incomplete-nrgo-compatibility-rule).
+
+This is a compatibility correction, not a solution to the overall objective
+gap. The generalized rule reproduces VEDA's NRGO activity-group construction
+but does not change the result beyond the effect already measured for the
+seven peak-relevant generators.
+
+The corrected test's pre-solve GDX confirms that this narrow cause is fully
+removed: none of the seven processes remains in `RPC_PKC`, matching VEDA.
+Reconstructing the fixed-supply expression for all 312 affected NI electricity
+peak rows gives zero difference from VEDA. Thus the corresponding
+`EQ_PEAK` residual difference is resolved; the limited objective movement
+shows that this peak-residual family was not the dominant economic driver.
+
 Generation costs, capacity choices, WEM/WEM_SI binding status, inter-island
 transfers, fuel use, and emissions are deliberately excluded from this list.
 They are downstream responses to the peak constraint and cannot establish why
@@ -578,3 +621,201 @@ would be the same apart from numerical tolerance, not about 1,415 MioNZ$.
 It is the optimum of a differently assembled LP. The remaining candidate
 causes are consequently effective model structure or coefficients (including
 process-flow topology and DD update effects), not solver settings.
+
+## Latest active-matrix comparison: incomplete NRGO compatibility rule
+
+The latest 2200-horizon diagnostic export (xl2times run
+`steady-20261029T005842Z`) was compared algebraically with the VEDA
+diagnostic matrix. Equation and variable names were normalised for case and
+GAMS rendering, and term order was ignored. This is important: a textual LP
+diff alone reports many harmless differences merely because GAMS writes terms
+in a different order.
+
+### Correction to the earlier NRGO validation
+
+The earlier statement that the generalized compatibility rule produced all
+213 VEDA `*_NRGO` `PRC_ACTUNT` records was wrong. It had not been checked
+against the current built `output.dd`.
+
+The current generated DD contains **12** `*_NRGO` activity-unit records;
+the VEDA DD inputs contain **213**. Most conspicuously, VEDA's
+`newtechs_elc_steady.dd` contains 184 such records while the generated DD
+contains only the original seven peak-relevant electricity cases. The
+compatibility hook's requirement for an explicit `~FI_T` source row is too
+narrow: it excludes most VEDA supplementary electricity declarations.
+
+This directly explains why the deliberately narrow seven-process experiment
+and the purported generalized rule gave the same objective. In the current
+build at that point, the latter did not actually generalise the result.
+
+The compatibility rule has since been expanded to apply to every
+Supplemental-Resource process with an `NRG` output and no explicit primary
+commodity group. A rebuilt Steady DD now has all **213** VEDA NRGO
+region/process pairs, with zero missing and zero extra pairs. This corrects
+the DD construction; the LP diagnostic and solve must be regenerated before
+claiming that it resolves the associated peak rows or objective difference.
+
+### Ranked real pre-solve differences
+
+After removing formatting and floating-point noise, the meaningful common
+equation differences are:
+
+| Rank | Difference | Scope | Why it matters |
+| --- | --- | ---: | --- |
+| 1 | Electricity peak equation uses `VAR_NCAP` in xl2times where VEDA uses time-slice `VAR_ACT` | 528 `EQ_PEAK` rows; 99 electricity technologies | This is active in the solutions: 86 affected technologies have non-zero VEDA activity and 77 have non-zero generated activity. It changes how future/pipeline generation earns peak credit and is the strongest remaining candidate for the objective difference. |
+| 2 | Agricultural-electricity commodity balances use activity rather than energy flow | 614 `EQE_COMBAL` rows, paired with 15,552 VEDA-only `EQ_ACTFLO` rows | A real demand-process topology mismatch for the 27 agricultural new technologies. The affected technologies have zero ordinary activity in this Steady case, so it is important compatibility debt but is not currently the leading explanation. |
+| 3 | Extra generated capacity variables and objective terms for three waste/conversion processes | 96 `EQL_CAPACT` / `VAR_NCAP` items; `CT_COILBDS`, `CT_CWODDID`, `WSTWOD2WOD` | The variables do not have solved `VAR_Ncap` levels (only marginal records), so they do not presently affect the Steady objective. |
+
+The remaining apparent differences in 2,328 ordinary commodity-balance rows
+are at floating-point scale (typically around `1e-17` in the RHS) and do not
+represent a different demand requirement. The regular WEM/WEM_SI rows,
+ordinary commodity demand RHSs, fuel prices, and carbon prices remain matched.
+
+### Why the peak difference is now the priority
+
+The 99 technologies are predominantly future wind, hydro, geothermal, and
+peaking projects. In a representative South Island peak row, xl2times adds a
+coefficient on a project `VAR_NCAP`, while VEDA adds the corresponding
+time-slice `VAR_ACT`. This is not just a display difference: the variables
+are distinct LP quantities and the affected projects are active in both
+solves. For example, the affected family includes `ELC_HydRR_PottsRiverHydro`,
+the generic wind projects, and several geothermal and gas-peaker projects.
+
+The pattern is consistent with the missing VEDA `*_NRGO` activity-unit
+construction. The DD-level matching step is now complete, but it does **not**
+yet prove that the full NRGO assignment is the complete fix. The next
+decisive test is to regenerate a diagnostic LP from this rebuilt DD and
+verify whether these 528 peak rows then agree. Only after that should
+remaining solution differences be interpreted as a separate cause.
+
+### Verification after full NRGO matching
+
+The rebuilt case was solved and exported with `--diagnostic` as
+`steady-20261029T190405Z`. The full NRGO match has the expected large effect:
+
+| Run | `ObjZ` (MioNZ$) | Difference from VEDA |
+| --- | ---: | ---: |
+| VEDA reference | 1,470,450.003441 | 0 |
+| Prior seven-record NRGO result | 1,469,051.390602 | -1,398.612839 |
+| Full 213-record NRGO result | 1,470,504.096222 | +54.092781 |
+
+It closes 96.1% of the absolute gap remaining after the seven-record test.
+The model is now within 0.00368% of the VEDA objective, although it has
+slightly overshot rather than matched exactly.
+
+An algebraic comparison of the new diagnostic LP with VEDA finds **no
+remaining `EQ_PEAK` differences**. The 528 rows that previously used
+`VAR_NCAP` in xl2times and `VAR_ACT` in VEDA now agree, confirming that the
+expanded NRGO activity-unit construction reaches the effective peak model.
+
+The remaining named common-row differences are limited to:
+
+- 614 agricultural `EQE_COMBAL` rows, representing the already documented
+  activity-versus-flow topology construction for the 27 agricultural
+  technologies;
+- two `EQ_OBJINV` and two `EQ_OBJSALV` rows for the inactive
+  waste/conversion capacity variables; and
+- one auxiliary `EQE_UCRTS(SI,2050,WEM_SI,ANNUAL)` row with an anonymous
+  generated variable name.
+
+The 27 agricultural technologies have zero ordinary `VAR_Act` in **both**
+the new generated and VEDA Steady results. They are therefore not a direct
+explanation of the remaining objective gap. The next investigation should
+compare the final objective-component records and solution levels for the
+remaining common active variables, rather than reopen peak, fuel-price,
+carbon-price, or ordinary-demand inputs, all of which now match at the LP
+level.
+
+### Peak contribution: compatibility versus modelling intent
+
+`NRGO` is an internal activity-unit group, not an additional input assumption
+about a plant's availability. Its importance here is that TIMES follows a
+different peak-equation construction depending on the activity-unit group.
+
+Before the expanded compatibility rule, xl2times was **mixed** relative to
+VEDA. It generated only 12 of VEDA's 213 NRGO activity-unit records. Some
+supplemental energy plants therefore entered peak equations through the VEDA
+`VAR_ACT` pathway, while the remaining plants entered through the direct
+`VAR_NCAP` pathway. The 528 differing peak rows were the visible result of
+that inconsistent treatment.
+
+The 12 records did not have a single source. Five were present in the
+unpatched xl2times DDs because its normal default commodity-group inference
+selects an energy output for those particular multi-commodity process
+topologies: `CT_CWODDID` (NI and SI), `G_NGA_DIST` (NI), and `WSTWOD2WOD`
+(NI and SI). The other seven were the deliberately narrow earlier
+compatibility experiment for named NI generation projects. Neither route was
+a complete implementation of VEDA's convention; the full rule is the first
+one that reproduces all 213 records.
+
+This should not be read as a recommendation that VEDA's construction is the
+preferred modelling design. The immediate goal is compatibility, so xl2times
+must reproduce the VEDA formulation. For a future deliberate model-design
+change, the intended interpretation needs to be decided explicitly:
+
+- If the peak-contribution rate is itself the technology's dependable
+  capacity credit, it should be applied once to installed capacity:
+  `installed capacity × peak-contribution rate`. The direct `VAR_NCAP`
+  formulation expresses that interpretation.
+- If peak contribution is meant to depend on time-slice operation, use the
+  `VAR_ACT` formulation. Its behaviour is connected to the activity
+  construction and can therefore reflect time-slice availability or dispatch.
+
+The present patch selects neither interpretation as inherently better: it
+simply makes the generated model follow VEDA consistently. Any later change
+from the VEDA-compatible NRGO construction should be treated as a documented
+model-method change, tested against the intended peak-credit definition, not
+as an xl2times conversion correction.
+
+### Temporary base-workbook biofuel conversion compatibility
+
+The legacy VEDA export omits `NCAP_COST` for five future biofuel conversion
+processes declared through the base-workbook `Biofuels` `~FI_T` table:
+`CT_COILBDS`, `CT_CWODBPL`, `CT_CWODDID`, `CT_CWODETH`, and `WSTWOD2WOD`.
+The source rows do contain `INVCOST`; for example, `CT_CWODDID` declares a
+2024 start and an investment cost of 10,483. xl2times would otherwise emit
+the corresponding `NCAP_COST`, resulting in capacity-investment equations
+that are absent from the VEDA solve.
+
+For compatibility testing only, `xl2times_compat.py` removes `NCAP_COST` for
+this explicit set. It deliberately retains all other data, and it is not a
+general rule for future-starting technologies. The preferred model design is
+to move these conversion technologies to the appropriate SubRES/new-technology
+input pathway, where their capital cost and capacity investment are represented
+explicitly; delete this compatibility exception when that work is complete.
+
+#### Result of the temporary compatibility test
+
+The first solve with this exception, `steady-20261029T201303Z`, confirms that
+the base-biofuel conversion treatment was the material remaining discrepancy:
+
+| Result | Objective (MioNZ$) | Difference from VEDA (MioNZ$) |
+| --- | ---: | ---: |
+| VEDA reference | 1,470,450.003441 | 0 |
+| xl2times before the exception | 1,470,504.096222 | +54.092781 |
+| xl2times with the exception | 1,470,449.765529 | -0.237912 |
+
+The remaining difference is 0.0000162% of the objective. The generated DD
+also contains no `NCAP_COST` records for the five named processes, matching
+the VEDA base DD behaviour.
+
+### Agricultural demand-process activity-unit test
+
+The 27 agricultural `DMD` activity-unit mappings were then changed to VEDA's
+demand-service commodities, creating the previously missing 15,552
+`EQ_ACTFLO` rows. The Steady objective was 1,470,449.766200 MioNZ$, compared
+with 1,470,449.765529 MioNZ$ before the test: only +0.000671 MioNZ$.
+
+This confirms that the family is inactive in Steady and is not the cause of
+the residual objective difference. It remains worthwhile compatibility work,
+but the explicit mapping should ultimately be replaced with a general,
+tested demand-process rule.
+
+One candidate future method is to assign `ELC` explicitly as the primary
+commodity group for every electricity-*generating* process. That would make
+the direct installed-capacity peak-credit interpretation deliberate rather
+than an accidental result of topology inference. The process scope must be
+defined first (for example, whether it excludes electricity storage, network,
+trade, and demand-side processes), and it must be tested as a new model
+method. It must not replace the current NRGO compatibility rule while VEDA
+matching remains the objective.
