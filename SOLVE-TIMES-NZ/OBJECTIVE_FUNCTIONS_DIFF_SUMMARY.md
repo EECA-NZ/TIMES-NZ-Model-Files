@@ -34,7 +34,8 @@ makes their capacity contribution to the electricity peak constraint explicit
 rather than dependent on xl2times topology inference. Batteries have a
 configured `NCAP_PKCNT` and can support peak even though their physical output
 commodity is `ELCHV` or `ELCDD`. Distribution, trade, demand-side processes,
-and distributed solar are excluded. Distributed solar produces `ELCDD`, not
+and distributed solar are excluded. Battery storage is included because it can
+contribute firm grid capacity at peak. Distributed solar produces `ELCDD`, not
 `ELC`; it continues to lower upstream grid peak demand through time-slice
 generation rather than receiving direct grid-capacity peak credit.
 

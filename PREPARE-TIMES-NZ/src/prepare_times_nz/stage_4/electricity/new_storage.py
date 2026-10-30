@@ -123,6 +123,14 @@ def get_battery_params(df):
     return df
 
 
+def create_battery_process_file(df):
+    """
+    Return battery process declarations with ELC PrimaryCG.
+    Intent is to ensure capacity contributes to EQ_PEAK, rather than activity.
+    """
+    return create_process_file(df, sets=SETS_STG, primary_cg="ELC")
+
+
 def get_battery_cost_curves():
     """
     Reads raw CSIRO prices for diff scenarios
@@ -210,7 +218,7 @@ def main():
     save_battery_data(df_act, "battery_activity.csv")
     save_battery_data(df_params, "battery_parameters.csv")
 
-    df_process = create_process_file(df, sets=SETS_STG)
+    df_process = create_battery_process_file(df)
     save_battery_data(df_process, "battery_processes.csv")
 
     # ensure batteries available on either island

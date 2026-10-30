@@ -30,9 +30,8 @@ def create_process_file(df, sets=SETS_ELE, primary_cg=None):
     can use different sets if needed (eg for storage technologies)
     but otherwise inherits all the constants set in this script.
 
-    ``primary_cg`` is deliberately opt-in: storage processes also use this
-    helper, but only electricity *generation* processes should declare ELC as
-    their primary commodity group.
+    ``primary_cg`` is deliberately opt-in. Note that excluding it will use
+    default options; these options differ between xl2times and veda.
     """
 
     out = pd.DataFrame()
