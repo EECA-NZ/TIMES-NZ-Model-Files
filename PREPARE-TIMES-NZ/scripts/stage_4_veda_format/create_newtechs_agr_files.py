@@ -53,67 +53,86 @@ def _as_list(value) -> list[str]:
     return [str(item).strip() for item in values]
 
 
+def _topology_lookups() -> tuple[dict[str, str], set[str], set[tuple[str, str]]]:
+    """Load the concordance-backed identifiers used to validate topology."""
+    sector_codes = pd.read_csv(NEW_TECHS_SECTOR)
+    enduse_codes = pd.read_csv(NEW_TECHS_ENDUSE)
+    technology_codes = pd.read_csv(NEW_TECHS)
+    return (
+        dict(zip(sector_codes["Sector_TIMES"], sector_codes["Sector"])),
+        set(enduse_codes["EndUse_TIMES"]),
+        set(zip(technology_codes["Sector"], technology_codes["Technology_TIMES"])),
+    )
+
+
+def _expand_topology_entry(
+    name: str,
+    entry: dict,
+    sector_lookup: dict[str, str],
+    valid_enduses: set[str],
+    valid_technologies: set[tuple[str, str]],
+) -> list[dict[str, str]]:
+    """Validate one topology entry and expand its sector/fuel combinations."""
+    required = {"TechCode", "EndUse", "InputFuel", "Sectors"}
+    missing = required.difference(entry)
+    if missing:
+        raise ValueError(
+            f"Missing topology fields in [{name}]: {', '.join(sorted(missing))}"
+        )
+
+    end_use = str(entry["EndUse"])
+    technology = str(entry["TechCode"])
+    if end_use not in valid_enduses:
+        raise ValueError(f"Unknown agriculture end-use code: {end_use}")
+
+    output_template = entry.get(
+        "CommodityOutTemplate", "{sector}-{technology}-{end_use}"
+    )
+    rows = []
+    for sector in _as_list(entry["Sectors"]):
+        if sector not in sector_lookup:
+            raise ValueError(f"Unknown agriculture sector code: {sector}")
+        if (sector_lookup[sector], technology) not in valid_technologies:
+            raise ValueError(
+                "Unknown agriculture technology code for sector: "
+                f"{sector}/{technology}"
+            )
+        for fuel in _as_list(entry["InputFuel"]):
+            values = {
+                "sector": str(sector),
+                "end_use": end_use,
+                "technology": technology,
+                "fuel": str(fuel),
+            }
+            rows.append(
+                {
+                    "TechName": "{sector}-{end_use}-{technology}-{fuel}".format(
+                        **values
+                    ),
+                    "Comm-In": f"AGR{values['fuel']}",
+                    "Comm-Out": output_template.format(**values),
+                    "Sector_TIMES": values["sector"],
+                    "EndUse_TIMES": values["end_use"],
+                    "Technology_TIMES": values["technology"],
+                }
+            )
+    return rows
+
+
 def create_newtech_topology(config_file=NEW_TECHS_TOPOLOGY) -> pd.DataFrame:
     """Expand concordance-validated future-technology topology into TIMES rows."""
     with Path(config_file).open("rb") as file:
         config = tomllib.load(file)
 
-    sector_codes = pd.read_csv(NEW_TECHS_SECTOR)
-    enduse_codes = pd.read_csv(NEW_TECHS_ENDUSE)
-    technology_codes = pd.read_csv(NEW_TECHS)
-    sector_lookup = dict(zip(sector_codes["Sector_TIMES"], sector_codes["Sector"]))
-    valid_enduses = set(enduse_codes["EndUse_TIMES"])
-    valid_technologies = set(
-        zip(technology_codes["Sector"], technology_codes["Technology_TIMES"])
-    )
-
+    sector_lookup, valid_enduses, valid_technologies = _topology_lookups()
     rows: list[dict[str, str]] = []
-    entries = [
-        (name, entry)
-        for name, entry in config.items()
-        if name.lower().startswith("newtechs")
-    ]
-    for name, entry in entries:
-        required = {"TechCode", "EndUse", "InputFuel", "Sectors"}
-        missing = required.difference(entry)
-        if missing:
-            raise ValueError(
-                f"Missing topology fields in [{name}]: {', '.join(sorted(missing))}"
+    for name, entry in config.items():
+        if name.lower().startswith("newtechs"):
+            rows.extend(
+                _expand_topology_entry(
+                    name, entry, sector_lookup, valid_enduses, valid_technologies
+                )
             )
-        end_use = str(entry["EndUse"])
-        technology = str(entry["TechCode"])
-        if end_use not in valid_enduses:
-            raise ValueError(f"Unknown agriculture end-use code: {end_use}")
-        output_template = entry.get(
-            "CommodityOutTemplate", "{sector}-{technology}-{end_use}"
-        )
-        for sector in _as_list(entry["Sectors"]):
-            if sector not in sector_lookup:
-                raise ValueError(f"Unknown agriculture sector code: {sector}")
-            if (sector_lookup[sector], technology) not in valid_technologies:
-                raise ValueError(
-                    "Unknown agriculture technology code for sector: "
-                    f"{sector}/{technology}"
-                )
-            for fuel in _as_list(entry["InputFuel"]):
-                values = {
-                    "sector": str(sector),
-                    "end_use": end_use,
-                    "technology": technology,
-                    "fuel": str(fuel),
-                }
-                rows.append(
-                    {
-                        "TechName": "{sector}-{end_use}-{technology}-{fuel}".format(
-                            **values
-                        ),
-                        "Comm-In": f"AGR{values['fuel']}",
-                        "Comm-Out": output_template.format(**values),
-                        "Sector_TIMES": values["sector"],
-                        "EndUse_TIMES": values["end_use"],
-                        "Technology_TIMES": values["technology"],
-                    }
-                )
 
     topology = pd.DataFrame(rows)
     if topology.empty or topology["TechName"].duplicated().any():
