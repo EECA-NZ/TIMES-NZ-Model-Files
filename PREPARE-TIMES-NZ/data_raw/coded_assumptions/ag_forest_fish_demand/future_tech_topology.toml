@@ -1,0 +1,66 @@
+# Canonical topology for future agriculture, forestry, and fishing demand
+# technologies. Scenario CSVs contain parameter assumptions only.
+#
+# With no ``commodity_out_template``, the output service commodity is
+# ``{sector}-{technology}-{end_use}``.
+# ie; by default the end use is tech-specific (you can't replace tractors with utes) 
+# but for some uses it doesn't matter (you can replace heaters with heat pumps) 
+
+# The coding of this is not the most intuitive; a later clean-up should decide whether alternatives
+# ought to compete. but this would rely on some changes to the ag base year setup. so, a to-do. 
+
+[newtechsTractor]
+TechCode = "Trac"
+EndUse = "MoTP-Mob"
+InputFuel = ["ELC", "H2R"]
+Sectors = ["ADCF", "ALIVE", "AHORT"]
+
+[newtechsTruck]
+TechCode = "MTr"
+EndUse = "MoTP-Mob"
+InputFuel = ["ELC", "H2R"]
+Sectors = ["ADCF", "ALIVE", "AHORT"]
+
+[newtechsUte]
+TechCode = "Uti"
+EndUse = "MoTP-Mob"
+InputFuel = ["ELC", "H2R"]
+Sectors = ["ADCF", "ALIVE", "AHORT"]
+
+[newtechsBike]
+TechCode = "Bike"
+EndUse = "MoTP-Mob"
+InputFuel = ["ELC"]
+Sectors = ["ADCF", "ALIVE", "AFORE"]
+
+[newtechsGroundBased]
+TechCode = "GB"
+EndUse = "MoTP-Mob"
+InputFuel = ["ELC", "H2R"]
+Sectors = ["AFORE"]
+
+[newtechsCableYarding]
+TechCode = "CY"
+EndUse = "MoTP-Mob"
+InputFuel = ["ELC", "H2R"]
+Sectors = ["AFORE"]
+
+[newtechsStationaryMotor]
+TechCode = "Motor"
+EndUse = "MoTP-Stat"
+InputFuel = ["ELC"]
+Sectors = ["AHORT"]
+CommodityOutTemplate = "{sector}-{end_use}"
+
+[newtechsBoiler]
+TechCode = "Boiler"
+EndUse = "SH"
+InputFuel = ["WOD", "ELC", "H2R"]
+Sectors = ["AINDC"]
+
+[newtechsHeatPump]
+TechCode = "HP"
+EndUse = "SH"
+InputFuel = ["ELC"]
+Sectors = ["AINDC"]
+CommodityOutTemplate = "{sector}-{end_use}"

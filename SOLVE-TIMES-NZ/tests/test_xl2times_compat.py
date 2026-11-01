@@ -3,7 +3,6 @@
 import pandas as pd
 import pytest
 from solve_times_nz.xl2times_compat import (
-    _apply_agricultural_demand_pcgs,
     _convert_to_veda_precision,
     _drop_generated_residuals_after_legacy_horizon,
     _expand_multi_region_user_constraints,
@@ -57,100 +56,6 @@ def test_optional_description_columns_are_added(monkeypatch) -> None:
         "solve_times_nz.xl2times_compat._generate_topology_dictionary", fake_generate
     )
     assert "ok" in _with_optional_descriptions({}, model)
-
-
-def test_unassigned_supplementary_energy_processes_use_default_pcgs(
-    monkeypatch,
-) -> None:
-    model = type(
-        "Model",
-        (),
-        {
-            "processes": pd.DataFrame(
-                {
-                    "region": ["NI", "NI", "SI"],
-                    "process": ["NEW_ELC", "BASE_ELC", "NEW_MAT"],
-                    "primarycg": ["ELC", pd.NA, pd.NA],
-                    "module_type": ["subres", "base", "subres"],
-                    "source_filename": ["new", "base", "new"],
-                }
-            ),
-            "commodities": pd.DataFrame(
-                {
-                    "region": ["NI", "NI", "SI"],
-                    "commodity": ["ELC", "ELC", "STEEL"],
-                    "csets": ["NRG", "NRG", "MAT"],
-                }
-            ),
-            "topology": pd.DataFrame(
-                {
-                    "region": ["NI", "NI", "SI"],
-                    "process": ["NEW_ELC", "BASE_ELC", "NEW_MAT"],
-                    "commodity": ["ELC", "ELC", "STEEL"],
-                    "io": ["OUT", "OUT", "OUT"],
-                }
-            ),
-        },
-    )()
-
-    def fake_include(_config, _tables, patched_model):
-        assert patched_model.processes["primarycg"].tolist() == ["ELC", pd.NA, pd.NA]
-        assert _tables[Tag.fi_process]["primarycg"].tolist() == ["ELC", pd.NA, pd.NA]
-        return {"ok": pd.DataFrame()}
-
-    monkeypatch.setattr(
-        "solve_times_nz.xl2times_compat._include_cgs_in_topology", fake_include
-    )
-
-    tables = {
-        Tag.fi_process: pd.DataFrame(
-            {
-                "region": ["NI", "NI", "SI"],
-                "process": ["NEW_ELC", "BASE_ELC", "NEW_MAT"],
-                "primarycg": ["ELC", pd.NA, pd.NA],
-                "module_type": ["subres", "base", "subres"],
-                "source_filename": ["new", "base", "new"],
-            }
-        ),
-    }
-
-    assert "ok" in _apply_agricultural_demand_pcgs({}, tables, model)
-
-
-def test_agricultural_demand_processes_use_veda_service_pcgs(monkeypatch) -> None:
-    """Use the VEDA demand-service activity unit for the known AGR family."""
-    model = type(
-        "Model",
-        (),
-        {
-            "processes": pd.DataFrame(
-                {
-                    "region": ["NI", "NI"],
-                    "process": ["ADCF-MOTP-MOB-BIKE-ELC", "OTHER"],
-                    "primarycg": [pd.NA, pd.NA],
-                    "module_type": ["subres", "subres"],
-                }
-            ),
-            "commodities": pd.DataFrame(),
-            "topology": pd.DataFrame(),
-        },
-    )()
-
-    def fake_include(_config, _tables, patched_model):
-        assert patched_model.processes["primarycg"].tolist() == [
-            "ADCF-BIKE-MOTP-MOB",
-            pd.NA,
-        ]
-        return {"ok": pd.DataFrame()}
-
-    monkeypatch.setattr(
-        "solve_times_nz.xl2times_compat._include_cgs_in_topology", fake_include
-    )
-    tables = {
-        Tag.fi_process: model.processes.copy(),
-    }
-
-    assert "ok" in _apply_agricultural_demand_pcgs({}, tables, model)
 
 
 def _demand_tables(values: list[float]) -> dict[str, pd.DataFrame]:

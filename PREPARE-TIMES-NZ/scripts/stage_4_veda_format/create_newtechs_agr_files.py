@@ -4,6 +4,7 @@ Executes building Veda files for new commercial techs
 
 from __future__ import annotations
 
+import tomllib
 from pathlib import Path
 from typing import Literal
 
@@ -24,13 +25,11 @@ OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 
 NEW_TECHS_STEADY: Path = AG_ASSUMPTIONS / "new_techs_steady.csv"
 NEW_TECHS_SHIFT: Path = AG_ASSUMPTIONS / "new_techs_shift.csv"
+NEW_TECHS_TOPOLOGY: Path = AG_ASSUMPTIONS / "future_tech_topology.toml"
 
 NEW_TECHS = AG_CONCORDANCES / "tech_codes.csv"
 NEW_TECHS_SECTOR = AG_CONCORDANCES / "sector_codes.csv"
 NEW_TECHS_ENDUSE = AG_CONCORDANCES / "use_codes.csv"
-
-# Choose which source drives the PROCESSES table: "steady" or "shift"
-PROCESSES_SOURCE: Literal["steady", "shift"] = "steady"
 
 # pylint: disable=duplicate-code
 # ---------------------------------------------------------------------
@@ -48,19 +47,104 @@ def _read_source(source: Literal["steady", "shift"], usecols=None) -> pd.DataFra
     return pd.read_csv(path, usecols=usecols)
 
 
+def _as_list(value) -> list[str]:
+    """Normalise a scalar or TOML list without changing TIMES-code case."""
+    values = value if isinstance(value, list) else [value]
+    return [str(item).strip() for item in values]
+
+
+def create_newtech_topology(config_file=NEW_TECHS_TOPOLOGY) -> pd.DataFrame:
+    """Expand concordance-validated future-technology topology into TIMES rows."""
+    with Path(config_file).open("rb") as file:
+        config = tomllib.load(file)
+
+    sector_codes = pd.read_csv(NEW_TECHS_SECTOR)
+    enduse_codes = pd.read_csv(NEW_TECHS_ENDUSE)
+    technology_codes = pd.read_csv(NEW_TECHS)
+    sector_lookup = dict(zip(sector_codes["Sector_TIMES"], sector_codes["Sector"]))
+    valid_enduses = set(enduse_codes["EndUse_TIMES"])
+    valid_technologies = set(
+        zip(technology_codes["Sector"], technology_codes["Technology_TIMES"])
+    )
+
+    rows: list[dict[str, str]] = []
+    entries = [
+        (name, entry)
+        for name, entry in config.items()
+        if name.lower().startswith("newtechs")
+    ]
+    for name, entry in entries:
+        required = {"TechCode", "EndUse", "InputFuel", "Sectors"}
+        missing = required.difference(entry)
+        if missing:
+            raise ValueError(
+                f"Missing topology fields in [{name}]: {', '.join(sorted(missing))}"
+            )
+        end_use = str(entry["EndUse"])
+        technology = str(entry["TechCode"])
+        if end_use not in valid_enduses:
+            raise ValueError(f"Unknown agriculture end-use code: {end_use}")
+        output_template = entry.get(
+            "CommodityOutTemplate", "{sector}-{technology}-{end_use}"
+        )
+        for sector in _as_list(entry["Sectors"]):
+            if sector not in sector_lookup:
+                raise ValueError(f"Unknown agriculture sector code: {sector}")
+            if (sector_lookup[sector], technology) not in valid_technologies:
+                raise ValueError(
+                    "Unknown agriculture technology code for sector: "
+                    f"{sector}/{technology}"
+                )
+            for fuel in _as_list(entry["InputFuel"]):
+                values = {
+                    "sector": str(sector),
+                    "end_use": end_use,
+                    "technology": technology,
+                    "fuel": str(fuel),
+                }
+                rows.append(
+                    {
+                        "TechName": "{sector}-{end_use}-{technology}-{fuel}".format(
+                            **values
+                        ),
+                        "Comm-In": f"AGR{values['fuel']}",
+                        "Comm-Out": output_template.format(**values),
+                        "Sector_TIMES": values["sector"],
+                        "EndUse_TIMES": values["end_use"],
+                        "Technology_TIMES": values["technology"],
+                    }
+                )
+
+    topology = pd.DataFrame(rows)
+    if topology.empty or topology["TechName"].duplicated().any():
+        raise ValueError("Future agriculture topology must contain unique technologies")
+    return topology
+
+
+def _parameters_with_topology(source: Literal["steady", "shift"]) -> pd.DataFrame:
+    """Join scenario-dependent assumptions to the canonical process topology."""
+    parameters = _read_source(source)
+    if parameters["TechName"].duplicated().any():
+        raise ValueError(f"Duplicate future agriculture parameters in {source}")
+
+    topology = create_newtech_topology()
+    expected = set(topology["TechName"])
+    actual = set(parameters["TechName"])
+    if actual != expected:
+        missing = sorted(expected - actual)
+        unexpected = sorted(actual - expected)
+        raise ValueError(
+            f"Future agriculture {source} parameters disagree with topology; "
+            f"missing={missing}, unexpected={unexpected}"
+        )
+    return topology.merge(parameters, on="TechName", how="left", validate="one_to_one")
+
+
 def create_newtech_process_df(cfg: dict) -> pd.DataFrame:
     """
-    Creates a DataFrame defining new commercial technologies from the chosen source.
-    cfg = {"Columns": [...], "Source": "steady" | "shift"}
+    Create scenario-independent declarations for future agriculture technologies.
     """
-    source: Literal["steady", "shift"] = cfg.get("Source", "steady")
-    tech_names = (
-        _read_source(source, usecols=["TechName"])["TechName"]
-        .dropna()
-        .astype(str)
-        .str.strip()
-        .unique()
-    )
+    tech_names = create_newtech_topology()["TechName"]
 
     df = pd.DataFrame(
         {
@@ -85,7 +169,7 @@ def create_newtech_process_parameters_df(cfg: dict) -> pd.DataFrame:
     cfg = {"Columns": [...], "Source": "steady" | "shift"}
     """
     source: Literal["steady", "shift"] = cfg.get("Source", "steady")
-    df = _read_source(source)
+    df = _parameters_with_topology(source)
 
     df["START"] = START
     df["CAP2ACT"] = CAP2ACT
@@ -131,11 +215,7 @@ def create_newtech_process_defintions(_cfg: dict) -> pd.DataFrame:
         "Technology",
     ]
 
-    # Read tech names directly from NEW_TECHS_FILE
-    combined = pd.read_csv(
-        NEW_TECHS_STEADY, usecols=["TechName", "Comm-In", "Comm-Out"]
-    )
-    combined = combined.dropna().drop_duplicates()
+    combined = create_newtech_topology()
 
     # Read concordances
     tech_map = pd.read_csv(NEW_TECHS)
@@ -146,37 +226,17 @@ def create_newtech_process_defintions(_cfg: dict) -> pd.DataFrame:
     for d in [tech_map, sector_map, enduse_map]:
         d.columns = d.columns.str.strip()
 
-    # --- Merge TIMES codes onto combined tech list ---
     df = combined.copy()
-    parts = df["TechName"].str.split("-", expand=True)
-
-    df["Sector_TIMES"] = parts[0].fillna("").astype(str)
-
-    # Handle both 3-part (Sector-EndUse-Tech) and 4-part (Sector-EndUse-SubEndUse-Tech) formats
-    # If 4 parts: EndUse is parts[1]-parts[2], Technology is parts[3]
-    # If 3 parts: EndUse is parts[1], Technology is parts[2]
-    def extract_enduse_tech(row_parts):
-        if pd.isna(row_parts[3]):
-            return (row_parts[1],)
-        if pd.isna(row_parts[4]):
-            return (
-                row_parts[1],
-                row_parts[2],
-            )
-        return f"{row_parts[1]}-{row_parts[2]}", row_parts[3]
-
-    enduse_tech = parts.apply(extract_enduse_tech, axis=1, result_type="expand")
-    df["EndUse_TIMES"] = enduse_tech[0].fillna("").astype(str)
-    df["Technology_TIMES"] = enduse_tech[1].fillna("").astype(str)
 
     # --- Sector merge ---
     df = df.merge(sector_map[["Sector_TIMES", "Sector"]], on="Sector_TIMES", how="left")
 
-    # --- Technology merge ---
+    # Technology codes can be sector-specific, so join on both identifiers.
     df = df.merge(
-        tech_map[["Technology_TIMES", "Technology", "TechGroup"]],
-        on="Technology_TIMES",
+        tech_map[["Sector", "Technology_TIMES", "Technology", "TechGroup"]],
+        on=["Sector", "Technology_TIMES"],
         how="left",
+        validate="many_to_one",
     )
 
     # --- EndUse merge ---
@@ -212,13 +272,12 @@ def create_newtech_process_defintions(_cfg: dict) -> pd.DataFrame:
 # MAIN – orchestrate every builder & write CSVs
 # ---------------------------------------------------------------------
 def main() -> None:
-    """Generates and exports TIMES-NZ commercial sector new technologies tables."""
+    """Generate and export TIMES-NZ future agriculture technology tables."""
 
-    # 1) Processes: from one chosen source (default: steady)
+    # 1) Process topology is scenario-independent.
     processes = create_newtech_process_df(
         {
             "Columns": ["Sets", "TechName", "Tact", "Tcap", "TsLvl"],
-            "Source": PROCESSES_SOURCE,
         }
     )
 
