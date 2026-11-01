@@ -38,7 +38,8 @@ files = [
 [groups.newtech_common]
 files = [
     "SubRES_TMPL/SubRES_NewTechs_IND.xlsx",
-    "SubRES_TMPL/SubRES_NewTechs_COM.xlsx"
+    "SubRES_TMPL/SubRES_NewTechs_COM.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_BIO.xlsx",
 ]
 
 # common scenarios 

@@ -22,26 +22,6 @@ _setup_logger = utils.setup_logger
 
 LEGACY_EOTIME = 2200
 
-# TEMPORARY VEDA COMPATIBILITY ONLY.
-#
-# These future biofuel conversion technologies are currently declared in the
-# base-workbook ``Biofuels`` ~FI_T table. Although that table supplies an
-# INVCOST, the reference VEDA DD export omits its corresponding NCAP_COST
-# records. VEDA therefore treats the conversions as unconstrained activities,
-# rather than capacity investments. Keep this named, deliberately narrow
-# exception only while reproducing the legacy VEDA result. The proper model
-# fix is to declare the technologies through the appropriate SubRES pathway,
-# then remove this compatibility rule.
-VEDA_BASE_BIOFUEL_NCAP_COST_OMISSIONS = frozenset(
-    {
-        "CT_COILBDS",
-        "CT_CWODBPL",
-        "CT_CWODDID",
-        "CT_CWODETH",
-        "WSTWOD2WOD",
-    }
-)
-
 
 def _output_directory_from_args(arguments: list[str]) -> Path:
     """Return xl2times' requested output directory from command-line arguments."""
@@ -274,14 +254,7 @@ def _drop_generated_residuals_after_legacy_horizon(
         & years.gt(LEGACY_EOTIME)
         & generated
     )
-    # See VEDA_BASE_BIOFUEL_NCAP_COST_OMISSIONS above. Removing NCAP_COST is
-    # sufficient to reproduce VEDA's absence of the associated capacity
-    # investment formulation; all other source data remain intact.
-    processes = dataframe.get("process", pd.Series(pd.NA, index=dataframe.index))
-    veda_omitted_ncap_cost = dataframe["attribute"].eq("NCAP_COST") & processes.isin(
-        VEDA_BASE_BIOFUEL_NCAP_COST_OMISSIONS
-    )
-    fixed[Tag.fi_t] = dataframe.loc[~(implied_residual | veda_omitted_ncap_cost)].copy()
+    fixed[Tag.fi_t] = dataframe.loc[~implied_residual].copy()
     return fixed
 
 

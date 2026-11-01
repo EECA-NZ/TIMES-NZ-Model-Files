@@ -11,7 +11,8 @@ Adds an additional supply forecast scenario using the
 alternative recoverability factor and higher growth of AD feedstock.
 
 Outputs:
-  - <STAGE_4_DATA>/biofuels/biofuel_process_declarations.csv
+  - base-workbook biomass supply declarations and parameters
+  - SubRES declarations and parameters for future biofuel conversions
 
 """
 
@@ -42,6 +43,19 @@ region_island_map = CONCORDANCES / "region_island_concordance.csv"
 
 OUTPUT_DIR = Path(STAGE_4_DATA) / "base_year_pri"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+SUBRES_OUTPUT_DIR = Path(STAGE_4_DATA) / "subres_bio"
+SUBRES_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+PLANT_PROCESSES = ASSUMPTIONS / "biofuels" / "plant_processes.csv"
+
+FUTURE_BIOFUEL_CONVERSIONS = frozenset(
+    {
+        "CT_COILBDS",
+        "CT_CWODBPL",
+        "CT_CWODDID",
+        "CT_CWODETH",
+        "WSTWOD2WOD",
+    }
+)
 
 REGION_MAP = {}
 
@@ -49,10 +63,12 @@ REGION_MAP = {}
 # ----------------------------------------------------------------------------
 # Save helper
 # ----------------------------------------------------------------------------
-def save_output(df: pd.DataFrame, name, label) -> None:
+def save_output(
+    df: pd.DataFrame, name: str, label: str, directory: Path = OUTPUT_DIR
+) -> None:
     """Save output CSV with logging."""
     full_label = f"Biofuel {label}"
-    _save_data(df, name, full_label, filepath=OUTPUT_DIR)
+    _save_data(df, name, full_label, filepath=directory)
 
 
 # ----------------------------------------------------------------------------
@@ -287,7 +303,7 @@ def build_bioenergy_supply_forecast_df(
 # Define grouped technology declarations
 # ----------------------------------------------------------------------------
 def build_biofuel_processes() -> pd.DataFrame:
-    """Construct grouped biomass/biofuel process declarations."""
+    """Construct all grouped biomass/biofuel process declarations."""
 
     biofuel_groups = [
         # --- Primary biomass supply (MIN / PJ / PJa) ---
@@ -364,6 +380,34 @@ def build_biofuel_processes() -> pd.DataFrame:
             )
 
     return pd.DataFrame(records)
+
+
+def split_future_biofuel_processes() -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Return base and future process declarations for their respective workbooks."""
+    declarations = build_biofuel_processes()
+    future = declarations["TechName"].isin(FUTURE_BIOFUEL_CONVERSIONS)
+    return (
+        declarations.loc[~future].reset_index(drop=True),
+        declarations.loc[future].reset_index(drop=True),
+    )
+
+
+def split_biofuel_parameters() -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Split canonical plant parameters while retaining blank-name topology rows.
+
+    ``plant_processes.csv`` represents multi-input/output technologies with
+    continuation rows whose ``TechName`` is blank.  Classify those rows by the
+    preceding nonblank process before splitting, but preserve their original
+    cells in the emitted data.
+    """
+    parameters = pd.read_csv(PLANT_PROCESSES)
+    parameters = parameters.replace(r"^\s*$", pd.NA, regex=True).dropna(how="all")
+    owner = parameters["TechName"].ffill()
+    future = owner.isin(FUTURE_BIOFUEL_CONVERSIONS)
+    return (
+        parameters.loc[~future].reset_index(drop=True),
+        parameters.loc[future].reset_index(drop=True),
+    )
 
 
 def create_biofuel_supply_forecasts() -> pd.DataFrame:
@@ -461,8 +505,26 @@ def create_additional_bioenergy_supply_forecasts() -> pd.DataFrame:
 def main() -> None:
     """Entry point for biofuel process declaration generation."""
 
-    df = build_biofuel_processes()
-    save_output(df, "biofuel_supply_process_declarations.csv", "Process declarations")
+    base_processes, future_processes = split_future_biofuel_processes()
+    base_parameters, future_parameters = split_biofuel_parameters()
+    save_output(
+        base_processes,
+        "biofuel_supply_process_declarations.csv",
+        "base process declarations",
+    )
+    save_output(base_parameters, "biofuel_supply_parameters.csv", "base parameters")
+    save_output(
+        future_processes,
+        "future_biofuel_conversion_processes.csv",
+        "future conversion process declarations",
+        SUBRES_OUTPUT_DIR,
+    )
+    save_output(
+        future_parameters,
+        "future_biofuel_conversion_parameters.csv",
+        "future conversion parameters",
+        SUBRES_OUTPUT_DIR,
+    )
 
     df_forecast = create_biofuel_supply_forecasts()
     save_output(df_forecast, "biofuel_supply_forecasts.csv", "Supply forecasts")

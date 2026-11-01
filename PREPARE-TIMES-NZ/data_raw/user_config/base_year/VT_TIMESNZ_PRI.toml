@@ -226,10 +226,10 @@ TagName = "FI_T"
 DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/biofuel_supply_forecasts.csv"
 
 [BiofuelParameterDeclarations]
-Description = "Declare conversion processes for biofuel. Sets investment and operation costs, annual availability, lifetime"
+Description = "Declare base biomass/biofuel conversion process parameters"
 SheetName = "Biofuels"
 TagName = "FI_T"
-DataLocation = "data_raw/coded_assumptions/biofuels/plant_processes.csv"
+DataLocation = "data_intermediate/stage_4_veda_format/base_year_pri/biofuel_supply_parameters.csv"
 
 
 

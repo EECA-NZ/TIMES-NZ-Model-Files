@@ -161,32 +161,6 @@ def test_generated_residual_after_legacy_horizon_is_omitted(monkeypatch) -> None
     assert pd.isna(result[Tag.fi_t]["source_filename"].iloc[1])
 
 
-def test_legacy_base_biofuel_investment_costs_are_omitted(monkeypatch) -> None:
-    """Match VEDA's temporary omission of base-workbook conversion costs."""
-    tables = {
-        Tag.fi_t: pd.DataFrame(
-            {
-                "attribute": ["NCAP_COST", "NCAP_COST", "ACT_COST"],
-                "process": ["CT_CWODDID", "OTHER_PROCESS", "CT_CWODDID"],
-                "year": [2023, 2023, 2023],
-                "value": [10483, 100, 8.67],
-                "source_filename": ["VT_TIMESNZ_PRI.xlsx"] * 3,
-            }
-        )
-    }
-    monkeypatch.setattr(
-        "solve_times_nz.xl2times_compat._apply_final_fixup",
-        lambda _config, result, _model: result,
-    )
-
-    result = _drop_generated_residuals_after_legacy_horizon(None, tables, None)
-
-    assert result[Tag.fi_t][["attribute", "process"]].values.tolist() == [
-        ["NCAP_COST", "OTHER_PROCESS"],
-        ["ACT_COST", "CT_CWODDID"],
-    ]
-
-
 def test_generic_uc_flo_is_expanded_for_each_declared_region(monkeypatch) -> None:
     source = EmbeddedXlTable(
         Tag.uc_t,

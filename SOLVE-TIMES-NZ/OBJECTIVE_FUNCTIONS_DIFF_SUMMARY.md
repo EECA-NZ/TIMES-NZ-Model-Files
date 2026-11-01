@@ -23,7 +23,8 @@ Note this needs a rerun following patches
 Currently remaining things to solve: 
 
 - ag demand processes in steady subres are mis-specified, flagging commodities that don't exist. fix. 
-- move the five biofuel conversions into SubRES, then remove the temporary VEDA cost-omission workaround.
+- rebaseline the biofuel conversion capacity formulation: the five future
+  conversion technologies now use SubRES and retain their investment costs.
 - new build has added gas network maintenance prices (previously missing because of an accident). these are fixed so don't impact solve but do impact cost reporting. 
 
 ## Deliberate electricity peak-credit method
@@ -86,16 +87,11 @@ construction is used. The compatibility rule therefore reproduces VEDA; it
 does not endorse VEDA's use of time-slice activity as the intended definition
 of dependable capacity credit.
 
-### Remove: temporary emulation of a VEDA error
+### Resolved: VEDA biofuel cost-omission error
 
-This exception exists only to reproduce an erroneous legacy VEDA export. It
-must be deleted once the affected technologies are represented correctly.
-
-| Temporary wrapper behaviour | VEDA error reproduced | Proper replacement |
-| --- | --- | --- |
-| Drop `NCAP_COST` for `CT_COILBDS`, `CT_CWODBPL`, `CT_CWODDID`, `CT_CWODETH`, and `WSTWOD2WOD` | The base-workbook `Biofuels` `~FI_T` rows supply `INVCOST`, but VEDA omits the corresponding `NCAP_COST` records. It consequently treats future conversion technologies as unconstrained activities rather than capacity investments. | Move the technologies to the appropriate SubRES/new-technology pathway, retain their capital costs and capacity formulation, remove this named exception, and accept/rebaseline the deliberate model-result change. |
-
-This one temporary exception explained the final material gap after NRGO
-matching: the objective moved from +54.092781 to -0.237912 MioNZ$ when the
-five costs were omitted. It is deliberately narrow; it is not a rule that
-future-starting processes should be free. Veda expected future technologies to be expressed in subres files, so this could also be resolved by splitting some base year files. 
+`CT_COILBDS`, `CT_CWODBPL`, `CT_CWODDID`, `CT_CWODETH`, and `WSTWOD2WOD` are
+now emitted through `SubRES_NewTechs_BIO`. They retain their `INVCOST` and
+therefore receive normal `NCAP_COST` capacity formulation. The former named
+compatibility exception has been removed. This intentionally no longer
+reproduces VEDA's omission of the five capacity costs; solve comparisons must
+be rebaselined accordingly.
