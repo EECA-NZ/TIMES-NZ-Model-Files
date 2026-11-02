@@ -16,6 +16,7 @@ from solve_times_nz.case import (
     REQUIRED_DD_FILES,
     CaseConfigurationError,
     read_toml,
+    versioned_case_name,
 )
 
 RESULTS_ROOT = REPOSITORY_ROOT / "SOLVE-TIMES-NZ" / "build" / "solves"
@@ -113,7 +114,9 @@ def _stage_case(case_dir: Path, local_config: Path, run_id: str | None = None) -
         raise CaseConfigurationError(
             "run ID may contain only letters, numbers, '-' and '_'"
         )
-    destination = executor.staging_root / f"{case_name}-{safe_run_id}"
+    destination = (
+        executor.staging_root / f"{versioned_case_name(case_name)}-{safe_run_id}"
+    )
     if destination.exists():
         raise CaseConfigurationError(
             f"Refusing to overwrite existing staged run: {destination}"

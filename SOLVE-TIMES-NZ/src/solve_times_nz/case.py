@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
+ROOT_PYPROJECT = REPOSITORY_ROOT / "pyproject.toml"
 DEFAULT_INPUT_ROOT = REPOSITORY_ROOT / "PREPARE-TIMES-NZ" / "output"
 REQUIRED_DD_FILES = ("ts.dd", "milestonyr.dd", "output.dd")
 RUN_TEMPLATE = REPOSITORY_ROOT / "SOLVE-TIMES-NZ" / "templates" / "times.run.template"
@@ -48,6 +49,22 @@ def read_toml(path: Path) -> dict[str, Any]:
         ) from error
     except tomllib.TOMLDecodeError as error:
         raise CaseConfigurationError(f"Invalid TOML in {path}: {error}") from error
+
+
+def model_version() -> str:
+    """Return the workspace version used to identify generated model artifacts."""
+    project = read_toml(ROOT_PYPROJECT).get("project")
+    if not isinstance(project, dict):
+        raise CaseConfigurationError(f"{ROOT_PYPROJECT}: [project] table is required")
+    version = project.get("version")
+    if not isinstance(version, str) or not version:
+        raise CaseConfigurationError(f"{ROOT_PYPROJECT}: project.version is required")
+    return version
+
+
+def versioned_case_name(case_name: str) -> str:
+    """Return the version-stamped name used for generated case artifacts."""
+    return f"{case_name}-v{model_version()}"
 
 
 def _string_list(value: Any, field: str, source: Path) -> list[str]:

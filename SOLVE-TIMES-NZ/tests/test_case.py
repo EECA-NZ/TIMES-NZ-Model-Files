@@ -6,7 +6,12 @@ from pathlib import Path
 
 import pytest
 import solve_times_nz.execution as execution
-from solve_times_nz.case import CaseConfigurationError, build_case, resolve_case
+from solve_times_nz.case import (
+    CaseConfigurationError,
+    build_case,
+    resolve_case,
+    versioned_case_name,
+)
 from solve_times_nz.execution import load_executor, solve_case
 
 
@@ -180,7 +185,7 @@ def test_solve_stages_case_and_invokes_windows_gams(
 
     def fake_gams(command, **_kwargs):
         commands.append(command)
-        staged_dir = staging_root / "steady-trial"
+        staged_dir = staging_root / f"{versioned_case_name('steady')}-trial"
         (staged_dir / "steady.vd").write_text("results", encoding="utf-8")
         return subprocess.CompletedProcess(command, 0)
 
@@ -192,7 +197,7 @@ def test_solve_stages_case_and_invokes_windows_gams(
         windows_path=lambda path: f"WIN:{path.name}",
     )
 
-    assert destination == results_root / "steady-trial"
+    assert destination == results_root / f"{versioned_case_name('steady')}-trial"
     assert commands[0][:3] == ["cmd.exe", "/d", "/c"]
     assert "GAMS steady.run IDIR=WIN:times" in commands[0][3]
     assert "OPTFILE=1" in commands[0][3]
@@ -239,7 +244,7 @@ def test_solve_diagnostic_exports_and_collects_matrix(
 
     def fake_gams(command, **_kwargs):
         commands.append(command)
-        staged_dir = staging_root / "steady-diagnostic"
+        staged_dir = staging_root / f"{versioned_case_name('steady')}-diagnostic"
         (staged_dir / "steady.vd").write_text("results", encoding="utf-8")
         if "GAMS diagnostic-steady.run" in command[3]:
             (staged_dir / execution.DIAGNOSTIC_MATRIX_FILE).write_text(
@@ -268,7 +273,9 @@ def test_solve_diagnostic_exports_and_collects_matrix(
     assert "GAMS diagnostic-steady.run" in commands[1][3]
     assert "OPTFILE=1" in commands[1][3]
     diagnostic_run = (
-        staging_root / "steady-diagnostic" / "diagnostic-steady.run"
+        staging_root
+        / f"{versioned_case_name('steady')}-diagnostic"
+        / "diagnostic-steady.run"
     ).read_text()
     assert "OPTION LP=convert;" in diagnostic_run
     assert (destination / "diagnostics" / execution.DIAGNOSTIC_MATRIX_FILE).is_file()

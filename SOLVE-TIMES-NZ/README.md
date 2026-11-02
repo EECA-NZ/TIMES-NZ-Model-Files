@@ -11,11 +11,12 @@ uv run solve-times-nz resolve cases/steady.toml
 ```
 Build a case with `build`:
 ```
-uv run solve-times-nz build cases/steady.toml --output build/cases/steady
+uv run solve-times-nz build cases/steady.toml
 ```
 
-`build` replaces the requested generated output directory on each run. Do not
-use it to target a directory containing hand-maintained files.
+`build` writes to `build/cases/<case>-v<workspace-version>` by default and
+replaces that generated directory on each run. Do not use `--output` to target
+a directory containing hand-maintained files.
 It also renders a path-independent `<case-name>.run` program alongside the DD
 files. The initial executor should point at the VEDA reference installation.
 
@@ -41,12 +42,13 @@ uv run solve-times-nz solve steady
 `solve` copies a complete generated case to a unique run directory and invokes
 native Windows GAMS, then runs GDX2VEDA. It retains the Windows run directory,
 records the execution status in its manifest, and copies VEDA result files to
-`build/solves/<case>-<run-id>/`.
+`build/solves/<case>-v<workspace-version>-<run-id>/`.
 
 Add `--diagnostic` to perform a second, non-solving GAMS CONVERT pass after a
 successful solve. It writes the complete named model matrix and its dictionary
-to `build/solves/<case>-<run-id>/diagnostics/`, together with a CPLEX LP file
-containing the equation right-hand sides and variable bounds. This is
+to `build/solves/<case>-v<workspace-version>-<run-id>/diagnostics/`, together
+with a CPLEX LP file containing the equation right-hand sides and variable
+bounds. This is
 intentionally opt-in: the full TIMES formulation can be hundreds of megabytes.
 
 The Convert pass does not return a solution, so the existing TIMES reporting
@@ -70,8 +72,7 @@ uv run solve-times-nz solve steady --diagnostic
 3. Generate a throwaway DD smoke-test case:
 
    ```bash
-   uv run solve-times-nz build SOLVE-TIMES-NZ/cases/steady.toml \
-     --output SOLVE-TIMES-NZ/build/cases/steady
+   uv run solve-times-nz build SOLVE-TIMES-NZ/cases/steady.toml
    ```
 
    Confirm it creates `ts.dd`, `output.dd`, `milestonyr.dd`, and

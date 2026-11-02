@@ -11,6 +11,7 @@ from solve_times_nz.case import (
     CaseConfigurationError,
     build_case,
     resolve_case,
+    versioned_case_name,
 )
 from solve_times_nz.execution import solve_case
 
@@ -35,7 +36,12 @@ def _parser() -> argparse.ArgumentParser:
         )
         if command == "build":
             subparser.add_argument(
-                "--output", type=Path, required=True, help="New case directory"
+                "--output",
+                type=Path,
+                help=(
+                    "Override the generated case directory "
+                    "(default: build/cases/<case name>-v<workspace-version>)"
+                ),
             )
     solve = commands.add_parser(
         "solve", help="Run native Windows GAMS and collect VEDA result files"
@@ -58,7 +64,7 @@ def main() -> None:
         if arguments.command == "solve":
             print(
                 solve_case(
-                    DEFAULT_CASE_BUILD_ROOT / arguments.case,
+                    DEFAULT_CASE_BUILD_ROOT / versioned_case_name(arguments.case),
                     arguments.local_config,
                     arguments.run_id,
                     diagnostic=arguments.diagnostic,
@@ -75,7 +81,10 @@ def main() -> None:
             for path in case.files:
                 print(path.relative_to(case.input_root).as_posix())
             return
-        build_case(case, arguments.output)
+        output_dir = arguments.output or DEFAULT_CASE_BUILD_ROOT / versioned_case_name(
+            case.name
+        )
+        build_case(case, output_dir)
     except (CaseConfigurationError, RuntimeError) as error:
         raise SystemExit(f"error: {error}") from error
 
