@@ -1,25 +1,17 @@
-# xl2times issue log
+# xl2times compatibility notes
 
-This file tracks compatibility problems and model-layout issues encountered while
-converting `models/TIMES-NZ` with xl2times 0.3.0.
-
-The current test command is:
-
-```bash
-uv run xl2times-fixed "models/TIMES-NZ" --ground_truth_dir=ground_truth -v
-```
-
-The current command completed successfully on 22 October 2026, producing 79
-tables and 99,410 rows. It passed both `process_transform_availability()` and
-`apply_final_fixup()`.
+This file records the resolved compatibility issues encountered while
+converting TIMES-NZ with xl2times 0.3.0. The regression tests in
+`tests/test_xl2times_compat.py` are the executable record of the behaviours
+implemented by the project-local wrapper.
 
 ## How the compatibility wrapper works
 
 `solve_times_nz.xl2times_compat` is a small, project-local entry point
 implemented in `src/solve_times_nz/xl2times_compat.py`. It imports the
 installed xl2times functions, retains references to the original functions,
-then replaces five transform hooks and redirects its log immediately before
-invoking the ordinary xl2times CLI. It does not edit
+then applies six scoped converter hooks and redirects its log immediately
+before invoking the ordinary xl2times CLI. It does not edit
 the installed package or alter Excel inputs.
 
 The hooks and log configuration run at these points:
@@ -50,8 +42,8 @@ The hooks and log configuration run at these points:
    command was invoked.
 
 The wrapper deliberately does not correct input-data region expansion,
-commodity-group generation, or process naming. Those remain PREPARE-TIMES-NZ
-responsibilities and are tracked in the current difference inventory.
+commodity-group generation, or process naming. Those remain
+PREPARE-TIMES-NZ responsibilities.
 
 ### Patch policy
 
@@ -423,7 +415,7 @@ This is the intended TIMES behaviour: for example,
 `TOP(NI, MINNGA-KAP, GASCO2, OUT)`.  `Comm-OUT=NGA` remains the process's
 physical output and must not be changed to include `GASCO2`.
 
-Implementation: `src/xl2times_test/cli.py`
+Implementation: `src/solve_times_nz/xl2times_compat.py`
 
 Verification: the regenerated comparison has no missing `TOP` rows.  It has
 20 additional environmental links, exactly corresponding to the existing
@@ -458,7 +450,7 @@ column in a `~UC_T` table with exactly one `R_E` or `R_S` region set. It emits
 that term once for every region declared by the set, while leaving explicitly
 regional columns unchanged.
 
-Implementation: `src/xl2times_test/cli.py`
+Implementation: `src/solve_times_nz/xl2times_compat.py`
 
 Verification: the all-scenario comparison now has six `UC_FLO` rows matching
 the six VEDA ground-truth rows exactly; the prior two missing SI WEM rows are
@@ -489,9 +481,9 @@ The project-local `xl2times-fixed` wrapper adds empty `description` columns to
 the process and commodity dataframes when absent, then invokes the installed
 xl2times CLI. The installed package under `.venv` is not edited.
 
-Implementation: `src/xl2times_test/cli.py`
+Implementation: `src/solve_times_nz/xl2times_compat.py`
 
-Regression test: `tests/test_cli.py`
+Regression test: `tests/test_xl2times_compat.py`
 
 **Status:** Resolved locally. The conversion now completes `process_wildcards`.
 
@@ -532,9 +524,9 @@ The wrapper deliberately rejects `0 -> non-zero` with a diagnostic error. A
 demand restart cannot be derived from a percentage change relative to zero and
 must instead be represented using explicit demand projections.
 
-Implementation: `src/xl2times_test/cli.py`
+Implementation: `src/solve_times_nz/xl2times_compat.py`
 
-Regression tests: `tests/test_cli.py`
+Regression tests: `tests/test_xl2times_compat.py`
 
 **Status:** Resolved locally and covered by focused regression tests.
 
@@ -559,7 +551,7 @@ The project-local wrapper now removes only derived zero `PRC_RESID` rows after
 2200. Explicit source data and process lifetimes are retained. The generated
 run template again sets `EOTIME = 2200`, matching VEDA's effective domain.
 
-**Status:** Resolved locally; rebuild and re-solve before comparing objectives.
+**Status:** Resolved locally and covered by focused regression tests.
 
 ## Non-fatal warnings to revisit
 

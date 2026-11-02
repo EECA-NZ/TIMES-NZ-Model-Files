@@ -59,29 +59,6 @@ diagnostic as successful when both requested GDX artifacts were written.
 uv run solve-times-nz solve steady --diagnostic
 ```
 
-## Next steps
-
-1. Populate `config/input-groups.toml` with the authoritative workbook set for
-   the steady baseline.
-2. Preview the resulting selection without changing any files:
-
-   ```bash
-   uv run solve-times-nz resolve SOLVE-TIMES-NZ/cases/steady.toml
-   ```
-
-3. Generate a throwaway DD smoke-test case:
-
-   ```bash
-   uv run solve-times-nz build SOLVE-TIMES-NZ/cases/steady.toml
-   ```
-
-   Confirm it creates `ts.dd`, `output.dd`, `milestonyr.dd`, and
-   `manifest.json`, then investigate any meaningful xl2times warnings.
-4. Compare important generated records with the known VEDA steady case:
-   `TOP`, `FLO_EMIS`, `UC_FLO`, demand projections, and lifetime-related
-   values.
-5. Reintroduce the successful Windows reference case. Use it to establish the
-   generic `.run` template and confirm the exact `VT_GAMS` and GDX2VEDA
-   commands.
-6. Implement Windows staging, solving, result return, and baseline acceptance
-   checks.
+Further guidance on case configuration, local GAMS/TIMES setup, generated run
+files, and CPLEX options is in the
+[`SOLVE-TIMES-NZ` developer guide](../PREPARE-TIMES-NZ/docs/source/developer_guide/solve_times_nz/index.md).
