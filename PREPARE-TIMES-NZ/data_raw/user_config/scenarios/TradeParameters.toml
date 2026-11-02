@@ -20,7 +20,7 @@ WorkBookName = "SuppXLS/Trades/ScenTrade__Trade_Links" # its interesting that th
 
 [UnilateralLPGTrade]
 Description = "Declares LPG trade from NI -> SI"
-SheetName = "Unilateral"
+SheetName = "Uni"
 TagName = "TradeLinks"
 LPG = ["NI", "SI"] # NOTE: this must be the commodity code 
 NI = ["", ""]
@@ -29,7 +29,7 @@ SI = ["1", ""]
 
 [BilateralCoalTrade]
 Description = "Declares Coal trade between NI/SI"
-SheetName = "Bilateral"
+SheetName = "Bi"
 TagName = "TradeLinks"
 COA = ["NI", "SI"] # NOTE: this must be the commodity code 
 NI = ["", "1"]
@@ -37,7 +37,7 @@ SI = ["1", ""]
 
 [BilateralElectricityTrade]
 Description = "Declares Electricity trade (HVDC) between NI/SI"
-SheetName = "Bilateral"
+SheetName = "Bi"
 TagName = "TradeLinks"
 ELC = ["NI", "SI"] # NOTE: this must be the commodity code 
 NI = ["", "1"]
@@ -59,7 +59,7 @@ TagName = "TFM_INS"
 DataLocation = "data_raw/coded_assumptions/electricity_generation/HVDCAssumptions.csv"
 
 [LPGTradeCosts]
-Description = "Adds transit costs assumptions for other trade processes. Currently these are just from TIMES 2.0 and only includes LPG"
+Description = "Adds the TIMES 2.0 transit cost for unilateral LPG trade"
 WorkBookName = "SuppXLS/Trades/ScenTrade_TRADE_PARMS"
 TagName = "TFM_INS"
 SheetName = "Parameters"
@@ -68,6 +68,18 @@ SheetName = "Parameters"
 Attribute = "ACTCOST"
 AllRegions = 0.00538
 Pset_PN = "TU_LPG*"
+
+[CoalTradeCosts]
+Description = "Adds the TIMES 2.0 coal transit cost to the bilateral NI/SI coal trade link"
+WorkBookName = "SuppXLS/Trades/ScenTrade_TRADE_PARMS"
+TagName = "TFM_INS"
+SheetName = "Parameters"
+
+# Legacy rate: 5 NZD/tonne.  The archived model applied this as ACT_COST to
+# TU_COA*; coal is now represented by the bilateral TB_COA* link.
+Attribute = "ACTCOST"
+AllRegions = 0.000188040616773223
+Pset_PN = "TB_COA*"
 
 
 

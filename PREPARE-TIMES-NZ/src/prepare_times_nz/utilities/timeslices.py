@@ -5,6 +5,7 @@ Shared helpers for constructing TIMES timeslices.
 from __future__ import annotations
 
 from functools import cache
+from typing import Mapping
 
 import numpy as np
 import pandas as pd
@@ -22,11 +23,17 @@ def get_hour_to_time_map() -> dict[int, str]:
     return dict(zip(time_of_day_types["Hour"], time_of_day_types["Time_Of_Day"]))
 
 
-def convert_hour_to_timeofday(df: pd.DataFrame, hour_col: str = "Hour") -> pd.DataFrame:
+def convert_hour_to_timeofday(
+    df: pd.DataFrame,
+    hour_col: str = "Hour",
+    hour_to_time_map: Mapping[int, str] | None = None,
+) -> pd.DataFrame:
     """
     Map integer hours to the project time-of-day categories.
     """
-    df["Time_Of_Day"] = df[hour_col].map(get_hour_to_time_map())
+    if hour_to_time_map is None:
+        hour_to_time_map = get_hour_to_time_map()
+    df["Time_Of_Day"] = df[hour_col].map(hour_to_time_map)
     df["Time_Of_Day"] = df["Time_Of_Day"].fillna("N")
     return df
 
@@ -69,12 +76,17 @@ def convert_date_to_season(
 
 
 def create_timeslices(
-    df: pd.DataFrame, date_col: str = "Trading_Date", hour_col: str = "Hour"
+    df: pd.DataFrame,
+    date_col: str = "Trading_Date",
+    hour_col: str = "Hour",
+    hour_to_time_map: Mapping[int, str] | None = None,
 ) -> pd.DataFrame:
     """
     Add a TIMES-style `TimeSlice` column using the shared project mapping.
     """
-    df = convert_hour_to_timeofday(df, hour_col=hour_col)
+    df = convert_hour_to_timeofday(
+        df, hour_col=hour_col, hour_to_time_map=hour_to_time_map
+    )
     df = convert_date_to_daytype(df, date_col)
     df = convert_date_to_season(df, date_col)
     df["TimeSlice"] = df["Season"] + df["Day_Type"] + df["Time_Of_Day"]

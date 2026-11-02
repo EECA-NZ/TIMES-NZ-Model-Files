@@ -30,43 +30,50 @@ This is a shortened setup guide for developers who want to either build model in
 ### Prerequisites
 
 - WSL/Ubuntu is the recommended development environment.
-- Python 3.12+ and [Poetry](https://python-poetry.org/docs/) are required.
+- [Git LFS](https://git-lfs.com/) is required for the large source-data CSVs.
+- Python 3.12+ and [uv](https://docs.astral.sh/uv/) are required.
 - If you want to run the full model workflow through VEDA, you will also need a working Windows installation of VEDA and GAMS.
+
+After installing Git LFS, initialise it once on each machine:
+
+```bash
+git lfs install
+```
 
 ### Build the model input files
 
 Install the prep module and run the full data-preparation pipeline:
 
 ```bash
-cd PREPARE-TIMES-NZ
-poetry install --with dev
-poetry run doit
+uv sync --group dev
+uv run --directory PREPARE-TIMES-NZ doit
 ```
 
 This generates the TIMES model files in `PREPARE-TIMES-NZ/output`.
 
-Useful alternatives:
+### Developers: install hooks 
+
+Install the repository hooks after the first sync. Commit messages must use the[Conventional Commits](https://www.conventionalcommits.org/) format; use `uv run cz commit` for an interactive prompt if helpful.
 
 ```bash
-poetry run python scripts/prepare_times_nz.py
-poetry run pytest
+uv run pre-commit install --hook-type pre-commit --hook-type commit-msg --hook-type pre-push
 ```
 
 ### Run the internal Shiny app
 
+NOTE: this whole section needs to be reworked to integrate the pipeline in a more robust way. 
+
 Install the app module dependencies and start the app locally:
 
 ```bash
-cd TIMES-NZ-INTERNAL-QA
-poetry install
-poetry run python run_local.py
+uv sync --group dev
+uv run --directory TIMES-NZ-INTERNAL-QA python run_local.py
 ```
 
 The app uses processed data in `TIMES-NZ-INTERNAL-QA/data`. If you need to refresh model outputs and labels from the latest prep outputs and local VEDA results, run the post-processing workflow first:
 
 ```bash
-cd TIMES-NZ-INTERNAL-QA
-poetry run python src/times_nz_internal_qa/postprocessing/run_all_postprocessing.py
+uv run --directory TIMES-NZ-INTERNAL-QA python src/times_nz_internal_qa/postprocessing/run_all_postprocessing.py
 ```
 
 Note: parts of post-processing depend on `PREPARE-TIMES-NZ/data_intermediate` already being populated, and VEDA result import requires a local VEDA installation.

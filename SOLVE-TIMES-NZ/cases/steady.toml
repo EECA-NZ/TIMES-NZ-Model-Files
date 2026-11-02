@@ -1,0 +1,22 @@
+name = "steady"
+groups = [
+    "base",
+    "newtech_steady",
+    "newtech_common",
+    "scenario_common",
+    "demand_flex_steady",
+    "lng_imports_steady",
+    "demands_steady",
+    "scenarios_steady",
+]
+
+[solve]
+executor = "windows_times_v483"
+
+[xl2times]
+regions = ["NI", "SI"]
+include_dummy_imports = false
+
+[times]
+solver = "cplex"
+reslim = 50000

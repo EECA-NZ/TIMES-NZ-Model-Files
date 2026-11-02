@@ -1,0 +1,22 @@
+name = "shift"
+groups = [
+    "base",
+    "newtech_shift",
+    "newtech_common",
+    "scenario_common",
+    "demand_flex_shift",
+    "lng_imports_shift",
+    "demands_shift",
+    "scenarios_shift",
+]
+
+[solve]
+executor = "windows_times_v483"
+
+[xl2times]
+regions = ["NI", "SI"]
+include_dummy_imports = false
+
+[times]
+solver = "cplex"
+reslim = 50000

@@ -1,0 +1,13 @@
+# SOLVE-TIMES-NZ
+
+Guidance for selecting prepared workbooks, building TIMES DD cases, and
+staging them for a solver executor.
+
+```{toctree}
+:maxdepth: 1
+
+scenario-configuration
+times-gams-setup
+run-file
+solver-options
+```

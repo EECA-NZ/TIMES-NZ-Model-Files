@@ -245,13 +245,20 @@ def define_generation_processes(df):
 
     """
 
-    existing_techs_process_df = df[["TechName", "Region"]].drop_duplicates().copy()
+    existing_techs_process_df = (
+        df[["TechName", "Region", "Comm-OUT"]].drop_duplicates().copy()
+    )
     existing_techs_process_df["Sets"] = "ELE"
     existing_techs_process_df["Tact"] = "PJ"
     existing_techs_process_df["Tcap"] = "GW"
     existing_techs_process_df["Tslvl"] = "DAYNITE"
+
+    # Ensure fixed ELC PCG for ELC producers
+    existing_techs_process_df["PrimaryCG"] = np.where(
+        existing_techs_process_df["Comm-OUT"].eq("ELC"), "ELC", pd.NA
+    )
     existing_techs_process_df = existing_techs_process_df[
-        ["Sets", "Region", "TechName", "Tact", "Tcap"]
+        ["Sets", "Region", "TechName", "Tact", "Tcap", "PrimaryCG"]
     ]
 
     save_elc_data(existing_techs_process_df, "existing_tech_process_definitions.csv")
@@ -348,7 +355,7 @@ def define_generation_parameters(df):
             columns={
                 "CapacityFactor": "AFA",
                 "FuelDelivCost": "FLO_DELIV",
-                "InputFuelShare": f"FLO_SHAR~{BASE_YEAR}",
+                "InputFuelShare": f"Share-I~{BASE_YEAR}",
                 "Generation": f"ACT_BND~{BASE_YEAR}",
                 "PeakContribution": "NCAP_PKCNT",
                 "PlantLife": "NCAP_TLIFE",

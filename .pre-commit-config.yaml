@@ -6,42 +6,56 @@ default_language_version:
   python: python3.12
 
 repos:
-  - repo: https://github.com/psf/black
-    # Keep this pinned to the same version as PREPARE-TIMES-NZ's Poetry dev dependency.
-    rev: 26.3.1
-    hooks:
-      - id: black
-        types: [python]
-        files:  ^(PREPARE-TIMES-NZ|TIMES-NZ-INTERNAL-QA)/.*\.py$
-        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
-
-  - repo: https://github.com/pycqa/isort
-    # Keep this pinned to the same version as PREPARE-TIMES-NZ's Poetry dev dependency.
-    rev: 6.1.0
-    hooks:
-      - id: isort
-        args: ["--profile=black"]
-        types: [python]
-        files: ^(PREPARE-TIMES-NZ|TIMES-NZ-INTERNAL-QA)/.*\.py$
-        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
-
   - repo: local
     hooks:
-      - id: pylint-prep
-        name: pylint via Poetry (PREPARE-TIMES-NZ)
+      - id: commitizen
+        name: conventional commit message
         language: system
-        entry: poetry --directory PREPARE-TIMES-NZ run python tools/pylint_precommit.py
+        entry: uv run cz check --commit-msg-file
+        stages: [commit-msg]
+
+      - id: black
+        name: black (workspace)
+        language: system
+        entry: uv run black
+        types: [python]
+        files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|TIMES-NZ-INTERNAL-QA)/.*\.py$
+        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
+
+      - id: isort
+        name: isort (workspace)
+        language: system
+        entry: uv run isort --profile=black
+        types: [python]
+        files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|TIMES-NZ-INTERNAL-QA)/.*\.py$
+        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
+
+      - id: pylint-prep
+        name: pylint (PREPARE-TIMES-NZ)
+        language: system
+        entry: uv run --directory PREPARE-TIMES-NZ pylint src/prepare_times_nz scripts
         types: [python]
         files: ^PREPARE-TIMES-NZ/.*\.py$
         exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
+        pass_filenames: false
 
       - id: pylint-qa
-        name: pylint via Poetry (TIMES-NZ-INTERNAL-QA)
+        name: pylint (TIMES-NZ-INTERNAL-QA)
         language: system
-        entry: poetry --directory TIMES-NZ-INTERNAL-QA run python tools/pylint_precommit.py
+        entry: uv run --directory TIMES-NZ-INTERNAL-QA pylint src/times_nz_internal_qa
         types: [python]
         files: ^TIMES-NZ-INTERNAL-QA/.*\.py$
         exclude: ^TIMES-NZ-INTERNAL-QA/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
+        pass_filenames: false
+
+      - id: pylint-solve
+        name: pylint (SOLVE-TIMES-NZ)
+        language: system
+        entry: uv run --directory SOLVE-TIMES-NZ pylint src/solve_times_nz
+        types: [python]
+        files: ^SOLVE-TIMES-NZ/.*\.py$
+        exclude: ^SOLVE-TIMES-NZ/(?:build|dist|\.venv|\.mypy_cache|\.pytest_cache)/
+        pass_filenames: false
 
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.35.1
@@ -51,10 +65,10 @@ repos:
 
   - repo: local
     hooks:
-      - id: pip-audit-poetry
-        name: pip-audit via Poetry (PREPARE-TIMES-NZ)
+      - id: pip-audit
+        name: pip-audit (workspace)
         language: system
-        entry: poetry --directory PREPARE-TIMES-NZ run pip-audit
+        entry: uv run pip-audit --skip-editable
         args:
           - --progress-spinner=off
           # Pygments 2.19.2 is currently the latest PyPI release; remove this

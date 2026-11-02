@@ -1,0 +1,9 @@
+# Copy to solve.local.toml and edit for this machine.  The real file is ignored
+
+# Note the example includes windows mount locations, ie pointing to the Windows filesystem
+# while running from WSL. Adjsut as needed for your configuration.
+
+[executors.windows_times_v483]
+staging_root = "/mnt/c/Users/<username>/TIMES-NZ/runs"
+gams_system_dir = "/mnt/c/GAMS/<version>"
+times_source_dir = "/mnt/c/Users/<username>/Veda/GAMS_SrcTIMES.v4.8.3"

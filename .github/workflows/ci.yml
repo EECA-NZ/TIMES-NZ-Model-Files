@@ -19,123 +19,59 @@ concurrency:
 env:
   PYTHON_VERSION: "3.12"
 
-# Linting, testing and security audit steps
 jobs:
-  lint:
-    name: Lint (black / isort / pylint / yamllint)
+  checks:
+    name: Lint, test, and audit
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+      - uses: astral-sh/setup-uv@v7
         with:
-          virtualenvs-in-project: true
-          virtualenvs-create: true
-
-      - name: Cache Poetry
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/pypoetry
-            ~/.cache/pip
-          key: ${{ runner.os }}-poetry-${{ hashFiles('PREPARE-TIMES-NZ/poetry.lock') }}
-
-      - name: Install dependencies (with dev extras)
-        working-directory: PREPARE-TIMES-NZ
-        run: poetry install --no-interaction --with dev
-
-      - name: Check formatter version alignment
-        run: python3 tools/check_formatter_versions.py
-
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - name: Install the workspace
+        run: uv sync --locked --group dev
       - name: Run linters
         working-directory: PREPARE-TIMES-NZ
         run: |
-          poetry run black --check --diff src tests scripts
-          poetry run isort --profile black --check-only src tests scripts
-          poetry run pylint src/prepare_times_nz scripts
-          poetry run yamllint .
-
-  test:
-    name: Unit tests + coverage
-    runs-on: ubuntu-latest
-    needs: lint
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - uses: snok/install-poetry@v1
-        with:
-          virtualenvs-in-project: true
-          virtualenvs-create: true
-
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/pypoetry
-            ~/.cache/pip
-          key: ${{ runner.os }}-poetry-${{ hashFiles('PREPARE-TIMES-NZ/poetry.lock') }}
-
-      - name: Install deps
-        working-directory: PREPARE-TIMES-NZ
-        run: poetry install --no-interaction --with dev
-
-      - name: Run tests & build HTML coverage
+          uv run black --check --diff src tests scripts
+          uv run isort --profile black --check-only src tests scripts
+          uv run pylint src/prepare_times_nz scripts
+          uv run yamllint .
+      - name: Run PREPARE tests and build HTML coverage
         working-directory: PREPARE-TIMES-NZ
         run: |
-          poetry run coverage run -m pytest
-          poetry run coverage html
-
-      - name: Publish coverage to gh-pages
+          uv run coverage run -m pytest
+          uv run coverage html
+      - name: Run SOLVE linters and tests
+        working-directory: SOLVE-TIMES-NZ
+        run: |
+          uv run black --check --diff src tests
+          uv run isort --profile black --check-only src tests
+          uv run pylint src/solve_times_nz
+          uv run pytest
+      - name: Run QA tests
+        working-directory: TIMES-NZ-INTERNAL-QA
+        run: uv run pytest
+      - name: Run pip-audit
+        run: uv run pip-audit --skip-editable
+      - name: Publish coverage to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: PREPARE-TIMES-NZ/htmlcov
-
       - name: Coverage summary
         working-directory: PREPARE-TIMES-NZ
-        run: poetry run coverage report
-
-  audit:
-    name: pip-audit (Poetry env)
-    runs-on: ubuntu-latest
-    needs: lint
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - uses: snok/install-poetry@v1
-        with:
-          virtualenvs-in-project: true
-          virtualenvs-create: true
-
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/pypoetry
-            ~/.cache/pip
-          key: ${{ runner.os }}-poetry-${{ hashFiles('PREPARE-TIMES-NZ/poetry.lock') }}
-
-      - name: Install deps
-        working-directory: PREPARE-TIMES-NZ
-        run: poetry install --no-interaction --with dev
-
-      - name: Run pip-audit
-        working-directory: PREPARE-TIMES-NZ
-        run: poetry run pip-audit --skip-editable
+        run: uv run coverage report
 
   deploy:
     name: Deploy to GitHub Pages
-    if: ${{ success() && github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') }}
-    needs: [test]
+    if: >-
+      ${{ success() && github.event_name != 'pull_request'
+      && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') }}
+    needs: [checks]
     runs-on: ubuntu-latest
     environment:
       name: github-pages

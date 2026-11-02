@@ -22,13 +22,16 @@ CAP2ACT = 31.536
 # Helpers ---------------------------------------
 
 
-def create_process_file(df, sets=SETS_ELE):
+def create_process_file(df, sets=SETS_ELE, primary_cg=None):
     """
     Takes an input file including TechName
     automatically produces the table appropriate for FI_Process
 
     can use different sets if needed (eg for storage technologies)
-    but otherwise inherits all the constants set in this script
+    but otherwise inherits all the constants set in this script.
+
+    ``primary_cg`` is deliberately opt-in. Note that excluding it will use
+    default options; these options differ between xl2times and veda.
     """
 
     out = pd.DataFrame()
@@ -43,5 +46,8 @@ def create_process_file(df, sets=SETS_ELE):
     out["Tcap"] = CAPACITY_UNIT
     out["Tslvl"] = TIMESLICE_LEVEL
     out["Vintage"] = VINTAGE_TRACKING
+
+    if primary_cg is not None:
+        out["PrimaryCG"] = primary_cg
 
     return out
