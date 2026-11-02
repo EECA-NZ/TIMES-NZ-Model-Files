@@ -13,24 +13,22 @@ Model developers should update the methodology documentation to reflect changes 
 
 ## Package setup
 
-Packages used for the docs site are kept separate from other `PREPARE-TIMES-NZ` packages. You can install these to your poetry environment with 
+Documentation dependencies are a root workspace dependency group. Install them
+alongside the shared environment with:
 
 ```
-poetry install --with docs
+uv sync --group docs
 ```
 
-To deploy the site, packages and their dependencies were exported to `requirements.txt`, so that the external host environment functions properly. If you update or change the packages in the docs group, you can refresh the `requirements.txt` using: 
+Read the Docs uses `requirements.txt` for its separate hosted environment. If
+the documentation dependency group changes, refresh that file from the root
+lockfile:
 
 ```
-poetry export --with docs --without-hashes -o docs/requirements.txt
+uv export --locked --package prepare-times-nz --group docs --no-dev --no-emit-workspace --no-hashes -o PREPARE-TIMES-NZ/docs/requirements.txt
 ```
 
 This is only required if the packages in the `docs` group have been changed or updated. 
-
-```{eval-rst}
-.. note::
-   We might move RTD to reading directly from poetry - this means we can delete `requirements.txt` and skip this extra step.
-```
 
 ## Indexes, toctrees, and structure
 

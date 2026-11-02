@@ -13,7 +13,7 @@ Ensure the following prerequisites are installed:
 - [GAMS](https://www.gams.com/) installed on Windows.
 - A valid GAMS license placed at `C:\GAMS\44\gamslice.txt`.
 - A working VEDA (VEDA 2.0 localhost) installation in your Windows user directory. See instructions [here](https://github.com/kanors-emr/Veda2.0-Installation/tree/master).
-- Poetry for Python dependency management. Install Poetry within WSL by running: `curl -sSL https://install.python-poetry.org | python3 -`
+- [uv](https://docs.astral.sh/uv/) for Python dependency management.
 
 ## Getting the Code
 
@@ -29,25 +29,20 @@ All commands below assume you are using a WSL (Ubuntu) shell.
 
 ### Step 1: Model Preparation
 
-Navigate into the `PREPARE-TIMES-NZ` directory and install Python dependencies using Poetry:
+From the repository root, install the shared workspace environment:
 
 ```bash
-cd PREPARE-TIMES-NZ
-poetry install --with dev
+uv sync --group dev
 ```
 
-It's a good idea to execute:
-
-```bash
-poetry env activate
-```
-from within `PREPARE-TIMES-NZ` or other modules managed by poetry. This returns a command which you can copy-paste and execute to activate the poetry environment shell. Doing this allows your terminal to run directly from the poetry shell, meaning that `poetry run` prefixes are not required to run scripts, `doit`, or `pre-commit`.
+This creates one `.venv` at the repository root for both Python modules. Run
+commands with `uv run`; no environment activation is required.
 
 ### Building model files
 Run the data preparation pipeline (`doit`):
 
 ```bash
-poetry run doit
+uv run --directory PREPARE-TIMES-NZ doit
 ```
 
 `doit` runs the entire data preparation method and creates TIMES model files in `PREPARE-TIMES-NZ/output`.
@@ -55,7 +50,7 @@ poetry run doit
 Alternatively, run a specific script:
 
 ```bash
-poetry run python scripts/prepare_times_nz.py
+uv run --directory PREPARE-TIMES-NZ python scripts/prepare_times_nz.py
 ```
 
 #### Running Tests
@@ -63,22 +58,21 @@ poetry run python scripts/prepare_times_nz.py
 Run tests within `PREPARE-TIMES-NZ`:
 
 ```bash
-poetry run pytest
+uv run --directory PREPARE-TIMES-NZ pytest
 ```
 
 Note that these are unit tests for code, not data validation tests.
 
-#### Poetry and VSCode
-Poetry creates a virtual environment that may not be in your project directory, so VSCode might not pick it up automatically. We need to set the VSCode interpreter to align with Poetry.
+#### uv and VSCode
 
-If VSCode fails to automatically register the env, `poetry env activate` from within the vscode terminal still works to move into the poetry shell. The VSCode python interpreter is slightly different, and should register automatically. It sometimes struggles if you are moving between different modules, like `PREPARE-TIMES-NZ` and `TIMES-NZ-INTERNAL-QA`. If so, you may need to follow the steps below: 
+uv creates the shared environment at the repository root. Configure VSCode to
+use that interpreter if it is not detected automatically:
 
-1. Run the following in your terminal to find the virtual environment path: `poetry env info --path`. This will give you something like `/home/YourName/.cache/pypoetry/virtualenvs/prepare-times-nz-abc123`
+1. From the repository root, use `.venv/bin/python` (or `.venv\\Scripts\\python.exe` on Windows).
 1. Press Ctrl+Shift+P (or Cmd+Shift+P on Mac)
 1. Search for and select: Python: Select Interpreter
 1. Click Enter interpreter path
-1. Paste the path from step 1 and append /bin/python (or Scripts/python.exe on Windows), e.g.:
-    `/home/YourName/.cache/pypoetry/virtualenvs/prepare-times-nz-abc123/bin/python` 
+1. Select that interpreter path.
 
 ### Step 2: Running the Model Using VEDA
 
@@ -91,8 +85,7 @@ This project assumes your VEDA installation is stored in Windows, under `C:/User
 Assuming the VEDA installation is in the expected location, you can automatically retrive VEDA model results and apply post-processing using the below script: 
 
 ```bash
-cd TIMES-NZ-INTERNAL-QA/src/times-nz-internal-qa/postprocessing
-poetry run python run_all_postprocessing.py 
+uv run --directory TIMES-NZ-INTERNAL-QA python src/times_nz_internal_qa/postprocessing/run_all_postprocessing.py
 ```
 
 Note that some components of this script rely on data generated in `PREPARE-TIMES-NZ` to assign TIMES process and commodity codes to the relevant categories and add labels. If you don't have these, then you can skip the `define_data` steps of this script, and simply run the `get_data` and `process_data` functions.
@@ -104,8 +97,7 @@ If anything in the results is not defined, this will be flagged in the console.
 Visualize using the TIMES-NZ visualization tools. 
 
 ```bash
-cd TIMES-NZ-INTERNAL-QA/
-poetry run python run_local.py
+uv run --directory TIMES-NZ-INTERNAL-QA python run_local.py
 ```
 
-Builds the explorer app to investigate results locally. 
+Builds the explorer app to investigate results locally.
