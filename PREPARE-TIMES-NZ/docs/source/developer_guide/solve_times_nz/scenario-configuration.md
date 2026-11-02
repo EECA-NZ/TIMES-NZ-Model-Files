@@ -41,8 +41,7 @@ notes when a workbook selection is materially changed.
 compatibility wrapper, and writes a generated DD case directory.
 
 ```bash
-uv run solve-times-nz build cases/steady.toml \
-  --output build/cases/steady
+uv run solve-times-nz build cases/steady.toml
 ```
 
 `build` replaces the requested generated output directory. A successful build
@@ -50,6 +49,14 @@ contains `ts.dd`, `milestonyr.dd`, `output.dd`, a generated `<case-name>.run`,
 and `manifest.json`; the manifest records the resolved inputs, their hashes,
 and the selected executor. Do not target a
 directory containing hand-maintained files.
+
+Without `--output`, the generated directory is
+`SOLVE-TIMES-NZ/build/cases/<case-name>-v<workspace-version>`. This is the
+location that `solve <case-name>` uses. `--output` is useful for inspecting or
+testing an export, but the current `solve` command cannot take an arbitrary
+case-directory path; rebuild at the default location before invoking `solve`.
+See [Command and artefact reference](command-reference.md) for every command
+option and the generated files.
 
 Solver installations and execution are configured separately from scenario
 composition. See [TIMES and GAMS setup](times-gams-setup.md) before solving a
@@ -137,6 +144,13 @@ group when that is clearer.
 
 The `executor` is user-defined; see [TIMES and GAMS setup](times-gams-setup.md)
 for its local configuration.
+
+The current builder reads `name`, `groups`, the inheritance and file override
+fields below, `[solve].executor`, `[times].solver`, and `[times].reslim`.
+The committed case files also contain an `[xl2times]` table. Its fields are
+currently retained as case metadata only: they do not alter the converter
+command. Do not assume that adding a value to this table changes a build until
+that option is implemented and documented.
 
 ### Experiments and overrides
 

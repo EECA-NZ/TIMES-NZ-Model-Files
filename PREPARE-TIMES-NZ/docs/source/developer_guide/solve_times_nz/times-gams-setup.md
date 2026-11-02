@@ -91,9 +91,13 @@ writable both through the WSL mount and by the GAMS process.
 Build the case first, then solve it with the configured executor:
 
 ```bash
-uv run solve-times-nz build cases/steady.toml --output build/cases/steady
+uv run solve-times-nz build cases/steady.toml
 uv run solve-times-nz solve steady
 ```
+
+The first command writes the version-stamped generated case directory that the
+second command expects. See [Command and artefact reference](command-reference.md)
+before using a custom `--output` directory or a non-default local configuration.
 
 For a full GAMS matrix diagnostic, add `--diagnostic`. The command first
 performs the ordinary solve and VEDA export, then runs GAMS CONVERT to save a
