@@ -42,9 +42,7 @@ biomass_supply_pj = (
 region_island_map = CONCORDANCES / "region_island_concordance.csv"
 
 OUTPUT_DIR = Path(STAGE_4_DATA) / "base_year_pri"
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 SUBRES_OUTPUT_DIR = Path(STAGE_4_DATA) / "subres_bio"
-SUBRES_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 PLANT_PROCESSES = ASSUMPTIONS / "biofuels" / "plant_processes.csv"
 
 FUTURE_BIOFUEL_CONVERSIONS = frozenset(
@@ -392,7 +390,9 @@ def split_future_biofuel_processes() -> tuple[pd.DataFrame, pd.DataFrame]:
     )
 
 
-def split_biofuel_parameters() -> tuple[pd.DataFrame, pd.DataFrame]:
+def split_biofuel_parameters(
+    plant_processes_path: Path = PLANT_PROCESSES,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Split canonical plant parameters while retaining blank-name topology rows.
 
     ``plant_processes.csv`` represents multi-input/output technologies with
@@ -400,7 +400,7 @@ def split_biofuel_parameters() -> tuple[pd.DataFrame, pd.DataFrame]:
     preceding nonblank process before splitting, but preserve their original
     cells in the emitted data.
     """
-    parameters = pd.read_csv(PLANT_PROCESSES)
+    parameters = pd.read_csv(plant_processes_path)
     parameters = parameters.replace(r"^\s*$", pd.NA, regex=True).dropna(how="all")
     owner = parameters["TechName"].ffill()
     future = owner.isin(FUTURE_BIOFUEL_CONVERSIONS)
@@ -504,6 +504,9 @@ def create_additional_bioenergy_supply_forecasts() -> pd.DataFrame:
 # ----------------------------------------------------------------------------
 def main() -> None:
     """Entry point for biofuel process declaration generation."""
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    SUBRES_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     base_processes, future_processes = split_future_biofuel_processes()
     base_parameters, future_parameters = split_biofuel_parameters()

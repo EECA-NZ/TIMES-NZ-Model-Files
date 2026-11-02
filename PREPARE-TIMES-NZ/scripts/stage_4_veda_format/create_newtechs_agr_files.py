@@ -21,7 +21,6 @@ from prepare_times_nz.utilities.logger_setup import logger
 # Constants & file paths
 # ---------------------------------------------------------------------
 OUTPUT_LOCATION = Path(STAGE_4_DATA) / "subres_agr"
-OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 
 NEW_TECHS_STEADY: Path = AG_ASSUMPTIONS / "new_techs_steady.csv"
 NEW_TECHS_SHIFT: Path = AG_ASSUMPTIONS / "new_techs_shift.csv"
@@ -292,6 +291,7 @@ def create_newtech_process_defintions(_cfg: dict) -> pd.DataFrame:
 # ---------------------------------------------------------------------
 def main() -> None:
     """Generate and export TIMES-NZ future agriculture technology tables."""
+    OUTPUT_LOCATION.mkdir(parents=True, exist_ok=True)
 
     # 1) Process topology is scenario-independent.
     processes = create_newtech_process_df(
