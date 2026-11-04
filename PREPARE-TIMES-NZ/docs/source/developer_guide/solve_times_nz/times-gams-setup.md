@@ -32,6 +32,13 @@ where GDX2VEDA
 
 Both commands should resolve under the same configured GAMS installation.
 
+If either command does not return a path, locate the folder containing both
+`GAMS.exe` and `GDX2VEDA.exe` (for example, `C:\GAMS\44`). In Windows, open
+**Edit environment variables for your account**, edit `Path`, and add that
+folder—not the individual executable files. Close and reopen Command Prompt,
+then rerun the commands above. If the two executables are not in the same GAMS
+system directory, repair or reinstall the configured GAMS installation.
+
 ## Installing the TIMES model generator
 
 TIMES source files can be downloaded in an appropriate directory with:
