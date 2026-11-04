@@ -153,7 +153,14 @@ def _windows_path(path: Path) -> str:
         raise CaseConfigurationError(
             f"Cannot convert executor path to a Windows path: {path}"
         ) from error
-    return result.stdout.strip()
+    windows_path = result.stdout.strip()
+    if not re.fullmatch(r"[A-Za-z]:[\\\\/].*", windows_path):
+        raise CaseConfigurationError(
+            "Windows solving requires drive-backed executor paths; "
+            f"{path} resolves to {windows_path!r}. Configure a path under "
+            "/mnt/<drive>/ (for example, /mnt/c/Users/<username>/TIMES-NZ)."
+        )
+    return windows_path
 
 
 def _record_execution(destination: Path, execution: dict[str, object]) -> None:
@@ -189,6 +196,22 @@ def _gams_command(
     windows_path: Callable[[Path], str],
 ) -> list[str]:
     """Construct the native Windows GAMS command for one staged case."""
+    gams, gdx2veda = _validated_gams_tools(executor)
+    destination_windows = _windows_argument(windows_path(destination))
+    source_windows = windows_path(executor.times_source_dir)
+    command_text = (
+        f"cd /d {destination_windows} "
+        "&& if not exist GAMSSAVE mkdir GAMSSAVE "
+        f"&& {_windows_argument(windows_path(gams))} {_windows_argument(run_file)} "
+        f"{_gams_options(source_windows, case_name)} "
+        f"&& {_windows_argument(windows_path(gdx2veda))} "
+        f"{_gdx2veda_arguments(source_windows, case_name)}"
+    )
+    return ["cmd.exe", "/d", "/c", command_text]
+
+
+def _validated_gams_tools(executor: Executor) -> tuple[Path, Path]:
+    """Return the configured Windows tools after validating their companion files."""
     gams = executor.gams_system_dir / "gams.exe"
     gdx2veda = executor.gams_system_dir / "gdx2veda.exe"
     restart = executor.times_source_dir / "_times.g00"
@@ -203,18 +226,40 @@ def _gams_command(
         raise CaseConfigurationError(
             f"TIMES GDX2VEDA directives do not exist: {veda_directives}"
         )
-    destination_windows = windows_path(destination)
-    source_windows = windows_path(executor.times_source_dir)
-    command_text = (
-        f"cd /d {destination_windows} "
-        "&& if not exist GAMSSAVE mkdir GAMSSAVE "
-        f"&& GAMS {run_file} IDIR={source_windows} "
-        f"GDX=GAMSSAVE\\{case_name} PS=99999 "
-        f"R={source_windows}\\_times LO=1 OPTFILE=1 "
-        f"&& GDX2VEDA GAMSSAVE\\{case_name} "
-        f"{source_windows}\\times2veda.vdd {case_name}"
+    return gams, gdx2veda
+
+
+def _gams_options(source_windows: str, case_name: str, diagnostic: bool = False) -> str:
+    """Return the quoted GAMS options for a normal or diagnostic solve."""
+    diagnostic_suffix = "-diagnostic" if diagnostic else ""
+    return (
+        f"IDIR={_windows_argument(source_windows)} "
+        f'GDX={_windows_argument(f"GAMSSAVE\\{case_name}{diagnostic_suffix}")} '
+        f'PS=99999 R={_windows_argument(f"{source_windows}\\_times")} '
+        "LO=1 OPTFILE=1"
     )
-    return ["cmd.exe", "/d", "/c", command_text]
+
+
+def _gdx2veda_arguments(source_windows: str, case_name: str) -> str:
+    """Return the quoted GDX2VEDA arguments for one completed solve."""
+    return (
+        f'{_windows_argument(f"GAMSSAVE\\{case_name}")} '
+        f'{_windows_argument(f"{source_windows}\\times2veda.vdd")} '
+        f"{_windows_argument(case_name)}"
+    )
+
+
+def _windows_argument(value: str) -> str:
+    """Quote one trusted argument for the cmd.exe command string."""
+    if '"' in value:
+        raise CaseConfigurationError(
+            f"Windows command argument contains a quote: {value}"
+        )
+    if "%" in value:
+        raise CaseConfigurationError(
+            f"Windows command argument contains '%', which cmd.exe expands: {value}"
+        )
+    return f'"{value}"'
 
 
 def _write_diagnostic_options(destination: Path) -> None:
@@ -270,11 +315,11 @@ def _diagnostic_command(
     """Construct a second GAMS invocation that exports the generated LP matrix."""
     destination_windows = windows_path(destination)
     source_windows = windows_path(executor.times_source_dir)
+    gams_windows = windows_path(executor.gams_system_dir / "gams.exe")
     command_text = (
-        f"cd /d {destination_windows} "
-        f"&& GAMS {run_file} IDIR={source_windows} "
-        f"GDX=GAMSSAVE\\{case_name}-diagnostic PS=99999 "
-        f"R={source_windows}\\_times LO=1 OPTFILE=1"
+        f"cd /d {_windows_argument(destination_windows)} "
+        f"&& {_windows_argument(gams_windows)} {_windows_argument(run_file)} "
+        f"{_gams_options(source_windows, case_name, diagnostic=True)}"
     )
     return ["cmd.exe", "/d", "/c", command_text]
 
@@ -344,7 +389,7 @@ def solve_case(
     command = _gams_command(destination, executor, case_name, run_file, windows_path)
     started_at = datetime.now(UTC).isoformat()
     try:
-        runner(command, check=True)
+        runner(command, check=True, cwd=destination)
     except subprocess.CalledProcessError as error:
         _record_execution(
             destination,
@@ -381,7 +426,7 @@ def solve_case(
             windows_path,
         )
         try:
-            runner(diagnostic_command, check=True)
+            runner(diagnostic_command, check=True, cwd=destination)
         except subprocess.CalledProcessError as error:
             if not _diagnostic_files_exist(destination):
                 _record_execution(

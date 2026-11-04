@@ -2,42 +2,28 @@
 
 The TIMES model generator is written in GAMS. While the TIMES code itself is open-source, GAMS and proprietary solvers are not. You will need a working GAMS installation and license to perform model solves.
 
-Currently, this is built for a Windows GAMS installation while this repo operates in WSL. This is an unusual configuration, so the pipeline is designed for more flexible configuration setups relevant to your machine and tooling. 
+The solver pipeline runs native Windows GAMS from WSL. Native WSL GAMS is not
+currently supported: solving uses `cmd.exe`, Windows paths, and the Windows
+`GDX2VEDA.exe` program.
 
 ## Required local components
 
 The pipeline needs:
 
-- A GAMS installation, with a valid license and the licensed CPLEX solver.
+- A native Windows GAMS installation, with a valid license and the licensed
+  CPLEX solver.
 - TIMES model generator source code. 
 - A writable, native Windows staging directory for generated case folders and
   solver outputs. 
 
 Note that your staging directory must exist; the pipeline will note create it automatically. The developer can create it wherever is most appropriate. 
 
-## Configure the Windows PATH
+## GAMS executable selection
 
-Add the configured Windows GAMS system directory—for example `C:\GAMS\44`—to
-the native Windows `PATH`. This is required even though `gams_system_dir` is
-also recorded in `solve.local.toml`: the current `VT_GAMS.CMD` calls `GAMS` by
-name, and the VEDA run command calls `GDX2VEDA` by name. Both executables are
-in the GAMS system directory.
-
-Usually these items should be added to `PATH` correctly upon GAMS installation. To verify this has been done correctly, open a new native Windows Command Prompt, then enter:
-
-```text
-where GAMS
-where GDX2VEDA
-```
-
-Both commands should resolve under the same configured GAMS installation.
-
-If either command does not return a path, locate the folder containing both
-`GAMS.exe` and `GDX2VEDA.exe` (for example, `C:\GAMS\44`). In Windows, open
-**Edit environment variables for your account**, edit `Path`, and add that
-folder—not the individual executable files. Close and reopen Command Prompt,
-then rerun the commands above. If the two executables are not in the same GAMS
-system directory, repair or reinstall the configured GAMS installation.
+The solver invokes `gams.exe` and `gdx2veda.exe` directly from the configured
+`gams_system_dir`; it does not use the native Windows `PATH`. This lets each
+executor select a specific GAMS version when several versions are installed.
+The directory must contain both executables—for example, `C:\GAMS\44`.
 
 ## Installing the TIMES model generator
 
@@ -46,7 +32,7 @@ TIMES source files can be downloaded in an appropriate directory with:
 ```
 git clone https://github.com/etsap-TIMES/TIMES_model.git
 ```
-In general, it is best to simply keep this up to date. However, currently, this version points deliberately at the Veda-installed TIMES v4.8.3 for testing against older Veda versions. However, later this will need to be updated.
+In general, it is best to simply keep this up to date. However, currently, this version points deliberately at the Veda-installed TIMES v4.8.3 for testing against older Veda versions. Later this will need to be updated.
 
 ## Executors
 
@@ -74,7 +60,8 @@ cp config/solve.local.example.toml config/solve.local.toml
 Any given executor must contain:
 
 - `staging_root`: The directory where GAMS and TIMES will write results, logs, etc.
-- `gams_system_dir`: Location of your GAMS installation.
+- `gams_system_dir`: WSL-visible path to the Windows GAMS system directory,
+  containing `gams.exe` and `gdx2veda.exe`.
 - `times_source_dir`: Location of your TIMES installation.
 
 Edit `config/solve.local.toml` to name the local executor `[executors.your_name_here]` and its paths:
@@ -121,14 +108,12 @@ uv run solve-times-nz solve steady --diagnostic
 ```
 
 `solve` creates a timestamped child directory below `staging_root`, copies the
-complete generated case, and invokes native Windows GAMS through `cmd.exe`.
-It invokes `GAMS` and `GDX2VEDA` from the native Windows `PATH`, and supplies
-the configured TIMES source as `IDIR`. GAMS output remains visible in the
-calling terminal.
-After a successful GAMS run, it invokes `GDX2VEDA` using the configured GAMS
-installation and TIMES `times2veda.vdd` directives. The staged manifest records
-whether execution completed or failed, and the Windows run directory is
-retained in either case for inspection.
+complete generated case, and invokes the configured native Windows `gams.exe`
+through `cmd.exe`, supplying the configured TIMES source as `IDIR`. GAMS output
+remains visible in the calling terminal. After a successful GAMS run, it invokes
+the matching configured `gdx2veda.exe` with the TIMES `times2veda.vdd`
+directives. The staged manifest records whether execution completed or failed,
+and the Windows run directory is retained in either case for inspection.
 
 The exported `.vd`, `.vde`, `.vds`, and `.vdt` result files and a copy of the
 run manifest are copied to the ignored repository-local directory

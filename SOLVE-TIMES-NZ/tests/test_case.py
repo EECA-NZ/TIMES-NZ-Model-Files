@@ -182,9 +182,11 @@ def test_solve_stages_case_and_invokes_windows_gams(
         f'times_source_dir = "{times_root}"\n',
     )
     commands: list[list[str]] = []
+    working_directories: list[Path] = []
 
-    def fake_gams(command, **_kwargs):
+    def fake_gams(command, **kwargs):
         commands.append(command)
+        working_directories.append(kwargs["cwd"])
         staged_dir = staging_root / f"{versioned_case_name('steady')}-trial"
         (staged_dir / "steady.vd").write_text("results", encoding="utf-8")
         return subprocess.CompletedProcess(command, 0)
@@ -194,17 +196,42 @@ def test_solve_stages_case_and_invokes_windows_gams(
         local_config,
         "trial",
         runner=fake_gams,
-        windows_path=lambda path: f"WIN:{path.name}",
+        windows_path=lambda path: f"C:\\Program Files\\{path.name}",
     )
 
     assert destination == results_root / f"{versioned_case_name('steady')}-trial"
     assert commands[0][:3] == ["cmd.exe", "/d", "/c"]
-    assert "GAMS steady.run IDIR=WIN:times" in commands[0][3]
+    assert (
+        '"C:\\Program Files\\gams.exe" "steady.run" ' 'IDIR="C:\\Program Files\\times"'
+    ) in commands[0][3]
     assert "OPTFILE=1" in commands[0][3]
-    assert "GDX2VEDA GAMSSAVE\\steady" in commands[0][3]
+    assert '"C:\\Program Files\\gdx2veda.exe" "GAMSSAVE\\steady"' in commands[0][3]
+    assert working_directories == [
+        staging_root / f"{versioned_case_name('steady')}-trial"
+    ]
     assert (destination / "steady.vd").is_file()
     solved_manifest = json.loads((destination / "manifest.json").read_text())
     assert solved_manifest["execution"]["status"] == "completed"
+
+
+def test_windows_path_rejects_unc_paths(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    def fake_run(*_args, **_kwargs):
+        return subprocess.CompletedProcess(
+            [], 0, stdout="\\\\wsl.localhost\\Ubuntu\\home\\developer\\runs\n"
+        )
+
+    monkeypatch.setattr(execution.subprocess, "run", fake_run)
+
+    with pytest.raises(CaseConfigurationError, match="drive-backed executor paths"):
+        execution._windows_path(tmp_path / "runs")
+
+
+def test_windows_argument_quotes_metacharacters_and_rejects_percent() -> None:
+    assert execution._windows_argument(r"C:\Users\R&D\runs") == r'"C:\Users\R&D\runs"'
+    with pytest.raises(CaseConfigurationError, match="cmd.exe expands"):
+        execution._windows_argument(r"C:\Users\100%\runs")
 
 
 def test_solve_diagnostic_exports_and_collects_matrix(
@@ -241,12 +268,14 @@ def test_solve_diagnostic_exports_and_collects_matrix(
         f'times_source_dir = "{times_root}"\n',
     )
     commands: list[list[str]] = []
+    working_directories: list[Path] = []
 
-    def fake_gams(command, **_kwargs):
+    def fake_gams(command, **kwargs):
         commands.append(command)
+        working_directories.append(kwargs["cwd"])
         staged_dir = staging_root / f"{versioned_case_name('steady')}-diagnostic"
         (staged_dir / "steady.vd").write_text("results", encoding="utf-8")
-        if "GAMS diagnostic-steady.run" in command[3]:
+        if '"WIN:gams.exe" "diagnostic-steady.run"' in command[3]:
             (staged_dir / execution.DIAGNOSTIC_MATRIX_FILE).write_text(
                 "matrix", encoding="utf-8"
             )
@@ -269,8 +298,12 @@ def test_solve_diagnostic_exports_and_collects_matrix(
     )
 
     assert len(commands) == 2
+    assert (
+        working_directories
+        == [staging_root / f"{versioned_case_name('steady')}-diagnostic"] * 2
+    )
     assert "OPTFILE=1" in commands[0][3]
-    assert "GAMS diagnostic-steady.run" in commands[1][3]
+    assert '"WIN:gams.exe" "diagnostic-steady.run"' in commands[1][3]
     assert "OPTFILE=1" in commands[1][3]
     diagnostic_run = (
         staging_root
