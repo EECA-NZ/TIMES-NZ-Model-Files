@@ -5,9 +5,9 @@ Burner (Direct Heat),BURNR
 "Burner, with Wetback",BURNR_W
 Clothes Dryer,CDRY
 Clothes Washers,CWASH
-"Coal Heaters, Residential Only  ",HEATR_C
+"Coal Heaters, Residential Only",HEATR_C
 Compressors,COMPR
-"Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)  ",COOK
+"Cooking Appliances, Residential Only (Cooktops/Microwaves/Ovens/Uprights)",COOK
 Dishwashers,DWASH
 Electric Furnace,FURNC
 Electric Motor,MOTOR
@@ -28,11 +28,11 @@ HVAC,HVAC
 Incandescent/Halogen,L_INCAN
 Industrial Ovens,IOVEN
 Internal Combustion Engine (Land Transport),ICENG
-Internal Combustion Engine (Recreational Marine)  ,ICENG
+Internal Combustion Engine (Recreational Marine),ICENG
 IT and Entertainment,IT_ENT
 LED,L_LED
 Lights,LIGHT
-"Misc, Residential Only (Battery chargers, Pools, Pumps)  ",RES_MISC
+"Misc, Residential Only (Battery chargers, Pools, Pumps)",RES_MISC
 "Pump Systems (for Fluids, etc.)",PUMP
 Refiners,REFIN
 Reformer,BOILR
