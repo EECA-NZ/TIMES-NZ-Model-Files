@@ -152,17 +152,27 @@ def _get_official_electricity_capacity() -> pd.DataFrame:
     return df
 
 
+def _select_gas_balance_category(df: pd.DataFrame, category: str) -> pd.DataFrame:
+    """Select one labelled row from the MBIE gas balance table."""
+    labels = (
+        df["Calendar year"].astype(str).str.strip().str.replace(r"\d+$", "", regex=True)
+    )
+    selected = df.loc[labels == category].copy()
+    if len(selected) != 1:
+        raise ValueError(
+            f"Expected one gas balance row for {category!r}; found {len(selected)}."
+        )
+    return selected
+
+
 def _get_mbie_gas_pj(
-    row_slice: slice,
-    category_name: str,
-    unit: str,
-    variable_name: str,
+    category: str, category_name: str, unit: str, variable_name: str
 ) -> pd.DataFrame:
-    """Pull a slice of the Annual_PJ sheet from gas.xlsx."""
+    """Read one labelled Annual_PJ category from gas.xlsx."""
     gas_path = INPUT_DIR / "gas.xlsx"
     df = pd.read_excel(gas_path, sheet_name="Annual_PJ", skiprows=9)
-    df = df.iloc[row_slice]
     df.columns = [col.strip() if isinstance(col, str) else col for col in df.columns]
+    df = _select_gas_balance_category(df, category)
     # relabel the category year
     df = df.rename(columns={"Calendar year": category_name})
     # remove the footnote numbers from the categories
@@ -288,7 +298,7 @@ def main() -> None:
 
     logger.info("Loading gas (non-energy use) …")
     _get_mbie_gas_pj(
-        row_slice=slice(60, 61),
+        category="Non-Energy Use",
         category_name="Balance category",
         unit="PJ",
         variable_name="Natural gas non-energy use",
