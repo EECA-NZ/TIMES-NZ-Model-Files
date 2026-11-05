@@ -20,6 +20,7 @@ Files produced
 - mbie_generation_capacity.csv
 - gen_stack.csv
 - mbie_gas_non_energy.csv
+- energy_balance.csv
 """
 
 from __future__ import annotations
@@ -48,6 +49,27 @@ def _read_edgs_sheet(sheet_name: str) -> pd.DataFrame:
         INPUT_DIR / "electricity-demand-generation-scenarios-2024-assumptions.xlsx"
     )
     return pd.read_excel(edgs_path, sheet_name=sheet_name)
+
+
+def _get_energy_balance() -> pd.DataFrame:
+    """Read MBIE's machine-readable annual Energy Balance table."""
+    balance_path = INPUT_DIR / "energy-balance-tables.xlsx"
+    data = pd.read_excel(balance_path, sheet_name="Data")
+    required = {"entry", "fuel", "year", "unit", "value"}
+    missing = required - set(data.columns)
+    if missing:
+        raise ValueError(
+            "Energy Balance data is missing columns: " + ", ".join(sorted(missing))
+        )
+    return data.rename(
+        columns={
+            "entry": "Entry",
+            "fuel": "Fuel",
+            "year": "Year",
+            "unit": "Unit",
+            "value": "Value",
+        }
+    )[["Entry", "Fuel", "Year", "Unit", "Value"]]
 
 
 def _get_mbie_electricity(
@@ -229,6 +251,8 @@ def _get_contingent_reserve_data():
 def main() -> None:
     """Execute all MBIE extract tasks and write CSVs."""
     logger.info("Loading MBIE electricity generation tables …")
+    logger.info("Loading machine-readable Energy Balance data …")
+    _get_energy_balance().to_csv(OUTPUT_DIR / "energy_balance.csv", index=False)
     mbie_gwh = _get_mbie_electricity(
         "2 - Annual GWh",
         row_slice=slice(2, 12),
