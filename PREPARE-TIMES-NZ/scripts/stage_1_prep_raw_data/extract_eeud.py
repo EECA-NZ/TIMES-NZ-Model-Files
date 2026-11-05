@@ -4,7 +4,8 @@ pre-processing pipeline.
 
 Steps performed
 ---------------
-1. Read the EEUD "Data" sheet from the raw Excel workbook.
+1. Read the stationary EEUD extract and the transport rows from the full EEUD
+   workbook.
 2. Tidy column names, derive useful fields, and coerce values.
 3. Add biomass patch assumptions for missing industrial/commercial demand
 4. Write a CSV copy to "data_intermediate/stage_1_input_data/eeud".
@@ -33,12 +34,27 @@ from prepare_times_nz.utilities.logger_setup import logger
 # ---------------------------------------------------------------------------
 # Constants and paths
 # ---------------------------------------------------------------------------
-# EEUD_FILENAME: Final[str] = "Final EEUD Outputs 2017 - 2023 12032025.xlsx"
-EEUD_FILENAME: Final[str] = "EEUD 2017 - 2024 FINAL 20032026.xlsx"
+STATIONARY_EEUD_FILENAME: Final[str] = "EEUD Stationary Outputs 17-25 QAed.xlsx"
+STATIONARY_SHEET_NAME: Final[str] = "result"
+TRANSPORT_EEUD_FILENAME: Final[str] = "EEUD 2017 - 2024 FINAL 20032026.xlsx"
+TRANSPORT_SHEET_NAME: Final[str] = "Data"
 
 INPUT_DIR = Path(DATA_RAW) / "eeca_data" / "eeud"
 OUTPUT_DIR = Path(STAGE_1_DATA) / "eeud"
-SHEET_NAME = "Data"
+RAW_COLUMNS: Final[list[str]] = [  # output columns forced to align with these
+    "SectorGroup",
+    "Sector",
+    "SectorANZSIC",
+    "FuelGroup",
+    "Fuel",
+    "TechnologyGroup",
+    "Technology",
+    "EnduseGroup",
+    "EndUse",
+    "Transport",
+    "EnergyValue",
+    "PeriodEndDate",
+]
 
 
 # ---------------------------------------------------------------------------
@@ -51,7 +67,6 @@ def save_eeud(df, name):
     _save_data(df, name, label="Saving EEUD", filepath=OUTPUT_DIR)
 
 
-# pylint: disable=duplicate-code
 def resolve_input_filename(source_dir: Path, filename: str) -> Path:
     """Return an EEUD input path, matching case-insensitively when needed."""
     exact_match = source_dir / filename
@@ -71,19 +86,70 @@ def resolve_input_filename(source_dir: Path, filename: str) -> Path:
     raise FileNotFoundError(f"Could not find EEUD input file: {source_dir / filename}")
 
 
-def read_eeud(source_dir: Path, filename: str) -> pd.DataFrame:
-    """Read the EEUD *filename* from *source_dir* and return the raw Data sheet."""
+def read_eeud(source_dir: Path, filename: str, sheet_name: str) -> pd.DataFrame:
+    """Read a raw EEUD workbook sheet."""
     file_path = resolve_input_filename(source_dir, filename)
-    return pd.read_excel(file_path, engine="openpyxl", sheet_name=SHEET_NAME)
+    return pd.read_excel(file_path, engine="openpyxl", sheet_name=sheet_name)
+
+
+def standardise_raw_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """Return the shared EEUD raw schema used by the cleaner.
+
+    The stationary extract uses snake_case names and includes QA metadata,
+    whereas the full workbook uses the legacy display names.  Keep only the
+    shared energy-record fields before combining the two sources.
+    """
+    df = df.rename(columns={"EnergyValue (Terrajoules)": "EnergyValue"})
+    df = rename_columns_to_pascal(df)
+    df = df.rename(
+        columns={
+            "SectorAnzsic": "SectorANZSIC",
+            "EndUseGroup": "EnduseGroup",
+        }
+    )
+    missing_columns = set(RAW_COLUMNS) - set(df.columns)
+    if missing_columns:
+        raise ValueError(
+            "EEUD source is missing required columns: "
+            + ", ".join(sorted(missing_columns))
+        )
+    return df[RAW_COLUMNS].copy()
+
+
+def read_combined_eeud() -> pd.DataFrame:
+    """Combine stationary EEUD with the available full-workbook transport rows.
+
+    The stationary source is authoritative for non-transport energy through
+    2025.  The full workbook supplies transport only, and presently ends in
+    2024; this intentionally leaves transport absent for 2025.
+    """
+    stationary = standardise_raw_columns(
+        read_eeud(INPUT_DIR, STATIONARY_EEUD_FILENAME, STATIONARY_SHEET_NAME)
+    )
+    full_eeud = standardise_raw_columns(
+        read_eeud(INPUT_DIR, TRANSPORT_EEUD_FILENAME, TRANSPORT_SHEET_NAME)
+    )
+    transport = full_eeud[full_eeud["SectorGroup"] == "Transport"].copy()
+
+    if not (stationary["Transport"] == "Non-Transport").all():
+        raise ValueError("Stationary EEUD source contains transport rows.")
+    if transport.empty:
+        raise ValueError("No transport rows found in the full EEUD source.")
+
+    logger.info(
+        "Combining %s stationary rows (%s–%s) with %s transport rows (%s–%s).",
+        len(stationary),
+        stationary["PeriodEndDate"].dt.year.min(),
+        stationary["PeriodEndDate"].dt.year.max(),
+        len(transport),
+        transport["PeriodEndDate"].dt.year.min(),
+        transport["PeriodEndDate"].dt.year.max(),
+    )
+    return pd.concat([stationary, transport], ignore_index=True)
 
 
 def clean_eeud_data(df: pd.DataFrame) -> pd.DataFrame:
     """Apply standard cleaning and reshaping to the EEUD DataFrame."""
-    # Standardise column names to PascalCase
-
-    df = df.rename(columns={"EnergyValue (Terrajoules)": "EnergyValue"})
-    df = rename_columns_to_pascal(df)
-
     # Add Year column derived from the period end date
     df["Year"] = df["PeriodEndDate"].dt.year
 
@@ -160,7 +226,7 @@ def main() -> None:
     """Entry-point safe for import or CLI execution."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    raw_df = read_eeud(INPUT_DIR, EEUD_FILENAME)
+    raw_df = read_combined_eeud()
 
     tidy_df = clean_eeud_data(raw_df)
 
