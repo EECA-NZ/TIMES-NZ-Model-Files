@@ -70,14 +70,11 @@ Refreshing GIC through 2025 will therefore change Methanex model demand in
 2024–26 if observed totals change. That is expected if those years are being
 locked to history.
 
-Ballance is the model's **Urea** sector. It is separated from the generic
-chemical sector in the industry alignment, but its post-2023 demand projection
-is currently `Assumption` growth of zero: it remains at the 2023 level. In
-addition, `sector_closures.csv` supplies a Urea closure process at a price of
-18, and `SectorClosures.toml` restricts that process to the North Island.
-Consequently, refreshed Ballance GIC values for 2024–25 currently validate the
-history but do not lock Urea demand to history. Adding that lock-down would be
-a separate projection change.
+Ballance is the model's **Urea** sector. Its demand path now uses observed GIC
+totals for 2024–25, indexed to the 2023 base year. The 2025 index is held
+through 2027, then set to zero from 2028. This replaces the previous
+price-responsive Urea closure process, so refreshed Ballance GIC values lock
+the model's post-base-year history.
 
 ### Biomass patch
 

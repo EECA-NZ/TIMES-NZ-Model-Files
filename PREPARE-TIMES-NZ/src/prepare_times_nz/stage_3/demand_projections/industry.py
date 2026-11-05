@@ -33,6 +33,21 @@ END_YEAR = 2050
 METHANEX_GIC_YEARS = [2024, 2025]
 METHANEX_CLOSURE_YEAR = 2026
 METHANEX_PARTICIPANTS = ["Methanex Motunui", "Methanex Waitara Valley"]
+BALLANCE_GIC_YEARS = [2024, 2025]
+BALLANCE_CLOSURE_YEAR = 2027
+BALLANCE_PARTICIPANTS = ["Ballance"]
+GIC_METHODS = {
+    "Methanex GIC": {
+        "participants": METHANEX_PARTICIPANTS,
+        "observed_years": METHANEX_GIC_YEARS,
+        "closure_year": METHANEX_CLOSURE_YEAR,
+    },
+    "Ballance GIC": {
+        "participants": BALLANCE_PARTICIPANTS,
+        "observed_years": BALLANCE_GIC_YEARS,
+        "closure_year": BALLANCE_CLOSURE_YEAR,
+    },
+}
 
 
 # HELPERS
@@ -123,48 +138,46 @@ def get_assumption_growth_indices(df, transition_period):
     return _melt_indices(df, ["Sector", "Year"])
 
 
-def get_methanex_gic_growth_indices(df):
-    """
-    Create Methanex demand indices using annual GIC totals for 2024 and 2025,
-    carry the 2025 level into 2026, then set demand to zero from 2027 onward.
-    """
-    df = df[df["Method"] == "Methanex GIC"].copy()
+def get_gic_growth_indices(df, gic_data, method):
+    """Create demand indices from observed GIC demand and a closure assumption."""
+    settings = GIC_METHODS[method]
+    observed_years = settings["observed_years"]
+    closure_year = settings["closure_year"]
+
+    df = df[df["Method"] == method].copy()
     df = df[df["SectorGroup"] == "Industry"]
     if df.empty:
         return pd.DataFrame(columns=["Sector", "Year", "Scenario", "Index"])
 
-    gic_data = pd.read_csv(GIC_FILE)
-    gic_data = gic_data[gic_data["Participant"].isin(METHANEX_PARTICIPANTS)].copy()
+    gic_data = gic_data[gic_data["Participant"].isin(settings["participants"])].copy()
     gic_data["Date"] = pd.to_datetime(gic_data["Date"])
     gic_data["Year"] = gic_data["Date"].dt.year
     gic_data = gic_data.groupby("Year", as_index=False)["Value"].sum()
     gic_data["Value"] = gic_data["Value"] / 1e3
     annual_totals = gic_data.set_index("Year")["Value"]
 
-    required_years = [BASE_YEAR] + METHANEX_GIC_YEARS
+    required_years = [BASE_YEAR] + observed_years
     missing_years = [year for year in required_years if year not in annual_totals.index]
     if missing_years:
         raise ValueError(
-            "Missing annual GIC Methanex demand for years: "
+            f"Missing annual GIC {method} demand for years: "
             + ", ".join(str(year) for year in missing_years)
         )
 
     base_value = annual_totals.loc[BASE_YEAR]
-    carryforward_index = annual_totals.loc[max(METHANEX_GIC_YEARS)] / base_value
+    carryforward_index = annual_totals.loc[max(observed_years)] / base_value
 
     rows = []
     for sector in df["Sector"].unique():
         for year in range(BASE_YEAR, END_YEAR + 1):
             if year == BASE_YEAR:
                 index = 1.0
-            elif year in METHANEX_GIC_YEARS:
+            elif year in observed_years:
                 index = annual_totals.loc[year] / base_value
-            elif year == METHANEX_CLOSURE_YEAR:
+            elif year <= closure_year:
                 index = carryforward_index
-            elif year > METHANEX_CLOSURE_YEAR:
-                index = 0.0
             else:
-                index = 1.0
+                index = 0.0
 
             rows.append(
                 {
@@ -177,6 +190,15 @@ def get_methanex_gic_growth_indices(df):
 
     out = pd.DataFrame(rows)
     return _melt_indices(out, ["Sector", "Year"])
+
+
+def get_custom_gic_growth_indices(df):
+    """Read GIC data and create indices for the industrial GIC methods."""
+    gic_data = pd.read_csv(GIC_FILE)
+    return pd.concat(
+        [get_gic_growth_indices(df, gic_data, method) for method in GIC_METHODS],
+        ignore_index=True,
+    )
 
 
 # FUNCTIONS
@@ -192,8 +214,8 @@ def get_industrial_growth_indices(transition_period):
     """
     df = pd.read_csv(PROJECTIONS_ASSUMPTIONS / "industry_demand_projections.csv")
     assumption_indices = get_assumption_growth_indices(df, transition_period)
-    methanex_indices = get_methanex_gic_growth_indices(df)
-    return pd.concat([assumption_indices, methanex_indices], ignore_index=True)
+    gic_indices = get_custom_gic_growth_indices(df)
+    return pd.concat([assumption_indices, gic_indices], ignore_index=True)
 
 
 def get_industry_baseyear_demand(var):
