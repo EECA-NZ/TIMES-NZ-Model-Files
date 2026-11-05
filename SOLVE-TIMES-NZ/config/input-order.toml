@@ -1,0 +1,76 @@
+# Workbook paths are relative to PREPARE-TIMES-NZ/output.
+#
+# This is the single, project-wide order applied after a case has selected its
+# workbook set. It is deliberately independent of groups and case manifests.
+# The sequence follows the VEDA Steady v309 DD include order as closely as
+# possible at workbook level; VEDA combines several base workbooks into
+# base.dd, so their retained order is the established base-workbook order.
+#
+# Every workbook selected by a case must be listed here. Add a new workbook in
+# its intended precedence position before using it in a group or case.
+
+files = [
+    # VEDA base.dd
+    "BY_Trans.xlsx",
+    "VT_TIMESNZ_AGR.xlsx",
+    "VT_TIMESNZ_COM.xlsx",
+    "VT_TIMESNZ_ELC.xlsx",
+    "VT_TIMESNZ_IND.xlsx",
+    "VT_TIMESNZ_PRI.xlsx",
+    "VT_TIMESNZ_RES.xlsx",
+    "VT_TIMESNZ_TRA.xlsx",
+    "SuppXLS/Trades/ScenTrade__Trade_Links.xlsx",
+
+    # VEDA new-technology and SubRES inputs
+    "SubRES_TMPL/SubRES_NewTechs_AGR_Steady.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_AGR_Shift.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_ELC_Steady.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_ELC_Steady_trans.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_ELC_Shift.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_ELC_Shift_trans.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_H2_Steady.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_H2_Shift.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_TRA_Steady.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_TRA_Shift.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_IND.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_COM.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_BIO.xlsx",
+    "SubRES_TMPL/SubRES_SectorClosures.xlsx",
+    "SubRES_TMPL/SubRES_SectorClosures_trans.xlsx",
+    "SubRES_TMPL/SubRES_DemandFlex_Steady.xlsx",
+    "SubRES_TMPL/SubRES_DemandFlex_Shift.xlsx",
+    "SubRES_TMPL/SubRES_LNG_Imports_Steady.xlsx",
+    "SubRES_TMPL/SubRES_LNG_Imports_Steady_trans.xlsx",
+    "SubRES_TMPL/SubRES_LNG_Imports_Shift.xlsx",
+    "SubRES_TMPL/SubRES_LNG_Imports_Shift_trans.xlsx",
+    "SubRES_TMPL/SubRES_NewTech_Storage_Steady.xlsx",
+    "SubRES_TMPL/SubRES_NewTech_Storage_Steady_trans.xlsx",
+    "SubRES_TMPL/SubRES_NewTech_Storage_Shift.xlsx",
+    "SubRES_TMPL/SubRES_NewTech_Storage_Shift_trans.xlsx",
+
+    # VEDA syssettings.dd and subsequent scenario DD includes
+    "SysSettings.xlsx",
+    "SuppXLS/Trades/ScenTrade_TRADE_PARMS.xlsx",
+    "SuppXLS/Demands/Dem_Alloc+Series.xlsx",
+    "SuppXLS/Demands/ScenDem_Steady.xlsx",
+    "SuppXLS/Demands/ScenDem_Shift.xlsx",
+    "SuppXLS/Scen_Base_Constraints.xlsx",
+    "SuppXLS/Scen_ProcessHeatCoalBan.xlsx",
+    "SuppXLS/Scen_Carbon_Steady.xlsx",
+    "SuppXLS/Scen_Carbon_Shift.xlsx",
+    "SuppXLS/Scen_AdditionalBioenergySupply.xlsx",
+    "SuppXLS/Scen_DiscountRates_Steady.xlsx",
+    "SuppXLS/Scen_DiscountRates_Shift.xlsx",
+    "SuppXLS/Scen_DistributedSolar_Steady.xlsx",
+    "SuppXLS/Scen_DistributedSolar_Shift.xlsx",
+    "SuppXLS/Scen_EAFDemand_Steady.xlsx",
+    "SuppXLS/Scen_EAFDemand_Shift.xlsx",
+    "SuppXLS/Scen_LimitResidentialFossil.xlsx",
+    "SuppXLS/Scen_NewTechDemand.xlsx",
+    "SuppXLS/Scen_LNG_build_timing_Steady.xlsx",
+    "SuppXLS/Scen_LNG_build_timing_Shift.xlsx",
+    "SuppXLS/Scen_Renewable_Availability.xlsx",
+    "SuppXLS/Scen_ExistingBatteryInvestment.xlsx",
+    "SuppXLS/Scen_WEM_WCM.xlsx",
+    "SuppXLS/Scen_LoadCurve.xlsx",
+]

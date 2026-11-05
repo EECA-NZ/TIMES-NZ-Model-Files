@@ -10,6 +10,7 @@ import pandas as pd
 from prepare_times_nz.stage_2.commercial.common import (
     COMMERCIAL_ASSUMPTIONS,
     COMMERCIAL_CONCORDANCES,
+    create_service_commodity_from_tech_names,
 )
 from prepare_times_nz.utilities.deflator import deflate_data
 from prepare_times_nz.utilities.filepaths import STAGE_2_DATA, STAGE_4_DATA
@@ -94,6 +95,7 @@ def remove_baseyear_processes(df, process_var="TechName"):
 def create_newtech_process_parameters_df(cfg: dict) -> pd.DataFrame:
     """Get newtech parameters from coded assumptions (convert 2018 -> 2023 prices in place)."""
     df = pd.read_csv(NEW_TECHS_FILE)
+    df["Comm-Out"] = create_service_commodity_from_tech_names(df["TechName"])
 
     # Preserve external context
     df["START"] = START
@@ -138,7 +140,7 @@ def create_newtech_process_defintions(_cfg: dict) -> pd.DataFrame:
     ]
 
     # Read tech names directly from NEW_TECHS_FILE
-    combined = pd.read_csv(NEW_TECHS_FILE, usecols=["TechName", "Comm-In", "Comm-Out"])
+    combined = pd.read_csv(NEW_TECHS_FILE, usecols=["TechName", "Comm-In"])
     combined = combined.dropna().drop_duplicates()
 
     # Read concordances
@@ -155,6 +157,7 @@ def create_newtech_process_defintions(_cfg: dict) -> pd.DataFrame:
     df["Sector_TIMES"] = df["TechName"].str.split("-").str[0]
     df["EndUse_TIMES"] = df["TechName"].str.split("-").str[1]
     df["Technology_TIMES"] = df["TechName"].str.split("-").str[2]
+    df["CommodityOut"] = create_service_commodity_from_tech_names(df["TechName"])
 
     # --- Sector merge ---
     df = df.merge(sector_map[["Sector_TIMES", "Sector"]], on="Sector_TIMES", how="left")
@@ -178,7 +181,6 @@ def create_newtech_process_defintions(_cfg: dict) -> pd.DataFrame:
         columns={
             "TechName": "Process",
             "Comm-In": "CommodityIn",
-            "Comm-Out": "CommodityOut",
             "TechGroup": "TechnologyGroup",
             "UseGroup": "EnduseGroup",
         }

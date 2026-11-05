@@ -1,6 +1,33 @@
 
 # Changelog
 
+## 3.0.9
+
+This version focuses on ensuring the pipeline is compatible with xl2times. This hardened some inputs and highlighted some minor input inconsistencies.
+
+**Features**
+
+- Added `SOLVE-TIMES-NZ` for reproducible workbook selection, DD generation,
+  solver staging, execution, and result collection.
+
+**Compatibility adjustments**
+
+- Explicitly declared several units and commodity names that were previously relying on converter or VEDA inference.
+- Standardised trade worksheet names with `bi_` or `uni_`, and reworked the placement of user-constraint sets.
+- Excel writer now preserves strings, floats, integers, and booleans, and serialises rounded floating-point values consistently.
+- Adjusted `FLO_SHAR` calls to `Share-I` for consistent interpretation.
+- Battery availability is now expressed as `Value` rather than `AllRegions`.
+
+**Model fixes (may change generated model inputs or xl2times results)**
+
+- Corrected gas-distribution parameter declarations.
+- Ensured consistency of commercial technology commodity definitions for subres files. 
+- Added a 100-year default lifetime for agriculture, forestry, and fishing base-year technologies where no lifetime is specified.
+- Corrected `OILWST` declarations and agricultural new-technology topology.
+- Made grid-generation and battery peak-capacity treatment explicit through primary commodity-group and capacity settings.
+- Retained investment costs for future biofuel conversion technologies by emitting them as SubRES new technologies.
+- Removed a redundant coal-transit path that could create a degenerate solution.
+
 ## 3.0.8
 
 **Model fixes**

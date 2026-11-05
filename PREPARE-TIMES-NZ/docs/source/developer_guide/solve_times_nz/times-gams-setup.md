@@ -1,0 +1,120 @@
+# TIMES and GAMS setup
+
+The TIMES model generator is written in GAMS. While the TIMES code itself is open-source, GAMS and proprietary solvers are not. You will need a working GAMS installation and license to perform model solves.
+
+The solver pipeline runs native Windows GAMS from WSL. Native WSL GAMS is not
+currently supported: solving uses `cmd.exe`, Windows paths, and the Windows
+`GDX2VEDA.exe` program.
+
+## Required local components
+
+The pipeline needs:
+
+- A native Windows GAMS installation, with a valid license and the licensed
+  CPLEX solver.
+- TIMES model generator source code. 
+- A writable, native Windows staging directory for generated case folders and
+  solver outputs. 
+
+Note that your staging directory must exist; the pipeline will note create it automatically. The developer can create it wherever is most appropriate. 
+
+## GAMS executable selection
+
+The solver invokes `gams.exe` and `gdx2veda.exe` directly from the configured
+`gams_system_dir`; it does not use the native Windows `PATH`. This lets each
+executor select a specific GAMS version when several versions are installed.
+The directory must contain both executables—for example, `C:\GAMS\44`.
+
+## Installing the TIMES model generator
+
+TIMES source files can be downloaded in an appropriate directory with:
+
+```
+git clone https://github.com/etsap-TIMES/TIMES_model.git
+```
+In general, it is best to simply keep this up to date. However, currently, this version points deliberately at the Veda-installed TIMES v4.8.3 for testing against older Veda versions. Later this will need to be updated.
+
+## Executors
+
+This pipeline relies on `executors`, which are simple configuration items listing the locations of GAMS, TIMES source code, and the working directory. Current cases all include the named local executor that should run it:
+
+```toml
+[solve]
+executor = "windows_times_v483"
+```
+
+An executor is the local binding that supplies GAMS, TIMES source, and a
+staging directory on one machine. It is possible to define multiple executors for different cases. Because these may rely on machine-specific filepaths, they are deliberately ignored by git. 
+
+### Configure your executors
+
+You must create `solve.local.toml` in the `config/` directory, and define your executors there. This will identify the relevant locations for the pipeline to find your machine's GAMS installation and TIMES source code.
+
+To get started, you can copy the example config file, eg:
+
+```bash
+cd SOLVE-TIMES-NZ
+cp config/solve.local.example.toml config/solve.local.toml
+```
+
+Any given executor must contain:
+
+- `staging_root`: The directory where GAMS and TIMES will write results, logs, etc.
+- `gams_system_dir`: WSL-visible path to the Windows GAMS system directory,
+  containing `gams.exe` and `gdx2veda.exe`.
+- `times_source_dir`: Location of your TIMES installation.
+
+Edit `config/solve.local.toml` to name the local executor `[executors.your_name_here]` and its paths:
+
+```toml
+[executors.windows_times_v483]
+staging_root = "/mnt/c/Users/<username>/TIMES-NZ/runs"
+gams_system_dir = "/mnt/c/GAMS/<version>"
+times_source_dir = "/mnt/c/Users/<username>/Veda/GAMS_SrcTIMES.v4.8.3"
+```
+
+
+It is recommended to use a descriptive executor name, for example `windows_times_v483` as above. This ensures its
+underlying versions are apparent during review, and enables clear and easy changes to versions or configurations. It is the developer's responsibility to ensure their named executor is configured to the appropriate GAMS and TIMES versions such that the chosen name actually means something. 
+
+Please note you must create the defined staging directory yourself before trying to solve a case. It must be
+writable both through the WSL mount and by the GAMS process.
+
+## Solve a generated case
+
+Build the case first, then solve it with the configured executor:
+
+```bash
+uv run solve-times-nz build cases/steady.toml
+uv run solve-times-nz solve steady
+```
+
+The first command writes the version-stamped generated case directory that the
+second command expects. See [Command and artefact reference](command-reference.md)
+before using a custom `--output` directory or a non-default local configuration.
+
+For a full GAMS matrix diagnostic, add `--diagnostic`. The command first
+performs the ordinary solve and VEDA export, then runs GAMS CONVERT to save a
+named sparse matrix and dictionary under
+`SOLVE-TIMES-NZ/build/solves/<case>-<run-id>/diagnostics/`. This is opt-in
+because the full matrix can be hundreds of megabytes.
+
+GAMS CONVERT writes a matrix rather than a solution, so the standard TIMES
+post-solve reporting code can return a non-zero code afterwards. `solve`
+validates the two requested GDX files and accepts that expected outcome.
+
+```bash
+uv run solve-times-nz solve steady --diagnostic
+```
+
+`solve` creates a timestamped child directory below `staging_root`, copies the
+complete generated case, and invokes the configured native Windows `gams.exe`
+through `cmd.exe`, supplying the configured TIMES source as `IDIR`. GAMS output
+remains visible in the calling terminal. After a successful GAMS run, it invokes
+the matching configured `gdx2veda.exe` with the TIMES `times2veda.vdd`
+directives. The staged manifest records whether execution completed or failed,
+and the Windows run directory is retained in either case for inspection.
+
+The exported `.vd`, `.vde`, `.vds`, and `.vdt` result files and a copy of the
+run manifest are copied to the ignored repository-local directory
+`SOLVE-TIMES-NZ/build/solves/<case>-<run-id>/`.

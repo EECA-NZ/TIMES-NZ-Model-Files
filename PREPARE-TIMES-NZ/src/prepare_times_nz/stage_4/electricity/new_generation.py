@@ -268,7 +268,7 @@ def process_offshore_wind_data():
     base_file = get_offshore_base_file(df)
     save_offshore(base_file, "base_file.csv")
 
-    process_definitions = create_process_file(base_file)
+    process_definitions = create_process_file(base_file, primary_cg="ELC")
     save_offshore(process_definitions, "process_definitions.csv")
 
     island_definitions = get_island_definitions(df)
@@ -483,7 +483,7 @@ def process_genstack_files(
     # b) the base file
     # c) the NCAP_PASTI fixed installation file
     # d) the cost curves
-    process_file = create_process_file(df_veda)
+    process_file = create_process_file(df_veda, primary_cg="ELC")
     df_parameters = select_veda_genstack_vars(df_veda)
 
     fixed_installs = get_fixed_installation_dates(df_veda)

@@ -12,7 +12,6 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 import pandas as pd
-from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_3_DATA
 from prepare_times_nz.utilities.timeslices import create_timeslices
 
@@ -207,14 +206,23 @@ def parse_epw_data_period_metadata(epw_path) -> dict[str, Any]:
     return metadata
 
 
-def validate_base_year_calendar():
+def get_model_base_year() -> int:
+    """Load the configured model base year only when running the workflow."""
+    from prepare_times_nz.stage_0.stage_0_settings import (  # pylint: disable=import-outside-toplevel
+        BASE_YEAR,
+    )
+
+    return BASE_YEAR
+
+
+def validate_base_year_calendar(base_year: int) -> None:
     """
     Fail loudly until leap-year handling is implemented for solar timeslices.
     """
-    if pd.Timestamp(year=BASE_YEAR, month=1, day=1).is_leap_year:
+    if pd.Timestamp(year=base_year, month=1, day=1).is_leap_year:
         raise ValueError(
             "Solar availability-factor workflow currently assumes a 365-day "
-            f"calendar, but BASE_YEAR {BASE_YEAR} is a leap year. Revisit leap-year "
+            f"calendar, but BASE_YEAR {base_year} is a leap year. Revisit leap-year "
             "handling before regenerating solar availability factors."
         )
 
@@ -242,12 +250,14 @@ def get_canonical_epw_index(epw_path):
     return [(month, day, hour, minute) for _, month, day, hour, minute in raw_index]
 
 
-def convert_epw_standard_time_to_wallclock(month: int, day: int, hour: int) -> datetime:
+def convert_epw_standard_time_to_wallclock(
+    month: int, day: int, hour: int, base_year: int
+) -> datetime:
     """
     Convert a fixed NZST EPW interval-start hour to NZ wall-clock time.
     """
     standard_time = datetime(
-        BASE_YEAR,
+        base_year,
         month,
         day,
         hour,
@@ -256,24 +266,25 @@ def convert_epw_standard_time_to_wallclock(month: int, day: int, hour: int) -> d
     return standard_time.astimezone(NZ_WALLCLOCK_TZ)
 
 
-def format_time_index_rows(canonical_index):
+def format_time_index_rows(canonical_index, base_year: int):
     """
     Build hourly rows using the configured model base year calendar.
     """
     rows = []
     for hour_index, (month, day, hour, minute) in enumerate(canonical_index, start=1):
         interval_start_hour = (hour - 1) % 24
-        trading_date = pd.Timestamp(year=BASE_YEAR, month=month, day=day)
+        trading_date = pd.Timestamp(year=base_year, month=month, day=day)
         wall_clock = convert_epw_standard_time_to_wallclock(
             month=month,
             day=day,
             hour=interval_start_hour,
+            base_year=base_year,
         )
         rows.append(
             {
                 "hour_of_year": hour_index,
                 "Trading_Date": trading_date,
-                "Year": BASE_YEAR,
+                "Year": base_year,
                 "Month": month,
                 "Day": day,
                 "EPWHour": hour,
@@ -349,14 +360,14 @@ def discover_epw_files(epw_dir):
     return discovered
 
 
-def build_time_index(epw_files):
+def build_time_index(epw_files, base_year: int):
     """
     Build the shared hourly index using the model base-year calendar.
 
     All NIWA files should agree on month/day/hour/minute ordering. The EPW row
     year and header calendar metadata are ignored for timeslice construction.
     """
-    validate_base_year_calendar()
+    validate_base_year_calendar(base_year)
 
     canonical = None
     canonical_zone = None
@@ -368,7 +379,7 @@ def build_time_index(epw_files):
         elif canonical != index:
             raise ValueError(f"Time index mismatch between {canonical_zone} and {zone}")
 
-    return pd.DataFrame(format_time_index_rows(canonical))
+    return pd.DataFrame(format_time_index_rows(canonical, base_year))
 
 
 def build_model(epw_path, scenario):
@@ -541,7 +552,7 @@ def run_hourly_profiles():
     """
     scenarios = load_solar_scenarios()
     epw_files = discover_epw_files(PREPARED_EPW_DIR)
-    time_index = build_time_index(epw_files)
+    time_index = build_time_index(epw_files, base_year=get_model_base_year())
 
     ensure_output_dir(HOURLY_DIR)
     ensure_output_dir(METADATA_DIR)

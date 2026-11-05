@@ -7,6 +7,7 @@ A common area for all filepaths and functions common to
 
 from pathlib import Path
 
+import pandas as pd
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
     CONCORDANCES,
@@ -35,6 +36,25 @@ PREPRO_DF_NAME_STEP1 = "1_times_eeud_alignment_baseyear.csv"
 PREPRO_DF_NAME_STEP2 = "2_times_baseyear_regional_disaggregation.csv"
 PREPRO_DF_NAME_STEP3 = "3_times_baseyear_with_assumptions.csv"
 PREPRO_DF_NAME_STEP4 = "4_times_baseyear_with_commodity_definitions.csv"
+
+
+def create_service_commodity(
+    sector_codes: pd.Series, enduse_codes: pd.Series
+) -> pd.Series:
+    """Return the technology-neutral commercial service commodity code."""
+    return sector_codes.astype(str).str.cat(enduse_codes.astype(str), sep="-")
+
+
+def create_service_commodity_from_tech_names(tech_names: pd.Series) -> pd.Series:
+    """Derive commercial service commodities from sector-end-use technology names."""
+    codes = tech_names.str.split("-", n=2, expand=True).reindex(columns=range(3))
+    invalid_names = tech_names[codes[1].isna()]
+    if not invalid_names.empty:
+        raise ValueError(
+            "Commercial technology names must begin with sector-end-use codes: "
+            + ", ".join(invalid_names.astype(str).tolist())
+        )
+    return create_service_commodity(codes[0], codes[1])
 
 
 # I/O Functions ------------------------------------------------

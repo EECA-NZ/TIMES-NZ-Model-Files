@@ -4,33 +4,15 @@ import importlib.util
 from pathlib import Path
 
 import pandas as pd
+import pytest
 
-
-def ensure_stage_0_config():
-    """
-    Create the minimal normalized SysSettings file expected by stage_0 imports.
-    """
-    repo_root = Path(__file__).resolve().parents[1]
-    stage_0_config = repo_root / "data_intermediate/stage_0_config"
-    stage_0_config.mkdir(parents=True, exist_ok=True)
-    syssettings_toml = stage_0_config / "SysSettings.toml"
-    syssettings_toml.write_text(
-        """
-[StartYear.Data]
-StartYear = [2023]
-
-[ActivePDef.Data]
-ActivePDef = ["5Year_increments"]
-""".strip() + "\n",
-        encoding="utf-8",
-    )
+HOUR_TO_TIME_OF_DAY = {7: "D", 18: "P", 19: "N"}
 
 
 def load_solar_run_hourly_profiles():
     """
     Load the script module directly from its path for test usage.
     """
-    ensure_stage_0_config()
     module_path = (
         Path(__file__).resolve().parents[1]
         / "scripts/stage_3_scenarios/electricity/solar_run_hourly_profiles.py"
@@ -119,7 +101,7 @@ def test_create_timeslices_uses_project_time_of_day_and_daytype_definitions():
         }
     )
 
-    result = module.create_timeslices(df)
+    result = module.create_timeslices(df, hour_to_time_map=HOUR_TO_TIME_OF_DAY)
 
     assert result["TimeSlice"].tolist() == [
         "SUM-WK-P",
@@ -145,9 +127,21 @@ def test_create_timeslices_can_use_wall_clock_hour_column():
         df,
         date_col="WallClock_Date",
         hour_col="WallClock_Hour",
+        hour_to_time_map=HOUR_TO_TIME_OF_DAY,
     )
 
     assert result["TimeSlice"].tolist() == ["SUM-WK-N", "WIN-WK-P"]
+
+
+def test_create_timeslices_honours_an_empty_time_of_day_mapping():
+    """An explicitly injected empty map must not fall back to project settings."""
+    module = load_solar_run_hourly_profiles()
+    result = module.create_timeslices(
+        pd.DataFrame({"Trading_Date": ["2023-01-02"], "Hour": [7]}),
+        hour_to_time_map={},
+    )
+
+    assert result["TimeSlice"].tolist() == ["SUM-WK-N"]
 
 
 def test_build_time_index_uses_model_base_year_and_ignores_epw_calendar_metadata(
@@ -168,7 +162,7 @@ def test_build_time_index_uses_model_base_year_and_ignores_epw_calendar_metadata
         )
         epw_files[zone] = path
 
-    time_index = module.build_time_index(epw_files)
+    time_index = module.build_time_index(epw_files, base_year=2023)
 
     assert time_index["Trading_Date"].min() == pd.Timestamp("2023-01-01")
     assert time_index["Trading_Date"].max() == pd.Timestamp("2023-12-31")
@@ -201,9 +195,9 @@ def test_convert_epw_standard_time_to_wallclock_uses_nz_timezone_rules():
     """
     module = load_solar_run_hourly_profiles()
 
-    summer = module.convert_epw_standard_time_to_wallclock(1, 1, 18)
-    winter = module.convert_epw_standard_time_to_wallclock(7, 1, 18)
-    dst_start = module.convert_epw_standard_time_to_wallclock(9, 24, 2)
+    summer = module.convert_epw_standard_time_to_wallclock(1, 1, 18, base_year=2023)
+    winter = module.convert_epw_standard_time_to_wallclock(7, 1, 18, base_year=2023)
+    dst_start = module.convert_epw_standard_time_to_wallclock(9, 24, 2, base_year=2023)
 
     assert summer.isoformat() == "2023-01-01T19:00:00+13:00"
     assert winter.isoformat() == "2023-07-01T18:00:00+12:00"
@@ -222,16 +216,8 @@ def test_build_time_index_rejects_leap_base_year(tmp_path):
         write_test_epw(path, 2007)
         epw_files[zone] = path
 
-    original_base_year = module.BASE_YEAR
-    module.BASE_YEAR = 2024
-    try:
-        try:
-            module.build_time_index(epw_files)
-            raise AssertionError("Expected leap-year base-year guard to raise")
-        except ValueError as exc:
-            assert "BASE_YEAR 2024 is a leap year" in str(exc)
-    finally:
-        module.BASE_YEAR = original_base_year
+    with pytest.raises(ValueError, match="BASE_YEAR 2024 is a leap year"):
+        module.build_time_index(epw_files, base_year=2024)
 
 
 def test_discover_epw_files_accepts_tmy3_names(tmp_path):

@@ -1,0 +1,132 @@
+# Workbook selections are relative to PREPARE-TIMES-NZ/output by default.
+#
+# The groups below reproduce the checked components of the v308 VEDA Steady
+# and Shift scenario groups. A group represents a modelling component, not
+# necessarily one workbook: some components also emit a `_trans` workbook.
+
+[groups.base]
+# VEDA's BASE selection, plus outputs not exposed as separate VEDA components.
+files = [
+    "BY_Trans.xlsx",
+    "VT_TIMESNZ_AGR.xlsx",
+    "VT_TIMESNZ_COM.xlsx",
+    "VT_TIMESNZ_ELC.xlsx",
+    "VT_TIMESNZ_IND.xlsx",
+    "VT_TIMESNZ_PRI.xlsx",
+    "VT_TIMESNZ_RES.xlsx",
+    "VT_TIMESNZ_TRA.xlsx",    
+    "SuppXLS/Trades/ScenTrade__Trade_Links.xlsx",
+    "SysSettings.xlsx",
+]
+
+# subres - new technologies 
+
+[groups.newtech_steady]
+files = [
+    "SubRES_TMPL/SubRES_NewTechs_*_Steady*.xlsx",   
+    # NOTE: the Batteries used NewTech singular, breaking standards - please fix
+    "SubRES_TMPL/SubRES_NewTech_Storage_Steady*.xlsx",   
+    ]
+
+[groups.newtech_shift]
+files = [
+    "SubRES_TMPL/SubRES_NewTechs_*_Shift*.xlsx",   
+    # NOTE: the Batteries used NewTech singular, breaking standards - please fix
+    "SubRES_TMPL/SubRES_NewTech_Storage_Shift*.xlsx",   
+    ]
+
+[groups.newtech_common]
+files = [
+    "SubRES_TMPL/SubRES_NewTechs_IND.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_COM.xlsx",
+    "SubRES_TMPL/SubRES_NewTechs_BIO.xlsx",
+]
+
+# common scenarios 
+
+[groups.scenario_common]
+files = [
+    # sector closures (these are subres as they introduce dummy processes) 
+    "SubRES_TMPL/SubRES_SectorClosures.xlsx",
+    "SubRES_TMPL/SubRES_SectorClosures_trans.xlsx",
+
+    # trade parameters
+    "SuppXLS/Trades/ScenTrade_TRADE_PARMS.xlsx",
+    "SuppXLS/Scen_Base_Constraints.xlsx",
+    "SuppXLS/Scen_ProcessHeatCoalBan.xlsx",
+
+    # load curves and generation supply curves
+    "SuppXLS/Scen_Renewable_Availability.xlsx",
+    # Battery genstack (fixed known build)
+    "SuppXLS/Scen_ExistingBatteryInvestment.xlsx",
+    "SuppXLS/Scen_WEM_WCM.xlsx",
+    "SuppXLS/Scen_LoadCurve.xlsx"
+]
+
+# standard shift/steady scenario splits
+# some of these refer to scenario subgroups, like the demands
+# just to keep things orderly 
+[groups.scenarios_shift]
+files = [
+    # not in steady
+    "SuppXLS/Scen_Carbon_Shift.xlsx",
+    "SuppXLS/Scen_AdditionalBioenergySupply.xlsx",
+    # just different versions to steady
+    "SuppXLS/Scen_DiscountRates_Shift.xlsx",
+    "SuppXLS/Scen_DistributedSolar_Shift.xlsx",
+    "SuppXLS/Scen_EAFDemand_Shift.xlsx",
+    "SuppXLS/Scen_LimitResidentialFossil.xlsx",
+    "SuppXLS/Scen_NewTechDemand.xlsx",
+]
+
+
+[groups.scenarios_steady]
+files = [
+    "SuppXLS/Scen_Carbon_Steady.xlsx",
+    "SuppXLS/Scen_DiscountRates_Steady.xlsx",
+    "SuppXLS/Scen_DistributedSolar_Steady.xlsx",
+    "SuppXLS/Scen_EAFDemand_Steady.xlsx",
+]
+
+# If we're intending on swapping components for sensitivity testing, it's convenient to list them here
+# Although not really necessary
+
+# LNG 
+
+[groups.lng_imports_steady]
+files = [
+    "SubRES_TMPL/SubRES_LNG_Imports_Steady.xlsx",
+    "SubRES_TMPL/SubRES_LNG_Imports_Steady_trans.xlsx",
+    "SuppXLS/Scen_LNG_build_timing_Steady.xlsx"
+    ]
+
+[groups.lng_imports_shift]
+files = [
+    "SubRES_TMPL/SubRES_LNG_Imports_Shift.xlsx",
+    "SubRES_TMPL/SubRES_LNG_Imports_Shift_trans.xlsx",
+    "SuppXLS/Scen_LNG_build_timing_Shift.xlsx"    
+    ]
+
+# Demand flex - listed separately to enable sensitivityi
+[groups.demand_flex_steady]
+files = ["SubRES_TMPL/SubRES_DemandFlex_Steady.xlsx"]
+
+[groups.demand_flex_shift]
+files = ["SubRES_TMPL/SubRES_DemandFlex_Shift.xlsx"]
+
+
+
+# Demand projections 
+[groups.demands_steady]
+files = [
+    "SuppXLS/Demands/Dem_Alloc+Series.xlsx",
+    "SuppXLS/Demands/ScenDem_Steady.xlsx"
+    ]
+[groups.demands_shift]
+files = [
+    "SuppXLS/Demands/Dem_Alloc+Series.xlsx",
+    "SuppXLS/Demands/ScenDem_Shift.xlsx",
+    ]
+
+
+

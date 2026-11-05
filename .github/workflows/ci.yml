@@ -46,6 +46,13 @@ jobs:
         run: |
           uv run coverage run -m pytest
           uv run coverage html
+      - name: Run SOLVE linters and tests
+        working-directory: SOLVE-TIMES-NZ
+        run: |
+          uv run black --check --diff src tests
+          uv run isort --profile black --check-only src tests
+          uv run pylint src/solve_times_nz
+          uv run pytest
       - name: Run QA tests
         working-directory: TIMES-NZ-INTERNAL-QA
         run: uv run pytest

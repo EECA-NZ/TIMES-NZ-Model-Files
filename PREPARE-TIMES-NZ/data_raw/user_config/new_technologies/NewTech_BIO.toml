@@ -1,0 +1,13 @@
+WorkBookName = "SubRES_TMPL/SubRES_NewTechs_BIO"
+
+[BiofuelConversionProcessDefinitions]
+Description = "Defines future biomass and biofuel conversion technologies"
+SheetName = "BIO_NEW"
+TagName = "FI_Process"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_bio/future_biofuel_conversion_processes.csv"
+
+[BiofuelConversionParameters]
+Description = "Defines technical and cost parameters for future biomass and biofuel conversions"
+SheetName = "BIO_NEW"
+TagName = "FI_T"
+DataLocation = "data_intermediate/stage_4_veda_format/subres_bio/future_biofuel_conversion_parameters.csv"
