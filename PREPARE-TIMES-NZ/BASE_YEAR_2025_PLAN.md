@@ -193,3 +193,30 @@ from a new 2024–25 observation (normally checks only).
 - Should Urea be locked to observed Ballance GIC in 2024–25? If yes, should
   2025 be carried forward, and how should that interact with the existing
   North-Island Urea closure process?
+
+## Follow-up to-do
+
+- [ ] **Industrial biomass patch:** confirm that 2024–25 industrial values are
+  historical observations, record their source and annualisation basis, and
+  remove or segregate 2026+ forecast values from the historical patch.
+- [ ] **Unallocated-demand patch:** give 2025 an explicit value, zero, or
+  documented non-applicability, so its absence is not misread as a fall in
+  demand.
+- [ ] **2025 transport EEUD:** obtain and ingest an equivalent transport
+  extract when it becomes available; the present combined EEUD intentionally
+  has no transport observations for 2025.
+- [ ] **Statistical-difference adjustment:** review the current patch and its
+  source basis against the updated EEUD and balance data; document whether it
+  remains necessary and confirm it does not double count demand.
+- [ ] **Coal demand:** replace the current manual treatment with an automated,
+  source-driven calculation, then validate its historical totals and
+  allocation against the balance data.
+- [ ] **Data centres:** reconcile the dedicated EEUD data-centre rows and the
+  ANZSIC J deduction against Energy Balance Table electricity consumption
+  before changing or removing the current data-centre allocation patch.
+- [ ] **Electricity generation:** assess the revised generation data, rerun
+  the electricity base-year preparation, and reconcile generation, capacity,
+  fuel input and calibration checks before accepting changes to model inputs.
+- [ ] **Final reconciliation:** compare old and updated 2023 prepared demand
+  by sector, fuel, technology and end use; then diff the final VEDA/TIMES
+  demand inputs and accept only explained changes.
