@@ -33,7 +33,7 @@ END_YEAR = 2050
 METHANEX_GIC_YEARS = [2024, 2025]
 METHANEX_CLOSURE_YEAR = 2026
 METHANEX_PARTICIPANTS = ["Methanex Motunui", "Methanex Waitara Valley"]
-BALLANCE_GIC_YEARS = [2024, 2025]
+BALLANCE_GIC_YEARS = [2024, 2025, 2026]
 BALLANCE_CLOSURE_YEAR = 2027
 BALLANCE_PARTICIPANTS = ["Ballance"]
 GIC_METHODS = {
@@ -138,7 +138,7 @@ def get_assumption_growth_indices(df, transition_period):
     return _melt_indices(df, ["Sector", "Year"])
 
 
-def get_gic_growth_indices(df, gic_data, method):
+def get_gic_growth_indices(df, gic_data, annual_estimates, method):
     """Create demand indices from observed GIC demand and a closure assumption."""
     settings = GIC_METHODS[method]
     observed_years = settings["observed_years"]
@@ -156,7 +156,21 @@ def get_gic_growth_indices(df, gic_data, method):
     gic_data["Value"] = gic_data["Value"] / 1e3
     annual_totals = gic_data.set_index("Year")["Value"]
 
-    required_years = [BASE_YEAR] + observed_years
+    estimates = annual_estimates[annual_estimates["Method"] == method].copy()
+    if not estimates.empty:
+        if not estimates["Unit"].eq("PJ").all():
+            raise ValueError(f"Annual GIC estimates for {method} must use PJ")
+        if estimates["Year"].duplicated().any():
+            raise ValueError(f"Multiple annual GIC estimates for {method}")
+        annual_totals = annual_totals.combine_first(
+            estimates.set_index("Year")["Value"]
+        )
+        annual_totals.update(estimates.set_index("Year")["Value"])
+
+    estimate_years = estimates["Year"].tolist()
+    required_years = [BASE_YEAR] + [
+        year for year in observed_years if year not in estimate_years
+    ]
     missing_years = [year for year in required_years if year not in annual_totals.index]
     if missing_years:
         raise ValueError(
@@ -165,14 +179,16 @@ def get_gic_growth_indices(df, gic_data, method):
         )
 
     base_value = annual_totals.loc[BASE_YEAR]
-    carryforward_index = annual_totals.loc[max(observed_years)] / base_value
+    carryforward_index = (
+        annual_totals.loc[max(observed_years + estimate_years)] / base_value
+    )
 
     rows = []
     for sector in df["Sector"].unique():
         for year in range(BASE_YEAR, END_YEAR + 1):
             if year == BASE_YEAR:
                 index = 1.0
-            elif year in observed_years:
+            elif year in observed_years or year in estimate_years:
                 index = annual_totals.loc[year] / base_value
             elif year <= closure_year:
                 index = carryforward_index
@@ -195,8 +211,12 @@ def get_gic_growth_indices(df, gic_data, method):
 def get_custom_gic_growth_indices(df):
     """Read GIC data and create indices for the industrial GIC methods."""
     gic_data = pd.read_csv(GIC_FILE)
+    annual_estimates = pd.read_csv(PROJECTIONS_ASSUMPTIONS / "gic_demand_estimates.csv")
     return pd.concat(
-        [get_gic_growth_indices(df, gic_data, method) for method in GIC_METHODS],
+        [
+            get_gic_growth_indices(df, gic_data, annual_estimates, method)
+            for method in GIC_METHODS
+        ],
         ignore_index=True,
     )
 

@@ -28,6 +28,11 @@ This version focuses on ensuring the pipeline is compatible with xl2times. This 
 - Retained investment costs for future biofuel conversion technologies by emitting them as SubRES new technologies.
 - Removed a redundant coal-transit path that could create a degenerate solution.
 
+**Assumption and data changes** 
+- Set Ballance to exogenous closure pathway. 
+- Updated MBIE gas and balance data, GIC consumption data, and the EEUD to 2025 data. 
+
+
 ## 3.0.8
 
 **Model fixes**
