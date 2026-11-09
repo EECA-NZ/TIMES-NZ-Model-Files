@@ -216,9 +216,10 @@ def test_solve_stages_case_and_invokes_windows_gams(
         "C:\\Program Files\\times\\times2veda.vdd",
         "steady",
     ]
-    assert working_directories == [
-        staging_root / f"{versioned_case_name('steady')}-trial"
-    ] * 2
+    assert (
+        working_directories
+        == [staging_root / f"{versioned_case_name('steady')}-trial"] * 2
+    )
     assert (destination / "steady.vd").is_file()
     solved_manifest = json.loads((destination / "manifest.json").read_text())
     assert solved_manifest["execution"]["status"] == "completed"
