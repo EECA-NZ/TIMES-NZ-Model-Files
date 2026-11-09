@@ -189,25 +189,40 @@ def _staged_case_settings(destination: Path) -> tuple[str, str, str]:
 
 
 def _gams_command(
-    destination: Path,
     executor: Executor,
     case_name: str,
     run_file: str,
     windows_path: Callable[[Path], str],
 ) -> list[str]:
-    """Construct the native Windows GAMS command for one staged case."""
-    gams, gdx2veda = _validated_gams_tools(executor)
-    destination_windows = _windows_argument(windows_path(destination))
+    """Construct an argv-safe native GAMS invocation for one staged case."""
+    gams, _ = _validated_gams_tools(executor)
     source_windows = windows_path(executor.times_source_dir)
-    command_text = (
-        f"cd /d {destination_windows} "
-        "&& if not exist GAMSSAVE mkdir GAMSSAVE "
-        f"&& {_windows_argument(windows_path(gams))} {_windows_argument(run_file)} "
-        f"{_gams_options(source_windows, case_name)} "
-        f"&& {_windows_argument(windows_path(gdx2veda))} "
-        f"{_gdx2veda_arguments(source_windows, case_name)}"
-    )
-    return ["cmd.exe", "/d", "/c", command_text]
+    return [
+        str(gams),
+        run_file,
+        f"IDIR={source_windows}",
+        f"GDX=GAMSSAVE\\{case_name}",
+        "PS=99999",
+        f"R={source_windows}\\_times",
+        "LO=1",
+        "OPTFILE=1",
+    ]
+
+
+def _gdx2veda_command(
+    executor: Executor,
+    case_name: str,
+    windows_path: Callable[[Path], str],
+) -> list[str]:
+    """Construct an argv-safe native GDX2VEDA invocation for one staged case."""
+    _, gdx2veda = _validated_gams_tools(executor)
+    source_windows = windows_path(executor.times_source_dir)
+    return [
+        str(gdx2veda),
+        f"GAMSSAVE\\{case_name}",
+        f"{source_windows}\\times2veda.vdd",
+        case_name,
+    ]
 
 
 def _validated_gams_tools(executor: Executor) -> tuple[Path, Path]:
@@ -227,39 +242,6 @@ def _validated_gams_tools(executor: Executor) -> tuple[Path, Path]:
             f"TIMES GDX2VEDA directives do not exist: {veda_directives}"
         )
     return gams, gdx2veda
-
-
-def _gams_options(source_windows: str, case_name: str, diagnostic: bool = False) -> str:
-    """Return the quoted GAMS options for a normal or diagnostic solve."""
-    diagnostic_suffix = "-diagnostic" if diagnostic else ""
-    return (
-        f"IDIR={_windows_argument(source_windows)} "
-        f'GDX={_windows_argument(f"GAMSSAVE\\{case_name}{diagnostic_suffix}")} '
-        f'PS=99999 R={_windows_argument(f"{source_windows}\\_times")} '
-        "LO=1 OPTFILE=1"
-    )
-
-
-def _gdx2veda_arguments(source_windows: str, case_name: str) -> str:
-    """Return the quoted GDX2VEDA arguments for one completed solve."""
-    return (
-        f'{_windows_argument(f"GAMSSAVE\\{case_name}")} '
-        f'{_windows_argument(f"{source_windows}\\times2veda.vdd")} '
-        f"{_windows_argument(case_name)}"
-    )
-
-
-def _windows_argument(value: str) -> str:
-    """Quote one trusted argument for the cmd.exe command string."""
-    if '"' in value:
-        raise CaseConfigurationError(
-            f"Windows command argument contains a quote: {value}"
-        )
-    if "%" in value:
-        raise CaseConfigurationError(
-            f"Windows command argument contains '%', which cmd.exe expands: {value}"
-        )
-    return f'"{value}"'
 
 
 def _write_diagnostic_options(destination: Path) -> None:
@@ -306,22 +288,24 @@ def _diagnostic_files_exist(destination: Path) -> bool:
 
 
 def _diagnostic_command(
-    destination: Path,
     executor: Executor,
     case_name: str,
     run_file: str,
     windows_path: Callable[[Path], str],
 ) -> list[str]:
-    """Construct a second GAMS invocation that exports the generated LP matrix."""
-    destination_windows = windows_path(destination)
+    """Construct an argv-safe GAMS invocation that exports the LP matrix."""
     source_windows = windows_path(executor.times_source_dir)
-    gams_windows = windows_path(executor.gams_system_dir / "gams.exe")
-    command_text = (
-        f"cd /d {_windows_argument(destination_windows)} "
-        f"&& {_windows_argument(gams_windows)} {_windows_argument(run_file)} "
-        f"{_gams_options(source_windows, case_name, diagnostic=True)}"
-    )
-    return ["cmd.exe", "/d", "/c", command_text]
+    gams, _ = _validated_gams_tools(executor)
+    return [
+        str(gams),
+        run_file,
+        f"IDIR={source_windows}",
+        f"GDX=GAMSSAVE\\{case_name}-diagnostic",
+        "PS=99999",
+        f"R={source_windows}\\_times",
+        "LO=1",
+        "OPTFILE=1",
+    ]
 
 
 def _copy_veda_results(destination: Path, diagnostic: bool = False) -> Path:
@@ -386,23 +370,29 @@ def solve_case(
     destination = _stage_case(case_dir, local_config, run_id)
     case_name, executor_name, run_file = _staged_case_settings(destination)
     executor = load_executor(local_config, executor_name)
-    command = _gams_command(destination, executor, case_name, run_file, windows_path)
+    command = _gams_command(executor, case_name, run_file, windows_path)
     started_at = datetime.now(UTC).isoformat()
+    (destination / "GAMSSAVE").mkdir(exist_ok=True)
+    gdx2veda_command: list[str] | None = None
     try:
         runner(command, check=True, cwd=destination)
+        gdx2veda_command = _gdx2veda_command(executor, case_name, windows_path)
+        runner(gdx2veda_command, check=True, cwd=destination)
     except subprocess.CalledProcessError as error:
+        failed_stage = "gdx2veda" if gdx2veda_command is not None else "gams"
         _record_execution(
             destination,
             {
                 "started_at": started_at,
                 "completed_at": datetime.now(UTC).isoformat(),
-                "status": "failed",
+                "status": f"{failed_stage}_failed",
                 "exit_code": error.returncode,
                 "command": command,
+                "gdx2veda_command": gdx2veda_command,
             },
         )
         raise RuntimeError(
-            f"GAMS solve failed with exit code {error.returncode}; "
+            f"{failed_stage.upper()} failed with exit code {error.returncode}; "
             f"staged run retained at {destination}"
         ) from error
     _record_execution(
@@ -413,13 +403,13 @@ def solve_case(
             "status": "completed",
             "exit_code": 0,
             "command": command,
+            "gdx2veda_command": gdx2veda_command,
         },
     )
     if diagnostic:
         _write_diagnostic_options(destination)
         diagnostic_run_file = _write_diagnostic_run(destination, run_file)
         diagnostic_command = _diagnostic_command(
-            destination,
             executor,
             case_name,
             diagnostic_run_file,
@@ -455,6 +445,7 @@ def solve_case(
                 "status": "completed",
                 "exit_code": 0,
                 "command": command,
+                "gdx2veda_command": gdx2veda_command,
                 "diagnostic_command": diagnostic_command,
                 "diagnostic_exit_code": diagnostic_exit_code,
             },
