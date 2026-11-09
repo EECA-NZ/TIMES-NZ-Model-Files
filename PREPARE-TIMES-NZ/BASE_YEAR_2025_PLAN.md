@@ -10,6 +10,44 @@ This is not a 2025 base-year conversion. Do not change `StartYear`, base-year
 electricity calibration, EBT vintage, transport inputs, or the general
 2023-NZD cost basis as part of this work.
 
+## Current priority: 2025 historical-data extract
+
+The immediate deliverable is a **national 2025 data extract**, not a model
+change and not a historical-model-year case. It must contain:
+
+1. industrial process heat, by TIMES industrial subsector, process-heat band
+   and fuel;
+2. agriculture process heat and space heating; and
+3. commercial space and water heating.
+
+Regional detail is not required. Build the extract from each sector module's
+existing `times_eeud_alignment_timeseries.csv`, filtered to 2025, rather than
+recreating EEUD sector, end-use, technology or fuel mappings. These check
+outputs retain the full historical series; the corresponding `preprocessing/`
+and final demand files intentionally retain only the 2023 model base year.
+
+### Required steps
+
+1. Confirm the completed workflow has refreshed the stage-1 EEUD and GIC
+   extracts and the three sector-alignment time-series files through 2025.
+2. Extract the requested 2025 end-use rows from the industry, agriculture and
+   commercial aligned outputs, retaining source-relevant dimensions and PJ
+   units.
+3. Combine them into a clearly labelled delivery workbook/CSV. Keep the three
+   sector tables separate rather than forcing unlike sector classifications
+   into a common subsector scheme.
+4. Reconcile each extract to its source alignment file and explicitly check:
+   - industrial and commercial biomass-patch additions are included;
+   - Aluminium, Methanol and Urea are separate industrial subsectors;
+   - Urea feedstock is excluded from industrial *process heat*;
+   - the 2025 Methanex and Urea allocations reconcile to
+     `chemical_split_calculations.csv`.
+5. Supply a short methodology note identifying EEUD/GIC vintages, coverage,
+   the heat/end-use selection, PJ units, and that all values are national.
+
+No regional allocator, VEDA-file generation, demand-index recalculation, or
+historical-year model lock is required for this deliverable.
+
 The intended updates are:
 
 1. ingest stationary EEUD through calendar year 2025, while retaining the
@@ -19,19 +57,34 @@ The intended updates are:
 3. revise the biomass-demand patch so post-2023 values are historical
    observations rather than implicit forecasts.
 
+### Optional workstream: historical model-year treatment
+
+As a separate, optional enhancement, develop a scenario/model-file mechanism
+that can lock selected post-base-year model years (initially 2024 and 2025)
+to approved historical observations. This must be opt-in: the standard
+projection cases must continue to use their normal demand and supply
+projections.
+
+Current treatment is inconsistent: Methanex and Urea/Ballance have bespoke
+GIC-index logic, while most updated EEUD, biomass and unallocated-demand
+series remain calibration checks only. Before implementation, maintain the
+working inventory in `historical model year treatment.md`; define the
+observation, model quantity, geographic/technology treatment, constraint
+form, case inclusion and validation rule for every proposed lock.
+
 ## Current downstream flow
 
 | Input / output | Current use | Effect of extension to 2025 |
 | --- | --- | --- |
 | Stage-1 `eeud/eeud.csv` | Industry, commercial, residential, agriculture/forestry/fishing and load-curve preparation read the full extract. | Alignment processes create 2025 check series, but their model-facing base-year files filter to 2023. Thus 2024–25 EEUD does **not** directly change TIMES base-year demand. |
 | EEUD `times_eeud_alignment_timeseries.csv` checks | Calibration, demand-growth analysis and manual review. | Gains 2025 values; this is the principal purpose of the EEUD update. |
-| GIC stage-1 extract | Industry chemical split for all available years; Methanex demand-projection logic reads the same extract. | GIC 2024–25 affects checks and chemical-split time series. Observed Methanex values become model demand indices, so they flow to future TIMES demand. |
-| Ballance GIC values / Urea | Chemical split within industry EEUD alignment; Ballance is represented as the `Urea` sector. | With the 2023 base-year filter, Ballance 2024–25 affects time-series checks but does not lock Urea demand in TIMES. Urea instead follows a flat demand assumption and has a closure option from 2024. |
+| GIC stage-1 extract | Industry chemical split and Methanex/Urea demand-projection logic read the full extract. | Observed GIC values become Methanex and Urea demand indices for their configured historical/estimated years. |
+| Ballance GIC values / Urea | Chemical split within industry EEUD alignment; Ballance is represented as the `Urea` sector. | Observed Ballance GIC values drive Urea demand indices for 2024–25; the documented 2026 estimate is then held through the configured closure year. |
 | Biomass patch | Applied to whole EEUD extract before sector alignment. | The 2023 patch contributes to base-year model demand. Post-2023 values appear in checks only; they do not automatically become future TIMES demand. |
 
 The key distinction is historical data versus a model projection: loading
 observed 2024–25 values does not itself make the model reproduce them. The
-only existing explicit bridge is the Methanex GIC projection code.
+explicit exceptions are the Methanex and Urea GIC projection methods.
 
 ## Existing behaviour
 
@@ -115,7 +168,7 @@ future industry demand from 2023 and applies projection indices.
 6. Retain 2024–25 sector-aligned series as checks, clearly labelling observed
    EEUD and patched values.
 
-### 2. GIC historical series and Methanex lock-down
+### 2. GIC historical series and Methanex/Urea lock-down
 
 1. Update `data_raw/external_data/gic/ProductionConsumption.xlsx` so
    `Prod_Cons` and `Rep Major Users` contain all 2025 observations.
@@ -129,11 +182,9 @@ future industry demand from 2023 and applies projection indices.
    observed demand, then applies the closure.
 5. Review Methanex `Steady` and `Shift` indices. They should be identical for
    observed years and equal annual-GIC / 2023-GIC ratios.
-6. Treat Ballance as Urea when deciding the historical lock-down. If Urea must
-   follow observed Ballance GIC in 2024–25, add a Urea GIC-index method (or a
-   general historical-index method) alongside the Methanex one. Define whether
-   the 2025 level is carried forward, whether the existing North-Island closure
-   option remains available, and what happens after the observed period.
+6. Treat Ballance as Urea in the historical lock-down. Its GIC-index method
+   uses observed 2024–25 values and the documented 2026 estimate, holds that
+   level through the configured closure year, then sets demand to zero.
 
 ### 3. Biomass patch: history, cut-off and provenance
 
@@ -160,8 +211,8 @@ future industry demand from 2023 and applies projection indices.
 | Industry `chemical_split_calculations.csv` | Confirms 2023–25 Methanex/Ballance totals, feedstock/direct-use allocation and MBIE non-energy-gas reconciliation remain feasible. |
 | Industry `times_eeud_alignment_timeseries.csv` | Provides EEUD-plus-patch history for review; check 2025 category coverage and sector/fuel totals. |
 | Industry base-year preprocessing and `baseyear_industry_demand.csv` | Must be equivalent to the prior run if 2023 EEUD and patch values are unchanged. |
-| Stage-3 industrial projections | Methanex 2024–26 should change only in proportion to revised observed GIC and match the approved carry-forward/closure rule. Urea should remain flat at its 2023 level unless an explicit Ballance/Urea historical-index method is added. |
-| Final VEDA/TIMES demand files | Apart from intended Methanex future-demand updates, should not change solely because 2024–25 EEUD, Ballance GIC, or biomass-history values were added. |
+| Stage-3 industrial projections | Methanex and Urea should follow their configured observed/estimated GIC indices and carry-forward/closure rules. |
+| Final VEDA/TIMES demand files | Apart from intended Methanex and Urea future-demand updates, should not change solely because 2024–25 EEUD, Ballance GIC, or biomass-history values were added. |
 
 If other model files change, trace the difference before accepting it. In
 particular, distinguish a revised 2023 EEUD input (a real base-year change)
@@ -176,9 +227,13 @@ from a new 2024–25 observation (normally checks only).
    boundary.
 4. Re-run stage 1 and industry alignment; compare all 2023 values first.
 5. Review 2024–25 EEUD, biomass and GIC check series.
-6. Review and approve Methanex indices and the 2026 closure rule.
+6. Review and approve Methanex and Urea indices and their closure rules.
 7. Run the full workflow and diff model inputs, accepting only intended
-   Methanex future-demand changes and separately approved 2023 revisions.
+   Methanex/Urea future-demand changes and separately approved 2023 revisions.
+8. If the optional historical model-year treatment is approved, prototype it
+   as a separate model file/case include, starting with the documented
+   Methanex and Urea/Ballance demand series. Validate that it affects only its
+   selected historical years and does not alter standard projection cases.
 
 ## Decisions still needed
 
@@ -190,9 +245,8 @@ from a new 2024–25 observation (normally checks only).
   by an explicit future-demand assumption instead?
 - Is the current Methanex rule—observed 2024–25, carry 2025 into 2026, then
   zero—the approved lock-down behaviour?
-- Should Urea be locked to observed Ballance GIC in 2024–25? If yes, should
-  2025 be carried forward, and how should that interact with the existing
-  North-Island Urea closure process?
+- Should 2024 and 2025 be optionally modelled as historical years, and which
+  demand, supply and operational quantities are sufficiently robust to lock?
 
 ## Follow-up to-do
 
@@ -220,3 +274,7 @@ from a new 2024–25 observation (normally checks only).
 - [ ] **Final reconciliation:** compare old and updated 2023 prepared demand
   by sector, fuel, technology and end use; then diff the final VEDA/TIMES
   demand inputs and accept only explained changes.
+- [ ] **Optional historical model-year treatment:** use `historical model year
+  treatment.md` to define a generic, opt-in case include for approved 2024–25
+  historical locks; do not convert the standard projection pathway into a
+  retrospective calibration case.

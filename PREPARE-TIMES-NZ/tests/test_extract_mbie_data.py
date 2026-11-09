@@ -35,3 +35,27 @@ def test_select_gas_balance_category_uses_label_not_row_position():
     assert selected["2025"].tolist() == [2.0]
     with pytest.raises(ValueError, match="found 0"):
         module._select_gas_balance_category(data, "Missing category")
+
+
+def test_extract_annual_mbie_table_uses_labels_not_column_positions():
+    """Annual electricity tables may contain blank spacer and subtotal columns."""
+    module = load_extract_mbie_data()
+    data = pd.DataFrame(
+        [
+            ["title", None, None, None, None],
+            ["Calendar Year", None, "Electricity Only Plants", None, None],
+            [None, None, "Hydro", "Gas", "Sub-total"],
+            [None, None, None, None, None],
+            [2023, None, 100.0, 20.0, 120.0],
+            [2024, None, 110.0, 25.0, 135.0],
+        ]
+    )
+
+    result = module._extract_annual_mbie_table(
+        data, "test generation", {"Hydro": "Hydro", "Gas": "Gas"}
+    )
+
+    assert result.to_dict("records") == [
+        {"Year": 2023, "Hydro": 100.0, "Gas": 20.0},
+        {"Year": 2024, "Hydro": 110.0, "Gas": 25.0},
+    ]

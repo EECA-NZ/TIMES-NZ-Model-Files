@@ -101,19 +101,21 @@ def _get_mbie_electricity(
 def _get_mbie_gen_ele_only() -> pd.DataFrame:
     """Electricity generation (no cogen) by fuel, GWh."""
     ele_path = INPUT_DIR / "electricity.xlsx"
-    df = pd.read_excel(
-        ele_path,
-        sheet_name="6 - Fuel type (GWh)",
-        usecols="B:K",
-        skiprows=5,
-        nrows=51,
+    raw_df = pd.read_excel(ele_path, sheet_name="6 - Fuel type (GWh)", header=None)
+    df = _extract_annual_mbie_table(
+        raw_df,
+        "electricity generation by fuel",
+        {
+            "Hydro": "Hydro",
+            "Geo- thermal": "Geothermal",
+            "Biogas": "Biogas",
+            "Wind": "Wind",
+            "Solar PV": "Solar PV",
+            "Oil1": "Oil",
+            "Coal": "Coal",
+            "Gas": "Gas",
+        },
     )
-    df = (
-        df.rename(columns={"Unnamed: 1": "Year"})
-        .loc[lambda d: d["Year"].notna()]
-        .drop(columns=["Unnamed: 2"])
-    )
-    df = df.rename(columns={"Oil1": "Oil", "Geo- thermal": "Geothermal"})
     df = df.melt(id_vars="Year", var_name="Fuel", value_name="Value")
     df["Unit"] = "GWh"
     df["Variable"] = "Electricity generation (no cogen)"
@@ -125,30 +127,62 @@ def _get_mbie_gen_ele_only() -> pd.DataFrame:
 def _get_official_electricity_capacity() -> pd.DataFrame:
     """Installed generation capacity (MW) by technology."""
     ele_path = INPUT_DIR / "electricity.xlsx"
-    df = pd.read_excel(
-        ele_path,
-        sheet_name="7 - Plant type (MW)",
-        usecols="B:P",
-        skiprows=5,
-        nrows=50,
-    )
-    df = (
-        df.rename(columns={"Unnamed: 1": "Year"})
-        .loc[lambda d: d["Year"].notna()]
-        .drop(columns=["Sub-total", "Sub-total.1", "Unnamed: 15"])
-        .rename(
-            columns={
-                "Gas3": "Gas Cogen",
-                "Other4": "Other Cogen",
-                "Other Thermal2": "Other electricity generation",
-            }
-        )
+    raw_df = pd.read_excel(ele_path, sheet_name="7 - Plant type (MW)", header=None)
+    df = _extract_annual_mbie_table(
+        raw_df,
+        "generation capacity by plant type",
+        {
+            "Hydro": "Hydro",
+            "Geothermal": "Geothermal",
+            "Biogas": "Biogas",
+            "Wind": "Wind",
+            "Solar PV": "Solar PV",
+            "Diesel": "Diesel",
+            "Coal/Gas": "Coal/Gas",
+            "Gas": "Gas",
+            "Other Thermal2": "Other electricity generation",
+            "Gas3": "Gas Cogen",
+            "Other4": "Other Cogen",
+        },
     )
     df = df.melt(id_vars="Year", var_name="Technology", value_name="Value")
     df["Value"] = df["Value"].fillna(0)
     df["Unit"] = "MW"
     df["Variable"] = "Electricity generation capacity at end year"
     df["Year"] = df["Year"].astype(int)
+    return df
+
+
+def _extract_annual_mbie_table(
+    raw_df: pd.DataFrame, table_name: str, column_map: dict[str, str]
+) -> pd.DataFrame:
+    """Extract a labelled annual MBIE table without relying on sheet positions."""
+    year_headers = raw_df.isin(["Calendar Year", "Year End"])
+    locations = list(zip(*year_headers.to_numpy().nonzero()))
+    if len(locations) != 1:
+        raise ValueError(
+            f"Expected one Calendar Year or Year End header in {table_name}; "
+            f"found {len(locations)}."
+        )
+
+    header_row, year_col = locations[0]
+    labels = raw_df.iloc[header_row + 1]
+    selected = {"Year": year_col}
+    for source, output in column_map.items():
+        matches = labels[labels == source].index.tolist()
+        if len(matches) != 1:
+            raise ValueError(
+                f"Expected one {source!r} column in {table_name}; found {len(matches)}."
+            )
+        selected[output] = matches[0]
+
+    df = raw_df.iloc[header_row + 2 :, list(selected.values())].copy()
+    df.columns = selected.keys()
+    df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
+    df = df.dropna(subset=["Year"])
+    df["Year"] = df["Year"].astype(int)
+    if 2023 not in df["Year"].values:
+        raise ValueError(f"{table_name} does not contain the 2023 base year.")
     return df
 
 
