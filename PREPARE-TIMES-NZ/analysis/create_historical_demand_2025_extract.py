@@ -1,8 +1,14 @@
-"""Create a first-pass national 2025 historical-demand extract.
+"""Create the requested standalone national 2025 heating-demand delivery.
 
-This is an analysis-only deliverable helper.  It reads the sector modules'
+This is an analysis-only deliverable helper. It reads the sector modules'
 aligned historical check outputs, rather than model-facing 2023 base-year
-files, and does not participate in the preparation workflow.
+files, and does not participate in the preparation workflow or feed any model
+input.
+
+The delivery intentionally excludes Aluminium, Methanol and Urea; excludes
+Office Blocks diesel; and applies the agreed 0.63 PJ Food and Beverage
+reduction. These delivery-specific adjustments must not be interpreted as
+changes to EEUD, aligned check data, base-year demand, or demand projections.
 """
 
 from pathlib import Path

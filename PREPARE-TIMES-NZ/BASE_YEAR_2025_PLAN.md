@@ -10,44 +10,6 @@ This is not a 2025 base-year conversion. Do not change `StartYear`, base-year
 electricity calibration, EBT vintage, transport inputs, or the general
 2023-NZD cost basis as part of this work.
 
-## Current priority: 2025 historical-data extract
-
-The immediate deliverable is a **national 2025 data extract**, not a model
-change and not a historical-model-year case. It must contain:
-
-1. industrial process heat, by TIMES industrial subsector, process-heat band
-   and fuel;
-2. agriculture process heat and space heating; and
-3. commercial space and water heating.
-
-Regional detail is not required. Build the extract from each sector module's
-existing `times_eeud_alignment_timeseries.csv`, filtered to 2025, rather than
-recreating EEUD sector, end-use, technology or fuel mappings. These check
-outputs retain the full historical series; the corresponding `preprocessing/`
-and final demand files intentionally retain only the 2023 model base year.
-
-### Required steps
-
-1. Confirm the completed workflow has refreshed the stage-1 EEUD and GIC
-   extracts and the three sector-alignment time-series files through 2025.
-2. Extract the requested 2025 end-use rows from the industry, agriculture and
-   commercial aligned outputs, retaining source-relevant dimensions and PJ
-   units.
-3. Combine them into a clearly labelled delivery workbook/CSV. Keep the three
-   sector tables separate rather than forcing unlike sector classifications
-   into a common subsector scheme.
-4. Reconcile each extract to its source alignment file and explicitly check:
-   - industrial and commercial biomass-patch additions are included;
-   - Aluminium, Methanol and Urea are separate industrial subsectors;
-   - Urea feedstock is excluded from industrial *process heat*;
-   - the 2025 Methanex and Urea allocations reconcile to
-     `chemical_split_calculations.csv`.
-5. Supply a short methodology note identifying EEUD/GIC vintages, coverage,
-   the heat/end-use selection, PJ units, and that all values are national.
-
-No regional allocator, VEDA-file generation, demand-index recalculation, or
-historical-year model lock is required for this deliverable.
-
 The intended updates are:
 
 1. ingest stationary EEUD through calendar year 2025, while retaining the
@@ -147,13 +109,13 @@ If future TIMES industrial biomass must reproduce observed 2024–25 patch
 values, new demand-projection logic is required. The present model starts
 future industry demand from 2023 and applies projection indices.
 
-## Required updates
+## Remaining preparation work
 
-### 1. EEUD historical series
+### 1. EEUD historical series: implementation complete, validation outstanding
 
 1. Record the stationary 2025 and transport 2024 source vintages, their
    publication/final status, and any revisions to prior years.
-2. Stage 1 now combines `EEUD Stationary Outputs 17-25 QAed.xlsx` (its
+2. Stage 1 already combines `EEUD Stationary Outputs 17-25 QAed.xlsx` (its
    `result` sheet) for non-transport energy and
    `EEUD 2017 - 2024 FINAL 20032026.xlsx` for transport rows. This deliberate
    coverage boundary means there is no 2025 transport EEUD data until an
@@ -168,10 +130,10 @@ future industry demand from 2023 and applies projection indices.
 6. Retain 2024–25 sector-aligned series as checks, clearly labelling observed
    EEUD and patched values.
 
-### 2. GIC historical series and Methanex/Urea lock-down
+### 2. GIC historical series and Methanex/Urea pathway: implementation complete, approval outstanding
 
-1. Update `data_raw/external_data/gic/ProductionConsumption.xlsx` so
-   `Prod_Cons` and `Rep Major Users` contain all 2025 observations.
+1. `data_raw/external_data/gic/ProductionConsumption.xlsx` now contains the
+   2025 observations used by the extraction.
 2. Confirm participant names still match the fixed Methanex and Ballance
    lists; a changed name otherwise falls out of the selected total.
 3. Re-run extraction and inspect annual totals for 2023, 2024 and 2025.
