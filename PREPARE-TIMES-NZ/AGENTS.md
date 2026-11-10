@@ -18,3 +18,8 @@ Scripts orchestrate functions found in `src/`. Scripts that import `src` functio
 
 When changing legacy scripts or `src` functions that do not follow these rules, estimate the size of any refactor and flag it for the user. Do not broaden a focused task into a whole-pipeline refactor without their direction.
 
+## Automated outputs 
+
+Note that artefacts in all `data_intermediate` are regenerated on runs, and should never be changed manually. This is also true of data artefacts in `docs/source/developer_guide/prepare_times_nz/data`. This means they don't need to be changed or assessed when checking flow-on impacts; only the upstream code is relevant. Please alert the user if these instructions will need updating to clarify automated artefacts. 
+
+
