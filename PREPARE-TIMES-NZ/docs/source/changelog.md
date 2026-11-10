@@ -26,7 +26,7 @@ This version focuses on ensuring the pipeline is compatible with xl2times. This 
 - Made grid-generation and battery peak-capacity treatment explicit through primary commodity-group and capacity settings.
 - Retained investment costs for future biofuel conversion technologies by emitting them as SubRES new technologies.
 - Removed a redundant coal-transit path that could create a degenerate solution.
-- Corrected double-counting in other petrochemical demand
+- Corrected double-counting in other petrochemical demand.
 
 **Assumption and data changes** 
 - Set Ballance to provisional exogenous closure pathway. 
