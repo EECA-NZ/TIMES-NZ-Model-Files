@@ -20,6 +20,7 @@ Files produced
 - mbie_generation_capacity.csv
 - gen_stack.csv
 - mbie_gas_non_energy.csv
+- energy_balance.csv
 """
 
 from __future__ import annotations
@@ -48,6 +49,27 @@ def _read_edgs_sheet(sheet_name: str) -> pd.DataFrame:
         INPUT_DIR / "electricity-demand-generation-scenarios-2024-assumptions.xlsx"
     )
     return pd.read_excel(edgs_path, sheet_name=sheet_name)
+
+
+def _get_energy_balance() -> pd.DataFrame:
+    """Read MBIE's machine-readable annual Energy Balance table."""
+    balance_path = INPUT_DIR / "energy-balance-tables.xlsx"
+    data = pd.read_excel(balance_path, sheet_name="Data")
+    required = {"entry", "fuel", "year", "unit", "value"}
+    missing = required - set(data.columns)
+    if missing:
+        raise ValueError(
+            "Energy Balance data is missing columns: " + ", ".join(sorted(missing))
+        )
+    return data.rename(
+        columns={
+            "entry": "Entry",
+            "fuel": "Fuel",
+            "year": "Year",
+            "unit": "Unit",
+            "value": "Value",
+        }
+    )[["Entry", "Fuel", "Year", "Unit", "Value"]]
 
 
 def _get_mbie_electricity(
@@ -79,19 +101,21 @@ def _get_mbie_electricity(
 def _get_mbie_gen_ele_only() -> pd.DataFrame:
     """Electricity generation (no cogen) by fuel, GWh."""
     ele_path = INPUT_DIR / "electricity.xlsx"
-    df = pd.read_excel(
-        ele_path,
-        sheet_name="6 - Fuel type (GWh)",
-        usecols="B:K",
-        skiprows=5,
-        nrows=51,
+    raw_df = pd.read_excel(ele_path, sheet_name="6 - Fuel type (GWh)", header=None)
+    df = _extract_annual_mbie_table(
+        raw_df,
+        "electricity generation by fuel",
+        {
+            "Hydro": "Hydro",
+            "Geo- thermal": "Geothermal",
+            "Biogas": "Biogas",
+            "Wind": "Wind",
+            "Solar PV": "Solar PV",
+            "Oil1": "Oil",
+            "Coal": "Coal",
+            "Gas": "Gas",
+        },
     )
-    df = (
-        df.rename(columns={"Unnamed: 1": "Year"})
-        .loc[lambda d: d["Year"].notna()]
-        .drop(columns=["Unnamed: 2"])
-    )
-    df = df.rename(columns={"Oil1": "Oil", "Geo- thermal": "Geothermal"})
     df = df.melt(id_vars="Year", var_name="Fuel", value_name="Value")
     df["Unit"] = "GWh"
     df["Variable"] = "Electricity generation (no cogen)"
@@ -103,24 +127,23 @@ def _get_mbie_gen_ele_only() -> pd.DataFrame:
 def _get_official_electricity_capacity() -> pd.DataFrame:
     """Installed generation capacity (MW) by technology."""
     ele_path = INPUT_DIR / "electricity.xlsx"
-    df = pd.read_excel(
-        ele_path,
-        sheet_name="7 - Plant type (MW)",
-        usecols="B:P",
-        skiprows=5,
-        nrows=50,
-    )
-    df = (
-        df.rename(columns={"Unnamed: 1": "Year"})
-        .loc[lambda d: d["Year"].notna()]
-        .drop(columns=["Sub-total", "Sub-total.1", "Unnamed: 15"])
-        .rename(
-            columns={
-                "Gas3": "Gas Cogen",
-                "Other4": "Other Cogen",
-                "Other Thermal2": "Other electricity generation",
-            }
-        )
+    raw_df = pd.read_excel(ele_path, sheet_name="7 - Plant type (MW)", header=None)
+    df = _extract_annual_mbie_table(
+        raw_df,
+        "generation capacity by plant type",
+        {
+            "Hydro": "Hydro",
+            "Geothermal": "Geothermal",
+            "Biogas": "Biogas",
+            "Wind": "Wind",
+            "Solar PV": "Solar PV",
+            "Diesel": "Diesel",
+            "Coal/Gas": "Coal/Gas",
+            "Gas": "Gas",
+            "Other Thermal2": "Other electricity generation",
+            "Gas3": "Gas Cogen",
+            "Other4": "Other Cogen",
+        },
     )
     df = df.melt(id_vars="Year", var_name="Technology", value_name="Value")
     df["Value"] = df["Value"].fillna(0)
@@ -130,17 +153,60 @@ def _get_official_electricity_capacity() -> pd.DataFrame:
     return df
 
 
-def _get_mbie_gas_pj(
-    row_slice: slice,
-    category_name: str,
-    unit: str,
-    variable_name: str,
+def _extract_annual_mbie_table(
+    raw_df: pd.DataFrame, table_name: str, column_map: dict[str, str]
 ) -> pd.DataFrame:
-    """Pull a slice of the Annual_PJ sheet from gas.xlsx."""
+    """Extract a labelled annual MBIE table without relying on sheet positions."""
+    year_headers = raw_df.isin(["Calendar Year", "Year End"])
+    locations = list(zip(*year_headers.to_numpy().nonzero()))
+    if len(locations) != 1:
+        raise ValueError(
+            f"Expected one Calendar Year or Year End header in {table_name}; "
+            f"found {len(locations)}."
+        )
+
+    header_row, year_col = locations[0]
+    labels = raw_df.iloc[header_row + 1]
+    selected = {"Year": year_col}
+    for source, output in column_map.items():
+        matches = labels[labels == source].index.tolist()
+        if len(matches) != 1:
+            raise ValueError(
+                f"Expected one {source!r} column in {table_name}; found {len(matches)}."
+            )
+        selected[output] = matches[0]
+
+    df = raw_df.iloc[header_row + 2 :, list(selected.values())].copy()
+    df.columns = selected.keys()
+    df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
+    df = df.dropna(subset=["Year"])
+    df["Year"] = df["Year"].astype(int)
+    if 2023 not in df["Year"].values:
+        raise ValueError(f"{table_name} does not contain the 2023 base year.")
+    return df
+
+
+def _select_gas_balance_category(df: pd.DataFrame, category: str) -> pd.DataFrame:
+    """Select one labelled row from the MBIE gas balance table."""
+    labels = (
+        df["Calendar year"].astype(str).str.strip().str.replace(r"\d+$", "", regex=True)
+    )
+    selected = df.loc[labels == category].copy()
+    if len(selected) != 1:
+        raise ValueError(
+            f"Expected one gas balance row for {category!r}; found {len(selected)}."
+        )
+    return selected
+
+
+def _get_mbie_gas_pj(
+    category: str, category_name: str, unit: str, variable_name: str
+) -> pd.DataFrame:
+    """Read one labelled Annual_PJ category from gas.xlsx."""
     gas_path = INPUT_DIR / "gas.xlsx"
     df = pd.read_excel(gas_path, sheet_name="Annual_PJ", skiprows=9)
-    df = df.iloc[row_slice]
     df.columns = [col.strip() if isinstance(col, str) else col for col in df.columns]
+    df = _select_gas_balance_category(df, category)
     # relabel the category year
     df = df.rename(columns={"Calendar year": category_name})
     # remove the footnote numbers from the categories
@@ -229,6 +295,8 @@ def _get_contingent_reserve_data():
 def main() -> None:
     """Execute all MBIE extract tasks and write CSVs."""
     logger.info("Loading MBIE electricity generation tables …")
+    logger.info("Loading machine-readable Energy Balance data …")
+    _get_energy_balance().to_csv(OUTPUT_DIR / "energy_balance.csv", index=False)
     mbie_gwh = _get_mbie_electricity(
         "2 - Annual GWh",
         row_slice=slice(2, 12),
@@ -264,7 +332,7 @@ def main() -> None:
 
     logger.info("Loading gas (non-energy use) …")
     _get_mbie_gas_pj(
-        row_slice=slice(60, 61),
+        category="Non-Energy Use",
         category_name="Balance category",
         unit="PJ",
         variable_name="Natural gas non-energy use",

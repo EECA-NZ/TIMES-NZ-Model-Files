@@ -20,6 +20,7 @@ from collections.abc import Iterable
 from pathlib import Path
 
 import pandas as pd
+from prepare_times_nz.utilities.energy_balance import get_balance_value, select_gross_pj
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
     DATA_RAW,
@@ -66,9 +67,7 @@ CHECKS_LOCATION.mkdir(parents=True, exist_ok=True)
 # Filenames (tweak if your repo uses different names)
 EEUD_CSV = Path(STAGE_1_DATA) / "eeud" / "eeud.csv"
 TIMES_EEUD_CATS = AG_CONCORDANCES / "times_eeud_categories.csv"
-MBIE_ENERGY_BALANCE = (
-    Path(DATA_RAW) / "external_data" / "mbie" / "energy-balance-tables.xlsx"
-)
+MBIE_ENERGY_BALANCE = STAGE_1_DATA / "mbie" / "energy_balance.csv"
 LIVESTOCK_HORTICULTURE_IRRIGATION = (
     AG_ASSUMPTIONS / "livestock_horticulture_irrigation_patch.xlsx"
 )
@@ -127,23 +126,7 @@ def save_checks(df: pd.DataFrame, name: str, label: str) -> None:
 # ----------------------------------------------------------------------------
 def load_data() -> dict[str, pd.DataFrame | dict]:
     """Load inputs needed for ag_forest_fish sector alignment."""
-    mbie_raw = pd.read_excel(
-        MBIE_ENERGY_BALANCE,
-        sheet_name="2023",
-        header=[0, 1, 2, 3, 4],
-        engine="openpyxl",
-    )
-    # Flatten multi-index columns to strings
-    mbie_raw.columns = [
-        " ".join(
-            [
-                str(x).strip()
-                for x in col
-                if str(x).strip() != "" and str(x).strip() != "nan"
-            ]
-        )
-        for col in mbie_raw.columns
-    ]
+    mbie_raw = pd.read_csv(MBIE_ENERGY_BALANCE)
     data = {
         "eeud": pd.read_csv(EEUD_CSV),
         "times_eeud_categories": pd.read_csv(TIMES_EEUD_CATS),
@@ -263,54 +246,16 @@ def aggregate_eeud(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-# --- keep your existing find_col as a token-based search, but simplify it:
-def find_col(cols, *keywords):
-    """Return the first column whose name contains all keywords (case-insensitive)."""
-
-    def norm(x):
-        return str(x).lower().strip()
-
-    for col in cols:
-        name = norm(col)
-        if all(norm(k) in name for k in keywords):
-            return col
-    raise KeyError(f"No column found for keywords: {keywords}")
-
-
-def _find_row_index_by_label(df: pd.DataFrame, label: str) -> int:
-    """Find first row index where ANY column equals the label (case-insensitive, trimmed)."""
-    mask = df.apply(lambda c: c.astype(str).str.strip().str.lower() == label.lower())
-    idx = mask.any(axis=1)
-    if not idx.any():
-        raise KeyError(f"Row not found for label: {label}")
-    return df.index[idx][0]
-
-
 def mbie_ag_forest_fish_energy(mbie_df: pd.DataFrame) -> pd.DataFrame:
     """
     Build a tiny reconciliation table of PJ by selected fuels using MBIE energy balance.
     Prints values so you can verify they match expectations.
     """
-    df = mbie_df.copy()
-
-    # --- locate target rows robustly
-    ag_idx = _find_row_index_by_label(df, "Agriculture")
-    fish_idx = _find_row_index_by_label(df, "Fishing")
-
-    agriculture_row = df.loc[ag_idx]
-    fishing_row = df.loc[fish_idx]
-
-    # --- locate columns robustly
-    coal_col = find_col(df.columns, "coal", "total")
-    ng_col = find_col(df.columns, "natural gas", "total")
-    geo_col = find_col(df.columns, "renewables", "geothermal")
-    diesel_col = find_col(df.columns, "oil", "diesel")
-
-    # --- extract values
-    agriculture_coal_value = agriculture_row[coal_col]
-    agriculture_natural_gas_value = agriculture_row[ng_col]
-    agriculture_geo_value = agriculture_row[geo_col]
-    fishing_diesel_value = fishing_row[diesel_col]
+    df = select_gross_pj(mbie_df, BASE_YEAR)
+    agriculture_coal_value = get_balance_value(df, "Agriculture", "Sub-Bituminous")
+    agriculture_natural_gas_value = get_balance_value(df, "Agriculture", "Natural Gas")
+    agriculture_geo_value = get_balance_value(df, "Agriculture", "Geothermal")
+    fishing_diesel_value = get_balance_value(df, "Fishing", "Diesel")
 
     # --- build output (add Year so downstream checks don't error)
     reconcil_direct_df = pd.DataFrame(
