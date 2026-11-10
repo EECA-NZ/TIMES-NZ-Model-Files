@@ -200,18 +200,30 @@ def test_solve_stages_case_and_invokes_windows_gams(
     )
 
     assert destination == results_root / f"{versioned_case_name('steady')}-trial"
-    assert commands[0][:3] == ["cmd.exe", "/d", "/c"]
-    assert (
-        '"C:\\Program Files\\gams.exe" "steady.run" ' 'IDIR="C:\\Program Files\\times"'
-    ) in commands[0][3]
-    assert "OPTFILE=1" in commands[0][3]
-    assert '"C:\\Program Files\\gdx2veda.exe" "GAMSSAVE\\steady"' in commands[0][3]
-    assert working_directories == [
-        staging_root / f"{versioned_case_name('steady')}-trial"
+    assert commands[0] == [
+        str(gams_root / "gams.exe"),
+        "steady.run",
+        "IDIR=C:\\Program Files\\times",
+        "GDX=GAMSSAVE\\steady",
+        "PS=99999",
+        "R=C:\\Program Files\\times\\_times",
+        "LO=1",
+        "OPTFILE=1",
     ]
+    assert commands[1] == [
+        str(gams_root / "gdx2veda.exe"),
+        "GAMSSAVE\\steady",
+        "C:\\Program Files\\times\\times2veda.vdd",
+        "steady",
+    ]
+    assert (
+        working_directories
+        == [staging_root / f"{versioned_case_name('steady')}-trial"] * 2
+    )
     assert (destination / "steady.vd").is_file()
     solved_manifest = json.loads((destination / "manifest.json").read_text())
     assert solved_manifest["execution"]["status"] == "completed"
+    assert solved_manifest["execution"]["gdx2veda_command"] == commands[1]
 
 
 def test_windows_path_rejects_unc_paths(
@@ -228,10 +240,60 @@ def test_windows_path_rejects_unc_paths(
         execution._windows_path(tmp_path / "runs")
 
 
-def test_windows_argument_quotes_metacharacters_and_rejects_percent() -> None:
-    assert execution._windows_argument(r"C:\Users\R&D\runs") == r'"C:\Users\R&D\runs"'
-    with pytest.raises(CaseConfigurationError, match="cmd.exe expands"):
-        execution._windows_argument(r"C:\Users\100%\runs")
+def test_solve_reports_gdx2veda_failures_separately(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    input_root, groups, manifest = _configuration(tmp_path)
+    case = resolve_case(manifest, input_root, groups)
+    output = tmp_path / "build" / "steady"
+
+    def fake_export(_command, **_kwargs):
+        for name in ("ts.dd", "milestonyr.dd", "output.dd"):
+            (output / name).write_text(name, encoding="utf-8")
+        return subprocess.CompletedProcess([], 0)
+
+    build_case(case, output, runner=fake_export)
+    staging_root = tmp_path / "staging"
+    staging_root.mkdir()
+    gams_root = tmp_path / "gams"
+    gams_root.mkdir()
+    (gams_root / "gams.exe").write_text("", encoding="utf-8")
+    (gams_root / "gdx2veda.exe").write_text("", encoding="utf-8")
+    times_root = tmp_path / "times"
+    times_root.mkdir()
+    (times_root / "_times.g00").write_text("", encoding="utf-8")
+    (times_root / "times2veda.vdd").write_text("", encoding="utf-8")
+    local_config = tmp_path / "solve.local.toml"
+    _write(
+        local_config,
+        "[executors.test]\n"
+        f'staging_root = "{staging_root}"\n'
+        f'gams_system_dir = "{gams_root}"\n'
+        f'times_source_dir = "{times_root}"\n',
+    )
+
+    def gdx2veda_fails(command, **_kwargs):
+        if command[0] == str(gams_root / "gdx2veda.exe"):
+            raise subprocess.CalledProcessError(7, command)
+        return subprocess.CompletedProcess(command, 0)
+
+    with pytest.raises(RuntimeError, match="GDX2VEDA failed with exit code 7"):
+        solve_case(
+            output,
+            local_config,
+            "gdx2veda-failure",
+            runner=gdx2veda_fails,
+            windows_path=lambda path: f"WIN:{path.name}",
+        )
+
+    staged_manifest = json.loads(
+        (
+            staging_root
+            / f"{versioned_case_name('steady')}-gdx2veda-failure"
+            / "manifest.json"
+        ).read_text()
+    )
+    assert staged_manifest["execution"]["status"] == "gdx2veda_failed"
 
 
 def test_solve_diagnostic_exports_and_collects_matrix(
@@ -275,7 +337,7 @@ def test_solve_diagnostic_exports_and_collects_matrix(
         working_directories.append(kwargs["cwd"])
         staged_dir = staging_root / f"{versioned_case_name('steady')}-diagnostic"
         (staged_dir / "steady.vd").write_text("results", encoding="utf-8")
-        if '"WIN:gams.exe" "diagnostic-steady.run"' in command[3]:
+        if command[1] == "diagnostic-steady.run":
             (staged_dir / execution.DIAGNOSTIC_MATRIX_FILE).write_text(
                 "matrix", encoding="utf-8"
             )
@@ -297,14 +359,15 @@ def test_solve_diagnostic_exports_and_collects_matrix(
         windows_path=lambda path: f"WIN:{path.name}",
     )
 
-    assert len(commands) == 2
+    assert len(commands) == 3
     assert (
         working_directories
-        == [staging_root / f"{versioned_case_name('steady')}-diagnostic"] * 2
+        == [staging_root / f"{versioned_case_name('steady')}-diagnostic"] * 3
     )
-    assert "OPTFILE=1" in commands[0][3]
-    assert '"WIN:gams.exe" "diagnostic-steady.run"' in commands[1][3]
-    assert "OPTFILE=1" in commands[1][3]
+    assert "OPTFILE=1" in commands[0]
+    assert commands[1][0] == str(gams_root / "gdx2veda.exe")
+    assert commands[2][1] == "diagnostic-steady.run"
+    assert "OPTFILE=1" in commands[2]
     diagnostic_run = (
         staging_root
         / f"{versioned_case_name('steady')}-diagnostic"
