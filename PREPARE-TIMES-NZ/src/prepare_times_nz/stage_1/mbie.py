@@ -3,6 +3,46 @@
 import pandas as pd
 
 
+def tidy_energy_balance(data: pd.DataFrame) -> pd.DataFrame:
+    """Standardise MBIE's machine-readable annual Energy Balance table."""
+    required = {"entry", "fuel", "year", "unit", "value"}
+    missing = required - set(data.columns)
+    if missing:
+        raise ValueError(
+            "Energy Balance data is missing columns: " + ", ".join(sorted(missing))
+        )
+    return data.rename(
+        columns={
+            "entry": "Entry",
+            "fuel": "Fuel",
+            "year": "Year",
+            "unit": "Unit",
+            "value": "Value",
+        }
+    )[["Entry", "Fuel", "Year", "Unit", "Value"]]
+
+
+def tidy_annual_electricity(
+    data: pd.DataFrame,
+    row_slice: slice,
+    category_name: str,
+    unit: str,
+    variable_name: str,
+) -> pd.DataFrame:
+    """Select and reshape one annual electricity generation table."""
+    df = data.iloc[row_slice].copy().drop(columns="Annual % change")
+    df = df.rename(columns={"Calendar year": category_name})
+    df[category_name] = df[category_name].str.replace(r"\d+$", "", regex=True)
+    df["Unit"] = unit
+    df["Variable"] = variable_name
+    return pd.melt(
+        df,
+        id_vars=[category_name, "Unit", "Variable"],
+        var_name="Year",
+        value_name="Value",
+    ).rename(columns={category_name: "FuelType"})
+
+
 def extract_unallocated_onsite_generation(raw: pd.DataFrame) -> pd.DataFrame:
     """Return the annual PJ series from the labelled electricity-workbook row."""
     headers = raw.eq("Calendar year")
@@ -80,3 +120,94 @@ def select_gas_balance_category(df: pd.DataFrame, category: str) -> pd.DataFrame
             f"Expected one gas balance row for {category!r}; found {len(selected)}."
         )
     return selected
+
+
+def tidy_generation_by_fuel(raw: pd.DataFrame) -> pd.DataFrame:
+    """Format electricity-only generation by fuel in GWh."""
+    df = extract_annual_table(
+        raw,
+        "electricity generation by fuel",
+        {
+            "Hydro": "Hydro",
+            "Geo- thermal": "Geothermal",
+            "Biogas": "Biogas",
+            "Wind": "Wind",
+            "Solar PV": "Solar PV",
+            "Oil1": "Oil",
+            "Coal": "Coal",
+            "Gas": "Gas",
+        },
+    ).melt(id_vars="Year", var_name="Fuel", value_name="Value")
+    df["Unit"] = "GWh"
+    df["Variable"] = "Electricity generation (no cogen)"
+    return df.rename(columns={"Fuel": "FuelType"})
+
+
+def tidy_generation_capacity(raw: pd.DataFrame) -> pd.DataFrame:
+    """Format installed generation capacity by technology in MW."""
+    df = extract_annual_table(
+        raw,
+        "generation capacity by plant type",
+        {
+            "Hydro": "Hydro",
+            "Geothermal": "Geothermal",
+            "Biogas": "Biogas",
+            "Wind": "Wind",
+            "Solar PV": "Solar PV",
+            "Diesel": "Diesel",
+            "Coal/Gas": "Coal/Gas",
+            "Gas": "Gas",
+            "Other Thermal2": "Other electricity generation",
+            "Gas3": "Gas Cogen",
+            "Other4": "Other Cogen",
+        },
+    ).melt(id_vars="Year", var_name="Technology", value_name="Value")
+    df["Value"] = pd.to_numeric(df["Value"], errors="raise").fillna(0)
+    df["Unit"] = "MW"
+    df["Variable"] = "Electricity generation capacity at end year"
+    return df
+
+
+def tidy_gas_balance_category(
+    data: pd.DataFrame, category: str, category_name: str, unit: str, variable_name: str
+) -> pd.DataFrame:
+    """Select and reshape one labelled category from MBIE's annual gas balance."""
+    df = data.copy()
+    df.columns = [col.strip() if isinstance(col, str) else col for col in df.columns]
+    df = select_gas_balance_category(df, category).rename(
+        columns={"Calendar year": category_name}
+    )
+    df[category_name] = df[category_name].str.replace(r"\d+$", "", regex=True)
+    df["Unit"] = unit
+    df["Variable"] = variable_name
+    return pd.melt(
+        df,
+        id_vars=[category_name, "Unit", "Variable"],
+        var_name="Year",
+        value_name="Value",
+    ).dropna(subset=["Value"])
+
+
+def tidy_production_profile(data: pd.DataFrame, label: str) -> pd.DataFrame:
+    """Reshape an MBIE petroleum-reserves production profile to long form."""
+    df = pd.melt(data, id_vars="Field", var_name="Year", value_name="Value")
+    df["Value"] = pd.to_numeric(df["Value"], errors="coerce").fillna(0)
+    df["Unit"] = "PJ"
+    df["Variable"] = label
+    return df
+
+
+def tidy_contingent_reserves(data: pd.DataFrame) -> pd.DataFrame:
+    """Format MBIE's fixed-layout 2C resource table."""
+    df = data.copy()
+    df.columns = ["Field", "Oil", "Condensate", "LPG", "Natural gas"]
+    df = df.melt(id_vars="Field", var_name="Fuel", value_name="Value")
+    df["Unit"] = df["Fuel"].map(
+        {
+            "Oil": "Million Barrels",
+            "Condensate": "Million Barrels",
+            "LPG": "kt",
+            "Natural gas": "PJ",
+        }
+    )
+    return df

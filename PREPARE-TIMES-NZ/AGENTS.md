@@ -16,6 +16,14 @@ The repository-level development and testing conventions are in `../AGENTS.md`.
 
 Scripts orchestrate functions found in `src/`. Scripts that import `src` functions should read and write data independently before processing. `src` functions do not explicitly read or write data; processing applies only to dataframes. Keep data I/O explicit in scripts.
 
+`scripts/stage_1_prep_raw_data/extract_mbie_data.py` and
+`src/prepare_times_nz/stage_1/mbie.py` are the intended pattern. The script
+owns source paths, sheet/range selection, `pandas` reads, output writes, and
+pipeline sequencing. The `src` module accepts already-loaded dataframes and
+returns transformed dataframes, without filesystem access. This boundary keeps
+transformations unit-testable with fake data and gives a future I/O wrapper one
+explicit place to record declared inputs and outputs for dependency manifests.
+
 When changing legacy scripts or `src` functions that do not follow these rules, estimate the size of any refactor and flag it for the user. Do not broaden a focused task into a whole-pipeline refactor without their direction.
 
 ## Automated outputs 

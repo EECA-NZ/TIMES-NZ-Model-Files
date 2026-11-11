@@ -1,344 +1,161 @@
-"""
-Extract and tidy MBIE data sources for the TIMES-NZ preparation pipeline.
-
-Here we find the MBIE excel files and create
-"data_intermediate/stage_1_external_data/mbie/*". This will include any EDGS
-assumptions we want to use and any official figures we want.
-We also do some tidying/standardising here.
-Potential to-do: something from the oil/gas forecasts, maybe balance tables,
-primary production, that sort of thing.
-
-Outputs are written to:
-
-    data_intermediate/stage_1_external_data/mbie/*
-
-Files produced
---------------
-- mbie_ele_generation_gwh.csv
-- mbie_ele_generation_pj.csv
-- mbie_ele_only_generation.csv
-- mbie_generation_capacity.csv
-- gen_stack.csv
-- mbie_gas_non_energy.csv
-- energy_balance.csv
-- unallocated_onsite_generation.csv
-"""
-
-from __future__ import annotations
+"""Read MBIE workbooks and write the stage-1 MBIE datasets."""
 
 from pathlib import Path
 
 import pandas as pd
 from prepare_times_nz.stage_1.mbie import (
-    extract_annual_table,
     extract_unallocated_onsite_generation,
-    select_gas_balance_category,
+    tidy_annual_electricity,
+    tidy_contingent_reserves,
+    tidy_energy_balance,
+    tidy_gas_balance_category,
+    tidy_generation_by_fuel,
+    tidy_generation_capacity,
+    tidy_production_profile,
 )
+from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
 from prepare_times_nz.utilities.logger_setup import logger
 
-# ---------------------------------------------------------------------------
-# Constants & I/O locations
-# ---------------------------------------------------------------------------
-INPUT_DIR = Path(DATA_RAW) / "external_data" / "mbie"
+INPUT_DIR = Path(DATA_RAW) / "external_data/mbie"
 OUTPUT_DIR = Path(STAGE_1_DATA) / "mbie"
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-# ---------------------------------------------------------------------------
-# Helper functions
-# ---------------------------------------------------------------------------
 
 
-def _read_edgs_sheet(sheet_name: str) -> pd.DataFrame:
-    """Return a sheet from MBIE's EDGS assumptions workbook."""
-    edgs_path = (
-        INPUT_DIR / "electricity-demand-generation-scenarios-2024-assumptions.xlsx"
-    )
-    return pd.read_excel(edgs_path, sheet_name=sheet_name)
+def save_mbie_data(df: pd.DataFrame, name: str) -> None:
+    """Save one staged MBIE dataset using the standard data writer."""
+    _save_data(df, name, label="Saving MBIE data", filepath=OUTPUT_DIR)
 
 
-def _get_energy_balance() -> pd.DataFrame:
-    """Read MBIE's machine-readable annual Energy Balance table."""
-    balance_path = INPUT_DIR / "energy-balance-tables.xlsx"
-    data = pd.read_excel(balance_path, sheet_name="Data")
-    required = {"entry", "fuel", "year", "unit", "value"}
-    missing = required - set(data.columns)
-    if missing:
-        raise ValueError(
-            "Energy Balance data is missing columns: " + ", ".join(sorted(missing))
-        )
-    return data.rename(
-        columns={
-            "entry": "Entry",
-            "fuel": "Fuel",
-            "year": "Year",
-            "unit": "Unit",
-            "value": "Value",
-        }
-    )[["Entry", "Fuel", "Year", "Unit", "Value"]]
-
-
-def _get_mbie_electricity(
-    sheet_name: str,
-    row_slice: slice,
-    category_name: str,
-    unit: str,
-    variable_name: str,
+def read_reserves_profile(
+    sheet: str, columns: str, skiprows: int, rows: int
 ) -> pd.DataFrame:
-    """Generic loader for tables in 'electricity.xlsx'."""
-    ele_path = INPUT_DIR / "electricity.xlsx"
-    df = pd.read_excel(ele_path, sheet_name=sheet_name, skiprows=8)
-    df = df.iloc[row_slice]
-    df = df.drop("Annual % change", axis=1)
-    # relabel the category year
-    df = df.rename(columns={"Calendar year": category_name})
-    # remove the footnote numbers from the categories
-    df[category_name] = df[category_name].str.replace(r"\d+$", "", regex=True)
-    # self-documenting table variables
-    df["Unit"] = unit
-    df["Variable"] = variable_name
-    # pivot
-    df = pd.melt(
-        df, id_vars=["Fuel", "Unit", "Variable"], var_name="Year", value_name="Value"
-    ).rename(columns={"Fuel": "FuelType"})
-    return df
-
-
-def _get_mbie_gen_ele_only() -> pd.DataFrame:
-    """Electricity generation (no cogen) by fuel, GWh."""
-    ele_path = INPUT_DIR / "electricity.xlsx"
-    raw_df = pd.read_excel(ele_path, sheet_name="6 - Fuel type (GWh)", header=None)
-    df = extract_annual_table(
-        raw_df,
-        "electricity generation by fuel",
-        {
-            "Hydro": "Hydro",
-            "Geo- thermal": "Geothermal",
-            "Biogas": "Biogas",
-            "Wind": "Wind",
-            "Solar PV": "Solar PV",
-            "Oil1": "Oil",
-            "Coal": "Coal",
-            "Gas": "Gas",
-        },
-    )
-    df = df.melt(id_vars="Year", var_name="Fuel", value_name="Value")
-    df["Unit"] = "GWh"
-    df["Variable"] = "Electricity generation (no cogen)"
-    df = df.rename(columns={"Fuel": "FuelType"})
-    df["Year"] = df["Year"].astype(int)
-    return df
-
-
-def _get_official_electricity_capacity() -> pd.DataFrame:
-    """Installed generation capacity (MW) by technology."""
-    ele_path = INPUT_DIR / "electricity.xlsx"
-    raw_df = pd.read_excel(ele_path, sheet_name="7 - Plant type (MW)", header=None)
-    df = extract_annual_table(
-        raw_df,
-        "generation capacity by plant type",
-        {
-            "Hydro": "Hydro",
-            "Geothermal": "Geothermal",
-            "Biogas": "Biogas",
-            "Wind": "Wind",
-            "Solar PV": "Solar PV",
-            "Diesel": "Diesel",
-            "Coal/Gas": "Coal/Gas",
-            "Gas": "Gas",
-            "Other Thermal2": "Other electricity generation",
-            "Gas3": "Gas Cogen",
-            "Other4": "Other Cogen",
-        },
-    )
-    df = df.melt(id_vars="Year", var_name="Technology", value_name="Value")
-    df["Value"] = df["Value"].fillna(0)
-    df["Unit"] = "MW"
-    df["Variable"] = "Electricity generation capacity at end year"
-    df["Year"] = df["Year"].astype(int)
-    return df
-
-
-def _get_mbie_gas_pj(
-    category: str, category_name: str, unit: str, variable_name: str
-) -> pd.DataFrame:
-    """Read one labelled Annual_PJ category from gas.xlsx."""
-    gas_path = INPUT_DIR / "gas.xlsx"
-    df = pd.read_excel(gas_path, sheet_name="Annual_PJ", skiprows=9)
-    df.columns = [col.strip() if isinstance(col, str) else col for col in df.columns]
-    df = select_gas_balance_category(df, category)
-    # relabel the category year
-    df = df.rename(columns={"Calendar year": category_name})
-    # remove the footnote numbers from the categories
-    df[category_name] = df[category_name].str.replace(r"\d+$", "", regex=True)
-    # self-documenting table variables
-    df["Unit"] = unit
-    df["Variable"] = variable_name
-    # pivot
-    df = pd.melt(
-        df,
-        id_vars=[category_name, "Unit", "Variable"],
-        var_name="Year",
-        value_name="Value",
-    )
-    return df[df["Value"].notna()]
-
-
-def _get_reserves_data(sheet, cols, skip, size):
-    """Reads a hardcoded table path from the published reserves workbook"""
-    reserves_path = INPUT_DIR / "petroleum-reserves-1-jan-2026.xlsx"
-
-    df = pd.read_excel(
-        reserves_path, sheet_name=sheet, usecols=cols, skiprows=skip, nrows=size
+    """Read one fixed-layout production-profile table from MBIE's reserves workbook."""
+    return pd.read_excel(
+        INPUT_DIR / "petroleum-reserves-1-jan-2026.xlsx",
+        sheet_name=sheet,
+        usecols=columns,
+        skiprows=skiprows,
+        nrows=rows,
     )
 
-    return df
 
-
-reserve_sheets = [
-    "Oil Production Profile",
-    "Gas Production Profile",
-    "LPG Production Profile",
-    "2C Resources",
-]
-
-
-def _tidy_production_profiles(df, label):
-    """tidy the inputs for production profiles by field and add units and metadata"""
-    df = pd.melt(df, id_vars="Field", var_name="Year", value_name="Value")
-    # clean value column (make numeric, fill blanks with 0, explicitly coerce)
-    df["Value"] = pd.to_numeric(df["Value"], errors="coerce").fillna(0)
-    # add metadata
-    df["Unit"] = "PJ"
-    df["Value"] = df["Value"]
-    df["Variable"] = label
-    return df
-
-
-def _get_forecasts(sheet, col_range, skiprows, table_height, var_label):
-    """Load and tidy production profiles from reserves workbook
-    Must specify ranges (column range, rows to skip, and table height)
-    which defines the range loaded from the MBIE workbook
-    You must also declare var_label which will label the outputs"""
-    df = _get_reserves_data(sheet, col_range, skiprows, table_height)
-    df = _tidy_production_profiles(df, var_label)
-    return df
-
-
-def _get_contingent_reserve_data():
-    """Load and tidy 2c resources from reserves workbook
-    Includes hardcoded table names and unit mapping
-    Updating may require close review of input data"""
-    df = _get_reserves_data("2C Resources", "B:F", 4, 18)
-    # hardcode rename columns. this is hacky but the input file is not clean.
-    # to discuss MBIE's approach
-    df.columns = ["Field", "Oil", "Condensate", "LPG", "Natural gas"]
-    # pivoit
-    df = df.melt(id_vars="Field", var_name="Fuel", value_name="Value")
-    # hardcode units based on input file. likely need to check if this gets updated.
-    unit_map = {
-        "Oil": "Million Barrels",
-        "Condensate": "Million Barrels",
-        "LPG": "kt",
-        "Natural gas": "PJ",
-    }
-    df["Unit"] = df["Fuel"].map(unit_map)
-    print(df)
-    return df
-
-
-# ---------------------------------------------------------------------------
-# Main script
-# ---------------------------------------------------------------------------
-
-
-def main() -> None:
-    """Execute all MBIE extract tasks and write CSVs."""
-    logger.info("Loading MBIE electricity generation tables …")
+def extract_energy_balance() -> None:
+    """Extract the machine-readable Energy Balance table."""
     logger.info("Loading machine-readable Energy Balance data …")
-    _get_energy_balance().to_csv(OUTPUT_DIR / "energy_balance.csv", index=False)
-    mbie_gwh = _get_mbie_electricity(
-        "2 - Annual GWh",
+    energy_balance = pd.read_excel(
+        INPUT_DIR / "energy-balance-tables.xlsx", sheet_name="Data"
+    )
+    save_mbie_data(tidy_energy_balance(energy_balance), "energy_balance.csv")
+
+
+def extract_electricity() -> None:
+    """Extract annual electricity, generation, and capacity tables."""
+    electricity_path = INPUT_DIR / "electricity.xlsx"
+    logger.info("Loading annual electricity generation …")
+    annual_gwh = pd.read_excel(
+        electricity_path, sheet_name="2 - Annual GWh", skiprows=8
+    )
+    annual_gwh = tidy_annual_electricity(
+        annual_gwh,
         row_slice=slice(2, 12),
         category_name="Fuel",
         unit="GWh",
         variable_name="Annual net electricity generation",
     )
-    mbie_gwh.to_csv(OUTPUT_DIR / "mbie_ele_generation_gwh.csv", index=False)
+    save_mbie_data(annual_gwh, "mbie_ele_generation_gwh.csv")
 
-    mbie_pj = _get_mbie_electricity(
-        "4 - Annual PJ",
+    annual_pj = pd.read_excel(electricity_path, sheet_name="4 - Annual PJ", skiprows=8)
+    annual_pj = tidy_annual_electricity(
+        annual_pj,
         row_slice=slice(2, 12),
         category_name="Fuel",
         unit="PJ",
         variable_name="Annual net electricity generation",
     )
-    mbie_pj.to_csv(OUTPUT_DIR / "mbie_ele_generation_pj.csv", index=False)
+    save_mbie_data(annual_pj, "mbie_ele_generation_pj.csv")
 
+    annual_pj_raw = pd.read_excel(
+        electricity_path, sheet_name="4 - Annual PJ", header=None
+    )
     logger.info("Loading unallocated onsite generation …")
-    extract_unallocated_onsite_generation(
-        pd.read_excel(
-            INPUT_DIR / "electricity.xlsx", sheet_name="4 - Annual PJ", header=None
-        )
-    ).to_csv(OUTPUT_DIR / "unallocated_onsite_generation.csv", index=False)
-
-    logger.info("Loading electricity (no cogen) …")
-    _get_mbie_gen_ele_only().to_csv(
-        OUTPUT_DIR / "mbie_ele_only_generation.csv", index=False
+    save_mbie_data(
+        extract_unallocated_onsite_generation(annual_pj_raw),
+        "unallocated_onsite_generation.csv",
     )
 
-    logger.info("Loading installed capacity …")
-    _get_official_electricity_capacity().to_csv(
-        OUTPUT_DIR / "mbie_generation_capacity.csv", index=False
+    logger.info("Loading electricity generation and capacity …")
+    generation_by_fuel = tidy_generation_by_fuel(
+        pd.read_excel(electricity_path, sheet_name="6 - Fuel type (GWh)", header=None)
     )
+    save_mbie_data(generation_by_fuel, "mbie_ele_only_generation.csv")
+    generation_capacity = tidy_generation_capacity(
+        pd.read_excel(electricity_path, sheet_name="7 - Plant type (MW)", header=None)
+    )
+    save_mbie_data(generation_capacity, "mbie_generation_capacity.csv")
 
+
+def extract_edgs() -> None:
+    """Extract electricity demand and generation scenario assumptions."""
     logger.info("Loading EDGS assumptions …")
-    _read_edgs_sheet("Generation Stack").to_csv(
-        OUTPUT_DIR / "gen_stack.csv", index=False
+    save_mbie_data(
+        pd.read_excel(
+            INPUT_DIR / "electricity-demand-generation-scenarios-2024-assumptions.xlsx",
+            sheet_name="Generation Stack",
+        ),
+        "gen_stack.csv",
     )
 
-    logger.info("Loading gas (non-energy use) …")
-    _get_mbie_gas_pj(
+
+def extract_gas() -> None:
+    """Extract natural-gas non-energy use."""
+    logger.info("Loading gas non-energy use …")
+    gas_balance = pd.read_excel(
+        INPUT_DIR / "gas.xlsx", sheet_name="Annual_PJ", skiprows=9
+    )
+    gas_non_energy = tidy_gas_balance_category(
+        gas_balance,
         category="Non-Energy Use",
         category_name="Balance category",
         unit="PJ",
         variable_name="Natural gas non-energy use",
-    ).to_csv(OUTPUT_DIR / "mbie_gas_non_energy.csv", index=False)
-
-    logger.info("Loading reserves data …")
-
-    # Natural gas
-    _get_forecasts(
-        sheet="Gas Production Profile",
-        col_range="B:AK",
-        skiprows=3,
-        table_height=19,
-        var_label="Natural gas forecasts",
-    ).to_csv(OUTPUT_DIR / "natural_gas_forecasts.csv", index=False)
-    # LPG
-    _get_forecasts(
-        sheet="LPG Production Profile",
-        col_range="B:M",
-        skiprows=3,
-        table_height=5,
-        var_label="LPG forecasts",
-    ).to_csv(OUTPUT_DIR / "lpg_forecasts.csv", index=False)
-
-    # crude and condensate
-    _get_forecasts(
-        sheet="Oil Production Profile",
-        col_range="B:AK",
-        skiprows=3,
-        table_height=19,
-        var_label="Oil and condensate",
-    ).to_csv(OUTPUT_DIR / "oil_forecasts.csv", index=False)
-
-    # 2c
-    _get_contingent_reserve_data().to_csv(
-        OUTPUT_DIR / "contingent_reserves.csv", index=False
     )
+    save_mbie_data(gas_non_energy, "mbie_gas_non_energy.csv")
 
-    logger.info("MBIE extraction complete → %s", OUTPUT_DIR)
+
+def extract_reserves() -> None:
+    """Extract petroleum production profiles and contingent reserves."""
+    logger.info("Loading petroleum reserves …")
+    gas_profile = tidy_production_profile(
+        read_reserves_profile("Gas Production Profile", "B:AK", skiprows=3, rows=19),
+        "Natural gas forecasts",
+    )
+    save_mbie_data(gas_profile, "natural_gas_forecasts.csv")
+
+    lpg_profile = tidy_production_profile(
+        read_reserves_profile("LPG Production Profile", "B:M", skiprows=3, rows=5),
+        "LPG forecasts",
+    )
+    save_mbie_data(lpg_profile, "lpg_forecasts.csv")
+
+    oil_profile = tidy_production_profile(
+        read_reserves_profile("Oil Production Profile", "B:AK", skiprows=3, rows=19),
+        "Oil and condensate",
+    )
+    save_mbie_data(oil_profile, "oil_forecasts.csv")
+
+    contingent_reserves = tidy_contingent_reserves(
+        read_reserves_profile("2C Resources", "B:F", skiprows=4, rows=18)
+    )
+    save_mbie_data(contingent_reserves, "contingent_reserves.csv")
+
+
+def main() -> None:
+    """Extract and stage all required MBIE datasets."""
+    extract_energy_balance()
+    extract_electricity()
+    extract_edgs()
+    extract_gas()
+    extract_reserves()
 
 
 if __name__ == "__main__":
