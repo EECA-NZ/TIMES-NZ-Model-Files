@@ -150,6 +150,10 @@ def read_combined_eeud() -> pd.DataFrame:
 
 def clean_eeud_data(df: pd.DataFrame) -> pd.DataFrame:
     """Apply standard cleaning and reshaping to the EEUD DataFrame."""
+    # The stationary EEUD extract relabels non-coal fossil fuels as singular.
+    # Retain the established downstream category used by earlier EEUD vintages.
+    df["FuelGroup"] = df["FuelGroup"].replace("Fossil Fuel", "Fossil Fuels")
+
     # Add Year column derived from the period end date
     df["Year"] = df["PeriodEndDate"].dt.year
 
