@@ -13,14 +13,36 @@ def test_statistical_difference_uses_configured_share_and_carries_forward():
         }
     )
 
-    result = create_statistical_difference_parameters(source, 0.8, 2023)
+    baseyear_demand_tables = [
+        pd.DataFrame(
+            {
+                "Region": ["NI", "SI"],
+                "Fuel": ["Electricity", "Electricity"],
+                "Variable": ["InputEnergy", "InputEnergy"],
+                "Value": [3.0, 1.0],
+            }
+        )
+    ]
+
+    result = create_statistical_difference_parameters(
+        source, baseyear_demand_tables, 0.8, 2023
+    )
 
     assert result.to_dict("records") == [
         {
             "TechName": "StatDiffDemand_ELC",
             "Comm-IN": "ELC",
-            "ACT_BND~FX~2023": 1.728,
-            "ACT_BND~FX~2024": 2.88,
+            "Region": "NI",
+            "ACT_BND~FX~2023": 1.296,
+            "ACT_BND~FX~2024": 2.16,
             "ACT_BND~FX~0": 5,
-        }
+        },
+        {
+            "TechName": "StatDiffDemand_ELC",
+            "Comm-IN": "ELC",
+            "Region": "SI",
+            "ACT_BND~FX~2023": 0.432,
+            "ACT_BND~FX~2024": 0.72,
+            "ACT_BND~FX~0": 5,
+        },
     ]

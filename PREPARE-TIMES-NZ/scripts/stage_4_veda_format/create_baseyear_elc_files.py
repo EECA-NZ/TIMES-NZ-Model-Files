@@ -41,6 +41,12 @@ DISTRIBUTION_INPUT_FILE = (
 EF_INPUT_FILE = ASSUMPTIONS / "electricity_generation/EmissionFactors.csv"
 ELECTRICITY_DEMAND_TOTALS_FILE = STAGE_1_DATA / "mbie" / "electricity_demand_totals.csv"
 OTHER_ASSUMPTIONS_FILE = ASSUMPTIONS / "electricity/other_assumptions.toml"
+BASEYEAR_DEMAND_FILES = [
+    STAGE_2_DATA / "industry/baseyear_industry_demand.csv",
+    STAGE_2_DATA / "commercial/baseyear_commercial_demand.csv",
+    STAGE_2_DATA / "residential/baseyear_residential_demand.csv",
+    STAGE_2_DATA / "ag_forest_fish/baseyear_ag_forest_fish_demand.csv",
+]
 
 DIST_SOLAR_TECHS = [
     "ELC_SolarDistBifacial_Com",
@@ -593,6 +599,9 @@ def main() -> None:
     ele_data = load_electricity_baseyear(ELECTRICITY_INPUT_FILE)
     ef_data = load_ef_data(EF_INPUT_FILE)
     electricity_demand_totals = pd.read_csv(ELECTRICITY_DEMAND_TOTALS_FILE)
+    baseyear_demand_tables = [
+        pd.read_csv(filepath) for filepath in BASEYEAR_DEMAND_FILES
+    ]
     with OTHER_ASSUMPTIONS_FILE.open("rb") as file:
         share_of_statdiff_demand = tomllib.load(file)["share_of_statdiff_demand"][
             "Value"
@@ -607,7 +616,10 @@ def main() -> None:
     create_distribution_tables()
     save_elc_data(
         create_statistical_difference_parameters(
-            electricity_demand_totals, share_of_statdiff_demand, BASE_YEAR
+            electricity_demand_totals,
+            baseyear_demand_tables,
+            share_of_statdiff_demand,
+            BASE_YEAR,
         ),
         "statistical_difference_parameters.csv",
     )
