@@ -227,9 +227,10 @@ from a new 2024–25 observation (normally checks only).
 - [ ] **Coal demand:** replace the current manual treatment with an automated,
   source-driven calculation, then validate its historical totals and
   allocation against the balance data.
-- [ ] **Data centres:** reconcile the dedicated EEUD data-centre rows and the
-  ANZSIC J deduction against Energy Balance Table electricity consumption
-  before changing or removing the current data-centre allocation patch.
+- [x] **Data centres:** retained dedicated EEUD data-centre rows without an
+  ANZSIC J deduction: 2023 commercial EEUD electricity matches Energy Balance
+  Table estimated sales before the deduction, which otherwise creates a
+  136.667 GWh shortfall.
 - [ ] **Electricity generation:** assess the revised generation data, rerun
   the electricity base-year preparation, and reconcile generation, capacity,
   fuel input and calibration checks before accepting changes to model inputs.
