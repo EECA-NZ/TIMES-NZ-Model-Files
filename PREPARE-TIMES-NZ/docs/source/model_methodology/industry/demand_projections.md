@@ -10,8 +10,8 @@ Some sectors use custom treatments rather than a simple EEUD-based growth rate:
 
 - `Dairy` demand is mapped to the same projection used for `Dairy Cattle Farming` in the agriculture module, which tracks the ERP2 `Total dairy cattle` series[^erp2_results].
 - `Iron & Steel` demand is further adjusted through the Electric Arc Furnace (EAF) pathway.
-- `Methanol` uses an exogenous Methanex demand path based on observed GIC demand.
-- `Urea` uses an exogenous Ballance demand path based on observed GIC demand.
+- `Methanol` uses an exogenous Methanex demand path based on observed GIC demand and assumed closure date.
+- `Urea` uses an exogenous Ballance demand path based on observed GIC demand and assumed closure date.
 - `New industries` are represented as exogenous electricity demand growth rather than standard energy service demand.
 
 ```{csv-table} Industrial demand projection assumptions
@@ -67,7 +67,7 @@ It is alternatively possible to allow Methanex to close endogenously, based on t
 
 ### Urea
 
-Urea demand is treated as the Ballance Kapuni site's demand. Its 2023 base-year demand is calibrated to GIC production and consumption data for large industrial users[^gic_production_consumption]. Annual Ballance GIC demand is used for 2024 and 2025, expressed as an index relative to the 2023 total. For 2026, the model uses a provisional 6.25 PJ annual estimate derived from incomplete GIC data available to 3 November 2026, annualised using the matching 2025 period. This estimate is carried through 2027, and demand is set to zero from 2028 onward. The provisional estimate must be replaced with the final annual GIC total when available. This exogenous path is applied in both the `Steady` and `Shift` scenarios; the previous price-responsive closure process is not used.
+Urea demand is treated as the Ballance Kapuni site's demand. Its 2023 base-year demand is calibrated to GIC production and consumption data for large industrial users[^gic_production_consumption]. Annual Ballance GIC demand is used for 2024 and 2025, expressed as an index relative to the 2023 total. For 2026, the model uses a provisional 6.25 PJ annual estimate derived from incomplete GIC data available to 3 November 2026, annualised using the matching 2025 period. This estimate is carried through 2027, and demand is set to zero from 2028 onward. 
 
 ```{csv-table} Exogenous Ballance demand projections
 :name: tab_ind_ballance_exogenous
