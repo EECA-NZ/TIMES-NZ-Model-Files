@@ -34,7 +34,7 @@ Mining,1.2% per year,0%,Steady follows recent EEUD demand trends; Shift applies 
 Other Industry,-0.1% per year,Same as Steady,Based on EEUD trends.
 Food and Beverage,-1.7% per year,1.7% per year,Steady follows recent EEUD demand trends; Shift applies an alternative assumption.
 Chemicals (excl. Urea and Methanol),0%,Same as Steady,Flat demand index
-Urea,Flat demand index,Same as Steady,"The Ballance Urea plant can endogenously shrink demand if costs rise above 18 NZD/GJ."
+Urea,Observed GIC demand through 2025; provisional 2026 estimate; closed from 2028,Same as Steady,"The 2026 Ballance estimate is based on partial GIC data to 3 November 2026 and is carried through 2027, then set to zero."
 Wood Products,-1.8% per year,1.8% per year,Steady follows recent EEUD demand trends; Shift applies an alternative assumption.
 Pulp and Paper,-2.0% per year,Same as Steady,Based on international trends.
 New industries,No new industries,"50 GWh of additional electricity demand growth per year from 2026","Generic additional demand intended to represent growth in other areas."

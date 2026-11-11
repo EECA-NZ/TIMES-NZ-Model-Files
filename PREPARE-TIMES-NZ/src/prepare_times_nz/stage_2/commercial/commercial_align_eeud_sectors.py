@@ -385,76 +385,6 @@ def split_na_rows(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
-def allocate_data_centre_demand(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Use existing EEUD data-centre rows for the base year and deduct the same
-    amount from ANZSIC J to avoid double-counting within commercial demand.
-
-    This is done because we believe there is double-counting in EEUD:
-    so this step should be removed if that is fixed.
-    """
-    dc_mask = (
-        (df["Year"] == BASE_YEAR)
-        & (df["SectorGroup"] == "Commercial")
-        & (
-            df["Sector"]
-            .astype(str)
-            .str.contains(r"^Data Cent(?:re|er)s?$", case=False, na=False, regex=True)
-        )
-    )
-    dc_df = df.loc[dc_mask].copy()
-    if dc_df.empty:
-        logger.warning(
-            "No base-year data-centre rows found in EEUD input; skipping ANZSIC J deduction."
-        )
-        return df
-
-    # Normalise any legacy lighting labels for the deduction matching below.
-    dc_df.loc[(dc_df["EndUse"] == "Lighting"), "Technology"] = "LED"
-
-    # Deduct from ANZSIC J (loosened matching for lighting splits)
-    for _, r in dc_df.iterrows():
-        mask = (
-            (df["SectorANZSIC"] == "J")
-            & (df["Year"] == BASE_YEAR)
-            & (df["Fuel"] == r["Fuel"])
-        )
-        # For lighting, match any Technology containing "Lights"
-        if r["EndUse"] == "Lighting":
-            mask &= (
-                df["Technology"]
-                .astype(str)
-                .str.contains("Lights", case=False, na=False)
-            )
-        else:
-            mask &= (df["Technology"] == r["Technology"]) & (
-                df["EndUse"] == r["EndUse"]
-            )
-
-        if mask.any():
-            total = df.loc[mask, "Value"].sum()
-            if total > 0:
-                df.loc[mask, "Value"] -= df.loc[mask, "Value"] / total * r["Value"]
-                df.loc[mask, "Value"] = df.loc[mask, "Value"].clip(lower=0)
-
-    # Diagnostic
-    allocated = dc_df["Value"].sum()
-    logger.info(
-        "Data Centers demand found in EEUD and used for ANZSIC J deduction: %.3f PJ",
-        allocated,
-    )
-
-    save_checks(
-        dc_df.groupby(
-            ["Fuel", "TechnologyGroup", "Technology", "EnduseGroup", "EndUse"],
-            as_index=False,
-        )["Value"].sum(),
-        "data_centre_allocation.csv",
-        "data centre allocation",
-    )
-    return df
-
-
 def apply_light_splits(
     df: pd.DataFrame, *, base_technology: str = "Lights"
 ) -> pd.DataFrame:
@@ -626,9 +556,6 @@ def main() -> None:
 
     logger.info("Splitting fully-NA tech/enduse rows using sector×enduse shares…")
     df = split_na_rows(df)
-
-    logger.info("Allocating Data Centers demand and deducting from ANZSIC J…")
-    df = allocate_data_centre_demand(df)
 
     logger.info("Applying lighting technology splits (Incandescent/Fluorescent/LED)…")
     df = apply_light_splits(df, base_technology="Lights")

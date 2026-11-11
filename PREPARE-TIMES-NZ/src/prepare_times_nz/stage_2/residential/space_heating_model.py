@@ -57,6 +57,10 @@ HDD_ASSUMPTIONS = RESIDENTIAL_ASSUMPTIONS / "regional_hdd_assumptions.csv"
 EFF_ASSUMPTIONS = RESIDENTIAL_ASSUMPTIONS / "eff_by_tech_and_fuel.csv"
 CENSUS_EFF_ASSUMPTIONS = RESIDENTIAL_ASSUMPTIONS / "eff_for_census_heating_types.csv"
 FLOOR_AREAS = RESIDENTIAL_ASSUMPTIONS / "floor_area_per_dwelling.csv"
+GSHP_TECHNOLOGY = "Ground source heat pump"
+GSHP_FUEL = "Geothermal"
+HEAT_PUMP_TECHNOLOGY = "Heat Pump (for Heating)"
+HEAT_PUMP_FUEL = "Electricity"
 
 
 # Space heating model functions ------------------------------------------------------
@@ -546,6 +550,32 @@ def get_eeud_space_heating_data(eeud_file=EEUD_FILE, base_year=BASE_YEAR):
     return df
 
 
+def add_gshp_allocation_shares(model_shares, sh_eeud):
+    """Use generic heat-pump shares to allocate EEUD ground-source heat pumps."""
+    has_gshp_demand = (
+        sh_eeud["Technology"].eq(GSHP_TECHNOLOGY) & sh_eeud["Fuel"].eq(GSHP_FUEL)
+    ).any()
+    has_gshp_shares = (
+        model_shares["Technology"].eq(GSHP_TECHNOLOGY)
+        & model_shares["Fuel"].eq(GSHP_FUEL)
+    ).any()
+    if not has_gshp_demand or has_gshp_shares:
+        return model_shares
+
+    heat_pump_shares = model_shares[
+        model_shares["Technology"].eq(HEAT_PUMP_TECHNOLOGY)
+        & model_shares["Fuel"].eq(HEAT_PUMP_FUEL)
+    ].copy()
+    if heat_pump_shares.empty:
+        raise ValueError(
+            "Cannot allocate ground-source heat pumps without heat-pump shares"
+        )
+
+    heat_pump_shares["Technology"] = GSHP_TECHNOLOGY
+    heat_pump_shares["Fuel"] = GSHP_FUEL
+    return pd.concat([model_shares, heat_pump_shares], ignore_index=True)
+
+
 def check_join_grain(df1, df2, join_vars):
     """
     Assesses how well two dataframes can join together
@@ -605,6 +635,7 @@ def apply_sh_model_to_eeud(
     """
     # get EEUD
     sh_eeud = get_eeud_space_heating_data(eeud_file=eeud_file, base_year=base_year)
+    df = add_gshp_allocation_shares(df, sh_eeud)
 
     # assess joins
     join_vars = ["Technology", "Fuel"]

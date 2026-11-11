@@ -17,6 +17,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_1.vehicle_costs import get_rail_columns
+from prepare_times_nz.utilities.energy_balance import get_balance_value, select_gross_pj
 from prepare_times_nz.utilities.filepaths import CONCORDANCES, DATA_RAW, STAGE_1_DATA
 from prepare_times_nz.utilities.logger_setup import logger
 
@@ -151,9 +152,9 @@ def read_vehicle_counts_and_vkt(year: int) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def read_energy_balance(sheet_name: str) -> pd.DataFrame:
-    """MBIE energy balance in *mbie* folder."""
-    xls = INPUT_LOCATION_MBIE / "energy-balance-tables.xlsx"
-    return pd.read_excel(xls, sheet_name=sheet_name, header=[2, 3]).round(6)
+    """Read one year's gross-PJ balance from staged machine-readable data."""
+    data = pd.read_csv(STAGE_1_DATA / "mbie" / "energy_balance.csv")
+    return select_gross_pj(data, int(sheet_name))
 
 
 def read_kiwirail_energy() -> pd.DataFrame:
@@ -545,44 +546,35 @@ def generate_vkt_long(year: int) -> pd.DataFrame:
         for col in vkt_df.columns
     ]
 
-    # ---------- Ship / Jet PJ rows (MBIE sheet)
-    label_col = (year, "Converted into Petajoules using Gross Calorific Values")
-    label_col1 = (year, "Converted into Petajoules using Gross Calorific Values.1")
-    # Helpful for configuring columns
-    # print("pj[llabel_col] unique values:", pj[label_col].unique())
-    # print("pj[llabel_col1] unique values:", pj[label_col1].unique())
-    # Print the column headers (multi-index levels)
-    # print("pj column headers (multi-index levels):")
-    # print(pj.columns.tolist())
-
-    domestic_transport_row = pj[pj[label_col] == "Transport"]
+    # ---------- Ship / Jet PJ rows (MBIE balance)
     domestic_ship_jet_df = pd.DataFrame(
         [
             {
                 "fueltype": "Fuel Oil",
                 "vehicletype": "Domestic Shipping",
-                "pjvalue": domestic_transport_row[("Coal", "Oil.4")].values[0],
+                "pjvalue": get_balance_value(pj, "Transport", "Fuel Oil"),
             },
             {
                 "fueltype": "Av. Fuel/Kero",
                 "vehicletype": "Domestic Aviation",
-                "pjvalue": domestic_transport_row[("Coal", "Oil.5")].values[0],
+                "pjvalue": get_balance_value(pj, "Transport", "Av. Fuel/Kero"),
             },
         ]
     )
 
-    international_transport_row = pj[pj[label_col1] == "International Transport"]
     international_ship_jet_df = pd.DataFrame(
         [
             {
                 "fueltype": "Fuel Oil",
                 "vehicletype": "International Shipping",
-                "pjvalue": international_transport_row[("Coal", "Oil.4")].values[0],
+                "pjvalue": get_balance_value(pj, "International transport", "Fuel Oil"),
             },
             {
                 "fueltype": "Av. Fuel/Kero",
                 "vehicletype": "International Aviation",
-                "pjvalue": international_transport_row[("Coal", "Oil.5")].values[0],
+                "pjvalue": get_balance_value(
+                    pj, "International transport", "Av. Fuel/Kero"
+                ),
             },
         ]
     )

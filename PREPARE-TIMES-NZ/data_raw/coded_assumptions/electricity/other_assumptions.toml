@@ -1,0 +1,3 @@
+[share_of_statdiff_demand]
+# Retain part of MBIE's statistical difference as fixed electricity demand for calibration.
+Value = 0.8

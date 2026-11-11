@@ -196,7 +196,11 @@ STAGE_1: dict[str, list[str]] = {
         "electricity_authority/emi_distributed_solar.csv",
         "electricity_authority/emi_nsp_concordances.csv",
     ],
-    "extract_mbie_data": ["mbie/gen_stack.csv"],
+    "extract_mbie_data": [
+        "mbie/gen_stack.csv",
+        "mbie/energy_balance.csv",
+        "mbie/unallocated_onsite_generation.csv",
+    ],
     "extract_nrel_data": ["nrel/future_electricity_costs.csv"],
     "extract_rbs_data": ["rbs/power_demand_by_tou.parquet.csv"],
     "extract_snz_data": ["statsnz/cpi.csv", "statsnz/cgpi.csv"],
@@ -209,9 +213,12 @@ STAGE_1: dict[str, list[str]] = {
 
 # Specific dependencies between Stage-1 scripts
 STAGE_1_DEPS: dict[str, list[str]] = {
+    "extract_eeud": ["mbie/unallocated_onsite_generation.csv"],
     "extract_fleet_vkt_pj_data": [
         # extract_mvr_fleet_data's output
-        "fleet_vkt_pj/vehicle_counts_2023.csv"
+        "fleet_vkt_pj/vehicle_counts_2023.csv",
+        # extract_mbie_data's output
+        "mbie/energy_balance.csv",
     ],
     "extract_vehicle_costs_data": [
         # extract_snz_data's output
