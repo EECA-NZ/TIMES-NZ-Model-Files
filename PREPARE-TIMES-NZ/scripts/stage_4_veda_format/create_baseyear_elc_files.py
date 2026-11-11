@@ -9,14 +9,23 @@ Generate all Veda-ready CSVs that describe:
 
 from __future__ import annotations
 
+import tomllib
 from typing import Dict, Tuple
 
 import numpy as np
 import pandas as pd
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR, CAP2ACT_PJGW
+from prepare_times_nz.stage_4.electricity.statistical_difference import (
+    create_statistical_difference_parameters,
+)
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.deflator import deflate_data
-from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_2_DATA, STAGE_4_DATA
+from prepare_times_nz.utilities.filepaths import (
+    ASSUMPTIONS,
+    STAGE_1_DATA,
+    STAGE_2_DATA,
+    STAGE_4_DATA,
+)
 from prepare_times_nz.utilities.helpers import select_and_rename
 from prepare_times_nz.utilities.logger_setup import logger
 
@@ -30,6 +39,8 @@ DISTRIBUTION_INPUT_FILE = (
     ASSUMPTIONS / "electricity_generation/DistributionAssumptions.csv"
 )
 EF_INPUT_FILE = ASSUMPTIONS / "electricity_generation/EmissionFactors.csv"
+ELECTRICITY_DEMAND_TOTALS_FILE = STAGE_1_DATA / "mbie" / "electricity_demand_totals.csv"
+OTHER_ASSUMPTIONS_FILE = ASSUMPTIONS / "electricity/other_assumptions.toml"
 
 DIST_SOLAR_TECHS = [
     "ELC_SolarDistBifacial_Com",
@@ -581,6 +592,11 @@ def main() -> None:
 
     ele_data = load_electricity_baseyear(ELECTRICITY_INPUT_FILE)
     ef_data = load_ef_data(EF_INPUT_FILE)
+    electricity_demand_totals = pd.read_csv(ELECTRICITY_DEMAND_TOTALS_FILE)
+    with OTHER_ASSUMPTIONS_FILE.open("rb") as file:
+        share_of_statdiff_demand = tomllib.load(file)["share_of_statdiff_demand"][
+            "Value"
+        ]
 
     define_commodities(ele_data)
     define_generation_processes(ele_data)
@@ -589,6 +605,12 @@ def main() -> None:
     make_capacity_factors(ele_data)
 
     create_distribution_tables()
+    save_elc_data(
+        create_statistical_difference_parameters(
+            electricity_demand_totals, share_of_statdiff_demand, BASE_YEAR
+        ),
+        "statistical_difference_parameters.csv",
+    )
 
     create_elc_fuel_emissions(ef_data)
     create_elc_geo_emissions(ef_data, ele_data)

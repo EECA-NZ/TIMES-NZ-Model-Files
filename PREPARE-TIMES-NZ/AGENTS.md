@@ -24,6 +24,10 @@ returns transformed dataframes, without filesystem access. This boundary keeps
 transformations unit-testable with fake data and gives a future I/O wrapper one
 explicit place to record declared inputs and outputs for dependency manifests.
 
+Do not unit-test scripts by importing them. If script logic needs a unit test,
+move that dataframe transformation into `src/` and test the imported module;
+scripts are orchestration and are verified by focused run checks instead.
+
 When changing legacy scripts or `src` functions that do not follow these rules, estimate the size of any refactor and flag it for the user. Do not broaden a focused task into a whole-pipeline refactor without their direction.
 
 ## Automated outputs 

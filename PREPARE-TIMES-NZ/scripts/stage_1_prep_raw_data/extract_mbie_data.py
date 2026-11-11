@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 from prepare_times_nz.stage_1.mbie import (
+    extract_electricity_demand_totals,
     extract_unallocated_onsite_generation,
     tidy_annual_electricity,
     tidy_contingent_reserves,
@@ -81,6 +82,14 @@ def extract_electricity() -> None:
     save_mbie_data(
         extract_unallocated_onsite_generation(annual_pj_raw),
         "unallocated_onsite_generation.csv",
+    )
+
+    electricity_balance = pd.read_excel(
+        electricity_path, sheet_name="5 - Electricity Balance", header=None
+    )
+    save_mbie_data(
+        extract_electricity_demand_totals(electricity_balance),
+        "electricity_demand_totals.csv",
     )
 
     logger.info("Loading electricity generation and capacity …")

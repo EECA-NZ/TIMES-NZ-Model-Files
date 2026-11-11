@@ -76,6 +76,44 @@ def extract_unallocated_onsite_generation(raw: pd.DataFrame) -> pd.DataFrame:
     return result.reset_index(drop=True)
 
 
+def extract_electricity_demand_totals(raw: pd.DataFrame) -> pd.DataFrame:
+    """Return the labelled calculated and observed demand series from MBIE."""
+    year_headers = pd.to_numeric(raw.iloc[4], errors="coerce")
+    year_columns = year_headers[year_headers.notna() & year_headers.ge(1900)].index
+
+    calculated = raw.iloc[
+        raw.iloc[:, 0]
+        .eq("Total Electricity Demand (Calculated)")
+        .to_numpy()
+        .nonzero()[0]
+    ]
+    observed = raw.iloc[
+        raw.iloc[:, 1]
+        .astype(str)
+        .str.replace(r"\d+$", "", regex=True)
+        .eq("Total Electricity Demand (Observed)")
+        .to_numpy()
+        .nonzero()[0]
+    ]
+    if len(calculated) != 1 or len(observed) != 1:
+        raise ValueError(
+            "Could not find unique calculated and observed electricity demand rows"
+        )
+
+    result = pd.DataFrame(
+        {
+            "Year": year_headers[year_columns].astype(int),
+            "CalculatedDemandGWh": pd.to_numeric(
+                calculated.iloc[0, year_columns], errors="raise"
+            ).to_numpy(),
+            "ObservedDemandGWh": pd.to_numeric(
+                observed.iloc[0, year_columns], errors="raise"
+            ).to_numpy(),
+        }
+    )
+    return result
+
+
 def extract_annual_table(
     raw_df: pd.DataFrame, table_name: str, column_map: dict[str, str]
 ) -> pd.DataFrame:

@@ -4,6 +4,7 @@ import pandas as pd
 import pytest
 from prepare_times_nz.stage_1.mbie import (
     extract_annual_table,
+    extract_electricity_demand_totals,
     extract_unallocated_onsite_generation,
     select_gas_balance_category,
     tidy_annual_electricity,
@@ -71,6 +72,36 @@ def test_extract_unallocated_onsite_generation_reads_matching_rows():
         {"Year": 2022, "Value": 3.0, "Unit": "PJ"},
         {"Year": 2023, "Value": 4.0, "Unit": "PJ"},
         {"Year": 2025, "Value": 5.0, "Unit": "PJ"},
+    ]
+
+
+def test_extract_electricity_demand_totals_uses_labelled_balance_rows():
+    """The balance-sheet demand totals are selected without fixed years."""
+    data = pd.DataFrame(
+        [
+            [None, None, None, None],
+            [None, None, None, None],
+            [None, None, None, None],
+            [None, None, None, None],
+            [None, None, 2023, 2024],
+            ["Total Electricity Demand (Calculated)", None, 100.0, 120.0],
+            ["DEMAND", "Total Electricity Demand (Observed)5", 90.0, 100.0],
+        ]
+    )
+
+    result = extract_electricity_demand_totals(data)
+
+    assert result.to_dict("records") == [
+        {
+            "Year": 2023,
+            "CalculatedDemandGWh": 100.0,
+            "ObservedDemandGWh": 90.0,
+        },
+        {
+            "Year": 2024,
+            "CalculatedDemandGWh": 120.0,
+            "ObservedDemandGWh": 100.0,
+        },
     ]
 
 

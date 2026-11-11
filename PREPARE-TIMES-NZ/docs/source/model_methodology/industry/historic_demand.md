@@ -208,7 +208,11 @@ Ballance and Methanex’s energy use of natural gas accounts for 94% of the gas 
 
 EEUD demand data is based primarily on data from the MBIE energy balance tables[^energy_balance]. At the time of writing, this data’s coverage of biomass demand was incomplete, as it only captured biomass used for energy in the residential and wood processing sectors. Biomass demand in other industrial sectors, such as dairy or meat processing, was missing. 
 
-EECA currently maintain an internal database of known industrial and commercial consumers of biomass for energy use. To resolve this issue, we used this internal data to estimate existing biomass demand for the relevant sectors. We further make assumptions on the end use, depending on the sector involved. These assumptions and estimates are detailed in {numref}`tab_industry_biomass_demand` below. 
+EECA internal estimates cover known industrial and commercial consumers of
+biomass for energy use. To resolve this issue, we use these estimates for the
+relevant sectors. We further make assumptions on the end use, depending on the
+sector involved. These assumptions and estimates are detailed in
+{numref}`tab_industry_biomass_demand` below.
 
 ```{list-table} Additional biomass demand estimates
 :header-rows: 1

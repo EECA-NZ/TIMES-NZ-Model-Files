@@ -16,8 +16,9 @@ The intended updates are:
    available transport EEUD through 2024;
 2. ingest GIC data through 2025, and use observed Methanex/Ballance data
    through the historical cut-off; and
-3. revise the biomass-demand patch so post-2023 values are historical
-   observations rather than implicit forecasts.
+3. revise the industrial and commercial biomass-demand patch so post-2023
+   values are clearly identified as EECA internal estimates rather than
+   implicit forecasts.
 
 ### Optional workstream: historical model-year treatment
 
@@ -93,28 +94,28 @@ to zero from 2028.
 
 `coded_assumptions/eeud_patches/biomass_demand_patch.csv` contains columns
 through 2030. The patch loader retains only years in the EEUD workbook, so the
-current EEUD (through 2024) prevents its 2025–30 values entering the EEUD
-extract. An EEUD release through 2025 will add its 2025 values to historical
-checks.
+stationary EEUD source through 2025 admits the patch's 2025 values to
+historical checks. Values from 2026 onwards remain excluded until a staged
+EEUD source includes those years.
 
-The patch contains industrial and commercial rows. “Industrial biomass patch”
-therefore needs a precise rule:
+The patch contains industrial and commercial rows; both are in scope for this
+update. It needs a precise rule:
 
-- replace industrial values through 2025 with sourced historical estimates;
-- decide separately whether commercial biomass should also be updated; and
+- treat industrial and commercial values through 2025 as EECA internal
+  estimates;
 - remove, blank, or clearly segregate 2026+ forecasts, so future EEUD releases
   cannot make them appear to be history.
 
-If future TIMES industrial biomass must reproduce observed 2024–25 patch
+If future TIMES industrial or commercial biomass must reproduce 2024–25 patch
 values, new demand-projection logic is required. The present model starts
-future industry demand from 2023 and applies projection indices.
+future demand from 2023 and applies projection indices.
 
 ## Remaining preparation work
 
 ### 1. EEUD historical series: implementation complete, validation outstanding
 
-1. Record the stationary 2025 and transport 2024 source vintages, their
-   publication/final status, and any revisions to prior years.
+1. Record the stationary 2025 and transport 2024 source vintages and any
+   revisions to prior years.
 2. Stage 1 already combines `EEUD Stationary Outputs 17-25 QAed.xlsx` (its
    `result` sheet) for non-transport energy and
    `EEUD 2017 - 2024 FINAL 20032026.xlsx` for transport rows. This deliberate
@@ -150,18 +151,14 @@ future industry demand from 2023 and applies projection indices.
 
 ### 3. Biomass patch: history, cut-off and provenance
 
-1. Record for each industrial row/year 2020–25: source, facility coverage,
-   fuel basis, annualisation method, units and confidence/estimated status.
-2. Replace 2024 and 2025 industrial values with observed or best-available
-   historical estimates. Verify the EEUD dimensions exactly match the rows
-   being supplemented.
+1. Record the industrial and commercial patch as **EECA internal estimates**;
+   retain the existing fuel basis, units and annualisation treatment.
+2. Verify the EEUD dimensions exactly match the rows being supplemented.
 3. Decide 2026+ treatment. Recommended: move forecasts out of the historical
    patch (or leave them blank) and use a separate, explicitly consumed
    projection assumption. This prevents accidental inclusion in later EEUD
    releases.
-4. Confirm whether commercial biomass is in scope; if not, retain it but mark
-   it unchanged and document its source/cut-off.
-5. Compare patched and unpatched EEUD by sector and fuel for 2023–25. This
+4. Compare patched and unpatched EEUD by sector and fuel for 2023–25. This
    exposes patch additions and guards against double counting if EEUD starts
    covering the same biomass uses.
 
@@ -199,10 +196,6 @@ from a new 2024–25 observation (normally checks only).
 
 ## Decisions still needed
 
-- Which EEUD release and what is the status of its 2025 data (final or
-  provisional)?
-- Does “industrial biomass patch” exclude commercial rows, or should both be
-  historical through 2025?
 - Should 2026+ patch values be removed from the historical input and represented
   by an explicit future-demand assumption instead?
 - Is the current Methanex rule—observed 2024–25, carry 2025 into 2026, then
@@ -212,17 +205,17 @@ from a new 2024–25 observation (normally checks only).
 
 ## Follow-up to-do
 
-- [ ] **Industrial biomass patch:** confirm that 2024–25 industrial values are
-  historical observations, record their source and annualisation basis, and
-  remove or segregate 2026+ forecast values from the historical patch.
+- [ ] **Industrial and commercial biomass patch:** label 2024–25 values as
+  EECA internal estimates, and remove or segregate 2026+ forecast values from
+  the historical patch.
 - [ ] **Unallocated onsite generation:** validate the staged MBIE series against
   the EEUD unallocated row and Energy Balance total after each source update.
 - [ ] **2025 transport EEUD:** obtain and ingest an equivalent transport
   extract when it becomes available; the present combined EEUD intentionally
   has no transport observations for 2025.
-- [ ] **Statistical-difference adjustment:** review the current patch and its
-  source basis against the updated EEUD and balance data; document whether it
-  remains necessary and confirm it does not double count demand.
+- [x] **Statistical-difference adjustment:** calculate 80% of MBIE's
+  calculated-minus-observed electricity-demand gap from the Electricity Balance
+  sheet, then carry the final available value forward.
 - [ ] **Coal demand:** replace the current manual treatment with an automated,
   source-driven calculation, then validate its historical totals and
   allocation against the balance data.
