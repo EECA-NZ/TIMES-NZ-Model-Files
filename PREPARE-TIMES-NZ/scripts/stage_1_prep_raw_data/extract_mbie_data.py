@@ -21,6 +21,7 @@ Files produced
 - gen_stack.csv
 - mbie_gas_non_energy.csv
 - energy_balance.csv
+- unallocated_onsite_generation.csv
 """
 
 from __future__ import annotations
@@ -28,6 +29,11 @@ from __future__ import annotations
 from pathlib import Path
 
 import pandas as pd
+from prepare_times_nz.stage_1.mbie import (
+    extract_annual_table,
+    extract_unallocated_onsite_generation,
+    select_gas_balance_category,
+)
 from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA
 from prepare_times_nz.utilities.logger_setup import logger
 
@@ -102,7 +108,7 @@ def _get_mbie_gen_ele_only() -> pd.DataFrame:
     """Electricity generation (no cogen) by fuel, GWh."""
     ele_path = INPUT_DIR / "electricity.xlsx"
     raw_df = pd.read_excel(ele_path, sheet_name="6 - Fuel type (GWh)", header=None)
-    df = _extract_annual_mbie_table(
+    df = extract_annual_table(
         raw_df,
         "electricity generation by fuel",
         {
@@ -128,7 +134,7 @@ def _get_official_electricity_capacity() -> pd.DataFrame:
     """Installed generation capacity (MW) by technology."""
     ele_path = INPUT_DIR / "electricity.xlsx"
     raw_df = pd.read_excel(ele_path, sheet_name="7 - Plant type (MW)", header=None)
-    df = _extract_annual_mbie_table(
+    df = extract_annual_table(
         raw_df,
         "generation capacity by plant type",
         {
@@ -153,52 +159,6 @@ def _get_official_electricity_capacity() -> pd.DataFrame:
     return df
 
 
-def _extract_annual_mbie_table(
-    raw_df: pd.DataFrame, table_name: str, column_map: dict[str, str]
-) -> pd.DataFrame:
-    """Extract a labelled annual MBIE table without relying on sheet positions."""
-    year_headers = raw_df.isin(["Calendar Year", "Year End"])
-    locations = list(zip(*year_headers.to_numpy().nonzero()))
-    if len(locations) != 1:
-        raise ValueError(
-            f"Expected one Calendar Year or Year End header in {table_name}; "
-            f"found {len(locations)}."
-        )
-
-    header_row, year_col = locations[0]
-    labels = raw_df.iloc[header_row + 1]
-    selected = {"Year": year_col}
-    for source, output in column_map.items():
-        matches = labels[labels == source].index.tolist()
-        if len(matches) != 1:
-            raise ValueError(
-                f"Expected one {source!r} column in {table_name}; found {len(matches)}."
-            )
-        selected[output] = matches[0]
-
-    df = raw_df.iloc[header_row + 2 :, list(selected.values())].copy()
-    df.columns = selected.keys()
-    df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
-    df = df.dropna(subset=["Year"])
-    df["Year"] = df["Year"].astype(int)
-    if 2023 not in df["Year"].values:
-        raise ValueError(f"{table_name} does not contain the 2023 base year.")
-    return df
-
-
-def _select_gas_balance_category(df: pd.DataFrame, category: str) -> pd.DataFrame:
-    """Select one labelled row from the MBIE gas balance table."""
-    labels = (
-        df["Calendar year"].astype(str).str.strip().str.replace(r"\d+$", "", regex=True)
-    )
-    selected = df.loc[labels == category].copy()
-    if len(selected) != 1:
-        raise ValueError(
-            f"Expected one gas balance row for {category!r}; found {len(selected)}."
-        )
-    return selected
-
-
 def _get_mbie_gas_pj(
     category: str, category_name: str, unit: str, variable_name: str
 ) -> pd.DataFrame:
@@ -206,7 +166,7 @@ def _get_mbie_gas_pj(
     gas_path = INPUT_DIR / "gas.xlsx"
     df = pd.read_excel(gas_path, sheet_name="Annual_PJ", skiprows=9)
     df.columns = [col.strip() if isinstance(col, str) else col for col in df.columns]
-    df = _select_gas_balance_category(df, category)
+    df = select_gas_balance_category(df, category)
     # relabel the category year
     df = df.rename(columns={"Calendar year": category_name})
     # remove the footnote numbers from the categories
@@ -314,6 +274,13 @@ def main() -> None:
         variable_name="Annual net electricity generation",
     )
     mbie_pj.to_csv(OUTPUT_DIR / "mbie_ele_generation_pj.csv", index=False)
+
+    logger.info("Loading unallocated onsite generation …")
+    extract_unallocated_onsite_generation(
+        pd.read_excel(
+            INPUT_DIR / "electricity.xlsx", sheet_name="4 - Annual PJ", header=None
+        )
+    ).to_csv(OUTPUT_DIR / "unallocated_onsite_generation.csv", index=False)
 
     logger.info("Loading electricity (no cogen) …")
     _get_mbie_gen_ele_only().to_csv(

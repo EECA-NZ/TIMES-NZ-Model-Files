@@ -4,6 +4,7 @@ import importlib.util
 from pathlib import Path
 
 import pandas as pd
+from prepare_times_nz.stage_1.eeud import append_unallocated_onsite_generation
 
 
 def load_extract_eeud():
@@ -71,6 +72,35 @@ def test_combined_eeud_uses_stationary_data_and_transport_only_from_full_source(
     assert combined.loc[
         combined["PeriodEndDate"].dt.year == 2025, "Transport"
     ].tolist() == ["Non-Transport"]
+
+
+def test_unallocated_onsite_generation_is_appended_in_tj():
+    """MBIE's PJ series is appended as the EEUD unallocated electricity patch."""
+    data = pd.DataFrame(
+        {
+            "SectorGroup": ["Industrial"],
+            "Sector": ["Industrial - Unallocated"],
+            "SectorANZSIC": ["Z003"],
+            "FuelGroup": ["Electricity"],
+            "Fuel": ["Electricity"],
+            "TechnologyGroup": [None],
+            "Technology": [None],
+            "EnduseGroup": [None],
+            "EndUse": [None],
+            "Transport": ["Non-Transport"],
+            "Year": [2025],
+            "Unit": ["TJ"],
+            "Value": [2887.2038],
+        }
+    )
+    onsite = pd.DataFrame(
+        {"Year": [2024, 2025], "Value": [4.0, 5.069091], "Unit": ["PJ", "PJ"]}
+    )
+
+    result = append_unallocated_onsite_generation(data, onsite)
+
+    assert result["Value"].tolist() == [2887.2038, 5069.091]
+    assert result.iloc[-1]["Technology"] == "Unallocated"
 
 
 def test_clean_eeud_data_restores_established_fossil_fuel_group():

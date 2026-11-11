@@ -7,7 +7,7 @@ Steps performed
 1. Read the stationary EEUD extract and the transport rows from the full EEUD
    workbook.
 2. Tidy column names, derive useful fields, and coerce values.
-3. Add biomass patch assumptions for missing industrial/commercial demand
+3. Add biomass assumptions and MBIE unallocated onsite generation.
 4. Write a CSV copy to "data_intermediate/stage_1_input_data/eeud".
 5. Write an CSV copy of unpatched data to the same directory
 
@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import Final
 
 import pandas as pd
+from prepare_times_nz.stage_1.eeud import append_unallocated_onsite_generation
 from prepare_times_nz.utilities.data_cleaning import rename_columns_to_pascal
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, DATA_RAW, STAGE_1_DATA
@@ -41,6 +42,7 @@ TRANSPORT_SHEET_NAME: Final[str] = "Data"
 
 INPUT_DIR = Path(DATA_RAW) / "eeca_data" / "eeud"
 OUTPUT_DIR = Path(STAGE_1_DATA) / "eeud"
+UNALLOCATED_ONSITE_FILE = STAGE_1_DATA / "mbie/unallocated_onsite_generation.csv"
 RAW_COLUMNS: Final[list[str]] = [  # output columns forced to align with these
     "SectorGroup",
     "Sector",
@@ -189,11 +191,7 @@ def clean_eeud_data(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def add_patch_to_eeud(df: pd.DataFrame, patch_filename) -> pd.DataFrame:
-    """
-    A generic function to add custom additional data to the EEUD
-    This is for demand data that is exlcuded from the existing database
-    CUrrently this is unallocated electricity demand and some industrial/commercial biomass
-    """
+    """Add a coded EEUD patch with the same dimensions as the input."""
 
     # load patch
     patch_df = pd.read_csv(ASSUMPTIONS / f"eeud_patches/{patch_filename}")
@@ -236,7 +234,9 @@ def main() -> None:
 
     patched_df = tidy_df.copy()
     patched_df = add_patch_to_eeud(patched_df, "biomass_demand_patch.csv")
-    patched_df = add_patch_to_eeud(patched_df, "unallocated_demand_patch.csv")
+    patched_df = append_unallocated_onsite_generation(
+        patched_df, pd.read_csv(UNALLOCATED_ONSITE_FILE)
+    )
 
     save_eeud(tidy_df, "eeud_no_patch.csv")
     save_eeud(patched_df, "eeud.csv")

@@ -245,7 +245,10 @@ These are estimates only, as EECA’s internal data may not fully capture all us
 
 ### Unallocated electricity demand
 
-The EEUD excludes the unallocated onsite generation which is reported MBIE's electricity generation and demand data[^mbie_official_generation]. This means it falls slightly short of total electricity demand, and without this the model system becomes slightly unbalanced. 
+The EEUD has an unallocated electricity row, but it excludes MBIE's calculated
+unallocated onsite generation[^mbie_official_generation]. We append that
+published annual series to EEUD so the combined unallocated electricity demand
+reconciles to the Energy Balance total.
 
 We currently assume all unallocated onsite generation is consumed by industrial sites. For TIMES-NZ, this is included in "Other Industry". This means that other parameters related to Other Industry, such as regional share assumptions or demand growth rates, will also apply to this unallocated demand.
 

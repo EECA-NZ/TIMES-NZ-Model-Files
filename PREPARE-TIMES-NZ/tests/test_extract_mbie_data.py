@@ -1,28 +1,16 @@
-"""Unit tests for MBIE stage-1 extraction helpers."""
-
-import importlib.util
-from pathlib import Path
+"""Unit tests for pure MBIE stage-1 transformations."""
 
 import pandas as pd
 import pytest
-
-
-def load_extract_mbie_data():
-    """Load the extraction script without reading source files."""
-    script = (
-        Path(__file__).resolve().parents[1]
-        / "scripts/stage_1_prep_raw_data/extract_mbie_data.py"
-    )
-    spec = importlib.util.spec_from_file_location("extract_mbie_data", script)
-    module = importlib.util.module_from_spec(spec)
-    assert spec.loader is not None
-    spec.loader.exec_module(module)
-    return module
+from prepare_times_nz.stage_1.mbie import (
+    extract_annual_table,
+    extract_unallocated_onsite_generation,
+    select_gas_balance_category,
+)
 
 
 def test_select_gas_balance_category_uses_label_not_row_position():
     """A label selects the intended row even when its table position moves."""
-    module = load_extract_mbie_data()
     data = pd.DataFrame(
         {
             "Calendar year": ["Transport", "Non-Energy Use1", "Residential"],
@@ -30,16 +18,15 @@ def test_select_gas_balance_category_uses_label_not_row_position():
         }
     )
 
-    selected = module._select_gas_balance_category(data, "Non-Energy Use")
+    selected = select_gas_balance_category(data, "Non-Energy Use")
 
     assert selected["2025"].tolist() == [2.0]
     with pytest.raises(ValueError, match="found 0"):
-        module._select_gas_balance_category(data, "Missing category")
+        select_gas_balance_category(data, "Missing category")
 
 
 def test_extract_annual_mbie_table_uses_labels_not_column_positions():
     """Annual electricity tables may contain blank spacer and subtotal columns."""
-    module = load_extract_mbie_data()
     data = pd.DataFrame(
         [
             ["title", None, None, None, None],
@@ -51,11 +38,31 @@ def test_extract_annual_mbie_table_uses_labels_not_column_positions():
         ]
     )
 
-    result = module._extract_annual_mbie_table(
+    result = extract_annual_table(
         data, "test generation", {"Hydro": "Hydro", "Gas": "Gas"}
     )
 
     assert result.to_dict("records") == [
         {"Year": 2023, "Hydro": 100.0, "Gas": 20.0},
         {"Year": 2024, "Hydro": 110.0, "Gas": 25.0},
+    ]
+
+
+def test_extract_unallocated_onsite_generation_reads_matching_rows():
+    """Matching actual and estimated-sales rows yield one annual PJ series."""
+    data = pd.DataFrame(
+        [
+            [None, None, None, None],
+            ["Calendar year", 2022, 2023, 2025],
+            ["Unallocated Onsite Generation", 3.0, 4.0, 5.0],
+            ["Unallocated Onsite Generation", 3.0, 4.0, 5.0],
+        ]
+    )
+
+    result = extract_unallocated_onsite_generation(data)
+
+    assert result.to_dict("records") == [
+        {"Year": 2022, "Value": 3.0, "Unit": "PJ"},
+        {"Year": 2023, "Value": 4.0, "Unit": "PJ"},
+        {"Year": 2025, "Value": 5.0, "Unit": "PJ"},
     ]

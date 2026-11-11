@@ -62,9 +62,9 @@ time-series alignment check.
 - A replacement workbook may revise **2023** values or category labels. That
   *will* flow into base-year demand and can change model results. Compare old
   and new 2023 extracts before accepting it.
-- The unallocated-demand patch ends at 2024. Extend it to 2025 with a value,
-  zero, or documented non-applicability so its absence is not misread as a
-  fall in 2025 checks.
+- MBIE's annual unallocated-onsite-generation series is staged and appended to
+  EEUD through the years available in the workbook. Reconcile it to the EEUD
+  unallocated row and Energy Balance total after each source update.
 
 ### GIC and industrial demand
 
@@ -122,8 +122,8 @@ future industry demand from 2023 and applies projection indices.
    equivalent transport extract is supplied.
 3. Validate schema and labels against sector/category concordances and
    technology-renaming rules.
-4. Extend `unallocated_demand_patch.csv` through 2025 and validate the biomass
-   patch's 2025 values.
+4. Validate the staged MBIE unallocated-onsite-generation series and the
+   biomass patch's 2025 values.
 5. Run extraction and sector alignment. Compare old versus new **2023** totals
    by sector, fuel, and material technology/end-use. Any difference is a
    base-year model change requiring review.
@@ -185,8 +185,8 @@ from a new 2024–25 observation (normally checks only).
 1. Archive current stage-1 EEUD/GIC extracts, industry checks, base-year
    industry file and stage-3 projection output.
 2. Add and profile updated EEUD and GIC sources; document their vintages.
-3. Update unallocated and biomass patches with a clear history/forecast
-   boundary.
+3. Validate the direct unallocated-onsite-generation series and update the
+   biomass patch with a clear history/forecast boundary.
 4. Re-run stage 1 and industry alignment; compare all 2023 values first.
 5. Review 2024–25 EEUD, biomass and GIC check series.
 6. Review and approve Methanex and Urea indices and their closure rules.
@@ -215,9 +215,8 @@ from a new 2024–25 observation (normally checks only).
 - [ ] **Industrial biomass patch:** confirm that 2024–25 industrial values are
   historical observations, record their source and annualisation basis, and
   remove or segregate 2026+ forecast values from the historical patch.
-- [ ] **Unallocated-demand patch:** give 2025 an explicit value, zero, or
-  documented non-applicability, so its absence is not misread as a fall in
-  demand.
+- [ ] **Unallocated onsite generation:** validate the staged MBIE series against
+  the EEUD unallocated row and Energy Balance total after each source update.
 - [ ] **2025 transport EEUD:** obtain and ingest an equivalent transport
   extract when it becomes available; the present combined EEUD intentionally
   has no transport observations for 2025.
