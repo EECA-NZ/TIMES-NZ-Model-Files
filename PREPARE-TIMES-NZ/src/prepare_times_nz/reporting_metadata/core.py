@@ -89,7 +89,9 @@ def build_declaration_units(
     )
 
 
-def build_timeslices(time_slices: dict[str, list[str]], yrfr: pd.DataFrame) -> pd.DataFrame:
+def build_timeslices(
+    time_slices: dict[str, list[str]], yrfr: pd.DataFrame
+) -> pd.DataFrame:
     """Build ordered, human-readable TIMES timeslices from PREP declarations."""
     levels = ["Season", "Weekly", "DayNite"]
     for level in levels:
@@ -97,7 +99,9 @@ def build_timeslices(time_slices: dict[str, list[str]], yrfr: pd.DataFrame) -> p
             raise ValueError(f"TimeSlices is missing {level}")
         unknown = set(time_slices[level]).difference(TIMESLICE_LABELS[level])
         if unknown:
-            raise ValueError(f"No clean {level} label for: {', '.join(sorted(unknown))}")
+            raise ValueError(
+                f"No clean {level} label for: {', '.join(sorted(unknown))}"
+            )
     _require_columns(yrfr, ["TimeSlice", "YRFR"], "year fractions")
     rows = []
     for season in time_slices["Season"]:
@@ -133,7 +137,14 @@ def build_timeslices(time_slices: dict[str, list[str]], yrfr: pd.DataFrame) -> p
     )
     result = result.rename(columns={"YRFR": "YearFraction"})
     annual = pd.DataFrame(
-        [{"TimeSlice": "ANNUAL", "TimesliceOrder": 0, "TimeSliceLabel": "Annual", "YearFraction": 1.0}]
+        [
+            {
+                "TimeSlice": "ANNUAL",
+                "TimesliceOrder": 0,
+                "TimeSliceLabel": "Annual",
+                "YearFraction": 1.0,
+            }
+        ]
     )
     return pd.concat([annual, result], ignore_index=True)[
         [
