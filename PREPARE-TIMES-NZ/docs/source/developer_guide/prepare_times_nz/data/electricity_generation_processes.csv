@@ -1,0 +1,353 @@
+ProcessGroup,Process,PlantName,TechnologyGroup,Technology,SectorGroup,Sector,EnduseGroup,EndUse
+Electricity generation,ELC_BIORECIP_GENERIC,Generic biogas generation,Thermal,Reciprocating Biogas,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_BIORECIP_GENERICRECIPROCATINGBIOGAS1HALFWAYBUSH,Generic Reciprocating Biogas: 1 (Halfway Bush),Thermal,Reciprocating Biogas,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_BIORECIP_GENERICRECIPROCATINGBIOGAS2CHRISTCHURCH,Generic Reciprocating Biogas: 2 (Christchurch),Thermal,Reciprocating Biogas,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_BIOGASCHP_GENERIC,Generic biogas cogeneration,Thermal,Biogas Cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_CCGT_HUNTLYUNIT5E3P,Huntly Unit 5 (E3P),Thermal,CCGT,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_CCGT_TCC,Taranaki Combined Cycle,Thermal,CCGT,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_COALCHP_GLENBROOKSTEEL,Glenbrook Steel,Thermal,Coal Cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_DSLPKR_GENERIC,Generic diesel generation,Thermal,Diesel peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_DSLPKR_GENERICDIESELPEAKER1HUNTLY,Generic diesel peaker: 1 (Huntly),Thermal,Diesel peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_DSLPKR_GENERICDIESELPEAKER2STRATFORD,Generic diesel peaker: 2 (Stratford),Thermal,Diesel peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_DSLPKR_GENERICDIESELPEAKER3OTAHUHU,Generic diesel peaker: 3 (Otahuhu),Thermal,Diesel peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_DSLPKR_GENERICDIESELPEAKER4SOUTHDOWN,Generic diesel peaker: 4 (Southdown),Thermal,Diesel peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_DSLPKR_GENERICDIESELPEAKER5MARSDEN,Generic diesel peaker: 5 (Marsden),Thermal,Diesel peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_DSLPKR_GENERICDIESELPEAKER6HUNTLY,Generic diesel peaker: 6 (Huntly),Thermal,Diesel peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_DSLPKR_GENERICDIESELPEAKER7OTAHUHU,Generic diesel peaker: 7 (Otahuhu),Thermal,Diesel peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_DSLPKR_GENERICDIESELPEAKER8HUNTLY,Generic diesel peaker: 8 (Huntly),Thermal,Diesel peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_DSLPKR_WHIRINAKI,Whirinaki,Thermal,Diesel peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASCHP_FONTERRAWHAREROA,Fonterra Dairy - Whareroa,Thermal,Natural gas cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASCHP_KAPUNI,Kapuni,Thermal,Natural gas cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASCHP_TERAPA,Te Rapa,Thermal,Natural gas cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_GENERICOCGTPEAKER1HUNTLY,Generic OCGT peaker: 1 (Huntly),Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_GENERICOCGTPEAKER2STRATFORD,Generic OCGT peaker: 2 (Stratford),Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_GENERICOCGTPEAKER3OTAHUHU,Generic OCGT peaker: 3 (Otahuhu),Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_GENERICOCGTPEAKER4SOUTHDOWN,Generic OCGT peaker: 4 (Southdown),Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_GENERICOCGTPEAKER5MARSDEN,Generic OCGT peaker: 5 (Marsden),Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_GENERICOCGTPEAKER6HUNTLY,Generic OCGT peaker: 6 (Huntly),Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_GENERICOCGTPEAKER7OTAHUHU,Generic OCGT peaker: 7 (Otahuhu),Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_GENERICOCGTPEAKER8HUNTLY,Generic OCGT peaker: 8 (Huntly),Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_HUNTLYUNIT6P40,Huntly Unit 6 (P40),Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_JUNCTIONROAD,Junction Road,Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_MCKEE,McKee,Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_STRATFORDPEAKER,Stratford Peaker,Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GASPKR_WAIKATOPOWERPLANT,Waikato Power Plant,Thermal,Natural gas peaker,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEOCHP_GENERIC,Generic geothermal cogeneration,Geothermal,Geothermal Cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_ATIAMURIGEOTHERMAL,Ātiamuri Geothermal,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_GENERIC,Generic geothermal generation,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_KAWERAU,Kawerau,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_KAWERAUTOPP2,Kawerau (TOPP2),Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_MAKAIOUTFLOW,Mākai outflow,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_MANGAKINOGENERICGEOTHERMAL,Mangakino generic geothermal,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_MOKAI,Mokai,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_NGAAWAPURUA,Nga Awa Pūrua,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_NGATAMARIKI,Ngā Tamariki,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_NGATAMARIKIEXPANSION,Ngātamariki expansion,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_NGAWHAEXPANSIONSTAGE5,Ngāwhā Expansion: Stage 5,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_NGAWHAEXPANSIONSTAGE6,Ngāwhā Expansion: Stage 6,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_NGAWHAOEC13,Ngāwhā (OEC1-3),Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_NGAWHAOEC4,Ngāwhā (OEC4),Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_NGAWHASTAGE4OEC5,Ngāwhā Stage 4 (OEC5),Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_OHAAKI,Ōhaaki,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_POIHIPI,Poihipi,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_REPOROASTAGE1,Reporoa: Stage 1,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_REPOROASTAGE2,Reporoa: Stage 2,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_REPOROASTAGE3,Reporoa: Stage 3,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_ROTOKAWA,Rotokawa,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TOPP1,TOPP1,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TAHEKEGEOTHERMALPROJECT,Tāheke Geothermal Project,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TAHEKESTAGE2,Tāheke: Stage 2,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TAHEKESTAGE3,Tāheke: Stage 3,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TAUHARAEXPANSIONSTAGE2,Tauhara expansion: Stage 2,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TAUHARAEXPANSIONSTAGE3,Tauhara expansion: Stage 3,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TAUHARASTAGE1,Tauhara Stage 1,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TAUHARASTAGE1EXPANSION,Tauhara Stage 1 expansion,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TEAHIOMAUI,Te Ahi O Maui,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TEHUKABINARY,Te Huka Binary,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TEHUKAUNIT3,Te Huka Unit 3,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TEMIHI,Te Mihi,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TEMIHIEXPANSION,Te Mihi (expansion),Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TIKITERESTAGE1,Tikitere (Stage 1),Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_TOKAANUGEOTHERMALSTAGE2,Tokaanu Geothermal (Stage 2),Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_WAIRAKEI,Wairākei,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_GEO_WAIRAKEICD,Wairākei C & D,Geothermal,Geothermal,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_BRANCHRIVER,Branch River (Argyle + Wairau),Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_BUSHSTREAMHYDROPLANT,Bush Stream hydro plant,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_CLARENCEHYDRO54,Clarence hydro: 54,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_CLARENCEHYDROCONWAY,Clarence hydro: Conway,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_CLARENCEHYDROWAIAUDIVERSIONS,Clarence hydro: Waiau Diversions,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_CLUTHARIVERBEAUMONTEXPANSION,Clutha River - Beaumont Expansion,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_CLUTHARIVERLUGGATEEXPANSION,Clutha River - Luggate expansion,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_CLUTHARIVERQUEENSBERRYEXPANSION,Clutha River - Queensberry expansion,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_CLUTHARIVERTUAPEKAEXPANSION,Clutha River - Tuapeka expansion,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_MATAKITAKIRIVERGENERICHYDROPLANT,Mātakitaki River generic hydro plant,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_NGAKAWAUHYDROSCHEME,Ngākawau hydro scheme,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_POTTSRIVERHYDRO,Potts River hydro,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_RAKAIARIVERDAM,Rakaia River dam,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_TARAMAKAU,Taramakau,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_WAIRAUHYDROEXPANSION,Wairau Hydro Expansion,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDRR_WHITCOMBERIVER,Whitcombe River,Hydro,Hydro (Run-of-river),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_ANIWHENUA,Aniwhenua,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_ARAPUNI,Arapuni,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_ARATIATIA,Aratiatia,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_ARNOLDVALLEYHYDRO,Arnold Valley hydro,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_ATIAMURI,Ātiamuri,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_AVIEMORE,Aviemore,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_BENMORE,Benmore,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_CLYDE,Clyde,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_COBB,Cobb,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_COLERIDGE,Coleridge,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_GENERIC,Generic hydro generation,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_HAWEAGATESHYDROPLANT,Hāwea Gates hydro plant,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_HIGHBANK,Highbank,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_KAIMAIHYDROSCHEME,Kaimai Hydro Scheme,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_KAITAWA,Kaitawa,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_KARAPIRO,Karāpiro,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_LAKEPUKAKIHYDROPLANT,Lake Pūkaki hydro plant,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_MANAPOURI,Manapōuri,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_MANGAHAO,Mangahao,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_MARAETAI,Maraetai,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_MATAHINA,Matahina,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_OHAKURI,Ōhakuri,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_OHAUA,Ōhau A,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_OHAUB,Ōhau B,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_OHAUC,Ōhau C,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_PAERAUGORGE,Paerau Gorge,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_PATEA,Patea,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_PIRIPAUA,Piripaua,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_RANGIPO,Rangipo,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_ROARINGMEG,Roaring Meg,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_ROXBURGH,Roxburgh,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_TAKAPOA,Takapō A,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_TAKAPOB,Takapō B,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_TEVIOT,Teviot,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_TOKAANUMANGAIO,Tokaanu/Mangaio,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_TUAI,Tuai,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_WAIPAPA,Waipāpa,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_WAIPORI,Waipori,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_WAITAKI,Waitaki,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_WHAKAMARU,Whakamaru,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_HYDSC_WHEAOANDFLAXY,Wheao and Flaxy,Hydro,Hydro (Schedulable),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_RANKINE_HUNTLYUNITS14,Huntly Units 1-4,Thermal,Rankine,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARDISTBIFACIAL_COM,Commercial,Solar,Distributed solar,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARDISTBIFACIAL_IND,Industrial,Solar,Distributed solar,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARDISTSMALL_RES,Residential,Solar,Distributed solar,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_ARGYLESOLARFARM,Argyle solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_ARGYLESOLARFARMNORTHERNAREA,Argyle Solar Farm - Northern Area,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_BROOKSIDESOLARFARM,Brookside solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_CLANDEBOYESOLARFARM,Clandeboye solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_DANNEVIRKESOLARFARM,Dannevirke Solar Farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_DUNSANDELSOLARFARM,Dunsandel solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_EDGECUMBESOLARFARMFNSF,Edgecumbe solar farm (FNSF),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_EDGECUMBESOLARHELIOS,Edgecumbe solar (Helios),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_FOXTONSOLARFARM,Foxton solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR10,Generic solar (101-200MW): 10,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR12,Generic solar (200MW+): 12,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR13,Generic solar (200MW+): 13,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR14,Generic solar (200MW+): 14,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR15,Generic solar (200MW+): 15,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR16,Generic solar (200MW+): 16,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR17,Generic solar (200MW+): 17,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR18,Generic solar (200MW+): 18,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR19,Generic solar (200MW+): 19,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR2,Generic solar (200MW+): 2,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR21,Generic solar (200MW+): 21,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR23,Generic solar (101-200MW): 23,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR25,Generic solar (200MW+): 25,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR26,Generic solar (101-200MW): 26,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR28,Generic solar (200MW+): 28,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR29,Generic solar (200MW+): 29,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR3,Generic solar (200MW+): 3,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR30,Generic solar (101-200MW): 30,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR31,Generic solar (101-200MW): 31,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR33,Generic solar (200MW+): 33,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR35,Generic solar (101-200MW): 35,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR36,Generic solar (101-200MW): 36,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR38,Generic solar (101-200MW): 38,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR39,Generic solar (200MW+): 39,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR40,Generic solar (<100 MW): 40,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR41,Generic solar (<100 MW): 41,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR42,Generic solar (101-200MW): 42,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR43,Generic solar (200MW+): 43,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR45,Generic solar (101-200MW): 45,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR46,Generic solar (<100 MW): 46,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR47,Generic solar (101-200MW): 47,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR48,Generic solar (101-200MW): 48,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR49,Generic solar (200MW+): 49,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR51,Generic solar (200MW+): 51,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR54,Generic solar (200MW+): 54,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR55,Generic solar (101-200MW): 55,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR56,Generic solar (200MW+): 56,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR57,Generic solar (101-200MW): 57,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR58,Generic solar (<100 MW): 58,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR6,Generic solar (200MW+): 6,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR60,Generic solar (101-200MW): 60,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR61,Generic solar (<100 MW): 61,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR62,Generic solar (<100 MW): 62,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR63,Generic solar (<100 MW): 63,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR65,Generic solar (101-200MW): 65,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR67,Generic solar (<100 MW): 67,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR69,Generic solar (200MW+): 69,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR7,Generic solar (200MW+): 7,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR71,Generic solar (200MW+): 71,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR72,Generic solar (200MW+): 72,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR73,Generic solar (101-200MW): 73,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR74,Generic solar (101-200MW): 74,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR75,Generic solar (200MW+): 75,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR76,Generic solar (200MW+): 76,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR77,Generic solar (101-200MW): 77,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR78,Generic solar (101-200MW): 78,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR79,Generic solar (<100 MW): 79,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR8,Generic solar (200MW+): 8,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR80,Generic solar (200MW+): 80,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR81,Generic solar (200MW+): 81,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR82,Generic solar (200MW+): 82,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR83,Generic solar (101-200MW): 83,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR84,Generic solar (101-200MW): 84,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR85,Generic solar (101-200MW): 85,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR86,Generic solar (<100 MW): 86,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR87,Generic solar (200MW+): 87,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR88,Generic solar (200MW+): 88,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GENERICSOLAR90,Generic solar (200MW+): 90,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GLORITSOLARFARM,Glorit solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GREYTOWNSOLARFARM,Greytown solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_GREYTOWNSOLARFARMFNSF,Greytown Solar Farm (FNSF),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_HAWKESBAYAIRPORTSOLARFARM,Hawke's Bay Airport solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_HELENSVILLESOLARFARM,Helensville solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_KAIPARASOLARFARM,Kaipara solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_KARIOISOLARFARM,Karioi solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_KOWHAIPARKSOLARFARM,Kōwhai Park solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_LAURISTONSOLARFARM,Lauriston solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_LODESTONEDARGAVILLE,Lodestone Dargaville,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_LODESTONETEHERENGAOTERASOLARFARM,Lodestone Te Herenga o Te Rā solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_LODESTONEWHITIANGA,Lodestone Whitianga,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_MANGAMAIRESOLARFARM,Mangamaire solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_MANIOTOTOSOLARFARM,Maniototo solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_MARANGARASOLARFARM,Maranga Rā solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_MARTONSOLARFARM,Marton solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_MARTONSOLARFARMENERGYFARMSLTD,Marton Solar Farm (Energy Farms Ltd),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_MARTONSOLARFARMHARMONY,Marton Solar Farm (Harmony),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_MASTERTONSOLARFARMNZCLEARNENERGY,Masterton Solar Farm (NZ Clearn Energy),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_MAUNGATUROTOSOLARFARM,Maungaturoto solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_MOROAROADSOLARFARM,Moroa Road solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_MTSOMERSSOLARFARM,Mt Somers solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_NASEBYSOLARFARM,Naseby solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_OHAUASOLARPLANT,Ohau A solar plant,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_ONGAONGASOLARFARMSKYSOLAR,Ongaonga solar farm (Sky Solar),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_ONGAONGASOLARHELIOS,Ongaonga solar (Helios),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_OPUNAKESOLARFARMENERGYFARMSLTD,Ōpunake solar farm (Energy Farms Ltd),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_OPUNAKESOLARFARMHARMONYENERGY,Ōpunake solar farm (Harmony Energy),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_PALMERSTONNORTHSOLARFARM,Palmerston North solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_PUKENUISOLARFARM,Pukenui solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_RANGIRIRISOLARFARM,Rangiriri solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_RANGITAIKISOLARSTAGE1,Rangitāiki solar (Stage 1),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_RANGITAIKISOLARSTAGE2,Rangitāiki solar (Stage 2),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_RANGITAIKISOLARSTAGE3,Rangitāiki solar (Stage 3),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_RUAKAKASOLARFARM,Ruakākā solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_SKINNERROADSOLARFARM,Skinner Road solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_SWANNANOASOLARFARM,Swannanoa solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_TARANAKISOLARFARMMERIDIAN,Taranaki solar farm (Meridian),Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_TASMANDISTRICTSOLARFARM,Tasman District solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_TAUHEISOLARFARM,Tauhei solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_THEPOINTSOLARFARM,The Point solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_THREESTREAMSSOLARFARM,Three Streams solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_TIKOKINOSOLARFARM,Tikokino solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_TWINRIVERSSOLARFARM,Twin Rivers solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_WAIOTAHESOLARFARM,Waiotahe solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_WAIPARASOLARFARM,Waipara solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_WAIRARAPASOLARFARM,Wairarapa solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_WAITARASOLARFARM,Waitara solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_WAITERIMUSOLARFARM,Waiterimu solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_WARENGASOLARFARM,Warenga solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_SOLARTRACK_WELLSFORDSOLARFARM,Wellsford solar farm,Solar,Utility Solar (Tracking),Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDFIXOFF_SOUTHLAND,Offshore wind (Fixed) - Southland,Wind,Fixed Offshore Wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDFIXOFF_TARANAKI,Offshore wind (Fixed) - Taranaki,Wind,Fixed Offshore Wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDFIXOFF_WAIKATO,Offshore wind (Fixed) - Waikato,Wind,Fixed Offshore Wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDFLOATOFF_TARANAKI,Offshore wind (Floating) - Taranaki,Wind,Floating Offshore Wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDFLOATOFF_WAIKATO,Offshore wind (Floating) - Waikato,Wind,Floating Offshore Wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_CASTLEHILLWINDFARM,Castle Hill wind farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERIC,Generic wind generation,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND13,Generic wind #13,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND18,Generic Wind #18,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND20,Generic Wind #20,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND21,Generic Wind #21,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND22,Generic Wind #22,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND24,Generic Wind #24,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND25,Generic Wind #25,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND26,Generic Wind #26,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND27,Generic Wind #27,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND29,Generic Wind #29,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND30,Generic Wind #30,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND32,Generic Wind #32,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND33,Generic Wind #33,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND34,Generic Wind #34,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND36,Generic Wind #36,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND37,Generic Wind #37,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND41,Generic Wind #41,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND42,Generic Wind #42,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND43,Generic Wind #43,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND45,Generic Wind #45,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND46,Generic Wind #46,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND47,Generic Wind #47,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND48,Generic Wind #48,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND49,Generic Wind #49,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND51,Generic Wind #51,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND52,Generic Wind #52,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND55,Generic Wind #55,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND56,Generic Wind #56,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND57,Generic Wind #57,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND58,Generic Wind #58,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND60,Generic Wind #60,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND61,Generic Wind #61,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND62,Generic Wind #62,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND63,Generic Wind #63,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND65,Generic Wind #65,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND66,Generic Wind #66,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND69,Generic Wind #69,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND70,Generic Wind #70,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND71,Generic Wind #71,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND72,Generic Wind #72,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND73,Generic Wind #73,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND74,Generic Wind #74,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND75,Generic Wind #75,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND76,Generic Wind #76,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND77,Generic Wind #77,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND79,Generic Wind #79,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND80,Generic Wind #80,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_GENERICWIND82,Generic Wind #82,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_HAPUAKOHEWINDFARM,Hapuakohe Wind Farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_HARAPAKIWINDFARM,Harapaki wind farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_JERICHOWINDFARM,Jericho Wind Farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_KAIHIKUWINDFARM,Kaihiku wind farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_KAIMAIWINDFARM,Kaimai wind farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_KAIWAIKAWE,Kaiwaikawe,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_KAIWARADOWNSS1,Kaiwera Downs Stage 1,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_KAIWERADOWNSWINDSTAGE2,Kaiwera Downs wind (Stage 2),Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_MAHINERANGISTAGE2,Mahinerangi (Stage 2),Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_MANAWATUWINDMERIDIAN,Manawatū Wind (Meridian),Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_MILLCREEK,Mill Creek,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_MOUNTCASSWINDFARM,Mount Cass wind farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_MTMUNROWINDFARM,Mt Munro wind farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_OTOTOKAWINDFARM,Ototoka Wind Farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_PAHIATUAWINDFARM,Pahiatua Wind Farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_PROJECTHURIWAKA,Project Huriwaka,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_PROJECTHURUNUIWINDFARM,Project Hurunui Wind Farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_PUKETOIWINDFARM,Puketoi wind farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_SOUTHLANDWINDFARM,Southland Wind Farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_TARANAKIWINDMERIDIAN,Taranaki Wind (Meridian),Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_TARARUASTAGE12,Tararua Stage 1 & 2,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_TARARUASTAGE3,Tararua Stage 3,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_TAUMATATOTARASTAGE1,Taumatatotara (Stage 1),Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_TEAPITI,Te Āpiti,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_TEREREHAU,Te Rere Hau,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_TEREREHAUEXPANSION,Te Rere Hau (Expansion),Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_TEREREHAUREPOWER,Te Rere Hau (Repower),Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_TEUKU,Te Uku,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_TURITEANORTH,Turitea North,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_TURITEASOUTH,Turitea South,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_WAIPIPI,Waipipi,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_WAIUKUWINDFARM,Waiuku Wind Farm,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_WESTWIND,West Wind,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WINDON_WHITEHILL,White Hill,Wind,Onshore wind,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WOODCHP_GENERIC,Generic wood cogeneration,Thermal,Wood Cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation
+Electricity generation,ELC_WOODCHP_KINLEITH,Kinleith,Thermal,Wood Cogen,Electricity generation,Electricity generation,Electricity generation,Electricity generation

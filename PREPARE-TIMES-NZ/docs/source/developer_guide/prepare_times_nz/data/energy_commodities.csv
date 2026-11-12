@@ -34,7 +34,7 @@ BDSL,Biodiesel,Energy
 BIG,Biogas,Energy
 BIL,Bioethanol,Energy
 BIM,Biomethane,Energy
-BIMDD,Biomethanol,Energy
+BIMDD,Biomethane,Energy
 BPLT,Black Pellet,Energy
 COA,Coal,Energy
 COMAGRWST,Agricultural waste,Energy

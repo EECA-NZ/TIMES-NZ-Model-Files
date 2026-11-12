@@ -1,5 +1,0 @@
-Attribute,CommodityGroup,Variable,Unit
-VAR_Cap,,Electricity generation capacity,GW
-VAR_FIn,Energy,Electricity fuel use,PJ
-VAR_FOut,Energy,Electricity generation,PJ
-VAR_FOut,Energy Emissions,Electricity generation emissions,kt CO2e

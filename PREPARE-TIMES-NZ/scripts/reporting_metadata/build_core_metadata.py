@@ -1,5 +1,6 @@
 """Publish PREP-owned reporting labels used by solver post-processing."""
 
+import shutil
 import tomllib
 from pathlib import Path
 
@@ -17,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 INTERMEDIATE = ROOT / "data_intermediate"
 ASSUMPTIONS = ROOT / "data_raw/coded_assumptions/reporting"
 OUTPUT = INTERMEDIATE / "postprocessing_metadata"
+DOCUMENTATION_OUTPUT = ROOT / "docs/source/developer_guide/prepare_times_nz/data"
 
 
 def _toml_table(data: dict) -> pd.DataFrame:
@@ -118,6 +120,9 @@ def main() -> None:
         uppercase_codes(pd.read_csv(ASSUMPTIONS / source)).to_csv(
             OUTPUT / target, index=False
         )
+    DOCUMENTATION_OUTPUT.mkdir(parents=True, exist_ok=True)
+    for source in OUTPUT.glob("*.csv"):
+        shutil.copy2(source, DOCUMENTATION_OUTPUT / source.name)
 
 
 if __name__ == "__main__":
