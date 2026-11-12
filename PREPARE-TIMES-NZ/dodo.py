@@ -532,6 +532,7 @@ def task_postprocessing_metadata() -> dict:
         _intermediate_out("electricity/offshore_wind.csv", S3_DIR),
         _intermediate_out("settings/load_curves/yrfr.csv", S2_DIR),
         CONFIG_DIR / "SysSettings.toml",
+        ASSUMPTIONS / "reporting/demand_flex_processes.csv",
         CONFIG_META_CSV,
     ]
     return {
@@ -551,6 +552,7 @@ def task_postprocessing_metadata() -> dict:
             metadata_dir / "electricity_generation_processes.csv",
             metadata_dir / "process_units.csv",
             metadata_dir / "commodity_units.csv",
+            metadata_dir / "demand_flex_processes.csv",
             metadata_dir / "timeslices.csv",
             metadata_dir / "primary_production_processes.csv",
             metadata_dir / "battery_processes.csv",

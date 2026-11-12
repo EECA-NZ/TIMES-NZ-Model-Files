@@ -10,6 +10,31 @@ TIMESLICE_LABELS = {
     "DayNite": {"D": "Day", "N": "Night", "P": "Peak"},
 }
 
+CODE_COLUMNS = {
+    "Process",
+    "Commodity",
+    "CommodityOut",
+    "TimeSlice",
+    "SeasonCode",
+    "DayTypeCode",
+    "DayNightCode",
+    "techname",
+    "commname",
+    "sets",
+    "csets",
+}
+
+
+def uppercase_codes(df: pd.DataFrame) -> pd.DataFrame:
+    """Match reporting identifiers to xl2times' uppercase GAMS identifiers."""
+    result = df.copy()
+    # xl2times uppercases all string identifiers before writing the TIMES model.
+    for column in CODE_COLUMNS.intersection(result.columns):
+        result[column] = result[column].map(
+            lambda value: value.upper() if isinstance(value, str) else value
+        )
+    return result
+
 
 def _require_columns(df: pd.DataFrame, columns: list[str], source: str) -> None:
     missing = sorted(set(columns).difference(df.columns))
