@@ -15,19 +15,11 @@ ASSETS = QA_LOCATION / "assets"
 DATA = QA_LOCATION / "data"
 
 SCENARIO_FILES = DATA_RAW / "scenario_files"
-CONCORDANCE_PATCHES = DATA_RAW / "concordance_patches"
 
 
-# External locations - for defining concordance files
+# External location used by remaining analysis helpers
 PREP_LOCATION = QA_LOCATION.parent / "PREPARE-TIMES-NZ"
-PREP_STAGE_0 = PREP_LOCATION / "data_intermediate/stage_0_config"
 PREP_STAGE_2 = PREP_LOCATION / "data_intermediate/stage_2_baseyear_data"
-PREP_STAGE_3 = PREP_LOCATION / "data_intermediate/stage_3_scenario_data"
-PREP_STAGE_4 = PREP_LOCATION / "data_intermediate/stage_4_veda_format"
-
-# Main concordance files - used for generating output data
-PROCESS_CONCORDANCES = DATA / "concordances/processes"
-COMMODITY_CONCORDANCES = DATA / "concordances/commodities"
 
 # For storing results
 FINAL_DATA = DATA / "clean_results"

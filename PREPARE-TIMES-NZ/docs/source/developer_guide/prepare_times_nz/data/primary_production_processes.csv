@@ -1,10 +1,10 @@
-﻿Imported,Process,Renewable,FuelGroup,FuelDetail,SectorGroup,Sector,TechnologyGroup,Technology,EnduseGroup,EndUse,Note
+Imported,Process,Renewable,FuelGroup,FuelDetail,SectorGroup,Sector,TechnologyGroup,Technology,EnduseGroup,EndUse,Note
 Domestic production,MINNGA-KAP,Non-renewable,Natural gas,Natural gas fields (Kapuni),Fugitive emissions,Natural gas fugitive emissions,Domestic gas fields,Gas fields (Kapuni),Gas Production,Gas Production,Add demand categories if needed for emissions charts
 Domestic production,MINNGA-OTH,Non-renewable,Natural gas,Natural gas fields (Other),Fugitive emissions,Natural gas fugitive emissions,Domestic gas fields,Gas fields (except Kapuni),Gas Production,Gas Production,Add demand categories if needed for emissions charts
 Domestic production,MINCOA,Non-renewable,Coal,Domestic coal production,,,,,,,
 Imports,IMPCOA,Non-renewable,Coal,Imported coal,,,,,,,
 Imports,IMPDSL,Non-renewable,Oil products,Diesel,,,,,,,
-Imports,IMPFOL,Non-renewable,Oil products,Fuel oil ,,,,,,,
+Imports,IMPFOL,Non-renewable,Oil products,Fuel oil,,,,,,,
 Imports,IMPLPG,Non-renewable,Oil products,LPG,,,,,,,
 Imports,IMPLNG,Non-renewable,Natural gas,LNG,,,,,,,
 Imports,IMPPET,Non-renewable,Oil products,Petrol,,,,,,,

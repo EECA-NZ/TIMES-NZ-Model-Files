@@ -70,13 +70,15 @@ uv sync --group dev
 uv run --directory TIMES-NZ-INTERNAL-QA python run_local.py
 ```
 
-The app uses processed data in `TIMES-NZ-INTERNAL-QA/data`. If you need to refresh model outputs and labels from the latest prep outputs and local VEDA results, run the post-processing workflow first:
+The app consumes assembled QA parquet bundles. Solver runs now produce their own
+postprocessed parquet outputs automatically:
 
 ```bash
-uv run --directory TIMES-NZ-INTERNAL-QA python src/times_nz_internal_qa/postprocessing/run_all_postprocessing.py
+uv run --directory SOLVE-TIMES-NZ solve-times-nz solve steady
 ```
 
-Note: parts of post-processing depend on `PREPARE-TIMES-NZ/data_intermediate` already being populated, and VEDA result import requires a local VEDA installation.
+Each run stores the source `.vd`, `raw_results.parquet`, labelled reporting
+parquets, and its metadata snapshot under `SOLVE-TIMES-NZ/build/solves/`.
 
 
 ## License
