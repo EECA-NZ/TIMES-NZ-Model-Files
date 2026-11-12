@@ -6,7 +6,24 @@ from prepare_times_nz.reporting_metadata.core import (
     build_electricity_generation_processes,
     build_energy_commodities,
     build_timeslices,
+    uppercase_codes,
 )
+
+
+def test_uppercase_codes_leaves_reporting_labels_unchanged():
+    result = uppercase_codes(
+        pd.DataFrame(
+            {
+                "Process": ["Elc_Geo_TeMihi"],
+                "Commodity": ["Elc"],
+                "Technology": ["Te Mihi"],
+            }
+        )
+    )
+
+    assert result.to_dict("records") == [
+        {"Process": "ELC_GEO_TEMIHI", "Commodity": "ELC", "Technology": "Te Mihi"}
+    ]
 
 
 def test_build_energy_commodities_includes_generic_sectoral_and_distribution_codes():

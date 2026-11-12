@@ -1,6 +1,7 @@
 """Write PREP-owned demand-device reporting metadata."""
 
 import pandas as pd
+from prepare_times_nz.reporting_metadata.core import uppercase_codes
 from prepare_times_nz.reporting_metadata.demand import (
     build_agriculture_processes,
     build_commercial_processes,
@@ -66,8 +67,9 @@ def main():
         ]
     )
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    processes = uppercase_codes(processes)
     processes.to_csv(OUTPUT_DIR / "demand_processes.csv", index=False)
-    build_demand_commodities(processes).to_csv(
+    uppercase_codes(build_demand_commodities(processes)).to_csv(
         OUTPUT_DIR / "demand_commodities.csv", index=False
     )
 

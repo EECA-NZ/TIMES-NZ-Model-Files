@@ -24,8 +24,11 @@ build/solves/steady-v<workspace-version>-<run-id>/
     raw_results.parquet
     elec_generation.parquet
     energy_demand.parquet
-    energy_service_demand.parquet
+    ...
+
 ```
+
+Outputs are grouped by topic, as individual outputs may have different relevant label structures. 
 
 The parquet `Scenario` column uses the versioned `scenario_name` recorded in
 the generated-case manifest, for example `steady-v3.0.9`.
