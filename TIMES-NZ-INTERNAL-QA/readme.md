@@ -18,8 +18,6 @@ The run directory under `SOLVE-TIMES-NZ/build/solves/` contains the raw `.vd`,
 `raw_results.parquet`, the labelled output parquets, and the PREP metadata used
 for that run. QA bundles will combine selected run outputs for the app.
 
-Note that all the categorised data is available for download from the public version of the app, currently at https://eeca-nz.shinyapps.io/times-nz-3-alpha/
-
 ## Deploying the app 
 
 A few adjustments are made to the shared uv workspace structure to enable the app to build on shinyapps.io:
