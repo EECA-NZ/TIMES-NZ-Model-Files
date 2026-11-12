@@ -1,0 +1,26 @@
+TimeSlice,TimesliceOrder,SeasonCode,Season,DayTypeCode,DayType,DayNightCode,DayNight,TimeSliceLabel,YearFraction
+ANNUAL,0,,,,,,,Annual,1.0
+SUM-WK-D,1,SUM-,Summer,WK-,Weekday,D,Day,Summer — Weekday — Day,0.0791095890410958
+SUM-WK-N,2,SUM-,Summer,WK-,Weekday,N,Night,Summer — Weekday — Night,0.0863013698630137
+SUM-WK-P,3,SUM-,Summer,WK-,Weekday,P,Peak,Summer — Weekday — Peak,0.0071917808219178
+SUM-WE-D,4,SUM-,Summer,WE-,Weekend,D,Day,Summer — Weekend — Day,0.033904109589041
+SUM-WE-N,5,SUM-,Summer,WE-,Weekend,N,Night,Summer — Weekend — Night,0.036986301369863
+SUM-WE-P,6,SUM-,Summer,WE-,Weekend,P,Peak,Summer — Weekend — Peak,0.0030821917808219
+FAL-WK-D,7,FAL-,Autumn,WK-,Weekday,D,Day,Autumn — Weekday — Day,0.0828767123287671
+FAL-WK-N,8,FAL-,Autumn,WK-,Weekday,N,Night,Autumn — Weekday — Night,0.0904109589041095
+FAL-WK-P,9,FAL-,Autumn,WK-,Weekday,P,Peak,Autumn — Weekday — Peak,0.0075342465753424
+FAL-WE-D,10,FAL-,Autumn,WE-,Weekend,D,Day,Autumn — Weekend — Day,0.032648401826484
+FAL-WE-N,11,FAL-,Autumn,WE-,Weekend,N,Night,Autumn — Weekend — Night,0.0356164383561643
+FAL-WE-P,12,FAL-,Autumn,WE-,Weekend,P,Peak,Autumn — Weekend — Peak,0.0029680365296803
+WIN-WK-D,13,WIN-,Winter,WK-,Weekday,D,Day,Winter — Weekday — Day,0.0828767123287671
+WIN-WK-N,14,WIN-,Winter,WK-,Weekday,N,Night,Winter — Weekday — Night,0.0904109589041095
+WIN-WK-P,15,WIN-,Winter,WK-,Weekday,P,Peak,Winter — Weekday — Peak,0.0075342465753424
+WIN-WE-D,16,WIN-,Winter,WE-,Weekend,D,Day,Winter — Weekend — Day,0.032648401826484
+WIN-WE-N,17,WIN-,Winter,WE-,Weekend,N,Night,Winter — Weekend — Night,0.0356164383561643
+WIN-WE-P,18,WIN-,Winter,WE-,Weekend,P,Peak,Winter — Weekend — Peak,0.0029680365296803
+SPR-WK-D,19,SPR-,Spring,WK-,Weekday,D,Day,Spring — Weekday — Day,0.08162100456621
+SPR-WK-N,20,SPR-,Spring,WK-,Weekday,N,Night,Spring — Weekday — Night,0.0890410958904109
+SPR-WK-P,21,SPR-,Spring,WK-,Weekday,P,Peak,Spring — Weekday — Peak,0.0074200913242009
+SPR-WE-D,22,SPR-,Spring,WE-,Weekend,D,Day,Spring — Weekend — Day,0.032648401826484
+SPR-WE-N,23,SPR-,Spring,WE-,Weekend,N,Night,Spring — Weekend — Night,0.0356164383561643
+SPR-WE-P,24,SPR-,Spring,WE-,Weekend,P,Peak,Spring — Weekend — Peak,0.0029680365296803

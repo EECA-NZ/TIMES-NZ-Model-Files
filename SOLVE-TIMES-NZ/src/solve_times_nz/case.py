@@ -339,6 +339,7 @@ def build_case(
             ) from error
     manifest = {
         "case_name": case.name,
+        "scenario_name": versioned_case_name(case.name),
         "built_at": datetime.now(UTC).isoformat(),
         "input_root": str(case.input_root),
         "case_manifest": str(case.manifest_path),

@@ -65,7 +65,7 @@ from prepare_times_nz.utilities.filepaths import (
 DOIT_CONFIG = {
     "verbosity": 2,
     "dep_file": ".cache/doit/db",
-    "default_tasks": ["stage_5_build_excel"],
+    "default_tasks": ["stage_5_build_excel", "postprocessing_metadata"],
 }
 
 # Pattern to identify datasets
@@ -484,5 +484,96 @@ def task_stage_5_build_excel():
         + [CONFIG_META_CSV],
         "targets": [_out(rel) for rel in STAGE_5["write_excel"]],
         "task_dep": [f"stage_4_veda_csvs:{n}" for n in STAGE_4],
+        "clean": True,
+    }
+
+
+def task_postprocessing_metadata() -> dict:
+    """Publish PREP-owned reporting metadata for solver post-processing."""
+    script = PREP_LOCATION / "scripts/reporting_metadata/build_demand_processes.py"
+    reporting_inputs = [
+        ASSUMPTIONS / "reporting/transport_demand_commodities.csv",
+        ASSUMPTIONS / "reporting/transport_technology_labels.csv",
+        ASSUMPTIONS / "reporting/industry_demand_overrides.csv",
+        ASSUMPTIONS / "reporting/commercial_demand_overrides.csv",
+    ]
+    demand_inputs = [
+        _intermediate_out("industry/baseyear_industry_demand.csv", S2_DIR),
+        _intermediate_out("residential/baseyear_residential_demand.csv", S2_DIR),
+        _intermediate_out("commercial/baseyear_commercial_demand.csv", S2_DIR),
+        _intermediate_out("ag_forest_fish/baseyear_ag_forest_fish_demand.csv", S2_DIR),
+        _intermediate_out("subres_ind/future_industry_process_definitions.csv", S4_DIR),
+        _intermediate_out(
+            "subres_com/future_commercial_process_definitions.csv", S4_DIR
+        ),
+        _intermediate_out(
+            "subres_agr/future_agriculture_process_definitions.csv", S4_DIR
+        ),
+        _intermediate_out("base_year_tra/tra_process_parameters.csv", S4_DIR),
+        _intermediate_out(
+            "subres_tra/future_transport_details_advanced_costcurve.csv", S4_DIR
+        ),
+    ]
+    metadata_dir = DATA_INTERMEDIATE / "postprocessing_metadata"
+    core_script = PREP_LOCATION / "scripts/reporting_metadata/build_core_metadata.py"
+    core_inputs = [
+        ASSUMPTIONS / "reporting/fuel_labels.csv",
+        ASSUMPTIONS / "reporting/sector_labels.csv",
+        ASSUMPTIONS / "reporting/electricity_technology_labels.csv",
+        ASSUMPTIONS / "reporting/distribution_processes.csv",
+        ASSUMPTIONS / "reporting/production_processes.csv",
+        ASSUMPTIONS / "reporting/battery_processes.csv",
+        ASSUMPTIONS / "reporting/closure_processes.csv",
+        ASSUMPTIONS / "reporting/dummy_processes.csv",
+        ASSUMPTIONS / "reporting/emissions_commodities.csv",
+        ASSUMPTIONS / "reporting/currency_commodities.csv",
+        _intermediate_out("electricity/base_year_electricity_supply.csv", S2_DIR),
+        _intermediate_out("electricity/genstack.csv", S3_DIR),
+        _intermediate_out("electricity/offshore_wind.csv", S3_DIR),
+        _intermediate_out("settings/load_curves/yrfr.csv", S2_DIR),
+        CONFIG_DIR / "SysSettings.toml",
+        ASSUMPTIONS / "reporting/demand_flex_processes.csv",
+        CONFIG_META_CSV,
+    ]
+    return {
+        "actions": [_run(str(script)), _run(str(core_script))],
+        "file_dep": [
+            script,
+            core_script,
+            *reporting_inputs,
+            *demand_inputs,
+            *core_inputs,
+        ],
+        "targets": [
+            metadata_dir / "demand_processes.csv",
+            metadata_dir / "demand_commodities.csv",
+            metadata_dir / "energy_commodities.csv",
+            metadata_dir / "distribution_processes.csv",
+            metadata_dir / "electricity_generation_processes.csv",
+            metadata_dir / "process_units.csv",
+            metadata_dir / "commodity_units.csv",
+            metadata_dir / "demand_flex_processes.csv",
+            metadata_dir / "timeslices.csv",
+            metadata_dir / "primary_production_processes.csv",
+            metadata_dir / "battery_processes.csv",
+            metadata_dir / "technical_processes.csv",
+            metadata_dir / "dummy_processes.csv",
+            metadata_dir / "emissions_commodities.csv",
+            metadata_dir / "currency_commodities.csv",
+        ],
+        "task_dep": [
+            "stage_2_baseyear:baseyear_industry_demand",
+            "stage_2_baseyear:baseyear_commercial_demand",
+            "stage_2_baseyear:baseyear_residential_demand",
+            "stage_2_baseyear:baseyear_ag_forest_fish_demand",
+            "stage_4_veda_csvs:create_baseyear_demand_files",
+            "stage_4_veda_csvs:create_newtechs_tra_files",
+            "stage_4_veda_csvs:create_newtechs_com_files",
+            "stage_4_veda_csvs:create_newtechs_agr_files",
+            "stage_4_veda_csvs:create_newtechs_ind_files",
+            "stage_2_baseyear:baseyear_electricity_generation",
+            "stage_2_baseyear:settings/load_curves",
+            "stage_3_scenarios:electricity_electricity_new_gen_tech",
+        ],
         "clean": True,
     }

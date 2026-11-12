@@ -1,0 +1,182 @@
+Process,Sector,Commodity,ProcessGroup
+FTE_AGRAGRWST,Agriculture,AGRICULTURAL WASTE,Distribution
+FTE_AGRANMMNR,Agriculture,ANIMAL MANURE,Distribution
+FTE_AGRBDSL,Agriculture,BIODIESEL,Distribution
+FTE_AGRBIG,Agriculture,BIOGAS,Distribution
+FTE_AGRBIL,Agriculture,BIOETHANOL,Distribution
+FTE_AGRBIM,Agriculture,BIOMETHANE,Distribution
+FTE_AGRBPLT,Agriculture,BLACK PELLET,Distribution
+FTE_AGRCOA,Agriculture,COAL,Distribution
+FTE_AGRDID,Agriculture,DROP-IN DIESEL,Distribution
+FTE_AGRDIJ,Agriculture,DROP-IN JET FUEL,Distribution
+FTE_AGRDSL,Agriculture,DIESEL,Distribution
+FTE_AGRELC,Agriculture,ELECTRICITY,Distribution
+FTE_AGRFOL,Agriculture,FUEL OIL,Distribution
+FTE_AGRGEO,Agriculture,GEOTHERMAL,Distribution
+FTE_AGRH2R,Agriculture,HYDROGEN,Distribution
+FTE_AGRHYD,Agriculture,HYDRO,Distribution
+FTE_AGRINDOSDWOD,Agriculture,WOOD RESIDUALS (ONSITE INDUSTRIAL),Distribution
+FTE_AGRJET,Agriculture,JET FUEL,Distribution
+FTE_AGRLNG,Agriculture,LNG,Distribution
+FTE_AGRLPG,Agriculture,LPG,Distribution
+FTE_AGRMNCWST,Agriculture,MUNICIPAL WASTE,Distribution
+FTE_AGRNGA,Agriculture,NATURAL GAS,Distribution
+FTE_AGROSWOD,Agriculture,WOOD RESIDUALS (ONSITE),Distribution
+FTE_AGRPET,Agriculture,PETROL,Distribution
+FTE_AGRPLT,Agriculture,WOOD PELLET,Distribution
+FTE_AGRSOL,Agriculture,SOLAR,Distribution
+FTE_AGRWIN,Agriculture,WIND,Distribution
+FTE_AGRWOD,Agriculture,WOOD,Distribution
+FTE_AGRWODWST,Agriculture,WOOD WASTE,Distribution
+FTE_COMAGRWST,Commercial,AGRICULTURAL WASTE,Distribution
+FTE_COMANMMNR,Commercial,ANIMAL MANURE,Distribution
+FTE_COMBDSL,Commercial,BIODIESEL,Distribution
+FTE_COMBIG,Commercial,BIOGAS,Distribution
+FTE_COMBIL,Commercial,BIOETHANOL,Distribution
+FTE_COMBIM,Commercial,BIOMETHANE,Distribution
+FTE_COMBPLT,Commercial,BLACK PELLET,Distribution
+FTE_COMCOA,Commercial,COAL,Distribution
+FTE_COMDID,Commercial,DROP-IN DIESEL,Distribution
+FTE_COMDIJ,Commercial,DROP-IN JET FUEL,Distribution
+FTE_COMDSL,Commercial,DIESEL,Distribution
+FTE_COMELC,Commercial,ELECTRICITY,Distribution
+FTE_COMFOL,Commercial,FUEL OIL,Distribution
+FTE_COMGEO,Commercial,GEOTHERMAL,Distribution
+FTE_COMH2R,Commercial,HYDROGEN,Distribution
+FTE_COMHYD,Commercial,HYDRO,Distribution
+FTE_COMINDOSDWOD,Commercial,WOOD RESIDUALS (ONSITE INDUSTRIAL),Distribution
+FTE_COMJET,Commercial,JET FUEL,Distribution
+FTE_COMLNG,Commercial,LNG,Distribution
+FTE_COMLPG,Commercial,LPG,Distribution
+FTE_COMMNCWST,Commercial,MUNICIPAL WASTE,Distribution
+FTE_COMNGA,Commercial,NATURAL GAS,Distribution
+FTE_COMOSWOD,Commercial,WOOD RESIDUALS (ONSITE),Distribution
+FTE_COMPET,Commercial,PETROL,Distribution
+FTE_COMPLT,Commercial,WOOD PELLET,Distribution
+FTE_COMSOL,Commercial,SOLAR,Distribution
+FTE_COMWIN,Commercial,WIND,Distribution
+FTE_COMWOD,Commercial,WOOD,Distribution
+FTE_COMWODWST,Commercial,WOOD WASTE,Distribution
+FTE_ELCAGRWST,Electricity generation,AGRICULTURAL WASTE,Distribution
+FTE_ELCANMMNR,Electricity generation,ANIMAL MANURE,Distribution
+FTE_ELCBDSL,Electricity generation,BIODIESEL,Distribution
+FTE_ELCBIG,Electricity generation,BIOGAS,Distribution
+FTE_ELCBIL,Electricity generation,BIOETHANOL,Distribution
+FTE_ELCBIM,Electricity generation,BIOMETHANE,Distribution
+FTE_ELCBPLT,Electricity generation,BLACK PELLET,Distribution
+FTE_ELCCOA,Electricity generation,COAL,Distribution
+FTE_ELCDID,Electricity generation,DROP-IN DIESEL,Distribution
+FTE_ELCDIJ,Electricity generation,DROP-IN JET FUEL,Distribution
+FTE_ELCDSL,Electricity generation,DIESEL,Distribution
+FTE_ELCELC,Electricity generation,ELECTRICITY,Distribution
+FTE_ELCFOL,Electricity generation,FUEL OIL,Distribution
+FTE_ELCGEO,Electricity generation,GEOTHERMAL,Distribution
+FTE_ELCH2R,Electricity generation,HYDROGEN,Distribution
+FTE_ELCHYD,Electricity generation,HYDRO,Distribution
+FTE_ELCINDOSDWOD,Electricity generation,WOOD RESIDUALS (ONSITE INDUSTRIAL),Distribution
+FTE_ELCJET,Electricity generation,JET FUEL,Distribution
+FTE_ELCLNG,Electricity generation,LNG,Distribution
+FTE_ELCLPG,Electricity generation,LPG,Distribution
+FTE_ELCMNCWST,Electricity generation,MUNICIPAL WASTE,Distribution
+FTE_ELCNGA,Electricity generation,NATURAL GAS,Distribution
+FTE_ELCOSWOD,Electricity generation,WOOD RESIDUALS (ONSITE),Distribution
+FTE_ELCPET,Electricity generation,PETROL,Distribution
+FTE_ELCPLT,Electricity generation,WOOD PELLET,Distribution
+FTE_ELCSOL,Electricity generation,SOLAR,Distribution
+FTE_ELCWIN,Electricity generation,WIND,Distribution
+FTE_ELCWOD,Electricity generation,WOOD,Distribution
+FTE_ELCWODWST,Electricity generation,WOOD WASTE,Distribution
+FTE_INDAGRWST,Industry,AGRICULTURAL WASTE,Distribution
+FTE_INDANMMNR,Industry,ANIMAL MANURE,Distribution
+FTE_INDBDSL,Industry,BIODIESEL,Distribution
+FTE_INDBIG,Industry,BIOGAS,Distribution
+FTE_INDBIL,Industry,BIOETHANOL,Distribution
+FTE_INDBIM,Industry,BIOMETHANE,Distribution
+FTE_INDBPLT,Industry,BLACK PELLET,Distribution
+FTE_INDCOA,Industry,COAL,Distribution
+FTE_INDDID,Industry,DROP-IN DIESEL,Distribution
+FTE_INDDIJ,Industry,DROP-IN JET FUEL,Distribution
+FTE_INDDSL,Industry,DIESEL,Distribution
+FTE_INDELC,Industry,ELECTRICITY,Distribution
+FTE_INDFOL,Industry,FUEL OIL,Distribution
+FTE_INDGEO,Industry,GEOTHERMAL,Distribution
+FTE_INDH2R,Industry,HYDROGEN,Distribution
+FTE_INDHYD,Industry,HYDRO,Distribution
+FTE_INDINDOSDWOD,Industry,WOOD RESIDUALS (ONSITE INDUSTRIAL),Distribution
+FTE_INDJET,Industry,JET FUEL,Distribution
+FTE_INDLNG,Industry,LNG,Distribution
+FTE_INDLPG,Industry,LPG,Distribution
+FTE_INDMNCWST,Industry,MUNICIPAL WASTE,Distribution
+FTE_INDNGA,Industry,NATURAL GAS,Distribution
+FTE_INDOSWOD,Industry,WOOD RESIDUALS (ONSITE),Distribution
+FTE_INDPET,Industry,PETROL,Distribution
+FTE_INDPLT,Industry,WOOD PELLET,Distribution
+FTE_INDSOL,Industry,SOLAR,Distribution
+FTE_INDWIN,Industry,WIND,Distribution
+FTE_INDWOD,Industry,WOOD,Distribution
+FTE_INDWODWST,Industry,WOOD WASTE,Distribution
+FTE_RESAGRWST,Residential,AGRICULTURAL WASTE,Distribution
+FTE_RESANMMNR,Residential,ANIMAL MANURE,Distribution
+FTE_RESBDSL,Residential,BIODIESEL,Distribution
+FTE_RESBIG,Residential,BIOGAS,Distribution
+FTE_RESBIL,Residential,BIOETHANOL,Distribution
+FTE_RESBIM,Residential,BIOMETHANE,Distribution
+FTE_RESBPLT,Residential,BLACK PELLET,Distribution
+FTE_RESCOA,Residential,COAL,Distribution
+FTE_RESDID,Residential,DROP-IN DIESEL,Distribution
+FTE_RESDIJ,Residential,DROP-IN JET FUEL,Distribution
+FTE_RESDSL,Residential,DIESEL,Distribution
+FTE_RESELC,Residential,ELECTRICITY,Distribution
+FTE_RESFOL,Residential,FUEL OIL,Distribution
+FTE_RESGEO,Residential,GEOTHERMAL,Distribution
+FTE_RESH2R,Residential,HYDROGEN,Distribution
+FTE_RESHYD,Residential,HYDRO,Distribution
+FTE_RESINDOSDWOD,Residential,WOOD RESIDUALS (ONSITE INDUSTRIAL),Distribution
+FTE_RESJET,Residential,JET FUEL,Distribution
+FTE_RESLNG,Residential,LNG,Distribution
+FTE_RESLPG,Residential,LPG,Distribution
+FTE_RESMNCWST,Residential,MUNICIPAL WASTE,Distribution
+FTE_RESNGA,Residential,NATURAL GAS,Distribution
+FTE_RESOSWOD,Residential,WOOD RESIDUALS (ONSITE),Distribution
+FTE_RESPET,Residential,PETROL,Distribution
+FTE_RESPLT,Residential,WOOD PELLET,Distribution
+FTE_RESSOL,Residential,SOLAR,Distribution
+FTE_RESWIN,Residential,WIND,Distribution
+FTE_RESWOD,Residential,WOOD,Distribution
+FTE_RESWODWST,Residential,WOOD WASTE,Distribution
+FTE_TRAAGRWST,Transport,AGRICULTURAL WASTE,Distribution
+FTE_TRAANMMNR,Transport,ANIMAL MANURE,Distribution
+FTE_TRABDSL,Transport,BIODIESEL,Distribution
+FTE_TRABIG,Transport,BIOGAS,Distribution
+FTE_TRABIL,Transport,BIOETHANOL,Distribution
+FTE_TRABIM,Transport,BIOMETHANE,Distribution
+FTE_TRABPLT,Transport,BLACK PELLET,Distribution
+FTE_TRACOA,Transport,COAL,Distribution
+FTE_TRADID,Transport,DROP-IN DIESEL,Distribution
+FTE_TRADIJ,Transport,DROP-IN JET FUEL,Distribution
+FTE_TRADSL,Transport,DIESEL,Distribution
+FTE_TRAELC,Transport,ELECTRICITY,Distribution
+FTE_TRAFOL,Transport,FUEL OIL,Distribution
+FTE_TRAGEO,Transport,GEOTHERMAL,Distribution
+FTE_TRAH2R,Transport,HYDROGEN,Distribution
+FTE_TRAHYD,Transport,HYDRO,Distribution
+FTE_TRAINDOSDWOD,Transport,WOOD RESIDUALS (ONSITE INDUSTRIAL),Distribution
+FTE_TRAJET,Transport,JET FUEL,Distribution
+FTE_TRALNG,Transport,LNG,Distribution
+FTE_TRALPG,Transport,LPG,Distribution
+FTE_TRAMNCWST,Transport,MUNICIPAL WASTE,Distribution
+FTE_TRANGA,Transport,NATURAL GAS,Distribution
+FTE_TRAOSWOD,Transport,WOOD RESIDUALS (ONSITE),Distribution
+FTE_TRAPET,Transport,PETROL,Distribution
+FTE_TRAPLT,Transport,WOOD PELLET,Distribution
+FTE_TRASOL,Transport,SOLAR,Distribution
+FTE_TRAWIN,Transport,WIND,Distribution
+FTE_TRAWOD,Transport,WOOD,Distribution
+FTE_TRAWODWST,Transport,WOOD WASTE,Distribution
+G_ELC_HV,Electricity distribution,ELECTRICITY,Distribution
+G_ELC_LV,Electricity distribution,ELECTRICITY,Distribution
+LNGPORTSML,LNG Ports,LNG,Distribution
+LNGPORTSTD,LNG Ports,LNG,Distribution
+TB_COA_NI_SI_01,,COAL,IRE
+TB_ELC_NI_SI_01,,ELECTRICITY,IRE
+TU_LPG_NI_SI_01,,LPG,IRE

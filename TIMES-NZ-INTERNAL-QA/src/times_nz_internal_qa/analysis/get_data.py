@@ -13,9 +13,8 @@ to create small, custom datasets for specific purposes.
 import numpy as np
 import pandas as pd
 from times_nz_internal_qa.utilities.filepaths import (
-    CONCORDANCE_PATCHES,
     FINAL_DATA,
-    PREP_STAGE_3,
+    PREP_LOCATION,
 )
 
 # Scenario display names ------------------------------------------------------
@@ -40,7 +39,9 @@ def get_renewable_fuels():
         and should be handled separately in renewable analysis
     """
 
-    df = pd.read_csv(CONCORDANCE_PATCHES / "code_mapping/fuel_codes.csv")
+    df = pd.read_csv(
+        PREP_LOCATION / "data_raw/coded_assumptions/reporting/fuel_labels.csv"
+    )
 
     df = df.rename(columns={"Commodity": "Fuel"})
 
@@ -615,18 +616,6 @@ def get_renewable_tfec():
     df["Unit"] = "Share"
 
     return df[["Scenario", "Period", "Unit", "RenewableShareOfTFEC"]]
-
-
-def get_genstack():
-    """
-    This function relies on the workflow for PREPARE-TIMES-NZ
-
-    as it uses the data_intermediate folders
-    """
-
-    genstack = pd.read_csv(PREP_STAGE_3 / "electricity/genstack.csv")
-
-    return genstack
 
 
 # Scratch entrypoint ----------------------------------------------------------

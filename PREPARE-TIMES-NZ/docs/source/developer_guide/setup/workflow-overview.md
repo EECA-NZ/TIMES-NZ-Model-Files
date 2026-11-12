@@ -21,24 +21,19 @@ It is also possible to instead use Veda, a common software used by TIMES modelle
 
 ### Step 3: Result post-processing 
 
-
-```{warning}
-Post-processing needs to be rebuilt to link to the new SOLVE-TIMES-NZ results. 
-
-This module still ingests Veda results for legacy comparisons 
-
-This must be resolved before the next release. 
-```
-
-Assuming the VEDA installation is in the expected location, you can automatically retrive VEDA model results and apply post-processing using the below script: 
+`solve-times-nz solve` automatically writes labelled parquet outputs after the
+model solve. It also stores the raw `.vd`, `raw_results.parquet`, and the PREP
+metadata snapshot beside the result files:
 
 ```bash
-uv run --directory TIMES-NZ-INTERNAL-QA python src/times_nz_internal_qa/postprocessing/run_all_postprocessing.py
+uv run --directory SOLVE-TIMES-NZ solve-times-nz solve steady
 ```
 
-Note that some components of this script rely on data generated in `PREPARE-TIMES-NZ` to assign TIMES process and commodity codes to the relevant categories and add labels. If you don't have these, then you can skip the `define_data` steps of this script, and simply run the `get_data` and `process_data` functions.
+For a failed or adjusted reporting run, regenerate parquets without solving:
 
-If anything in the results is not defined, this will be flagged in the console. 
+```bash
+uv run --directory SOLVE-TIMES-NZ solve-times-nz postprocess <run-dir>
+```
 
 ### Step 4: Visualization (internal qa method)
 
