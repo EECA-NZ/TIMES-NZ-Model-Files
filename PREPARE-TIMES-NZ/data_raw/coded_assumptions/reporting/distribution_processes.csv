@@ -1,0 +1,8 @@
+Process,Sector,Commodity,ProcessGroup
+G_ELC_HV,Electricity distribution,Electricity,Distribution
+G_ELC_LV,Electricity distribution,Electricity,Distribution
+LNGPORTSML,LNG Ports,LNG,Distribution
+LNGPORTSTD,LNG Ports,LNG,Distribution
+TB_COA_NI_SI_01,,Coal,IRE
+TB_ELC_NI_SI_01,,Electricity,IRE
+TU_LPG_NI_SI_01,,LPG,IRE

@@ -169,6 +169,26 @@ copy of every PREP intermediate file.
 
 ## Initial implementation plan
 
+## Current implementation status
+
+PREP now writes the current demand, electricity generation, energy commodity,
+distribution, primary production, battery, technical/dummy, emissions,
+currency, process-unit and commodity-unit catalogs to
+`data_intermediate/postprocessing_metadata/`. The legacy fuel/sector,
+electricity-technology, primary-production and technical labels have been
+moved unchanged into `data_raw/coded_assumptions/reporting/` so they are owned
+and versioned with PREP rather than imported from QA.
+
+The compatibility check confirms identical code coverage for every migrated
+legacy catalog other than declaration units. Current PREP declarations differ
+from the stored QA unit catalogs (process: 10 old-only and 85 new-only rows;
+commodity: 3 old-only and 2 new-only rows), so the eventual solver cut-over
+must report those differences rather than treating the stored QA catalogs as a
+truth source. `timeslices.csv` is generated from the configured TIMES slice
+order and calculated year fractions, with clean component/display labels.
+`transformation_processes.csv`, the reporting manifest and final
+provenance/overlap validation remain to be implemented.
+
 ### 1. Freeze the current behaviour
 
 For representative solved cases, capture the current QA-produced concordance
