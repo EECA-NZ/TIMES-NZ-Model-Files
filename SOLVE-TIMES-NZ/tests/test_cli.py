@@ -43,3 +43,27 @@ def test_build_accepts_an_explicit_output_override(
     cli.main()
 
     assert built == [output]
+
+
+def test_solve_postprocesses_the_completed_run(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    run_dir = tmp_path / "solve"
+    postprocessed: list[tuple[Path, Path]] = []
+    monkeypatch.setattr(cli, "solve_case", lambda *_args, **_kwargs: run_dir)
+    monkeypatch.setattr(
+        cli,
+        "snapshot_metadata",
+        lambda _metadata, _run: run_dir / "postprocessed/metadata",
+    )
+    monkeypatch.setattr(
+        cli,
+        "postprocess_run",
+        lambda run, metadata: postprocessed.append((run, metadata))
+        or run / "postprocessed",
+    )
+    monkeypatch.setattr(sys, "argv", ["solve-times-nz", "solve", "steady"])
+
+    cli.main()
+
+    assert postprocessed == [(run_dir, run_dir / "postprocessed/metadata")]

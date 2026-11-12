@@ -108,6 +108,7 @@ def test_build_runs_wrapper_and_writes_manifest(tmp_path: Path) -> None:
     assert commands[0][1:3] == ["-m", "solve_times_nz.xl2times_compat"]
     assert working_directories == [output.resolve()]
     written = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
+    assert written["scenario_name"] == versioned_case_name("steady")
     assert [item["path"] for item in written["inputs"]] == ["Base.xlsx", "Steady.xlsx"]
     assert written["executor"] == "test"
     assert (output / "steady.run").is_file()

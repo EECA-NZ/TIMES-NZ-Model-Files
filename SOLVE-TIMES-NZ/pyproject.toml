@@ -7,6 +7,7 @@ authors = [{ name = "EECA" }]
 requires-python = ">=3.12,<4"
 dependencies = [
     "pandas>=2.2,<3",
+    "pyarrow>=23.0.1,<24",
     "xl2times==0.3.0",
 ]
 
