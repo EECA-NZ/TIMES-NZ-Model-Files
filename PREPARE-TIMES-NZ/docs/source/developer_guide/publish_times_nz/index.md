@@ -5,11 +5,32 @@ result consumers. A release is a directory containing a small manifest and
 the Parquet files that belong to that release. It is separate from an
 individual solver run: a release may contain results from one or more runs.
 
-## Current status
+## Create a release
 
-The release-bundle reader is available now. Release assembly and legacy import
-commands will be added separately; until then, this page documents the bundle
-format and how consumers read a selected release.
+Build a release from one or more completed solver `postprocessed/` directories:
+
+```bash
+uv run publish-times-nz build v3.0.9-comparison \
+  SOLVE-TIMES-NZ/build/solves/steady-v3.0.9-20261112T060842Z/postprocessed \
+  SOLVE-TIMES-NZ/build/solves/shift-v3.0.9-20261112T060842Z/postprocessed
+```
+
+Each selected solver directory must contain exactly one scenario, and selected
+directories must not repeat a scenario ID. PUBLISH batches matching labelled
+Parquets by filename and includes every source Parquet; it places
+`raw_results.parquet` in `raw/` when available.
+
+Import an already scenario-batched legacy result directory with:
+
+```bash
+uv run publish-times-nz import-legacy v308 \
+  TIMES-NZ-INTERNAL-QA/data/clean_results \
+  --legacy-source "v308 clean results"
+```
+
+Both commands stage and validate the new directory before publishing it. They
+never overwrite an existing release name. Use `--releases-root <path>` only
+when the local release root must be elsewhere.
 
 ## Release layout
 
@@ -57,7 +78,8 @@ run identities:
 
 Each scenario needs a unique raw `id` and its human-readable `label`. Keep
 the raw IDs in the Parquet `Scenario` column; display labels are manifest
-metadata.
+metadata. Until a display-label policy is added, PUBLISH uses each raw ID as
+its label.
 
 ## Reading a selected release
 

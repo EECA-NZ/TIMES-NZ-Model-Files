@@ -8,6 +8,9 @@ dependencies = [
     "pyarrow>=23.0.1,<24",
 ]
 
+[project.scripts]
+publish-times-nz = "publish_times_nz.cli:main"
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

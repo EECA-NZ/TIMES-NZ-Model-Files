@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.12, <4"
 resolution-markers = [
     "python_full_version >= '3.14'",
@@ -12,6 +12,7 @@ resolution-markers = [
 [manifest]
 members = [
     "prepare-times-nz",
+    "publish-times-nz",
     "solve-times-nz",
     "times-nz-internal-qa",
     "times-nz-model-files",
@@ -3019,6 +3020,17 @@ wheels = [
 ]
 
 [[package]]
+name = "publish-times-nz"
+version = "0.1.0"
+source = { editable = "PUBLISH-TIMES-NZ" }
+dependencies = [
+    { name = "pyarrow" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pyarrow", specifier = ">=23.0.1,<24" }]
+
+[[package]]
 name = "pure-eval"
 version = "0.2.4"
 source = { registry = "https://pypi.org/simple" }
@@ -4262,6 +4274,7 @@ version = "3.0.9"
 source = { virtual = "." }
 dependencies = [
     { name = "prepare-times-nz" },
+    { name = "publish-times-nz" },
     { name = "solve-times-nz" },
     { name = "times-nz-internal-qa" },
 ]
@@ -4295,6 +4308,7 @@ docs = [
 [package.metadata]
 requires-dist = [
     { name = "prepare-times-nz", editable = "PREPARE-TIMES-NZ" },
+    { name = "publish-times-nz", editable = "PUBLISH-TIMES-NZ" },
     { name = "solve-times-nz", editable = "SOLVE-TIMES-NZ" },
     { name = "times-nz-internal-qa", editable = "TIMES-NZ-INTERNAL-QA" },
 ]
