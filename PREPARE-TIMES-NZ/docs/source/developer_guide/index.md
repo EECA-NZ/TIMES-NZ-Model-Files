@@ -18,6 +18,7 @@ Processing scripts are organised by sector (electricity generation, commercial d
 setup/index
 prepare_times_nz/index
 solve_times_nz/index
+publish_times_nz/index
 miscellaneous/index
 ```
 
