@@ -4,17 +4,15 @@ Defines the ui for the internal app
 
 import json
 import os
-from pathlib import Path
 
 # Libraries
-from dotenv import load_dotenv
 from shiny import ui
-from times_nz_internal_qa.app.app_module_demand import demand_ui
-from times_nz_internal_qa.app.app_module_elec import elec_ui
-from times_nz_internal_qa.app.app_module_emissions import emissions_ui
-from times_nz_internal_qa.app.app_module_esd import esd_ui
-from times_nz_internal_qa.app.app_module_primary_energy import primary_energy_ui
-from times_nz_internal_qa.utilities.filepaths import ASSETS
+from publish_times_nz.app.app_module_demand import demand_ui
+from publish_times_nz.app.app_module_elec import elec_ui
+from publish_times_nz.app.app_module_emissions import emissions_ui
+from publish_times_nz.app.app_module_esd import esd_ui
+from publish_times_nz.app.app_module_primary_energy import primary_energy_ui
+from publish_times_nz.utilities.filepaths import ASSETS
 
 # Constants
 
@@ -22,7 +20,6 @@ global_css = ASSETS / "styles.css"
 
 # Secrets
 
-load_dotenv(dotenv_path=Path.cwd() / ".env")
 PENDO_API_KEY = os.getenv("PENDO_API_KEY", "")
 
 # UI

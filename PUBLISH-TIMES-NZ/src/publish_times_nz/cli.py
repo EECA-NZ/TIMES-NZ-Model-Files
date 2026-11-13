@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from publish_times_nz.deployment_payload import prepare_deployment_payload
 from publish_times_nz.release_builder import build_release, import_legacy_release
 
 
@@ -27,8 +28,14 @@ def main() -> None:
     legacy.add_argument("--legacy-source")
     legacy.add_argument("--releases-root", default=DEFAULT_RELEASES_ROOT, type=Path)
 
+    deploy = commands.add_parser("prepare-deployment-payload", help="Build the rsconnect payload")
+    deploy.add_argument("--release", default="v308")
+
     arguments = parser.parse_args()
-    if arguments.command == "build":
+    if arguments.command == "prepare-deployment-payload":
+        print(prepare_deployment_payload(DEFAULT_RELEASES_ROOT.parent, arguments.release))
+        return
+    elif arguments.command == "build":
         bundle = build_release(
             arguments.release_name,
             arguments.source_directory,

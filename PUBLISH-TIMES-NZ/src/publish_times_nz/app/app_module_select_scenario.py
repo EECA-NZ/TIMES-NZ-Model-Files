@@ -6,10 +6,13 @@ For now, the target is to just provide a main dropdown list,
 
 from shiny import reactive, render, ui
 from shiny.types import SilentException
-from times_nz_internal_qa.config import current_scenarios
-from times_nz_internal_qa.utilities.value_mappings import get_choice_labels
+from publish_times_nz.app.release import configured_bundle
 
 NO_COMPARISON = "__none__"
+SCENARIO_CHOICES = {
+    scenario["id"]: scenario["label"] for scenario in configured_bundle().scenarios
+}
+SCENARIOS = list(SCENARIO_CHOICES)
 
 
 # pylint:disable = unused-argument
@@ -18,7 +21,7 @@ def scenario_select_server(inputs, outputs, session):
 
     @render.ui
     def select_scenario_a_ui():
-        opts = get_choice_labels("Scenario", current_scenarios)
+        opts = SCENARIO_CHOICES
         return ui.div(
             ui.tags.h4("Main scenario:", class_="filter-section-title"),
             ui.input_selectize(
@@ -34,11 +37,11 @@ def scenario_select_server(inputs, outputs, session):
     def update_scenario_b_options():
         a = inputs.scenario_a()
         scenario_options = (
-            [s for s in current_scenarios if s != a] if a else current_scenarios
+            [s for s in SCENARIOS if s != a] if a else SCENARIOS
         )
         opts = {
             NO_COMPARISON: "None",
-            **get_choice_labels("Scenario", scenario_options),
+            **{scenario: SCENARIO_CHOICES[scenario] for scenario in scenario_options},
         }
 
         with reactive.isolate():

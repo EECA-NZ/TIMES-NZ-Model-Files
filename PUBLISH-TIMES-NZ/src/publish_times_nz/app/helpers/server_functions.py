@@ -8,7 +8,7 @@ import polars as pl
 from shiny import reactive, render
 from shiny.types import SilentException
 from shinywidgets import render_plotly
-from times_nz_internal_qa.app.helpers.charts import (
+from publish_times_nz.app.helpers.charts import (
     DEFAULT_LAYOUT_OPTIONS,
     TIMESLICE_LAYOUT_OPTIONS,
     build_empty_figure,
@@ -17,7 +17,7 @@ from times_nz_internal_qa.app.helpers.charts import (
     build_grouped_bar_timeslice,
     build_grouped_line,
 )
-from times_nz_internal_qa.app.helpers.data_processing import (
+from publish_times_nz.app.helpers.data_processing import (
     TOTAL_GROUP_COLUMN,
     TOTAL_GROUP_OPTION,
     TOTAL_GROUP_VALUE,
@@ -30,8 +30,8 @@ from times_nz_internal_qa.app.helpers.data_processing import (
     to_snake_case,
     write_polars_to_csv,
 )
-from times_nz_internal_qa.app.helpers.filters import register_all_filters_and_clear
-from times_nz_internal_qa.utilities.value_mappings import remap_values
+from publish_times_nz.app.helpers.filters import register_all_filters_and_clear
+from publish_times_nz.utilities.value_mappings import remap_values
 
 
 def _selection_key(value):

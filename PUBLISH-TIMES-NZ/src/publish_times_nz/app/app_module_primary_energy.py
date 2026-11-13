@@ -5,25 +5,25 @@ Energy production server and ui
 from functools import lru_cache
 
 from shiny import reactive
-from times_nz_internal_qa.app.helpers.data_processing import (
+from publish_times_nz.app.helpers.data_processing import (
     aggregate_by_group,
     read_data_pl,
 )
-from times_nz_internal_qa.app.helpers.filters import (
+from publish_times_nz.app.helpers.filters import (
     create_filter_dict,
 )
-from times_nz_internal_qa.app.helpers.server_functions import (
+from publish_times_nz.app.helpers.server_functions import (
     register_server_functions_for_explorer,
 )
-from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
-from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
+from publish_times_nz.app.helpers.ui_elements import make_explorer_page_ui
+from publish_times_nz.app.release import labelled_file
 
 # CONSTANTS --------------------------------------------------
 
 # all modules get a unique id code to generate other IDs with
 ID_PREFIX = "prd"
 
-PRI_FILE_LOCATION = FINAL_DATA / "primary_energy.parquet"
+PRI_FILE_LOCATION = labelled_file("primary_energy.parquet")
 
 # SET FILTER/GROUP OPTIONS
 

@@ -32,6 +32,21 @@ Both commands stage and validate the new directory before publishing it. They
 never overwrite an existing release name. Use `--releases-root <path>` only
 when the local release root must be elsewhere.
 
+## Deploy the Explorer
+
+Create the deployment payload immediately before each deployment:
+
+```bash
+uv run --directory PUBLISH-TIMES-NZ publish-times-nz prepare-deployment-payload
+uv run --directory PUBLISH-TIMES-NZ rsconnect deploy shiny deployment_payload \
+  --entrypoint app --app-id <APP-ID>
+```
+
+`deployment_payload/` is Git-ignored and regenerated from scratch. It contains
+only the app runtime files, the tracked v308 release, a requirements export
+from `uv.lock`, and the local `.env` file used for Pendo. Deploy this directory,
+not `PUBLISH-TIMES-NZ/`; do not edit the generated payload by hand.
+
 ## Release layout
 
 Place local releases below `PUBLISH-TIMES-NZ/releases/`. That directory is
@@ -83,8 +98,8 @@ its label.
 
 ## Reading a selected release
 
-Consumers must receive an explicit release path. They must not choose the
-newest directory under `releases/`.
+The Explorer currently uses the tracked `releases/v308` path. It never chooses
+the newest directory under `releases/`.
 
 ```python
 from pathlib import Path

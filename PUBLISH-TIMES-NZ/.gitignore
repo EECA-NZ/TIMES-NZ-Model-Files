@@ -1,3 +1,5 @@
 releases/
+deployment_payload/
+.deployment_payload.*.staging/
 rsconnect-python/*
 .env

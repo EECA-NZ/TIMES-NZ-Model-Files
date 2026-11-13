@@ -2,13 +2,13 @@
 server functions for app.py
 """
 
-from times_nz_internal_qa.app.app_module_demand import demand_server
-from times_nz_internal_qa.app.app_module_elec import elec_server
-from times_nz_internal_qa.app.app_module_emissions import emissions_server
-from times_nz_internal_qa.app.app_module_esd import energy_service_demand_server
-from times_nz_internal_qa.app.app_module_primary_energy import pri_server
-from times_nz_internal_qa.app.app_module_select_scenario import scenario_select_server
-from times_nz_internal_qa.app.app_module_utilities import info_server
+from publish_times_nz.app.app_module_demand import demand_server
+from publish_times_nz.app.app_module_elec import elec_server
+from publish_times_nz.app.app_module_emissions import emissions_server
+from publish_times_nz.app.app_module_esd import energy_service_demand_server
+from publish_times_nz.app.app_module_primary_energy import pri_server
+from publish_times_nz.app.app_module_select_scenario import scenario_select_server
+from publish_times_nz.app.app_module_utilities import info_server
 
 
 def server(inputs, outputs, session):

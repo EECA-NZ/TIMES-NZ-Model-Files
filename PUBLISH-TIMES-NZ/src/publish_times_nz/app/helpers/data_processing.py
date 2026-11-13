@@ -15,12 +15,12 @@ import io
 import numpy as np
 import pandas as pd
 import polars as pl
-from times_nz_internal_qa.app.helpers.filters import apply_filters
-from times_nz_internal_qa.app.helpers.timeslices import (
+from publish_times_nz.app.helpers.filters import apply_filters
+from publish_times_nz.app.helpers.timeslices import (
     TIMESLICE_ORDER,
     get_timeslice_long_label,
 )
-from times_nz_internal_qa.utilities.value_mappings import apply_value_mappings_pl
+from publish_times_nz.utilities.value_mappings import apply_value_mappings_pl
 
 _MEASURE_COLUMNS = {"Period", "Value"}
 _TIMESLICE_LONG_LABELS = {

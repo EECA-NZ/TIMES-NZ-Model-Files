@@ -4,15 +4,15 @@ Ui builders to share between modules
 
 from shiny import ui
 from shinywidgets import output_widget
-from times_nz_internal_qa.app.helpers.charts import (
+from publish_times_nz.app.helpers.charts import (
     DEFAULT_LAYOUT_OPTIONS,
     TIMESLICE_LAYOUT_OPTIONS,
 )
-from times_nz_internal_qa.app.helpers.data_processing import (
+from publish_times_nz.app.helpers.data_processing import (
     TOTAL_GROUP_OPTION,
     TOTAL_GROUP_VALUE,
 )
-from times_nz_internal_qa.app.helpers.filters import (
+from publish_times_nz.app.helpers.filters import (
     filter_output_ui_list,
     identifier_to_title_case,
 )

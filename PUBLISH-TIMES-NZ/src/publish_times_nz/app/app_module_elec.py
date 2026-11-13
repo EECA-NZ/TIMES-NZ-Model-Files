@@ -8,19 +8,19 @@ from functools import lru_cache
 
 import polars as pl
 from shiny import reactive
-from times_nz_internal_qa.app.helpers.data_processing import (
+from publish_times_nz.app.helpers.data_processing import (
     aggregate_by_group,
     filter_df_for_variable,
     read_data_pl,
 )
-from times_nz_internal_qa.app.helpers.filters import (
+from publish_times_nz.app.helpers.filters import (
     create_filter_dict,
 )
-from times_nz_internal_qa.app.helpers.server_functions import (
+from publish_times_nz.app.helpers.server_functions import (
     register_server_functions_for_explorer,
 )
-from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
-from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
+from publish_times_nz.app.helpers.ui_elements import make_explorer_page_ui
+from publish_times_nz.app.release import labelled_file
 
 # CONSTANTS  ------------------------------------------------------------------------------
 
@@ -28,9 +28,9 @@ PJ_TO_GWH = 277.778
 # ID_PREFIX is used to ensure some ui and server elements link correctly
 ID_PREFIX = "elec"
 # data location
-ELE_GEN_FILE_LOCATION = FINAL_DATA / "elec_generation.parquet"
-ELE_GEN_BY_SLICE_FILE = FINAL_DATA / "generation_by_timeslice.parquet"
-ELE_BAT_FILE_LOCATION = FINAL_DATA / "batteries.parquet"
+ELE_GEN_FILE_LOCATION = labelled_file("elec_generation.parquet")
+ELE_GEN_BY_SLICE_FILE = labelled_file("generation_by_timeslice.parquet")
+ELE_BAT_FILE_LOCATION = labelled_file("batteries.parquet")
 
 # define base columns that we must always group by
 # Might even make these standard across everything?

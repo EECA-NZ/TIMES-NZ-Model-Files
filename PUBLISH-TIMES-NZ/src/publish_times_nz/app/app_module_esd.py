@@ -11,27 +11,27 @@ Will need to build that into main
 from functools import lru_cache
 
 from shiny import reactive
-from times_nz_internal_qa.app.helpers.data_processing import (
+from publish_times_nz.app.helpers.data_processing import (
     aggregate_by_group,
     filter_df_for_variable,
     read_data_pl,
 )
-from times_nz_internal_qa.app.helpers.filters import (
+from publish_times_nz.app.helpers.filters import (
     create_filter_dict,
 )
-from times_nz_internal_qa.app.helpers.server_functions import (
+from publish_times_nz.app.helpers.server_functions import (
     register_server_functions_for_explorer,
 )
-from times_nz_internal_qa.app.helpers.ui_elements import make_explorer_page_ui
-from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
+from publish_times_nz.app.helpers.ui_elements import make_explorer_page_ui
+from publish_times_nz.app.release import labelled_file
 
 # CONSTANTS -----------------------------------------------------------
 # pylint:disable = duplicate-code
 
 ID_PREFIX = "esd"
-ESD_FILE_LOCATION = FINAL_DATA / "energy_service_demand.parquet"
-ESD_CURVE_FILE_LOCATION = FINAL_DATA / "esd_by_timeslice.parquet"
-TRANSPORT_ESD_FILE = FINAL_DATA / "transport_energy_service_demand.parquet"
+ESD_FILE_LOCATION = labelled_file("energy_service_demand.parquet")
+ESD_CURVE_FILE_LOCATION = labelled_file("esd_by_timeslice.parquet")
+TRANSPORT_ESD_FILE = labelled_file("transport_energy_service_demand.parquet")
 
 
 # define base columns that we must always group by

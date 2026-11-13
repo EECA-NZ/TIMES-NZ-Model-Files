@@ -8,7 +8,7 @@ from html import escape
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.colors import qualitative
-from times_nz_internal_qa.app.helpers.timeslices import (
+from publish_times_nz.app.helpers.timeslices import (
     TIMESLICE_ORDER,
     add_timeslice_chart_columns,
 )

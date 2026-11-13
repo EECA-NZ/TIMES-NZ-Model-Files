@@ -3,12 +3,12 @@
 import unittest
 
 import polars as pl
-from times_nz_internal_qa.app.helpers.data_processing import (
+from publish_times_nz.app.helpers.data_processing import (
     make_display_table_data,
     make_table_data,
 )
-from times_nz_internal_qa.app.helpers.server_functions import _detail_group_columns
-from times_nz_internal_qa.app.helpers.ui_elements import chart_type_choices
+from publish_times_nz.app.helpers.server_functions import _detail_group_columns
+from publish_times_nz.app.helpers.ui_elements import chart_type_choices
 
 
 class _Inputs:  # pylint: disable=too-few-public-methods

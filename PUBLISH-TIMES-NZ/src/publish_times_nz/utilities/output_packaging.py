@@ -4,15 +4,15 @@ import io
 import zipfile
 
 import pandas as pd
-from times_nz_internal_qa.utilities.value_mappings import apply_value_mappings_pd
+from publish_times_nz.utilities.value_mappings import apply_value_mappings_pd
 
 
-def build_outputs_zip_bytes(input_dir):
+def build_outputs_zip_bytes(parquet_files):
     """Build the full-results zip in memory from parquet outputs."""
     zip_buffer = io.BytesIO()
 
     with zipfile.ZipFile(zip_buffer, "w", compression=zipfile.ZIP_DEFLATED) as z:
-        for file in input_dir.glob("*.parquet"):
+        for file in parquet_files:
             df = pd.read_parquet(file)
             df = apply_value_mappings_pd(df)
 
