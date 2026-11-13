@@ -1,1 +1,3 @@
 releases/
+rsconnect-python/*
+.env
