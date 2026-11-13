@@ -42,6 +42,7 @@ package = false
 # publishes a compatible dependency declaration.
 override-dependencies = [
     "GitPython>=3.2.1,<4",
+    "soupsieve>=4.0"
 ]
 
 [tool.uv.sources]
