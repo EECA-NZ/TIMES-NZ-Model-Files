@@ -1,0 +1,19 @@
+[project]
+name = "publish-times-nz"
+version = "0.1.0"
+description = "Release artefacts and Explorer for TIMES-NZ results"
+readme = "readme.md"
+requires-python = ">=3.12,<4"
+dependencies = [
+    "pyarrow>=23.0.1,<24",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/publish_times_nz"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
