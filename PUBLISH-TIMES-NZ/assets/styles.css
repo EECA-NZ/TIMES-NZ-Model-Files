@@ -1,0 +1,1070 @@
+/* =========================================================
+   1. Theme & App Shell
+   ========================================================= */
+
+:root {
+  /* colours */
+  --bg: #fbfbfb;
+  --panel-bg: #e8ecee;
+  --panel-text: #000000;
+  --border: #dadada;
+  --bs-primary: #0A3C61;
+  --bs-primary-muted: #3C6280;
+  --bs-secondary: #74dcdb;
+  --bs-secondary-muted: #C0EBEB;
+
+  /* sizes */
+  --radius: 0px;
+  --gap: 12px;
+  --chart-panel-h: 520px;
+  --header-control-h: 36px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--panel-text);
+  font-family: "Roboto", sans-serif;
+}
+
+body > #app-parent {
+  padding-top: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+body > .container-fluid,
+#app-parent > .container-fluid {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+#app-parent {
+  width: 100%;
+  min-height: 866px;
+  height: auto;
+}
+
+
+/* =========================================================
+   2. Shared Labels & Controls
+   ========================================================= */
+
+.filter-section-title {
+  margin: 4px 0;
+  color: var(--bs-primary-muted);
+  font-size: 14px;
+  font-weight: 550;
+}
+
+.chart-header-card .btn,
+.tab-page-info-btn,
+.modal-footer .btn,
+.modal-footer .btn-default {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--header-control-h);
+  padding: 0 10px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  border-radius: var(--radius);
+  box-sizing: border-box;
+  background-image: none;
+  box-shadow: none;
+  text-decoration: none;
+}
+
+.chart-header-card .btn,
+.tab-page-info-btn {
+  width: auto;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--bs-primary);
+}
+
+.chart-header-card .btn span,
+.tab-page-info-btn span {
+  padding-top: 2px;
+}
+
+.chart-header-card .btn:hover {
+  background: var(--bg);
+  border-color: var(--border);
+}
+
+.chart-header-card .btn:focus {
+  border-color: var(--bs-secondary);
+}
+
+.modal-footer .btn,
+.modal-footer .btn-default {
+  --bs-btn-bg: var(--bg);
+  --bs-btn-color: var(--panel-text);
+  --bs-btn-border-color: var(--border);
+  --bs-btn-hover-bg: var(--bg);
+  --bs-btn-hover-color: var(--panel-text);
+  --bs-btn-hover-border-color: var(--border);
+  --bs-btn-active-bg: var(--bg);
+  --bs-btn-active-color: var(--panel-text);
+  --bs-btn-active-border-color: var(--border);
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  color: var(--panel-text);
+}
+
+.modal-footer .btn:is(:hover, :focus, :focus-visible, :active, .active),
+.modal-footer .btn-default:is(:hover, :focus, :focus-visible, :active, .active) {
+  border-color: var(--border);
+  background-color: var(--bg);
+  color: var(--panel-text);
+  background-image: none;
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   3. Header & Navigation
+   ========================================================= */
+
+.app-header-panel {
+  padding: 10px 16px;
+  background: var(--panel-bg);
+}
+
+.app-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.app-title-block {
+  --app-title-size: 28px;
+  --app-title-line-height: 1.2;
+
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 220px;
+}
+
+.app-title-logo {
+  display: block;
+  width: auto;
+  height: calc(var(--app-title-size) * 1.4);
+  object-fit: contain;
+}
+
+.app-explorer-title {
+  margin: 0;
+  color: var(--bs-primary);
+  font-size: var(--app-title-size);
+  font-weight: 550;
+  line-height: var(--app-title-line-height);
+}
+
+.scenario-selector-bar {
+  flex: 1 1 560px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.scenario-selector-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.scenario-selector-controls > .shiny-html-output,
+.scenario-selector-controls > .scenario-selector-field {
+  flex: 1 1 255px;
+  min-width: 255px;
+  max-width: 320px;
+}
+
+.scenario-selector-controls > .shiny-html-output > .scenario-selector-field,
+.scenario-selector-controls > .scenario-selector-field {
+  min-width: 255px;
+}
+
+.scenario-selector-field .form-group.shiny-input-container {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.scenario-selector-field .selectize-control,
+.scenario-selector-field .selectize-control.single,
+.scenario-selector-field .selectize-input {
+  width: 100% !important;
+}
+
+.tab-content {
+  border: 0;
+  border-radius: 0;
+  background-color: var(--bg);
+}
+
+.tab-content .container-fluid {
+  padding: 0;
+}
+
+.navset-large {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.navset-large > .tab-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.navset-large > .tab-content > .tab-pane {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.navset-large > .tab-content > .tab-pane.active {
+  display: flex;
+  flex-direction: column;
+}
+
+.navset-large > .nav-tabs {
+  gap: 0;
+  padding: 0;
+  border-bottom: 0;
+  background-color: var(--panel-bg);
+}
+
+.navset-large > .nav-tabs .nav-item {
+  margin-bottom: 0;
+}
+
+.navset-large > .nav-tabs .nav-link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 0;
+  border: 0;
+  border-top: 4px solid transparent;
+  border-radius: 0;
+  background-color: var(--panel-bg);
+  color: var(--panel-text);
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.navset-large > .nav-tabs .nav-link::after {
+  content: attr(data-value);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 450;
+}
+
+.navset-large > .nav-tabs .nav-link:hover,
+.navset-large > .nav-tabs .nav-link:focus {
+  border-top-color: transparent;
+  background-color: var(--bg);
+  color: var(--bs-primary);
+  font-weight: 450;
+}
+
+.navset-large > .nav-tabs .nav-link.active,
+.navset-large > .nav-tabs .nav-link.active:hover,
+.navset-large > .nav-tabs .nav-link.active:focus {
+  border: 0;
+  border-top: 4px solid var(--bs-primary);
+  background-color: var(--bg);
+  color: var(--panel-text);
+  font-weight: 450;
+}
+
+.navset-large > .nav-tabs .nav-link .info-btn {
+  color: var(--bs-primary-muted);
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
+.nav-cards .radio {
+  margin-bottom: 8px;
+}
+
+.nav-cards input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nav-cards .radio label {
+  display: block;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--panel-text);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.nav-cards .radio label:hover,
+.nav-cards .radio label:has(input:checked) {
+  background: var(--panel-bg);
+  border-color: var(--border);
+}
+
+.secondary-nav-bar.nav-cards {
+  margin: 1rem 0 0.5rem;
+}
+
+.secondary-nav-bar.nav-cards .shiny-options-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline > span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 37px;
+  margin: 0 6px 0 0;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--bg);
+  color: var(--panel-text);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 400;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline .nav-pill-label {
+  display: block;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline .nav-pill-label::after {
+  content: attr(data-label);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 550;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline:hover > span {
+  border-color: var(--bs-primary-muted);
+  background-color: var(--bs-secondary-muted);
+  color: var(--bs-primary);
+  font-weight: 450;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline input[type="radio"]:checked + span {
+  border-color: var(--bs-primary);
+  background-color: var(--bs-primary);
+  color: var(--bg);
+  font-weight: 550;
+}
+
+.secondary-nav-bar.nav-cards .radio-inline input[type="radio"]:focus-visible + span {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+}
+
+.tab-page-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0;
+}
+
+.tab-page-toolbar .secondary-nav-bar {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.tab-page-info-btn {
+  --bs-btn-bg: var(--bg);
+  --bs-btn-color: var(--bs-primary);
+  --bs-btn-border-color: var(--bg);
+  --bs-btn-hover-bg: var(--bg);
+  --bs-btn-hover-color: var(--bs-primary-muted);
+  --bs-btn-hover-border-color: var(--border);
+  --bs-btn-active-bg: var(--bg);
+  --bs-btn-active-color: var(--bs-primary-muted);
+  --bs-btn-active-border-color: var(--border);
+
+  flex: 0 0 auto;
+  margin-top: 0;
+  border-color: var(--bg);
+  background-color: var(--bg);
+  color: var(--bs-primary);
+}
+
+.tab-page-info-btn i.fa-question-circle {
+  margin-right: 6px;
+}
+
+.tab-page-info-btn:is(:hover, :focus, :focus-visible, :active, .active) {
+  border-color: var(--bg);
+  background-color: var(--bg);
+  color: var(--bs-primary-muted);
+  background-image: none;
+  box-shadow: none;
+  text-decoration: underline;
+}
+
+.info-btn {
+  margin-left: 0.35rem;
+  padding: 0 0.35rem;
+  border: none;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--bs-primary-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+.info-btn:hover {
+  background: transparent;
+  color: var(--bs-primary);
+}
+
+.header-info-btn {
+  box-sizing: border-box;
+  width: 160px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--panel-text);
+  cursor: pointer;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.header-info-btn:hover {
+  border-color: var(--border);
+  background: var(--panel-bg);
+  color: var(--panel-text);
+}
+
+@media (max-width: 900px) {
+  .app-header-row,
+  .scenario-selector-bar,
+  .scenario-selector-controls {
+    align-items: stretch;
+  }
+
+  .scenario-selector-bar,
+  .scenario-selector-controls {
+    justify-content: flex-start;
+  }
+
+  .scenario-selector-controls {
+    margin-left: 0;
+  }
+}
+
+
+/* =========================================================
+   4. Filter Controls
+   ========================================================= */
+
+.chart-control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  margin-right: -8px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--panel-bg);
+  color: var(--panel-text);
+}
+
+.chart-control-panel .individual-filter .form-group {
+  display: inline;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.chart-control-panel .individual-filter label {
+  flex: 0 0 90px;
+  margin: 0;
+  color: var(--bs-primary-muted);
+  font-size: 13px;
+  font-weight: 550;
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-header h4 {
+  margin: 0;
+}
+
+.clear-filters {
+  --bs-btn-bg: transparent;
+  --bs-btn-color: var(--bs-primary-muted);
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-bg: var(--bs-secondary-muted);
+  --bs-btn-hover-color: var(--bs-primary);
+  --bs-btn-hover-border-color: var(--bs-secondary-muted);
+  --bs-btn-active-bg: var(--bs-secondary-muted);
+  --bs-btn-active-color: var(--bs-primary);
+  --bs-btn-active-border-color: var(--bs-secondary-muted);
+
+  border: none;
+  background: none;
+  color: var(--bs-primary-muted);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 550;
+}
+
+.clear-filters:is(:hover, :focus, :focus-visible, :active, .active) {
+  border-color: var(--bs-secondary-muted);
+  border-radius: var(--radius);
+  background: var(--bs-secondary-muted);
+  color: var(--bs-primary);
+  font-weight: 650;
+  background-image: none;
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   5. Chart Space
+   ========================================================= */
+
+.panel-viewport,
+.panel-viewport > div,
+.chart-section,
+.chart-section .chart-single {
+  display: block;
+  min-height: 0;
+}
+
+.chart-section .bslib-grid-item,
+.chart-section .html-fill-container,
+.chart-section .html-fill-item,
+.chart-with-title,
+.chart-body-card,
+.chart-container {
+  min-width: 0;
+}
+
+.chart-section .grid {
+  margin-bottom: 16px;
+}
+
+.chart-with-title {
+  display: block;
+  min-height: var(--chart-panel-h);
+  height: auto;
+  overflow: visible;
+  text-align: left;
+}
+
+.chart-header-card,
+.chart-body-card {
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--panel-bg);
+}
+
+.chart-header-card {
+  margin-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.chart-body-card {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.chart-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.chart-section .chart-header h3.chart-title {
+  margin-left: 0;
+  margin-right: auto;
+  text-align: left;
+  font-size: 24px;
+}
+
+.chart-header .shiny-input-container {
+  margin: 8px 0;
+}
+
+.chart-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.chart-header-left {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.chart-header-group,
+.chart-toggle-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.chart-header-group {
+  min-width: 255px;
+}
+
+.chart-header-group .shiny-input-container,
+.chart-header-group .selectize-control,
+.chart-header-group .selectize-control.single,
+.chart-header-group .selectize-input {
+  width: 100% !important;
+}
+
+.chart-toggle-header {
+  margin-top: 0;
+  margin-left: 12px;
+}
+
+.chart-header-group .filter-section-title,
+.chart-toggle-header .filter-section-title {
+  margin-top: 0;
+  margin-bottom: -4px;
+}
+
+.chart-toggle-header .filter-section-title {
+  margin-top: -8px;
+  margin-bottom: 4px;
+}
+
+.chart-header-group .control-label.shiny-label-null,
+.chart-toggle-bar .control-label.shiny-label-null {
+  display: none;
+}
+
+.chart-header-group .form-select {
+  box-sizing: border-box;
+  height: var(--header-control-h);
+  padding-top: 0;
+  padding-bottom: 0;
+  border-color: var(--border);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.chart-header-group .form-select:focus {
+  border-color: var(--border);
+  box-shadow: none;
+  outline: none;
+}
+
+.chart-toggle-bar .shiny-input-radiogroup {
+  margin: 0;
+}
+
+.chart-toggle-bar .shiny-options-group {
+  display: inline-flex;
+  gap: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  height: var(--header-control-h) !important;
+  margin-top: 0 !important;
+  margin-left: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-size: 14px;
+}
+
+.chart-toggle-bar .radio-inline {
+  display: inline-flex;
+  align-items: stretch;
+  height: 100%;
+  margin: 0;
+  margin-right: 0 !important;
+  padding: 0 !important;
+}
+
+.chart-toggle-bar .radio-inline > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 0 10px;
+  background: var(--bg);
+  color: var(--panel-text);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.chart-toggle-bar .radio-inline > span > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: auto;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.chart-toggle-bar .radio-inline + .radio-inline > span {
+  border-left: 1px solid var(--border);
+}
+
+.chart-toggle-bar .radio-inline i {
+  font-size: 0.95em;
+}
+
+.chart-toggle-bar input[type="radio"] {
+  position: absolute;
+  left: 0;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chart-toggle-bar .radio-inline:hover > span {
+  border: 1px solid var(--bs-primary-muted);
+  background: var(--bs-secondary-muted);
+  color: var(--bs-primary);
+  font-weight: 450;
+}
+
+.chart-toggle-bar .radio-inline input[type="radio"]:checked + span {
+  border: 1px solid var(--bs-primary);
+  background: var(--bs-primary);
+  color: var(--bg);
+  font-weight: 550;
+}
+
+.chart-toggle-bar .radio-inline input[type="radio"]:focus-visible + span {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: -2px;
+}
+
+.chart-header-row .chart-download-group {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.chart-download-btn {
+  margin-top: 12px;
+}
+
+.chart-download-btn > i.fa-download {
+  margin-right: 6px;
+}
+
+.chart-download-group .dropdown-menu {
+  min-width: 0;
+  width: max-content;
+  padding: 5px 0;
+}
+
+.chart-download-group .dropdown-item {
+  color: var(--panel-text);
+  font-size: 14px;
+}
+
+.chart-download-group .dropdown-item:hover {
+  background: var(--bs-secondary-muted);
+  color: var(--bs-primary);
+  font-weight: 450;
+}
+
+.chart-container,
+.chart-container .shiny-ipywidget-output,
+.chart-container .lm-Widget,
+.chart-container .vega-embed,
+.chart-container .chart-wrapper {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+.chart-view-panel,
+.chart-table-view,
+.chart-table-view shiny-data-frame {
+  width: 100%;
+  min-width: 0;
+}
+
+.chart-table-view {
+  overflow-x: auto;
+}
+
+.chart-table-view shiny-data-frame .shiny-data-grid > table {
+  width: max-content !important;
+  min-width: 100%;
+}
+
+.chart-table-view shiny-data-frame .shiny-data-grid > table th,
+.chart-table-view shiny-data-frame .shiny-data-grid > table td {
+  white-space: nowrap;
+}
+
+.chart-container .js-plotly-plot,
+.chart-container .plot-container,
+.chart-container .svg-container {
+  width: 100% !important;
+  max-width: 100%;
+}
+
+.chart-container canvas.marks {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.custom-plotly-hover-ready .js-plotly-plot.custom-plotly-hover-bound .hoverlayer {
+  display: none;
+}
+
+.js-plotly-plot .modebar,
+.js-plotly-plot .modebar-group,
+.js-plotly-plot .modebar-btn,
+.js-plotly-plot .modebar-btn:hover {
+  background: transparent !important;
+}
+
+.js-plotly-plot .modebar-btn:not([data-title="Download plot as a PNG"]):not([data-title="Reset axes"]) {
+  display: none !important;
+  width: 0 !important;
+}
+
+.js-plotly-plot .modebar-btn {
+  color: #6b7280 !important;
+}
+
+.js-plotly-plot .modebar-btn svg,
+.js-plotly-plot .modebar-btn svg path {
+  fill: #6b7280 !important;
+}
+
+.chart-container .js-plotly-plot .plotly .cursor-crosshair,
+.chart-container .js-plotly-plot .plotly .nsewdrag {
+  cursor: default !important;
+}
+
+.custom-plotly-hover {
+  position: fixed;
+  z-index: 2000;
+  min-width: 190px;
+  max-width: 280px;
+  pointer-events: none;
+}
+
+.chart-hover-card {
+  padding: 10px 0;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
+  color: var(--panel-text);
+}
+
+.chart-hover-row {
+  display: grid;
+  grid-template-columns: minmax(68px, auto) 1fr;
+  align-items: start;
+  gap: 10px;
+  line-height: 1.35;
+}
+
+.chart-hover-row + .chart-hover-row,
+.chart-hover-status {
+  margin-top: 4px;
+}
+
+.chart-hover-label {
+  padding-left: 8px;
+  color: var(--bs-primary-muted);
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: 0.02em;
+}
+
+.chart-hover-value {
+  padding-right: 8px;
+  color: var(--panel-text);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.chart-hover-status {
+  padding: 4px 8px 0;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  color: var(--bs-primary-muted);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   6. Modals
+   ========================================================= */
+
+.modal-dialog {
+  max-width: 900px !important;
+  margin-top: 5vh !important;
+}
+
+.modal-content {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--bg);
+  color: var(--panel-text);
+}
+
+.modal-body p {
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   7. Shiny Selectize Inputs
+   ========================================================= */
+
+.shiny-input-select,
+.shiny-input-select .selectize-input,
+.shiny-input-select .selectize-dropdown,
+.selectize-dropdown-content {
+  border-color: var(--border);
+  border-radius: var(--radius);
+}
+
+.shiny-input-select .selectize-input.focus,
+.shiny-input-select .selectize-input:focus,
+.shiny-input-select.selectize-control.single .selectize-input.has-items.input-active {
+  border-color: var(--bs-secondary);
+  box-shadow: none;
+  outline: none;
+}
+
+.shiny-input-select.selectize-control.single .selectize-input.has-items,
+.shiny-input-select.selectize-control.single .selectize-input.has-items.input-active {
+  border-color: var(--border);
+  background: var(--bg);
+  color: var(--panel-text);
+}
+
+.shiny-input-select.selectize-control.single .selectize-input.has-items > .item {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--panel-text);
+}
+
+.shiny-input-select.selectize-control.single .selectize-input.has-items > input {
+  color: var(--panel-text);
+}
+
+.shiny-input-select .selectize-dropdown {
+  margin-top: 2px;
+}
+
+.shiny-input-select .selectize-dropdown .option.active {
+  background: var(--bs-secondary-muted);
+  color: var(--panel-text);
+  font-weight: 450;
+}
+
+.shiny-input-select .selectize-dropdown .option.selected,
+.shiny-input-select .selectize-dropdown .option.selected.active {
+  background: var(--bs-secondary);
+  color: var(--bs-primary);
+  font-weight: 550;
+}
+
+.shiny-input-select.selectize-control.multi .selectize-input > .item,
+.shiny-input-select.selectize-control.multi .selectize-input > div[data-value] {
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: var(--bs-secondary);
+  color: var(--bs-primary);
+  font-weight: 550;
+}
+
+.shiny-input-select.selectize-control.multi .selectize-input > .item.active,
+.shiny-input-select.selectize-control.multi .selectize-input > div[data-value].active {
+  border-color: var(--bs-primary-muted);
+  background: var(--bs-secondary-muted);
+}
+
+.shiny-input-select.selectize-control.multi .selectize-input > .item .remove,
+.shiny-input-select.selectize-control.multi .selectize-input > div[data-value] .remove {
+  border-left: 1px solid var(--bs-primary);
+  color: var(--bs-primary);
+}
+
+.shiny-input-select.selectize-control.multi .selectize-input > .item .remove:hover,
+.shiny-input-select.selectize-control.multi .selectize-input > div[data-value] .remove:hover {
+  border-left-color: var(--bs-secondary-muted);
+  background-color: var(--bs-secondary-muted);
+}
+
+.selectize-dropdown-content {
+  padding-top: 0;
+}
