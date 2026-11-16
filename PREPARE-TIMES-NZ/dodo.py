@@ -297,6 +297,11 @@ DOC_TABLE_OUTPUTS = [
     / "docs/source/model_methodology/electricity/tables/solar_availability_utility_track.csv",
 ]
 
+# Stage-4 scripts that also read stage-1 files directly
+STAGE_4_DEPS: dict[str, list[str]] = {
+    "create_baseyear_elc_files": ["mbie/electricity_demand_totals.csv"],
+}
+
 # Stage-4: VEDA-format CSVs. Sentinel target(s) per script
 STAGE_4: dict[str, list[str]] = {
     # base years
@@ -464,10 +469,14 @@ def task_stage_4_veda_csvs() -> Iterator[dict]:
     """Stage-4: assemble VEDA-ready CSV bundles."""
     for stem, rel_outs in STAGE_4.items():
         script = STAGE_4_SCRIPTS / f"{stem}.py"
+        stage_1_deps = [
+            _intermediate_out(p, S1_DIR) for p in STAGE_4_DEPS.get(stem, [])
+        ]
         yield {
             "name": stem,
             "actions": [_run(str(script))],
             "file_dep": [script]
+            + stage_1_deps
             + _files_in_stage(S3_DIR)
             + _files_in_stage(S2_DIR)
             + STAGE_0_INPUTS
