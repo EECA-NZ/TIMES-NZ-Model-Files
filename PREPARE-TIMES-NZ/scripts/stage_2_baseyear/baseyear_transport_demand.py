@@ -28,6 +28,7 @@ from prepare_times_nz.stage_2.transport import (
     REGIONAL_SPLIT,
     TRUCK_NAMES,
 )
+from prepare_times_nz.utilities.energy_balance import get_balance_value, select_gross_pj
 from prepare_times_nz.utilities.filepaths import DATA_RAW, STAGE_1_DATA, STAGE_2_DATA
 from prepare_times_nz.utilities.logger_setup import logger
 
@@ -60,9 +61,9 @@ ACT_BND_0 = -1  # Interpolation rule for ACT_BND
 
 
 def read_energy_balance(sheet_name: str) -> pd.DataFrame:
-    """MBIE energy balance in *mbie* folder."""
-    xls = INPUT_LOCATION_MBIE / "energy-balance-tables.xlsx"
-    return pd.read_excel(xls, sheet_name=sheet_name, header=[2, 3]).round(6)
+    """Read one year's gross-PJ balance from staged machine-readable data."""
+    data = pd.read_csv(STAGE_1_DATA / "mbie" / "energy_balance.csv")
+    return select_gross_pj(data, int(sheet_name))
 
 
 def read_rail_data() -> pd.DataFrame:
@@ -134,27 +135,21 @@ def mbie_total_road_energy(year: int) -> pd.DataFrame:
     pj = read_energy_balance(str(year))
     pj_rail = read_kiwirail_energy()
 
-    # Define the label column to identify 'Transport' rows
-    label_col = (year, "Converted into Petajoules using Gross Calorific Values")
-
-    # Extract row for domestic transport
-    transport_row = pj[pj[label_col] == "Transport"]
-
     # Build dataframe of initial road energy PJ values
     road_df = pd.DataFrame(
         [
-            {"fueltype": "LPG", "pjvalue": transport_row[("Coal", "Oil.1")].values[0]},
+            {"fueltype": "LPG", "pjvalue": get_balance_value(pj, "Transport", "LPG")},
             {
                 "fueltype": "Petrol",
-                "pjvalue": transport_row[("Coal", "Oil.2")].values[0],
+                "pjvalue": get_balance_value(pj, "Transport", "Petrol"),
             },
             {
                 "fueltype": "Diesel",
-                "pjvalue": transport_row[("Coal", "Oil.3")].values[0],
+                "pjvalue": get_balance_value(pj, "Transport", "Diesel"),
             },
             {
                 "fueltype": "Electricity",
-                "pjvalue": transport_row[("Electricity", "Electricity")].values[0],
+                "pjvalue": get_balance_value(pj, "Transport", "Electricity"),
             },
         ]
     )

@@ -208,7 +208,11 @@ Ballance and Methanex’s energy use of natural gas accounts for 94% of the gas 
 
 EEUD demand data is based primarily on data from the MBIE energy balance tables[^energy_balance]. At the time of writing, this data’s coverage of biomass demand was incomplete, as it only captured biomass used for energy in the residential and wood processing sectors. Biomass demand in other industrial sectors, such as dairy or meat processing, was missing. 
 
-EECA currently maintain an internal database of known industrial and commercial consumers of biomass for energy use. To resolve this issue, we used this internal data to estimate existing biomass demand for the relevant sectors. We further make assumptions on the end use, depending on the sector involved. These assumptions and estimates are detailed in {numref}`tab_industry_biomass_demand` below. 
+EECA internal estimates cover known industrial and commercial consumers of
+biomass for energy use. To resolve this issue, we use these estimates for the
+relevant sectors. We further make assumptions on the end use, depending on the
+sector involved. These assumptions and estimates are detailed in
+{numref}`tab_industry_biomass_demand` below.
 
 ```{list-table} Additional biomass demand estimates
 :header-rows: 1
@@ -245,7 +249,10 @@ These are estimates only, as EECA’s internal data may not fully capture all us
 
 ### Unallocated electricity demand
 
-The EEUD excludes the unallocated onsite generation which is reported MBIE's electricity generation and demand data[^mbie_official_generation]. This means it falls slightly short of total electricity demand, and without this the model system becomes slightly unbalanced. 
+The EEUD has an unallocated electricity row, but it excludes MBIE's calculated
+unallocated onsite generation[^mbie_official_generation]. We append that
+published annual series to EEUD so the combined unallocated electricity demand
+reconciles to the Energy Balance total.
 
 We currently assume all unallocated onsite generation is consumed by industrial sites. For TIMES-NZ, this is included in "Other Industry". This means that other parameters related to Other Industry, such as regional share assumptions or demand growth rates, will also apply to this unallocated demand.
 

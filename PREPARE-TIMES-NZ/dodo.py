@@ -196,7 +196,21 @@ STAGE_1: dict[str, list[str]] = {
         "electricity_authority/emi_distributed_solar.csv",
         "electricity_authority/emi_nsp_concordances.csv",
     ],
-    "extract_mbie_data": ["mbie/gen_stack.csv"],
+    "extract_mbie_data": [
+        "mbie/gen_stack.csv",
+        "mbie/energy_balance.csv",
+        "mbie/unallocated_onsite_generation.csv",
+        "mbie/electricity_demand_totals.csv",
+        "mbie/mbie_ele_generation_gwh.csv",
+        "mbie/mbie_ele_generation_pj.csv",
+        "mbie/mbie_ele_only_generation.csv",
+        "mbie/mbie_generation_capacity.csv",
+        "mbie/mbie_gas_non_energy.csv",
+        "mbie/natural_gas_forecasts.csv",
+        "mbie/lpg_forecasts.csv",
+        "mbie/oil_forecasts.csv",
+        "mbie/contingent_reserves.csv",
+    ],
     "extract_nrel_data": ["nrel/future_electricity_costs.csv"],
     "extract_rbs_data": ["rbs/power_demand_by_tou.parquet.csv"],
     "extract_snz_data": ["statsnz/cpi.csv", "statsnz/cgpi.csv"],
@@ -209,9 +223,12 @@ STAGE_1: dict[str, list[str]] = {
 
 # Specific dependencies between Stage-1 scripts
 STAGE_1_DEPS: dict[str, list[str]] = {
+    "extract_eeud": ["mbie/unallocated_onsite_generation.csv"],
     "extract_fleet_vkt_pj_data": [
         # extract_mvr_fleet_data's output
-        "fleet_vkt_pj/vehicle_counts_2023.csv"
+        "fleet_vkt_pj/vehicle_counts_2023.csv",
+        # extract_mbie_data's output
+        "mbie/energy_balance.csv",
     ],
     "extract_vehicle_costs_data": [
         # extract_snz_data's output
@@ -280,10 +297,18 @@ DOC_TABLE_OUTPUTS = [
     / "docs/source/model_methodology/electricity/tables/solar_availability_utility_track.csv",
 ]
 
-# Stage-4: VEDA-format CSVs. Single sentinel per script
+# Stage-4 scripts that also read stage-1 files directly
+STAGE_4_DEPS: dict[str, list[str]] = {
+    "create_baseyear_elc_files": ["mbie/electricity_demand_totals.csv"],
+}
+
+# Stage-4: VEDA-format CSVs. Sentinel target(s) per script
 STAGE_4: dict[str, list[str]] = {
     # base years
-    "create_baseyear_elc_files": ["base_year_elc/existing_tech_capacity.csv"],
+    "create_baseyear_elc_files": [
+        "base_year_elc/existing_tech_capacity.csv",
+        "base_year_elc/statistical_difference_parameters.csv",
+    ],
     "create_baseyear_demand_files": ["base_year_ind/industry_baseyear_details.csv"],
     "create_baseyear_pri_files": ["base_year_pri/deliverability_forecasts_2p.csv"],
     # new techs (subres files)
@@ -444,10 +469,14 @@ def task_stage_4_veda_csvs() -> Iterator[dict]:
     """Stage-4: assemble VEDA-ready CSV bundles."""
     for stem, rel_outs in STAGE_4.items():
         script = STAGE_4_SCRIPTS / f"{stem}.py"
+        stage_1_deps = [
+            _intermediate_out(p, S1_DIR) for p in STAGE_4_DEPS.get(stem, [])
+        ]
         yield {
             "name": stem,
             "actions": [_run(str(script))],
             "file_dep": [script]
+            + stage_1_deps
             + _files_in_stage(S3_DIR)
             + _files_in_stage(S2_DIR)
             + STAGE_0_INPUTS

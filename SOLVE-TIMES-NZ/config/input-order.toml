@@ -35,8 +35,6 @@ files = [
     "SubRES_TMPL/SubRES_NewTechs_IND.xlsx",
     "SubRES_TMPL/SubRES_NewTechs_COM.xlsx",
     "SubRES_TMPL/SubRES_NewTechs_BIO.xlsx",
-    "SubRES_TMPL/SubRES_SectorClosures.xlsx",
-    "SubRES_TMPL/SubRES_SectorClosures_trans.xlsx",
     "SubRES_TMPL/SubRES_DemandFlex_Steady.xlsx",
     "SubRES_TMPL/SubRES_DemandFlex_Shift.xlsx",
     "SubRES_TMPL/SubRES_LNG_Imports_Steady.xlsx",

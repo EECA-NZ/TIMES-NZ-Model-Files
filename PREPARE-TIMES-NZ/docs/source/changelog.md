@@ -7,8 +7,7 @@ This version focuses on ensuring the pipeline is compatible with xl2times. This 
 
 **Features**
 
-- Added `SOLVE-TIMES-NZ` for reproducible workbook selection, DD generation,
-  solver staging, execution, and result collection.
+- Added `SOLVE-TIMES-NZ` for reproducible workbook selection, DD generation,  solver staging, execution, and result collection.
 
 **Compatibility adjustments**
 
@@ -27,6 +26,12 @@ This version focuses on ensuring the pipeline is compatible with xl2times. This 
 - Made grid-generation and battery peak-capacity treatment explicit through primary commodity-group and capacity settings.
 - Retained investment costs for future biofuel conversion technologies by emitting them as SubRES new technologies.
 - Removed a redundant coal-transit path that could create a degenerate solution.
+- Corrected double-counting in other petrochemical demand.
+
+**Assumption and data changes** 
+- Set Ballance to provisional exogenous closure pathway. 
+- Updated MBIE gas and balance data, GIC consumption data, and the EEUD to 2025 data. 
+
 
 ## 3.0.8
 

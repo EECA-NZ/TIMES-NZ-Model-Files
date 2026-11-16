@@ -150,7 +150,8 @@ Thumbs.db
 
 # Some spare processing locations
 PREPARE-TIMES-NZ/data_intermediate/
-PREPARE-TIMES-NZ/data_intermediate_frozen/
+# for testing
+PREPARE-TIMES-NZ/data_intermediate_frozen/ 
 PREPARE-TIMES-NZ/output/
 PREPARE-TIMES-NZ/analysis/results/
 
@@ -160,6 +161,9 @@ TIMES-NZ-INTERNAL-QA/data/*.zip
 PREPARE-TIMES-NZ/docs/build/
 PREPARE-TIMES-NZ/docs/*.csv
 # the helper file for word table conversions doesn't need tracking 
+
+PUBLISH-TIMES-NZ/deployment_payload/
+PUBLISH-TIMES-NZ/releases/
 
 PREPARE-TIMES-NZ/docs/helpers/table_to_convert.csv
 

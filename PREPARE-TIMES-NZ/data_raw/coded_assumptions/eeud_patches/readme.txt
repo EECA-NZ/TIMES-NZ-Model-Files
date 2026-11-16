@@ -1,9 +1,12 @@
-Here, we include data from EECA's internal databases on biomass demand for energy outside of the official balance tables.
+Here, we include EECA internal estimates of biomass demand for energy outside
+of the official balance tables.
 
 
 The official balance tables exclude all biomass used for energy outside of wood processing and residential use. 
 
-So to get better coverage of the system, we need to include this patch, which is based on internal databases of every known commercial or industrial bioenergy boiler.
+So to get better coverage of the system, we need to include this patch, which
+is based on EECA internal estimates for known commercial or industrial
+bioenergy boilers.
 
 End use is therefore estimated based on the size of the boiler, so these are estimates only. 
 

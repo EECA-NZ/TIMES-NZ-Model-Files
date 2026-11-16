@@ -46,10 +46,6 @@ files = [
 
 [groups.scenario_common]
 files = [
-    # sector closures (these are subres as they introduce dummy processes) 
-    "SubRES_TMPL/SubRES_SectorClosures.xlsx",
-    "SubRES_TMPL/SubRES_SectorClosures_trans.xlsx",
-
     # trade parameters
     "SuppXLS/Trades/ScenTrade_TRADE_PARMS.xlsx",
     "SuppXLS/Scen_Base_Constraints.xlsx",

@@ -10,7 +10,7 @@ Industry,Mining,0.012,0,Assumption,
 Industry,Other Industry,-0.001,-0.001,Assumption,
 Industry,Food and Beverage,-0.017,0.017,Assumption,
 Industry,Chemicals (excl. Urea and Methanol),0,0,Assumption,
-Industry,Urea,0,0,Assumption,Assume flat but cut off by setting a price 
+Industry,Urea,0,0,Ballance GIC,"Observed GIC demand in 2024-25, carried to 2027, then closed"
 Industry,Wood Products,-0.018,0.018,Assumption,
 Industry,Pulp and Paper,-0.02,-0.02,Assumption,
 Industry,New Industries,0,50,New Industries,Refers to additional GWh demand each year
