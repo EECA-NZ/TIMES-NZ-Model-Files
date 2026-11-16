@@ -200,6 +200,16 @@ STAGE_1: dict[str, list[str]] = {
         "mbie/gen_stack.csv",
         "mbie/energy_balance.csv",
         "mbie/unallocated_onsite_generation.csv",
+        "mbie/electricity_demand_totals.csv",
+        "mbie/mbie_ele_generation_gwh.csv",
+        "mbie/mbie_ele_generation_pj.csv",
+        "mbie/mbie_ele_only_generation.csv",
+        "mbie/mbie_generation_capacity.csv",
+        "mbie/mbie_gas_non_energy.csv",
+        "mbie/natural_gas_forecasts.csv",
+        "mbie/lpg_forecasts.csv",
+        "mbie/oil_forecasts.csv",
+        "mbie/contingent_reserves.csv",
     ],
     "extract_nrel_data": ["nrel/future_electricity_costs.csv"],
     "extract_rbs_data": ["rbs/power_demand_by_tou.parquet.csv"],
@@ -287,10 +297,13 @@ DOC_TABLE_OUTPUTS = [
     / "docs/source/model_methodology/electricity/tables/solar_availability_utility_track.csv",
 ]
 
-# Stage-4: VEDA-format CSVs. Single sentinel per script
+# Stage-4: VEDA-format CSVs. Sentinel target(s) per script
 STAGE_4: dict[str, list[str]] = {
     # base years
-    "create_baseyear_elc_files": ["base_year_elc/existing_tech_capacity.csv"],
+    "create_baseyear_elc_files": [
+        "base_year_elc/existing_tech_capacity.csv",
+        "base_year_elc/statistical_difference_parameters.csv",
+    ],
     "create_baseyear_demand_files": ["base_year_ind/industry_baseyear_details.csv"],
     "create_baseyear_pri_files": ["base_year_pri/deliverability_forecasts_2p.csv"],
     # new techs (subres files)
