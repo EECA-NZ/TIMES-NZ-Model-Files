@@ -145,10 +145,10 @@ def energy_demand(results: pd.DataFrame, metadata_dir: Path) -> pd.DataFrame:
 
 
 def energy_service_demand(results: pd.DataFrame, metadata_dir: Path) -> pd.DataFrame:
-    """Label demand-device energy-service outputs using declared commodity units."""
+    """Label PJ demand-device energy-service outputs for the general QA view."""
     processes = _metadata(metadata_dir, "demand_processes.csv")
     units = _metadata(metadata_dir, "commodity_units.csv")
-    units = units[units["csets"] == "DEM"].rename(
+    units = units[(units["csets"] == "DEM") & (units["unit"] == "PJ")].rename(
         columns={"commname": "Commodity", "unit": "Unit"}
     )[["Commodity", "Unit"]]
     result = results[(results["Attribute"] == "VAR_FOut")].merge(

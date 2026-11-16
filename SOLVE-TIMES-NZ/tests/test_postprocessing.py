@@ -211,6 +211,13 @@ def test_transport_capacity_and_objective_outputs_use_prep_metadata(tmp_path):
         tmp_path / "demand_commodities.csv", index=False
     )
     pd.DataFrame(
+        {
+            "commname": ["DMDOUT", "T_C_CAR"],
+            "csets": ["DEM", "DEM"],
+            "unit": ["PJ", "BVkm"],
+        }
+    ).to_csv(tmp_path / "commodity_units.csv", index=False)
+    pd.DataFrame(
         {"techname": ["DMD"], "sets": ["DMD"], "tact": ["PJ"], "tcap": ["GW"]}
     ).to_csv(tmp_path / "process_units.csv", index=False)
     results = pd.DataFrame(
@@ -227,8 +234,20 @@ def test_transport_capacity_and_objective_outputs_use_prep_metadata(tmp_path):
         }
     )
 
+    results = pd.concat(
+        [results, results.iloc[[1]].assign(Process="DMD", Commodity="DMDOUT", PV=6.0)],
+        ignore_index=True,
+    )
+
+    service = energy_service_demand(results, tmp_path)
+    assert service[["Commodity", "Unit", "Value"]].to_dict("records") == [
+        {"Commodity": "DMDOUT", "Unit": "PJ", "Value": 6.0}
+    ]
+    transport_service = transport_energy_service_demand(results, tmp_path)
+    assert transport_service[["Commodity", "Unit", "Value"]].to_dict("records") == [
+        {"Commodity": "T_C_CAR", "Unit": "BVkm", "Value": 3.0}
+    ]
     assert len(transport_energy_demand(results, tmp_path)) == 1
-    assert len(transport_energy_service_demand(results, tmp_path)) == 1
     assert transport_capacity(results, tmp_path)["Unit"].tolist() == ["000vehicles"]
     assert technology_capacity(results, tmp_path)["Unit"].tolist() == ["GW"]
     assert objective_function(results)["Value"].tolist() == [1.5]
