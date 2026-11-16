@@ -556,7 +556,19 @@ def carbon_costs(results: pd.DataFrame) -> pd.DataFrame:
     result["ImpliedCarbonPrice_NZD_per_tCO2"] = (
         result["CarbonCost_MioNZD"].div(result["Emissions_ktCO2"]).mul(1000).fillna(0)
     )
-    return result.melt(id_vars=keys, var_name="Variable", value_name="Value")
+    measures = {
+        "Emissions_ktCO2": ("Total CO2 emissions", "kt CO2"),
+        "CarbonCost_MioNZD": ("Carbon cost", "Mio NZD"),
+        "ImpliedCarbonPrice_NZD_per_tCO2": ("Carbon price", "NZD/t CO2"),
+    }
+    result = result.melt(id_vars=keys, var_name="Variable", value_name="Value")
+    result["Unit"] = result["Variable"].map(
+        {code: unit for code, (_label, unit) in measures.items()}
+    )
+    result["Variable"] = result["Variable"].map(
+        {code: label for code, (label, _unit) in measures.items()}
+    )
+    return result[[*keys, "Variable", "Unit", "Value"]]
 
 
 def postprocess_run(run_dir: Path, metadata_dir: Path) -> Path:

@@ -4,6 +4,7 @@ from solve_times_nz.postprocessing import (
     _scenario_name,
     batteries,
     battery_flows,
+    carbon_costs,
     demand_flex_flows,
     electricity_demand_by_timeslice,
     electricity_generation,
@@ -251,6 +252,39 @@ def test_transport_capacity_and_objective_outputs_use_prep_metadata(tmp_path):
     assert transport_capacity(results, tmp_path)["Unit"].tolist() == ["000vehicles"]
     assert technology_capacity(results, tmp_path)["Unit"].tolist() == ["GW"]
     assert objective_function(results)["Value"].tolist() == [1.5]
+
+
+def test_carbon_costs_preserve_measure_names_units_and_values():
+    results = pd.DataFrame(
+        {
+            "Scenario": ["steady-v3.0.9"] * 3,
+            "Period": [2030] * 3,
+            "Region": ["NI"] * 3,
+            "Commodity": ["TOTCO2"] * 3,
+            "Attribute": ["VAR_FOut", "VAR_FOut", "Cost_Comx"],
+            "PV": [60.0, 40.0, 5.0],
+        }
+    )
+
+    result = carbon_costs(results)
+
+    assert result[["Variable", "Unit", "Value"]].to_dict("records") == [
+        {"Variable": "Total CO2 emissions", "Unit": "kt CO2", "Value": 100.0},
+        {"Variable": "Carbon cost", "Unit": "Mio NZD", "Value": 5.0},
+        {"Variable": "Carbon price", "Unit": "NZD/t CO2", "Value": 50.0},
+    ]
+    assert (
+        result[["Scenario", "Period", "Region", "Commodity"]].to_dict("records")
+        == [
+            {
+                "Scenario": "steady-v3.0.9",
+                "Period": 2030,
+                "Region": "NI",
+                "Commodity": "TOTCO2",
+            }
+        ]
+        * 3
+    )
 
 
 def test_snapshot_metadata_copies_csvs_once(tmp_path):
