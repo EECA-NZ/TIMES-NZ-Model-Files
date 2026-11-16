@@ -162,6 +162,9 @@ PREPARE-TIMES-NZ/docs/build/
 PREPARE-TIMES-NZ/docs/*.csv
 # the helper file for word table conversions doesn't need tracking 
 
+PUBLISH-TIMES-NZ/deployment_payload/
+PUBLISH-TIMES-NZ/releases/
+
 PREPARE-TIMES-NZ/docs/helpers/table_to_convert.csv
 
 # ignore pendo env keys 

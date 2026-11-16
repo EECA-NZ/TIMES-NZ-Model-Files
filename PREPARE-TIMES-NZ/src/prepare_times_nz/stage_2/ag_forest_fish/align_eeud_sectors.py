@@ -252,7 +252,10 @@ def mbie_ag_forest_fish_energy(mbie_df: pd.DataFrame) -> pd.DataFrame:
     Prints values so you can verify they match expectations.
     """
     df = select_gross_pj(mbie_df, BASE_YEAR)
-    agriculture_coal_value = get_balance_value(df, "Agriculture", "Sub-Bituminous")
+    agriculture_coal_value = sum(
+        get_balance_value(df, "Agriculture", coal)
+        for coal in ("Bituminous", "Lignite", "Sub-Bituminous")
+    )
     agriculture_natural_gas_value = get_balance_value(df, "Agriculture", "Natural Gas")
     agriculture_geo_value = get_balance_value(df, "Agriculture", "Geothermal")
     fishing_diesel_value = get_balance_value(df, "Fishing", "Diesel")
