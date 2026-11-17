@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import re
 import shutil
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pandas as pd
@@ -573,13 +574,16 @@ def carbon_costs(results: pd.DataFrame) -> pd.DataFrame:
 
 def postprocess_run(run_dir: Path, metadata_dir: Path) -> Path:
     """Write initial post-processing parquet outputs for one completed solver run."""
+    manifest_path = run_dir / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    # Invalidate a previous success before a retry can change any output files.
+    manifest["postprocessing"] = {"status": "running"}
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     files = sorted(run_dir.glob("*.vd"))
     if len(files) != 1:
         raise ValueError(
             f"Expected exactly one .vd file in {run_dir}, found {len(files)}"
         )
-    manifest_path = run_dir / "manifest.json"
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     scenario = _scenario_name(manifest, manifest_path)
     results = read_vd(files[0])
     results["Scenario"] = scenario
@@ -617,4 +621,10 @@ def postprocess_run(run_dir: Path, metadata_dir: Path) -> Path:
     }
     for name, dataframe in outputs.items():
         dataframe.to_parquet(output / name, index=False)
+    manifest["postprocessing"] = {
+        "status": "completed",
+        "completed_at": datetime.now(UTC).isoformat(),
+        "files": list(outputs),
+    }
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     return output

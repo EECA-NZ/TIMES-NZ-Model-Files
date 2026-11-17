@@ -5,20 +5,95 @@ result consumers. A release is a directory containing a small manifest and
 the Parquet files that belong to that release. It is separate from an
 individual solver run: a release may contain results from one or more runs.
 
-## Create a release
+## Build a configured bundle
 
-Build a release from one or more completed solver `postprocessed/` directories:
+Run these commands from the repository root. Tracked definitions under
+`PUBLISH-TIMES-NZ/bundles/` describe which cases belong together without local
+paths, run timestamps, or a hard-coded model version. For example,
+`PUBLISH-TIMES-NZ/bundles/standard.toml` contains:
+
+```toml
+name = "standard"
+scenarios = ["steady", "shift"]
+```
+
+Build it with:
 
 ```bash
-uv run publish-times-nz build v3.0.9-comparison \
-  SOLVE-TIMES-NZ/build/solves/steady-v3.0.9-20261112T060842Z/postprocessed \
-  SOLVE-TIMES-NZ/build/solves/shift-v3.0.9-20261112T060842Z/postprocessed
+uv run publish-times-nz build-bundle PUBLISH-TIMES-NZ/bundles/standard.toml
 ```
+
+With workspace version `3.0.9`, this selects `steady-v3.0.9` and
+`shift-v3.0.9` and creates `PUBLISH-TIMES-NZ/releases/v3.0.9-standard/`.
+Add another definition with a different name and case list for a release
+containing the baselines and selected sensitivities. Definitions do not inherit
+other releases: each release contains its complete selected results.
+
+Selection searches `SOLVE-TIMES-NZ/build/solves/*/manifest.json` and matches
+`case_name` and the versioned `scenario_name`. For each requested case it chooses
+the most recently completed successful solve whose postprocessing is also
+complete. It uses the solve manifest's `execution.completed_at`, never directory
+names, filesystem modification times, or postprocessing time. Failed and
+unfinished runs are skipped. A missing case, tied latest completion times, or
+missing files recorded by completed postprocessing stops the build.
+The Parquet scenario IDs must also match the resolved cases and workspace version.
+
+Older runs lack the postprocessing completion record and are not eligible for
+automatic selection. Rerun postprocessing once to produce that record; a new
+solve is unnecessary:
+
+```bash
+uv run solve-times-nz postprocess SOLVE-TIMES-NZ/build/solves/<run-directory>
+```
+
+Postprocessing invalidates its prior completion record before starting and marks
+completion only after all dataset writes succeed. A failed attempt remains
+ineligible until rerun successfully. Existing output files are retained for
+inspection; their presence alone does not indicate completion.
+
+The build prints the selected scenario and run identities. Its `bundle.json`
+records the definition, resolved workspace version, and exact timestamped run
+identities. Source runs remain in `solves/`; the release is a self-contained
+snapshot for Explorer, QA, or public sharing. It has the same layout as an
+imported legacy v308 release.
+
+The recipe is portable when the matching runs are available locally. It is not
+a guarantee that colleagues select identical results: code and inputs can change
+without a version bump, and local toolchains can differ. Share the completed
+release to share agreed results. Rebuilding the recipe selects the latest local
+runs again. Named releases are never overwritten; use a distinct definition name
+for another release under the same workspace version.
+
+## Temporary comparison bundles from explicit runs
+
+Use the explicit-path `build` command for temporary or one-off comparisons,
+including comparisons across model versions. Select the completed solver
+`postprocessed/` directories to combine and give the comparison its own name:
+
+```bash
+uv run publish-times-nz build steady-v306-v307-comparison \
+  SOLVE-TIMES-NZ/build/solves/<steady-v306-run>/postprocessed \
+  SOLVE-TIMES-NZ/build/solves/<steady-v307-run>/postprocessed
+```
+
+Unlike `build-bundle`, this command does not select runs by workspace version or
+add a version prefix to the release name. It preserves the scenario IDs in the
+source data and creates the same release layout for consumers to filter and
+compare. Matching Parquet schemas must be compatible across the selected runs.
+Prefer this command for ad hoc comparisons; tracked definitions remain the
+repeatable recipe for standard bundles at the current workspace version. No
+TOML version override is needed for temporary comparisons.
 
 Each selected solver directory must contain exactly one scenario, and selected
 directories must not repeat a scenario ID. PUBLISH batches matching labelled
 Parquets by filename and includes every source Parquet; it places
 `raw_results.parquet` in `raw/` when available.
+
+Topics may intentionally occur in only some scenarios. A topic is combined from
+the runs that supply it; matching schemas are required only between files being
+combined. Missing topic coverage is not an error. Consumers decide whether the
+available data meets their analysis requirements. The explicit-run command
+retains its original behaviour and does not require a completion record.
 
 Import an already scenario-batched legacy result directory with:
 
@@ -75,11 +150,16 @@ time, scenarios, and source lineage. For example:
   "release_name": "v3.0.9-steady",
   "created_at": "2026-11-13T00:00:00Z",
   "scenarios": [
-    {"id": "steady", "label": "Steady"}
+    {"id": "steady-v3.0.9", "label": "steady-v3.0.9"}
   ],
   "source": {
     "type": "solver_runs",
-    "runs": ["steady-v3.0.9-20261112T060842Z"]
+    "runs": ["steady-v3.0.9-20261112T060842Z"],
+    "definition": {
+      "name": "steady",
+      "scenarios": ["steady"],
+      "workspace_version": "3.0.9"
+    }
   }
 }
 ```

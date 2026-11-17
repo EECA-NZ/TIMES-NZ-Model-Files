@@ -2,16 +2,15 @@
 
 from __future__ import annotations
 
-from collections import defaultdict
-from datetime import UTC, datetime
 import json
-from pathlib import Path
 import shutil
 import uuid
+from collections import defaultdict
+from datetime import UTC, datetime
+from pathlib import Path
 
 import pyarrow as pa
 import pyarrow.parquet as pq
-
 from publish_times_nz.release_bundle import (
     RELEASE_FORMAT_VERSION,
     ReleaseBundle,
@@ -24,7 +23,11 @@ class ReleaseBuildError(ValueError):
 
 
 def build_release(
-    release_name: str, source_directories: list[Path], releases_root: Path
+    release_name: str,
+    source_directories: list[Path],
+    releases_root: Path,
+    *,
+    definition: dict[str, object] | None = None,
 ) -> ReleaseBundle:
     """Build one release from one-scenario solver postprocessing directories."""
     sources = _source_directories(source_directories)
@@ -34,18 +37,33 @@ def build_release(
     for source, scenario_ids in scenario_ids_by_source.items():
         if len(scenario_ids) != 1:
             raise ReleaseBuildError(
-                f"Solver source must contain one scenario: {source} has {sorted(scenario_ids)}"
+                f"Solver source must contain one scenario: {source} "
+                f"has {sorted(scenario_ids)}"
             )
     scenario_ids = [next(iter(ids)) for ids in scenario_ids_by_source.values()]
     if len(scenario_ids) != len(set(scenario_ids)):
-        raise ReleaseBuildError("Selected solver sources contain duplicate scenario IDs")
+        raise ReleaseBuildError(
+            "Selected solver sources contain duplicate scenario IDs"
+        )
+    if definition is not None:
+        expected = [
+            f"{case}-v{definition['workspace_version']}"
+            for case in definition["scenarios"]
+        ]
+        if scenario_ids != expected:
+            raise ReleaseBuildError(
+                f"Parquet scenarios {scenario_ids} "
+                f"do not match bundle definition {expected}"
+            )
 
     tables = _source_tables(sources)
-    manifest = _manifest(
-        release_name,
-        scenario_ids,
-        {"type": "solver_runs", "runs": [source.parent.name for source in sources]},
-    )
+    lineage = {
+        "type": "solver_runs",
+        "runs": [source.parent.name for source in sources],
+    }
+    if definition is not None:
+        lineage["definition"] = definition
+    manifest = _manifest(release_name, scenario_ids, lineage)
     return _publish(release_name, tables, manifest, releases_root)
 
 
@@ -75,7 +93,9 @@ def _source_directories(source_directories: list[Path]) -> list[Path]:
         if not source.is_dir():
             raise ReleaseBuildError(f"Source directory does not exist: {source}")
         if not _parquet_files(source):
-            raise ReleaseBuildError(f"Source directory contains no Parquet files: {source}")
+            raise ReleaseBuildError(
+                f"Source directory contains no Parquet files: {source}"
+            )
     return sources
 
 
@@ -88,9 +108,13 @@ def _scenario_ids(parquet_files: tuple[Path, ...]) -> set[str]:
     for parquet_file in parquet_files:
         table = pq.read_table(parquet_file, columns=["Scenario"])
         if "Scenario" not in table.column_names:
-            raise ReleaseBuildError(f"Parquet is missing Scenario column: {parquet_file}")
+            raise ReleaseBuildError(
+                f"Parquet is missing Scenario column: {parquet_file}"
+            )
         scenario_ids.update(value.as_py() for value in table["Scenario"].unique())
-    if not scenario_ids or not all(isinstance(value, str) and value for value in scenario_ids):
+    if not scenario_ids or not all(
+        isinstance(value, str) and value for value in scenario_ids
+    ):
         raise ReleaseBuildError("Parquet Scenario values must be non-empty strings")
     return scenario_ids
 
@@ -109,7 +133,9 @@ def _manifest(
     return {
         "format_version": RELEASE_FORMAT_VERSION,
         "release_name": release_name,
-        "scenarios": [{"id": scenario_id, "label": scenario_id} for scenario_id in scenario_ids],
+        "scenarios": [
+            {"id": scenario_id, "label": scenario_id} for scenario_id in scenario_ids
+        ],
         "source": source,
         "created_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
     }

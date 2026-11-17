@@ -5,7 +5,6 @@ from pathlib import Path
 import pyarrow as pa
 import pyarrow.parquet as pq
 import pytest
-
 from publish_times_nz.release_builder import (
     ReleaseBuildError,
     build_release,
@@ -37,7 +36,9 @@ def test_build_release_combines_all_source_parquets(tmp_path):
         Path("labelled/future_output.parquet"),
         Path("raw/raw_results.parquet"),
     }
-    assert pq.read_table(bundle.labelled_file("energy_demand.parquet"))["Scenario"].to_pylist() == [
+    assert pq.read_table(bundle.labelled_file("energy_demand.parquet"))[
+        "Scenario"
+    ].to_pylist() == [
         "steady",
         "shift",
     ]
@@ -53,6 +54,23 @@ def test_build_release_rejects_duplicate_scenarios_before_publication(tmp_path):
         build_release("duplicate", [first, second], tmp_path / "releases")
 
     assert not (tmp_path / "releases" / "duplicate").exists()
+
+
+def test_build_release_rejects_data_that_disagrees_with_definition(tmp_path):
+    source = tmp_path / "steady" / "postprocessed"
+    _write_parquet(source, "energy_demand.parquet", ["steady-v3.0.8"])
+    definition = {
+        "name": "standard",
+        "scenarios": ["steady"],
+        "workspace_version": "3.0.9",
+    }
+
+    with pytest.raises(ReleaseBuildError, match="do not match bundle definition"):
+        build_release(
+            "v3.0.9-standard", [source], tmp_path / "releases", definition=definition
+        )
+
+    assert not (tmp_path / "releases").exists()
 
 
 def test_build_release_never_overwrites_an_existing_release(tmp_path):

@@ -1,5 +1,8 @@
+import json
+
 import pandas as pd
 import pytest
+from solve_times_nz import postprocessing
 from solve_times_nz.postprocessing import (
     _scenario_name,
     batteries,
@@ -29,6 +32,66 @@ def test_scenario_name_uses_versioned_case_directory(tmp_path):
         )
         == "steady-v3.0.9"
     )
+
+
+@pytest.mark.parametrize("failure", [None, "calculation", "write"])
+def test_postprocess_marks_complete_only_after_all_writes(
+    tmp_path, monkeypatch, failure
+):
+    manifest_path = tmp_path / "manifest.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "scenario_name": "steady-v3.0.9",
+                "postprocessing": {"status": "completed"},
+            }
+        ),
+        encoding="utf-8",
+    )
+    (tmp_path / "results.vd").touch()
+    frame = pd.DataFrame({"Value": [1.0]})
+    monkeypatch.setattr(postprocessing, "read_vd", lambda _: frame.copy())
+    functions = (
+        "electricity_generation",
+        "energy_demand",
+        "energy_service_demand",
+        "electricity_demand_by_timeslice",
+        "energy_service_demand_by_timeslice",
+        "generation_by_timeslice",
+        "transport_energy_demand",
+        "transport_energy_service_demand",
+        "transport_capacity",
+        "technology_capacity",
+        "objective_function",
+        "primary_energy",
+        "batteries",
+        "battery_flows",
+        "demand_flex_flows",
+        "emissions",
+        "carbon_costs",
+    )
+    for name in functions:
+        monkeypatch.setattr(postprocessing, name, lambda *_: frame.copy())
+
+    def fail(*_args, **_kwargs):
+        raise ValueError("synthetic failure")
+
+    if failure == "calculation":
+        monkeypatch.setattr(postprocessing, "energy_demand", fail)
+    if failure == "write":
+        monkeypatch.setattr(pd.DataFrame, "to_parquet", fail)
+    if failure:
+        with pytest.raises(ValueError, match="synthetic failure"):
+            postprocessing.postprocess_run(tmp_path, tmp_path)
+        assert json.loads(manifest_path.read_text())["postprocessing"] == {
+            "status": "running"
+        }
+    else:
+        output = postprocessing.postprocess_run(tmp_path, tmp_path)
+        status = json.loads(manifest_path.read_text())["postprocessing"]
+        assert status["status"] == "completed"
+        assert status["completed_at"]
+        assert set(status["files"]) == {path.name for path in output.glob("*.parquet")}
 
 
 def _metadata(tmp_path):
