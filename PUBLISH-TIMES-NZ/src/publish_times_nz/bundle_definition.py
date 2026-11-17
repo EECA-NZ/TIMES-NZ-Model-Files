@@ -12,7 +12,7 @@ from publish_times_nz.release_bundle import ReleaseBundle
 
 
 def load_definition(path: Path) -> dict[str, object]:
-    """Read a bundle name and an ordered list of unversioned case names."""
+    """Read a bundle name and ordered case-to-display-label mappings."""
     with path.open("rb") as source:
         definition = tomllib.load(source)
     if set(definition) != {"name", "scenarios"}:
@@ -24,12 +24,19 @@ def load_definition(path: Path) -> dict[str, object]:
     if not isinstance(name, str) or name in {"", ".", ".."} or Path(name).name != name:
         raise ReleaseBuildError("Bundle name must be a single directory name")
     if (
-        not isinstance(scenarios, list)
+        not isinstance(scenarios, dict)
         or not scenarios
-        or not all(isinstance(case, str) and case.strip() for case in scenarios)
-        or len(scenarios) != len(set(scenarios))
+        or not all(
+            isinstance(case, str)
+            and case.strip()
+            and isinstance(label, str)
+            and label.strip()
+            for case, label in scenarios.items()
+        )
     ):
-        raise ReleaseBuildError("Bundle scenarios must be unique, non-empty case names")
+        raise ReleaseBuildError(
+            "Bundle scenarios must map non-empty case names to labels"
+        )
     return definition
 
 
@@ -93,7 +100,7 @@ def build_bundle(
                 f"Invalid solve manifest: {manifest_path}"
             ) from error
         runs[manifest_path.parent] = manifest
-    selected = select_runs(definition["scenarios"], version, runs)
+    selected = select_runs(list(definition["scenarios"]), version, runs)
     for run_dir in selected:
         output = run_dir / "postprocessed"
         manifest = runs[run_dir]

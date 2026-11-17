@@ -61,7 +61,7 @@ def test_build_release_rejects_data_that_disagrees_with_definition(tmp_path):
     _write_parquet(source, "energy_demand.parquet", ["steady-v3.0.8"])
     definition = {
         "name": "standard",
-        "scenarios": ["steady"],
+        "scenarios": {"steady": "Steady"},
         "workspace_version": "3.0.9",
     }
 

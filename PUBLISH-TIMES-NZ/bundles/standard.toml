@@ -1,2 +1,5 @@
 name = "standard"
-scenarios = ["steady", "shift"]
+
+[scenarios]
+steady = "Steady"
+shift = "Shift"

@@ -4,8 +4,9 @@ Creates and serves named TIMES-NZ release artefacts. Release bundles are local
 data and belong in the ignored `releases/` directory. Every Parquet below a
 release directory is part of that release, including raw solver results.
 
-Select the release and maintain scenario and region display labels in
-`explorer_bundle.toml`. Restart the app after editing it.
+Maintain scenario labels in the bundle definitions under `bundles/`; builds copy
+them into each release's `bundle.json`. Select the release and maintain region
+display labels in `explorer_bundle.toml`. Restart the app after editing it.
 
 ```bash
 uv run publish-times-nz build <release-name> <postprocessed-directory>...

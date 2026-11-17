@@ -14,7 +14,10 @@ paths, run timestamps, or a hard-coded model version. For example,
 
 ```toml
 name = "standard"
-scenarios = ["steady", "shift"]
+
+[scenarios]
+steady = "Steady"
+shift = "Shift"
 ```
 
 Build it with:
@@ -25,7 +28,9 @@ uv run publish-times-nz build-bundle PUBLISH-TIMES-NZ/bundles/standard.toml
 
 With workspace version `3.0.9`, this selects `steady-v3.0.9` and
 `shift-v3.0.9` and creates `PUBLISH-TIMES-NZ/releases/v3.0.9-standard/`.
-Add another definition with a different name and case list for a release
+The `scenarios` table maps unversioned case names to display labels, in selection
+order. These labels are copied into the release manifest. Add another definition
+with a different name and scenario mapping for a release
 containing the baselines and selected sensitivities. Definitions do not inherit
 other releases: each release contains its complete selected results.
 
@@ -155,14 +160,14 @@ time, scenarios, and source lineage. For example:
   "release_name": "v3.0.9-steady",
   "created_at": "2026-11-13T00:00:00Z",
   "scenarios": [
-    {"id": "steady-v3.0.9", "label": "steady-v3.0.9"}
+    {"id": "steady-v3.0.9", "label": "Steady"}
   ],
   "source": {
     "type": "solver_runs",
     "runs": ["steady-v3.0.9-20261112T060842Z"],
     "definition": {
       "name": "steady",
-      "scenarios": ["steady"],
+      "scenarios": {"steady": "Steady"},
       "workspace_version": "3.0.9"
     }
   }
@@ -178,8 +183,10 @@ run identities:
 
 Each scenario needs a unique raw `id` and its human-readable `label`. Keep
 the raw IDs in the Parquet `Scenario` column; display labels are manifest
-metadata. Until a display-label policy is added, PUBLISH uses each raw ID as
-its label. The Explorer can override these for display using its root config.
+metadata. Configured bundle builds take labels from the definition's `scenarios`
+table. Direct `build` and `import-legacy` commands use raw IDs as labels; update
+the imported release's manifest when friendly labels are needed. The Explorer
+reads these labels for selectors, charts, tables, and exports.
 
 ## Reading a selected release
 
@@ -187,10 +194,6 @@ Select the Explorer release in `PUBLISH-TIMES-NZ/explorer_bundle.toml`:
 
 ```toml
 release = "v3.0.9-standard"
-
-[column_value_mappings.Scenario]
-"steady-v3.0.9" = "Steady"
-"shift-v3.0.9" = "Shift"
 
 [column_value_mappings.Region]
 NI = "North Island"
@@ -202,10 +205,11 @@ deployment packaging both use this setting. The app never chooses the newest
 release automatically. Restart it after changing the config, since the bundle
 is cached for the lifetime of the app process.
 
-This is also the single place to maintain Explorer scenario and region display
-labels; the old `value_mappings.json` is no longer used. Scenario selectors,
-charts, tables, and chart exports use the same labels. Without an override,
-scenario labels come from the release manifest and region codes remain unchanged.
+Maintain scenario labels in bundle definitions and region display labels in this
+Explorer config; the old `value_mappings.json` is no longer used. The config can
+still override scenario labels with `[column_value_mappings.Scenario]` for a
+deliberate Explorer-specific display change. Without an override, scenario
+labels come from the release manifest and region codes remain unchanged.
 For comparisons across versions, use distinct display labels to keep the
 scenarios distinguishable. Display mappings leave release Parquets unchanged;
 Explorer CSV downloads continue to use the mapped labels. Deployment packaging

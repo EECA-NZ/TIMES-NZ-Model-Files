@@ -64,6 +64,11 @@ def build_release(
     if definition is not None:
         lineage["definition"] = definition
     manifest = _manifest(release_name, scenario_ids, lineage)
+    if definition is not None:
+        for scenario, label in zip(
+            manifest["scenarios"], definition["scenarios"].values(), strict=True
+        ):
+            scenario["label"] = label
     return _publish(release_name, tables, manifest, releases_root)
 
 

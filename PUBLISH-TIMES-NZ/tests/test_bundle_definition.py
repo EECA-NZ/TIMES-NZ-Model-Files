@@ -71,8 +71,13 @@ def test_select_runs_rejects_invalid_completion_time(completed_at):
     [
         'name = "standard"\nscenarios = []',
         'name = "standard"\nscenarios = ["steady", "steady"]',
-        'name = "../escape"\nscenarios = ["steady"]',
-        'name = "standard"\nscenarios = ["steady"]\nunknown = true',
+        'name = "standard"\nscenarios = {}',
+        'name = "standard"\nscenarios = {steady = ""}',
+        'name = "standard"\nscenarios = {steady = " "}',
+        'name = "standard"\nscenarios = {steady = 42}',
+        'name = "standard"\nscenarios = {" " = "Steady"}',
+        'name = "../escape"\nscenarios = {steady = "Steady"}',
+        'name = "standard"\nscenarios = {steady = "Steady"}\nunknown = true',
     ],
 )
 def test_load_definition_rejects_invalid_recipe(tmp_path, contents):
@@ -88,7 +93,8 @@ def test_build_bundle_records_recipe_and_combines_partial_topics(tmp_path, capsy
     )
     definition = tmp_path / "standard.toml"
     definition.write_text(
-        'name = "standard"\nscenarios = ["steady", "shift"]\n', encoding="utf-8"
+        'name = "standard"\n[scenarios]\nsteady = "Steady"\nshift = "Shift"\n',
+        encoding="utf-8",
     )
     for case in ("steady", "shift"):
         run = tmp_path / "SOLVE-TIMES-NZ" / "build" / "solves" / f"{case}-local-run"
@@ -109,10 +115,14 @@ def test_build_bundle_records_recipe_and_combines_partial_topics(tmp_path, capsy
         "runs": ["steady-local-run", "shift-local-run"],
         "definition": {
             "name": "standard",
-            "scenarios": ["steady", "shift"],
+            "scenarios": {"steady": "Steady", "shift": "Shift"},
             "workspace_version": "3.0.9",
         },
     }
+    assert bundle.scenarios == (
+        {"id": "steady-v3.0.9", "label": "Steady"},
+        {"id": "shift-v3.0.9", "label": "Shift"},
+    )
     assert pq.read_table(bundle.labelled_file("energy_demand.parquet"))[
         "Scenario"
     ].to_pylist() == ["steady-v3.0.9", "shift-v3.0.9"]
@@ -135,7 +145,7 @@ def test_build_bundle_cli_reports_missing_run_without_traceback(
     )
     definition = tmp_path / "standard.toml"
     definition.write_text(
-        'name = "standard"\nscenarios = ["steady"]\n', encoding="utf-8"
+        'name = "standard"\n[scenarios]\nsteady = "Steady"\n', encoding="utf-8"
     )
     monkeypatch.setattr(
         cli, "DEFAULT_RELEASES_ROOT", tmp_path / "PUBLISH-TIMES-NZ" / "releases"
