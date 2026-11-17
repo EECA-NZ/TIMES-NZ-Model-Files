@@ -118,9 +118,14 @@ uv run --directory PUBLISH-TIMES-NZ rsconnect deploy shiny deployment_payload \
 ```
 
 `deployment_payload/` is Git-ignored and regenerated from scratch. It contains
-only the app runtime files, the tracked v308 release, a requirements export
+only the app runtime files, `explorer_bundle.toml`, its selected release, a requirements export
 from `uv.lock`, and the local `.env` file used for Pendo. Deploy this directory,
 not `PUBLISH-TIMES-NZ/`; do not edit the generated payload by hand.
+
+Packaging uses `explorer_bundle.toml` by default. To select a different release for
+one deployment, pass `--release <release-folder>` to `prepare-deployment-payload`.
+The payload's config is written to match that release; your local config stays
+unchanged.
 
 ## Release layout
 
@@ -174,12 +179,46 @@ run identities:
 Each scenario needs a unique raw `id` and its human-readable `label`. Keep
 the raw IDs in the Parquet `Scenario` column; display labels are manifest
 metadata. Until a display-label policy is added, PUBLISH uses each raw ID as
-its label.
+its label. The Explorer can override these for display using its root config.
 
 ## Reading a selected release
 
-The Explorer currently uses the tracked `releases/v308` path. It never chooses
-the newest directory under `releases/`.
+Select the Explorer release in `PUBLISH-TIMES-NZ/explorer_bundle.toml`:
+
+```toml
+release = "v3.0.9-standard"
+
+[column_value_mappings.Scenario]
+"steady-v3.0.9" = "Steady"
+"shift-v3.0.9" = "Shift"
+
+[column_value_mappings.Region]
+NI = "North Island"
+SI = "South Island"
+```
+
+The value is a folder name under `PUBLISH-TIMES-NZ/releases/`. Local startup and
+deployment packaging both use this setting. The app never chooses the newest
+release automatically. Restart it after changing the config, since the bundle
+is cached for the lifetime of the app process.
+
+This is also the single place to maintain Explorer scenario and region display
+labels; the old `value_mappings.json` is no longer used. Scenario selectors,
+charts, tables, and chart exports use the same labels. Without an override,
+scenario labels come from the release manifest and region codes remain unchanged.
+For comparisons across versions, use distinct display labels to keep the
+scenarios distinguishable. Display mappings leave release Parquets unchanged;
+Explorer CSV downloads continue to use the mapped labels. Deployment packaging
+preserves the mappings, including when `--release` overrides the selected release.
+
+From the repository root, start the local Explorer with:
+
+```bash
+uv run --directory PUBLISH-TIMES-NZ python run_local.py
+```
+
+Local runs read the selected release directly; they do not create a deployment
+payload. Other consumers can load a release explicitly:
 
 ```python
 from pathlib import Path

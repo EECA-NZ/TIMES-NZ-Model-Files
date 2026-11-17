@@ -4,14 +4,15 @@ For now, the target is to just provide a main dropdown list,
     then a secondary dropdown for optional comparisons
 """
 
+from publish_times_nz.app_config import configured_bundle
+from publish_times_nz.utilities.value_mappings import get_choice_labels
 from shiny import reactive, render, ui
 from shiny.types import SilentException
-from publish_times_nz.app.release import configured_bundle
 
 NO_COMPARISON = "__none__"
-SCENARIO_CHOICES = {
-    scenario["id"]: scenario["label"] for scenario in configured_bundle().scenarios
-}
+SCENARIO_CHOICES = get_choice_labels(
+    "Scenario", [scenario["id"] for scenario in configured_bundle().scenarios]
+)
 SCENARIOS = list(SCENARIO_CHOICES)
 
 
@@ -36,9 +37,7 @@ def scenario_select_server(inputs, outputs, session):
     @reactive.effect
     def update_scenario_b_options():
         a = inputs.scenario_a()
-        scenario_options = (
-            [s for s in SCENARIOS if s != a] if a else SCENARIOS
-        )
+        scenario_options = [s for s in SCENARIOS if s != a] if a else SCENARIOS
         opts = {
             NO_COMPARISON: "None",
             **{scenario: SCENARIO_CHOICES[scenario] for scenario in scenario_options},

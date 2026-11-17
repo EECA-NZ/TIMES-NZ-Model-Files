@@ -37,7 +37,9 @@ def main() -> None:
     deploy = commands.add_parser(
         "prepare-deployment-payload", help="Build the rsconnect payload"
     )
-    deploy.add_argument("--release", default="v308")
+    deploy.add_argument(
+        "--release", help="Override the release selected in explorer_bundle.toml"
+    )
 
     arguments = parser.parse_args()
     if arguments.command == "prepare-deployment-payload":

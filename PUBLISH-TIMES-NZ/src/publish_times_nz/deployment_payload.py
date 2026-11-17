@@ -2,17 +2,23 @@
 
 from __future__ import annotations
 
-from pathlib import Path
+import json
 import shutil
 import subprocess
 import uuid
+from pathlib import Path
 
+from publish_times_nz.app_config import configured_release_path, load_explorer_config
 from publish_times_nz.release_bundle import load_bundle
 
 
-def prepare_deployment_payload(publish_root: Path, release_name: str = "v308") -> Path:
+def prepare_deployment_payload(
+    publish_root: Path, release_name: str | None = None
+) -> Path:
     """Rebuild ``deployment_payload`` with the app and one selected release."""
-    release_path = publish_root / "releases" / release_name
+    release_path = configured_release_path(publish_root, release_name)
+    release_name = release_path.name
+    config = load_explorer_config(publish_root)
     env_path = publish_root / ".env"
     if not env_path.is_file():
         raise ValueError(f"Missing deployment environment file: {env_path}")
@@ -22,6 +28,14 @@ def prepare_deployment_payload(publish_root: Path, release_name: str = "v308") -
     staging_path = publish_root / f".deployment_payload.{uuid.uuid4().hex}.staging"
     try:
         _copy(publish_root / "app.py", staging_path / "app.py")
+        with (staging_path / "explorer_bundle.toml").open(
+            "w", encoding="utf-8"
+        ) as target:
+            target.write(f"release = {json.dumps(release_name)}\n")
+            for column, mapping in config.get("column_value_mappings", {}).items():
+                target.write(f"\n[column_value_mappings.{json.dumps(column)}]\n")
+                for code, label in mapping.items():
+                    target.write(f"{json.dumps(code)} = {json.dumps(label)}\n")
         _write_requirements(publish_root, staging_path / "requirements.txt")
         _copy(env_path, staging_path / ".env")
         _copy(publish_root / "src", staging_path / "src")
@@ -61,7 +75,9 @@ def _write_requirements(publish_root: Path, destination: Path) -> None:
 
 def _copy(source: Path, destination: Path) -> None:
     if source.is_dir():
-        shutil.copytree(source, destination, ignore=shutil.ignore_patterns("__pycache__"))
+        shutil.copytree(
+            source, destination, ignore=shutil.ignore_patterns("__pycache__")
+        )
     elif source.is_file():
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, destination)
