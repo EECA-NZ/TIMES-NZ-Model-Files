@@ -73,7 +73,7 @@ uv run --directory PUBLISH-TIMES-NZ python run_local.py
 The Explorer consumes named PUBLISH releases. See the
 [release guide](PREPARE-TIMES-NZ/docs/source/developer_guide/publish_times_nz/index.md)
 to build a release or import legacy results.
-`TIMES-NZ-INTERNAL-QA` contains internal analysis; the Explorer and its
+`QA-TIMES-NZ` contains internal analysis; the Explorer and its
 deployments use `PUBLISH-TIMES-NZ`.
 
 Solver runs produce their own postprocessed parquet outputs automatically:

@@ -1,5 +1,5 @@
 """
-Defines filepaths used by TIMES-NZ-INTERNAL-QA
+Defines filepaths used by QA-TIMES-NZ
 """
 
 from pathlib import Path

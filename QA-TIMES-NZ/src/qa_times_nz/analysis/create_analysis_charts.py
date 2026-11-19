@@ -6,7 +6,7 @@ plotting helpers live in analysis_chart_helpers, while each subject module owns
 the charts for that subject area.
 """
 
-from times_nz_internal_qa.analysis import (
+from qa_times_nz.analysis import (
     analysis_demand,
     analysis_electricity_generation,
     analysis_emissions,

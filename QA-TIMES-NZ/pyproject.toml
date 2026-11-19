@@ -1,5 +1,5 @@
 [project]
-name = "TIMES-NZ-INTERNAL-QA"
+name = "qa-times-nz"
 version = "0.1.0"
 description = "Internal handling and visualisation of TIMES-NZ result files"
 readme = "readme.md"
@@ -25,7 +25,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/times_nz_internal_qa"]
+packages = ["src/qa_times_nz"]
 
 [tool.pylint.main]
 source-roots = ["src"]

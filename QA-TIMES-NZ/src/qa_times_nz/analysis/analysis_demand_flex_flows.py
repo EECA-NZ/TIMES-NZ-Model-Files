@@ -3,20 +3,20 @@
 from functools import lru_cache
 
 import pandas as pd
-import times_nz_internal_qa.analysis.get_data as chart_data
+import qa_times_nz.analysis.get_data as chart_data
 
 # isort is clashing with pylint on what order these should go in, so disable pylint
 # pylint:disable = wildcard-import, unused-wildcard-import, wrong-import-order
 from plotnine import *
-from times_nz_internal_qa.analysis.analysis_chart_helpers import (
+from qa_times_nz.analysis.analysis_chart_helpers import (
     adaptive_tick_labels,
     chart_cols,
     convert_timeslice_flow_units,
     save_chart_and_data,
     standardise_chart_data,
 )
-from times_nz_internal_qa.utilities.filepaths import SCENARIO_FILES
-from times_nz_internal_qa.utilities.timeslices import (
+from qa_times_nz.utilities.filepaths import SCENARIO_FILES
+from qa_times_nz.utilities.timeslices import (
     DAY_TYPE_LABELS,
     DAY_TYPE_ORDER,
     SEASON_LABELS,

@@ -14,7 +14,7 @@ members = [
     "prepare-times-nz",
     "publish-times-nz",
     "solve-times-nz",
-    "times-nz-internal-qa",
+    "qa-times-nz",
     "times-nz-model-files",
 ]
 overrides = [
@@ -4250,9 +4250,9 @@ wheels = [
 ]
 
 [[package]]
-name = "times-nz-internal-qa"
+name = "qa-times-nz"
 version = "0.1.0"
-source = { editable = "TIMES-NZ-INTERNAL-QA" }
+source = { editable = "QA-TIMES-NZ" }
 dependencies = [
     { name = "doit" },
     { name = "numpy" },
@@ -4292,7 +4292,7 @@ dependencies = [
     { name = "prepare-times-nz" },
     { name = "publish-times-nz" },
     { name = "solve-times-nz" },
-    { name = "times-nz-internal-qa" },
+    { name = "qa-times-nz" },
 ]
 
 [package.dev-dependencies]
@@ -4326,7 +4326,7 @@ requires-dist = [
     { name = "prepare-times-nz", editable = "PREPARE-TIMES-NZ" },
     { name = "publish-times-nz", editable = "PUBLISH-TIMES-NZ" },
     { name = "solve-times-nz", editable = "SOLVE-TIMES-NZ" },
-    { name = "times-nz-internal-qa", editable = "TIMES-NZ-INTERNAL-QA" },
+    { name = "qa-times-nz", editable = "QA-TIMES-NZ" },
 ]
 
 [package.metadata.requires-dev]

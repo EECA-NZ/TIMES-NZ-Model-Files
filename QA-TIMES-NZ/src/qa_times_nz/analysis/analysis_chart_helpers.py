@@ -19,7 +19,7 @@ from pathlib import Path
 import pandas as pd
 from plotnine import *
 from plotnine.exceptions import PlotnineWarning
-from times_nz_internal_qa.utilities.filepaths import ANALYSIS_RESULTS, PREP_STAGE_2
+from qa_times_nz.utilities.filepaths import ANALYSIS_RESULTS, PREP_STAGE_2
 
 # CONSTANTS - colour settings
 

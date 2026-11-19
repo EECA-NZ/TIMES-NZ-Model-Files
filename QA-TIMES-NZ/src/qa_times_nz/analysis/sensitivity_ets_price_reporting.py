@@ -3,7 +3,7 @@
 from pathlib import Path
 
 import pandas as pd
-from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
+from qa_times_nz.utilities.filepaths import FINAL_DATA
 
 ETS_PRICE_SENSITIVITY_SCENARIOS = {
     "steady-v308": "Steady",

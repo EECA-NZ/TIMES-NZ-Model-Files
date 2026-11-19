@@ -1,4 +1,4 @@
-# TIMES-NZ-INTERNAL-QA
+# QA-TIMES-NZ
 
 
 This module contains internal analysis tools. The legacy Explorer has been

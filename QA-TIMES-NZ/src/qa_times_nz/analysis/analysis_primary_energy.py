@@ -1,7 +1,7 @@
 """Primary energy analysis charts."""
 
-import times_nz_internal_qa.analysis.get_data as chart_data
-from times_nz_internal_qa.analysis.analysis_chart_helpers import (
+import qa_times_nz.analysis.get_data as chart_data
+from qa_times_nz.analysis.analysis_chart_helpers import (
     create_scenario_facet_chart,
     save_chart_and_data,
     standardise_chart_data,

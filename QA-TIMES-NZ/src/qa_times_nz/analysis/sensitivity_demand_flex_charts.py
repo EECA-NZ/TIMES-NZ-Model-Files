@@ -8,12 +8,12 @@ standard analysis outputs.
 
 from pathlib import Path
 
-import times_nz_internal_qa.analysis.get_data as chart_data
+import qa_times_nz.analysis.get_data as chart_data
 
 # isort is clashing with pylint on what order these should go in, so disable pylint
 # pylint:disable = wildcard-import, unused-wildcard-import, wrong-import-order, duplicate-code
 from plotnine import *
-from times_nz_internal_qa.analysis.analysis_chart_helpers import (
+from qa_times_nz.analysis.analysis_chart_helpers import (
     PJ_TO_GWH,
     adaptive_tick_labels,
     chart_cols_line,

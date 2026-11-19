@@ -19,7 +19,7 @@ repos:
         language: system
         entry: uv run black
         types: [python]
-        files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|TIMES-NZ-INTERNAL-QA)/.*\.py$
+        files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|QA-TIMES-NZ)/.*\.py$
         exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
 
       - id: isort
@@ -27,7 +27,7 @@ repos:
         language: system
         entry: uv run isort --profile=black
         types: [python]
-        files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|TIMES-NZ-INTERNAL-QA)/.*\.py$
+        files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|QA-TIMES-NZ)/.*\.py$
         exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
 
       - id: pylint-prep
@@ -40,12 +40,12 @@ repos:
         pass_filenames: false
 
       - id: pylint-qa
-        name: pylint (TIMES-NZ-INTERNAL-QA)
+        name: pylint (QA-TIMES-NZ)
         language: system
-        entry: uv run --directory TIMES-NZ-INTERNAL-QA pylint src/times_nz_internal_qa
+        entry: uv run --directory QA-TIMES-NZ pylint src/qa_times_nz
         types: [python]
-        files: ^TIMES-NZ-INTERNAL-QA/.*\.py$
-        exclude: ^TIMES-NZ-INTERNAL-QA/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
+        files: ^QA-TIMES-NZ/.*\.py$
+        exclude: ^QA-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
         pass_filenames: false
 
       - id: pylint-publish

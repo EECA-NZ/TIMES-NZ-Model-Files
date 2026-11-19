@@ -17,7 +17,7 @@ from zipfile import ZipFile
 import pandas as pd
 
 # pylint: disable = import-error
-from times_nz_internal_qa.utilities.filepaths import FINAL_DATA, PREP_STAGE_2
+from qa_times_nz.utilities.filepaths import FINAL_DATA, PREP_STAGE_2
 
 BASE_DIR = Path(__file__).resolve().parent
 CALIBRATION_DATA = BASE_DIR / "calibration_data"

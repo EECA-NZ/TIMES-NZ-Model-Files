@@ -25,7 +25,7 @@ from prepare_times_nz.utilities.filepaths import (
     TIMES_LOCATION,
 )
 
-RESULTS_LOCATION = TIMES_LOCATION / "TIMES-NZ-INTERNAL-QA" / "data" / "clean_results"
+RESULTS_LOCATION = TIMES_LOCATION / "QA-TIMES-NZ" / "data" / "clean_results"
 
 
 # Get data

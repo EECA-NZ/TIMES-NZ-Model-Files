@@ -3,7 +3,7 @@
 from pathlib import Path
 
 import pandas as pd
-from times_nz_internal_qa.utilities.filepaths import FINAL_DATA
+from qa_times_nz.utilities.filepaths import FINAL_DATA
 
 DEMAND_FLEX_SENSITIVITY_SCENARIOS = {
     "steady-v308": "Steady",
@@ -97,7 +97,8 @@ def _objective_value(objectives, scenario_code):
 def create_demand_flex_sensitivity_objective_functions(
     scenarios=None,
     scenario_map=DEMAND_FLEX_SENSITIVITY_SCENARIOS,
-    output_file=SENSITIVITY_OUTPUT_DIR / "demand_flex_sensitivity_objective_functions.csv",
+    output_file=SENSITIVITY_OUTPUT_DIR
+    / "demand_flex_sensitivity_objective_functions.csv",
 ):
     """Write objective-function values for the selected sensitivity scenarios."""
 
@@ -233,7 +234,9 @@ def _demand_flex_technology_shapley_values(objectives):
 def _mean_shift_demand_flex_technology_value(objectives):
     """Return mean two-path value of Shift demand-flex technology."""
 
-    values = [row["Value"] for row in _demand_flex_technology_shapley_values(objectives)]
+    values = [
+        row["Value"] for row in _demand_flex_technology_shapley_values(objectives)
+    ]
     return sum(values) / len(values)
 
 

@@ -7,7 +7,7 @@ dependencies = [
     "publish-times-nz",
     "prepare-times-nz",
     "solve-times-nz",
-    "times-nz-internal-qa",
+    "qa-times-nz",
 ]
 
 [dependency-groups]
@@ -52,14 +52,14 @@ override-dependencies = [
 publish-times-nz = { workspace = true }
 prepare-times-nz = { workspace = true }
 solve-times-nz = { workspace = true }
-times-nz-internal-qa = { workspace = true }
+qa-times-nz = { workspace = true }
 
 [tool.uv.workspace]
 members = [
     "PREPARE-TIMES-NZ",
     "PUBLISH-TIMES-NZ",
     "SOLVE-TIMES-NZ",
-    "TIMES-NZ-INTERNAL-QA",
+    "QA-TIMES-NZ",
 ]
 
 [tool.black]

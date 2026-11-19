@@ -3,13 +3,13 @@
 
 ## 3.0.9
 
-This version focuses on ensuring the pipeline is compatible with xl2times. This hardened some inputs and highlighted some minor input inconsistencies.
+This update removed manual Veda-based workflow steps and fully automated the pipeline end-to-end. It included minor data updates to the model. 
 
 **Features**
 
-- Added `SOLVE-TIMES-NZ` for reproducible workbook selection, DD generation,  solver staging, execution, and result collection.
+- Added `SOLVE-TIMES-NZ` to convert excel files to TIMES LP matrices, pass to a solver, and compile results. This utilises `xl2times` and replaces the previous Veda-based workflow. 
 
-**Compatibility adjustments**
+**Compatibility adjustments - no model changes**
 
 - Explicitly declared several units and commodity names that were previously relying on converter or VEDA inference.
 - Standardised trade worksheet names with `bi_` or `uni_`, and reworked the placement of user-constraint sets.
@@ -17,7 +17,7 @@ This version focuses on ensuring the pipeline is compatible with xl2times. This 
 - Adjusted `FLO_SHAR` calls to `Share-I` for consistent interpretation.
 - Battery availability is now expressed as `Value` rather than `AllRegions`.
 
-**Model fixes (may change generated model inputs or xl2times results)**
+**Compatibility fixes - minor model changes**
 
 - Corrected gas-distribution parameter declarations.
 - Ensured consistency of commercial technology commodity definitions for subres files. 
@@ -26,11 +26,19 @@ This version focuses on ensuring the pipeline is compatible with xl2times. This 
 - Made grid-generation and battery peak-capacity treatment explicit through primary commodity-group and capacity settings.
 - Retained investment costs for future biofuel conversion technologies by emitting them as SubRES new technologies.
 - Removed a redundant coal-transit path that could create a degenerate solution.
-- Corrected double-counting in other petrochemical demand.
 
-**Assumption and data changes** 
-- Set Ballance to provisional exogenous closure pathway. 
-- Updated MBIE gas and balance data, GIC consumption data, and the EEUD to 2025 data. 
+**Other model changes** 
+- Set Ballance to provisional exogenous closure pathway, with an earlier closure. 
+- Updated MBIE gas and balance data, GIC consumption data, and EEUD stationary to 2025 data. 
+
+**Technical changes** 
+
+Added and rearranged modules to facilitate the new pipeline: 
+ - `SOLVE-TIMES-NZ` owns `.dd` file creation, scenario compilation, and solving.
+   -  Outputs are automatically postprocessed based on labelling methods defined in `PREPARE-TIMES-NZ`.
+ - `PUBLISH-TIMES-NZ` compiles results into releases, and houses the data explorer app and its deployment.
+ - `QA-TIMES-NZ` hosts diagnostic and other tools.
+   -  This replaces the legacy `TIMES-NZ-INTERNAL-QA`, which previously hosted the app, postprocessing, and other QA methods. 
 
 
 ## 3.0.8

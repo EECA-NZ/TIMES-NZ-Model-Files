@@ -1,7 +1,7 @@
 """Residential, commercial, and industrial demand analysis charts."""
 
-import times_nz_internal_qa.analysis.get_data as chart_data
-from times_nz_internal_qa.analysis.analysis_chart_helpers import (
+import qa_times_nz.analysis.get_data as chart_data
+from qa_times_nz.analysis.analysis_chart_helpers import (
     PJ_TO_GWH,
     create_scenario_facet_chart,
     make_filename,
