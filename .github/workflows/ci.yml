@@ -53,9 +53,11 @@ jobs:
           uv run isort --profile black --check-only src tests
           uv run pylint src/solve_times_nz
           uv run pytest
-      - name: Run PUBLISH tests
+      - name: Run PUBLISH pylint and tests
         working-directory: PUBLISH-TIMES-NZ
-        run: uv run pytest
+        run: |
+          uv run pylint src/publish_times_nz app.py run_local.py
+          uv run pytest
       - name: Run QA tests
         working-directory: TIMES-NZ-INTERNAL-QA
         run: uv run pytest

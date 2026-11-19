@@ -28,6 +28,7 @@ class ReleaseBundle:
 
     @property
     def scenarios(self) -> tuple[dict[str, str], ...]:
+        """Return scenario IDs and display labels in manifest order."""
         return tuple(self.manifest["scenarios"])
 
     def labelled_file(self, dataset_name: str) -> Path:
@@ -113,5 +114,3 @@ def _validate_source(source: object) -> None:
     raise BundleValidationError(
         "Release manifest source must identify solver_runs or a legacy source"
     )
-
-
