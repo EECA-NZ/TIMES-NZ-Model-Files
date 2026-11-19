@@ -28,6 +28,7 @@ def prepare_deployment_payload(
     staging_path = publish_root / f".deployment_payload.{uuid.uuid4().hex}.staging"
     try:
         _copy(publish_root / "app.py", staging_path / "app.py")
+        _copy(publish_root.parent / ".python-version", staging_path / ".python-version")
         with (staging_path / "explorer_bundle.toml").open(
             "w", encoding="utf-8"
         ) as target:

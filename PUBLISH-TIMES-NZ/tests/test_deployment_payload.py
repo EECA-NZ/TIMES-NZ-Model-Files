@@ -14,6 +14,9 @@ from publish_times_nz.release_bundle import RELEASE_FORMAT_VERSION
 def test_prepare_deployment_payload_copies_only_selected_release(
     tmp_path, monkeypatch, override
 ):
+    (tmp_path / ".python-version").write_text("3.12\n", encoding="utf-8")
+    tmp_path = tmp_path / "PUBLISH-TIMES-NZ"
+    tmp_path.mkdir()
     for name in ("src", "assets", "www"):
         (tmp_path / name).mkdir()
     (tmp_path / "app.py").touch()
@@ -50,6 +53,7 @@ def test_prepare_deployment_payload_copies_only_selected_release(
     deploy_path = prepare_deployment_payload(tmp_path, override)
 
     assert (deploy_path / ".env").is_file()
+    assert (deploy_path / ".python-version").read_text(encoding="utf-8") == "3.12\n"
     assert (deploy_path / "requirements.txt").is_file()
     assert configured_release_path(deploy_path) == deploy_path / "releases" / selected
     assert (configured_release_path(deploy_path) / "release-manifest.json").is_file()
