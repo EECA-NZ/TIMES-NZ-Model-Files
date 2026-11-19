@@ -20,7 +20,7 @@ def test_configured_bundle_uses_root_config(tmp_path, monkeypatch):
         pa.table({"Scenario": ["steady"], "Value": [1.0]}),
         bundle_path / "labelled" / "energy_demand.parquet",
     )
-    (bundle_path / "bundle.json").write_text(
+    (bundle_path / "release-manifest.json").write_text(
         json.dumps(
             {
                 "format_version": RELEASE_FORMAT_VERSION,

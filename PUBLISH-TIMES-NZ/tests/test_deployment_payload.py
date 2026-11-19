@@ -29,7 +29,7 @@ def test_prepare_deployment_payload_copies_only_selected_release(
     pq.write_table(
         pa.table({"Scenario": ["steady"]}), release / "labelled" / "data.parquet"
     )
-    (release / "bundle.json").write_text(
+    (release / "release-manifest.json").write_text(
         json.dumps(
             {
                 "format_version": RELEASE_FORMAT_VERSION,
@@ -52,7 +52,7 @@ def test_prepare_deployment_payload_copies_only_selected_release(
     assert (deploy_path / ".env").is_file()
     assert (deploy_path / "requirements.txt").is_file()
     assert configured_release_path(deploy_path) == deploy_path / "releases" / selected
-    assert (configured_release_path(deploy_path) / "bundle.json").is_file()
+    assert (configured_release_path(deploy_path) / "release-manifest.json").is_file()
     assert not (deploy_path / "releases" / "other").exists()
     assert load_explorer_config(deploy_path) == {
         "release": selected,

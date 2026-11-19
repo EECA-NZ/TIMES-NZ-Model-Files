@@ -91,7 +91,7 @@ Each published release has this logical layout:
 
 ```text
 <release-name>/
-  bundle.json
+  release-manifest.json
   labelled/
     elec_generation.parquet
     energy_demand.parquet
@@ -128,7 +128,7 @@ already has the target layout, so PUBLISH validates then copies it into the
 release without rewriting it. `raw_results.parquet`, when present, follows the
 same row-concatenate-and-write rule under `raw/`.
 
-`bundle.json` is the stable contract.  It must include:
+`release-manifest.json` is the stable contract.  It must include:
 
 - release format version and release name;
 - all scenario IDs and display labels;
@@ -185,7 +185,7 @@ release, not by a manifest declaration.
 
 ### Explorer
 
-- The Explorer reads one configured release path and uses `bundle.json` for
+- The Explorer reads one configured release path and uses `release-manifest.json` for
   its scenario selector. It has no `clean_results` fallback: create and prove
   the v308 legacy release before moving the Explorer.
 - Move the app and its helpers with the Explorer. A
@@ -208,14 +208,14 @@ Replace those with one small release seam in PUBLISH. The app receives one
 explicit release directory through deployment/local configuration (for
 example, `TIMES_NZ_RELEASE_PATH`); it must never discover the newest directory
 under `releases/`. At application startup, the seam loads and validates
-`bundle.json`, verifies the format version, and fails with a clear error when
+`release-manifest.json`, verifies the format version, and fails with a clear error when
 the release has no Parquet data.
 
 The seam exposes only:
 
 - `labelled_file(dataset_name)`, which returns a file below `labelled/` and
   fails clearly when that chart's file is absent; and
-- ordered raw scenario IDs and display labels from `bundle.json`.
+- ordered raw scenario IDs and display labels from `release-manifest.json`.
 
 Each Explorer module replaces its `FINAL_DATA / "<topic>.parquet"` constant
 with `labelled_file("<topic>.parquet")`. The scenario selector reads the
@@ -294,7 +294,7 @@ its own release-reader and reference-data requirements later.
 ## Migration sequence
 
 1. **Define and test the release contract.** Implement one small standard-
-   library `bundle.json` loader/validator: check its format version and
+   library `release-manifest.json` loader/validator: check its format version and
    required keys, then locate every Parquet in the release directory. Create
    minimal synthetic Parquet fixtures; do not use production result data in
    pytest.

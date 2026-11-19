@@ -32,7 +32,7 @@ def _write_release(tmp_path, **changes):
         pa.table({"Scenario": ["steady"], "Value": [1.0]}),
         tmp_path / "raw" / "raw_results.parquet",
     )
-    (tmp_path / "bundle.json").write_text(json.dumps(manifest), encoding="utf-8")
+    (tmp_path / "release-manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
     return manifest
 
 

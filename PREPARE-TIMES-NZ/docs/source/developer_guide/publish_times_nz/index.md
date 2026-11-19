@@ -1,16 +1,29 @@
 # PUBLISH-TIMES-NZ
 
-`PUBLISH-TIMES-NZ` holds named result releases for the Explorer and other
-result consumers. A release is a directory containing a small manifest and
-the Parquet files that belong to that release. It is separate from an
-individual solver run: a release may contain results from one or more runs.
+`PUBLISH-TIMES-NZ` includes:
 
-## Build a configured bundle
+- The concept of `releases`, which are defined as groups of scenarios. Definitions are stored in `PUBLISH-TIMES-NZ/release_definitions/`, and results stored in `releases/`.
+- The data explorer app code, which reads a specific release and can run locally to explore the scenarios within.
+- A mechanism for bundling explorer code and its relevant data into a `deployment_payload` for upload to shinyapps.io.
 
-Run these commands from the repository root. Tracked definitions under
-`PUBLISH-TIMES-NZ/bundles/` describe which cases belong together without local
+**Workflow overview**
+
+1) Build a release using an existing release definition (or create your own)
+```bash
+uv run publish-times-nz build-release PUBLISH-TIMES-NZ/release_definitions/standard.toml
+```
+2) If necessary, define which release the app should be using by changing the named release in `PUBLISH-TIMES-NZ/explorer_bundle.toml`, then test running the app locally.
+
+3) Create a `deployment_payload`, which gathers all the app code, generates its `requirements.txt`, and isolates only the data in `releases/` relevant for the current deployment, as configured in `explorer_bundle.toml`.
+
+The commands below run from the repository root.
+
+## Build a release from a definition
+
+Tracked release definitions under
+`PUBLISH-TIMES-NZ/release_definitions/` describe which cases belong together without local
 paths, run timestamps, or a hard-coded model version. For example,
-`PUBLISH-TIMES-NZ/bundles/standard.toml` contains:
+`PUBLISH-TIMES-NZ/release_definitions/standard.toml` contains:
 
 ```toml
 name = "standard"
@@ -23,7 +36,7 @@ shift = "Shift"
 Build it with:
 
 ```bash
-uv run publish-times-nz build-bundle PUBLISH-TIMES-NZ/bundles/standard.toml
+uv run publish-times-nz build-release PUBLISH-TIMES-NZ/release_definitions/standard.toml
 ```
 
 With workspace version `3.0.9`, this selects `steady-v3.0.9` and
@@ -33,6 +46,20 @@ order. These labels are copied into the release manifest. Add another definition
 with a different name and scenario mapping for a release
 containing the baselines and selected sensitivities. Definitions do not inherit
 other releases: each release contains its complete selected results.
+
+The build prints the selected scenario and run identities. Its `release-manifest.json`
+records the definition, resolved workspace version, and exact timestamped run
+identities. Source runs remain in `solves/`; the release is a self-contained
+snapshot for Explorer, QA, or public sharing. It has the same layout as an
+imported legacy v308 release.
+
+Rebuilding the same definition can select different results as newer local runs
+become available. Colleagues can also have different results for the same model
+version because code, inputs, and local toolchains can differ. Share the completed
+release to share agreed results. Named releases are never overwritten; use a
+distinct definition name for another release under the same workspace version.
+
+### How runs are selected
 
 Selection searches `SOLVE-TIMES-NZ/build/solves/*/manifest.json` and matches
 `case_name` and the versioned `scenario_name`. For each requested case it chooses
@@ -56,20 +83,7 @@ completion only after all dataset writes succeed. A failed attempt remains
 ineligible until rerun successfully. Existing output files are retained for
 inspection; their presence alone does not indicate completion.
 
-The build prints the selected scenario and run identities. Its `bundle.json`
-records the definition, resolved workspace version, and exact timestamped run
-identities. Source runs remain in `solves/`; the release is a self-contained
-snapshot for Explorer, QA, or public sharing. It has the same layout as an
-imported legacy v308 release.
-
-The recipe is portable when the matching runs are available locally. It is not
-a guarantee that colleagues select identical results: code and inputs can change
-without a version bump, and local toolchains can differ. Share the completed
-release to share agreed results. Rebuilding the recipe selects the latest local
-runs again. Named releases are never overwritten; use a distinct definition name
-for another release under the same workspace version.
-
-## Temporary comparison bundles from explicit runs
+## Build a comparison release from explicit runs
 
 Use the explicit-path `build` command for temporary or one-off comparisons,
 including comparisons across model versions. Select the completed solver
@@ -81,13 +95,14 @@ uv run publish-times-nz build steady-v306-v307-comparison \
   SOLVE-TIMES-NZ/build/solves/<steady-v307-run>/postprocessed
 ```
 
-Unlike `build-bundle`, this command does not select runs by workspace version or
+Unlike `build-release`, this command does not select runs by workspace version or
 add a version prefix to the release name. It preserves the scenario IDs in the
 source data and creates the same release layout for consumers to filter and
 compare. Matching Parquet schemas must be compatible across the selected runs.
 Prefer this command for ad hoc comparisons; tracked definitions remain the
-repeatable recipe for standard bundles at the current workspace version. No
-TOML version override is needed for temporary comparisons.
+repeatable recipe for standard releases at the current workspace version.
+The `build` command uses the supplied directories and does not require
+postprocessing completion records.
 
 Each selected solver directory must contain exactly one scenario, and selected
 directories must not repeat a scenario ID. PUBLISH batches matching labelled
@@ -96,9 +111,8 @@ Parquets by filename and includes every source Parquet; it places
 
 Topics may intentionally occur in only some scenarios. A topic is combined from
 the runs that supply it; matching schemas are required only between files being
-combined. Missing topic coverage is not an error. Consumers decide whether the
-available data meets their analysis requirements. The explicit-run command
-retains its original behaviour and does not require a completion record.
+combined. A topic supplied by only one scenario will contain data for that
+scenario only; missing topic coverage does not stop the build.
 
 Import an already scenario-batched legacy result directory with:
 
@@ -112,34 +126,21 @@ Both commands stage and validate the new directory before publishing it. They
 never overwrite an existing release name. Use `--releases-root <path>` only
 when the local release root must be elsewhere.
 
+Back up complete release directories separately from Git, including manually
+maintained labels in legacy manifests.
+
 ## Deploy the Explorer
 
-Create the deployment payload immediately before each deployment:
-
-```bash
-uv run --directory PUBLISH-TIMES-NZ publish-times-nz prepare-deployment-payload
-uv run --directory PUBLISH-TIMES-NZ rsconnect deploy shiny deployment_payload \
-  --entrypoint app --app-id <APP-ID>
-```
-
-`deployment_payload/` is Git-ignored and regenerated from scratch. It contains
-only the app runtime files, `explorer_bundle.toml`, its selected release, a requirements export
-from `uv.lock`, and the local `.env` file used for Pendo. Deploy this directory,
-not `PUBLISH-TIMES-NZ/`; do not edit the generated payload by hand.
-
-Packaging uses `explorer_bundle.toml` by default. To select a different release for
-one deployment, pass `--release <release-folder>` to `prepare-deployment-payload`.
-The payload's config is written to match that release; your local config stays
-unchanged.
+For deployment payloads and deployment instructions, see the internal TIMES-NZ Explorer deployment runbook.
 
 ## Release layout
 
-Place local releases below `PUBLISH-TIMES-NZ/releases/`. That directory is
-ignored by Git, so result data is not committed with the source code.
+Releases are created under `PUBLISH-TIMES-NZ/releases/`. That directory is
+ignored by git, so result data is not committed with the source code.
 
 ```text
 PUBLISH-TIMES-NZ/releases/<release-name>/
-  bundle.json
+  release-manifest.json
   labelled/
     energy_demand.parquet
     ...
@@ -149,10 +150,9 @@ PUBLISH-TIMES-NZ/releases/<release-name>/
 
 Every `*.parquet` file anywhere below the release directory is part of the
 release. This includes raw solver results when they are available; no file
-list is maintained in `bundle.json`.
+list is maintained in `release-manifest.json`.
 
-`bundle.json` must contain the release format version, release name, creation
-time, scenarios, and source lineage. For example:
+`release-manifest.json` contains the release format version, release name, creation time, scenarios, and source lineage. For example:
 
 ```json
 {
@@ -174,16 +174,15 @@ time, scenarios, and source lineage. For example:
 }
 ```
 
-For imported historical results, identify the source without inventing solver
-run identities:
+For releases created by `import-legacy`, the manifest records the source as
+follows:
 
 ```json
 "source": {"type": "legacy", "legacy_source": "v308 clean results"}
 ```
 
-Each scenario needs a unique raw `id` and its human-readable `label`. Keep
-the raw IDs in the Parquet `Scenario` column; display labels are manifest
-metadata. Configured bundle builds take labels from the definition's `scenarios`
+Within a release, each scenario needs a unique raw `id` and its human-readable `label`. Outputs contain only the scenario id in their `Scenario` column, and the  display labels are manifest
+metadata. Builds from release definitions take labels from the definition's `scenarios`
 table. Direct `build` and `import-legacy` commands use raw IDs as labels; update
 the imported release's manifest when friendly labels are needed. The Explorer
 reads these labels for selectors, charts, tables, and exports.
@@ -202,10 +201,10 @@ SI = "South Island"
 
 The value is a folder name under `PUBLISH-TIMES-NZ/releases/`. Local startup and
 deployment packaging both use this setting. The app never chooses the newest
-release automatically. Restart it after changing the config, since the bundle
+release automatically. Restart it after changing the config, since the loaded release
 is cached for the lifetime of the app process.
 
-Maintain scenario labels in bundle definitions and region display labels in this
+Maintain scenario labels in release definitions and region display labels in this
 Explorer config; the old `value_mappings.json` is no longer used. The config can
 still override scenario labels with `[column_value_mappings.Scenario]` for a
 deliberate Explorer-specific display change. Without an override, scenario

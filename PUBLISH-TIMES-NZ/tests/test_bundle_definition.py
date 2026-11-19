@@ -151,7 +151,7 @@ def test_build_bundle_cli_reports_missing_run_without_traceback(
         cli, "DEFAULT_RELEASES_ROOT", tmp_path / "PUBLISH-TIMES-NZ" / "releases"
     )
     monkeypatch.setattr(
-        sys, "argv", ["publish-times-nz", "build-bundle", str(definition)]
+        sys, "argv", ["publish-times-nz", "build-release", str(definition)]
     )
 
     with pytest.raises(SystemExit) as error:

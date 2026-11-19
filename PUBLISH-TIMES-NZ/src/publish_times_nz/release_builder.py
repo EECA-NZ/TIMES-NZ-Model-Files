@@ -170,7 +170,7 @@ def _publish(
                     f"Parquet schemas differ for {relative_path}"
                 ) from error
             pq.write_table(table, destination, compression="zstd")
-        (staging_path / "bundle.json").write_text(
+        (staging_path / "release-manifest.json").write_text(
             json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
         )
         bundle = load_bundle(staging_path)

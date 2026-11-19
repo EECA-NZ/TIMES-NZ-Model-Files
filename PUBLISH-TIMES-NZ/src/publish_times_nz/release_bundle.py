@@ -42,7 +42,7 @@ class ReleaseBundle:
 
 def load_bundle(release_path: Path) -> ReleaseBundle:
     """Load and validate the manifest and declared files for one release."""
-    bundle_path = release_path / "bundle.json"
+    bundle_path = release_path / "release-manifest.json"
     try:
         manifest = json.loads(bundle_path.read_text(encoding="utf-8"))
     except FileNotFoundError as error:

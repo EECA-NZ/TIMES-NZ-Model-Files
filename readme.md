@@ -59,19 +59,24 @@ Install the repository hooks after the first sync. Commit messages must use the[
 uv run pre-commit install --hook-type pre-commit --hook-type commit-msg --hook-type pre-push
 ```
 
-### Run the internal Shiny app
+### Run the Explorer
 
-NOTE: this whole section needs to be reworked to integrate the pipeline in a more robust way. 
-
-Install the app module dependencies and start the app locally:
+Install the workspace dependencies, place a complete release under
+`PUBLISH-TIMES-NZ/releases/`, select it in `PUBLISH-TIMES-NZ/explorer_bundle.toml`,
+and start the app locally:
 
 ```bash
-uv sync --group dev
-uv run --directory TIMES-NZ-INTERNAL-QA python run_local.py
+uv sync --all-groups
+uv run --directory PUBLISH-TIMES-NZ python run_local.py
 ```
 
-The app consumes assembled QA parquet bundles. Solver runs now produce their own
-postprocessed parquet outputs automatically:
+The Explorer consumes named PUBLISH releases. See the
+[release guide](PREPARE-TIMES-NZ/docs/source/developer_guide/publish_times_nz/index.md)
+to build a release or import legacy results.
+`TIMES-NZ-INTERNAL-QA` contains the legacy app and internal analysis; new Explorer
+deployments use `PUBLISH-TIMES-NZ`.
+
+Solver runs produce their own postprocessed parquet outputs automatically:
 
 ```bash
 uv run --directory SOLVE-TIMES-NZ solve-times-nz solve steady
