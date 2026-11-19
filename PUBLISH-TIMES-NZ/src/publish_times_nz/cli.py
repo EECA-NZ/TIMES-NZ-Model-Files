@@ -23,7 +23,8 @@ def main() -> None:
     build.add_argument("--releases-root", default=DEFAULT_RELEASES_ROOT, type=Path)
 
     bundle = commands.add_parser(
-        "build-release", help="Build a release from a definition for the workspace version"
+        "build-release",
+        help="Build a release from a definition for the workspace version",
     )
     bundle.add_argument("definition", type=Path)
     bundle.add_argument("--releases-root", default=DEFAULT_RELEASES_ROOT, type=Path)

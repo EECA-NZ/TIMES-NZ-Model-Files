@@ -5,14 +5,15 @@ Defines the ui for the internal app
 import json
 import os
 
-# Libraries
-from shiny import ui
 from publish_times_nz.app.app_module_demand import demand_ui
 from publish_times_nz.app.app_module_elec import elec_ui
 from publish_times_nz.app.app_module_emissions import emissions_ui
 from publish_times_nz.app.app_module_esd import esd_ui
 from publish_times_nz.app.app_module_primary_energy import primary_energy_ui
 from publish_times_nz.utilities.filepaths import ASSETS
+
+# Libraries
+from shiny import ui
 
 # Constants
 

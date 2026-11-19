@@ -4309,7 +4309,6 @@ dev = [
     { name = "pytest" },
     { name = "rsconnect-python" },
     { name = "tomli-w" },
-    { name = "yamllint" },
 ]
 docs = [
     { name = "docxbuilder", extra = ["math"] },
@@ -4343,7 +4342,6 @@ dev = [
     { name = "pytest", specifier = ">=9.0.3,<10" },
     { name = "rsconnect-python", specifier = ">=1.29.0,<2" },
     { name = "tomli-w", specifier = ">=1.2,<2" },
-    { name = "yamllint", specifier = ">=1.0,<2" },
 ]
 docs = [
     { name = "docxbuilder", extras = ["math"], specifier = ">=1.2.0,<2" },
@@ -4982,19 +4980,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/1f/a5/00d3dd344daf23d144d514012d4c99f336844f312bfd9b2d52e5c84021a4/xl2times-0.3.0.tar.gz", hash = "sha256:794977b20f378ddffb5129eafde1e75535b1e7d89854e831ca986a1305f56671", size = 82100, upload-time = "2025-06-08T23:16:23.91Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2a/9e/462c591d26646bb2b096a3d6425ba5dc40daac7348b0bf01254a36656f40/xl2times-0.3.0-py3-none-any.whl", hash = "sha256:36d54cd03e364127221e8e28cffe253b4f24d972c51b1cfb19a172d197c9100b", size = 80617, upload-time = "2025-06-08T23:16:22.189Z" },
-]
-
-[[package]]
-name = "yamllint"
-version = "1.38.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pathspec" },
-    { name = "pyyaml" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/28/a0/8fc2d68e132cf918f18273fdc8a1b8432b60d75ac12fdae4b0ef5c9d2e8d/yamllint-1.38.0.tar.gz", hash = "sha256:09e5f29531daab93366bb061e76019d5e91691ef0a40328f04c927387d1d364d", size = 142446, upload-time = "2026-01-13T07:47:53.276Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/05/92/aed08e68de6e6a3d7c2328ce7388072cd6affc26e2917197430b646aed02/yamllint-1.38.0-py3-none-any.whl", hash = "sha256:fc394a5b3be980a4062607b8fdddc0843f4fa394152b6da21722f5d59013c220", size = 68940, upload-time = "2026-01-13T07:47:51.343Z" },
 ]
 
 [[package]]

@@ -5,9 +5,6 @@ Function factories for replicable server functions.
 from collections import OrderedDict
 
 import polars as pl
-from shiny import reactive, render
-from shiny.types import SilentException
-from shinywidgets import render_plotly
 from publish_times_nz.app.helpers.charts import (
     DEFAULT_LAYOUT_OPTIONS,
     TIMESLICE_LAYOUT_OPTIONS,
@@ -32,6 +29,9 @@ from publish_times_nz.app.helpers.data_processing import (
 )
 from publish_times_nz.app.helpers.filters import register_all_filters_and_clear
 from publish_times_nz.utilities.value_mappings import remap_values
+from shiny import reactive, render
+from shiny.types import SilentException
+from shinywidgets import render_plotly
 
 
 def _selection_key(value):

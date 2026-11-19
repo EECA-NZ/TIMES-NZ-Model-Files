@@ -24,7 +24,6 @@ dev = [
     "pytest>=9.0.3,<10",
     "rsconnect-python>=1.29.0,<2",
     "tomli-w>=1.2,<2",
-    "yamllint>=1.0,<2",
 ]
 docs = [
     "docxbuilder[math]>=1.2.0,<2",
@@ -64,6 +63,16 @@ members = [
 
 [tool.black]
 target-version = ["py312"]
+
+[tool.coverage.run]
+source = [
+    "PREPARE-TIMES-NZ/src",
+    "SOLVE-TIMES-NZ/src",
+    "PUBLISH-TIMES-NZ/src",
+]
+
+[tool.coverage.report]
+include_namespace_packages = true
 
 [tool.commitizen]
 name = "cz_conventional_commits"

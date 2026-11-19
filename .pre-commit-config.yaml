@@ -1,13 +1,20 @@
 ---
 # This file defines pre-commit and pre-push hooks.
 # Includes a virtual environment check and basic
-# tooling (black, isort, pylint, pip-audit, yamllint).
+# tooling (black, isort, pylint, pip-audit).
 default_language_version:
   python: python3.12
 
 repos:
   - repo: local
     hooks:
+      - id: validate-pre-commit-config
+        name: validate pre-commit configuration
+        language: system
+        entry: uv run pre-commit validate-config
+        files: ^\.pre-commit-config\.yaml$
+        pass_filenames: false
+
       - id: commitizen
         name: conventional commit message
         language: system
@@ -19,16 +26,16 @@ repos:
         language: system
         entry: uv run black
         types: [python]
-        files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|QA-TIMES-NZ)/.*\.py$
-        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
+        files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|PUBLISH-TIMES-NZ|QA-TIMES-NZ)/.*\.py$
+        exclude: ^(?:PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)|PUBLISH-TIMES-NZ/(?:build|dist|deployment_payload|releases|\.deployment_payload\.[^/]+\.staging|\.venv|\.mypy_cache|\.pytest_cache))/
 
       - id: isort
         name: isort (workspace)
         language: system
         entry: uv run isort --profile=black
         types: [python]
-        files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|QA-TIMES-NZ)/.*\.py$
-        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
+        files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|PUBLISH-TIMES-NZ|QA-TIMES-NZ)/.*\.py$
+        exclude: ^(?:PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)|PUBLISH-TIMES-NZ/(?:build|dist|deployment_payload|releases|\.deployment_payload\.[^/]+\.staging|\.venv|\.mypy_cache|\.pytest_cache))/
 
       - id: pylint-prep
         name: pylint (PREPARE-TIMES-NZ)
@@ -66,23 +73,22 @@ repos:
         exclude: ^SOLVE-TIMES-NZ/(?:build|dist|\.venv|\.mypy_cache|\.pytest_cache)/
         pass_filenames: false
 
-  - repo: https://github.com/adrienverge/yamllint
-    rev: v1.35.1
-    hooks:
-      - id: yamllint
-        files: ^PREPARE-TIMES-NZ/.*\.(?:yml|yaml)$
-
   - repo: local
     hooks:
+      - id: pytest
+        name: pytest (workspace)
+        language: system
+        entry: uv run pytest PREPARE-TIMES-NZ/tests SOLVE-TIMES-NZ/tests PUBLISH-TIMES-NZ/tests
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+
       - id: pip-audit
         name: pip-audit (workspace)
         language: system
         entry: uv run pip-audit --skip-editable
         args:
           - --progress-spinner=off
-          # Pygments 2.19.2 is currently the latest PyPI release; remove this
-          # ignore once CVE-2026-4539 has a patched upstream release.
-          - --ignore-vuln=CVE-2026-4539
         pass_filenames: false
         always_run: true
         stages: [pre-push]

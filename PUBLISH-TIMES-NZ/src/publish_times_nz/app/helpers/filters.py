@@ -41,7 +41,9 @@ def identifier_to_title_case(identifier: str) -> str:
     label = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", label)
     label = re.sub(r"(?<=[A-Z])(?=[A-Z][a-z])", " ", label)
     words = re.split(r"\s+", label.strip())
-    return " ".join(word if word.isupper() else word.capitalize() for word in words if word)
+    return " ".join(
+        word if word.isupper() else word.capitalize() for word in words if word
+    )
 
 
 def create_filter_dict(chart_id, filters):
@@ -173,13 +175,19 @@ def register_filter_from_factory(fspec, df, filters, inputs, outputs, session):
 
         if allows_multiple:
             ui_filter = ui.input_selectize(
-                iid, fspec.get("label", col), choices, multiple=True,
+                iid,
+                fspec.get("label", col),
+                choices,
+                multiple=True,
                 options={"plugins": ["auto_position"]},
             )
 
         else:
             ui_filter = ui.input_selectize(
-                iid, fspec.get("label", col), choices, multiple=False,
+                iid,
+                fspec.get("label", col),
+                choices,
+                multiple=False,
                 options={"plugins": ["auto_position"]},
                 selected=(choices[0] if choices else None),
             )
@@ -314,7 +322,11 @@ def register_filter_clear_button(filter_dict: list[dict], inputs, outputs, sessi
             icon=ui.tags.i(class_="fa fa-times"),
             class_="btn btn-sm clear-filters",
             title="Clear all filters",
-            style=None if _has_active_filters() else "visibility:hidden; pointer-events:none;",
+            style=(
+                None
+                if _has_active_filters()
+                else "visibility:hidden; pointer-events:none;"
+            ),
         )
 
     def reset_input(iid: str):

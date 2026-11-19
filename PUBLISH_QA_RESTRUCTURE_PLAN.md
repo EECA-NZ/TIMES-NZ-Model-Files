@@ -22,9 +22,9 @@
   analysis code and outputs remain. The empty QA test step was removed from CI,
   and active local-app instructions now point to PUBLISH.
 - Stale copied rsconnect deployment metadata has been removed from PUBLISH.
-  PUBLISH pylint now runs in CI and pre-commit, covering the package and both
-  app entry scripts. PUBLISH tests and the retained analysis helper imports
-  passed after the old app was removed.
+  PUBLISH pylint, Black and isort now run in CI and pre-commit. Formatting covers
+  source, tests and both app entry scripts. PUBLISH tests and the retained
+  analysis helper imports passed after the old app was removed.
 
 - The QA rename is complete: directory `QA-TIMES-NZ`, distribution
   `qa-times-nz`, and Python package `qa_times_nz`. Workspace configuration,
@@ -46,11 +46,7 @@ rather than repeating those mechanics.
      longer needed; retain those used by calibration and analysis. Dependency
      declarations were preserved during the rename.
 
-2. **Update integration and documentation.**
-   - Include PUBLISH in the Black/isort hook paths, which still omit it;
-     PUBLISH's pylint wiring is complete.
-
-3. **Verify the cleanup.**
+2. **Verify the cleanup.**
    - Run PUBLISH tests and the affected format and lint checks. No QA unit
      tests remain after removing the duplicated app tests; verify the retained
      package and helper imports without adding placeholder tests.

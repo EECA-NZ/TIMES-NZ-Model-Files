@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import json
+from dataclasses import dataclass
 from pathlib import Path
-
 
 RELEASE_FORMAT_VERSION = 1
 
@@ -34,7 +33,9 @@ class ReleaseBundle:
     def labelled_file(self, dataset_name: str) -> Path:
         """Return one Explorer dataset beneath the conventional labelled directory."""
         if Path(dataset_name).name != dataset_name:
-            raise BundleValidationError(f"Invalid labelled dataset name: {dataset_name}")
+            raise BundleValidationError(
+                f"Invalid labelled dataset name: {dataset_name}"
+            )
         dataset_path = self.path / "labelled" / dataset_name
         if dataset_path.suffix != ".parquet" or not dataset_path.is_file():
             raise BundleValidationError(f"Missing labelled dataset: {dataset_path}")
@@ -47,14 +48,20 @@ def load_bundle(release_path: Path) -> ReleaseBundle:
     try:
         manifest = json.loads(bundle_path.read_text(encoding="utf-8"))
     except FileNotFoundError as error:
-        raise BundleValidationError(f"Missing release manifest: {bundle_path}") from error
+        raise BundleValidationError(
+            f"Missing release manifest: {bundle_path}"
+        ) from error
     except json.JSONDecodeError as error:
-        raise BundleValidationError(f"Invalid release manifest: {bundle_path}") from error
+        raise BundleValidationError(
+            f"Invalid release manifest: {bundle_path}"
+        ) from error
 
     _validate_manifest(manifest)
     bundle = ReleaseBundle(release_path, manifest)
     if not bundle.parquet_files:
-        raise BundleValidationError(f"Release contains no Parquet files: {release_path}")
+        raise BundleValidationError(
+            f"Release contains no Parquet files: {release_path}"
+        )
     return bundle
 
 
@@ -84,7 +91,9 @@ def _validate_manifest(manifest: object) -> None:
     _validate_scenarios(manifest["scenarios"])
     _validate_source(manifest["source"])
     if not isinstance(manifest["created_at"], str) or not manifest["created_at"]:
-        raise BundleValidationError("Release manifest created_at must be a non-empty string")
+        raise BundleValidationError(
+            "Release manifest created_at must be a non-empty string"
+        )
 
 
 def _validate_scenarios(scenarios: object) -> None:
@@ -96,8 +105,12 @@ def _validate_scenarios(scenarios: object) -> None:
     for scenario in scenarios:
         if not isinstance(scenario, dict) or set(scenario) != {"id", "label"}:
             raise BundleValidationError("Each scenario must contain only id and label")
-        if not all(isinstance(scenario[key], str) and scenario[key] for key in scenario):
-            raise BundleValidationError("Scenario id and label must be non-empty strings")
+        if not all(
+            isinstance(scenario[key], str) and scenario[key] for key in scenario
+        ):
+            raise BundleValidationError(
+                "Scenario id and label must be non-empty strings"
+            )
         scenario_ids.append(scenario["id"])
     if len(scenario_ids) != len(set(scenario_ids)):
         raise BundleValidationError("Release manifest contains duplicate scenario IDs")

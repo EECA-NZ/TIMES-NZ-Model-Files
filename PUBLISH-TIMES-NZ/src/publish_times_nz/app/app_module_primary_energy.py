@@ -4,7 +4,6 @@ Energy production server and ui
 
 from functools import lru_cache
 
-from shiny import reactive
 from publish_times_nz.app.helpers.data_processing import (
     aggregate_by_group,
     read_data_pl,
@@ -17,6 +16,7 @@ from publish_times_nz.app.helpers.server_functions import (
 )
 from publish_times_nz.app.helpers.ui_elements import make_explorer_page_ui
 from publish_times_nz.app.release import labelled_file
+from shiny import reactive
 
 # CONSTANTS --------------------------------------------------
 
@@ -33,7 +33,7 @@ pri_filters = [
     {"col": "Renewable"},
     {"col": "Imported"},
     {"col": "FuelDetail"},
-    #{"col": "Process"},
+    # {"col": "Process"},
 ]
 
 # we add fuel to main

@@ -7,7 +7,6 @@ Data formatting, server and ui functions for electricity generation data
 from functools import lru_cache
 
 import polars as pl
-from shiny import reactive
 from publish_times_nz.app.helpers.data_processing import (
     aggregate_by_group,
     filter_df_for_variable,
@@ -21,6 +20,7 @@ from publish_times_nz.app.helpers.server_functions import (
 )
 from publish_times_nz.app.helpers.ui_elements import make_explorer_page_ui
 from publish_times_nz.app.release import labelled_file
+from shiny import reactive
 
 # CONSTANTS  ------------------------------------------------------------------------------
 
@@ -78,9 +78,7 @@ battery_filters = [
 
 ele_gen_filters = create_filter_dict("ele_gen", core_filters)
 ele_cap_filters = create_filter_dict("ele_cap", core_filters)
-ele_use_filters = create_filter_dict(
-    "ele_use", core_filters + [{"col": "Fuel"}]
-)
+ele_use_filters = create_filter_dict("ele_use", core_filters + [{"col": "Fuel"}])
 ele_gen_curve_filters = create_filter_dict("ele_gen_curve", ele_gen_curve_filters)
 bat_cap_filters = create_filter_dict("bat_cap", battery_filters)
 
@@ -145,9 +143,7 @@ bat_cap_parameters = {
 # all groups combined: used for processing main datasets
 ele_all_group_options = ele_base_cols + ele_core_group_options + ["Fuel"]
 bat_all_group_options = ele_base_cols + ["TechnologyGroup", "Technology", "Region"]
-gen_curve_all_groups = (
-    ele_gen_curve_parameters["base_cols"] + ele_core_group_options
-)
+gen_curve_all_groups = ele_gen_curve_parameters["base_cols"] + ele_core_group_options
 
 # ELECTRICITY-SPECIFIC DATA HANDLING -----------------------------------------------
 

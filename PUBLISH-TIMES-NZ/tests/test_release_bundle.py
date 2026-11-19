@@ -5,7 +5,6 @@ import json
 import pyarrow as pa
 import pyarrow.parquet as pq
 import pytest
-
 from publish_times_nz.release_bundle import (
     RELEASE_FORMAT_VERSION,
     BundleValidationError,
@@ -32,7 +31,9 @@ def _write_release(tmp_path, **changes):
         pa.table({"Scenario": ["steady"], "Value": [1.0]}),
         tmp_path / "raw" / "raw_results.parquet",
     )
-    (tmp_path / "release-manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    (tmp_path / "release-manifest.json").write_text(
+        json.dumps(manifest), encoding="utf-8"
+    )
     return manifest
 
 
@@ -54,7 +55,9 @@ def test_load_bundle_exposes_all_parquets_and_scenarios(tmp_path):
 def test_load_bundle_rejects_incompatible_version(tmp_path):
     _write_release(tmp_path, format_version=RELEASE_FORMAT_VERSION + 1)
 
-    with pytest.raises(BundleValidationError, match="Unsupported release format version"):
+    with pytest.raises(
+        BundleValidationError, match="Unsupported release format version"
+    ):
         load_bundle(tmp_path)
 
 
