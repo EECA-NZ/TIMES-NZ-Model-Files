@@ -9,6 +9,7 @@ from typing import Mapping
 
 import numpy as np
 import pandas as pd
+
 from prepare_times_nz.utilities.filepaths import DATA_RAW
 
 TIME_OF_DAY_FILE = DATA_RAW / "user_config/settings/time_of_day_types.csv"

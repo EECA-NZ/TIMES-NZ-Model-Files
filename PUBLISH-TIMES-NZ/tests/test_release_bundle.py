@@ -5,6 +5,7 @@ import json
 import pyarrow as pa
 import pyarrow.parquet as pq
 import pytest
+
 from publish_times_nz.release_bundle import (
     RELEASE_FORMAT_VERSION,
     BundleValidationError,

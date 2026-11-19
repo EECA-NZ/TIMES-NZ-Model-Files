@@ -3,6 +3,13 @@
 from pathlib import Path
 
 import pandas as pd
+
+from qa_times_nz.analysis.analysis_reporting_helpers import (
+    OBJECTIVE_SUMMARY_NOTE,
+    build_objective_summary_table,
+    get_objective_lookup,
+    markdown_table,
+)
 from qa_times_nz.utilities.filepaths import FINAL_DATA
 
 ETS_PRICE_SENSITIVITY_SCENARIOS = {
@@ -27,35 +34,14 @@ BASE_SCENARIOS = {
 }
 
 
-def _get_objective_lookup(scenario_map=ETS_PRICE_SENSITIVITY_SCENARIOS):
+def _get_objective_lookup(scenario_map=None):
     """Return objective values keyed by raw scenario code."""
 
+    if scenario_map is None:
+        scenario_map = ETS_PRICE_SENSITIVITY_SCENARIOS
+
     objective_df = pd.read_parquet(FINAL_DATA / "objective_function.parquet")
-    objective_df = objective_df[objective_df["Scenario"].isin(scenario_map)].copy()
-    objective_counts = objective_df.groupby("Scenario").size()
-    duplicate_scenarios = objective_counts[objective_counts > 1]
-    if not duplicate_scenarios.empty:
-        scenarios = ", ".join(duplicate_scenarios.index.astype(str))
-        raise ValueError(
-            f"Expected one objective function value per scenario: {scenarios}"
-        )
-    return objective_df.set_index("Scenario")["Value"].to_dict()
-
-
-def _objective_value(objectives, scenario_code):
-    """Return an objective value, failing clearly if a required code is absent."""
-
-    if scenario_code not in objectives:
-        raise ValueError(f"Missing objective function value for {scenario_code}")
-    return objectives[scenario_code]
-
-
-def _format_nzdb(value):
-    """Format an NZDb value for markdown tables."""
-
-    if pd.isna(value):
-        return ""
-    return f"{value:,.3f}"
+    return get_objective_lookup(objective_df, scenario_map)
 
 
 def _format_mionzd(value):
@@ -66,36 +52,19 @@ def _format_mionzd(value):
     return f"{value:,.3f}"
 
 
-def _markdown_table(headers, rows):
-    """Render a simple GitHub-flavoured markdown table."""
-
-    lines = [
-        "| " + " | ".join(headers) + " |",
-        "| " + " | ".join(["---"] * len(headers)) + " |",
-    ]
-    for row in rows:
-        lines.append("| " + " | ".join(str(value) for value in row) + " |")
-    return "\n".join(lines)
-
-
 def create_objective_summary_table():
     """Create objective values for base and no-ETS scenarios."""
 
-    objectives = _get_objective_lookup()
-    rows = []
-    for label, steady_code, shift_code in OBJECTIVE_SUMMARY_ROWS:
-        rows.append(
-            [
-                label,
-                _format_nzdb(_objective_value(objectives, steady_code)),
-                _format_nzdb(_objective_value(objectives, shift_code)),
-            ]
-        )
-    return _markdown_table(["Sensitivity", "Steady (NZDb)", "Shift (NZDb)"], rows)
+    return build_objective_summary_table(
+        _get_objective_lookup(), OBJECTIVE_SUMMARY_ROWS
+    )
 
 
-def _get_total_carbon_cost_lookup(scenario_map=BASE_SCENARIOS):
+def _get_total_carbon_cost_lookup(scenario_map=None):
     """Return total carbon costs keyed by raw scenario code."""
+
+    if scenario_map is None:
+        scenario_map = BASE_SCENARIOS
 
     carbon_costs = pd.read_parquet(FINAL_DATA / "carbon_costs.parquet")
     carbon_costs = carbon_costs[
@@ -114,7 +83,7 @@ def create_base_carbon_cost_table():
         if scenario_code not in total_costs:
             raise ValueError(f"Missing carbon cost output for {scenario_code}")
         rows.append([scenario_label, _format_mionzd(total_costs[scenario_code])])
-    return _markdown_table(["Scenario", "Total carbon cost (Mio NZD)"], rows)
+    return markdown_table(["Scenario", "Total carbon cost (Mio NZD)"], rows)
 
 
 def create_ets_price_sensitivity_markdown(
@@ -126,7 +95,7 @@ def create_ets_price_sensitivity_markdown(
     content = "\n\n".join(
         [
             "# ETS Price Sensitivity Summary",
-            "Objective values are reported in NZDb. Lower objective values are lower total system cost.",
+            OBJECTIVE_SUMMARY_NOTE,
             "## Objective Functions",
             create_objective_summary_table(),
             "## Base Scenario Carbon Costs",

@@ -3,6 +3,16 @@
 from pathlib import Path
 
 import pandas as pd
+
+from qa_times_nz.analysis.analysis_reporting_helpers import (
+    OBJECTIVE_SUMMARY_NOTE,
+    build_objective_summary_table,
+    format_nzdb,
+    get_objective_lookup,
+    markdown_table,
+    objective_value,
+    validate_unique_objectives,
+)
 from qa_times_nz.utilities.filepaths import FINAL_DATA
 
 DEMAND_FLEX_SENSITIVITY_SCENARIOS = {
@@ -28,10 +38,11 @@ OBJECTIVE_SUMMARY_ROWS = [
 ]
 
 
-def _resolve_scenario_map(
-    scenarios=None, scenario_map=DEMAND_FLEX_SENSITIVITY_SCENARIOS
-):
+def _resolve_scenario_map(scenarios=None, scenario_map=None):
     """Return a code/name mapping from a dict, list of codes, or default."""
+
+    if scenario_map is None:
+        scenario_map = DEMAND_FLEX_SENSITIVITY_SCENARIOS
 
     if scenarios is None:
         return dict(scenario_map)
@@ -45,58 +56,28 @@ def _resolve_scenario_map(
     }
 
 
-def _sensitivity_scenario_order(scenario_map=DEMAND_FLEX_SENSITIVITY_SCENARIOS):
+def _sensitivity_scenario_order(scenario_map=None):
     """Return scenario display names in the order defined by the local mapping."""
+
+    if scenario_map is None:
+        scenario_map = DEMAND_FLEX_SENSITIVITY_SCENARIOS
 
     return list(dict.fromkeys(scenario_map.values()))
 
 
-def _get_objective_lookup(scenario_map=DEMAND_FLEX_SENSITIVITY_SCENARIOS):
+def _get_objective_lookup(scenario_map=None):
     """Return objective values keyed by raw scenario code."""
 
+    if scenario_map is None:
+        scenario_map = DEMAND_FLEX_SENSITIVITY_SCENARIOS
+
     objective_df = pd.read_parquet(FINAL_DATA / "objective_function.parquet")
-    objective_df = objective_df[objective_df["Scenario"].isin(scenario_map)].copy()
-    objective_counts = objective_df.groupby("Scenario").size()
-    duplicate_scenarios = objective_counts[objective_counts > 1]
-    if not duplicate_scenarios.empty:
-        scenarios = ", ".join(duplicate_scenarios.index.astype(str))
-        raise ValueError(
-            f"Expected one objective function value per scenario: {scenarios}"
-        )
-    return objective_df.set_index("Scenario")["Value"].to_dict()
-
-
-def _format_nzdb(value):
-    """Format an NZDb value for markdown tables."""
-
-    if pd.isna(value):
-        return ""
-    return f"{value:,.3f}"
-
-
-def _markdown_table(headers, rows):
-    """Render a simple GitHub-flavoured markdown table."""
-
-    lines = [
-        "| " + " | ".join(headers) + " |",
-        "| " + " | ".join(["---"] * len(headers)) + " |",
-    ]
-    for row in rows:
-        lines.append("| " + " | ".join(str(value) for value in row) + " |")
-    return "\n".join(lines)
-
-
-def _objective_value(objectives, scenario_code):
-    """Return an objective value, failing clearly if a required code is absent."""
-
-    if scenario_code not in objectives:
-        raise ValueError(f"Missing objective function value for {scenario_code}")
-    return objectives[scenario_code]
+    return get_objective_lookup(objective_df, scenario_map)
 
 
 def create_demand_flex_sensitivity_objective_functions(
     scenarios=None,
-    scenario_map=DEMAND_FLEX_SENSITIVITY_SCENARIOS,
+    scenario_map=None,
     output_file=SENSITIVITY_OUTPUT_DIR
     / "demand_flex_sensitivity_objective_functions.csv",
 ):
@@ -113,13 +94,7 @@ def create_demand_flex_sensitivity_objective_functions(
             + ", ".join(missing_scenarios)
         )
 
-    objective_counts = objective_df.groupby("Scenario").size()
-    duplicate_scenarios = objective_counts[objective_counts > 1]
-    if not duplicate_scenarios.empty:
-        scenarios = ", ".join(duplicate_scenarios.index.astype(str))
-        raise ValueError(
-            f"Expected one objective function value per scenario: {scenarios}"
-        )
+    validate_unique_objectives(objective_df)
 
     objective_df["ScenarioCode"] = objective_df["Scenario"]
     objective_df["Scenario"] = objective_df["Scenario"].map(scenario_map)
@@ -146,26 +121,18 @@ def create_demand_flex_sensitivity_objective_functions(
 def create_objective_summary_table():
     """Create objective values by sensitivity row and core scenario."""
 
-    objectives = _get_objective_lookup()
-    rows = []
-    for label, steady_code, shift_code in OBJECTIVE_SUMMARY_ROWS:
-        rows.append(
-            [
-                label,
-                _format_nzdb(_objective_value(objectives, steady_code)),
-                _format_nzdb(_objective_value(objectives, shift_code)),
-            ]
-        )
-    return _markdown_table(["Sensitivity", "Steady (NZDb)", "Shift (NZDb)"], rows)
+    return build_objective_summary_table(
+        _get_objective_lookup(), OBJECTIVE_SUMMARY_ROWS
+    )
 
 
 def _technology_values_for_family(objectives, family):
     """Return implied technology values for one scenario family."""
 
-    base = _objective_value(objectives, f"{family}-v308")
-    flex = _objective_value(objectives, f"{family}-v308-nodf") - base
-    batteries = _objective_value(objectives, f"{family}-v308-nobatt") - base
-    combined = _objective_value(objectives, f"{family}-v308-noflex") - base
+    base = objective_value(objectives, f"{family}-v308")
+    flex = objective_value(objectives, f"{family}-v308-nodf") - base
+    batteries = objective_value(objectives, f"{family}-v308-nobatt") - base
+    combined = objective_value(objectives, f"{family}-v308-noflex") - base
     interaction = combined - flex - batteries
     return {
         "Demand flex": flex,
@@ -192,12 +159,12 @@ def create_technology_value_table():
         rows.append(
             [
                 label,
-                _format_nzdb(steady_values[label]),
-                _format_nzdb(shift_values[label]),
+                format_nzdb(steady_values[label]),
+                format_nzdb(shift_values[label]),
             ]
         )
 
-    return _markdown_table(["Value component", "Steady (NZDb)", "Shift (NZDb)"], rows)
+    return markdown_table(["Value component", "Steady (NZDb)", "Shift (NZDb)"], rows)
 
 
 def _demand_flex_technology_shapley_values(objectives):
@@ -217,8 +184,8 @@ def _demand_flex_technology_shapley_values(objectives):
     ]
     rows = []
     for label, steady_df_code, shift_df_code in comparisons:
-        steady_df_objective = _objective_value(objectives, steady_df_code)
-        shift_df_objective = _objective_value(objectives, shift_df_code)
+        steady_df_objective = objective_value(objectives, steady_df_code)
+        shift_df_objective = objective_value(objectives, shift_df_code)
         value = steady_df_objective - shift_df_objective
         rows.append(
             {
@@ -250,9 +217,9 @@ def create_demand_flex_technology_shapley_table():
         rows.append(
             [
                 row["Base scenario"],
-                _format_nzdb(row["Steady DF objective"]),
-                _format_nzdb(row["Shift DF objective"]),
-                _format_nzdb(row["Value"]),
+                format_nzdb(row["Steady DF objective"]),
+                format_nzdb(row["Shift DF objective"]),
+                format_nzdb(row["Value"]),
             ]
         )
 
@@ -261,10 +228,10 @@ def create_demand_flex_technology_shapley_table():
             "Mean",
             "",
             "",
-            _format_nzdb(_mean_shift_demand_flex_technology_value(objectives)),
+            format_nzdb(_mean_shift_demand_flex_technology_value(objectives)),
         ]
     )
-    return _markdown_table(
+    return markdown_table(
         [
             "Base scenario",
             "Steady DF objective (NZDb)",
@@ -290,9 +257,9 @@ def create_shift_demand_flex_technology_share_text():
 
     return (
         "Additional Shift combined demand-flex and batteries value is "
-        f"{_format_nzdb(additional_shift_value)} NZDb "
+        f"{format_nzdb(additional_shift_value)} NZDb "
         "(Shift `noflex - base` value minus Steady `noflex - base` value). The mean "
-        f"Shift demand-flex technology value is {_format_nzdb(technology_value)} NZDb, "
+        f"Shift demand-flex technology value is {format_nzdb(technology_value)} NZDb, "
         f"implying {technology_share:.1%} of the additional Shift combined value."
     )
 
@@ -306,13 +273,14 @@ def create_demand_flex_sensitivity_markdown(
     content = "\n\n".join(
         [
             "# Demand Flex Sensitivity Summary",
-            "Objective values are reported in NZDb. Lower objective values are lower total system cost.",
+            OBJECTIVE_SUMMARY_NOTE,
             "## Objective Functions",
             create_objective_summary_table(),
             "## Implied Technology Values",
             (
-                "Values are calculated as the increase in objective value when an option is removed "
-                "relative to the base scenario. The interaction effect is calculated as "
+                "Values are calculated as the increase in objective value "
+                "when an option is removed relative to the base scenario. "
+                "The interaction effect is calculated as "
                 "`combined value - demand flex value - batteries value`."
             ),
             create_technology_value_table(),
@@ -330,8 +298,8 @@ def create_demand_flex_sensitivity_markdown(
                 "Interpretation note: these values are marginal to the scenario definitions. "
                 "A positive interaction effect means removing both options raises system cost "
                 "by more than the sum of removing each option separately; a negative value means "
-                "the combined removal is less costly than that simple sum. This is not a standalone "
-                "market value for either technology."
+                "the combined removal is less costly than that simple sum. "
+                "This is not a standalone market value for either technology."
             ),
         ]
     )

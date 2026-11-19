@@ -1,11 +1,12 @@
 """Tests for industrial GIC demand projections."""
 
 import pandas as pd
+
 from prepare_times_nz.stage_3.demand_projections import industry
 
 
 def test_ballance_gic_indices_use_the_provisional_2026_estimate():
-    """Ballance uses observed GIC demand, then holds 2025 until closure."""
+    """The provisional estimate overrides observed 2026 demand until closure."""
     assumptions = pd.DataFrame(
         {
             "SectorGroup": ["Industry"],
@@ -40,3 +41,35 @@ def test_ballance_gic_indices_use_the_provisional_2026_estimate():
     assert indices.loc[2026].to_dict() == {"Shift": 1.1, "Steady": 1.1}
     assert indices.loc[2027].to_dict() == {"Shift": 1.1, "Steady": 1.1}
     assert indices.loc[2028].to_dict() == {"Shift": 0.0, "Steady": 0.0}
+
+
+def test_methanex_gic_indices_sum_participants_and_expand_each_sector():
+    """Both sectors carry the last observed index through the closure year."""
+    assumptions = pd.DataFrame(
+        {
+            "SectorGroup": ["Industry", "Industry"],
+            "Sector": ["Methanol", "Other methanol"],
+            "Method": ["Methanex GIC", "Methanex GIC"],
+        }
+    )
+    gic_data = pd.DataFrame(
+        {
+            "Participant": industry.METHANEX_PARTICIPANTS * 3,
+            "Date": ["2023-01-01"] * 2 + ["2024-01-01"] * 2 + ["2025-01-01"] * 2,
+            "Value": [600, 400, 300, 200, 120, 80],
+        }
+    )
+    annual_estimates = pd.DataFrame(columns=["Method", "Year", "Value", "Unit"])
+
+    result = industry.get_gic_growth_indices(
+        assumptions, gic_data, annual_estimates, "Methanex GIC"
+    )
+
+    assert not result.duplicated(["Sector", "Year", "Scenario"]).any()
+    indices = result.pivot(index=["Sector", "Scenario"], columns="Year", values="Index")
+    assert len(indices) == 4
+    assert indices[2023].eq(1.0).all()
+    assert indices[2024].eq(0.5).all()
+    assert indices[2025].eq(0.2).all()
+    assert indices[2026].eq(0.2).all()
+    assert indices[2027].eq(0.0).all()

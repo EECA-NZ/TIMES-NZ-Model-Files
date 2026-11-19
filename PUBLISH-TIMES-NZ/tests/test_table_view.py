@@ -3,6 +3,7 @@
 import unittest
 
 import polars as pl
+
 from publish_times_nz.app.helpers.data_processing import (
     make_display_table_data,
     make_table_data,

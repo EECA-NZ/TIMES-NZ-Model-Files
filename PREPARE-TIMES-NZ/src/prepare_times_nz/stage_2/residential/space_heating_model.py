@@ -33,6 +33,7 @@ So we should only use the shares, not treat these as regional ERP
 
 import numpy as np
 import pandas as pd
+
 from prepare_times_nz.stage_2.residential.common import (
     BASE_YEAR,
     ISLAND_FILE,

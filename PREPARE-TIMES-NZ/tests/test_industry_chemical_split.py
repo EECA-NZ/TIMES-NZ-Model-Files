@@ -1,6 +1,7 @@
 """Tests for the industrial chemicals demand split."""
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.industry import industry_align_eeud_sectors as chemicals
 
 

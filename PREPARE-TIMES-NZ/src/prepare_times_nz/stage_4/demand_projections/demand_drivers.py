@@ -11,6 +11,7 @@ Loads growth indices and maps these to the correct names
 """
 
 import pandas as pd
+
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.stage_3.demand_projections.population_projections import (
     get_national_population_growth_index,

@@ -8,12 +8,12 @@ relevant spots in the UI
 Loads in all the markdown as objects for reactives to pull from
 """
 
+# Libraries
+from shiny import reactive, render, ui
+
 from publish_times_nz.app_config import configured_bundle
 from publish_times_nz.utilities.filepaths import ASSETS
 from publish_times_nz.utilities.output_packaging import build_outputs_zip_bytes
-
-# Libraries
-from shiny import reactive, render, ui
 
 # Load markdown inputs
 

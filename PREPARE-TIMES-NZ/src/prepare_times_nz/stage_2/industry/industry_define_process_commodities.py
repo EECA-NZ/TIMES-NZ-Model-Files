@@ -68,6 +68,7 @@ from typing import List
 
 import numpy as np
 import pandas as pd
+
 from prepare_times_nz.stage_2.industry.common import (
     INDUSTRY_CONCORDANCES,
     PREPRO_DF_NAME_STEP3,

@@ -17,6 +17,7 @@ from plotnine import (
     scale_y_continuous,
     theme_minimal,
 )
+
 from prepare_times_nz.utilities.filepaths import ANALYSIS, STAGE_1_DATA, STAGE_2_DATA
 
 BASE_YEAR = 2023

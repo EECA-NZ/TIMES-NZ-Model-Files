@@ -13,6 +13,7 @@ But this did not seem to register properly for future years
 """
 
 import pandas as pd
+
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_4_DATA
 

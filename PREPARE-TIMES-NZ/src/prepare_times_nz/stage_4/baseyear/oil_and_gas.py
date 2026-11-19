@@ -9,6 +9,7 @@ This module loads our processed oil and gas data and creates three outputs:
 
 import numpy as np
 import pandas as pd
+
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,

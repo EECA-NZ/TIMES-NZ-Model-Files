@@ -58,6 +58,7 @@ Layout:
 # --------------------------------------------------------------------------- #
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.industry.common import (
     CHECKS_DIR,
     INDUSTRY_ASSUMPTIONS,

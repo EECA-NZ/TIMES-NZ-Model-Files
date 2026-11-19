@@ -4,10 +4,11 @@ For now, the target is to just provide a main dropdown list,
     then a secondary dropdown for optional comparisons
 """
 
-from publish_times_nz.app_config import configured_bundle
-from publish_times_nz.utilities.value_mappings import get_choice_labels
 from shiny import reactive, render, ui
 from shiny.types import SilentException
+
+from publish_times_nz.app_config import configured_bundle
+from publish_times_nz.utilities.value_mappings import get_choice_labels
 
 NO_COMPARISON = "__none__"
 SCENARIO_CHOICES = get_choice_labels(

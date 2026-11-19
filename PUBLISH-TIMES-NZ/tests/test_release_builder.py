@@ -5,6 +5,7 @@ from pathlib import Path
 import pyarrow as pa
 import pyarrow.parquet as pq
 import pytest
+
 from publish_times_nz.release_builder import (
     ReleaseBuildError,
     build_release,

@@ -12,11 +12,10 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 import pandas as pd
+from PySAM import Pvwattsv8
+
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_3_DATA
 from prepare_times_nz.utilities.timeslices import create_timeslices
-
-# pylint: disable=wrong-import-order
-from PySAM import Pvwattsv8
 
 SOLAR_SCENARIOS_FILE = (
     ASSUMPTIONS / "electricity_generation/renewable_curves/SolarPvScenarios.csv"

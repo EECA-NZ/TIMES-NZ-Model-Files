@@ -64,6 +64,15 @@ members = [
 [tool.black]
 target-version = ["py312"]
 
+[tool.isort]
+profile = "black"
+known_first_party = [
+    "prepare_times_nz",
+    "solve_times_nz",
+    "publish_times_nz",
+    "qa_times_nz",
+]
+
 [tool.coverage.run]
 source = [
     "PREPARE-TIMES-NZ/src",

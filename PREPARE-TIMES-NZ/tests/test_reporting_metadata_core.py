@@ -1,5 +1,6 @@
 import pandas as pd
 import pytest
+
 from prepare_times_nz.reporting_metadata.core import (
     build_declaration_units,
     build_distribution_processes,

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import pandas as pd
+
 from prepare_times_nz.utilities.filepaths import (
     ANALYSIS,
     ASSUMPTIONS,

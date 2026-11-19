@@ -10,6 +10,8 @@ Will need to build that into main
 
 from functools import lru_cache
 
+from shiny import reactive
+
 from publish_times_nz.app.helpers.data_processing import (
     aggregate_by_group,
     filter_df_for_variable,
@@ -23,7 +25,6 @@ from publish_times_nz.app.helpers.server_functions import (
 )
 from publish_times_nz.app.helpers.ui_elements import make_explorer_page_ui
 from publish_times_nz.app.release import labelled_file
-from shiny import reactive
 
 # CONSTANTS -----------------------------------------------------------
 # pylint:disable = duplicate-code

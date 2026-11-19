@@ -6,6 +6,7 @@ to the dataframe
 from typing import Optional, Sequence
 
 import pandas as pd
+
 from prepare_times_nz.utilities.deflator import deflate_data
 from prepare_times_nz.utilities.logger_setup import logger
 

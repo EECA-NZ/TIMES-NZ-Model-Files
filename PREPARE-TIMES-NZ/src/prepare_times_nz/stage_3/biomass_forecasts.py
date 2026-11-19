@@ -24,6 +24,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pandas as pd
+
 from prepare_times_nz.utilities.filepaths import EXTERNAL_DATA, STAGE_3_DATA
 from prepare_times_nz.utilities.logger_setup import blue_text, logger
 

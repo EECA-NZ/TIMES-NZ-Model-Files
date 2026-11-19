@@ -5,6 +5,7 @@ Aggregate NIWA solar hourly profiles to TIMES-NZ timeslices.
 from __future__ import annotations
 
 import pandas as pd
+
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_3_DATA
 

@@ -7,6 +7,7 @@ from __future__ import annotations
 import csv
 
 import pandas as pd
+
 from prepare_times_nz.utilities.filepaths import PREP_LOCATION, STAGE_3_DATA
 
 SOLAR_AF_FILE = (

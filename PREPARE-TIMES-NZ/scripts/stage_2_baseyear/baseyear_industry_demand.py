@@ -12,6 +12,7 @@ This script is idempotent: re-running will overwrite previous outputs.
 """
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.industry.common import (
     PREPRO_DF_NAME_STEP4,
     PREPROCESSING_DIR,

@@ -2,6 +2,7 @@
 
 import polars as pl
 import pytest
+
 from publish_times_nz import app_config
 from publish_times_nz.release_bundle import ReleaseBundle
 from publish_times_nz.utilities import value_mappings

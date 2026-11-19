@@ -20,6 +20,7 @@ from collections.abc import Iterable
 from pathlib import Path
 
 import pandas as pd
+
 from prepare_times_nz.utilities.energy_balance import get_balance_value, select_gross_pj
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,

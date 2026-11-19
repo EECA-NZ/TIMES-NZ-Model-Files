@@ -2,6 +2,7 @@
 
 import pandas as pd
 import pytest
+
 from prepare_times_nz.stage_2.commercial.common import (
     create_service_commodity,
     create_service_commodity_from_tech_names,

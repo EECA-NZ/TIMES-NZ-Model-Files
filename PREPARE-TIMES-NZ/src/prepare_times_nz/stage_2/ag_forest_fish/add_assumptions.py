@@ -13,6 +13,7 @@ preprocessing.
 from __future__ import annotations
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.ag_forest_fish.common import (
     AG_ASSUMPTIONS,
     BASE_YEAR,

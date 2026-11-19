@@ -1,6 +1,7 @@
 """Emissions analysis charts."""
 
 import numpy as np
+
 import qa_times_nz.analysis.get_data as chart_data
 from qa_times_nz.analysis.analysis_chart_helpers import (
     create_scenario_facet_chart,

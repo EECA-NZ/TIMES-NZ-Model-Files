@@ -13,6 +13,7 @@ preprocessing.
 from __future__ import annotations
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.commercial.common import (
     BASE_YEAR,
     COMMERCIAL_ASSUMPTIONS,

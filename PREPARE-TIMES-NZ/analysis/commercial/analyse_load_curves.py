@@ -21,6 +21,7 @@ from plotnine import (
     theme,
     theme_classic,
 )
+
 from prepare_times_nz.utilities.filepaths import ANALYSIS, ASSUMPTIONS, STAGE_2_DATA
 
 OUTPUT_LOCATION = ANALYSIS / "results/load_curves"

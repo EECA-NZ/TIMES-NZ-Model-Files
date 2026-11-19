@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+
 from prepare_times_nz.stage_2.industry.common import CHECKS_DIR
 from prepare_times_nz.utilities.filepaths import (
     ANALYSIS,

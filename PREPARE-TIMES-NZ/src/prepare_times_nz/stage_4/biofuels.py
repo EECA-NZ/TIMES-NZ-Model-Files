@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Mapping
 
 import pandas as pd
+
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,

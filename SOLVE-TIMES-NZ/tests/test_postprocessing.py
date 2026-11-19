@@ -2,6 +2,7 @@ import json
 
 import pandas as pd
 import pytest
+
 from solve_times_nz import postprocessing
 from solve_times_nz.postprocessing import (
     _scenario_name,

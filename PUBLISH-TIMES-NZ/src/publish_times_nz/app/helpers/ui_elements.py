@@ -2,6 +2,9 @@
 Ui builders to share between modules
 """
 
+from shiny import ui
+from shinywidgets import output_widget
+
 from publish_times_nz.app.helpers.charts import (
     DEFAULT_LAYOUT_OPTIONS,
     TIMESLICE_LAYOUT_OPTIONS,
@@ -14,8 +17,6 @@ from publish_times_nz.app.helpers.filters import (
     filter_output_ui_list,
     identifier_to_title_case,
 )
-from shiny import ui
-from shinywidgets import output_widget
 
 
 def chart_download_dropdown(chart_id):

@@ -1,11 +1,11 @@
 """Electricity generation analysis charts."""
 
 import pandas as pd
-import qa_times_nz.analysis.get_data as chart_data
 
-# isort is clashing with pylint on what order these should go in, so disable pylint
-# pylint:disable = wildcard-import, unused-wildcard-import, wrong-import-order
+# pylint:disable = wildcard-import, unused-wildcard-import
 from plotnine import *
+
+import qa_times_nz.analysis.get_data as chart_data
 from qa_times_nz.analysis.analysis_chart_helpers import (
     adaptive_tick_labels,
     chart_cols,

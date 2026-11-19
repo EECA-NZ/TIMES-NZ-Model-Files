@@ -8,6 +8,7 @@ A common area for all filepaths and functions common to
 from pathlib import Path
 
 import pandas as pd
+
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
     CONCORDANCES,

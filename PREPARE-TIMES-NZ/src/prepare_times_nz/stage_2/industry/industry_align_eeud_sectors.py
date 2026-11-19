@@ -15,6 +15,7 @@ or import the `main()` function from elsewhere in the pipeline or tests.
 import tomllib
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.industry.common import (
     INDUSTRY_ASSUMPTIONS,
     INDUSTRY_CONCORDANCES,

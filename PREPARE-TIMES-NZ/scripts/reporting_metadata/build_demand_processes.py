@@ -1,6 +1,7 @@
 """Write PREP-owned demand-device reporting metadata."""
 
 import pandas as pd
+
 from prepare_times_nz.reporting_metadata.core import uppercase_codes
 from prepare_times_nz.reporting_metadata.demand import (
     build_agriculture_processes,

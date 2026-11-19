@@ -24,6 +24,7 @@ or import the :pyfunc:`main` function from elsewhere.
 from __future__ import annotations
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.common.add_tech_assumptions import (
     add_afa,
     add_capex,

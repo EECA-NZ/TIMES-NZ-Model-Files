@@ -17,6 +17,7 @@ import pandas as pd
 
 # pylint: disable = unused-import, unused-wildcard-import, wildcard-import
 from plotnine import *
+
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.utilities.filepaths import (
     ANALYSIS,

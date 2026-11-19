@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import pandas as pd
+
 from prepare_times_nz.stage_1.mbie import (
     extract_electricity_demand_totals,
     extract_unallocated_onsite_generation,

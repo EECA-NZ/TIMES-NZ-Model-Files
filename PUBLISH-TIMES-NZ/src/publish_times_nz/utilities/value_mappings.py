@@ -9,6 +9,7 @@ from typing import Any
 
 import pandas as pd
 import polars as pl
+
 from publish_times_nz import app_config
 
 

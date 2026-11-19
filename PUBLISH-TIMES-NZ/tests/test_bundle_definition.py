@@ -7,6 +7,7 @@ from pathlib import Path
 import pyarrow as pa
 import pyarrow.parquet as pq
 import pytest
+
 from publish_times_nz import cli
 from publish_times_nz.bundle_definition import (
     build_bundle,

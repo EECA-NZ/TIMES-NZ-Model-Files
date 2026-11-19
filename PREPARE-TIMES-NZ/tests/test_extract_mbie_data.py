@@ -2,6 +2,7 @@
 
 import pandas as pd
 import pytest
+
 from prepare_times_nz.stage_1.mbie import (
     extract_annual_table,
     extract_electricity_demand_totals,

@@ -32,46 +32,91 @@ repos:
       - id: isort
         name: isort (workspace)
         language: system
-        entry: uv run isort --profile=black
+        entry: uv run isort --settings-path .
         types: [python]
         files: ^(PREPARE-TIMES-NZ|SOLVE-TIMES-NZ|PUBLISH-TIMES-NZ|QA-TIMES-NZ)/.*\.py$
         exclude: ^(?:PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)|PUBLISH-TIMES-NZ/(?:build|dist|deployment_payload|releases|\.deployment_payload\.[^/]+\.staging|\.venv|\.mypy_cache|\.pytest_cache))/
 
-      - id: pylint-prep
-        name: pylint (PREPARE-TIMES-NZ)
+      # Changed-file hooks run from root; full checks run from module directories.
+      # Both use the root pylint configuration.
+
+      - id: pylint-prep-precommit
+        name: pylint PREPARE-TIMES-NZ (changed files)
         language: system
-        entry: uv run --directory PREPARE-TIMES-NZ pylint src/prepare_times_nz scripts
+        entry: uv run pylint --rcfile=pyproject.toml
         types: [python]
         files: ^PREPARE-TIMES-NZ/.*\.py$
-        exclude: ^PREPARE-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
-        pass_filenames: false
+        exclude: ^PREPARE-TIMES-NZ/tests/
+        pass_filenames: true
+        stages: [pre-commit]
 
-      - id: pylint-qa
-        name: pylint (QA-TIMES-NZ)
+      - id: pylint-qa-precommit
+        name: pylint QA-TIMES-NZ (changed files)
         language: system
-        entry: uv run --directory QA-TIMES-NZ pylint src/qa_times_nz
+        entry: uv run pylint --rcfile=pyproject.toml
         types: [python]
         files: ^QA-TIMES-NZ/.*\.py$
-        exclude: ^QA-TIMES-NZ/(?:build|dist|output|data_raw|data_intermediate|\.venv|\.mypy_cache|\.pytest_cache|docs/_build)/
-        pass_filenames: false
+        exclude: ^QA-TIMES-NZ/tests/
+        pass_filenames: true
+        stages: [pre-commit]
 
-      - id: pylint-publish
-        name: pylint (PUBLISH-TIMES-NZ)
+      - id: pylint-publish-precommit
+        name: pylint PUBLISH-TIMES-NZ (changed files)
         language: system
-        entry: uv run --directory PUBLISH-TIMES-NZ pylint src/publish_times_nz app.py run_local.py
+        entry: uv run pylint --rcfile=pyproject.toml
         types: [python]
         files: ^PUBLISH-TIMES-NZ/.*\.py$
-        exclude: ^PUBLISH-TIMES-NZ/(?:build|dist|deployment_payload|releases|\.deployment_payload\.[^/]+\.staging|\.venv|\.mypy_cache|\.pytest_cache)/
-        pass_filenames: false
+        exclude: ^PUBLISH-TIMES-NZ/tests/
+        pass_filenames: true
+        stages: [pre-commit]
 
-      - id: pylint-solve
-        name: pylint (SOLVE-TIMES-NZ)
+      - id: pylint-solve-precommit
+        name: pylint SOLVE-TIMES-NZ (changed files)
         language: system
-        entry: uv run --directory SOLVE-TIMES-NZ pylint src/solve_times_nz
+        entry: uv run pylint --rcfile=pyproject.toml
         types: [python]
         files: ^SOLVE-TIMES-NZ/.*\.py$
-        exclude: ^SOLVE-TIMES-NZ/(?:build|dist|\.venv|\.mypy_cache|\.pytest_cache)/
+        exclude: ^SOLVE-TIMES-NZ/tests/
+        pass_filenames: true
+        stages: [pre-commit]
+
+      # Full-module pylint checks before pushing.
+
+      - id: pylint-prep-prepush
+        name: pylint PREPARE-TIMES-NZ (full module)
+        language: system
+        entry: uv run --directory PREPARE-TIMES-NZ pylint --rcfile=../pyproject.toml src/prepare_times_nz scripts
+        types: [python]
+        files: ^PREPARE-TIMES-NZ/.*\.py$
         pass_filenames: false
+        stages: [pre-push]
+
+      - id: pylint-qa-prepush
+        name: pylint QA-TIMES-NZ (full module)
+        language: system
+        entry: uv run --directory QA-TIMES-NZ pylint --rcfile=../pyproject.toml src/qa_times_nz
+        types: [python]
+        files: ^QA-TIMES-NZ/.*\.py$
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: pylint-publish-prepush
+        name: pylint PUBLISH-TIMES-NZ (full module)
+        language: system
+        entry: uv run --directory PUBLISH-TIMES-NZ pylint --rcfile=../pyproject.toml src/publish_times_nz app.py run_local.py
+        types: [python]
+        files: ^PUBLISH-TIMES-NZ/.*\.py$
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: pylint-solve-prepush
+        name: pylint SOLVE-TIMES-NZ (full module)
+        language: system
+        entry: uv run --directory SOLVE-TIMES-NZ pylint --rcfile=../pyproject.toml src/solve_times_nz
+        types: [python]
+        files: ^SOLVE-TIMES-NZ/.*\.py$
+        pass_filenames: false
+        stages: [pre-push]
 
   - repo: local
     hooks:

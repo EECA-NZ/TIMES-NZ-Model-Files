@@ -5,6 +5,7 @@ import json
 import pyarrow as pa
 import pyarrow.parquet as pq
 import pytest
+
 from publish_times_nz.app_config import configured_release_path, load_explorer_config
 from publish_times_nz.deployment_payload import prepare_deployment_payload
 from publish_times_nz.release_bundle import RELEASE_FORMAT_VERSION
