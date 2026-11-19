@@ -59,10 +59,6 @@ The scripts for this module are broken down into the following stages:
 3) `stage_3_scenarios`: Prepare scenario files. Combinations, transformations, apply assumptions, etc.
 4) `stage_4_veda_format`: Format the prepared data into files for Veda, using structures defined by the configuration settings and reading base year/scenario data as needed. Generate excel files. 
 
-Additionally, scripts designed to fully recreates TIMES 2.1.3 from scratch using generated excel files are available in `scripts/times_2_methods`. These remain as a proof of concept. 
-
-(Note: the archive scripts are currently broken because we did not put effort into maintaining them as the project structure evolved. We should either fix or delete these).
-
 ## Data directories
 
 ### data_raw/
