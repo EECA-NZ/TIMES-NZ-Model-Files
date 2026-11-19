@@ -15,6 +15,11 @@
 - The public developer guide explains the workflow. EECA account setup and
   deployment targets are documented in the separately maintained internal
   runbook.
+- The old Explorer, deployment files and duplicate app tests have been removed
+  from INTERNAL-QA. Analysis retains its timeslice helper under `utilities/`.
+  Archived legacy data and the old `.env` have also been removed locally;
+  analysis code and outputs remain. The empty QA test step was removed from CI,
+  and active local-app instructions now point to PUBLISH.
 
 See the [PUBLISH developer guide](PREPARE-TIMES-NZ/docs/source/developer_guide/publish_times_nz/index.md)
 for the release format and commands. This plan now covers the remaining cleanup
@@ -22,16 +27,9 @@ rather than repeating those mechanics.
 
 ## Remaining steps for this PR
 
-1. **Remove the old Explorer from `TIMES-NZ-INTERNAL-QA`.**
-   - Delete the duplicated app modules, entry points, assets, web scripts and
-     deployment-only files and utilities. Keep the working Explorer in PUBLISH.
-   - Preserve the timeslice helper still used by analysis before deleting
-     `app/`; move it into the retained QA utilities and update its callers.
-   - Remove the duplicated app tests already covered in PUBLISH.
+1. **Remove the old calibration tooling.**
    - Remove `calibration_checks/`, including its calibration data and generated
      report, as agreed in the original scope. A replacement is separate work.
-   - Preserve local result data and analysis inputs; deleting app code does not
-     require deleting those files.
 
 2. **Rename the remaining QA module.**
    - Directory: `TIMES-NZ-INTERNAL-QA` → `QA-TIMES-NZ`.
@@ -47,19 +45,15 @@ rather than repeating those mechanics.
    - Update CI, pre-commit hooks, ignore paths, module instructions and active
      documentation for the renamed module. Include PUBLISH in the formatter
      hook paths, which currently omit it.
-   - Replace the obsolete INTERNAL-QA local-app command in the developer
-     workflow overview with the PUBLISH command.
    - Check the PREP residential-analysis script's reference to the old QA data
      directory during the rename; migrating that analysis to releases can wait.
-   - Keep historical changelog entries as history. Adjust the legacy-import
-     example if its local source directory moves.
+   - Keep historical changelog entries as history.
 
 4. **Verify the cleanup.**
    - Sync the renamed workspace and confirm the QA package and retained helper
      imports resolve.
-   - Run PUBLISH tests and any retained QA unit tests, plus the affected format
-     and lint checks. If no QA tests remain after removing duplicate app tests,
-     remove the obsolete CI test step rather than leave an empty pytest run.
+   - Run PUBLISH tests and any new QA unit tests, plus the affected format
+     and lint checks.
    - Check for stale active imports, workspace names and commands. Confirm the
      PUBLISH Explorer still starts with a selected release after the old app is
      removed. Deployment commands and smoke checks remain in the internal runbook.

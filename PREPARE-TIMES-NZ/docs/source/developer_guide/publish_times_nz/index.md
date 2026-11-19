@@ -128,7 +128,7 @@ Import an already scenario-batched legacy result directory with:
 
 ```bash
 uv run publish-times-nz import-legacy v308 \
-  TIMES-NZ-INTERNAL-QA/data/clean_results \
+  <archived-legacy-results-directory> \
   --legacy-source "v308 clean results"
 ```
 

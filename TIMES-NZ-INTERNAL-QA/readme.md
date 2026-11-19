@@ -1,8 +1,12 @@
 # TIMES-NZ-INTERNAL-QA
 
 
-This module contains the legacy internal QA app and analysis tools. The Explorer
-now lives in `PUBLISH-TIMES-NZ`. `SOLVE-TIMES-NZ` owns result post-processing.
+This module contains internal analysis tools. The legacy Explorer has been
+removed; the Explorer now lives in `PUBLISH-TIMES-NZ`. `SOLVE-TIMES-NZ` owns
+result post-processing.
+
+Analysis scripts still use the old data paths and require archived inputs to run.
+Updating them to read PUBLISH releases is deferred.
 
 ## Solver result bundles
 

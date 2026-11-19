@@ -58,9 +58,6 @@ jobs:
         run: |
           uv run pylint src/publish_times_nz app.py run_local.py
           uv run pytest
-      - name: Run QA tests
-        working-directory: TIMES-NZ-INTERNAL-QA
-        run: uv run pytest
       - name: Run pip-audit
         run: uv run pip-audit --skip-editable
       - name: Publish coverage to GitHub Pages

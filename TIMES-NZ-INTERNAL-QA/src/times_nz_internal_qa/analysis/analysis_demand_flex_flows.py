@@ -15,7 +15,8 @@ from times_nz_internal_qa.analysis.analysis_chart_helpers import (
     save_chart_and_data,
     standardise_chart_data,
 )
-from times_nz_internal_qa.app.helpers.timeslices import (
+from times_nz_internal_qa.utilities.filepaths import SCENARIO_FILES
+from times_nz_internal_qa.utilities.timeslices import (
     DAY_TYPE_LABELS,
     DAY_TYPE_ORDER,
     SEASON_LABELS,
@@ -24,7 +25,6 @@ from times_nz_internal_qa.app.helpers.timeslices import (
     TIMESLICE_ORDER,
     add_timeslice_chart_columns,
 )
-from times_nz_internal_qa.utilities.filepaths import SCENARIO_FILES
 
 FLEX_UNDERLYING_PROCESS_MAP = {
     "DD-S_HEAT-FLEX": "RES-DD-ELC-HPSH-S_HEAT",

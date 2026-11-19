@@ -16,7 +16,8 @@ from times_nz_internal_qa.analysis.analysis_chart_helpers import (
     save_chart_and_data,
     standardise_chart_data,
 )
-from times_nz_internal_qa.app.helpers.timeslices import (
+from times_nz_internal_qa.utilities.filepaths import PREP_STAGE_2
+from times_nz_internal_qa.utilities.timeslices import (
     DAY_TYPE_LABELS,
     DAY_TYPE_ORDER,
     SEASON_LABELS,
@@ -25,7 +26,6 @@ from times_nz_internal_qa.app.helpers.timeslices import (
     TIMESLICE_ORDER,
     add_timeslice_chart_columns,
 )
-from times_nz_internal_qa.utilities.filepaths import PREP_STAGE_2
 
 CAP2ACT = 31.536
 
