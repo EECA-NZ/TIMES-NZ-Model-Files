@@ -10,8 +10,8 @@ Loads in all the markdown as objects for reactives to pull from
 
 # Libraries
 from shiny import reactive, render, ui
-from times_nz_internal_qa.postprocessing.package_outputs import build_outputs_zip_bytes
 from times_nz_internal_qa.utilities.filepaths import ASSETS, FINAL_DATA
+from times_nz_internal_qa.utilities.output_packaging import build_outputs_zip_bytes
 
 # Load markdown inputs
 

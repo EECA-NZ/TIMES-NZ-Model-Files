@@ -1,0 +1,7 @@
+Process,TechnologyGroup,Technology
+JD-WH_LOW-FLEX,Demand flex,Ripple control
+DD-WH_LOW-FLEX,Demand flex,Ripple control
+JD-WH_LOW-SMART,Demand flex,Hot water controller
+DD-WH_LOW-SMART,Demand flex,Hot water controller
+JD-S_HEAT-FLEX,Demand flex,Heatpump controller
+DD-S_HEAT-FLEX,Demand flex,Heatpump controller

@@ -14,11 +14,18 @@ from solve_times_nz.case import (
     versioned_case_name,
 )
 from solve_times_nz.execution import solve_case
+from solve_times_nz.postprocessing import postprocess_run, snapshot_metadata
 
 DEFAULT_LOCAL_CONFIG = (
     REPOSITORY_ROOT / "SOLVE-TIMES-NZ" / "config" / "solve.local.toml"
 )
 DEFAULT_CASE_BUILD_ROOT = REPOSITORY_ROOT / "SOLVE-TIMES-NZ" / "build" / "cases"
+DEFAULT_REPORTING_METADATA = (
+    REPOSITORY_ROOT
+    / "PREPARE-TIMES-NZ"
+    / "data_intermediate"
+    / "postprocessing_metadata"
+)
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -54,6 +61,17 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Export the full named GAMS matrix and dictionary after solving",
     )
+    postprocess = commands.add_parser(
+        "postprocess", help="Build parquet results from one completed solver run"
+    )
+    postprocess.add_argument(
+        "run_dir", type=Path, help="Completed directory under build/solves"
+    )
+    postprocess.add_argument(
+        "--metadata-dir",
+        type=Path,
+        help="Override this run's copied PREP reporting metadata",
+    )
     return parser
 
 
@@ -62,14 +80,23 @@ def main() -> None:
     arguments = _parser().parse_args()
     try:
         if arguments.command == "solve":
-            print(
-                solve_case(
-                    DEFAULT_CASE_BUILD_ROOT / versioned_case_name(arguments.case),
-                    arguments.local_config,
-                    arguments.run_id,
-                    diagnostic=arguments.diagnostic,
-                )
+            run_dir = solve_case(
+                DEFAULT_CASE_BUILD_ROOT / versioned_case_name(arguments.case),
+                arguments.local_config,
+                arguments.run_id,
+                diagnostic=arguments.diagnostic,
             )
+            metadata_dir = snapshot_metadata(DEFAULT_REPORTING_METADATA, run_dir)
+            print(postprocess_run(run_dir, metadata_dir))
+            return
+        if arguments.command == "postprocess":
+            snapshot_dir = arguments.run_dir / "postprocessed" / "metadata"
+            metadata_dir = arguments.metadata_dir or (
+                snapshot_dir
+                if snapshot_dir.is_dir()
+                else snapshot_metadata(DEFAULT_REPORTING_METADATA, arguments.run_dir)
+            )
+            print(postprocess_run(arguments.run_dir, metadata_dir))
             return
         case = resolve_case(
             arguments.case,

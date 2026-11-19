@@ -69,6 +69,24 @@ The staging directory must already exist. A run never overwrites an existing
 staged directory or existing returned-results directory. Failed staged runs are
 also retained for inspection.
 
+After a successful solve and VEDA export, `solve` automatically creates the
+post-processed parquet outputs. See [Post-processing solver
+results](postprocessing.md) for the outputs and recovery workflow.
+
+### Postprocess
+
+```bash
+uv run solve-times-nz postprocess build/solves/<case>-v<version>-<run-id>
+```
+
+Re-runs parquet generation from the copied raw `.vd` file without solving the
+model again. It overwrites only that run's `postprocessed/` parquet files.
+
+| Argument or option | Meaning |
+| --- | --- |
+| `run_dir` | Required completed solver-run directory. |
+| `--metadata-dir PATH` | Override the copied metadata for a controlled comparison. Without it, post-processing uses the run's `postprocessed/metadata` CSV snapshot. |
+
 ## Generated and returned artefacts
 
 The normal build directory is:

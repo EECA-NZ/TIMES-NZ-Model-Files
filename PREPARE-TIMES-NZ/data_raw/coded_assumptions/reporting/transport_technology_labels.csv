@@ -1,0 +1,13 @@
+Pattern,Technology,TechnologyGroup
+ICEPET,Internal Combustion Engine (Petrol),Internal Combustion Engine
+ICEDSL,Internal Combustion Engine (Diesel),Internal Combustion Engine
+ICELPG,Internal Combustion Engine (LPG),Internal Combustion Engine
+BEV,Battery Electric Vehicle,Battery Electric Vehicle
+HYBPET,Hybrid Vehicle (Petrol),Hybrid Vehicle
+HYBDSL,Hybrid Vehicle (Diesel),Hybrid Vehicle
+FCH2R,Hydrogen Fuel Cell,Hydrogen Vehicle
+HEVPET,Plug-in Hybrid Vehicle (Petrol),Plug-in Hybrid Vehicle
+HEVDSL,Plug-in Hybrid Vehicle (Diesel),Plug-in Hybrid Vehicle
+SHIP,Ship,Ship
+JET,Jet,Jet
+RAIL,Rail,Rail

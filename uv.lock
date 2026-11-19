@@ -3938,12 +3938,14 @@ version = "0.1.0"
 source = { editable = "SOLVE-TIMES-NZ" }
 dependencies = [
     { name = "pandas" },
+    { name = "pyarrow" },
     { name = "xl2times" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "pandas", specifier = ">=2.2,<3" },
+    { name = "pyarrow", specifier = ">=23.0.1,<24" },
     { name = "xl2times", specifier = "==0.3.0" },
 ]
 
