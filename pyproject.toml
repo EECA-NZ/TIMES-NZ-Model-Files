@@ -64,6 +64,9 @@ members = [
 [tool.black]
 target-version = ["py312"]
 
+[tool.pylint.similarities]
+min-similarity-lines = 10
+
 [tool.isort]
 profile = "black"
 known_first_party = [

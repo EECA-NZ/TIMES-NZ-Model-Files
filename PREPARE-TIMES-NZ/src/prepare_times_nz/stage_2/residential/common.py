@@ -5,17 +5,15 @@ A common area for all filepaths and functions common to
 
 """
 
-from pathlib import Path
-
 import pandas as pd
 
+from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
     CONCORDANCES,
     STAGE_1_DATA,
     STAGE_2_DATA,
 )
-from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # Constants ------------------------------------------------
 BASE_YEAR = 2023
@@ -51,14 +49,6 @@ ISLAND_FILE = CONCORDANCES / "region_island_concordance.csv"
 
 
 # I/O Functions ------------------------------------------------
-
-
-def _save_data(df, name, label, filepath: Path):
-    """Save DataFrame output to the output location."""
-    filepath.mkdir(parents=True, exist_ok=True)
-    filename = f"{filepath}/{name}"
-    logger.info("%s: %s", label, blue_text(filename))
-    df.to_csv(filename, index=False, encoding="utf-8-sig")
 
 
 def save_output(df, name, label, filepath=RESIDENTIAL_DATA_DIR):
