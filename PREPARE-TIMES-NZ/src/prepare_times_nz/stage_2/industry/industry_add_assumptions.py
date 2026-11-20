@@ -26,12 +26,8 @@ from __future__ import annotations
 import pandas as pd
 
 from prepare_times_nz.stage_2.common.add_tech_assumptions import (
-    add_afa,
-    add_capex,
-    add_efficiencies,
-    add_lifetimes,
-    add_opex,
-    estimate_capacity,
+    add_capital_assumptions,
+    add_operating_assumptions,
 )
 from prepare_times_nz.stage_2.industry.common import (
     BASE_YEAR,
@@ -50,30 +46,6 @@ eff_data = pd.read_csv(INDUSTRY_ASSUMPTIONS / "tech_fuel_efficiencies.csv")
 lif_data = pd.read_csv(INDUSTRY_ASSUMPTIONS / "tech_lifetimes.csv")
 
 
-# ---------------------------------------------------------------------------
-# Helper functions
-# ---------------------------------------------------------------------------
-
-
-def tidy_data(df: pd.DataFrame) -> pd.DataFrame:
-    """Reshape DataFrame to long format with standardized units."""
-    df = df.drop(columns=["Value", "Unit", "PriceBaseYear"])
-    value_units = {
-        "Life": "Years",
-        "Efficiency": "%",
-        "CAPEX": f"{BASE_YEAR} NZD/kW",
-        "OPEX": f"{BASE_YEAR} NZD/kW/year",
-        "AFA": "%",
-        "InputEnergy": "PJ",
-        "OutputEnergy": "PJ",
-        "Capacity": "GW",
-    }
-    id_cols = df.columns.difference(value_units.keys()).tolist()
-    df = df.melt(id_vars=id_cols, var_name="Variable", value_name="Value")
-    df["Unit"] = df["Variable"].map(value_units)
-    return df
-
-
 # Execute
 
 
@@ -86,16 +58,8 @@ def get_industry_assumptions(df):
     Make table long with unit var
     """
 
-    df["Unit"] = "PJ"
-    df = add_efficiencies(df, eff_data)
-    df = add_lifetimes(df, lif_data)
-    df = add_capex(df, cap_data, cols=["Technology", "Fuel"])
-    df = add_opex(df, cap_data, cols=["Technology", "Fuel"])
-    df = add_afa(df, afa_data)
-    df = estimate_capacity(df)
-    df = tidy_data(df)
-
-    return df
+    df = add_capital_assumptions(df, eff_data, lif_data, cap_data)
+    return add_operating_assumptions(df, cap_data, afa_data, BASE_YEAR)
 
 
 # ---------------------------------------------------------------------------

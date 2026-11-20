@@ -23,12 +23,8 @@ from prepare_times_nz.stage_2.ag_forest_fish.common import (
     save_preprocessing,
 )
 from prepare_times_nz.stage_2.common.add_tech_assumptions import (
-    add_afa,
-    add_capex,
-    add_efficiencies,
-    add_lifetimes,
-    add_opex,
-    estimate_capacity,
+    add_capital_assumptions,
+    add_operating_assumptions,
 )
 
 # Get DATA --------------------------------------------------------------
@@ -53,49 +49,6 @@ lif_data = pd.read_csv(AG_ASSUMPTIONS / "tech_lifetimes.csv", **_READ_OPTS)[
     ["Technology", "Life"]
 ]
 
-# FUNCTIONS ----------------------------------------------
-
-
-def tidy_data(df: pd.DataFrame) -> pd.DataFrame:
-    """Tidy data and column selection."""
-    value_units = {
-        "Life": "Years",
-        "Efficiency": "%",
-        "CAPEX": f"{BASE_YEAR} NZD/kW",
-        "OPEX": f"{BASE_YEAR} NZD/kW/year",
-        "AFA": "%",
-        "InputEnergy": "PJ",
-        "OutputEnergy": "PJ",
-        "Capacity": "GW",
-    }
-
-    # Rename first to avoid conflicts
-    if "Value" in df.columns:
-        df.rename(columns={"Value": "ExistingValue"}, inplace=True)
-
-    melt_columns = [col for col in value_units if col in df.columns]
-    id_cols = df.columns.difference(melt_columns).tolist()
-
-    if not melt_columns:
-        raise ValueError(
-            "No columns to melt. Ensure assumption joins added the expected columns."
-        )
-
-    df = df.melt(
-        id_vars=id_cols,
-        value_vars=melt_columns,
-        var_name="Variable",
-        value_name="Value",
-    )
-    df["Unit"] = df["Variable"].map(value_units)
-
-    # Drop the old Value column if it survived through as "ExistingValue"
-    if "ExistingValue" in df.columns:
-        df = df.drop(columns=["ExistingValue", "PriceBaseYear"])
-
-    return df
-
-
 # Execute ----------------------------------------------
 
 
@@ -107,49 +60,8 @@ def get_ag_forest_fish_assumptions(df: pd.DataFrame) -> pd.DataFrame:
     Then derive new variables (like capacity estimates)
     Make table long with unit var
     """
-    df = df.copy()
-
-    # Normalize keys in assumption datasets
-    for dataset in [eff_data, lif_data, cap_data, opex_data, afa_data]:
-        for col in ["Technology", "Fuel"]:
-            if col in dataset.columns:
-                dataset[col] = (
-                    dataset[col]
-                    .astype(str)
-                    .str.replace("\ufeff", "", regex=False)
-                    .str.replace(r"\s+", " ", regex=True)
-                    .str.strip()
-                )
-
-    # Normalize keys in the input data
-    for col in ["Technology", "Fuel"]:
-        if col in df.columns:
-            df[col] = (
-                df[col]
-                .astype(str)
-                .str.replace("\ufeff", "", regex=False)
-                .str.replace(r"\s+", " ", regex=True)
-                .str.strip()
-            )
-    # print("Before joins:", len(df))
-
-    # Assumptions joins
-    df = add_efficiencies(df, eff_data)
-    # print("Columns after add_efficiencies:", df.columns)
-    # print("After efficiencies:", len(df))
-
-    df = add_lifetimes(df, lif_data)
-    df = add_capex(df, cap_data)
-    df = add_opex(df, opex_data)
-    df = add_afa(df, afa_data)
-
-    # Derived metrics
-    df = estimate_capacity(df)
-
-    # Long format with units
-    df = tidy_data(df)
-    # print("Columns before tidy_data:", df.columns)
-    return df
+    df = add_capital_assumptions(df, eff_data, lif_data, cap_data)
+    return add_operating_assumptions(df, opex_data, afa_data, BASE_YEAR)
 
 
 def main() -> None:
