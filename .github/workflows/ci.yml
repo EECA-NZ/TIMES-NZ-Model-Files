@@ -56,7 +56,7 @@ jobs:
           uv run pylint --rcfile=../pyproject.toml src/publish_times_nz app.py run_local.py
       - name: Run workspace tests and build HTML coverage
         run: |
-          uv run coverage run -m pytest PREPARE-TIMES-NZ/tests SOLVE-TIMES-NZ/tests PUBLISH-TIMES-NZ/tests
+          uv run coverage run -m pytest PREPARE-TIMES-NZ/tests SOLVE-TIMES-NZ/tests PUBLISH-TIMES-NZ/tests QA-TIMES-NZ/tests
           uv run coverage html
       - name: Run pip-audit
         run: uv run pip-audit --skip-editable

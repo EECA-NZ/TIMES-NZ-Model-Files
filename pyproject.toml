@@ -81,6 +81,7 @@ source = [
     "PREPARE-TIMES-NZ/src",
     "SOLVE-TIMES-NZ/src",
     "PUBLISH-TIMES-NZ/src",
+    "QA-TIMES-NZ/src",
 ]
 
 [tool.coverage.report]
