@@ -21,6 +21,12 @@ from pathlib import Path
 
 import pandas as pd
 
+from prepare_times_nz.stage_2.common.align_eeud_sectors import (
+    _norm_header,
+    add_times_categories,
+    aggregate_eeud,
+)
+from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.energy_balance import get_balance_value, select_gross_pj
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
@@ -28,30 +34,16 @@ from prepare_times_nz.utilities.filepaths import (
     STAGE_1_DATA,
     STAGE_2_DATA,
 )
-from prepare_times_nz.utilities.logger_setup import blue_text, logger
+from prepare_times_nz.utilities.logger_setup import logger
 
 # ----------------------------------------------------------------------------
 # Configuration & constants
 # ----------------------------------------------------------------------------
 BASE_YEAR = 2023
-group_cols = [
-    "SectorGroup",
-    "Sector",
-    "SectorANZSIC",
-    "FuelGroup",
-    "Fuel",
-    "TechnologyGroup",
-    "Technology",
-    "EnduseGroup",
-    "EndUse",
-    "Transport",
-    "Year",
-    "Unit",
-]
+
 
 # Be tolerant of Windows-encoded source CSVs
 READ_OPTS = {"encoding": "cp1252", "encoding_errors": "replace"}
-MISSING_TOKENS = {"", "NA", "N/A", "NONE", "NULL", "UNKNOWN"}
 
 # Locations
 OUTPUT_LOCATION = Path(STAGE_2_DATA) / "ag_forest_fish" / "preprocessing"
@@ -81,45 +73,16 @@ OUT_DEFAULT_USES_CHECK = "default_fuel_uses.csv"
 
 
 # ----------------------------------------------------------------------------
-# Utilities
-# ----------------------------------------------------------------------------
-
-
-def _norm_header(header: str) -> str:
-    """
-    Normalize column headers by removing BOM, converting to lowercase,
-    and replacing special characters with spaces.
-    """
-    return " ".join(
-        header.replace("\ufeff", "")
-        .strip()
-        .lower()
-        .replace("-", " ")
-        .replace("_", " ")
-        .split()
-    )
-
-
-def is_missing_series(s: pd.Series) -> pd.Series:
-    """For missing tokens"""
-    return s.isna() | s.astype(str).str.strip().str.upper().isin(MISSING_TOKENS)
-
-
-# ----------------------------------------------------------------------------
 # I/O helpers
 # ----------------------------------------------------------------------------
 def save_output(df: pd.DataFrame, name: str) -> None:
     """Save DataFrame to the preprocessing output directory."""
-    fp = OUTPUT_LOCATION / name
-    logger.info("Saving output → %s", blue_text(fp))
-    df.to_csv(fp, index=False)
+    _save_data(df, name, "Saving output", OUTPUT_LOCATION)
 
 
 def save_checks(df: pd.DataFrame, name: str, label: str) -> None:
     """Save diagnostic/check tables."""
-    fp = CHECKS_LOCATION / name
-    logger.info("Saving check (%s) → %s", label, blue_text(fp))
-    df.to_csv(fp, index=False)
+    _save_data(df, name, f"Saving check ({label})", CHECKS_LOCATION)
 
 
 # ----------------------------------------------------------------------------
@@ -226,24 +189,6 @@ def get_ag_forest_fish_pj(df: pd.DataFrame) -> pd.DataFrame:
     df = df[df["SectorGroup"] == "Agriculture, Forestry and Fishing"].copy()
     df["Unit"] = "PJ"
     df["Value"] = df["Value"] / 1e3  # TJ → PJ
-    return df
-
-
-def add_times_categories(df: pd.DataFrame, times_map: pd.DataFrame) -> pd.DataFrame:
-    """Map EEUD sectors to TIMES sectors using the provided category definitions."""
-    cat = times_map.rename(columns={"EEUD": "Sector", "TIMES": "TIMES_Sector"})[
-        ["Sector", "TIMES_Sector"]
-    ]
-    out = df.merge(cat, on="Sector", how="left")
-    out["Sector"] = out["TIMES_Sector"].fillna(out["Sector"])
-    out = out.drop(columns=["TIMES_Sector"])
-    return out
-
-
-def aggregate_eeud(df: pd.DataFrame) -> pd.DataFrame:
-    """Aggregate EEUD data by relevant categories."""
-    df[group_cols] = df[group_cols].fillna("NA")
-    df = df.groupby(group_cols, as_index=False)[["Value"]].sum()
     return df
 
 
