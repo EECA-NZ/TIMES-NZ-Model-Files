@@ -4,6 +4,7 @@ import pandas as pd
 
 # pylint: disable = unused-import, unused-wildcard-import, wildcard-import
 from plotnine import *
+
 from prepare_times_nz.utilities.filepaths import ANALYSIS, STAGE_1_DATA
 
 # all we want right now is to get a chart of the current + projected population

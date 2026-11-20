@@ -6,6 +6,7 @@ Generates charts of the results of the stage 3 data for scenario gas projectiosn
 import numpy as np
 import pandas as pd
 from plotnine import *
+
 from prepare_times_nz.utilities.filepaths import PREP_LOCATION, STAGE_3_DATA
 
 # Directories -------------------------------------------------------

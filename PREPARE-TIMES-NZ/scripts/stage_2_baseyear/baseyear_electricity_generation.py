@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+
 from prepare_times_nz.utilities.data_cleaning import pascal_case, remove_diacritics
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (

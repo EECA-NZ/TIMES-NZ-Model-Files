@@ -6,6 +6,7 @@ to the dataframe
 from typing import Optional, Sequence
 
 import pandas as pd
+
 from prepare_times_nz.utilities.deflator import deflate_data
 from prepare_times_nz.utilities.logger_setup import logger
 
@@ -169,3 +170,86 @@ def estimate_capacity(df: pd.DataFrame) -> pd.DataFrame:
     df["OutputEnergy"] = df["InputEnergy"] * df["Efficiency"]
     df["Capacity"] = df["OutputEnergy"] / CAP2ACT / df["AFA"]
     return df
+
+
+def normalize_assumption_keys(df: pd.DataFrame) -> None:
+    """Clean technology and fuel join keys in place."""
+    for col in ["Technology", "Fuel"]:
+        if col in df.columns:
+            df[col] = (
+                df[col]
+                .astype(str)
+                .str.replace("\ufeff", "", regex=False)
+                .str.replace(r"\s+", " ", regex=True)
+                .str.strip()
+            )
+
+
+def tidy_data(df: pd.DataFrame, base_year: int) -> pd.DataFrame:
+    """Tidy data and column selection."""
+    value_units = {
+        "Life": "Years",
+        "Efficiency": "%",
+        "CAPEX": f"{base_year} NZD/kW",
+        "OPEX": f"{base_year} NZD/kW/year",
+        "AFA": "%",
+        "InputEnergy": "PJ",
+        "OutputEnergy": "PJ",
+        "Capacity": "GW",
+    }
+
+    # Rename first to avoid conflicts
+    if "Value" in df.columns:
+        df.rename(columns={"Value": "ExistingValue"}, inplace=True)
+
+    melt_columns = [col for col in value_units if col in df.columns]
+    id_cols = df.columns.difference(melt_columns).tolist()
+
+    if not melt_columns:
+        raise ValueError(
+            "No columns to melt. Ensure assumption joins added the expected columns."
+        )
+
+    df = df.melt(
+        id_vars=id_cols,
+        value_vars=melt_columns,
+        var_name="Variable",
+        value_name="Value",
+    )
+    df["Unit"] = df["Variable"].map(value_units)
+
+    # Drop the old Value column if it survived through as "ExistingValue"
+    if "ExistingValue" in df.columns:
+        df = df.drop(columns=["ExistingValue", "PriceBaseYear"])
+
+    return df
+
+
+def add_capital_assumptions(
+    df: pd.DataFrame,
+    eff_data: pd.DataFrame,
+    lif_data: pd.DataFrame,
+    cap_data: pd.DataFrame,
+) -> pd.DataFrame:
+    """Clean join keys and add efficiencies, lifetimes, and capital costs."""
+    df = df.copy()
+    for dataset in [eff_data, lif_data, cap_data, df]:
+        normalize_assumption_keys(dataset)
+    df = add_efficiencies(df, eff_data)
+    df = add_lifetimes(df, lif_data)
+    return add_capex(df, cap_data)
+
+
+def add_operating_assumptions(
+    df: pd.DataFrame,
+    opex_data: pd.DataFrame,
+    afa_data: pd.DataFrame,
+    base_year: int,
+) -> pd.DataFrame:
+    """Add operating costs and availability, estimate capacity, and reshape."""
+    for dataset in [opex_data, afa_data]:
+        normalize_assumption_keys(dataset)
+    df = add_opex(df, opex_data)
+    df = add_afa(df, afa_data)
+    df = estimate_capacity(df)
+    return tidy_data(df, base_year)

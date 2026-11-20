@@ -8,6 +8,7 @@ import tomllib
 from pathlib import Path
 
 import pandas as pd
+
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR, CAP2ACT_PJGW
 from prepare_times_nz.stage_2.industry.common import (
     INDUSTRY_ASSUMPTIONS,

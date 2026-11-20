@@ -2,6 +2,7 @@
 
 import pandas as pd
 import pytest
+
 from prepare_times_nz.utilities.energy_balance import (
     get_balance_value,
     select_gross_pj,

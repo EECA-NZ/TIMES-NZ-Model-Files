@@ -4,6 +4,7 @@ Each depends on the previous
 """
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.commercial.commercial_add_assumptions import (
     main as add_assumptions,
 )

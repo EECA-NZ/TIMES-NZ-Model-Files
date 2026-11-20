@@ -1,6 +1,7 @@
 """Unit tests for the base/SubRES biofuel split."""
 
 import pandas as pd
+
 from prepare_times_nz.stage_4.biofuels import (
     FUTURE_BIOFUEL_CONVERSIONS,
     split_biofuel_parameters,

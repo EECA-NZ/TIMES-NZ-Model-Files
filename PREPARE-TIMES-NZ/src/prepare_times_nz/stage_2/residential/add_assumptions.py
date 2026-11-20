@@ -12,6 +12,7 @@ Loads residential data and adds all assumption inputs
 """
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.common.add_tech_assumptions import (
     add_afa,
     add_capex,

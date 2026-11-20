@@ -5,6 +5,7 @@ import subprocess
 from pathlib import Path
 
 import pytest
+
 import solve_times_nz.execution as execution
 from solve_times_nz.case import (
     CaseConfigurationError,

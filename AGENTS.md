@@ -42,4 +42,4 @@ In a sandbox where uv cannot write its home-directory cache, prefix uv commands 
 
 ## Modules 
 
-Project modules (PREPARE-TIMES-NZ, SOLVE-TIMES-NZ, TIMES-NZ-INTERNAL-QA) may have their own AGENTS.md files with specific instructions. Ensure you read these if working in those modules. 
+Project modules (PREPARE-TIMES-NZ, SOLVE-TIMES-NZ, QA-TIMES-NZ) may have their own AGENTS.md files with specific instructions. Ensure you read these if working in those modules.

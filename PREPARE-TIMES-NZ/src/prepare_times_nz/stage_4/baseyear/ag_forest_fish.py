@@ -5,6 +5,7 @@ And a few other basic inputs defined in the constants section."""
 
 import numpy as np
 import pandas as pd
+
 from prepare_times_nz.stage_4.common import (
     add_extra_input_to_topology,
     get_processes_with_input_commodity,

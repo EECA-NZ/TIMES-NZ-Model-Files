@@ -17,6 +17,7 @@ codes are stored in residential concordances
 from typing import List
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.common.add_times_codes import add_times_codes
 from prepare_times_nz.stage_2.residential.common import (
     PREPRO_DF_NAME_STEP3,

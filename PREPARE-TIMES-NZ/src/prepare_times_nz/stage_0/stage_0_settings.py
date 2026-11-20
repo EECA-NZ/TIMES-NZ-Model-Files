@@ -20,6 +20,7 @@ Year fractions are processed separately in load curves so are not included here
 import tomllib
 
 import pandas as pd
+
 from prepare_times_nz.utilities.filepaths import DATA_INTERMEDIATE, DATA_RAW
 from prepare_times_nz.utilities.logger_setup import logger
 

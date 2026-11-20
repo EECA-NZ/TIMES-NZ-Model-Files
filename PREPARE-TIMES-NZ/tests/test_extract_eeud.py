@@ -4,6 +4,7 @@ import importlib.util
 from pathlib import Path
 
 import pandas as pd
+
 from prepare_times_nz.stage_1.eeud import append_unallocated_onsite_generation
 
 

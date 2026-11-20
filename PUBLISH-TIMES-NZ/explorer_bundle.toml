@@ -1,0 +1,7 @@
+# define the bundle used by the app 
+
+release = "v3.0.9-standard"
+
+[column_value_mappings.Region]
+NI = "North Island"
+SI = "South Island"

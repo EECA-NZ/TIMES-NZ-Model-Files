@@ -1,4 +1,7 @@
+"""Join TIMES code mappings to input data and report missing codes."""
+
 import pandas as pd
+
 from prepare_times_nz.utilities.logger_setup import logger
 
 RUN_TESTS = True

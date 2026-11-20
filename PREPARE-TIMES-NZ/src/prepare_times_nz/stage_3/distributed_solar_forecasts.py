@@ -17,6 +17,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pandas as pd
+
 from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     EXTERNAL_DATA,

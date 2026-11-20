@@ -35,12 +35,13 @@ For a failed or adjusted reporting run, regenerate parquets without solving:
 uv run --directory SOLVE-TIMES-NZ solve-times-nz postprocess <run-dir>
 ```
 
-### Step 4: Visualization (internal qa method)
+### Step 4: Run the Explorer
 
-Visualize using the TIMES-NZ visualization tools. 
+Build a release and select it in `PUBLISH-TIMES-NZ/explorer_bundle.toml`, as
+described in the [PUBLISH guide](../publish_times_nz/index.md), then run:
 
 ```bash
-uv run --directory TIMES-NZ-INTERNAL-QA python run_local.py
+uv run --directory PUBLISH-TIMES-NZ python run_local.py
 ```
 
-Builds the explorer app to investigate results locally.
+This starts the Explorer to investigate the selected release locally.

@@ -1,0 +1,379 @@
+"""
+In-app data processing methods
+These are designed to efficiently build lazy pipelines from raw data
+And bundle things into charts using as little memory and as fast as possible
+
+THis should NOT be considered post-processing, as it doesn't do any labelling or anything like that
+
+These are effectively chart aggregation functions, intended to be used dynamically in the app
+
+
+"""
+
+import io
+
+import numpy as np
+import pandas as pd
+import polars as pl
+
+from publish_times_nz.app.helpers.filters import apply_filters
+from publish_times_nz.app.helpers.timeslices import (
+    TIMESLICE_ORDER,
+    get_timeslice_long_label,
+)
+from publish_times_nz.utilities.value_mappings import apply_value_mappings_pl
+
+_MEASURE_COLUMNS = {"Period", "Value"}
+_TIMESLICE_LONG_LABELS = {
+    timeslice: get_timeslice_long_label(timeslice) for timeslice in TIMESLICE_ORDER
+}
+
+# The chart layer always expects a grouping column. When users select Total,
+# aggregate over the real grouping dimensions and provide this single-valued
+# synthetic group instead.
+TOTAL_GROUP_OPTION = "__total__"
+TOTAL_GROUP_COLUMN = "Grouping"
+TOTAL_GROUP_VALUE = "Total"
+
+
+def show_df_size(df):
+    """small helper function to print the mb size of a df"""
+    # just used in performance testing
+    size = df.estimated_size()
+    print(round(size / 1e6, 3), "MB")
+
+
+def ensure_lazy(x) -> pl.LazyFrame:
+    """forces an input to be lazy
+    Intended to make frame consistency a bit
+        easier to manage when we're swapping types a lot
+    """
+    if isinstance(x, pl.LazyFrame):
+        return x
+    if isinstance(x, pl.DataFrame):
+        return x.lazy()
+    raise TypeError(f"Expected LazyFrame or DataFrame, got {type(x)}")
+
+
+def fill_null_dimension_values(
+    df: pl.LazyFrame | pl.DataFrame,
+) -> pl.LazyFrame | pl.DataFrame:
+    """
+    Fill nulls in label/dimension columns with the app's placeholder value.
+
+    Polars' dataframe-level fill_null("-") does not affect Null-typed columns.
+    Those can appear when a dimension is entirely missing in a parquet input,
+    such as Fuel for infeasible energy dummy commodities.
+    """
+    schema = df.collect_schema() if isinstance(df, pl.LazyFrame) else df.schema
+    expressions = []
+
+    for column, dtype in schema.items():
+        if column in _MEASURE_COLUMNS:
+            continue
+
+        if dtype == pl.Null:
+            expressions.append(pl.lit("-").alias(column))
+        elif dtype in (pl.String, pl.Categorical):
+            expressions.append(
+                pl.col(column).cast(pl.String).fill_null("-").alias(column)
+            )
+
+    if not expressions:
+        return df
+
+    return df.with_columns(expressions)
+
+
+def complete_periods(
+    df: pl.LazyFrame, period_list, category_cols=None, value_col="Value"
+) -> pl.LazyFrame:
+    """
+    Fill in missing periods with explicit zero values for each category combination
+    This is the best way to ensure the years are explicit even if we don't use all years
+    We probably will for the final ones, though, making this obsolete
+
+    Whatever comes in, everything is forced to be lazy for consistency
+    """
+    # Create a DataFrame from the complete period list
+    periods_lf = pl.DataFrame({"Period": period_list})
+
+    # always lazy
+    periods_lf = ensure_lazy(periods_lf)
+    df = ensure_lazy(df)
+
+    if category_cols:
+        # Unique category combinations
+        categories = df.select(category_cols).unique()
+
+        # Cross join to create all combinations of Period × categories
+        template = periods_lf.join(categories, how="cross")
+
+        # Left join with original data
+        result = template.join(df, on=["Period"] + category_cols, how="left")
+    else:
+        # Just merge periods with original data
+        result = periods_lf.join(df, on="Period", how="left")
+
+    # Preserve whether a row was absent in source data so charts can distinguish
+    # true zeroes from completed placeholder periods.
+    result = result.with_columns(pl.col(value_col).is_null().alias("MissingData"))
+
+    # Fill missing values with 0 in the value column
+    result = result.with_columns(pl.col(value_col).fill_null(0))
+
+    return result
+
+
+def get_model_output_years(df: pl.LazyFrame | pl.DataFrame) -> set[int]:
+    """Return the years explicitly present in the source model output."""
+    lf = ensure_lazy(df)
+    period_values = (
+        lf.select("Period")
+        .drop_nulls()
+        .unique()
+        .collect()
+        .get_column("Period")
+        .to_list()
+    )
+    return {int(period) for period in period_values}
+
+
+def read_data_pl(file_location, scenarios) -> pl.LazyFrame:
+    """
+    Minor tidying of the base input using Polars
+    Include scenario filtering, and lazy output
+    """
+
+    # eager read; for lazy, use pl.scan_parquet
+    df = (
+        pl.scan_parquet(file_location).with_columns(pl.col("Period").cast(pl.Int64))
+        # filter here? we reread when the scenario filter changes.
+        # this keeps excess scenarios out of memory
+        .filter(pl.col("Scenario").is_in(scenarios))
+    )
+
+    df = apply_value_mappings_pl(df)
+    return fill_null_dimension_values(df)
+
+
+def filter_df_for_variable(
+    df: pl.LazyFrame, variable, collect=False
+) -> pl.LazyFrame | pl.DataFrame:
+    """
+    Wrapper: filter for a variable
+    Optionally, we can collect the lazyframe now
+    We may end up never using this if each table is filtered beforehand
+    But it's here for now
+    """
+    df = df.filter(pl.col("Variable") == variable)
+
+    if collect:
+        return df.collect()
+    return df
+
+
+def aggregate_by_group(df: pl.LazyFrame | pl.DataFrame, group_vars: list):
+    """
+    Short hand for summing a value across groups
+    Takes a list of cols to group by
+    sums "Value" across these
+    works on lazy or not lazy
+    """
+
+    df = df.group_by(group_vars).agg(pl.col("Value").sum().alias("Value"))
+    # in order
+    df = df.select(group_vars + ["Value"])
+    # sort
+    df = df.sort(group_vars)
+    return df
+
+
+def get_filter_options_from_data(df: pl.DataFrame, filters: dict):
+    """
+    Returns a dict of possible filter options as a polars df
+    Based on the input filter settings dict
+    """
+    # identify all filter columns
+    cols = [d["col"] for d in filters]
+    # take only those values in the dataframe
+    out = df.select(cols).drop_nulls().unique()
+    return out
+
+
+# @lru_cache(maxsize=16)
+def make_chart_data(
+    lf: pl.LazyFrame,
+    _base_cols,
+    group_col,
+    scen_list,
+    period_range=range(2023, 2051),
+    complete_missing_periods: bool = True,
+) -> dict:
+    """
+    A cached collection of a pandas df expected to go directly to plotly
+    Assumes a lazy polars input lf and various parameter inputs
+
+    We complete the bars by the completed period range to allow display on bars
+
+    Includes several additional parameters for the chart inputs.
+    Outputs everything as a dict.
+    """
+    # ensure lazy
+    lf = ensure_lazy(lf)
+    model_output_years = get_model_output_years(lf)
+
+    if complete_missing_periods:
+        category_cols = [
+            col for col in lf.collect_schema().names() if col not in ["Period", "Value"]
+        ]
+        lf = complete_periods(lf, list(period_range), category_cols=category_cols)
+
+    # collect as pandas df
+    pdf = lf.collect().to_pandas(use_pyarrow_extension_array=True)
+
+    if "MissingData" not in pdf.columns:
+        pdf["MissingData"] = False
+
+    # Only non-model years are eligible for interpolation. Model output years
+    # remain real values, including explicit or completed zeroes.
+    interp_group_cols = [
+        col for col in pdf.columns if col not in ["Period", "Value", "MissingData"]
+    ]
+    pdf = pdf.sort_values(interp_group_cols + ["Period"]).copy()
+    pdf["MissingData"] = pdf["MissingData"] & ~pdf["Period"].isin(model_output_years)
+    pdf.loc[pdf["MissingData"], "Value"] = np.nan
+    pdf["Value"] = pdf.groupby(interp_group_cols, observed=True)["Value"].transform(
+        lambda s: s.interpolate(method="linear", limit_area="inside")
+    )
+
+    # unit defined in the data itself
+    unit_list = pdf["Unit"].unique().tolist()
+    # ensure only one (otherwise the chart is wrong)
+    if len(unit_list) > 1:
+        raise ValueError(f"Multiple units found in data: {unit_list}")
+
+    # Normalise types and ordering
+
+    # Normalize dtypes and ordering once
+    period_order = [str(p) for p in period_range]
+    # ensure we only take data that fits the range
+    pdf = pdf[pdf["Period"].isin(period_range)]
+    pdf["Period"] = pd.Categorical(
+        pdf["Period"].astype(str), categories=period_order, ordered=True
+    )
+    pdf[group_col] = pdf[group_col].astype(str)
+
+    pdf["Scenario"] = pd.Categorical(
+        pdf["Scenario"], categories=scen_list, ordered=True
+    )
+    pdf["MissingData"] = pdf["MissingData"].fillna(False).astype(bool)
+
+    # identify unit
+    if not unit_list:
+        raise ValueError(
+            "No unit values found in input data. All charts require a valid unit."
+        )
+
+    unit = unit_list[0]
+
+    # return all components for the chart as a dict
+    return {
+        "pdf": pdf,
+        "unit": unit,
+        "period_range": period_range,
+        "group_col": group_col,
+        "scen_list": scen_list,
+    }
+
+
+def make_table_data(df: pl.LazyFrame | pl.DataFrame) -> pl.LazyFrame:
+    """Add download-friendly fields without altering model-output values."""
+    lf = ensure_lazy(df)
+    available_columns = lf.collect_schema().names()
+
+    if "TimeSlice" in available_columns:
+        lf = lf.with_columns(
+            pl.col("TimeSlice").replace(_TIMESLICE_LONG_LABELS).alias("TimeSliceLabel")
+        )
+
+    return lf
+
+
+def make_display_table_data(
+    df: pl.LazyFrame | pl.DataFrame,
+) -> pl.DataFrame:
+    """Format filtered, detailed data for the on-screen table.
+
+    This helper does not aggregate, complete missing periods, or interpolate values.
+    All source dimensions remain as columns in the returned long-form dataframe.
+    """
+    lf = ensure_lazy(df)
+    available_columns = lf.collect_schema().names()
+
+    sort_columns = [
+        column
+        for column in ["Scenario", "Period", "TimeSliceLabel", "TimeSlice", "Unit"]
+        if column in available_columns
+    ]
+    sort_columns.extend(
+        column
+        for column in available_columns
+        if column not in sort_columns and column != "Value"
+    )
+
+    table_df = lf.with_columns(pl.col("Value").round(4)).sort(sort_columns).collect()
+
+    rename_columns = {"Period": "Year"}
+    if "TimeSliceLabel" in available_columns:
+        table_df = table_df.drop("TimeSlice")
+        rename_columns["TimeSliceLabel"] = "TimeSlice"
+
+    return table_df.rename(rename_columns)
+
+
+def write_polars_to_csv(df):
+    """
+    We need to encode the buffer with utf-bom
+    so that our generated downloads include macrons properly
+    """
+    if isinstance(df, pl.LazyFrame):
+        df = df.collect()
+
+    # df = df.sort(["Scenario", "Variable", "Period"])
+    # make a buffer
+    t = io.StringIO()
+    # write data to it
+    df.write_csv(t)
+    # encode utf-8 BOM, including the data
+    return b"\xef\xbb\xbf" + t.getvalue().encode("utf-8")
+
+
+def get_agg_data(
+    lf,
+    filters,
+    inputs,
+    group_vars,
+):
+    """
+    Polars filtering and grouping based on user inputs
+
+    This is designed to create data for the chart
+    It's lazy - can collect later for chart or for data download
+
+
+    """
+    # apply filters
+    lf = apply_filters(lf, filters, inputs)
+    # apply group
+    lf = aggregate_by_group(lf, group_vars)
+
+    return lf
+
+
+def to_snake_case(s):
+    """
+    Return s as snake_case.
+    """
+    parts = s.replace("-", " ").replace("_", " ").split()
+    return "_".join(p.lower() for p in parts)

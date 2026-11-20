@@ -10,6 +10,7 @@ import pandas as pd
 
 # pylint: disable = unused-import, unused-wildcard-import, wildcard-import
 from plotnine import *
+
 from prepare_times_nz.utilities.filepaths import ANALYSIS, STAGE_1_DATA, STAGE_2_DATA
 
 OUTPUT_LOCATION = ANALYSIS / "results/load_curves"

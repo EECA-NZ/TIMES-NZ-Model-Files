@@ -10,6 +10,7 @@ codes are stored in commercial concordances.
 from typing import List
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.commercial.common import (
     COMMERCIAL_CONCORDANCES,
     PREPRO_DF_NAME_STEP3,

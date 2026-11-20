@@ -24,6 +24,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.utilities.data_cleaning import pascal_case, remove_diacritics
 from prepare_times_nz.utilities.deflator import deflate_data

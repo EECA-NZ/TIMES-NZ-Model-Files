@@ -2,6 +2,8 @@
 
 import pandas as pd
 import pytest
+from xl2times.datatypes import EmbeddedXlTable, Tag
+
 from solve_times_nz.xl2times_compat import (
     _convert_to_veda_precision,
     _drop_generated_residuals_after_legacy_horizon,
@@ -11,7 +13,6 @@ from solve_times_nz.xl2times_compat import (
     _project_demands_with_zero_continuation,
     _with_optional_descriptions,
 )
-from xl2times.datatypes import EmbeddedXlTable, Tag
 
 
 def test_veda_precision_retains_fifteen_significant_digits() -> None:

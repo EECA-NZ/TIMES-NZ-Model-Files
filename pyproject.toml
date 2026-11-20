@@ -4,9 +4,10 @@ version = "3.0.9"
 description = "Development workspace for TIMES-NZ model tooling"
 requires-python = ">=3.12,<4"
 dependencies = [
+    "publish-times-nz",
     "prepare-times-nz",
     "solve-times-nz",
-    "times-nz-internal-qa",
+    "qa-times-nz",
 ]
 
 [dependency-groups]
@@ -23,7 +24,6 @@ dev = [
     "pytest>=9.0.3,<10",
     "rsconnect-python>=1.29.0,<2",
     "tomli-w>=1.2,<2",
-    "yamllint>=1.0,<2",
 ]
 docs = [
     "docxbuilder[math]>=1.2.0,<2",
@@ -48,15 +48,44 @@ override-dependencies = [
 ]
 
 [tool.uv.sources]
+publish-times-nz = { workspace = true }
 prepare-times-nz = { workspace = true }
 solve-times-nz = { workspace = true }
-times-nz-internal-qa = { workspace = true }
+qa-times-nz = { workspace = true }
 
 [tool.uv.workspace]
-members = ["PREPARE-TIMES-NZ", "SOLVE-TIMES-NZ", "TIMES-NZ-INTERNAL-QA"]
+members = [
+    "PREPARE-TIMES-NZ",
+    "PUBLISH-TIMES-NZ",
+    "SOLVE-TIMES-NZ",
+    "QA-TIMES-NZ",
+]
 
 [tool.black]
 target-version = ["py312"]
+
+[tool.pylint.similarities]
+min-similarity-lines = 10
+
+[tool.isort]
+profile = "black"
+known_first_party = [
+    "prepare_times_nz",
+    "solve_times_nz",
+    "publish_times_nz",
+    "qa_times_nz",
+]
+
+[tool.coverage.run]
+source = [
+    "PREPARE-TIMES-NZ/src",
+    "SOLVE-TIMES-NZ/src",
+    "PUBLISH-TIMES-NZ/src",
+    "QA-TIMES-NZ/src",
+]
+
+[tool.coverage.report]
+include_namespace_packages = true
 
 [tool.commitizen]
 name = "cz_conventional_commits"

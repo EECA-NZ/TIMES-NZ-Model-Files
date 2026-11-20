@@ -1,0 +1,141 @@
+"""
+Defines the ui for the internal app
+"""
+
+import json
+import os
+
+# Libraries
+from shiny import ui
+
+from publish_times_nz.app.app_module_demand import demand_ui
+from publish_times_nz.app.app_module_elec import elec_ui
+from publish_times_nz.app.app_module_emissions import emissions_ui
+from publish_times_nz.app.app_module_esd import esd_ui
+from publish_times_nz.app.app_module_primary_energy import primary_energy_ui
+from publish_times_nz.utilities.filepaths import ASSETS
+
+# Constants
+
+global_css = ASSETS / "styles.css"
+
+# Secrets
+
+PENDO_API_KEY = os.getenv("PENDO_API_KEY", "")
+
+# UI
+
+app_ui = ui.page_fluid(
+    ui.head_content(
+        ui.tags.title("TIMES-NZ 3.0 Explorer"),
+        # Google Fonts
+        ui.tags.link(rel="preconnect", href="https://fonts.googleapis.com"),
+        ui.tags.link(
+            rel="preconnect",
+            href="https://fonts.gstatic.com",
+            crossorigin="anonymous",
+        ),
+        ui.tags.link(
+            rel="stylesheet",
+            href=(
+                "https://fonts.googleapis.com/css2?"
+                "family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+            ),
+        ),
+        # Font Awesome
+        ui.tags.link(
+            rel="stylesheet",
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
+        ),
+        # IFrame resizer
+        ui.tags.script(
+            src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@latest",
+            type="text/javascript",
+        ),
+        # Pendo
+        ui.tags.script(
+            f"window.PENDO_API_KEY = {json.dumps(PENDO_API_KEY)};",
+            type="text/javascript",
+        ),
+        ui.tags.script(
+            src="js/pendo-analytics.js",
+            type="text/javascript",
+        ),
+        # Selectizer auto-position dropdowns
+        ui.tags.script(
+            src="js/auto-position.js",
+            type="text/javascript",
+        ),
+        ui.tags.script(
+            src="js/chart-toggle-width.js",
+            type="text/javascript",
+        ),
+        ui.tags.script(
+            src="js/plotly-chart-resize.js",
+            type="text/javascript",
+        ),
+        ui.tags.script(
+            src="js/custom-plotly-hover.js",
+            type="text/javascript",
+        ),
+        # Your global CSS (last so it can override everything)
+        ui.include_css(global_css),
+    ),
+    # HEADER PANEL
+    ui.div(
+        ui.div(
+            ui.div(
+                ui.tags.img(
+                    src="assets/only_EECA_black.png",
+                    alt="EECA logo",
+                    class_="app-title-logo",
+                ),
+                ui.tags.h2("TIMES-NZ Explorer", class_="app-explorer-title"),
+                class_="app-title-block",
+            ),
+            ui.div(
+                ui.div(
+                    ui.output_ui("select_scenario_a_ui"),
+                    ui.div(
+                        ui.tags.h4(
+                            "Comparison scenario (optional):",
+                            class_="filter-section-title",
+                        ),
+                        ui.input_selectize(
+                            "scenario_b",
+                            label=None,
+                            choices={"__none__": "None"},
+                            selected="__none__",
+                            options={"plugins": ["auto_position"]},
+                        ),
+                        class_="scenario-selector-field",
+                    ),
+                    class_="scenario-selector-controls",
+                ),
+                class_="scenario-selector-bar",
+            ),
+            class_="app-header-row",
+        ),
+        class_="app-header-panel",
+    ),
+    # EXPLORER NAVSET PAGES
+    ui.div(
+        ui.navset_tab(
+            ui.nav_panel("Energy demand", demand_ui),
+            ui.nav_panel("Electricity generation", elec_ui),
+            ui.nav_panel("Emissions", emissions_ui),
+            ui.nav_panel("Energy service demand", esd_ui),
+            ui.nav_panel("Primary energy", primary_energy_ui),
+        ),
+        class_="navset-large",
+    ),
+)
+
+
+app_ui = ui.div(
+    ui.div(ui.div(class_="loader"), id="page-loader-parent"),
+    app_ui,
+    # Inserts a tag to enable the iframe to dynamically resize to this point.
+    ui.HTML("<div data-iframe-height></div>"),
+    id="app-parent",
+)

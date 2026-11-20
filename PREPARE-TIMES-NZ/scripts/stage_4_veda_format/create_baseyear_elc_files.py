@@ -14,6 +14,7 @@ from typing import Dict, Tuple
 
 import numpy as np
 import pandas as pd
+
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR, CAP2ACT_PJGW
 from prepare_times_nz.stage_4.electricity.statistical_difference import (
     create_statistical_difference_parameters,

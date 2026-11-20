@@ -22,6 +22,7 @@ from numbers import Integral, Real
 import pandas as pd
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font
+
 from prepare_times_nz.utilities.filepaths import OUTPUT_LOCATION
 from prepare_times_nz.utilities.logger_setup import logger
 

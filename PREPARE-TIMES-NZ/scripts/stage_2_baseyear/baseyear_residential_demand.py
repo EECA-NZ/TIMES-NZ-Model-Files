@@ -4,6 +4,7 @@ Each depends on the previous
 """
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.residential.add_assumptions import main as add_assumptions
 from prepare_times_nz.stage_2.residential.common import (
     PREPRO_DF_NAME_STEP4,
