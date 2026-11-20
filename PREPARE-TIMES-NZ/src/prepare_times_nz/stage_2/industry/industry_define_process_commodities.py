@@ -69,6 +69,7 @@ from typing import List
 import numpy as np
 import pandas as pd
 
+from prepare_times_nz.stage_2.common.add_times_codes import add_times_codes
 from prepare_times_nz.stage_2.industry.common import (
     INDUSTRY_CONCORDANCES,
     PREPRO_DF_NAME_STEP3,
@@ -96,39 +97,6 @@ FUEL_CODES = pd.read_csv(f"{INDUSTRY_CONCORDANCES}/fuel_codes.csv")
 # ----------------------------------------------------------------------------
 
 
-def check_missing_times_codes(df: pd.DataFrame, varname: str) -> None:
-    """Warn if any values lacked a TIMES code during a merge."""
-    varname_times = f"{varname}_TIMES"
-    missing = df[df[varname_times].isna()][[varname, varname_times]].drop_duplicates()
-
-    if missing.empty:
-        logger.info("Full %s code coverage found", varname)
-        return
-
-    logger.warning(
-        "Warning: the following %d '%s' items have no TIMES code equivalent",
-        len(missing),
-        varname,
-    )
-    for _, row in missing.iterrows():
-        logger.warning("        %s", row[varname])
-    logger.warning(
-        "This will lead to issues: please check the input concordance file and "
-        "ensure you have full '%s' coverage",
-        varname,
-    )
-
-
-def add_times_codes(
-    df: pd.DataFrame, code_mapping: pd.DataFrame, varname: str
-) -> pd.DataFrame:
-    """Left‑join *code_mapping* onto *df* and (optionally) run coverage tests."""
-    df = pd.merge(df, code_mapping, on=varname, how="left")
-    if RUN_TESTS:
-        check_missing_times_codes(df, varname)
-    return df
-
-
 def define_process_commodities(df: pd.DataFrame) -> pd.DataFrame:
     """Add ``Process``, ``CommodityIn``, and ``CommodityOut`` columns to *df*."""
     original_columns: List[str] = list(df.columns)
@@ -146,10 +114,10 @@ def define_process_commodities(df: pd.DataFrame) -> pd.DataFrame:
     )
 
     # Attach TIMES codes
-    df = add_times_codes(df, USE_CODES, "EndUse")
-    df = add_times_codes(df, TECH_CODES, "Technology")
-    df = add_times_codes(df, SECTOR_CODES, "Sector")
-    df = add_times_codes(df, FUEL_CODES, "Fuel")
+    df = add_times_codes(df, USE_CODES, "EndUse", run_tests=RUN_TESTS)
+    df = add_times_codes(df, TECH_CODES, "Technology", run_tests=RUN_TESTS)
+    df = add_times_codes(df, SECTOR_CODES, "Sector", run_tests=RUN_TESTS)
+    df = add_times_codes(df, FUEL_CODES, "Fuel", run_tests=RUN_TESTS)
 
     # Default naming rules
     df["Process"] = df[
