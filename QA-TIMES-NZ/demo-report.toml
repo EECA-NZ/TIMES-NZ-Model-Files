@@ -1,0 +1,19 @@
+tolerance = 0.05
+
+[baseline]
+source = "RELEASE"
+release = "v308"
+scenario = "steady-v308"
+label = "Steady v308"
+
+[candidate]
+source = "RELEASE"
+release = "v308"
+scenario = "shift-v308"
+label = "Shift v308"
+
+# [candidate]
+# source = "RELEASE"
+# release = "v3.0.9-standard"
+# scenario = "steady-v3.0.9"
+# label = "Steady v309"

@@ -6,6 +6,7 @@ readme = "readme.md"
 authors = [{ name = "EECA" }]
 requires-python = ">=3.12,<4"
 dependencies = [
+    "matplotlib>=3.10,<4",
     "doit>=0.36,<0.37",
     "numpy>=2.0,<3",
     "pandas>=2.2,<3",
