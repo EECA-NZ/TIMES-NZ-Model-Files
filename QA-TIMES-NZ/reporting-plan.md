@@ -6,6 +6,10 @@ Status: proposed implementation plan.
 
 **1: Recover v308 raw results and matching classifications**
 
+Completed 24 November 2026: recovered all ten release scenarios and recorded the
+explicitly approved use of current fuel classifications as a one-off legacy
+adjustment. See [the recovery record](v308-recovery.md) for validation and artefacts.
+
 Create `raw_results.parquet` from the archived v308 results for validation.
 Do not rerun v308 post-processing: current labels and codes do not match that
 release. Identify the archived results and renewable classifications in the
