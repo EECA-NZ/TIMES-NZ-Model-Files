@@ -146,7 +146,9 @@ conventions.
 
 SOLVE summaries zero-fill absent rows over applicable model years and categories,
 preserving exceptions specified by the existing analyses. QA compares those
-prepared zeroes. Missing source datasets, invalid classifications and existing
+prepared zeroes without category completion or zero-filling in the report.
+Categories present in only one selected input remain visible with N/A comparisons.
+Missing source datasets, invalid classifications and existing
 nulls remain distinguishable from zero. Check years, exclusions and grouping
 before interpreting totals across versions. Additional columns do not themselves
 make a metric incomparable.

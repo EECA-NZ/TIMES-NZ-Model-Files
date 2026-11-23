@@ -45,6 +45,12 @@ reviewed battery/demand-flex timeslice completion and the demo's energy-series
 completion. This applies to absent rows, not existing null values, missing source
 datasets, invalid mappings or undefined ratios.
 
+Generate summaries within SOLVE post-processing before marking it completed.
+Record their relative paths in `postprocessing.files` alongside raw and labelled
+outputs. Invalidate completion before a rerun, and remove superseded summaries
+only after all replacement writes succeed, before marking completion again.
+A failed summary generation must leave the run ineligible for publication or QA.
+
 Reproduce the existing CSV results using v308, independently of PNG rendering,
 including units, labels, grouping and zero-filling. Bundle v308 summaries alongside
 its labelled results without rerunning its post-processing. One-off v308 backfill
@@ -66,8 +72,12 @@ Provide a command such as `qa-times-nz generate_qa --main|--dev`, a tracked main
 configuration and a generated, ignored developer configuration. Do not overwrite
 an existing developer configuration when generating it.
 
-QA owns input selection and validation, year/category alignment, differences,
-tolerances, calibration assessments and report presentation. Write self-contained
+QA owns input selection and validation, matching supplied year/category keys,
+differences, tolerances, calibration assessments and report presentation. Category
+completion and zero-filling happen entirely in SOLVE summary generation; remove
+the demo's report-side completion. QA does not invent missing rows or zeroes,
+including categories appearing only in the other selected run. Unmatched rows
+remain visible with N/A comparisons. Write self-contained
 HTML and comparison CSVs. If a chart's dataset is unavailable on both sides, show
 "no data found"; if available on one side, display that side and N/A comparisons.
 Incomplete runs, malformed data and invalid mappings remain input errors.
@@ -92,6 +102,12 @@ for the latter without migrating unrelated calculations as a prerequisite.
 
 Add Black, isort and Pylint checks matching the other modules. QA tests already
 run in CI; no separate test pipeline is needed.
+
+**9: Rewrite the Sphinx documentation last**
+
+After implementation and validation are complete, rewrite the Sphinx developer
+guides to describe the finished SOLVE, PUBLISH and QA workflow, commands and
+configuration. Leave this documentation rewrite until all other steps are done.
 
 ## Purpose and ownership
 
@@ -329,8 +345,10 @@ absolute difference.
 
 SOLVE summaries zero-fill absent rows over applicable model years and categories
 unless the existing analysis specifies an exception. QA compares those prepared
-zeroes directly. Keep unavailable source datasets, invalid classifications and
-existing null values distinguishable from zero. Show unavailable chart data as
+zeroes directly, with no report-side category completion or zero-filling. Match
+the supplied keys and show unmatched rows with N/A comparisons, including when a
+category occurs only in the other run. Keep unavailable source datasets, invalid
+classifications and existing null values distinguishable from zero. Show unavailable chart data as
 N/A, state the compared years and preserve coverage exceptions from each summary
 rather than silently comparing only the intersection.
 
@@ -370,11 +388,16 @@ Follow the numbered tasks above; summary calculations belong in SOLVE throughout
 - Test migrated summary calculations with fake dataframes for grouping, units,
   zero-filling and any existing analysis exceptions. Outside pytest, compare v308
   summaries with the existing CSV results for the same scenarios and selections.
+- Test summary failure and retry: completion stays invalid until all outputs are
+  written, summary paths appear in the manifest, and successful reruns remove
+  superseded summaries before marking completion.
 - Verify PUBLISH batches the same relative `summaries/` paths without recalculating
   metrics. Publication CSVs consume these prepared tables and preserve provenance.
 - Test QA release/run selection, timestamp pinning, old string-year compatibility,
   repeated scenario IDs in different runs, unavailable charts, zero baselines and
-  share differences. Check incomplete runs and invalid data fail explicitly.
+  share differences. Verify categories present in only one input remain unmatched
+  with N/A comparisons, without inserting zeroes. Check incomplete runs and
+  invalid data fail explicitly.
 - Generate a Steady v308 versus Steady v309 HTML/CSV report using a SOLVE candidate,
   then repeat with that candidate packaged into a release. The summary values and
   differences must agree; only source provenance should differ. Independently
