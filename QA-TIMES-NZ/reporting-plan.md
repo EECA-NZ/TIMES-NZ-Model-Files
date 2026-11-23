@@ -24,6 +24,11 @@ Correct annual `Period` types to integer in SOLVE post-processing, while continu
 
 Add QA input selection: from the source `PUBLISH` plus release/scenario, or `SOLVE` plus scenario and optional timestamp, with resolved inputs shown explicitly.
 
+Resolve either source to its result root, then read the same relative `summaries/`
+dataset paths. QA must be able to compare a RELEASE baseline with a SOLVE
+candidate directly, without publishing the solve first. Verify this with synthetic
+release/run fixtures, including rejection of an incomplete SOLVE run.
+
 **5: Build QA metrics** 
 
 We have a working demo already, which will be I am sure tweaked and expanded later as we go. But the bones are good. To-do; incorporate correctly into pipeline, ensure that the config is user-specific (ie not git-tracked) by having a "main" config that is git-tracked, and generating a "dev" config for developers to muck around with without messing with git. create a command like qa-times-nz generate_qa --main|--dev. extraordinarily minimal data handling here, everything else should exist. 
@@ -103,8 +108,13 @@ Make source selection explicit and visible in the report definition. Each input
 has `source = "RELEASE"` or `source = "SOLVE"`, plus an optional display label.
 These resolve to two existing layouts:
 
-- A PUBLISH release: `release-manifest.json` and `labelled/*.parquet`.
-- A completed SOLVE run: `manifest.json` and `postprocessed/*.parquet`.
+- A PUBLISH release: `release-manifest.json` and its processed-result root.
+- A completed SOLVE run: `manifest.json` and its `postprocessed/` result root.
+
+Both roots use `raw_results.parquet`, `labelled/` and, when produced,
+`summaries/`. PUBLISH preserves dataset paths; its legacy importer moves flat
+labelled datasets into `labelled/`. Metadata snapshots stay with SOLVE runs.
+QA support for selecting SOLVE runs remains planned.
 
 Reuse PUBLISH's release manifest validation and dataset lookup rather than
 creating another release format. Declare the workspace dependency if QA imports
@@ -234,11 +244,11 @@ conventions across the selected runs.
 
 Calculate renewable share of TFEC and renewable share of electricity generation
 once per scenario/year in SOLVE post-processing. These are reusable indicators,
-not calculations owned by the QA report. Write `postprocessed/indicators.parquet`
+not calculations owned by the QA report. Write `postprocessed/summaries/indicators.parquet`
 with `Scenario`, integer `Period`, `Variable`, `Value` and `Unit` columns. Store
 shares as decimals from 0 to 1 with unit `Share`.
 
-PUBLISH should gather the indicators into `labelled/indicators.parquet` in each
+PUBLISH should gather the indicators into `summaries/indicators.parquet` in each
 release. QA, the Explorer and publication exports should read these same values
 rather than implement their own versions. Summary CSVs can export the indicators
 without recalculating them.

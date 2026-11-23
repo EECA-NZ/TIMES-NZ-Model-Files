@@ -50,6 +50,9 @@ def test_postprocess_marks_complete_only_after_all_writes(
         encoding="utf-8",
     )
     (tmp_path / "results.vd").touch()
+    (tmp_path / "postprocessed").mkdir()
+    old_output = tmp_path / "postprocessed/energy_demand.parquet"
+    old_output.write_bytes(b"old flat output")
     frame = pd.DataFrame({"Value": [1.0]})
     monkeypatch.setattr(postprocessing, "read_vd", lambda _: frame.copy())
     functions = (
@@ -87,12 +90,18 @@ def test_postprocess_marks_complete_only_after_all_writes(
         assert json.loads(manifest_path.read_text())["postprocessing"] == {
             "status": "running"
         }
+        assert old_output.read_bytes() == b"old flat output"
     else:
         output = postprocessing.postprocess_run(tmp_path, tmp_path)
         status = json.loads(manifest_path.read_text())["postprocessing"]
         assert status["status"] == "completed"
         assert status["completed_at"]
-        assert set(status["files"]) == {path.name for path in output.glob("*.parquet")}
+        assert set(status["files"]) == {
+            path.relative_to(output).as_posix() for path in output.rglob("*.parquet")
+        }
+        assert (output / "raw_results.parquet").is_file()
+        assert (output / "labelled/energy_demand.parquet").is_file()
+        assert not (output / "energy_demand.parquet").exists()
 
 
 def _metadata(tmp_path):

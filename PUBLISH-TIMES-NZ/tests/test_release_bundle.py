@@ -27,10 +27,9 @@ def _write_release(tmp_path, **changes):
         pa.table({"Scenario": ["steady"], "Value": [1.0]}),
         tmp_path / "labelled" / "energy_demand.parquet",
     )
-    (tmp_path / "raw").mkdir()
     pq.write_table(
         pa.table({"Scenario": ["steady"], "Value": [1.0]}),
-        tmp_path / "raw" / "raw_results.parquet",
+        tmp_path / "raw_results.parquet",
     )
     (tmp_path / "release-manifest.json").write_text(
         json.dumps(manifest), encoding="utf-8"
@@ -46,7 +45,7 @@ def test_load_bundle_exposes_all_parquets_and_scenarios(tmp_path):
     assert bundle.scenarios == ({"id": "steady", "label": "Steady"},)
     assert bundle.parquet_files == (
         tmp_path / "labelled" / "energy_demand.parquet",
-        tmp_path / "raw" / "raw_results.parquet",
+        tmp_path / "raw_results.parquet",
     )
     assert bundle.labelled_file("energy_demand.parquet") == (
         tmp_path / "labelled" / "energy_demand.parquet"

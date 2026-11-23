@@ -619,12 +619,23 @@ def postprocess_run(run_dir: Path, metadata_dir: Path) -> Path:
         "emissions.parquet": emissions(results, metadata_dir),
         "carbon_costs.parquet": carbon_costs(results),
     }
+    written_files = []
     for name, dataframe in outputs.items():
-        dataframe.to_parquet(output / name, index=False)
+        relative_path = (
+            Path(name) if name == "raw_results.parquet" else Path("labelled") / name
+        )
+        destination = output / relative_path
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        dataframe.to_parquet(destination, index=False)
+        written_files.append(relative_path.as_posix())
+    # Retire old flat copies only after the replacement dataset writes succeed.
+    for name in outputs:
+        if name != "raw_results.parquet":
+            (output / name).unlink(missing_ok=True)
     manifest["postprocessing"] = {
         "status": "completed",
         "completed_at": datetime.now(UTC).isoformat(),
-        "files": list(outputs),
+        "files": written_files,
     }
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     return output

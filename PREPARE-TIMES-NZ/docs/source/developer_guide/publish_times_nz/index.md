@@ -113,7 +113,12 @@ postprocessing completion records.
 Each selected solver directory must contain exactly one scenario, and selected
 directories must not repeat a scenario ID. PUBLISH batches matching labelled
 Parquets by filename and includes every source Parquet; it places
-`raw_results.parquet` in `raw/` when available.
+`raw_results.parquet` at the release root when available. The processed-result
+layout matches SOLVE's `postprocessed/` directory: `labelled/` and `summaries/`
+dataset paths are preserved. Solver inputs must already follow this layout; flat
+labelled datasets and `raw/raw_results.parquet` are rejected with a layout error.
+The legacy importer moves flat labelled datasets into `labelled/` while preserving
+`raw_results.parquet` at the root. It also accepts the new dataset layout.
 
 Topics may intentionally occur in only some scenarios. A topic is combined from
 the runs that supply it; matching schemas are required only between files being
@@ -150,8 +155,9 @@ PUBLISH-TIMES-NZ/releases/<release-name>/
   labelled/
     energy_demand.parquet
     ...
-  raw/
-    raw_results.parquet
+  raw_results.parquet          # when available
+  summaries/                  # when produced
+    ...
 ```
 
 Every `*.parquet` file anywhere below the release directory is part of the

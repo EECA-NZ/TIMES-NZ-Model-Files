@@ -25,7 +25,10 @@ def _manifest(case="steady", version="3.0.9", day=1):
             "status": "completed",
             "completed_at": f"2026-11-{day:02}T12:00:00+00:00",
         },
-        "postprocessing": {"status": "completed", "files": ["energy_demand.parquet"]},
+        "postprocessing": {
+            "status": "completed",
+            "files": ["labelled/energy_demand.parquet"],
+        },
     }
 
 
@@ -100,13 +103,13 @@ def test_build_bundle_records_recipe_and_combines_partial_topics(tmp_path, capsy
     for case in ("steady", "shift"):
         run = tmp_path / "SOLVE-TIMES-NZ" / "build" / "solves" / f"{case}-local-run"
         output = run / "postprocessed"
-        output.mkdir(parents=True)
+        (output / "labelled").mkdir(parents=True)
         manifest = _manifest(case=case)
         (run / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
         table = pa.table({"Scenario": [manifest["scenario_name"]], "Value": [1.0]})
-        pq.write_table(table, output / "energy_demand.parquet")
+        pq.write_table(table, output / "labelled/energy_demand.parquet")
         if case == "shift":
-            pq.write_table(table, output / "sensitivity_only.parquet")
+            pq.write_table(table, output / "labelled/sensitivity_only.parquet")
 
     bundle = build_bundle(definition, tmp_path, tmp_path / "releases")
 
@@ -132,7 +135,7 @@ def test_build_bundle_records_recipe_and_combines_partial_topics(tmp_path, capsy
     ].to_pylist() == ["shift-v3.0.9"]
     assert "steady-local-run" in capsys.readouterr().out
 
-    (output / "energy_demand.parquet").unlink()
+    (output / "labelled/energy_demand.parquet").unlink()
     with pytest.raises(ReleaseBuildError, match="outputs are missing"):
         build_bundle(definition, tmp_path, tmp_path / "other-releases")
     assert not (tmp_path / "other-releases").exists()

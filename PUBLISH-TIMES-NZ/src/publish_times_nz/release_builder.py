@@ -32,6 +32,18 @@ def build_release(
 ) -> ReleaseBundle:
     """Build one release from one-scenario solver postprocessing directories."""
     sources = _source_directories(source_directories)
+    for source in sources:
+        for path in _parquet_files(source):
+            relative = path.relative_to(source)
+            if relative != Path("raw_results.parquet") and (
+                len(relative.parts) < 2
+                or relative.parts[0] not in {"labelled", "summaries"}
+                or relative.name == "raw_results.parquet"
+            ):
+                raise ReleaseBuildError(
+                    f"Invalid result layout: {path}; expected labelled/ or summaries/ "
+                    "datasets and raw_results.parquet at the result root"
+                )
     scenario_ids_by_source = {
         source: _scenario_ids(_parquet_files(source)) for source in sources
     }
@@ -57,7 +69,6 @@ def build_release(
                 f"do not match bundle definition {expected}"
             )
 
-    tables = _source_tables(sources)
     lineage = {
         "type": "solver_runs",
         "runs": [source.parent.name for source in sources],
@@ -70,7 +81,7 @@ def build_release(
             manifest["scenarios"], definition["scenarios"].values(), strict=True
         ):
             scenario["label"] = label
-    return _publish(release_name, tables, manifest, releases_root)
+    return _publish(release_name, _source_tables(sources), manifest, releases_root)
 
 
 def import_legacy_release(
@@ -81,7 +92,17 @@ def import_legacy_release(
 ) -> ReleaseBundle:
     """Import one already scenario-batched legacy result directory."""
     source = _source_directories([source_directory])[0]
-    tables = _source_tables([source])
+    tables = {}
+    for relative, source_tables in _source_tables([source]).items():
+        # Legacy archives keep labelled datasets beside raw_results.parquet.
+        destination = (
+            Path("labelled") / relative
+            if len(relative.parts) == 1 and relative.name != "raw_results.parquet"
+            else relative
+        )
+        if destination in tables:
+            raise ReleaseBuildError(f"Duplicate legacy dataset: {destination}")
+        tables[destination] = source_tables
     scenario_ids = _scenario_ids(_parquet_files(source))
     manifest = _manifest(
         release_name,
@@ -162,7 +183,7 @@ def _publish(
     staging_path = releases_root / f".{release_name}.{uuid.uuid4().hex}.staging"
     try:
         for relative_path, source_tables in tables.items():
-            destination = _destination(staging_path, relative_path)
+            destination = staging_path / relative_path
             destination.parent.mkdir(parents=True, exist_ok=True)
             try:
                 table = pa.concat_tables(source_tables)
@@ -180,12 +201,6 @@ def _publish(
     except Exception:
         shutil.rmtree(staging_path, ignore_errors=True)
         raise
-
-
-def _destination(staging_path: Path, relative_path: Path) -> Path:
-    if relative_path == Path("raw_results.parquet"):
-        return staging_path / "raw" / relative_path
-    return staging_path / "labelled" / relative_path
 
 
 def _validate_release_name(release_name: str) -> None:
