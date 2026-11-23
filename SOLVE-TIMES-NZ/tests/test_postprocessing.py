@@ -5,6 +5,7 @@ import pytest
 
 from solve_times_nz import postprocessing
 from solve_times_nz.postprocessing import (
+    _annual_periods,
     _scenario_name,
     batteries,
     battery_flows,
@@ -35,7 +36,29 @@ def test_scenario_name_uses_versioned_case_directory(tmp_path):
     )
 
 
-@pytest.mark.parametrize("failure", [None, "calculation", "write"])
+@pytest.mark.parametrize(
+    "years", [[2030, 2040], ["2030", "2040"], [2030.0, 2040.0], []]
+)
+def test_annual_periods_accepts_integer_years_without_changing_input(years):
+    periods = pd.Series(years, name="Period")
+    original = periods.copy()
+
+    result = _annual_periods(periods)
+
+    assert result.tolist() == ([2030, 2040] if years else [])
+    assert result.dtype == "int64"
+    pd.testing.assert_series_equal(periods, original)
+
+
+@pytest.mark.parametrize(
+    "period", ["-", "NONE", None, pd.NA, "2030.5", 2030.5, float("inf"), float("-inf")]
+)
+def test_annual_periods_rejects_missing_fractional_and_non_year_values(period):
+    with pytest.raises(ValueError):
+        _annual_periods(pd.Series([period]))
+
+
+@pytest.mark.parametrize("failure", [None, "calculation", "write", "period"])
 def test_postprocess_marks_complete_only_after_all_writes(
     tmp_path, monkeypatch, failure
 ):
@@ -53,8 +76,9 @@ def test_postprocess_marks_complete_only_after_all_writes(
     (tmp_path / "postprocessed").mkdir()
     old_output = tmp_path / "postprocessed/energy_demand.parquet"
     old_output.write_bytes(b"old flat output")
-    frame = pd.DataFrame({"Value": [1.0]})
-    monkeypatch.setattr(postprocessing, "read_vd", lambda _: frame.copy())
+    frame = pd.DataFrame({"Period": ["2030"], "Value": [1.0]})
+    raw = pd.DataFrame({"Period": ["2030", "-", "NONE"], "PV": [1.0, 2.0, 3.0]})
+    monkeypatch.setattr(postprocessing, "read_vd", lambda _: raw.copy())
     functions = (
         "electricity_generation",
         "energy_demand",
@@ -76,6 +100,9 @@ def test_postprocess_marks_complete_only_after_all_writes(
     )
     for name in functions:
         monkeypatch.setattr(postprocessing, name, lambda *_: frame.copy())
+    monkeypatch.setattr(
+        postprocessing, "objective_function", lambda *_: frame.drop(columns="Period")
+    )
 
     def fail(*_args, **_kwargs):
         raise ValueError("synthetic failure")
@@ -84,8 +111,15 @@ def test_postprocess_marks_complete_only_after_all_writes(
         monkeypatch.setattr(postprocessing, "energy_demand", fail)
     if failure == "write":
         monkeypatch.setattr(pd.DataFrame, "to_parquet", fail)
+    if failure == "period":
+        monkeypatch.setattr(
+            postprocessing, "energy_demand", lambda *_: frame.assign(Period="2030.5")
+        )
     if failure:
-        with pytest.raises(ValueError, match="synthetic failure"):
+        message = (
+            "integer annual periods" if failure == "period" else "synthetic failure"
+        )
+        with pytest.raises(ValueError, match=message):
             postprocessing.postprocess_run(tmp_path, tmp_path)
         assert json.loads(manifest_path.read_text())["postprocessing"] == {
             "status": "running"
@@ -102,6 +136,17 @@ def test_postprocess_marks_complete_only_after_all_writes(
         assert (output / "raw_results.parquet").is_file()
         assert (output / "labelled/energy_demand.parquet").is_file()
         assert not (output / "energy_demand.parquet").exists()
+        assert pd.read_parquet(output / "raw_results.parquet")["Period"].tolist() == [
+            "2030",
+            "-",
+            "NONE",
+        ]
+        assert "Period" not in pd.read_parquet(
+            output / "labelled/objective_function.parquet"
+        )
+        for path in (output / "labelled").glob("*.parquet"):
+            if path.name != "objective_function.parquet":
+                assert pd.read_parquet(path)["Period"].dtype == "int64"
 
 
 def _metadata(tmp_path):
@@ -327,11 +372,12 @@ def test_transport_capacity_and_objective_outputs_use_prep_metadata(tmp_path):
     assert objective_function(results)["Value"].tolist() == [1.5]
 
 
-def test_carbon_costs_preserve_measure_names_units_and_values():
+@pytest.mark.parametrize("period", [2030, "2030"])
+def test_carbon_costs_preserve_measure_names_units_and_values(period):
     results = pd.DataFrame(
         {
             "Scenario": ["steady-v3.0.9"] * 3,
-            "Period": [2030] * 3,
+            "Period": [period] * 3,
             "Region": ["NI"] * 3,
             "Commodity": ["TOTCO2"] * 3,
             "Attribute": ["VAR_FOut", "VAR_FOut", "Cost_Comx"],
@@ -364,6 +410,9 @@ def test_snapshot_metadata_copies_csvs_once(tmp_path):
     source = tmp_path / "source"
     source.mkdir()
     (source / "labels.csv").write_text("Code\nA\n", encoding="utf-8")
+    (source / "energy_commodities.csv").write_text(
+        "Commodity,Fuel,Renewable\nBIM,Biomethane,Renewable\n", encoding="utf-8"
+    )
     run_dir = tmp_path / "run"
 
     snapshot = snapshot_metadata(source, run_dir)
@@ -371,6 +420,46 @@ def test_snapshot_metadata_copies_csvs_once(tmp_path):
 
     assert snapshot == run_dir / "postprocessed/metadata"
     assert (snapshot / "labels.csv").read_text(encoding="utf-8") == "Code\nA\n"
+    assert pd.read_csv(snapshot / "energy_commodities.csv")["Renewable"].tolist() == [
+        "Renewable"
+    ]
+
+
+@pytest.mark.parametrize("period", [None, "2030.5", "NONE"])
+def test_carbon_costs_rejects_invalid_periods_before_grouping(period):
+    results = pd.DataFrame(
+        {"Commodity": ["TOTCO2"], "Attribute": ["VAR_FOut"], "Period": [period]}
+    )
+    with pytest.raises(ValueError):
+        carbon_costs(results)
+
+
+@pytest.mark.parametrize(
+    "function",
+    [
+        electricity_demand_by_timeslice,
+        energy_service_demand_by_timeslice,
+        generation_by_timeslice,
+    ],
+)
+def test_timeslice_outputs_validate_periods_before_removing_base_year(
+    function, monkeypatch, tmp_path
+):
+    frame = pd.DataFrame(
+        {
+            "Period": ["2023.5"],
+            "Variable": ["Electricity generation"],
+            "Fuel": ["Electricity"],
+            "TimeSlice": ["SUM-WK-D"],
+        }
+    )
+    for name in ["energy_demand", "energy_service_demand", "electricity_generation"]:
+        monkeypatch.setattr(postprocessing, name, lambda *_: frame.copy())
+    monkeypatch.setattr(
+        postprocessing, "_timeslice_average", lambda data, _: data.copy()
+    )
+    with pytest.raises(ValueError, match="integer annual periods"):
+        function(frame, tmp_path)
 
 
 def test_batteries_publish_legacy_capacity_and_flow_outputs(tmp_path):

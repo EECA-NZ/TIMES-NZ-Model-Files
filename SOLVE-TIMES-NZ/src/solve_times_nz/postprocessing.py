@@ -58,6 +58,14 @@ def _with_value(df: pd.DataFrame, variable: str, unit: str) -> pd.DataFrame:
     return result.rename(columns={"PV": "Value"})
 
 
+def _annual_periods(periods: pd.Series) -> pd.Series:
+    """Validate annual years before casting; raw periods may contain other tokens."""
+    years = pd.to_numeric(periods, errors="raise")
+    if years.isna().any() or years.mod(1).ne(0).any():
+        raise ValueError("Expected integer annual periods")
+    return years.astype("int64")
+
+
 def _scenario_name(manifest: dict[str, object], manifest_path: Path) -> str:
     """Read the versioned scenario identity declared by the generated case."""
     scenario = manifest.get("scenario_name")
@@ -190,6 +198,7 @@ def electricity_demand_by_timeslice(
             "Electricity demand processes must not use the ANNUAL timeslice"
         )
     result = _timeslice_average(demand, metadata_dir)
+    result["Period"] = _annual_periods(result["Period"])
     base_year = pd.to_numeric(results["Period"], errors="coerce").min()
     return result[pd.to_numeric(result["Period"], errors="coerce") != base_year]
 
@@ -201,6 +210,7 @@ def energy_service_demand_by_timeslice(
     result = _timeslice_average(
         energy_service_demand(results, metadata_dir), metadata_dir
     )
+    result["Period"] = _annual_periods(result["Period"])
     base_year = pd.to_numeric(results["Period"], errors="coerce").min()
     return result[pd.to_numeric(result["Period"], errors="coerce") != base_year]
 
@@ -211,6 +221,7 @@ def generation_by_timeslice(results: pd.DataFrame, metadata_dir: Path) -> pd.Dat
     result = _timeslice_average(
         result[result["Variable"] == "Electricity generation"], metadata_dir
     )
+    result["Period"] = _annual_periods(result["Period"])
     base_year = pd.to_numeric(results["Period"], errors="coerce").min()
     result = result[pd.to_numeric(result["Period"], errors="coerce") != base_year]
     return result[
@@ -537,7 +548,11 @@ def emissions(results: pd.DataFrame, metadata_dir: Path) -> pd.DataFrame:
 
 def carbon_costs(results: pd.DataFrame) -> pd.DataFrame:
     """Publish total CO2, carbon cost, and implied carbon price."""
-    base = results[results["Commodity"] == "TOTCO2"]
+    base = results[
+        results["Commodity"].eq("TOTCO2")
+        & results["Attribute"].isin(["VAR_FOut", "Cost_Comx"])
+    ].copy()
+    base["Period"] = _annual_periods(base["Period"])
     keys = ["Scenario", "Period", "Region", "Commodity"]
     emissions_df = (
         base[base["Attribute"] == "VAR_FOut"]
@@ -621,6 +636,8 @@ def postprocess_run(run_dir: Path, metadata_dir: Path) -> Path:
     }
     written_files = []
     for name, dataframe in outputs.items():
+        if name not in {"raw_results.parquet", "objective_function.parquet"}:
+            dataframe = dataframe.assign(Period=_annual_periods(dataframe["Period"]))
         relative_path = (
             Path(name) if name == "raw_results.parquet" else Path("labelled") / name
         )

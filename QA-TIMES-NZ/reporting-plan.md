@@ -17,6 +17,13 @@ provenance of the recovered data and subsequent v308 summaries.
 
 **2: Standardise annual `Period` types and preserve renewable metadata**
 
+Completed 24 November 2026: SOLVE validates and writes integer annual periods,
+including validation before timeslice filtering and carbon-cost grouping. Raw
+periods and whole-run objectives are exempt. PREP retains `Renewable` in energy
+commodity metadata, and snapshot tests cover its preservation. QA's existing
+annual-data validation accepts legacy year strings. An isolated real-run check
+passed; all 18 annual v308 datasets already use integer periods and were unchanged.
+
 Correct annual `Period` types to integer in SOLVE post-processing before building
 summaries. Preserve mixed period values in `raw_results.parquet` and support
 existing releases with string years at the loading boundary. Whole-run metrics
