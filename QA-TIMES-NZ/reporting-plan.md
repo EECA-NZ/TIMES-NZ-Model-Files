@@ -4,60 +4,94 @@ Status: proposed implementation plan.
 
 ## Tasks in order
 
-**1: Create `raw_results.parquet` for v308 to enable its use for validation**
+**1: Recover v308 raw results and matching classifications**
 
-Note: it is very important that we do not rerun v308 post processing, as the codes won't match and everything will break. 
+Create `raw_results.parquet` from the archived v308 results for validation.
+Do not rerun v308 post-processing: current labels and codes do not match that
+release. Identify the archived results and renewable classifications in the
+provenance of the recovered data and subsequent v308 summaries.
 
-**2: Migrate "analysis" code**
+**2: Standardise annual `Period` types and preserve renewable metadata**
 
-Move the existing analysis/chart data export capability into a new `SOLVE` reporting submodule for releases. 
+Correct annual `Period` types to integer in SOLVE post-processing before building
+summaries. Preserve mixed period values in `raw_results.parquet` and support
+existing releases with string years at the loading boundary. Whole-run metrics
+such as the objective function do not require an annual period.
 
- - *Requirements:* Operating on `SOLVE` postprocessing, and creating `summaries/` alongside `labelled/`. Preserve reviewed zero-filling behaviour. PNG rendering is not needed. `PUBLISH` ingests and appends these, as it does for labelled results. v308 summaries should be able to be created as well, but we don't need to maintain code that can do this exactly. This includes the existing indicators (such as renewable tfec shares). It should include all the datasets used by QA; a new QA dataset requires any aggregation/calc etc upstream (except for difference/tolerance calcs, which are done by the qa report). This includes surfacing the objective function. 
- - *Validation:* Inventory and reproduce the existing CSV results using the v308 release, independently of PNG rendering. These can be removed on successful validation. In any case, the summary chart data for v308 should be bundled alongside the v308 release. 
+PREP's energy commodity metadata must retain the source `Renewable`
+classification for generic, sectoral and distribution commodities, so SOLVE's
+metadata snapshot supplies the classification without reading the live PREP tree.
+Existing snapshots must be checked before calculating indicators; do not silently
+substitute current classifications for archived inputs.
 
-**3. Standardise `Period` datatypes.**
+**3: Migrate analysis calculations into SOLVE summaries**
 
-Correct annual `Period` types to integer in SOLVE post-processing, while continuing to accept existing releases with string years. This excludes  `raw_results.parquet`, which necessarily contains some strings in there. This should align with older postprocessing methods (`v308` postprocessed results use integers, although the app accepts either.)
+Move the existing analysis/chart-data calculations into a SOLVE reporting
+submodule operating on postprocessed results. Write `summaries/` alongside
+`labelled/`, including the renewable indicators, objective function and every
+per-scenario dataset used by the QA demo. New per-scenario aggregations and
+calculations belong here; QA calculates differences, tolerances and calibration
+assessments. PNG rendering is not needed.
 
+Summary outputs may evolve with the analyses: choose filenames, columns and
+breakdowns as each calculation is migrated, without an upfront fixed catalogue
+or common schema. Each reader validates the fields it uses. PUBLISH appends
+matching summary datasets as it does labelled results and exports the prepared
+tables for publication without repeating the calculations.
 
-**4: QA input selection methods**
+Zero-fill absent summary rows over the applicable model years and categories by
+default, retaining explicit exceptions in the existing analysis scripts. Preserve
+reviewed battery/demand-flex timeslice completion and the demo's energy-series
+completion. This applies to absent rows, not existing null values, missing source
+datasets, invalid mappings or undefined ratios.
 
-Add QA input selection: from the source `PUBLISH` plus release/scenario, or `SOLVE` plus scenario and optional timestamp, with resolved inputs shown explicitly.
+Reproduce the existing CSV results using v308, independently of PNG rendering,
+including units, labels, grouping and zero-filling. Bundle v308 summaries alongside
+its labelled results without rerunning its post-processing. One-off v308 backfill
+code need not become a maintained compatibility layer; record its inputs and
+validation. Retain the old exports until the replacements are validated.
 
-Resolve either source to its result root, then read the same relative `summaries/`
-dataset paths. QA must be able to compare a RELEASE baseline with a SOLVE
-candidate directly, without publishing the solve first. Verify this with synthetic
-release/run fixtures, including rejection of an incomplete SOLVE run.
+**4: Add QA input selection**
 
-**5: Build QA metrics** 
+Select `RELEASE` plus release/scenario, or `SOLVE` plus case and optional exact
+run timestamp, with resolved inputs shown explicitly. Resolve either source to
+its result root and read the same relative `summaries/` dataset paths. QA must
+compare a RELEASE baseline with a SOLVE candidate without publishing it first.
+Test with synthetic release/run fixtures, including incomplete-run rejection.
 
-We have a working demo already, which will be I am sure tweaked and expanded later as we go. But the bones are good. To-do; incorporate correctly into pipeline, ensure that the config is user-specific (ie not git-tracked) by having a "main" config that is git-tracked, and generating a "dev" config for developers to muck around with without messing with git. create a command like qa-times-nz generate_qa --main|--dev. extraordinarily minimal data handling here, everything else should exist. 
+**5: Integrate the QA report**
 
-QA report handles: 
-- Input selection and validation.
-- Matching equivalent years/categories between scenarios.
-- Differences, tolerances and calibration assessments.
-- Tables, charts and report formatting.
+Build on the current demo's tables and charts, reading prepared summaries.
+Provide a command such as `qa-times-nz generate_qa --main|--dev`, a tracked main
+configuration and a generated, ignored developer configuration. Do not overwrite
+an existing developer configuration when generating it.
 
-In the case where one or either scenarios does not have the data for a requested QA chart, the chart must not fail but instead report that in some way: either "no data found" if both charts are missing, or only displaying one (with no differences) and N/A in the table if only found in one scenario. 
+QA owns input selection and validation, year/category alignment, differences,
+tolerances, calibration assessments and report presentation. Write self-contained
+HTML and comparison CSVs. If a chart's dataset is unavailable on both sides, show
+"no data found"; if available on one side, display that side and N/A comparisons.
+Incomplete runs, malformed data and invalid mappings remain input errors.
 
-**5: Rebuild calibration metrics** 
+**6: Rebuild calibration as a report page**
 
-as an extra page of the report
+Include calibration in this implementation, comparing model outputs with observed
+emissions, demand and electricity data. Use the old code and reports to recover
+reference sources and check definitions, then rebuild the assessments with
+explicit years, units, boundaries, mappings and missing-data handling. Preserve
+source evidence; do not carry over the old parser or assumptions automatically.
 
-**7: Remove all old code**
+**7: Remove replaced code**
 
-ie; the analysis scripts are no longer needed and can be deleted. the calibration code is no longer needed and can be deleted. 
+Delete the old analysis and calibration implementations after validating their
+replacements and checking callers. Preserve historical reference data and move
+retained one-off studies before removing their dependencies. Document QA as
+housing automated result checks and one-off studies; use `QA-TIMES-NZ/studies/`
+for the latter without migrating unrelated calculations as a prerequisite.
 
-**8: add QA missing lint step**
+**8: Add QA linting to CI**
 
-its not in CI. everything else fine. 
-
-**At some point: create QA-TIMES-NZ/studies for all one-off calculations**
-
-This will be a grab-bag of all the random analysis scripts I have foolishly scattered across the repo, centralising and tidying these. The doco for `QA-TIMES-NZ` should describe it as housing "automated testing and one-off studies" of results so that the scope is clear. 
-
-
+Add Black, isort and Pylint checks matching the other modules. QA tests already
+run in CI; no separate test pipeline is needed.
 
 ## Purpose and ownership
 
@@ -65,19 +99,19 @@ QA should produce repeatable reports comparing selected scenarios from existing
 result artefacts, including legacy v308 results and current SOLVE outputs.
 
 - SOLVE owns reading solver results, applying the run's reporting metadata, and
-  writing raw and labelled Parquets.
+  writing raw, labelled and summary Parquets, including per-scenario metrics.
 - PUBLISH owns packaging selected outputs into named releases, including legacy
   imports, and serving the Explorer.
-- QA owns metric calculations, comparisons, validation rules and reports.
+- QA owns comparisons, calibration assessments, validation rules and reports.
 
 QA should consume those artefacts directly. It should not maintain another copy
 of cleaned results or repeat SOLVE's post-processing.
 
 Keep the first implementation small: one explicit comparison definition, a
-plain source resolver, a few agreed metric functions and an HTML/CSV writer.
-The metric list below is a shortlist, not a requirement to implement everything.
-Preserve the existing publication CSV functionality through the first task;
-do not migrate old chart rendering or calibration implementations merely to keep them alive.
+plain source resolver, summary readers and an HTML/CSV writer.
+Use the existing demo and analysis exports to guide the summaries being migrated.
+Preserve publication CSV functionality during migration. Rebuild calibration as
+part of delivery; PNG generation is unnecessary.
 Reuse existing code only where it supports a chosen report. Remove clearly unused
 code after checking callers; leave uncertain specialist work outside the new
 workflow until its purpose is decided.
@@ -223,12 +257,14 @@ alone does not establish equivalent metric definitions.
 
 ## Shared metrics and comparison behaviour
 
-Adapt calculations from `analysis/get_data.py` only as chosen metrics need them,
-accepting loaded dataframes explicitly. Keep loading separate from calculation
-so functions can be tested with fake data. Avoid changing old shared interfaces
-unless their callers are deliberately being migrated or retired.
+Move per-scenario calculations from `analysis/get_data.py` and the demo into
+SOLVE summaries, accepting loaded dataframes explicitly. Keep loading separate
+from calculation so functions can be tested with fake data. Handle retained
+callers when shared functions change. QA reads these values without repeating
+aggregations or unit conversions. Summary shapes remain flexible; validate the
+columns, units and unique keys needed by each consuming calculation.
 
-Candidate metrics to select from with the human developer:
+Existing outputs to cover include:
 
 - Electricity generation totals and generation by fuel, in TWh.
 - Energy emissions totals and emissions by sector, in Mt CO2e.
@@ -244,11 +280,12 @@ conventions across the selected runs.
 
 Calculate renewable share of TFEC and renewable share of electricity generation
 once per scenario/year in SOLVE post-processing. These are reusable indicators,
-not calculations owned by the QA report. Write `postprocessed/summaries/indicators.parquet`
-with `Scenario`, integer `Period`, `Variable`, `Value` and `Unit` columns. Store
-shares as decimals from 0 to 1 with unit `Share`.
+not calculations owned by the QA report. Include them under `summaries/`, keeping
+scenario identity, integer annual periods and units explicit. Their file and
+column layout can follow the migrated analysis. Store shares as decimals from
+0 to 1 with unit `Share`.
 
-PUBLISH should gather the indicators into `summaries/indicators.parquet` in each
+PUBLISH should preserve and batch the indicator summary datasets in each
 release. QA, the Explorer and publication exports should read these same values
 rather than implement their own versions. Summary CSVs can export the indicators
 without recalculating them.
@@ -266,7 +303,8 @@ with synthetic-data tests before moving them:
   share. Preserve the current exclusion of international aviation and shipping
   from both numerator and denominator, and document that boundary explicitly.
 
-Use fuel classifications recorded with the run, not the live PREP working tree.
+Use `Renewable` from the run's recorded energy commodity metadata, not the live
+PREP working tree. PREP must preserve this field for all energy commodity aliases.
 Validate classification coverage and matching electricity/fuel-use records.
 Report an undefined share for a zero denominator rather than silently returning
 zero. Test mixed-fuel plants, exclusions, missing classifications, and zero totals.
@@ -289,10 +327,12 @@ change relative to the baseline. Use percentage-point changes for share metrics.
 When the baseline is zero, mark percentage change as undefined and retain the
 absolute difference.
 
-Make missing scenarios, required datasets, years and classifications visible.
-Distinguish a genuinely absent category from an explicitly reported zero; do not
-blanket-fill unmatched comparison rows with zero. State the compared years and
-show coverage gaps instead of silently comparing only their intersection.
+SOLVE summaries zero-fill absent rows over applicable model years and categories
+unless the existing analysis specifies an exception. QA compares those prepared
+zeroes directly. Keep unavailable source datasets, invalid classifications and
+existing null values distinguishable from zero. Show unavailable chart data as
+N/A, state the compared years and preserve coverage exceptions from each summary
+rather than silently comparing only the intersection.
 
 Differences are descriptive by default. Add pass/fail checks only where a metric
 has an agreed expectation and explicit absolute or relative tolerance. Keep
@@ -321,67 +361,40 @@ Keep calibration checks and external comparison data separate from result-source
 loading. Remove obsolete path constants, scripts and dependencies only after
 checking their callers; preserve archived inputs until their use is understood.
 
-## Delivery sequence and verification
+## Delivery verification
 
-The task list above sets the order. First reproduce the existing analysis/chart
-CSV exports in PUBLISH's release-only reporting submodule. Compare the migrated
-tables against legacy calculations for the same release and selections, including
-units, labels, grouping and reviewed zero-filling; PNG generation is not required.
-Keep exports separate from source Parquets and record the selected release/scenarios.
-Then deliver the QA comparison:
+Follow the numbered tasks above; summary calculations belong in SOLVE throughout.
 
-1. Correct annual `Period` types in SOLVE, test the shared conversion and affected
-   post-processing outputs, and verify compatibility with the Explorer loader.
-2. Add explicit release/run selection and dataset validation in QA. Test scenario
-   selection, old string-year compatibility and missing-input errors.
-3. Agree the small initial metric set, then adapt those calculations and affected retained callers. Use small synthetic
-   dataframes for aggregation, unit conversion, missing coverage and zero-baseline
-   comparison tests; keep pytest independent of local result archives.
-4. Generate the first Steady v308 versus Steady v309 HTML/CSV report, accepting
-   either a release or an unpackaged solve as the candidate. Outside
-   pytest, check it against the existing local releases and independently verify
-   selected totals from their source Parquets.
-5. Remove obsolete code made unnecessary by the chosen workflow, document the
-   command and source-selection rules in the QA README, and add other metrics
-   only when their purpose is agreed. Calibration and specialist sensitivities
-   are optional follow-up work, not prerequisites for this report.
+- Test period conversion and renewable metadata retention with synthetic inputs,
+  including invalid annual periods and generic, sectoral and distribution aliases.
+- Test migrated summary calculations with fake dataframes for grouping, units,
+  zero-filling and any existing analysis exceptions. Outside pytest, compare v308
+  summaries with the existing CSV results for the same scenarios and selections.
+- Verify PUBLISH batches the same relative `summaries/` paths without recalculating
+  metrics. Publication CSVs consume these prepared tables and preserve provenance.
+- Test QA release/run selection, timestamp pinning, old string-year compatibility,
+  repeated scenario IDs in different runs, unavailable charts, zero baselines and
+  share differences. Check incomplete runs and invalid data fail explicitly.
+- Generate a Steady v308 versus Steady v309 HTML/CSV report using a SOLVE candidate,
+  then repeat with that candidate packaged into a release. The summary values and
+  differences must agree; only source provenance should differ. Independently
+  verify selected totals against source Parquets outside pytest.
+- Deliver the calibration page with synthetic tests for its mappings, units,
+  years and missingness. Check selected real observations against their recorded
+  reference sources outside pytest before retiring the old calibration code.
+- Verify main/dev configuration behavior, offline HTML output and the documented
+  command. Add QA linting to CI and remove replaced callers and dependencies only
+  after the summary, comparison and calibration checks pass.
 
-The first deliverable is the release-only publication CSV export capability;
-the next is one reproducible two-scenario QA comparison using existing
-artefacts. A new dashboard, result database, generic plugin framework and bulk
-rewrite of old analysis scripts are outside this initial scope.
+Keep pytest independent of local result archives. The completed workflow includes
+SOLVE summaries, PUBLISH packaging/exports and QA comparison plus calibration.
+A new dashboard, result database, source-provider framework and wholesale rewrite
+of specialist studies are outside this scope.
 
-## Follow-up work and publication boundary
+## Publication boundary
 
-- Add QA's Black, isort and Pylint step to CI, matching the other modules. Local
-  pre-commit linting, pre-push tests and CI tests/coverage already include QA;
-  `.github/workflows/ci.yml` currently omits its lint step. Review coverage of
-  retained scripts outside `src` when adding it. This can follow later.
-- Recreate historical calibration checks in QA from scratch. Retain the ability
-  to compare model outputs with observed emissions, demand and electricity data,
-  but rethink boundaries, reference inputs, mappings, missingness and assessment
-  years before defining the new checks. The existing calibration code and reports
-  are evidence of past functionality, not the implementation to migrate. Preserve
-  useful source evidence without carrying over its parser or assumptions by default.
-- As the first task, put the existing publication-oriented CSV generation in a small `reporting` submodule within
-  PUBLISH, rather than maintaining the old QA analysis/chart batch. The old
-  `save_chart_and_data()` helper does write grouped chart data to CSV alongside
-  PNGs, under `QA-TIMES-NZ/analysis/results/data_for_charts/`. Preserve the useful
-  export capability for external charting, inventorying the existing tables
-  before porting their transformations. CSV production must work independently
-  of chart rendering. No active external-chart consumer was found in the repo.
-
-PUBLISH reporting must consume releases only and record their provenance. It
-must not select SOLVE runs or use a fallback to unpackaged results. QA's
-`RELEASE`/`SOLVE` choice applies to QA reports only. The reviewed battery and
-demand-flex timeslice completion treats missing rows as zero; preserve this
-intended behaviour in those publication exports. This rule does not apply
-automatically to other datasets or missing QA inputs.
-
-QA owns calibration, validity checks and scenario differences; its
-HTML/CSV outputs remain QA products. PUBLISH owns publication tables, labels and
-exports for external charts. SOLVE continues to own labelled result production.
-Existing PUBLISH full-results CSV downloads do not replace the old subject-specific
-aggregations. Do not introduce a shared package or dependencies between QA and
-publication formatting in anticipation of overlap; share a calculation only when
-both workflows have a concrete need for the same definition.
+PUBLISH consumes packaged summary tables and writes publication CSVs without
+requiring PNG generation. It does not own summary calculations or select SOLVE
+runs. QA's `RELEASE`/`SOLVE` choice applies to its comparison and calibration
+report. QA's HTML/CSV products stay in QA; publication exports stay in PUBLISH.
+No new shared package or generic reporting framework is needed.

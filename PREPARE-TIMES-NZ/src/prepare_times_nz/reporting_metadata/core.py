@@ -46,7 +46,7 @@ def build_energy_commodities(
     fuels: pd.DataFrame, sectors: pd.DataFrame
 ) -> pd.DataFrame:
     """Label generic and sector-prefixed energy commodities."""
-    _require_columns(fuels, ["CommodityCode", "Commodity"], "fuel labels")
+    _require_columns(fuels, ["CommodityCode", "Commodity", "Renewable"], "fuel labels")
     _require_columns(sectors, ["SectorCode"], "sector labels")
     generic = fuels[["CommodityCode", "Commodity"]]
     sectoral = fuels.merge(sectors[["SectorCode"]], how="cross")
@@ -67,6 +67,17 @@ def build_energy_commodities(
         }
     )
     result = pd.concat([result, additions], ignore_index=True).drop_duplicates()
+    classifications = (
+        fuels[["Commodity", "Renewable"]]
+        .rename(columns={"Commodity": "Fuel"})
+        .drop_duplicates()
+    )
+    result = result.merge(
+        classifications, on="Fuel", how="left", validate="many_to_one"
+    )
+    if result["Renewable"].isna().any():
+        missing = sorted(result.loc[result["Renewable"].isna(), "Fuel"].unique())
+        raise ValueError(f"Missing renewable classification for: {', '.join(missing)}")
     result["CommodityGroup"] = "Energy"
     return result.sort_values("Commodity", kind="stable").reset_index(drop=True)
 

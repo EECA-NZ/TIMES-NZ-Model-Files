@@ -144,10 +144,12 @@ available. Share metrics use percentage-point changes. Objective value is a
 whole-run metric and requires compatible cost, discounting and horizon
 conventions.
 
-Missing years, scenarios, datasets or classifications must be visible. An absent
-row does not automatically mean zero. Check the stated years, exclusions and
-grouping before interpreting totals across versions. Additional columns in a
-newer dataset do not themselves make the metric incomparable.
+SOLVE summaries zero-fill absent rows over applicable model years and categories,
+preserving exceptions specified by the existing analyses. QA compares those
+prepared zeroes. Missing source datasets, invalid classifications and existing
+nulls remain distinguishable from zero. Check years, exclusions and grouping
+before interpreting totals across versions. Additional columns do not themselves
+make a metric incomparable.
 
 Differences are descriptive unless an explicit expectation and tolerance have
 been agreed. A large change can be intentional. A small change does not establish
@@ -162,10 +164,12 @@ and return the selected input to the calculations. Reuse existing PUBLISH
 release validation and latest-run selection where practical; avoid depending on
 Explorer UI modules.
 
-Write metric calculations as small functions accepting dataframes. Keep file
-loading and output writing separate. State the required columns, input/output
-units, filters, grouping and exclusions. Use the same calculated results for
-HTML, CSV and any chart. Chart-only zero rows must not enter comparison data.
+Write per-scenario metric calculations in SOLVE as small functions accepting
+dataframes, with file loading and writing separate. Summary filenames and shapes
+can evolve with the analyses; each reader validates the fields it uses. State
+units, filters, grouping and exclusions. QA reads prepared summaries and calculates
+comparisons and calibration assessments, using the same values for HTML, CSV
+and charts. PUBLISH batches summaries and exports prepared publication tables.
 
 Annual labelled SOLVE outputs should have integer `Period` values. This requires
 an upstream post-processing change: raw `.vd` periods also contain `-` and
@@ -184,23 +188,21 @@ missing coverage and invalid periods. Use the root uv environment. Keep tests
 independent of local releases; verify selected real totals separately against
 source Parquets when introducing the report.
 
-Reuse old QA functions only where the chosen report needs them. Historical
-calibration will be redesigned and written from scratch as a separate follow-up;
-old code and reports document prior checks rather than prescribe the replacement.
-Specialist sensitivities are not prerequisites for a two-scenario comparison.
+Reuse old QA functions where the report needs them. Historical calibration is
+included as a report page and will be redesigned from the recorded source
+evidence. Old code and reports document prior checks rather than prescribe the
+replacement. Specialist sensitivities remain separate studies.
 
-The old chart batch also exports CSVs of its supplied chart data. Moving these
-existing exports into a small reporting submodule in PUBLISH is the first
-implementation task, ahead of the new QA comparison. This publication workflow
-accepts releases only and writes tables without requiring PNG rendering; it does
-not use QA's SOLVE selection. Preserve existing export definitions, including the
-reviewed zero-filling of missing battery/demand-flex timeslices. QA retains the
-CSVs supporting its own comparisons and calibration.
+The old chart batch also exports CSVs of its supplied chart data. Migrate those
+calculations into SOLVE summaries after correcting annual periods and preserving
+renewable classifications in the metadata snapshot. PUBLISH exports the prepared
+tables from releases without PNG rendering or repeating calculations. Preserve
+existing export definitions and zero-filling. QA retains CSVs supporting its own
+comparisons and calibration. Retire old code after validating its replacement.
 
 ## Related developer documentation
 
 - [SOLVE post-processing](../solve_times_nz/postprocessing.md)
 - [PUBLISH releases](../publish_times_nz/index.md)
 
-The implementation and code-review planning documents remain in the
-`QA-TIMES-NZ` root as `reporting-plan.md` and `code-review-plan.md`.
+The implementation plan remains in the `QA-TIMES-NZ` root as `reporting-plan.md`.

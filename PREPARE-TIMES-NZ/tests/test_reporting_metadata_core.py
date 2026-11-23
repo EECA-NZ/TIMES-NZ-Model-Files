@@ -28,13 +28,35 @@ def test_uppercase_codes_leaves_reporting_labels_unchanged():
 
 
 def test_build_energy_commodities_includes_generic_sectoral_and_distribution_codes():
-    fuels = pd.DataFrame({"CommodityCode": ["ELC"], "Commodity": ["Electricity"]})
+    fuels = pd.DataFrame(
+        {
+            "CommodityCode": ["ELC", "NGA", "BIM", "COA"],
+            "Commodity": ["Electricity", "Natural gas", "Biomethane", "Coal"],
+            "Renewable": ["Electricity", "Non-renewable", "Renewable", "Non-renewable"],
+        }
+    )
     sectors = pd.DataFrame({"SectorCode": ["IND"], "Sector": ["Industry"]})
 
     result = build_energy_commodities(fuels, sectors)
 
     assert set(result["Commodity"]) >= {"ELC", "INDELC", "ELCDD"}
     assert result.loc[result["Commodity"] == "ELC", "Fuel"].item() == "Electricity"
+    classifications = result.set_index("Commodity")["Renewable"]
+    assert classifications[["ELC", "INDELC", "ELCDD", "ELCHV"]].eq("Electricity").all()
+    assert classifications[["BIM", "INDBIM", "BIMDD"]].eq("Renewable").all()
+    assert (
+        classifications[["NGA", "INDNGA", "NGADD", "FSTKNGA", "FSTKCOA"]]
+        .eq("Non-renewable")
+        .all()
+    )
+
+
+def test_build_energy_commodities_rejects_missing_renewable_classifications():
+    fuels = pd.DataFrame(
+        {"CommodityCode": ["ELC"], "Commodity": ["Electricity"], "Renewable": [None]}
+    )
+    with pytest.raises(ValueError, match="Missing renewable classification"):
+        build_energy_commodities(fuels, pd.DataFrame({"SectorCode": ["IND"]}))
 
 
 def test_build_distribution_processes_labels_generated_and_declared_rows():
