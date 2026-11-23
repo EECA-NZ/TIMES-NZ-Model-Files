@@ -4,37 +4,53 @@ Status: proposed implementation plan.
 
 ## Tasks in order
 
-**1: Migrate "analysis" code**
+**1: Create `raw_results.parquet` for v308 to enable its use for validation**
 
-Move the existing analysis/chart data export capability into a new PUBLISH reporting submodule for releases. 
+Note: it is very important that we do not rerun v308 post processing, as the codes won't match and everything will break. 
 
- - *Requirements:* Accept releases only. Preserve reviewed battery/demand-flex zero-filling behaviour. PNG rendering is not needed. These chart data files should all be bundled in `summary_results/` within each release. v308 results should be able to be created, but we don't need to maintain code that can do this exactly. 
+**2: Migrate "analysis" code**
+
+Move the existing analysis/chart data export capability into a new `SOLVE` reporting submodule for releases. 
+
+ - *Requirements:* Operating on `SOLVE` postprocessing, and creating `summaries/` alongside `labelled/`. Preserve reviewed zero-filling behaviour. PNG rendering is not needed. `PUBLISH` ingests and appends these, as it does for labelled results. v308 summaries should be able to be created as well, but we don't need to maintain code that can do this exactly. This includes the existing indicators (such as renewable tfec shares). It should include all the datasets used by QA; a new QA dataset requires any aggregation/calc etc upstream (except for difference/tolerance calcs, which are done by the qa report). This includes surfacing the objective function. 
  - *Validation:* Inventory and reproduce the existing CSV results using the v308 release, independently of PNG rendering. These can be removed on successful validation. In any case, the summary chart data for v308 should be bundled alongside the v308 release. 
 
-**2. Standardise `Period` datatypes.**
+**3. Standardise `Period` datatypes.**
 
 Correct annual `Period` types to integer in SOLVE post-processing, while continuing to accept existing releases with string years. This excludes  `raw_results.parquet`, which necessarily contains some strings in there. This should align with older postprocessing methods (`v308` postprocessed results use integers, although the app accepts either.)
 
 
-**3: QA input selection methods**
+**4: QA input selection methods**
 
 Add QA input selection: from the source `PUBLISH` plus release/scenario, or `SOLVE` plus scenario and optional timestamp, with resolved inputs shown explicitly.
 
-**4: Build QA metrics** 
+**5: Build QA metrics** 
 
-Agree the first small set of QA metrics and generate the two-scenario HTML/CSV report. Check selected results against source artefacts.
+We have a working demo already, which will be I am sure tweaked and expanded later as we go. But the bones are good. To-do; incorporate correctly into pipeline, ensure that the config is user-specific (ie not git-tracked) by having a "main" config that is git-tracked, and generating a "dev" config for developers to muck around with without messing with git. create a command like qa-times-nz generate_qa --main|--dev. extraordinarily minimal data handling here, everything else should exist. 
+
+QA report handles: 
+- Input selection and validation.
+- Matching equivalent years/categories between scenarios.
+- Differences, tolerances and calibration assessments.
+- Tables, charts and report formatting.
+
+In the case where one or either scenarios does not have the data for a requested QA chart, the chart must not fail but instead report that in some way: either "no data found" if both charts are missing, or only displaying one (with no differences) and N/A in the table if only found in one scenario. 
 
 **5: Rebuild calibration metrics** 
 
-TBD if optional part of the report 
+as an extra page of the report
 
-**6: Remove all old code**
+**7: Remove all old code**
 
-**7: add QA missing lint step**
+ie; the analysis scripts are no longer needed and can be deleted. the calibration code is no longer needed and can be deleted. 
 
-**At some point: create `raw_results.parquet` for the v308 bundle, so we can redo standard builds using that.**
+**8: add QA missing lint step**
+
+its not in CI. everything else fine. 
 
 **At some point: create QA-TIMES-NZ/studies for all one-off calculations**
+
+This will be a grab-bag of all the random analysis scripts I have foolishly scattered across the repo, centralising and tidying these. The doco for `QA-TIMES-NZ` should describe it as housing "automated testing and one-off studies" of results so that the scope is clear. 
 
 
 
@@ -69,7 +85,17 @@ The current QA-TIMES-NZ contains:
  - a bunch of png generation according to the above
  - old methods for historical year calibration - comparing results to real data
  - old methods for comparing results to other scenarios 
- - 
+
+| Capability | Intended destination |
+|---|---|
+| Reusable per-scenario summaries and renewable indicators | SOLVE post-processing; PUBLISH packages them |
+| Standard scenario comparisons and historical calibration | QA reports |
+| Bespoke sensitivity valuations, interactions and technology attribution | QA-TIMES-NZ/studies, with explicit scenario selection |
+| PREPARE’s standalone analyses | Review and move into the same studies directory |
+| External-model comparisons, such as other generation/emissions projections | added to QA report (?) - needs bespoke chart handling, not aligned with report comparisons|
+| Old PNG rendering, palettes and plotting-only helpers | Retire once required CSV-producing calculations are extracted |
+| Historical reference datasets and concordances | Preserve if used for calibration/external-model comparisons, else delete |
+
 
 ## Result sources and scenario selection
 
@@ -204,10 +230,48 @@ Document each metric's filters, grouping, units and exclusions. Compare objectiv
 values only with an explicit understanding of cost, discounting and model-horizon
 conventions across the selected runs.
 
-Renewable-share metrics can follow once fuel classification is reproducible.
-They currently read the live PREP fuel-label file. Establish a fixed, recorded
-classification source, using run metadata where available and a documented
-archived source for legacy results, before including these in standard reports.
+### Reusable renewable-share indicators
+
+Calculate renewable share of TFEC and renewable share of electricity generation
+once per scenario/year in SOLVE post-processing. These are reusable indicators,
+not calculations owned by the QA report. Write `postprocessed/indicators.parquet`
+with `Scenario`, integer `Period`, `Variable`, `Value` and `Unit` columns. Store
+shares as decimals from 0 to 1 with unit `Share`.
+
+PUBLISH should gather the indicators into `labelled/indicators.parquet` in each
+release. QA, the Explorer and publication exports should read these same values
+rather than implement their own versions. Summary CSVs can export the indicators
+without recalculating them.
+
+Use the existing calculations in `analysis/get_data.py` as the starting point,
+with synthetic-data tests before moving them:
+
+- Renewable electricity generation share: calculate each plant's renewable
+  input-fuel share and apply it to that plant's generation, then aggregate.
+  Preserve scenario, year, process, region and vintage matching, mixed-fuel
+  handling, and the assumption of equal conversion efficiency across fuels
+  within a plant.
+- Renewable TFEC share: combine direct renewable final energy use with final
+  electricity consumption multiplied by the renewable electricity generation
+  share. Preserve the current exclusion of international aviation and shipping
+  from both numerator and denominator, and document that boundary explicitly.
+
+Use fuel classifications recorded with the run, not the live PREP working tree.
+Validate classification coverage and matching electricity/fuel-use records.
+Report an undefined share for a zero denominator rather than silently returning
+zero. Test mixed-fuel plants, exclusions, missing classifications, and zero totals.
+
+Backfill the same indicator dataset for v308 using its matching results and
+recorded classifications; identify those inputs in the provenance. Confirm
+their availability alongside recovery of v308's raw results.
+
+QA should display differences between shares in percentage points. Agree and
+label whether the tolerance is relative percent or percentage points before
+adding these to the report; do not silently reinterpret the demo's relative
+5% tolerance. Add the indicators to QA only after their inputs and definitions
+are reproducible.
+
+### Comparison behaviour
 
 Join annual metric results by metric, period, unit and any breakdown dimensions.
 Report baseline and candidate values, candidate minus baseline, and percentage
