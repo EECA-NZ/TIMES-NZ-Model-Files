@@ -125,7 +125,7 @@ def timeslice_view(
 def flow_summaries(
     tables: dict[str, pd.DataFrame], weights: pd.DataFrame
 ) -> dict[str, pd.DataFrame]:
-    """Prepare the existing 2035/2050 battery and flex export selections."""
+    """Combine existing flow selections, retaining years and GW/GWh in columns."""
     result = {}
     for kind in ["battery", "demand_flex"]:
         data = tables[f"{kind}_flows.parquet"]
@@ -140,12 +140,13 @@ def flow_summaries(
             raise ValueError(f"Missing {kind} flow keys or values")
         if kind == "demand_flex":
             data = equivalent_flex_input(data, tables["raw_results.parquet"])
+        views = []
         for year in [2035, 2050]:
             selected = data.loc[data.Period.eq(year)]
             if selected.empty:
                 continue
             for unit in ["GW", "GWh"]:
-                result[f"{kind}_flows_{unit.lower()}_{year}"] = timeslice_view(
-                    selected, weights, unit
-                )
+                views.append(timeslice_view(selected, weights, unit))
+        if views:
+            result[f"{kind}_flows"] = pd.concat(views, ignore_index=True)
     return result

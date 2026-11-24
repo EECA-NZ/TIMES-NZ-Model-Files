@@ -68,6 +68,12 @@ explicitly reviewed replacement, not a fallback to the live PREP tree.
 
 Successful post-processing reruns remove superseded summary CSVs and old summary
 Parquets only after all replacement outputs have been written.
+Summary filenames describe their contents, with shared totals and breakdowns
+for all readers. Flow CSVs combine the existing 2035/2050 selections in GW/GWh;
+renewable-share CSVs contain both `Share` and `%` rows. Select `Period`, `Unit`,
+`Fuel` and vehicle `EndUse` as applicable. See the
+[summary migration record](../QA-TIMES-NZ/summary-migration.md) for renamed tables
+and retained differences in classifications.
 
 Further guidance on case configuration, local GAMS/TIMES setup, generated run
 files, and CPLEX options is in the

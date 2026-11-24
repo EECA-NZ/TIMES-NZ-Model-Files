@@ -53,9 +53,11 @@ To-do before completing step 3:
   packaging and exports, tests, documentation and the v308 summaries together.
   Readers must validate the fields and types they use; preserve numeric precision
   and undefined values.
-- [ ] Remove `qa_` prefixes and consolidate overlapping tables where their
+- [x] Remove `qa_` prefixes and consolidate overlapping tables where their
   meanings match. Name tables by their contents rather than their consumers;
   preserve explicit differences in units, boundaries and classifications.
+  The v308 set now has 38 tables rather than 56; every previous view was checked
+  against its replacement. See the migration record for names and row selections.
 - [ ] Organise summaries into subject folders beneath `summaries/`, such as
   `electricity/`, `demand/`, `emissions/`, `transport/` and `indicators/`.
   Preserve these relative paths through PUBLISH packaging and exports.

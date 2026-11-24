@@ -14,6 +14,7 @@ from solve_times_nz.reporting import (
 from solve_times_nz.reporting_flows import (
     TIMESLICES,
     equivalent_flex_input,
+    flow_summaries,
     timeslice_view,
 )
 
@@ -205,10 +206,17 @@ def test_build_summaries_includes_demo_objective_indicators_and_publication_tabl
         "batteries.parquet": use.iloc[:1].assign(
             Variable="Capacity", Technology="Battery", Unit="GW"
         ),
-        "transport_capacity.parquet": use.iloc[:1].assign(
+        "transport_capacity.parquet": pd.concat(
+            [use.iloc[:1]] * 3, ignore_index=True
+        ).assign(
             Variable="Transport Capacity",
             TechnologyGroup="Battery Electric Vehicle",
-            EndUse="Light Passenger Vehicle",
+            EndUse=[
+                "Light Passenger Vehicle",
+                "Light Commercial Vehicle",
+                "Heavy Truck",
+            ],
+            Value=[1.0, 2.0, 3.0],
             Unit="000vehicles",
         ),
         "battery_flows.parquet": pd.DataFrame(),
@@ -227,13 +235,24 @@ def test_build_summaries_includes_demo_objective_indicators_and_publication_tabl
         for name, frame in tables.items()
     }
     result = build_summaries(tables, fuels(), pd.DataFrame())
-    assert result["qa_demand.csv"].Value.item() == pytest.approx(20 / 3.6)
-    assert result["qa_generation_total.csv"].Value.item() == pytest.approx(20 / 3.6)
-    assert result["qa_emissions_total.csv"].Value.item() == 1
-    assert result["qa_objective.csv"].Value.item() == 1.5
-    assert result["transport_lpv_capacity.csv"].TechnologyGroup.item() == "BEV"
-    assert result["indicator_ren_gen.csv"].Value.item() == 25
-    assert result["renewable_generation_share.csv"].Value.item() == 0.25
+    assert result["electricity_demand.csv"].Value.item() == pytest.approx(20 / 3.6)
+    assert result["electricity_generation.csv"].Value.item() == pytest.approx(20 / 3.6)
+    assert result["emissions.csv"].Value.item() == 1
+    assert result["objective_function.csv"].Value.item() == 1.5
+    fleet = result["transport_capacity.csv"]
+    assert fleet.TechnologyGroup.unique().tolist() == ["BEV"]
+    assert fleet.set_index("EndUse").Value.to_dict() == {
+        "Light Passenger Vehicle": 1,
+        "Light Commercial Vehicle": 2,
+        "Heavy Truck": 3,
+    }
+    renewable = result["renewable_generation_share.csv"]
+    assert renewable.set_index("Unit").Value.to_dict() == {"Share": 0.25, "%": 25}
+    totals = result["energy_demand_by_fuel.csv"].set_index("Fuel").Value.to_dict()
+    assert totals == {"Electricity": 20, "Coal": 10, "Wood": 10}
+    assert not any(name.startswith("qa_") for name in result)
+    assert "elec_gen_line.csv" not in result
+    assert "indicator_ren_gen.csv" not in result
     assert "total_demand_by_fuel.csv" in result
     assert all(
         frame.Period.dtype == "int64" for frame in result.values() if "Period" in frame
@@ -252,11 +271,79 @@ def test_legacy_industrial_publication_exclusions_do_not_change_full_qa_totals()
     assert result["industrial_demand"].Value.sum() == 7
     assert result["demand_profile_industrial_process_heat"].Value.sum() == 7
     assert result["total_demand_by_fuel"].Value.sum() == 14
-    assert result["qa_biomass_demand"].Value.sum() == 9
+    assert result["woody_biomass_demand_by_sector_group"].Value.sum() == 9
 
 
-def test_publication_small_value_cleanup_does_not_round_qa_gas_supply():
+def test_publication_small_value_cleanup_does_not_round_natural_gas_supply():
     frame = demand().iloc[[0]].assign(Fuel="Natural gas", Value=1e-8)
     result = supply_summaries(frame)
     assert result["primary_energy_lng_natural_gas_supply"].Value.item() == 0
-    assert result["qa_gas_supply"].Value.item() == 1e-8
+    assert result["natural_gas_supply_by_source"].Value.item() == 1e-8
+
+
+def test_consolidated_demand_keeps_fuel_vehicle_and_sector_boundaries():
+    frame = pd.concat([demand().iloc[[0]]] * 4, ignore_index=True).assign(
+        Fuel=["Diesel", "Petrol", "Electricity", "Electricity"],
+        SectorGroup=[
+            "Transport",
+            "Transport",
+            "Industry",
+            "Agriculture, Forestry, and Fishing",
+        ],
+        Sector=["Road Transport", "Road Transport", "Dairy", "Agriculture"],
+        EndUse=["Heavy Truck", "Light Passenger Vehicle", "Heat", "Heat"],
+        Value=[3.0, 7.0, 9.0, 2.0],
+    )
+    result = demand_summaries(frame, frame)
+    detailed = result["energy_demand_by_fuel_and_sector_group"]
+    assert detailed.groupby("Fuel").Value.sum().to_dict() == {
+        "Diesel": 3,
+        "Petrol": 7,
+        "Electricity": 11,
+    }
+    vehicles = result["road_transport_demand_by_fuel_and_vehicle_class"]
+    assert vehicles.set_index(["Fuel", "Vehicle class"]).Value.to_dict() == {
+        ("Diesel", "Heavy Truck"): 3,
+        ("Petrol", "Light Passenger Vehicle"): 7,
+    }
+    electricity = result["electricity_demand_by_sector_group"].set_index("SectorGroup")
+    assert electricity.loc["Industry", "Value"] == pytest.approx(9 / 3.6)
+    assert electricity.loc[
+        "Agriculture, Forestry, and Fishing", "Value"
+    ] == pytest.approx(2 / 3.6)
+    combined = result["electricity_demand_by_sector_group_combined_industry"]
+    assert combined.SectorGroup.tolist() == ["Industry"]
+    assert combined.Value.item() == pytest.approx(11 / 3.6)
+
+
+def test_consolidated_flows_keep_both_years_units_and_timeslice_completion():
+    flows = pd.DataFrame(
+        {
+            "Scenario": ["s", "s"],
+            "Period": [2035, 2050],
+            "Variable": ["Battery charging"] * 2,
+            "Technology": ["Battery"] * 2,
+            "TimeSlice": [TIMESLICES[0]] * 2,
+            "Value": [1.0, 2.0],
+            "Unit": ["PJ"] * 2,
+        }
+    )
+    weights = pd.DataFrame({"TimeSlice": TIMESLICES, "YearFraction": [1 / 24] * 24})
+    result = flow_summaries(
+        {"battery_flows.parquet": flows, "demand_flex_flows.parquet": pd.DataFrame()},
+        weights,
+    )
+    assert set(result) == {"battery_flows"}
+    combined = result["battery_flows"]
+    for year, value in [(2035, 1), (2050, 2)]:
+        for unit in ["GW", "GWh"]:
+            selected = combined.loc[combined.Period.eq(year) & combined.Unit.eq(unit)]
+            pd.testing.assert_frame_equal(
+                selected.reset_index(drop=True),
+                timeslice_view(flows.loc[flows.Period.eq(year)], weights, unit),
+            )
+            assert len(selected) == 24
+            expected = -value * 277.77777778
+            if unit == "GW":
+                expected /= 8760 / 24
+            assert selected.Value.sum() == pytest.approx(expected)

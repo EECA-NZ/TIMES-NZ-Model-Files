@@ -164,33 +164,29 @@ def renewable_shares(
 def demand_summaries(
     demand: pd.DataFrame, road: pd.DataFrame
 ) -> dict[str, pd.DataFrame]:
-    """Preserve publication selections and prepare the demo's demand series."""
+    """Prepare reusable demand totals and breakdowns, retaining distinct groupings."""
     electricity = demand.loc[demand["Fuel"].eq("Electricity")]
     result = {
-        "qa_demand": aggregate(electricity).assign(
+        "electricity_demand": aggregate(electricity).assign(
             Value=lambda df: df.Value / 3.6, Unit="TWh"
         ),
-        "qa_sector_demand": aggregate(electricity, ["SectorGroup"]).assign(
-            Value=lambda df: df.Value / 3.6, Unit="TWh"
+        "electricity_demand_by_sector_group": aggregate(
+            electricity, ["SectorGroup"]
+        ).assign(Value=lambda df: df.Value / 3.6, Unit="TWh"),
+        "energy_demand_by_fuel_and_sector_group": aggregate(
+            demand, ["Fuel", "SectorGroup"]
         ),
-        "qa_gas_demand": aggregate(
-            demand.loc[demand.Fuel.eq("Natural gas")], ["SectorGroup"]
-        ),
-        "qa_biomass_demand": aggregate(
+        "woody_biomass_demand_by_sector_group": aggregate(
             demand.loc[demand.Fuel.isin(["Wood", "Wood residuals (onsite)"])],
             ["SectorGroup"],
         ),
     }
-    for fuel in ["Diesel", "Petrol"]:
-        result[f"qa_{fuel.lower()}_demand"] = aggregate(
-            demand.loc[demand.Fuel.eq(fuel)], ["SectorGroup"]
-        )
-        vehicles = demand.loc[
-            demand.Fuel.eq(fuel)
-            & demand.SectorGroup.eq("Transport")
-            & demand.Sector.eq("Road Transport")
-        ].rename(columns={"EndUse": "Vehicle class"})
-        result[f"qa_road_{fuel.lower()}"] = aggregate(vehicles, ["Vehicle class"])
+    vehicles = demand.loc[
+        demand.SectorGroup.eq("Transport") & demand.Sector.eq("Road Transport")
+    ].rename(columns={"EndUse": "Vehicle class"})
+    result["road_transport_demand_by_fuel_and_vehicle_class"] = aggregate(
+        vehicles, ["Fuel", "Vehicle class"]
+    )
     result.update(publication_demand_summaries(demand, road))
     return result
 
@@ -304,7 +300,7 @@ def publication_demand_summaries(
     result["demand_profile_industrial_process_heat"] = aggregate(
         mapped(heat, "Fuel", {**detailed_fuels, "LPG": "Other"}), ["Fuel"]
     )
-    result["electricity_demand_by_sector_group"] = aggregate(
+    result["electricity_demand_by_sector_group_combined_industry"] = aggregate(
         island.loc[island.Fuel.eq("Electricity")].assign(
             SectorGroup=lambda df: df.SectorGroup.replace(
                 {"Agriculture, Forestry, and Fishing": "Industry"}
@@ -357,7 +353,7 @@ def supply_summaries(supply: pd.DataFrame) -> dict[str, pd.DataFrame]:
         frame["SupplySource"] = frame.Fuel.map(labels)
         frame = aggregate(frame, ["SupplySource"])
         if name == "primary_energy_lng_natural_gas_supply":
-            result["qa_gas_supply"] = frame.rename(
+            result["natural_gas_supply_by_source"] = frame.rename(
                 columns={"SupplySource": "Supply source"}
             )
         frame.loc[frame.Value.abs().lt(1e-6), "Value"] = 0
@@ -394,16 +390,10 @@ def build_summaries(
             select(tables["primary_energy.parquet"], "Primary Energy Production", "PJ")
         )
     )
-    result["elec_gen_line"] = aggregate(output).assign(
-        Value=lambda df: df.Value * PJ_TO_TWH, Unit="TWh"
-    )
-    result["elec_gen_by_tech"] = aggregate(output, ["TechnologyGroup"]).assign(
-        Value=lambda df: df.Value * PJ_TO_TWH, Unit="TWh"
-    )
-    result["qa_generation"] = aggregate(output, ["TechnologyGroup"]).assign(
-        Value=lambda df: df.Value / 3.6, Unit="TWh"
-    )
-    result["qa_generation_total"] = aggregate(output).assign(
+    result["electricity_generation_by_technology_group"] = aggregate(
+        output, ["TechnologyGroup"]
+    ).assign(Value=lambda df: df.Value / 3.6, Unit="TWh")
+    result["electricity_generation"] = aggregate(output).assign(
         Value=lambda df: df.Value / 3.6, Unit="TWh"
     )
     result["thermal_generation_fuel_use"] = aggregate(
@@ -412,13 +402,13 @@ def build_summaries(
         ],
         ["Fuel"],
     )
-    result["emissions_line"] = aggregate(emissions).assign(
+    result["emissions"] = aggregate(emissions).assign(
         Value=lambda df: df.Value / 1000, Unit="Mt CO2e"
     )
-    result["qa_emissions"] = aggregate(emissions, ["SectorGroup"]).assign(
+    result["emissions_by_sector_group"] = aggregate(emissions, ["SectorGroup"]).assign(
         Value=lambda df: df.Value / 1000, Unit="Mt CO2e"
     )
-    result["emissions_sector_facet"] = aggregate(
+    result["emissions_by_broad_sector_group"] = aggregate(
         emissions.assign(
             SectorGroup=emissions.SectorGroup.where(
                 emissions.SectorGroup.isin(
@@ -435,43 +425,44 @@ def build_summaries(
     fleet = select(
         tables["transport_capacity.parquet"], "Transport Capacity", "000vehicles"
     )
-    for name, uses in {
-        "lpv": ["Light Passenger Vehicle"],
-        "lcv": ["Light Commercial Vehicle"],
-        "truck": ["Light Truck", "Medium Truck", "Heavy Truck"],
-    }.items():
-        frame = aggregate(
-            fleet.loc[fleet.EndUse.isin(uses)], ["TechnologyGroup", "EndUse"]
-        )
-        frame.loc[frame.Value.abs().lt(1e-6), "Value"] = 0
-        frame = mapped(
-            frame,
-            "TechnologyGroup",
-            {
-                "Battery Electric Vehicle": "BEV",
-                "Hybrid Vehicle": "Hybrid",
-                "Internal Combustion Engine": "ICE",
-                "Plug-in Hybrid Vehicle": "PHEV",
-            },
-        )
-        result[f"transport_{name}_capacity"] = frame.assign(Unit="Thousand vehicles")
+    fleet = aggregate(
+        fleet.loc[
+            fleet.EndUse.isin(
+                [
+                    "Light Passenger Vehicle",
+                    "Light Commercial Vehicle",
+                    "Light Truck",
+                    "Medium Truck",
+                    "Heavy Truck",
+                ]
+            )
+        ],
+        ["TechnologyGroup", "EndUse"],
+    )
+    fleet.loc[fleet.Value.abs().lt(1e-6), "Value"] = 0
+    result["transport_capacity"] = mapped(
+        fleet,
+        "TechnologyGroup",
+        {
+            "Battery Electric Vehicle": "BEV",
+            "Hybrid Vehicle": "Hybrid",
+            "Internal Combustion Engine": "ICE",
+            "Plug-in Hybrid Vehicle": "PHEV",
+        },
+    ).assign(Unit="Thousand vehicles")
     years = demand[["Scenario", "Period"]].drop_duplicates()
     result = {name: complete(frame, years) for name, frame in result.items()}
-    result.update(renewable_shares(generation, demand, fuels))
-    for name, source in {
-        "indicator_ren_gen": "renewable_generation_share",
-        "indicator_ren_tfec": "renewable_tfec_share",
-    }.items():
-        result[name] = result[source].assign(Value=lambda df: df.Value * 100, Unit="%")
-    for name in [
-        "gas_demand",
-        "gas_supply",
-        "diesel_demand",
-        "petrol_demand",
-        "biomass_demand",
-        "emissions",
+    for name, frame in renewable_shares(generation, demand, fuels).items():
+        result[name] = pd.concat(
+            [frame, frame.assign(Value=lambda df: df.Value * 100, Unit="%")],
+            ignore_index=True,
+        )
+    for name, source, groups in [
+        ("energy_demand_by_fuel", "energy_demand_by_fuel_and_sector_group", ["Fuel"]),
+        ("natural_gas_supply", "natural_gas_supply_by_source", []),
+        ("woody_biomass_demand", "woody_biomass_demand_by_sector_group", []),
     ]:
-        result[f"qa_{name}_total"] = aggregate(result[f"qa_{name}"])
+        result[name] = aggregate(result[source], groups)
     objectives = tables["objective_function.parquet"]
     if (
         objectives.Scenario.duplicated().any()
@@ -484,7 +475,7 @@ def build_summaries(
         or not objectives.Value.abs().lt(float("inf")).all()
     ):
         raise ValueError("Expected finite objective values")
-    result["qa_objective"] = objectives[
+    result["objective_function"] = objectives[
         ["Scenario", "Variable", "Unit", "Value"]
     ].copy()
     result.update(flow_summaries(tables, timeslices))
