@@ -1,0 +1,13 @@
+tolerance = 0.05
+
+[baseline]
+source = "RELEASE"
+release = "v308"
+scenario = "steady-v308"
+label = "Steady v308"
+
+[candidate]
+source = "SOLVE"
+scenario = "steady"
+# timestamp = "20261124T010531Z" # Optional exact run; omit to select latest.
+label = "Steady development"

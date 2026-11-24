@@ -96,18 +96,46 @@ validation. Retain the old exports until the replacements are validated.
 
 **4: Add QA input selection**
 
-Select `RELEASE` plus release/scenario, or `SOLVE` plus case and optional exact
-run timestamp, with resolved inputs shown explicitly. Resolve either source to
-its result root and read the same relative `summaries/` dataset paths. QA must
-compare a RELEASE baseline with a SOLVE candidate without publishing it first.
-Test with synthetic release/run fixtures, including incomplete-run rejection.
+Implemented 24 November 2026 in `qa_times_nz.report_inputs`: tracked main
+configuration, explicit main/dev loading, shared RELEASE/SOLVE resolution and
+scenario-filtered summary reads. PUBLISH supplies release validation, CSV parsing
+and latest-run ranking. Synthetic tests cover all source combinations, pinned
+and latest selection, invalid inputs and missing data. A read-only real check
+resolved the v308 baseline and current steady solve, checked 14 generation years
+per side against labelled totals and loaded each whole-run objective. The report
+command and developer-config generation remain in step 5.
+
+Define and validate a TOML configuration containing the baseline, candidate and
+tolerance. Both inputs independently select either `RELEASE` by release name and
+scenario ID, or `SOLVE` by case name and optional exact run timestamp. Support
+all four source combinations. In particular, QA must be able to compare a
+RELEASE baseline with a SOLVE candidate without publishing that solve first.
+Resolve each input to its result root and read the same relative `summaries/`
+dataset paths, with resolved inputs shown explicitly. Follow the fixed result
+locations and selection rules below; no configurable search paths are needed.
+
+Keep both configuration files at the root of `QA-TIMES-NZ/`: tracked
+`report_config.toml` and Git-ignored `report_config_dev.toml`. Main is the default;
+an explicit `--dev` option will select the developer file, without silently
+falling back to main if it is missing. Retain the existing tolerance meaning:
+`tolerance = 0.05` means 5% relative for the current checks. Validate it as a
+finite, non-negative number; metric-specific tolerances remain report work.
+
+This step implements configuration loading/validation and input resolution.
+The report command and developer-configuration generation belong to step 5.
+Test with synthetic release/run fixtures, including all source combinations,
+latest and pinned run selection, incomplete-run rejection, invalid configuration
+and main/dev file selection.
 
 **5: Integrate the QA report**
 
 Build on the current demo's tables and charts, reading prepared summaries.
-Provide a command such as `qa-times-nz generate_qa --main|--dev`, a tracked main
-configuration and a generated, ignored developer configuration. Do not overwrite
-an existing developer configuration when generating it.
+Provide a command such as `qa-times-nz generate_qa`, using the main configuration
+by default, with `--dev` to select the developer configuration defined in step 4.
+Provide a way to generate the ignored developer configuration from the tracked
+main configuration. Do not overwrite an existing developer configuration when
+generating it; a requested missing developer configuration is an error, with
+instructions to generate it.
 
 QA owns input selection and validation, matching supplied year/category keys,
 differences, tolerances, calibration assessments and report presentation. Category
@@ -201,7 +229,7 @@ These resolve to two existing layouts:
 Both roots use `raw_results.parquet`, `labelled/` and, when produced,
 `summaries/`. PUBLISH preserves dataset paths; its legacy importer moves flat
 labelled datasets into `labelled/`. Metadata snapshots stay with SOLVE runs.
-QA support for selecting SOLVE runs remains planned.
+QA's input module resolves either source and reads these prepared summaries.
 
 Reuse PUBLISH's release manifest validation and dataset lookup rather than
 creating another release format. Declare the workspace dependency if QA imports
