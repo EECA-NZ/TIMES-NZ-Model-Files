@@ -26,6 +26,9 @@ dependencies = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[project.scripts]
+qa-times-nz = "qa_times_nz.cli:main"
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/qa_times_nz"]
 

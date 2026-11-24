@@ -54,7 +54,8 @@ def load_config(*, dev: bool = False) -> dict:
     name = "report_config_dev.toml" if dev else "report_config.toml"
     path = REPOSITORY_ROOT / "QA-TIMES-NZ" / name
     if not path.is_file():
-        raise FileNotFoundError(f"Missing QA configuration: {path}")
+        hint = "; run uv run qa-times-nz init-dev-config first" if dev else ""
+        raise FileNotFoundError(f"Missing QA configuration: {path}{hint}")
     with path.open("rb") as source:
         config = tomllib.load(source)
     if set(config) != {"baseline", "candidate", "tolerance"}:

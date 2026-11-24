@@ -8,6 +8,5 @@ label = "Steady v308"
 
 [candidate]
 source = "SOLVE"
-scenario = "steady"
-# timestamp = "20261124T010531Z" # Optional exact run; omit to select latest.
-label = "Steady development"
+scenario = "steady" # just takes the latest build 
+label = "Steady v309 dev"

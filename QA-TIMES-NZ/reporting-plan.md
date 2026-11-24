@@ -129,6 +129,24 @@ and main/dev file selection.
 
 **5: Integrate the QA report**
 
+Implemented 24 November 2026: `qa-times-nz generate_qa` reads prepared summaries
+using the main configuration; `--dev` selects the ignored developer file.
+`qa-times-nz init-dev-config` creates it without overwriting an existing file.
+Main/dev runs overwrite the same ignored `build/report.html` and
+`build/comparisons.csv` outputs. The former demo's
+five-page presentation is retained, with no report-side aggregation or row
+completion. Unmatched/undefined comparisons remain N/A and unassessed; missing
+charts show available input data or "no data found". Objective differences are
+descriptive. The demo module, configuration, tests and generated HTML have been
+retired in favour of the configured report and its tests.
+
+All 192 SOLVE/PUBLISH/QA tests pass. Real v308 versus steady SOLVE generation,
+demand and emissions totals match labelled sources; packaging the same candidate
+produces a byte-identical comparison CSV. The generated HTML has 20 embedded
+SVG charts, valid internal link targets and no external assets. Calibration is
+step 6. Renewable-share report assessments use the same relative tolerance as
+other annual metrics, as agreed below.
+
 Build on the current demo's tables and charts, reading prepared summaries.
 Provide a command such as `qa-times-nz generate_qa`, using the main configuration
 by default, with `--dev` to select the developer configuration defined in step 4.
@@ -293,10 +311,13 @@ are needed initially.
   the case through its manifest and reject missing or ambiguous matches.
 - An explicitly pinned incomplete run is an error; do not fall back to another
   run. For all selections, validate required outputs before calculating metrics.
-- Print the resolved run directory, scenario ID and version before report
-  generation and include them in the report's input section, along with source
-  manifests and workspace version. Latest selection can change between reports;
-  show the exact timestamp needed to pin the selected run for a later comparison.
+- Print the resolved run directory, scenario ID, version and timestamp before
+  report generation, so the selected run can be pinned for later comparisons.
+  Keep result roots, manifests, manifest paths, model versions and pin timestamps
+  internal for loading, validation and diagnostics. The report's input section
+  shows roles, labels, source types, release/run names, scenario IDs
+  and source creation/completion times, without duplicating the internal
+  fields or embedding full manifests.
 
 Keep these rules together in one ordinary resolver function and document them
 beside the example configuration. Avoid implicit global scenario maps, source
@@ -394,11 +415,13 @@ Backfill the same indicator dataset for v308 using its matching results and
 recorded classifications; identify those inputs in the provenance. Confirm
 their availability alongside recovery of v308's raw results.
 
-QA should display differences between shares in percentage points. Agree and
-label whether the tolerance is relative percent or percentage points before
-adding these to the report; do not silently reinterpret the demo's relative
-5% tolerance. Add the indicators to QA only after their inputs and definitions
-are reproducible.
+Agreed 24 November 2026: assess renewable shares using the same relative
+tolerance as other annual metrics. For example, moving from 63% to 76% is a
+13-percentage-point difference and a relative change of `(76 - 63) / 63 = 20.63%`,
+which exceeds `tolerance = 0.05`. Read the prepared `%` rows; show absolute
+differences in percentage points and relative differences in percent, with their
+units explicit in HTML and CSV. Preserve the existing zero-baseline and undefined
+value handling. The indicators' prepared inputs and definitions are reproducible.
 
 ### Comparison behaviour
 

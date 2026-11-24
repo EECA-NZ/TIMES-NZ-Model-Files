@@ -77,8 +77,9 @@ The Explorer's full-results ZIP includes summary CSVs beneath `summaries/` to
 avoid collisions with labelled-result exports. Its `export-summaries`
 command selects release scenarios, applies display labels and writes CSVs plus
 an export provenance record. It performs no summary calculation. Original QA
-calculations and saved exports remain available until later caller migration and
-retirement; the report has not yet switched to summary reads.
+analysis calculations and saved exports remain available until later caller
+migration and retirement. The configured QA report now reads these summaries;
+the demo's duplicated calculations and report-side completion have been removed.
 
 ## v308 backfill and provenance
 

@@ -1,0 +1,38 @@
+body {font:16px system-ui,sans-serif;color:#164057;background:#f3f6f6;margin:0}
+main {max-width:1360px;margin:40px auto;padding:0 24px}
+.chart {display:block;width:100%;height:auto}
+section {background:white;padding:24px;margin:24px 0;border-radius:12px;overflow:auto}
+h1 {font-size:32px;position:sticky;top:0;z-index:40;background:#f3f6f6;
+margin:0;padding:12px 0;line-height:40px;height:64px;box-sizing:border-box}
+h2 {margin-top:0} p {line-height:1.6}
+section > table + h2 {margin-top:24px}
+table {width:100%;border-collapse:collapse;text-align:left;font-size:14px}
+th,td {padding:12px;border-bottom:1px solid #e1e8e8} th {text-align:left}
+details {margin-top:20px}
+summary {cursor:pointer;font-weight:600;padding:12px 0}
+.table-scroll {overflow:auto;max-height:480px}
+.table-scroll thead th {position:sticky;top:0;background:white}
+caption {text-align:left;padding:12px 0;font-weight:600}
+tr.over-tolerance {background:#fff0dc}
+.tag {color:#447474;font-weight:600;letter-spacing:.08em;font-size:12px}
+nav {display:flex;gap:12px;margin:24px 0}
+nav a {padding:12px 20px;border-radius:8px;color:#164057;text-decoration:none}
+nav a[aria-current="page"] {background:#164057;color:white}
+nav a[aria-current="location"] {background:#e6f0ee;color:#164057;
+font-weight:600;border-radius:0;box-shadow:inset 3px 0 #447474}
+nav[aria-label="Report pages"] {position:sticky;top:64px;z-index:30;
+background:#f3f6f6;margin:0;padding:12px 0;height:68px;box-sizing:border-box}
+.section-page {display:grid;grid-template-columns:336px minmax(0,1fr);gap:24px}
+.section-page[hidden] {display:none}
+.page-content {min-width:0}
+nav[aria-label$="sections"] {position:sticky;top:148px;align-self:start;
+flex-direction:column;background:white;margin:0;padding:16px;
+border:1px solid #d5dede;border-radius:10px;gap:4px}
+nav[aria-label$="sections"] {max-height:calc(100vh - 164px);overflow:auto;box-sizing:border-box}
+nav[aria-label$="sections"] strong {padding:4px 8px 12px}
+nav[aria-label$="sections"] a {padding:10px 8px}
+nav[aria-label$="sections"] a {white-space:normal}
+nav a {line-height:20px;white-space:nowrap}
+.report-section {scroll-margin-top:132px}
+@media (max-width:800px) {.section-page {grid-template-columns:1fr}
+nav[aria-label$="sections"] {position:static}}
