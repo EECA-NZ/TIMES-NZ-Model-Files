@@ -6,6 +6,7 @@ import pandas as pd
 
 # pylint: disable = wildcard-import, unused-wildcard-import
 from plotnine import *
+
 from prepare_times_nz.utilities.filepaths import ANALYSIS, STAGE_3_DATA
 
 ANALYSIS_OUTPUT = ANALYSIS / "results/demand_projections"

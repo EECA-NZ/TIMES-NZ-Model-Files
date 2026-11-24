@@ -7,12 +7,11 @@ This includes contingent gas from fields that haven't been developed yet.
 
 """
 
-# some conflict between pylint and isort here
-# pylint: disable = wrong-import-order
 import numpy as np
 import pandas as pd
-from prepare_times_nz.utilities.filepaths import STAGE_1_DATA, STAGE_3_DATA
 from scipy.stats import lognorm
+
+from prepare_times_nz.utilities.filepaths import STAGE_1_DATA, STAGE_3_DATA
 
 # identify required input files
 

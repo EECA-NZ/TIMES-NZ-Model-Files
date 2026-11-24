@@ -28,3 +28,9 @@ target-version = ["py312"]
 
 [tool.pylint.main]
 source-roots = ["PREPARE-TIMES-NZ/src"]
+
+# Match the root config used by CI and hooks
+# only necessary for manual pylint runs:
+# CI/hooks always use root config
+[tool.pylint.similarities]
+min-similarity-lines = 10

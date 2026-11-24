@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import Final
 
 import pandas as pd
+
 from prepare_times_nz.stage_1.eeud import append_unallocated_onsite_generation
 from prepare_times_nz.utilities.data_cleaning import rename_columns_to_pascal
 from prepare_times_nz.utilities.data_in_out import _save_data

@@ -1,0 +1,5 @@
+name = "standard"
+
+[scenarios]
+steady = "Steady"
+shift = "Shift"

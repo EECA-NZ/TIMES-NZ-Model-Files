@@ -8,6 +8,7 @@ Writes common constraint inputs shared across stage 4 outputs.
 from pathlib import Path
 
 import pandas as pd
+
 from prepare_times_nz.stage_4.baseyear.declare_banned_techs import (
     create_ban_table,
     register_codes_to_ban,

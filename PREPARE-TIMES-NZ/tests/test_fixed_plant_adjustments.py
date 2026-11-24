@@ -2,6 +2,7 @@
 
 import pandas as pd
 import pytest
+
 from prepare_times_nz.stage_4.electricity.fixed_plant_adjustments import (
     extract_season_from_timeslice,
     format_fixed_plant_adjustment_output,

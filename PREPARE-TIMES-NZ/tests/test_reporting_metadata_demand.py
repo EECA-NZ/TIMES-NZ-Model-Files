@@ -2,6 +2,7 @@
 
 import pandas as pd
 import pytest
+
 from prepare_times_nz.reporting_metadata.demand import (
     DEMAND_COLUMNS,
     build_agriculture_processes,

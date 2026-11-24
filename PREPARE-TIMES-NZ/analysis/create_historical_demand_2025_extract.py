@@ -44,7 +44,7 @@ OTHER_CHART_FUELS = ["Biogas", "Diesel", "Fuel Oil", "LPG"]
 DELIVERY_SECTOR_LABELS = {"WSR": "Warehousing and Retail"}
 FOOD_AND_BEVERAGE_REDUCTION_PJ = 0.63
 FUEL_COLOURS = {
-    # TIMES-NZ-INTERNAL-QA analysis palette.
+    # QA-TIMES-NZ analysis palette.
     "Natural Gas": "#5A1A5E",
     "Coal": "#2F2F2F",
     "Wood": "#41B496",

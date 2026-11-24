@@ -1,3 +1,5 @@
+"""Vehicle cost mappings and rail energy column preparation."""
+
 CATEGORY_TO_VEHICLE_CLASS = {
     "LPV": ["Compact", "Midsize", "Midsize SUV", "Small SUV"],
     "LCV": [

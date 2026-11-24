@@ -3,6 +3,7 @@
 import pandas as pd
 import pytest
 from openpyxl import load_workbook
+
 from prepare_times_nz.utilities import excel_writers
 from prepare_times_nz.utilities.excel_writers import coerce_excel_data_value
 

@@ -34,36 +34,37 @@ jobs:
           cache-dependency-glob: uv.lock
       - name: Install the workspace
         run: uv sync --locked --group dev
+      - name: Validate pre-commit configuration
+        run: uv run pre-commit validate-config
       - name: Run linters
         working-directory: PREPARE-TIMES-NZ
         run: |
           uv run black --check --diff src tests scripts
-          uv run isort --profile black --check-only src tests scripts
-          uv run pylint src/prepare_times_nz scripts
-          uv run yamllint .
-      - name: Run PREPARE tests and build HTML coverage
-        working-directory: PREPARE-TIMES-NZ
-        run: |
-          uv run coverage run -m pytest
-          uv run coverage html
-      - name: Run SOLVE linters and tests
+          uv run isort --settings-path .. --check-only src tests scripts
+          uv run pylint --rcfile=../pyproject.toml src/prepare_times_nz scripts
+      - name: Run SOLVE linters
         working-directory: SOLVE-TIMES-NZ
         run: |
           uv run black --check --diff src tests
-          uv run isort --profile black --check-only src tests
-          uv run pylint src/solve_times_nz
-          uv run pytest
-      - name: Run QA tests
-        working-directory: TIMES-NZ-INTERNAL-QA
-        run: uv run pytest
+          uv run isort --settings-path .. --check-only src tests
+          uv run pylint --rcfile=../pyproject.toml src/solve_times_nz
+      - name: Run PUBLISH linters
+        working-directory: PUBLISH-TIMES-NZ
+        run: |
+          uv run black --check --diff src tests app.py run_local.py
+          uv run isort --settings-path .. --check-only src tests app.py run_local.py
+          uv run pylint --rcfile=../pyproject.toml src/publish_times_nz app.py run_local.py
+      - name: Run workspace tests and build HTML coverage
+        run: |
+          uv run coverage run -m pytest PREPARE-TIMES-NZ/tests SOLVE-TIMES-NZ/tests PUBLISH-TIMES-NZ/tests QA-TIMES-NZ/tests
+          uv run coverage html
       - name: Run pip-audit
         run: uv run pip-audit --skip-editable
       - name: Publish coverage to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: PREPARE-TIMES-NZ/htmlcov
+          path: htmlcov
       - name: Coverage summary
-        working-directory: PREPARE-TIMES-NZ
         run: uv run coverage report
 
   deploy:

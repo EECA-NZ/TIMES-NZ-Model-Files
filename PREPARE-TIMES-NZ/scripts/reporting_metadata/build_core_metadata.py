@@ -5,6 +5,7 @@ import tomllib
 from pathlib import Path
 
 import pandas as pd
+
 from prepare_times_nz.reporting_metadata.core import (
     build_declaration_units,
     build_distribution_processes,

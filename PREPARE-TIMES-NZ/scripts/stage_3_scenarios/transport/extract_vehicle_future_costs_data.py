@@ -17,6 +17,7 @@ import re
 from pathlib import Path
 
 import pandas as pd
+
 from prepare_times_nz.stage_1.vehicle_costs import (
     CATEGORY_TO_VEHICLE_CLASS,
     COST_COLS,

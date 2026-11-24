@@ -8,6 +8,7 @@ These are not currently adjusted per scenario, but probably should be
 
 import numpy as np
 import pandas as pd
+
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.stage_4.electricity.common import (
     CAP2ACT,

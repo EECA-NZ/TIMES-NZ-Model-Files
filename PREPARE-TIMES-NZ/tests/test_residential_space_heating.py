@@ -1,6 +1,7 @@
 """Tests for residential space-heating allocation helpers."""
 
 import pandas as pd
+
 from prepare_times_nz.stage_2.residential.space_heating_model import (
     add_gshp_allocation_shares,
 )

@@ -5,15 +5,14 @@ A common area for all filepaths and functions common to
 
 """
 
-from pathlib import Path
-
 import pandas as pd
+
+from prepare_times_nz.utilities.data_in_out import _save_data
 from prepare_times_nz.utilities.filepaths import (
     ASSUMPTIONS,
     CONCORDANCES,
     STAGE_2_DATA,
 )
-from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # Constants ------------------------------------------------
 BASE_YEAR = 2023
@@ -33,7 +32,7 @@ PREPROCESSING_DIR = COMMERCIAL_DATA_DIR / "preprocessing"
 # Preprocessing names ---------------------------------------
 
 PREPRO_DF_NAME_STEP1 = "1_times_eeud_alignment_baseyear.csv"
-PREPRO_DF_NAME_STEP2 = "2_times_baseyear_regional_disaggregation.csv"
+PREPRO_DF_NAME_STEP2 = "2_commercial_regional_demand_split.csv"
 PREPRO_DF_NAME_STEP3 = "3_times_baseyear_with_assumptions.csv"
 PREPRO_DF_NAME_STEP4 = "4_times_baseyear_with_commodity_definitions.csv"
 
@@ -58,14 +57,6 @@ def create_service_commodity_from_tech_names(tech_names: pd.Series) -> pd.Series
 
 
 # I/O Functions ------------------------------------------------
-
-
-def _save_data(df, name, label, filepath: Path):
-    """Save DataFrame output to the output location."""
-    filepath.mkdir(parents=True, exist_ok=True)
-    filename = f"{filepath}/{name}"
-    logger.info("%s: %s", label, blue_text(filename))
-    df.to_csv(filename, index=False, encoding="utf-8-sig")
 
 
 def save_output(df, name, label, filepath=COMMERCIAL_DATA_DIR):

@@ -19,6 +19,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
 from prepare_times_nz.stage_1.vehicle_costs import (
     ALL_TECHS,
     CATEGORY_TO_VEHICLE_CLASS,

@@ -12,6 +12,7 @@ Other sectors need to be added
 
 import numpy as np
 import pandas as pd
+
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.stage_3.demand_projections.common import get_baseyear_demand
 from prepare_times_nz.utilities.data_in_out import _save_data
@@ -142,7 +143,6 @@ def get_gic_growth_indices(df, gic_data, annual_estimates, method):
     """Create demand indices from observed GIC demand and a closure assumption."""
     settings = GIC_METHODS[method]
     observed_years = settings["observed_years"]
-    closure_year = settings["closure_year"]
 
     df = df[df["Method"] == method].copy()
     df = df[df["SectorGroup"] == "Industry"]
@@ -178,13 +178,22 @@ def get_gic_growth_indices(df, gic_data, annual_estimates, method):
             + ", ".join(str(year) for year in missing_years)
         )
 
+    return _expand_gic_indices(
+        df["Sector"].unique(), annual_totals, estimate_years, settings
+    )
+
+
+def _expand_gic_indices(sectors, annual_totals, estimate_years, settings):
+    """Expand annual demand into sector indices through the assumed closure."""
+    observed_years = settings["observed_years"]
+    closure_year = settings["closure_year"]
     base_value = annual_totals.loc[BASE_YEAR]
     carryforward_index = (
         annual_totals.loc[max(observed_years + estimate_years)] / base_value
     )
 
     rows = []
-    for sector in df["Sector"].unique():
+    for sector in sectors:
         for year in range(BASE_YEAR, END_YEAR + 1):
             if year == BASE_YEAR:
                 index = 1.0

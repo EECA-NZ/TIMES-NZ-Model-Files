@@ -2,6 +2,7 @@
 
 import pandas as pd
 import pytest
+
 from prepare_times_nz.stage_4.baseyear.residential import (
     add_demand_flex_intermediate_outputs,
     get_commodity_demand,

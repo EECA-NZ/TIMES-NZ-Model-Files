@@ -18,6 +18,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
 from prepare_times_nz.utilities.filepaths import STAGE_1_DATA
 
 
@@ -92,13 +93,12 @@ def deflate_columns_rowwise(
     df: pd.DataFrame,
     col_to_basecol: dict[str, str],
     target_year: int = 2023,
-    out_suffix: str = "_nzd",
     method: str = "cpi",
     index_data: pd.DataFrame | None = None,
 ) -> pd.DataFrame:
     """
     Deflate several money columns when *each row* may have a different
-    base-year column, using CPI or CGPI.
+    base-year column, using CPI or CGPI. Output columns use the ``_nzd`` suffix.
     method: "cpi" or "cgpi"
     """
     missing = [c for c in col_to_basecol.values() if c not in df.columns]
@@ -112,7 +112,7 @@ def deflate_columns_rowwise(
         if value_col not in df.columns:
             raise ValueError(f"Value column '{value_col}' not found in DataFrame")
 
-        df[f"{value_col}{out_suffix}"] = df.apply(
+        df[f"{value_col}_nzd"] = df.apply(
             lambda row, _vc=value_col, _bc=base_col: deflate_value(
                 current_year=row[_bc],
                 base_year=target_year,

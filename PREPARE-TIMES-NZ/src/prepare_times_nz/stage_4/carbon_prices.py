@@ -14,6 +14,7 @@ for each scenario
 """
 
 import pandas as pd
+
 from prepare_times_nz.stage_0.stage_0_settings import BASE_YEAR
 from prepare_times_nz.utilities.data_cleaning import pascal_case
 from prepare_times_nz.utilities.data_in_out import _save_data
