@@ -81,7 +81,8 @@ def test_postprocess_marks_complete_only_after_all_writes(
     stale_summary = tmp_path / "postprocessed/summaries/stale.parquet"
     stale_summary.parent.mkdir()
     stale_summary.write_bytes(b"old summary")
-    stale_csv = stale_summary.with_suffix(".csv")
+    stale_csv = stale_summary.parent / "demand/stale.csv"
+    stale_csv.parent.mkdir()
     stale_csv.write_text("old CSV summary")
     frame = pd.DataFrame({"Period": ["2030"], "Value": [1.0]})
     raw = pd.DataFrame({"Period": ["2030", "-", "NONE"], "PV": [1.0, 2.0, 3.0]})
@@ -113,7 +114,9 @@ def test_postprocess_marks_complete_only_after_all_writes(
 
     monkeypatch.setattr(postprocessing, "_metadata", lambda *_: pd.DataFrame())
     monkeypatch.setattr(
-        postprocessing, "build_summaries", lambda *_: {"annual.csv": frame.copy()}
+        postprocessing,
+        "build_summaries",
+        lambda *_: {"demand/annual.csv": frame.copy()},
     )
 
     def fail(*_args, **_kwargs):
@@ -129,7 +132,7 @@ def test_postprocess_marks_complete_only_after_all_writes(
         write = pd.DataFrame.to_csv
 
         def fail_summary(dataframe, destination, **kwargs):
-            if destination.parent.name == "summaries":
+            if "summaries" in destination.parts:
                 fail()
             return write(dataframe, destination, **kwargs)
 
@@ -155,7 +158,7 @@ def test_postprocess_marks_complete_only_after_all_writes(
             output = postprocessing.postprocess_run(tmp_path, tmp_path)
             retried = json.loads(manifest_path.read_text())["postprocessing"]
             assert retried["status"] == "completed"
-            assert "summaries/annual.csv" in retried["files"]
+            assert "summaries/demand/annual.csv" in retried["files"]
             assert not stale_summary.exists()
             assert not stale_csv.exists()
     else:
@@ -173,9 +176,10 @@ def test_postprocess_marks_complete_only_after_all_writes(
         assert not (output / "energy_demand.parquet").exists()
         assert not stale_summary.exists()
         assert not stale_csv.exists()
-        assert "summaries/annual.csv" in status["files"]
+        assert "summaries/demand/annual.csv" in status["files"]
         pd.testing.assert_frame_equal(
-            pd.read_csv(output / "summaries/annual.csv"), frame.assign(Period=2030)
+            pd.read_csv(output / "summaries/demand/annual.csv"),
+            frame.assign(Period=2030),
         )
         assert pd.read_parquet(output / "raw_results.parquet")["Period"].tolist() == [
             "2030",

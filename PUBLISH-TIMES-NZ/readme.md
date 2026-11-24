@@ -36,6 +36,8 @@ export all scenarios, or repeat it to select several. CSVs use the release's
 display labels; `summary-export-manifest.json` records the source and scenario IDs.
 Summary CSVs in the release retain scenario IDs. CSV reads preserve numeric
 precision and blank undefined values, and validate numeric years and values.
+Packaging and exports preserve the subject folders below `summaries/`; for
+example, the objective function exports as `indicators/objective_function.csv`.
 Shared tables may contain several fuels, vehicle classes, years or units;
 select these through their columns. For example, flow CSVs include both GW and
 GWh, and renewable-share CSVs include both `Share` and `%`.

@@ -156,8 +156,10 @@ def renewable_shares(
     tfec["Value"] = tfec["Renewable"].div(tfec["Total"].where(tfec["Total"].ne(0)))
     tfec["Unit"] = "Share"
     return {
-        "renewable_generation_share": electricity,
-        "renewable_tfec_share": tfec[["Scenario", "Period", "Unit", "Value"]],
+        "indicators/renewable_generation_share": electricity,
+        "indicators/renewable_tfec_share": tfec[
+            ["Scenario", "Period", "Unit", "Value"]
+        ],
     }
 
 
@@ -167,16 +169,16 @@ def demand_summaries(
     """Prepare reusable demand totals and breakdowns, retaining distinct groupings."""
     electricity = demand.loc[demand["Fuel"].eq("Electricity")]
     result = {
-        "electricity_demand": aggregate(electricity).assign(
+        "electricity/electricity_demand": aggregate(electricity).assign(
             Value=lambda df: df.Value / 3.6, Unit="TWh"
         ),
-        "electricity_demand_by_sector_group": aggregate(
+        "electricity/electricity_demand_by_sector_group": aggregate(
             electricity, ["SectorGroup"]
         ).assign(Value=lambda df: df.Value / 3.6, Unit="TWh"),
-        "energy_demand_by_fuel_and_sector_group": aggregate(
+        "demand/energy_demand_by_fuel_and_sector_group": aggregate(
             demand, ["Fuel", "SectorGroup"]
         ),
-        "woody_biomass_demand_by_sector_group": aggregate(
+        "demand/woody_biomass_demand_by_sector_group": aggregate(
             demand.loc[demand.Fuel.isin(["Wood", "Wood residuals (onsite)"])],
             ["SectorGroup"],
         ),
@@ -184,7 +186,7 @@ def demand_summaries(
     vehicles = demand.loc[
         demand.SectorGroup.eq("Transport") & demand.Sector.eq("Road Transport")
     ].rename(columns={"EndUse": "Vehicle class"})
-    result["road_transport_demand_by_fuel_and_vehicle_class"] = aggregate(
+    result["transport/road_transport_demand_by_fuel_and_vehicle_class"] = aggregate(
         vehicles, ["Fuel", "Vehicle class"]
     )
     result.update(publication_demand_summaries(demand, road))
@@ -201,7 +203,7 @@ def publication_demand_summaries(
     )
     island = aggregate(island, ["Island", "SectorGroup", "Sector", "Fuel"])
     island.loc[island.Value.abs().lt(1e-6), "Value"] = 0
-    result["fuel_use_by_island_and_sector"] = island
+    result["demand/fuel_use_by_island_and_sector"] = island
     total_fuels = {
         "Biodiesel": "Other renewables",
         "Bioethanol": "Other renewables",
@@ -231,7 +233,7 @@ def publication_demand_summaries(
         "Agricultural waste": "Other renewables",
         "Animal manure": "Other renewables",
     }
-    result["total_demand_by_fuel"] = aggregate(
+    result["demand/total_demand_by_fuel"] = aggregate(
         mapped(island, "Fuel", total_fuels), ["Fuel"]
     )
     sector_fuels = {
@@ -261,9 +263,9 @@ def publication_demand_summaries(
             selected = selected.loc[
                 ~selected.Fuel.isin(["Fuel oil", "Wood residuals (onsite)"])
             ]
-        result[f"{sector.lower() if sector != 'Industry' else 'industrial'}_demand"] = (
-            aggregate(mapped(selected, "Fuel", labels), ["Fuel"])
-        )
+        result[
+            f"demand/{sector.lower() if sector != 'Industry' else 'industrial'}_demand"
+        ] = aggregate(mapped(selected, "Fuel", labels), ["Fuel"])
     detailed_fuels = {
         **sector_fuels,
         "Coal": "Coal",
@@ -280,7 +282,7 @@ def publication_demand_summaries(
         "meat": ["Meat"],
         "methanexballance": ["Methanol", "Urea"],
     }.items():
-        result[f"demand_profile_{name}"] = aggregate(
+        result[f"demand/demand_profile_{name}"] = aggregate(
             mapped(industry.loc[industry.Sector.isin(sectors)], "Fuel", detailed_fuels),
             ["Fuel"],
         )
@@ -297,23 +299,25 @@ def publication_demand_summaries(
     ]
     heat = aggregate(heat, ["Region", "Sector", "Fuel"])
     heat.loc[heat.Value.abs().lt(1e-6), "Value"] = 0
-    result["demand_profile_industrial_process_heat"] = aggregate(
+    result["demand/demand_profile_industrial_process_heat"] = aggregate(
         mapped(heat, "Fuel", {**detailed_fuels, "LPG": "Other"}), ["Fuel"]
     )
-    result["electricity_demand_by_sector_group_combined_industry"] = aggregate(
-        island.loc[island.Fuel.eq("Electricity")].assign(
-            SectorGroup=lambda df: df.SectorGroup.replace(
-                {"Agriculture, Forestry, and Fishing": "Industry"}
-            )
-        ),
-        ["SectorGroup"],
-    ).assign(Value=lambda df: df.Value * PJ_TO_TWH, Unit="TWh")
+    result["electricity/electricity_demand_by_sector_group_combined_industry"] = (
+        aggregate(
+            island.loc[island.Fuel.eq("Electricity")].assign(
+                SectorGroup=lambda df: df.SectorGroup.replace(
+                    {"Agriculture, Forestry, and Fishing": "Industry"}
+                )
+            ),
+            ["SectorGroup"],
+        ).assign(Value=lambda df: df.Value * PJ_TO_TWH, Unit="TWh")
+    )
     road = road.assign(
         Fuel=road.Fuel.where(
             road.Fuel.isin(["Diesel", "Electricity", "LPG", "Petrol"]), "Other fuels"
         )
     )
-    result["road_transport_demand"] = aggregate(road, ["Fuel"])
+    result["transport/road_transport_demand"] = aggregate(road, ["Fuel"])
     gas = island.loc[island.Fuel.eq("Natural gas")].copy()
     gas["DetailedSector"] = gas.SectorGroup.replace(
         {"Agriculture, Forestry, and Fishing": "Agriculture, forestry, and fishing"}
@@ -324,7 +328,7 @@ def publication_demand_summaries(
         & gas.Sector.isin(["Dairy", "Iron & Steel", "Methanol", "Urea"]),
         gas.DetailedSector,
     )
-    result["natural_gas_demand_by_detailed_sector"] = aggregate(
+    result["demand/natural_gas_demand_by_detailed_sector"] = aggregate(
         gas.assign(Sector=gas.DetailedSector), ["Sector"]
     )
     return result
@@ -332,7 +336,7 @@ def publication_demand_summaries(
 
 def supply_summaries(supply: pd.DataFrame) -> dict[str, pd.DataFrame]:
     """Group existing gas and biomass supply views without changing PJ units."""
-    result = {"primary_energy_by_fuel": aggregate(supply, ["Fuel"])}
+    result = {"supply/primary_energy_by_fuel": aggregate(supply, ["Fuel"])}
     for name, labels in {
         "primary_energy_lng_natural_gas_supply": {
             "Natural gas": "Domestic natural gas",
@@ -353,11 +357,11 @@ def supply_summaries(supply: pd.DataFrame) -> dict[str, pd.DataFrame]:
         frame["SupplySource"] = frame.Fuel.map(labels)
         frame = aggregate(frame, ["SupplySource"])
         if name == "primary_energy_lng_natural_gas_supply":
-            result["natural_gas_supply_by_source"] = frame.rename(
+            result["supply/natural_gas_supply_by_source"] = frame.rename(
                 columns={"SupplySource": "Supply source"}
             )
         frame.loc[frame.Value.abs().lt(1e-6), "Value"] = 0
-        result[name] = frame
+        result[f"supply/{name}"] = frame
     return result
 
 
@@ -390,25 +394,25 @@ def build_summaries(
             select(tables["primary_energy.parquet"], "Primary Energy Production", "PJ")
         )
     )
-    result["electricity_generation_by_technology_group"] = aggregate(
+    result["electricity/electricity_generation_by_technology_group"] = aggregate(
         output, ["TechnologyGroup"]
     ).assign(Value=lambda df: df.Value / 3.6, Unit="TWh")
-    result["electricity_generation"] = aggregate(output).assign(
+    result["electricity/electricity_generation"] = aggregate(output).assign(
         Value=lambda df: df.Value / 3.6, Unit="TWh"
     )
-    result["thermal_generation_fuel_use"] = aggregate(
+    result["electricity/thermal_generation_fuel_use"] = aggregate(
         select(generation, "Electricity fuel use", "PJ").loc[
             lambda df: df.TechnologyGroup.eq("Thermal")
         ],
         ["Fuel"],
     )
-    result["emissions"] = aggregate(emissions).assign(
+    result["emissions/emissions"] = aggregate(emissions).assign(
         Value=lambda df: df.Value / 1000, Unit="Mt CO2e"
     )
-    result["emissions_by_sector_group"] = aggregate(emissions, ["SectorGroup"]).assign(
-        Value=lambda df: df.Value / 1000, Unit="Mt CO2e"
-    )
-    result["emissions_by_broad_sector_group"] = aggregate(
+    result["emissions/emissions_by_sector_group"] = aggregate(
+        emissions, ["SectorGroup"]
+    ).assign(Value=lambda df: df.Value / 1000, Unit="Mt CO2e")
+    result["emissions/emissions_by_broad_sector_group"] = aggregate(
         emissions.assign(
             SectorGroup=emissions.SectorGroup.where(
                 emissions.SectorGroup.isin(
@@ -419,7 +423,7 @@ def build_summaries(
         ),
         ["SectorGroup"],
     ).assign(Value=lambda df: df.Value / 1000, Unit="Mt CO2e")
-    result["battery_capacity"] = aggregate(
+    result["electricity/battery_capacity"] = aggregate(
         select(tables["batteries.parquet"], "Capacity", "GW"), ["Technology"]
     )
     fleet = select(
@@ -440,7 +444,7 @@ def build_summaries(
         ["TechnologyGroup", "EndUse"],
     )
     fleet.loc[fleet.Value.abs().lt(1e-6), "Value"] = 0
-    result["transport_capacity"] = mapped(
+    result["transport/transport_capacity"] = mapped(
         fleet,
         "TechnologyGroup",
         {
@@ -458,9 +462,17 @@ def build_summaries(
             ignore_index=True,
         )
     for name, source, groups in [
-        ("energy_demand_by_fuel", "energy_demand_by_fuel_and_sector_group", ["Fuel"]),
-        ("natural_gas_supply", "natural_gas_supply_by_source", []),
-        ("woody_biomass_demand", "woody_biomass_demand_by_sector_group", []),
+        (
+            "demand/energy_demand_by_fuel",
+            "demand/energy_demand_by_fuel_and_sector_group",
+            ["Fuel"],
+        ),
+        ("supply/natural_gas_supply", "supply/natural_gas_supply_by_source", []),
+        (
+            "demand/woody_biomass_demand",
+            "demand/woody_biomass_demand_by_sector_group",
+            [],
+        ),
     ]:
         result[name] = aggregate(result[source], groups)
     objectives = tables["objective_function.parquet"]
@@ -475,7 +487,7 @@ def build_summaries(
         or not objectives.Value.abs().lt(float("inf")).all()
     ):
         raise ValueError("Expected finite objective values")
-    result["objective_function"] = objectives[
+    result["indicators/objective_function"] = objectives[
         ["Scenario", "Variable", "Unit", "Value"]
     ].copy()
     result.update(flow_summaries(tables, timeslices))

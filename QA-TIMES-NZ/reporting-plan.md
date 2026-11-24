@@ -58,9 +58,10 @@ To-do before completing step 3:
   preserve explicit differences in units, boundaries and classifications.
   The v308 set now has 38 tables rather than 56; every previous view was checked
   against its replacement. See the migration record for names and row selections.
-- [ ] Organise summaries into subject folders beneath `summaries/`, such as
-  `electricity/`, `demand/`, `emissions/`, `transport/` and `indicators/`.
-  Preserve these relative paths through PUBLISH packaging and exports.
+- [x] Organise summaries into `electricity/`, `demand/`, `supply/`, `transport/`,
+  `emissions/` and `indicators/` beneath `summaries/`. The objective function is
+  under `indicators/`. Each summary's output key includes its subject folder;
+  PUBLISH preserves these relative paths in packaging and exports.
 
 Move the existing analysis/chart-data calculations into a SOLVE reporting
 submodule operating on postprocessed results. Write `summaries/` alongside

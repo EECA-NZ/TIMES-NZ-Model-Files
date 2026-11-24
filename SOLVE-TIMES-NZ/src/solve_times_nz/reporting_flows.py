@@ -148,5 +148,5 @@ def flow_summaries(
             for unit in ["GW", "GWh"]:
                 views.append(timeslice_view(selected, weights, unit))
         if views:
-            result[f"{kind}_flows"] = pd.concat(views, ignore_index=True)
+            result[f"electricity/{kind}_flows"] = pd.concat(views, ignore_index=True)
     return result

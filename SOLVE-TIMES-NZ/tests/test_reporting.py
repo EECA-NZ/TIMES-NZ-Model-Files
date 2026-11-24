@@ -1,5 +1,7 @@
 """Summary calculations use synthetic frames, never local result archives."""
 
+from pathlib import Path
+
 import pandas as pd
 import pytest
 
@@ -105,9 +107,13 @@ def test_aggregation_normalizes_legacy_years_and_rejects_lost_classifications():
 
 def test_renewable_shares_allocate_mixed_fuels_and_exclude_international_transport():
     result = renewable_shares(generation(), demand(), fuels())
-    assert result["renewable_generation_share"].Value.item() == pytest.approx(0.25)
-    assert result["renewable_tfec_share"].Value.item() == pytest.approx(0.375)
-    assert result["renewable_tfec_share"].Unit.item() == "Share"
+    assert result[
+        "indicators/renewable_generation_share"
+    ].Value.item() == pytest.approx(0.25)
+    assert result["indicators/renewable_tfec_share"].Value.item() == pytest.approx(
+        0.375
+    )
+    assert result["indicators/renewable_tfec_share"].Unit.item() == "Share"
 
 
 def test_renewable_matching_keeps_region_and_vintage_and_rejects_missing_inputs():
@@ -116,7 +122,9 @@ def test_renewable_matching_keeps_region_and_vintage_and_rejects_missing_inputs(
     other.loc[other.Fuel.eq("Coal"), "Value"] = 0
     combined = pd.concat([generation(), other])
     result = renewable_shares(combined, demand(), fuels())
-    assert result["renewable_generation_share"].Value.item() == pytest.approx(0.625)
+    assert result[
+        "indicators/renewable_generation_share"
+    ].Value.item() == pytest.approx(0.625)
     with pytest.raises(ValueError, match="Missing renewable fuel classification"):
         renewable_shares(combined, demand(), fuels().loc[fuels().Fuel.ne("Biogas")])
     broken = generation()
@@ -129,8 +137,8 @@ def test_zero_denominators_remain_undefined_instead_of_becoming_zero():
     result = renewable_shares(
         generation().assign(Value=0), demand().assign(Value=0), fuels()
     )
-    assert result["renewable_generation_share"].Value.isna().all()
-    assert result["renewable_tfec_share"].Value.isna().all()
+    assert result["indicators/renewable_generation_share"].Value.isna().all()
+    assert result["indicators/renewable_tfec_share"].Value.isna().all()
     with pytest.raises(ValueError, match="Recorded.*Renewable"):
         renewable_shares(generation(), demand(), fuels().drop(columns="Renewable"))
 
@@ -235,25 +243,39 @@ def test_build_summaries_includes_demo_objective_indicators_and_publication_tabl
         for name, frame in tables.items()
     }
     result = build_summaries(tables, fuels(), pd.DataFrame())
-    assert result["electricity_demand.csv"].Value.item() == pytest.approx(20 / 3.6)
-    assert result["electricity_generation.csv"].Value.item() == pytest.approx(20 / 3.6)
-    assert result["emissions.csv"].Value.item() == 1
-    assert result["objective_function.csv"].Value.item() == 1.5
-    fleet = result["transport_capacity.csv"]
+    assert result["electricity/electricity_demand.csv"].Value.item() == pytest.approx(
+        20 / 3.6
+    )
+    assert result[
+        "electricity/electricity_generation.csv"
+    ].Value.item() == pytest.approx(20 / 3.6)
+    assert result["emissions/emissions.csv"].Value.item() == 1
+    assert result["indicators/objective_function.csv"].Value.item() == 1.5
+    fleet = result["transport/transport_capacity.csv"]
     assert fleet.TechnologyGroup.unique().tolist() == ["BEV"]
     assert fleet.set_index("EndUse").Value.to_dict() == {
         "Light Passenger Vehicle": 1,
         "Light Commercial Vehicle": 2,
         "Heavy Truck": 3,
     }
-    renewable = result["renewable_generation_share.csv"]
+    renewable = result["indicators/renewable_generation_share.csv"]
     assert renewable.set_index("Unit").Value.to_dict() == {"Share": 0.25, "%": 25}
-    totals = result["energy_demand_by_fuel.csv"].set_index("Fuel").Value.to_dict()
+    totals = (
+        result["demand/energy_demand_by_fuel.csv"].set_index("Fuel").Value.to_dict()
+    )
     assert totals == {"Electricity": 20, "Coal": 10, "Wood": 10}
-    assert not any(name.startswith("qa_") for name in result)
+    assert not any(Path(name).name.startswith("qa_") for name in result)
+    assert {Path(name).parent.as_posix() for name in result} == {
+        "electricity",
+        "demand",
+        "supply",
+        "transport",
+        "emissions",
+        "indicators",
+    }
     assert "elec_gen_line.csv" not in result
     assert "indicator_ren_gen.csv" not in result
-    assert "total_demand_by_fuel.csv" in result
+    assert "demand/total_demand_by_fuel.csv" in result
     assert all(
         frame.Period.dtype == "int64" for frame in result.values() if "Period" in frame
     )
@@ -268,17 +290,17 @@ def test_legacy_industrial_publication_exclusions_do_not_change_full_qa_totals()
         Value=[2.0, 3.0, 4.0, 5.0],
     )
     result = demand_summaries(frame, frame)
-    assert result["industrial_demand"].Value.sum() == 7
-    assert result["demand_profile_industrial_process_heat"].Value.sum() == 7
-    assert result["total_demand_by_fuel"].Value.sum() == 14
-    assert result["woody_biomass_demand_by_sector_group"].Value.sum() == 9
+    assert result["demand/industrial_demand"].Value.sum() == 7
+    assert result["demand/demand_profile_industrial_process_heat"].Value.sum() == 7
+    assert result["demand/total_demand_by_fuel"].Value.sum() == 14
+    assert result["demand/woody_biomass_demand_by_sector_group"].Value.sum() == 9
 
 
 def test_publication_small_value_cleanup_does_not_round_natural_gas_supply():
     frame = demand().iloc[[0]].assign(Fuel="Natural gas", Value=1e-8)
     result = supply_summaries(frame)
-    assert result["primary_energy_lng_natural_gas_supply"].Value.item() == 0
-    assert result["natural_gas_supply_by_source"].Value.item() == 1e-8
+    assert result["supply/primary_energy_lng_natural_gas_supply"].Value.item() == 0
+    assert result["supply/natural_gas_supply_by_source"].Value.item() == 1e-8
 
 
 def test_consolidated_demand_keeps_fuel_vehicle_and_sector_boundaries():
@@ -295,23 +317,27 @@ def test_consolidated_demand_keeps_fuel_vehicle_and_sector_boundaries():
         Value=[3.0, 7.0, 9.0, 2.0],
     )
     result = demand_summaries(frame, frame)
-    detailed = result["energy_demand_by_fuel_and_sector_group"]
+    detailed = result["demand/energy_demand_by_fuel_and_sector_group"]
     assert detailed.groupby("Fuel").Value.sum().to_dict() == {
         "Diesel": 3,
         "Petrol": 7,
         "Electricity": 11,
     }
-    vehicles = result["road_transport_demand_by_fuel_and_vehicle_class"]
+    vehicles = result["transport/road_transport_demand_by_fuel_and_vehicle_class"]
     assert vehicles.set_index(["Fuel", "Vehicle class"]).Value.to_dict() == {
         ("Diesel", "Heavy Truck"): 3,
         ("Petrol", "Light Passenger Vehicle"): 7,
     }
-    electricity = result["electricity_demand_by_sector_group"].set_index("SectorGroup")
+    electricity = result["electricity/electricity_demand_by_sector_group"].set_index(
+        "SectorGroup"
+    )
     assert electricity.loc["Industry", "Value"] == pytest.approx(9 / 3.6)
     assert electricity.loc[
         "Agriculture, Forestry, and Fishing", "Value"
     ] == pytest.approx(2 / 3.6)
-    combined = result["electricity_demand_by_sector_group_combined_industry"]
+    combined = result[
+        "electricity/electricity_demand_by_sector_group_combined_industry"
+    ]
     assert combined.SectorGroup.tolist() == ["Industry"]
     assert combined.Value.item() == pytest.approx(11 / 3.6)
 
@@ -333,8 +359,8 @@ def test_consolidated_flows_keep_both_years_units_and_timeslice_completion():
         {"battery_flows.parquet": flows, "demand_flex_flows.parquet": pd.DataFrame()},
         weights,
     )
-    assert set(result) == {"battery_flows"}
-    combined = result["battery_flows"]
+    assert set(result) == {"electricity/battery_flows"}
+    combined = result["electricity/battery_flows"]
     for year, value in [(2035, 1), (2050, 2)]:
         for unit in ["GW", "GWh"]:
             selected = combined.loc[combined.Period.eq(year) & combined.Unit.eq(unit)]

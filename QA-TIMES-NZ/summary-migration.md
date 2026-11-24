@@ -10,8 +10,18 @@ metadata dataframes. It produces named per-scenario tables; file reading and
 writing remain in post-processing. `reporting_flows` contains the battery/flex
 timeslice calculations. Neither module imports QA or chart-rendering libraries.
 Summaries are CSVs; raw and labelled result datasets remain Parquets. Names
-describe contents rather than consumers. Subject folders remain a separate
-follow-up.
+describe contents rather than consumers. Each summary's output key includes its
+subject folder; no separate folder mapping or configuration is maintained.
+Table names below omit the subject folder and `.csv` suffix.
+
+| Folder beneath `summaries/` | Contents | Full v308 table count |
+| --- | --- | ---: |
+| `electricity/` | Electricity generation/demand, thermal fuel use, batteries and demand flex | 9 |
+| `demand/` | General energy demand, sector profiles, natural-gas demand and woody-biomass demand | 14 |
+| `supply/` | Primary energy and natural-gas supply | 6 |
+| `transport/` | Road fuel demand and vehicle capacity | 3 |
+| `emissions/` | Total, detailed-sector and broad-sector emissions | 3 |
+| `indicators/` | Renewable generation/TFEC shares and `objective_function.csv` | 3 |
 
 | Existing capability | Prepared summary tables |
 | --- | --- |
@@ -137,6 +147,21 @@ recorded validation tolerances. Other differing units, boundaries and
 classifications remain explicit. Readers must select `Unit` before using tables
 containing both fractions/percentages or GW/GWh; annual periods and vehicle
 classes are selected from columns rather than filenames.
+
+## Subject folders
+
+The folder migration moved all 38 existing CSVs without recalculating or
+reserializing them. Each moved file has exactly the same bytes and checksum as
+its former flat counterpart. `summary-provenance.json` records old and new paths
+under `summary_grouping` and retains the previous implementation checksums.
+Current output paths, consolidation view references and historical validation
+references point to the subject folders. PUBLISH packaging, CSV exports and the
+full-results ZIP preserve those folders.
+
+For example, the objective function is now
+`summaries/indicators/objective_function.csv`. A post-processing rerun writes the
+new paths, removes superseded flat summaries after successful writes and records
+the grouped paths in `postprocessing.files`.
 
 ## Validation and historical exceptions
 

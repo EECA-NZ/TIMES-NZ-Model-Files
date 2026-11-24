@@ -14,7 +14,7 @@ from publish_times_nz.utilities.output_packaging import build_outputs_zip_bytes
 
 
 def bundle(root):
-    (root / "summaries").mkdir(parents=True)
+    (root / "summaries/demand").mkdir(parents=True)
     pd.DataFrame(
         {
             "Scenario": ["s", "t"],
@@ -22,7 +22,7 @@ def bundle(root):
             "Unit": ["PJ", "PJ"],
             "Value": [1.2, 3.4],
         }
-    ).to_csv(root / "summaries/demand.csv", index=False)
+    ).to_csv(root / "summaries/demand/demand.csv", index=False)
     return ReleaseBundle(
         root,
         {
@@ -40,17 +40,20 @@ def bundle(root):
 
 def test_export_summaries_selects_and_labels_without_changing_values(tmp_path):
     source = bundle(tmp_path / "release")
-    before = (source.path / "summaries/demand.csv").read_bytes()
+    before = (source.path / "summaries/demand/demand.csv").read_bytes()
     output = tmp_path / "exports"
     paths = export_summaries(source, output, ["t"])
-    assert paths == [output / "demand.csv"]
+    assert paths == [output / "demand/demand.csv"]
     assert pd.read_csv(paths[0]).to_dict("records") == [
         {"Scenario": "Shift", "Period": 2030, "Unit": "PJ", "Value": 3.4}
     ]
     assert json.loads((output / "summary-export-manifest.json").read_text())[
         "scenario_ids"
     ] == ["t"]
-    assert (source.path / "summaries/demand.csv").read_bytes() == before
+    assert json.loads((output / "summary-export-manifest.json").read_text())[
+        "files"
+    ] == ["demand/demand.csv"]
+    assert (source.path / "summaries/demand/demand.csv").read_bytes() == before
 
 
 def test_export_summaries_rejects_unknown_selections_and_writes_inside_release(
@@ -88,7 +91,9 @@ def test_export_summaries_command_uses_only_the_selected_release(
     )
     main()
     assert "Exported 1 summaries" in capsys.readouterr().out
-    assert pd.read_csv(tmp_path / "exports/demand.csv").Scenario.tolist() == ["Steady"]
+    assert pd.read_csv(tmp_path / "exports/demand/demand.csv").Scenario.tolist() == [
+        "Steady"
+    ]
 
 
 def test_summary_csv_preserves_precision_text_and_undefined_values(tmp_path):
@@ -138,7 +143,7 @@ def test_full_results_download_includes_summary_csvs_without_name_collisions(
     with zipfile.ZipFile(
         io.BytesIO(build_outputs_zip_bytes(source.result_files))
     ) as archive:
-        assert set(archive.namelist()) == {"demand.csv", "summaries/demand.csv"}
-        summary = pd.read_csv(io.BytesIO(archive.read("summaries/demand.csv")))
+        assert set(archive.namelist()) == {"demand.csv", "summaries/demand/demand.csv"}
+        summary = pd.read_csv(io.BytesIO(archive.read("summaries/demand/demand.csv")))
     assert summary.Scenario.tolist() == ["Steady", "Shift"]
     assert summary.Value.tolist() == [1.2, 3.4]

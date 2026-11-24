@@ -69,7 +69,10 @@ explicitly reviewed replacement, not a fallback to the live PREP tree.
 Successful post-processing reruns remove superseded summary CSVs and old summary
 Parquets only after all replacement outputs have been written.
 Summary filenames describe their contents, with shared totals and breakdowns
-for all readers. Flow CSVs combine the existing 2035/2050 selections in GW/GWh;
+for all readers. Each output key specifies its subject folder beneath
+`summaries/`: `electricity/`, `demand/`, `supply/`, `transport/`, `emissions/` or
+`indicators/`. The objective function is `indicators/objective_function.csv`.
+Flow CSVs combine the existing 2035/2050 selections in GW/GWh;
 renewable-share CSVs contain both `Share` and `%` rows. Select `Period`, `Unit`,
 `Fuel` and vehicle `EndUse` as applicable. See the
 [summary migration record](../QA-TIMES-NZ/summary-migration.md) for renamed tables
