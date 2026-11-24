@@ -54,6 +54,12 @@ jobs:
           uv run black --check --diff src tests app.py run_local.py
           uv run isort --settings-path .. --check-only src tests app.py run_local.py
           uv run pylint --rcfile=../pyproject.toml src/publish_times_nz app.py run_local.py
+      - name: Run QA linters
+        working-directory: QA-TIMES-NZ
+        run: |
+          uv run black --check --diff src tests
+          uv run isort --settings-path .. --check-only src tests
+          uv run pylint --rcfile=../pyproject.toml src/qa_times_nz
       - name: Run workspace tests and build HTML coverage
         run: |
           uv run coverage run -m pytest PREPARE-TIMES-NZ/tests SOLVE-TIMES-NZ/tests PUBLISH-TIMES-NZ/tests QA-TIMES-NZ/tests
