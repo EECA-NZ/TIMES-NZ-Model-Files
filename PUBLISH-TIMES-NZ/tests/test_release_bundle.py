@@ -39,6 +39,9 @@ def _write_release(tmp_path, **changes):
 
 def test_load_bundle_exposes_all_parquets_and_scenarios(tmp_path):
     _write_release(tmp_path)
+    (tmp_path / "summaries/electricity").mkdir(parents=True)
+    summary = tmp_path / "summaries/electricity/generation.csv"
+    summary.write_text("Scenario,Period,Value\nsteady,2030,1.2\n")
 
     bundle = load_bundle(tmp_path)
 
@@ -47,6 +50,7 @@ def test_load_bundle_exposes_all_parquets_and_scenarios(tmp_path):
         tmp_path / "labelled" / "energy_demand.parquet",
         tmp_path / "raw_results.parquet",
     )
+    assert bundle.result_files == (*bundle.parquet_files, summary)
     assert bundle.labelled_file("energy_demand.parquet") == (
         tmp_path / "labelled" / "energy_demand.parquet"
     )

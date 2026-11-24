@@ -26,6 +26,13 @@ class ReleaseBundle:
         return tuple(sorted(self.path.rglob("*.parquet")))
 
     @property
+    def result_files(self) -> tuple[Path, ...]:
+        """Return raw/labelled Parquets and prepared summary CSVs."""
+        return tuple(
+            sorted((*self.parquet_files, *(self.path / "summaries").rglob("*.csv")))
+        )
+
+    @property
     def scenarios(self) -> tuple[dict[str, str], ...]:
         """Return scenario IDs and display labels in manifest order."""
         return tuple(self.manifest["scenarios"])

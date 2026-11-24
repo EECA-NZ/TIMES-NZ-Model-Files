@@ -3,9 +3,11 @@
 Creates and serves named TIMES-NZ release artefacts. Releases are local
 data and belong in the ignored `releases/` directory. Every Parquet below a
 release directory is part of that release, including raw solver results.
+Prepared CSV tables under `summaries/` are also packaged and included in the
+Explorer's full-results download.
 
 Result roots share SOLVE's processed layout: `raw_results.parquet` at the root,
-`labelled/` for labelled Parquets, and `summaries/` for summary Parquets when
+`labelled/` for labelled Parquets, and `summaries/` for summary CSVs when
 available. Solver inputs must already follow this layout. The legacy importer
 accepts flat labelled datasets and places them under `labelled/`.
 
@@ -32,5 +34,7 @@ uv run publish-times-nz export-summaries v308 --scenario steady-v308 --output /t
 The output directory must be new and outside the release. Omit `--scenario` to
 export all scenarios, or repeat it to select several. CSVs use the release's
 display labels; `summary-export-manifest.json` records the source and scenario IDs.
+Summary CSVs in the release retain scenario IDs. CSV reads preserve numeric
+precision and blank undefined values, and validate numeric years and values.
 
 For deployment payloads and deployment instructions, see the internal TIMES-NZ Explorer deployment runbook.

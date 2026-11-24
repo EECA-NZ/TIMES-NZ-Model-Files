@@ -488,6 +488,4 @@ def build_summaries(
         ["Scenario", "Variable", "Unit", "Value"]
     ].copy()
     result.update(flow_summaries(tables, timeslices))
-    return {
-        f"{name}.parquet": frame for name, frame in result.items() if not frame.empty
-    }
+    return {f"{name}.csv": frame for name, frame in result.items() if not frame.empty}

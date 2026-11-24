@@ -652,14 +652,20 @@ def postprocess_run(run_dir: Path, metadata_dir: Path) -> Path:
         )
         destination = output / relative_path
         destination.parent.mkdir(parents=True, exist_ok=True)
-        dataframe.to_parquet(destination, index=False)
+        if name.startswith("summaries/"):
+            dataframe.to_csv(destination, index=False)
+        else:
+            dataframe.to_parquet(destination, index=False)
         written_files.append(relative_path.as_posix())
     # Retire superseded files only after every replacement write succeeds.
     for name in outputs:
         if "/" not in name and name != "raw_results.parquet":
             (output / name).unlink(missing_ok=True)
-    for path in (output / "summaries").rglob("*.parquet"):
-        if path.relative_to(output).as_posix() not in outputs:
+    for path in (output / "summaries").rglob("*"):
+        if (
+            path.suffix in {".parquet", ".csv"}
+            and path.relative_to(output).as_posix() not in outputs
+        ):
             path.unlink()
     manifest["postprocessing"] = {
         "status": "completed",

@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 import pytest
@@ -11,6 +12,7 @@ from publish_times_nz.release_builder import (
     build_release,
     import_legacy_release,
 )
+from publish_times_nz.reporting import read_summary_csv
 
 
 def _write_parquet(directory, filename, scenarios):
@@ -21,22 +23,34 @@ def _write_parquet(directory, filename, scenarios):
     )
 
 
-def test_build_release_combines_all_source_parquets(tmp_path):
+def test_build_release_combines_parquets_and_summary_csvs(tmp_path):
     steady = tmp_path / "steady" / "postprocessed"
     shift = tmp_path / "shift" / "postprocessed"
     for source, scenario in ((steady, "steady"), (shift, "shift")):
         _write_parquet(source, "labelled/energy_demand.parquet", [scenario])
         _write_parquet(source, "raw_results.parquet", [scenario])
         _write_parquet(source, "labelled/future_output.parquet", [scenario])
-        _write_parquet(source, "summaries/energy.parquet", [scenario])
+        (source / "summaries/electricity").mkdir(parents=True)
+        pd.DataFrame(
+            {
+                "Scenario": [scenario],
+                "Period": [2030],
+                "Unit": ["Share"],
+                "Value": [
+                    float("nan") if scenario == "steady" else 0.12345678901234568
+                ],
+            }
+        ).to_csv(source / "summaries/electricity/energy.csv", index=False)
+        (source / "metadata").mkdir()
+        (source / "metadata/fuels.csv").write_text("Fuel\nCoal\n")
 
     bundle = build_release("comparison", [steady, shift], tmp_path / "releases")
 
     assert [scenario["id"] for scenario in bundle.scenarios] == ["steady", "shift"]
-    assert {path.relative_to(bundle.path) for path in bundle.parquet_files} == {
+    assert {path.relative_to(bundle.path) for path in bundle.result_files} == {
         Path("labelled/energy_demand.parquet"),
         Path("labelled/future_output.parquet"),
-        Path("summaries/energy.parquet"),
+        Path("summaries/electricity/energy.csv"),
         Path("raw_results.parquet"),
     }
     assert pq.read_table(bundle.labelled_file("energy_demand.parquet"))[
@@ -45,9 +59,10 @@ def test_build_release_combines_all_source_parquets(tmp_path):
         "steady",
         "shift",
     ]
-    assert pq.read_table(bundle.path / "summaries/energy.parquet")[
-        "Scenario"
-    ].to_pylist() == ["steady", "shift"]
+    summary = read_summary_csv(bundle.path / "summaries/electricity/energy.csv")
+    assert summary.Scenario.tolist() == ["steady", "shift"]
+    assert summary.Value.isna().tolist() == [True, False]
+    assert summary.Value.iloc[1] == 0.12345678901234568
 
 
 def test_build_release_rejects_duplicate_scenarios_before_publication(tmp_path):
@@ -69,6 +84,7 @@ def test_build_release_rejects_duplicate_scenarios_before_publication(tmp_path):
         "raw/raw_results.parquet",
         "labelled/raw_results.parquet",
         "unexpected/topic.parquet",
+        "summaries/old.parquet",
     ],
 )
 def test_build_release_rejects_nonstandard_layouts(tmp_path, filename):
@@ -115,6 +131,10 @@ def test_import_legacy_release_copies_every_parquet(tmp_path, prefix):
     _write_parquet(source, f"{prefix}energy_demand.parquet", ["steady", "shift"])
     _write_parquet(source, f"{prefix}custom_topic.parquet", ["steady", "shift"])
     _write_parquet(source, "raw_results.parquet", ["steady", "shift"])
+    (source / "summaries").mkdir()
+    pd.DataFrame({"Scenario": ["steady", "shift"], "Value": [1.2, 3.4]}).to_csv(
+        source / "summaries/energy.csv", index=False
+    )
 
     bundle = import_legacy_release("v308", source, tmp_path / "releases", "v308")
 
@@ -125,6 +145,20 @@ def test_import_legacy_release_copies_every_parquet(tmp_path, prefix):
         Path("labelled/energy_demand.parquet"),
     }
     assert bundle.manifest["source"] == {"type": "legacy", "legacy_source": "v308"}
+    assert read_summary_csv(bundle.path / "summaries/energy.csv").Value.tolist() == [
+        1.2,
+        3.4,
+    ]
+
+
+def test_build_release_checks_scenario_ids_in_summary_csvs(tmp_path):
+    source = tmp_path / "steady"
+    _write_parquet(source, "labelled/energy_demand.parquet", ["steady"])
+    (source / "summaries").mkdir()
+    (source / "summaries/energy.csv").write_text("Scenario,Value\nshift,1.2\n")
+    with pytest.raises(ReleaseBuildError, match="one scenario"):
+        build_release("invalid", [source], tmp_path / "releases")
+    assert not (tmp_path / "releases").exists()
 
 
 def test_import_legacy_release_rejects_duplicate_dataset_paths(tmp_path):

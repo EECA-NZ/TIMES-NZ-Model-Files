@@ -39,8 +39,8 @@ substitute current classifications for archived inputs.
 
 Initial implementation 24 November 2026; follow-up to-do below. SOLVE writes
 prepared summaries as part of post-processing completion, and PUBLISH
-packages/exports them without repeating
-calculations. Backfilled 56 summary datasets for v308's ten scenarios. Thirty of
+packages/exports them without repeating calculations. Backfilled 56 summary
+datasets for v308's ten scenarios. Thirty of
 33 saved CSV exports reproduce; three historical battery CSVs disagree with the
 released inputs and remain preserved as documented validation exceptions. See
 [the migration record](summary-migration.md). Old analysis code remains available
@@ -48,7 +48,7 @@ until its callers are retired in step 7.
 
 To-do before completing step 3:
 
-- [ ] Change summary outputs to CSV, retaining Parquet for raw and labelled
+- [x] Change summary outputs to CSV, retaining Parquet for raw and labelled
   results. Update SOLVE writes, manifest paths and stale-file cleanup, PUBLISH
   packaging and exports, tests, documentation and the v308 summaries together.
   Readers must validate the fields and types they use; preserve numeric precision
@@ -149,7 +149,7 @@ QA should produce repeatable reports comparing selected scenarios from existing
 result artefacts, including legacy v308 results and current SOLVE outputs.
 
 - SOLVE owns reading solver results, applying the run's reporting metadata, and
-  writing raw, labelled and summary Parquets, including per-scenario metrics.
+  writing raw and labelled Parquets and summary CSVs, including per-scenario metrics.
 - PUBLISH owns packaging selected outputs into named releases, including legacy
   imports, and serving the Explorer.
 - QA owns comparisons, calibration assessments, validation rules and reports.

@@ -9,6 +9,8 @@ This records the current implementation, not a fixed catalogue for future summar
 metadata dataframes. It produces named per-scenario tables; file reading and
 writing remain in post-processing. `reporting_flows` contains the battery/flex
 timeslice calculations. Neither module imports QA or chart-rendering libraries.
+Summaries are CSVs; raw and labelled result datasets remain Parquets. Summary
+names and subject folders have not yet been consolidated.
 
 | Existing capability | Prepared summary tables |
 | --- | --- |
@@ -39,9 +41,14 @@ flows are converted using matching underlying raw input/output efficiencies.
 
 Post-processing remains incomplete until every labelled and summary write
 succeeds. Its manifest lists summary paths. Successful retries remove superseded
-summary files; failed attempts remain ineligible for publication or QA.
+summary CSVs and old summary Parquets; failed attempts remain ineligible for
+publication or QA.
 
-PUBLISH preserves prepared Parquet paths and values. Its `export-summaries`
+PUBLISH batches prepared summary CSVs, preserving relative paths and values.
+CSV reads retain text identifiers and labels, require integer annual periods and
+numeric values, and preserve full float precision and blank undefined values.
+The Explorer's full-results ZIP includes summary CSVs beneath `summaries/` to
+avoid collisions with labelled-result exports. Its `export-summaries`
 command selects release scenarios, applies display labels and writes CSVs plus
 an export provenance record. It performs no summary calculation. Original QA
 calculations and saved exports remain available until later caller migration and
@@ -65,6 +72,14 @@ The local release contains 56 datasets under `summaries/`, plus
 output checksums, implementation checksums, comparison tolerances and exceptions.
 Original labelled files, raw results, the fuel snapshot and release manifest were
 verified unchanged. Back up these ignored release artefacts with the release.
+
+The CSV format migration serializes those 56 prepared tables without rerunning
+any calculations. Every CSV was reread with exact key, value, row-order and null
+equality to its source Parquet. `summary-provenance.json` now lists CSV paths and
+checksums and retains the previous Parquet records under
+`summary_format_migration`; `summary-validation.json` points to the CSV names.
+All 56 publication exports also passed an exact round-trip check. The archived
+battery discrepancies below are unchanged.
 
 ## Validation and historical exceptions
 

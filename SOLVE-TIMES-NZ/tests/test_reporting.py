@@ -227,14 +227,14 @@ def test_build_summaries_includes_demo_objective_indicators_and_publication_tabl
         for name, frame in tables.items()
     }
     result = build_summaries(tables, fuels(), pd.DataFrame())
-    assert result["qa_demand.parquet"].Value.item() == pytest.approx(20 / 3.6)
-    assert result["qa_generation_total.parquet"].Value.item() == pytest.approx(20 / 3.6)
-    assert result["qa_emissions_total.parquet"].Value.item() == 1
-    assert result["qa_objective.parquet"].Value.item() == 1.5
-    assert result["transport_lpv_capacity.parquet"].TechnologyGroup.item() == "BEV"
-    assert result["indicator_ren_gen.parquet"].Value.item() == 25
-    assert result["renewable_generation_share.parquet"].Value.item() == 0.25
-    assert "total_demand_by_fuel.parquet" in result
+    assert result["qa_demand.csv"].Value.item() == pytest.approx(20 / 3.6)
+    assert result["qa_generation_total.csv"].Value.item() == pytest.approx(20 / 3.6)
+    assert result["qa_emissions_total.csv"].Value.item() == 1
+    assert result["qa_objective.csv"].Value.item() == 1.5
+    assert result["transport_lpv_capacity.csv"].TechnologyGroup.item() == "BEV"
+    assert result["indicator_ren_gen.csv"].Value.item() == 25
+    assert result["renewable_generation_share.csv"].Value.item() == 0.25
+    assert "total_demand_by_fuel.csv" in result
     assert all(
         frame.Period.dtype == "int64" for frame in result.values() if "Period" in frame
     )
