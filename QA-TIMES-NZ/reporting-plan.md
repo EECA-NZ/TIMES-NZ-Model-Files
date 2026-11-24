@@ -37,6 +37,29 @@ substitute current classifications for archived inputs.
 
 **3: Migrate analysis calculations into SOLVE summaries**
 
+Initial implementation 24 November 2026; follow-up to-do below. SOLVE writes
+prepared summaries as part of post-processing completion, and PUBLISH
+packages/exports them without repeating
+calculations. Backfilled 56 summary datasets for v308's ten scenarios. Thirty of
+33 saved CSV exports reproduce; three historical battery CSVs disagree with the
+released inputs and remain preserved as documented validation exceptions. See
+[the migration record](summary-migration.md). Old analysis code remains available
+until its callers are retired in step 7.
+
+To-do before completing step 3:
+
+- [ ] Change summary outputs to CSV, retaining Parquet for raw and labelled
+  results. Update SOLVE writes, manifest paths and stale-file cleanup, PUBLISH
+  packaging and exports, tests, documentation and the v308 summaries together.
+  Readers must validate the fields and types they use; preserve numeric precision
+  and undefined values.
+- [ ] Remove `qa_` prefixes and consolidate overlapping tables where their
+  meanings match. Name tables by their contents rather than their consumers;
+  preserve explicit differences in units, boundaries and classifications.
+- [ ] Organise summaries into subject folders beneath `summaries/`, such as
+  `electricity/`, `demand/`, `emissions/`, `transport/` and `indicators/`.
+  Preserve these relative paths through PUBLISH packaging and exports.
+
 Move the existing analysis/chart-data calculations into a SOLVE reporting
 submodule operating on postprocessed results. Write `summaries/` alongside
 `labelled/`, including the renewable indicators, objective function and every

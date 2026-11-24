@@ -22,4 +22,15 @@ uv run publish-times-nz build <release-name> <postprocessed-directory>...
 uv run publish-times-nz import-legacy <release-name> <legacy-result-directory>
 ```
 
+Export prepared summary tables from a release without chart rendering or
+recalculating values:
+
+```bash
+uv run publish-times-nz export-summaries v308 --scenario steady-v308 --output /tmp/v308-summary-csvs
+```
+
+The output directory must be new and outside the release. Omit `--scenario` to
+export all scenarios, or repeat it to select several. CSVs use the release's
+display labels; `summary-export-manifest.json` records the source and scenario IDs.
+
 For deployment payloads and deployment instructions, see the internal TIMES-NZ Explorer deployment runbook.

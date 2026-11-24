@@ -58,7 +58,9 @@ def test_annual_periods_rejects_missing_fractional_and_non_year_values(period):
         _annual_periods(pd.Series([period]))
 
 
-@pytest.mark.parametrize("failure", [None, "calculation", "write", "period"])
+@pytest.mark.parametrize(
+    "failure", [None, "calculation", "write", "period", "summary", "summary_write"]
+)
 def test_postprocess_marks_complete_only_after_all_writes(
     tmp_path, monkeypatch, failure
 ):
@@ -76,6 +78,9 @@ def test_postprocess_marks_complete_only_after_all_writes(
     (tmp_path / "postprocessed").mkdir()
     old_output = tmp_path / "postprocessed/energy_demand.parquet"
     old_output.write_bytes(b"old flat output")
+    stale_summary = tmp_path / "postprocessed/summaries/stale.parquet"
+    stale_summary.parent.mkdir()
+    stale_summary.write_bytes(b"old summary")
     frame = pd.DataFrame({"Period": ["2030"], "Value": [1.0]})
     raw = pd.DataFrame({"Period": ["2030", "-", "NONE"], "PV": [1.0, 2.0, 3.0]})
     monkeypatch.setattr(postprocessing, "read_vd", lambda _: raw.copy())
@@ -104,6 +109,11 @@ def test_postprocess_marks_complete_only_after_all_writes(
         postprocessing, "objective_function", lambda *_: frame.drop(columns="Period")
     )
 
+    monkeypatch.setattr(postprocessing, "_metadata", lambda *_: pd.DataFrame())
+    monkeypatch.setattr(
+        postprocessing, "build_summaries", lambda *_: {"annual.parquet": frame.copy()}
+    )
+
     def fail(*_args, **_kwargs):
         raise ValueError("synthetic failure")
 
@@ -111,6 +121,17 @@ def test_postprocess_marks_complete_only_after_all_writes(
         monkeypatch.setattr(postprocessing, "energy_demand", fail)
     if failure == "write":
         monkeypatch.setattr(pd.DataFrame, "to_parquet", fail)
+    if failure == "summary":
+        monkeypatch.setattr(postprocessing, "build_summaries", fail)
+    if failure == "summary_write":
+        write = pd.DataFrame.to_parquet
+
+        def fail_summary(dataframe, destination, **kwargs):
+            if destination.parent.name == "summaries":
+                fail()
+            return write(dataframe, destination, **kwargs)
+
+        monkeypatch.setattr(pd.DataFrame, "to_parquet", fail_summary)
     if failure == "period":
         monkeypatch.setattr(
             postprocessing, "energy_demand", lambda *_: frame.assign(Period="2030.5")
@@ -125,6 +146,14 @@ def test_postprocess_marks_complete_only_after_all_writes(
             "status": "running"
         }
         assert old_output.read_bytes() == b"old flat output"
+        assert stale_summary.read_bytes() == b"old summary"
+        if failure == "summary_write":
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", write)
+            output = postprocessing.postprocess_run(tmp_path, tmp_path)
+            retried = json.loads(manifest_path.read_text())["postprocessing"]
+            assert retried["status"] == "completed"
+            assert "summaries/annual.parquet" in retried["files"]
+            assert not stale_summary.exists()
     else:
         output = postprocessing.postprocess_run(tmp_path, tmp_path)
         status = json.loads(manifest_path.read_text())["postprocessing"]
@@ -136,6 +165,8 @@ def test_postprocess_marks_complete_only_after_all_writes(
         assert (output / "raw_results.parquet").is_file()
         assert (output / "labelled/energy_demand.parquet").is_file()
         assert not (output / "energy_demand.parquet").exists()
+        assert not stale_summary.exists()
+        assert "summaries/annual.parquet" in status["files"]
         assert pd.read_parquet(output / "raw_results.parquet")["Period"].tolist() == [
             "2030",
             "-",

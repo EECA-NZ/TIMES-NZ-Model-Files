@@ -10,6 +10,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from solve_times_nz.reporting import _annual_periods, build_summaries
+
 
 def read_vd(path: Path) -> pd.DataFrame:
     """Read a GDX2VEDA ``.vd`` file without relying on QA-side discovery."""
@@ -56,14 +58,6 @@ def _with_value(df: pd.DataFrame, variable: str, unit: str) -> pd.DataFrame:
     result["Variable"] = variable
     result["Unit"] = unit
     return result.rename(columns={"PV": "Value"})
-
-
-def _annual_periods(periods: pd.Series) -> pd.Series:
-    """Validate annual years before casting; raw periods may contain other tokens."""
-    years = pd.to_numeric(periods, errors="raise")
-    if years.isna().any() or years.mod(1).ne(0).any():
-        raise ValueError("Expected integer annual periods")
-    return years.astype("int64")
 
 
 def _scenario_name(manifest: dict[str, object], manifest_path: Path) -> str:
@@ -634,21 +628,39 @@ def postprocess_run(run_dir: Path, metadata_dir: Path) -> Path:
         "emissions.parquet": emissions(results, metadata_dir),
         "carbon_costs.parquet": carbon_costs(results),
     }
-    written_files = []
     for name, dataframe in outputs.items():
         if name not in {"raw_results.parquet", "objective_function.parquet"}:
-            dataframe = dataframe.assign(Period=_annual_periods(dataframe["Period"]))
+            outputs[name] = dataframe.assign(
+                Period=_annual_periods(dataframe["Period"])
+            )
+    outputs.update(
+        {
+            f"summaries/{name}": dataframe
+            for name, dataframe in build_summaries(
+                outputs,
+                _metadata(metadata_dir, "energy_commodities.csv"),
+                _metadata(metadata_dir, "timeslices.csv"),
+            ).items()
+        }
+    )
+    written_files = []
+    for name, dataframe in outputs.items():
         relative_path = (
-            Path(name) if name == "raw_results.parquet" else Path("labelled") / name
+            Path(name)
+            if name == "raw_results.parquet" or name.startswith("summaries/")
+            else Path("labelled") / name
         )
         destination = output / relative_path
         destination.parent.mkdir(parents=True, exist_ok=True)
         dataframe.to_parquet(destination, index=False)
         written_files.append(relative_path.as_posix())
-    # Retire old flat copies only after the replacement dataset writes succeed.
+    # Retire superseded files only after every replacement write succeeds.
     for name in outputs:
-        if name != "raw_results.parquet":
+        if "/" not in name and name != "raw_results.parquet":
             (output / name).unlink(missing_ok=True)
+    for path in (output / "summaries").rglob("*.parquet"):
+        if path.relative_to(output).as_posix() not in outputs:
+            path.unlink()
     manifest["postprocessing"] = {
         "status": "completed",
         "completed_at": datetime.now(UTC).isoformat(),
