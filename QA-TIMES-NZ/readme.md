@@ -5,8 +5,9 @@ This module contains internal analysis tools. The legacy Explorer has been
 removed; the Explorer now lives in `PUBLISH-TIMES-NZ`. `SOLVE-TIMES-NZ` owns
 result post-processing.
 
-Analysis scripts still use the old data paths and require archived inputs to run.
-Updating them to read PUBLISH releases is deferred.
+The former analysis scripts, chart code and calibration checks have been removed;
+they remain available in Git history. Calibration against observed data is
+deferred.
 
 ## QA report
 

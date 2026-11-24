@@ -6,7 +6,5 @@ data/*.zip
 rsconnect-python/*
 .env
 scratch.py
-analysis/results/
-analysis/sensitivity/
 report_config_dev.toml
 build/

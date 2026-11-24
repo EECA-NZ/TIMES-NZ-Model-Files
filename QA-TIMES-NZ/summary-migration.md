@@ -183,7 +183,8 @@ raw values. The saved 2035 GW/GWh pair is itself inconsistent in 57 rows under
 the recorded timeslice weights. The saved 2050 pair is mutually consistent but
 differs from the released raw/labelled data. Preserve these historical CSVs;
 new summaries follow the released source values rather than forcing agreement.
-They require review before the archived exports are retired.
+The analysis code that produced these exports has since been removed (see Git
+history); any saved exports left on disk are historical and unreviewed.
 
 Synthetic tests cover grouping, legacy years, completion, renewable allocation,
 exclusions, undefined ratios, flow conversions, failure/retry handling, stale-file

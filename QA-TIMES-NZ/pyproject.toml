@@ -7,19 +7,9 @@ authors = [{ name = "EECA" }]
 requires-python = ">=3.12,<4"
 dependencies = [
     "matplotlib>=3.10,<4",
-    "doit>=0.36,<0.37",
-    "numpy>=2.0,<3",
     "pandas>=2.2,<3",
-    "plotly>=6.3.1,<7",
-    "polars>=1.34.0,<2",
-    "pyarrow>=23.0.1,<24",
     "pygments==2.20.0",
     "publish-times-nz",
-    "python-dotenv>=1.2.1,<2",
-    "seaborn>=0.13,<0.14",
-    "shiny>=1.5.0,<2",
-    "shinywidgets>=0.7.0,<0.8",
-    "vega>=4.1.0,<5",
 ]
 
 [build-system]

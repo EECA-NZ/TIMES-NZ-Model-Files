@@ -43,8 +43,8 @@ packages/exports them without repeating calculations. Backfilled 56 summary
 datasets for v308's ten scenarios. Thirty of
 33 saved CSV exports reproduce; three historical battery CSVs disagree with the
 released inputs and remain preserved as documented validation exceptions. See
-[the migration record](summary-migration.md). Old analysis code remains available
-until its callers are retired in step 7.
+[the migration record](summary-migration.md). The old analysis code was removed
+in step 7.
 
 To-do before completing step 3:
 
@@ -167,6 +167,9 @@ Incomplete runs, malformed data and invalid mappings remain input errors.
 
 **6: Rebuild calibration as a report page**
 
+Deferred 25 November 2026 to reduce scope; the old calibration code was removed
+in step 7 and remains in Git history for recovering reference sources.
+
 Include calibration in this implementation, comparing model outputs with observed
 emissions, demand and electricity data. Use the old code and reports to recover
 reference sources and check definitions, then rebuild the assessments with
@@ -174,6 +177,15 @@ explicit years, units, boundaries, mappings and missing-data handling. Preserve
 source evidence; do not carry over the old parser or assumptions automatically.
 
 **7: Remove replaced code**
+
+Completed 25 November 2026. Rechecking the 33 saved CSV exports against the v308
+summaries again matched 30 (the three battery-flow exceptions in the
+[migration record](summary-migration.md) are unchanged). The analysis and
+chart code, sensitivity studies (ETS price, demand flex), calibration checks,
+their reference data, QA utilities and tests were deleted, with no `studies/`
+folder created. Everything remains in Git history. The ETS-price carbon-cost
+and price-component calculations are not in any summary. Unused analysis-only
+dependencies remain in `pyproject.toml`.
 
 Delete the old analysis and calibration implementations after validating their
 replacements and checking callers. Preserve historical reference data and move
