@@ -161,6 +161,21 @@ def test_build_release_checks_scenario_ids_in_summary_csvs(tmp_path):
     assert not (tmp_path / "releases").exists()
 
 
+def test_import_legacy_release_moves_old_raw_results_to_root(tmp_path):
+    source = tmp_path / "legacy"
+    _write_parquet(source, "labelled/energy_demand.parquet", ["steady"])
+    _write_parquet(source, "raw/raw_results.parquet", ["steady"])
+
+    bundle = import_legacy_release("old", source, tmp_path / "releases")
+
+    assert (bundle.path / "raw_results.parquet").is_file()
+    assert not (bundle.path / "raw").exists()
+
+    _write_parquet(source, "raw_results.parquet", ["steady"])
+    with pytest.raises(ReleaseBuildError, match="Duplicate legacy dataset"):
+        import_legacy_release("both", source, tmp_path / "releases")
+
+
 def test_import_legacy_release_rejects_duplicate_dataset_paths(tmp_path):
     source = tmp_path / "legacy"
     _write_parquet(source, "energy_demand.parquet", ["steady"])

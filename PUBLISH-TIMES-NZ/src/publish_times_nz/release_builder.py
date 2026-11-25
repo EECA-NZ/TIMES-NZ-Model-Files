@@ -97,11 +97,14 @@ def import_legacy_release(
     tables = {}
     for relative, source_tables in _source_tables([source]).items():
         # Legacy archives keep labelled datasets beside raw_results.parquet.
+        # The previous PUBLISH layout nested the raw results under raw/.
         destination = (
             Path("labelled") / relative
             if len(relative.parts) == 1 and relative.name != "raw_results.parquet"
             else relative
         )
+        if destination == Path("raw/raw_results.parquet"):
+            destination = Path("raw_results.parquet")
         if destination in tables:
             raise ReleaseBuildError(f"Duplicate legacy dataset: {destination}")
         tables[destination] = source_tables
