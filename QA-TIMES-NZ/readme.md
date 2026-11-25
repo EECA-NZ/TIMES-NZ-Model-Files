@@ -17,7 +17,7 @@ From the repository root:
 uv run qa-times-nz generate_qa
 ```
 
-This writes `build/report.html` and `build/comparisons.csv`
+This writes `build/TIMES-QA-<baseline label> vs <candidate label>.html` and a matching `... comparisons.csv`
 inside `QA-TIMES-NZ/`. The HTML contains embedded SVG charts, expandable data
 tables and selected input identities; it can be shared and
 opened offline. The CSV keeps exact prepared values, canonical scenario IDs,

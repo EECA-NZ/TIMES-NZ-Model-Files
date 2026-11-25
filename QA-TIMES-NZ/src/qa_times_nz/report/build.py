@@ -1,5 +1,7 @@
 """Resolve inputs, compare prepared summaries and write the report and CSV."""
 
+import re
+
 import pandas as pd
 
 from qa_times_nz import report_inputs
@@ -11,12 +13,18 @@ from qa_times_nz.report.render import render_report
 OBJECTIVE_DATASET = "indicators/objective_function"
 
 
+def comparisons_path(report_path):
+    """CSV path that sits beside, and is named after, the HTML report."""
+    return report_path.with_name(f"{report_path.stem} comparisons.csv")
+
+
 # pylint: disable-next=too-many-locals
 def build_report(*, dev=False):
     """Validate inputs, then write the configured report and its comparison CSV."""
     inputs = report_inputs.resolve_inputs(dev=dev)
     tolerance = inputs["tolerance"]
-    selected = [inputs[role] for role in ["baseline", "candidate"]]
+    selected_roles = ["baseline", "candidate"]
+    selected = [inputs[role] for role in selected_roles]
     comparisons, charts, csv_tables = {}, {}, []
     for _, specs in PAGES.values():
         for spec in specs:
@@ -53,7 +61,10 @@ def build_report(*, dev=False):
     csv["Period"] = csv.Period.astype("Int64")
     output = report_inputs.REPOSITORY_ROOT / "QA-TIMES-NZ" / "build"
     output.mkdir(parents=True, exist_ok=True)
-    csv.to_csv(output / "comparisons.csv", index=False)
-    path = output / "report.html"
+    labels = [
+        re.sub(r"[^\w .()+-]", "_", inputs[role]["label"]) for role in selected_roles
+    ]
+    path = output / f"TIMES-QA-{labels[0]} vs {labels[1]}.html"
+    csv.to_csv(comparisons_path(path), index=False)
     path.write_text(content, encoding="utf-8")
     return path

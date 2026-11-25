@@ -4,6 +4,7 @@ import argparse
 
 from qa_times_nz import report_inputs
 from qa_times_nz.report import build_report
+from qa_times_nz.report.build import comparisons_path
 
 
 def init_dev_config():
@@ -37,7 +38,7 @@ def main():
         else:
             path = build_report(dev=arguments.dev)
             print(f"Report: {path}")
-            print(f"Comparisons: {path.parent / 'comparisons.csv'}")
+            print(f"Comparisons: {comparisons_path(path)}")
     except (OSError, ValueError) as error:
         parser.error(str(error))
 

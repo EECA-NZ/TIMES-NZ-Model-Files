@@ -20,10 +20,10 @@ The command prints the resolved baseline and candidate, then writes two files in
 
 | File | Contents |
 | --- | --- |
-| `report.html` | The report. It is self-contained (charts are embedded), so recipients can open it offline without Python or the repository. |
-| `comparisons.csv` | The same values in long form for Excel or other tools: baseline, candidate, difference, percentage change and tolerance result for every row. |
+| `TIMES-QA-<baseline label> vs <candidate label>.html` | The report. It is self-contained (charts are embedded), so recipients can open it offline without Python or the repository. |
+| `TIMES-QA-<baseline label> vs <candidate label> comparisons.csv` | The same values in long form for Excel or other tools: baseline, candidate, difference, percentage change and tolerance result for every row. |
 
-The report itself is overwritten each run, and is not an artefact we currently store. Both files are Git-ignored.
+Reports with the same labels are overwritten each run, and is not an artefact we currently store. Both files are Git-ignored.
 
 ## Choose what to compare
 

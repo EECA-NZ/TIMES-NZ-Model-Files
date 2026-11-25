@@ -8,6 +8,7 @@ import pytest
 from publish_times_nz.release_builder import build_release
 from qa_times_nz import cli, report_inputs
 from qa_times_nz.report import build_report
+from qa_times_nz.report.build import comparisons_path
 from qa_times_nz.report.charts import chart_figure, detail_chart
 from qa_times_nz.report.compare import (
     different_period_spans,
@@ -26,6 +27,10 @@ def annual(values, unit="PJ", **groups):
             **groups,
         }
     )
+
+
+REPORT_NAME = "TIMES-QA-Published _old_ vs Development.html"
+COMPARISONS_NAME = "TIMES-QA-Published _old_ vs Development comparisons.csv"
 
 
 @pytest.fixture
@@ -268,7 +273,7 @@ def test_cli_generates_offline_html_and_exact_prepared_comparisons(
     monkeypatch.setattr("sys.argv", ["qa-times-nz", "generate_qa"])
     cli.main()
     output = repository / "QA-TIMES-NZ/build"
-    content = (output / "report.html").read_text()
+    content = (output / REPORT_NAME).read_text()
     assert "Report:" in capsys.readouterr().out
     assert "data:image/svg+xml;base64," in content
     assert "<script src=" not in content and "<link " not in content
@@ -286,7 +291,7 @@ def test_cli_generates_offline_html_and_exact_prepared_comparisons(
     for column in ["Result root", "Manifest", "Run timestamp (UTC)", "Model version"]:
         assert f">{column}</th>" not in content
     assert "source manifest</summary>" not in content
-    compared = pd.read_csv(output / "comparisons.csv")
+    compared = pd.read_csv(output / COMPARISONS_NAME)
     totals = compared.loc[compared.Metric.eq("electricity-demand-total")]
     assert totals.Value_baseline.item() == 10
     assert totals.Value_candidate.item() == 11
@@ -327,14 +332,14 @@ def test_dev_config_generation_is_exclusive_and_dev_report_reuses_output_paths(
     assert error.value.code == 2 and dev_path.read_bytes() == dev_before
     output = qa / "build"
     output.mkdir()
-    (output / "report.html").write_text("Previous main report")
-    (output / "comparisons.csv").write_text("Previous main comparisons")
+    (output / REPORT_NAME).write_text("Previous main report")
+    (output / COMPARISONS_NAME).write_text("Previous main comparisons")
     monkeypatch.setattr("sys.argv", ["qa-times-nz", "generate_qa", "--dev"])
     cli.main()
-    assert "Previous main report" not in (output / "report.html").read_text()
+    assert "Previous main report" not in (output / REPORT_NAME).read_text()
     assert not (output / "reports").exists()
     assert (qa / "report_config.toml").read_bytes() == main
-    compared = pd.read_csv(output / "comparisons.csv")
+    compared = pd.read_csv(output / COMPARISONS_NAME)
     assert not compared.loc[
         compared.Metric.eq("electricity-demand-total"), "ExceedsTolerance"
     ].item()
@@ -342,7 +347,7 @@ def test_dev_config_generation_is_exclusive_and_dev_report_reuses_output_paths(
 
 def test_packaging_the_same_candidate_changes_only_provenance(repository):
     path = build_report()
-    original = (path.parent / "comparisons.csv").read_bytes()
+    original = (comparisons_path(path)).read_bytes()
     run = repository / "SOLVE-TIMES-NZ/build/solves/steady-v3.0.9-20261124T010000Z"
     build_release(
         "candidate", [run / "postprocessed"], repository / "PUBLISH-TIMES-NZ/releases"
@@ -354,7 +359,7 @@ def test_packaging_the_same_candidate_changes_only_provenance(repository):
     )
     config.write_text(text)
     path = build_report()
-    assert original == (path.parent / "comparisons.csv").read_bytes()
+    assert original == (comparisons_path(path)).read_bytes()
     assert "<td>candidate</td>" in path.read_text()
 
 
