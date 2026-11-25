@@ -136,7 +136,7 @@ def render_report(inputs, comparisons, charts, tolerance):
                 summaries.append(
                     {
                         "Metric": name,
-                        "Years outside tolerance": (
+                        "Years where candidate results differ (over tolerance)": (
                             f"{int(compared.ExceedsTolerance.sum())} / {int(assessed)}"
                             if assessed
                             else "N/A"
@@ -145,7 +145,7 @@ def render_report(inputs, comparisons, charts, tolerance):
                     }
                 )
         pages.append(
-            f'<div id="{page}" class="page section-page" hidden>'
+            f'<div id="{page}" class="page section-page">'
             f'<nav aria-label="{page_title} sections"><strong>Page contents</strong>'
             f'{"".join(links)}</nav><div class="page-content">'
             f'{"".join(sections)}</div></div>'

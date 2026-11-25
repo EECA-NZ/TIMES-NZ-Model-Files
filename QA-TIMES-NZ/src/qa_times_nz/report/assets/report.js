@@ -12,9 +12,8 @@ function updateContents() {
 const sectionObserver = new IntersectionObserver(updateContents, {
   rootMargin: '-132px 0px 0px 0px'
 });
-function showPage() {
+function showPage(requested = location.hash.slice(1)) {
   sectionObserver.disconnect();
-  const requested = location.hash.slice(1);
   const target = document.getElementById(requested);
   const selected = target?.closest('.page')?.id || 'summary';
   document.querySelectorAll('.page').forEach(page => {page.hidden = page.id !== selected;});
@@ -30,5 +29,13 @@ function showPage() {
       .forEach(section => sectionObserver.observe(section));
   });
 }
-window.addEventListener('hashchange', showPage);
+window.addEventListener('hashchange', () => showPage());
+// Some embedded viewers (e.g. Teams preview) never fire hashchange for in-page links.
+document.addEventListener('click', event => {
+  const link = event.target.closest('nav a[href^="#"]');
+  if (!link) return;
+  event.preventDefault();
+  showPage(link.hash.slice(1));
+  try {history.replaceState(null, '', link.hash);} catch (error) {/* URL not writable */}
+});
 showPage();

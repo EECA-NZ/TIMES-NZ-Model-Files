@@ -7,6 +7,9 @@ scenario = "steady-v308"
 label = "Steady v308"
 
 [candidate]
-source = "SOLVE"
-scenario = "steady" # just takes the latest build 
-label = "Steady v309 dev"
+
+source = "RELEASE"
+release = "v308"
+scenario = "shift-v308"
+label = "Shift v308"
+
