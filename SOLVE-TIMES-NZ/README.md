@@ -59,6 +59,23 @@ diagnostic as successful when both requested GDX artifacts were written.
 uv run solve-times-nz solve steady --diagnostic
 ```
 
+Post-processing writes prepared report tables as CSVs under
+`postprocessed/summaries/`; raw and labelled results remain Parquets.
+Summaries must finish before the run is marked
+postprocessed. Their renewable classifications and timeslice weights come from
+the supplied metadata snapshot; older snapshots without `Renewable` need an
+explicitly reviewed replacement, not a fallback to the live PREP tree.
+
+Successful post-processing reruns remove superseded summary CSVs and old summary
+Parquets only after all replacement outputs have been written.
+Summary filenames describe their contents, with shared totals and breakdowns
+for all readers. Each output key specifies its subject folder beneath
+`summaries/`: `electricity/`, `demand/`, `supply/`, `transport/`, `emissions/` or
+`indicators/`. The objective function is `indicators/objective_function.csv`.
+Flow CSVs combine the existing 2035/2050 selections in GW/GWh;
+renewable-share CSVs contain both `Share` and `%` rows. Select `Period`, `Unit`,
+`Fuel` and vehicle `EndUse` as applicable.
+
 Further guidance on case configuration, local GAMS/TIMES setup, generated run
 files, and CPLEX options is in the
 [`SOLVE-TIMES-NZ` developer guide](../PREPARE-TIMES-NZ/docs/source/developer_guide/solve_times_nz/index.md).

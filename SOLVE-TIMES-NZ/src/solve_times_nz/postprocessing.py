@@ -10,6 +10,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from solve_times_nz.reporting import _annual_periods, build_summaries
+
 
 def read_vd(path: Path) -> pd.DataFrame:
     """Read a GDX2VEDA ``.vd`` file without relying on QA-side discovery."""
@@ -190,6 +192,7 @@ def electricity_demand_by_timeslice(
             "Electricity demand processes must not use the ANNUAL timeslice"
         )
     result = _timeslice_average(demand, metadata_dir)
+    result["Period"] = _annual_periods(result["Period"])
     base_year = pd.to_numeric(results["Period"], errors="coerce").min()
     return result[pd.to_numeric(result["Period"], errors="coerce") != base_year]
 
@@ -201,6 +204,7 @@ def energy_service_demand_by_timeslice(
     result = _timeslice_average(
         energy_service_demand(results, metadata_dir), metadata_dir
     )
+    result["Period"] = _annual_periods(result["Period"])
     base_year = pd.to_numeric(results["Period"], errors="coerce").min()
     return result[pd.to_numeric(result["Period"], errors="coerce") != base_year]
 
@@ -211,6 +215,7 @@ def generation_by_timeslice(results: pd.DataFrame, metadata_dir: Path) -> pd.Dat
     result = _timeslice_average(
         result[result["Variable"] == "Electricity generation"], metadata_dir
     )
+    result["Period"] = _annual_periods(result["Period"])
     base_year = pd.to_numeric(results["Period"], errors="coerce").min()
     result = result[pd.to_numeric(result["Period"], errors="coerce") != base_year]
     return result[
@@ -537,7 +542,11 @@ def emissions(results: pd.DataFrame, metadata_dir: Path) -> pd.DataFrame:
 
 def carbon_costs(results: pd.DataFrame) -> pd.DataFrame:
     """Publish total CO2, carbon cost, and implied carbon price."""
-    base = results[results["Commodity"] == "TOTCO2"]
+    base = results[
+        results["Commodity"].eq("TOTCO2")
+        & results["Attribute"].isin(["VAR_FOut", "Cost_Comx"])
+    ].copy()
+    base["Period"] = _annual_periods(base["Period"])
     keys = ["Scenario", "Period", "Region", "Commodity"]
     emissions_df = (
         base[base["Attribute"] == "VAR_FOut"]
@@ -588,7 +597,9 @@ def postprocess_run(run_dir: Path, metadata_dir: Path) -> Path:
     results = read_vd(files[0])
     results["Scenario"] = scenario
     output = run_dir / "postprocessed"
-    output.mkdir(exist_ok=True)
+    staging = output.with_name("postprocessed.tmp")
+    shutil.rmtree(staging, ignore_errors=True)
+    staging.mkdir()
     outputs = {
         "raw_results.parquet": results,
         "elec_generation.parquet": electricity_generation(results, metadata_dir),
@@ -620,11 +631,45 @@ def postprocess_run(run_dir: Path, metadata_dir: Path) -> Path:
         "carbon_costs.parquet": carbon_costs(results),
     }
     for name, dataframe in outputs.items():
-        dataframe.to_parquet(output / name, index=False)
+        if name not in {"raw_results.parquet", "objective_function.parquet"}:
+            outputs[name] = dataframe.assign(
+                Period=_annual_periods(dataframe["Period"])
+            )
+    outputs.update(
+        {
+            f"summaries/{name}": dataframe
+            for name, dataframe in build_summaries(
+                outputs,
+                _metadata(metadata_dir, "energy_commodities.csv"),
+                _metadata(metadata_dir, "timeslices.csv"),
+            ).items()
+        }
+    )
+    written_files = []
+    for name, dataframe in outputs.items():
+        relative_path = (
+            Path(name)
+            if name == "raw_results.parquet" or name.startswith("summaries/")
+            else Path("labelled") / name
+        )
+        destination = staging / relative_path
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        if name.startswith("summaries/"):
+            dataframe.to_csv(destination, index=False)
+        else:
+            dataframe.to_parquet(destination, index=False)
+        written_files.append(relative_path.as_posix())
+    # Replace the live outputs only after every write succeeds. The metadata
+    # snapshot is not an output, so carry it across.
+    if (output / "metadata").is_dir():
+        shutil.copytree(output / "metadata", staging / "metadata")
+    if output.exists():
+        shutil.rmtree(output)
+    staging.rename(output)
     manifest["postprocessing"] = {
         "status": "completed",
         "completed_at": datetime.now(UTC).isoformat(),
-        "files": list(outputs),
+        "files": written_files,
     }
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     return output

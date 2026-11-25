@@ -22,13 +22,26 @@ build/solves/steady-v<workspace-version>-<run-id>/
   postprocessed/
     metadata/                 # CSV labels copied from PREP for this run
     raw_results.parquet
-    elec_generation.parquet
-    energy_demand.parquet
-    ...
+    labelled/
+      elec_generation.parquet
+      energy_demand.parquet
+      ...
 
 ```
 
 Outputs are grouped by topic, as individual outputs may have different relevant label structures. 
+
+The processed-result root uses the same dataset layout as a PUBLISH release:
+`raw_results.parquet` at the root, labelled datasets under `labelled/`, and
+`summaries/` when summary datasets are produced. Raw VEDA files, solver logs and
+the execution manifest stay in the parent run directory. PUBLISH preserves the
+dataset paths; the metadata snapshot stays with the SOLVE run.
+
+The completion manifest records dataset paths relative to `postprocessed/`,
+including `labelled/` prefixes. A successful rerun removes superseded flat
+labelled files after all replacement writes succeed. PUBLISH requires the new
+layout for solver inputs; use its legacy importer for flat archived datasets.
+Do not rerun legacy v308 post-processing to change its directory layout.
 
 The parquet `Scenario` column uses the versioned `scenario_name` recorded in
 the generated-case manifest, for example `steady-v3.0.9`.

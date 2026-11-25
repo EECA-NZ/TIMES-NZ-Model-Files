@@ -1,4 +1,4 @@
-"""Build named release directories from solver or legacy Parquet results."""
+"""Build named releases from raw/labelled Parquets and prepared summary CSVs."""
 
 from __future__ import annotations
 
@@ -17,10 +17,11 @@ from publish_times_nz.release_bundle import (
     ReleaseBundle,
     load_bundle,
 )
+from publish_times_nz.reporting import read_summary_csv
 
 
 class ReleaseBuildError(ValueError):
-    """Raised when source Parquets cannot form a release."""
+    """Raised when source results cannot form a release."""
 
 
 def build_release(
@@ -32,8 +33,21 @@ def build_release(
 ) -> ReleaseBundle:
     """Build one release from one-scenario solver postprocessing directories."""
     sources = _source_directories(source_directories)
+    for source in sources:
+        for path in _result_files(source):
+            relative = path.relative_to(source)
+            if relative != Path("raw_results.parquet") and (
+                len(relative.parts) < 2
+                or (relative.parts[0], relative.suffix)
+                not in {("labelled", ".parquet"), ("summaries", ".csv")}
+                or relative.name == "raw_results.parquet"
+            ):
+                raise ReleaseBuildError(
+                    f"Invalid result layout: {path}; expected labelled/ Parquets, "
+                    "summaries/ CSVs and raw_results.parquet at the result root"
+                )
     scenario_ids_by_source = {
-        source: _scenario_ids(_parquet_files(source)) for source in sources
+        source: _scenario_ids(_result_files(source)) for source in sources
     }
     for source, scenario_ids in scenario_ids_by_source.items():
         if len(scenario_ids) != 1:
@@ -57,7 +71,6 @@ def build_release(
                 f"do not match bundle definition {expected}"
             )
 
-    tables = _source_tables(sources)
     lineage = {
         "type": "solver_runs",
         "runs": [source.parent.name for source in sources],
@@ -70,7 +83,7 @@ def build_release(
             manifest["scenarios"], definition["scenarios"].values(), strict=True
         ):
             scenario["label"] = label
-    return _publish(release_name, tables, manifest, releases_root)
+    return _publish(release_name, _source_tables(sources), manifest, releases_root)
 
 
 def import_legacy_release(
@@ -81,8 +94,21 @@ def import_legacy_release(
 ) -> ReleaseBundle:
     """Import one already scenario-batched legacy result directory."""
     source = _source_directories([source_directory])[0]
-    tables = _source_tables([source])
-    scenario_ids = _scenario_ids(_parquet_files(source))
+    tables = {}
+    for relative, source_tables in _source_tables([source]).items():
+        # Legacy archives keep labelled datasets beside raw_results.parquet.
+        # The previous PUBLISH layout nested the raw results under raw/.
+        destination = (
+            Path("labelled") / relative
+            if len(relative.parts) == 1 and relative.name != "raw_results.parquet"
+            else relative
+        )
+        if destination == Path("raw/raw_results.parquet"):
+            destination = Path("raw_results.parquet")
+        if destination in tables:
+            raise ReleaseBuildError(f"Duplicate legacy dataset: {destination}")
+        tables[destination] = source_tables
+    scenario_ids = _scenario_ids(_result_files(source))
     manifest = _manifest(
         release_name,
         sorted(scenario_ids),
@@ -109,27 +135,42 @@ def _parquet_files(source: Path) -> tuple[Path, ...]:
     return tuple(sorted(source.rglob("*.parquet")))
 
 
-def _scenario_ids(parquet_files: tuple[Path, ...]) -> set[str]:
+def _result_files(source: Path) -> tuple[Path, ...]:
+    return tuple(
+        sorted((*_parquet_files(source), *(source / "summaries").rglob("*.csv")))
+    )
+
+
+def _scenario_ids(result_files: tuple[Path, ...]) -> set[str]:
     scenario_ids: set[str] = set()
-    for parquet_file in parquet_files:
-        table = pq.read_table(parquet_file, columns=["Scenario"])
+    for result_file in result_files:
+        table = (
+            pa.Table.from_pandas(read_summary_csv(result_file), preserve_index=False)
+            if result_file.suffix == ".csv"
+            else pq.read_table(result_file, columns=["Scenario"])
+        )
         if "Scenario" not in table.column_names:
-            raise ReleaseBuildError(
-                f"Parquet is missing Scenario column: {parquet_file}"
-            )
+            raise ReleaseBuildError(f"Result is missing Scenario column: {result_file}")
         scenario_ids.update(value.as_py() for value in table["Scenario"].unique())
     if not scenario_ids or not all(
         isinstance(value, str) and value for value in scenario_ids
     ):
-        raise ReleaseBuildError("Parquet Scenario values must be non-empty strings")
+        raise ReleaseBuildError("Result Scenario values must be non-empty strings")
     return scenario_ids
 
 
 def _source_tables(sources: list[Path]) -> dict[Path, list[pa.Table]]:
     tables: dict[Path, list[pa.Table]] = defaultdict(list)
     for source in sources:
-        for parquet_file in _parquet_files(source):
-            tables[parquet_file.relative_to(source)].append(pq.read_table(parquet_file))
+        for result_file in _result_files(source):
+            table = (
+                pa.Table.from_pandas(
+                    read_summary_csv(result_file), preserve_index=False
+                )
+                if result_file.suffix == ".csv"
+                else pq.read_table(result_file)
+            )
+            tables[result_file.relative_to(source)].append(table)
     return tables
 
 
@@ -162,15 +203,18 @@ def _publish(
     staging_path = releases_root / f".{release_name}.{uuid.uuid4().hex}.staging"
     try:
         for relative_path, source_tables in tables.items():
-            destination = _destination(staging_path, relative_path)
+            destination = staging_path / relative_path
             destination.parent.mkdir(parents=True, exist_ok=True)
             try:
                 table = pa.concat_tables(source_tables)
             except pa.ArrowInvalid as error:
                 raise ReleaseBuildError(
-                    f"Parquet schemas differ for {relative_path}"
+                    f"Result schemas differ for {relative_path}"
                 ) from error
-            pq.write_table(table, destination, compression="zstd")
+            if relative_path.suffix == ".csv":
+                table.to_pandas().to_csv(destination, index=False)
+            else:
+                pq.write_table(table, destination, compression="zstd")
         (staging_path / "release-manifest.json").write_text(
             json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
         )
@@ -180,12 +224,6 @@ def _publish(
     except Exception:
         shutil.rmtree(staging_path, ignore_errors=True)
         raise
-
-
-def _destination(staging_path: Path, relative_path: Path) -> Path:
-    if relative_path == Path("raw_results.parquet"):
-        return staging_path / "raw" / relative_path
-    return staging_path / "labelled" / relative_path
 
 
 def _validate_release_name(release_name: str) -> None:

@@ -8,6 +8,8 @@ from pathlib import Path
 from publish_times_nz.bundle_definition import build_bundle
 from publish_times_nz.deployment_payload import prepare_deployment_payload
 from publish_times_nz.release_builder import build_release, import_legacy_release
+from publish_times_nz.release_bundle import load_bundle
+from publish_times_nz.reporting import export_summaries
 
 DEFAULT_RELEASES_ROOT = Path(__file__).parents[2] / "releases"
 
@@ -35,6 +37,18 @@ def main() -> None:
     legacy.add_argument("--legacy-source")
     legacy.add_argument("--releases-root", default=DEFAULT_RELEASES_ROOT, type=Path)
 
+    summaries = commands.add_parser(
+        "export-summaries", help="Export prepared release summaries as CSV"
+    )
+    summaries.add_argument("release_name")
+    summaries.add_argument("--output", type=Path, required=True)
+    summaries.add_argument(
+        "--scenario",
+        action="append",
+        help="Exact scenario ID; repeat to select several",
+    )
+    summaries.add_argument("--releases-root", default=DEFAULT_RELEASES_ROOT, type=Path)
+
     deploy = commands.add_parser(
         "prepare-deployment-payload", help="Build the rsconnect payload"
     )
@@ -43,6 +57,23 @@ def main() -> None:
     )
 
     arguments = parser.parse_args()
+    if arguments.command == "export-summaries":
+        if (
+            not arguments.release_name
+            or Path(arguments.release_name).name != arguments.release_name
+            or arguments.release_name in {".", ".."}
+        ):
+            parser.error("Expected a release directory name")
+        try:
+            files = export_summaries(
+                load_bundle(arguments.releases_root / arguments.release_name),
+                arguments.output,
+                arguments.scenario,
+            )
+        except (OSError, ValueError) as error:
+            parser.error(str(error))
+        print(f"Exported {len(files)} summaries to {arguments.output}")
+        return
     if arguments.command == "prepare-deployment-payload":
         print(
             prepare_deployment_payload(DEFAULT_RELEASES_ROOT.parent, arguments.release)

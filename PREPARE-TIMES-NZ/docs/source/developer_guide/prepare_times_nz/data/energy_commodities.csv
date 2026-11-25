@@ -1,210 +1,210 @@
-Commodity,Fuel,CommodityGroup
-AGRAGRWST,Agricultural waste,Energy
-AGRANMMNR,Animal manure,Energy
-AGRBDSL,Biodiesel,Energy
-AGRBIG,Biogas,Energy
-AGRBIL,Bioethanol,Energy
-AGRBIM,Biomethane,Energy
-AGRBPLT,Black Pellet,Energy
-AGRCOA,Coal,Energy
-AGRDID,Drop-in Diesel,Energy
-AGRDIJ,Drop-in Jet fuel,Energy
-AGRDSL,Diesel,Energy
-AGRELC,Electricity,Energy
-AGRFOL,Fuel oil,Energy
-AGRGEO,Geothermal,Energy
-AGRH2R,Hydrogen,Energy
-AGRHYD,Hydro,Energy
-AGRINDOSDWOD,Wood residuals (onsite industrial),Energy
-AGRJET,Jet fuel,Energy
-AGRLNG,LNG,Energy
-AGRLPG,LPG,Energy
-AGRMNCWST,Municipal waste,Energy
-AGRNGA,Natural gas,Energy
-AGROSWOD,Wood residuals (onsite),Energy
-AGRPET,Petrol,Energy
-AGRPLT,Wood Pellet,Energy
-AGRSOL,Solar,Energy
-AGRWIN,Wind,Energy
-AGRWOD,Wood,Energy
-AGRWODWST,Wood waste,Energy
-AGRWST,Agricultural waste,Energy
-ANMMNR,Animal manure,Energy
-BDSL,Biodiesel,Energy
-BIG,Biogas,Energy
-BIL,Bioethanol,Energy
-BIM,Biomethane,Energy
-BIMDD,Biomethane,Energy
-BPLT,Black Pellet,Energy
-COA,Coal,Energy
-COMAGRWST,Agricultural waste,Energy
-COMANMMNR,Animal manure,Energy
-COMBDSL,Biodiesel,Energy
-COMBIG,Biogas,Energy
-COMBIL,Bioethanol,Energy
-COMBIM,Biomethane,Energy
-COMBPLT,Black Pellet,Energy
-COMCOA,Coal,Energy
-COMDID,Drop-in Diesel,Energy
-COMDIJ,Drop-in Jet fuel,Energy
-COMDSL,Diesel,Energy
-COMELC,Electricity,Energy
-COMFOL,Fuel oil,Energy
-COMGEO,Geothermal,Energy
-COMH2R,Hydrogen,Energy
-COMHYD,Hydro,Energy
-COMINDOSDWOD,Wood residuals (onsite industrial),Energy
-COMJET,Jet fuel,Energy
-COMLNG,LNG,Energy
-COMLPG,LPG,Energy
-COMMNCWST,Municipal waste,Energy
-COMNGA,Natural gas,Energy
-COMOSWOD,Wood residuals (onsite),Energy
-COMPET,Petrol,Energy
-COMPLT,Wood Pellet,Energy
-COMSOL,Solar,Energy
-COMWIN,Wind,Energy
-COMWOD,Wood,Energy
-COMWODWST,Wood waste,Energy
-DID,Drop-in Diesel,Energy
-DIJ,Drop-in Jet fuel,Energy
-DSL,Diesel,Energy
-ELC,Electricity,Energy
-ELCAGRWST,Agricultural waste,Energy
-ELCANMMNR,Animal manure,Energy
-ELCBDSL,Biodiesel,Energy
-ELCBIG,Biogas,Energy
-ELCBIL,Bioethanol,Energy
-ELCBIM,Biomethane,Energy
-ELCBPLT,Black Pellet,Energy
-ELCCOA,Coal,Energy
-ELCDD,Electricity,Energy
-ELCDID,Drop-in Diesel,Energy
-ELCDIJ,Drop-in Jet fuel,Energy
-ELCDSL,Diesel,Energy
-ELCELC,Electricity,Energy
-ELCFOL,Fuel oil,Energy
-ELCGEO,Geothermal,Energy
-ELCH2R,Hydrogen,Energy
-ELCHV,Electricity,Energy
-ELCHYD,Hydro,Energy
-ELCINDOSDWOD,Wood residuals (onsite industrial),Energy
-ELCJET,Jet fuel,Energy
-ELCLNG,LNG,Energy
-ELCLPG,LPG,Energy
-ELCMNCWST,Municipal waste,Energy
-ELCNGA,Natural gas,Energy
-ELCOSWOD,Wood residuals (onsite),Energy
-ELCPET,Petrol,Energy
-ELCPLT,Wood Pellet,Energy
-ELCSOL,Solar,Energy
-ELCWIN,Wind,Energy
-ELCWOD,Wood,Energy
-ELCWODWST,Wood waste,Energy
-FOL,Fuel oil,Energy
-FSTKCOA,Coal,Energy
-FSTKNGA,Natural gas,Energy
-GEO,Geothermal,Energy
-H2R,Hydrogen,Energy
-HYD,Hydro,Energy
-INDAGRWST,Agricultural waste,Energy
-INDANMMNR,Animal manure,Energy
-INDBDSL,Biodiesel,Energy
-INDBIG,Biogas,Energy
-INDBIL,Bioethanol,Energy
-INDBIM,Biomethane,Energy
-INDBPLT,Black Pellet,Energy
-INDCOA,Coal,Energy
-INDDID,Drop-in Diesel,Energy
-INDDIJ,Drop-in Jet fuel,Energy
-INDDSL,Diesel,Energy
-INDELC,Electricity,Energy
-INDFOL,Fuel oil,Energy
-INDGEO,Geothermal,Energy
-INDH2R,Hydrogen,Energy
-INDHYD,Hydro,Energy
-INDINDOSDWOD,Wood residuals (onsite industrial),Energy
-INDJET,Jet fuel,Energy
-INDLNG,LNG,Energy
-INDLPG,LPG,Energy
-INDMNCWST,Municipal waste,Energy
-INDNGA,Natural gas,Energy
-INDOSDWOD,Wood residuals (onsite industrial),Energy
-INDOSWOD,Wood residuals (onsite),Energy
-INDPET,Petrol,Energy
-INDPLT,Wood Pellet,Energy
-INDSOL,Solar,Energy
-INDWIN,Wind,Energy
-INDWOD,Wood,Energy
-INDWODWST,Wood waste,Energy
-JET,Jet fuel,Energy
-LNG,LNG,Energy
-LPG,LPG,Energy
-MNCWST,Municipal waste,Energy
-NGA,Natural gas,Energy
-NGADD,Natural gas,Energy
-OSWOD,Wood residuals (onsite),Energy
-PET,Petrol,Energy
-PLT,Wood Pellet,Energy
-RESAGRWST,Agricultural waste,Energy
-RESANMMNR,Animal manure,Energy
-RESBDSL,Biodiesel,Energy
-RESBIG,Biogas,Energy
-RESBIL,Bioethanol,Energy
-RESBIM,Biomethane,Energy
-RESBPLT,Black Pellet,Energy
-RESCOA,Coal,Energy
-RESDID,Drop-in Diesel,Energy
-RESDIJ,Drop-in Jet fuel,Energy
-RESDSL,Diesel,Energy
-RESELC,Electricity,Energy
-RESFOL,Fuel oil,Energy
-RESGEO,Geothermal,Energy
-RESH2R,Hydrogen,Energy
-RESHYD,Hydro,Energy
-RESINDOSDWOD,Wood residuals (onsite industrial),Energy
-RESJET,Jet fuel,Energy
-RESLNG,LNG,Energy
-RESLPG,LPG,Energy
-RESMNCWST,Municipal waste,Energy
-RESNGA,Natural gas,Energy
-RESOSWOD,Wood residuals (onsite),Energy
-RESPET,Petrol,Energy
-RESPLT,Wood Pellet,Energy
-RESSOL,Solar,Energy
-RESWIN,Wind,Energy
-RESWOD,Wood,Energy
-RESWODWST,Wood waste,Energy
-SOL,Solar,Energy
-TRAAGRWST,Agricultural waste,Energy
-TRAANMMNR,Animal manure,Energy
-TRABDSL,Biodiesel,Energy
-TRABIG,Biogas,Energy
-TRABIL,Bioethanol,Energy
-TRABIM,Biomethane,Energy
-TRABPLT,Black Pellet,Energy
-TRACOA,Coal,Energy
-TRADID,Drop-in Diesel,Energy
-TRADIJ,Drop-in Jet fuel,Energy
-TRADSL,Diesel,Energy
-TRAELC,Electricity,Energy
-TRAFOL,Fuel oil,Energy
-TRAGEO,Geothermal,Energy
-TRAH2R,Hydrogen,Energy
-TRAHYD,Hydro,Energy
-TRAINDOSDWOD,Wood residuals (onsite industrial),Energy
-TRAJET,Jet fuel,Energy
-TRALNG,LNG,Energy
-TRALPG,LPG,Energy
-TRAMNCWST,Municipal waste,Energy
-TRANGA,Natural gas,Energy
-TRAOSWOD,Wood residuals (onsite),Energy
-TRAPET,Petrol,Energy
-TRAPLT,Wood Pellet,Energy
-TRASOL,Solar,Energy
-TRAWIN,Wind,Energy
-TRAWOD,Wood,Energy
-TRAWODWST,Wood waste,Energy
-WIN,Wind,Energy
-WOD,Wood,Energy
-WODWST,Wood waste,Energy
+Commodity,Fuel,Renewable,CommodityGroup
+AGRAGRWST,Agricultural waste,Renewable,Energy
+AGRANMMNR,Animal manure,Renewable,Energy
+AGRBDSL,Biodiesel,Renewable,Energy
+AGRBIG,Biogas,Renewable,Energy
+AGRBIL,Bioethanol,Renewable,Energy
+AGRBIM,Biomethane,Renewable,Energy
+AGRBPLT,Black Pellet,Renewable,Energy
+AGRCOA,Coal,Non-renewable,Energy
+AGRDID,Drop-in Diesel,Renewable,Energy
+AGRDIJ,Drop-in Jet fuel,Renewable,Energy
+AGRDSL,Diesel,Non-renewable,Energy
+AGRELC,Electricity,Electricity,Energy
+AGRFOL,Fuel oil,Non-renewable,Energy
+AGRGEO,Geothermal,Renewable,Energy
+AGRH2R,Hydrogen,Renewable,Energy
+AGRHYD,Hydro,Renewable,Energy
+AGRINDOSDWOD,Wood residuals (onsite industrial),Renewable,Energy
+AGRJET,Jet fuel,Non-renewable,Energy
+AGRLNG,LNG,Non-renewable,Energy
+AGRLPG,LPG,Non-renewable,Energy
+AGRMNCWST,Municipal waste,Renewable,Energy
+AGRNGA,Natural gas,Non-renewable,Energy
+AGROSWOD,Wood residuals (onsite),Renewable,Energy
+AGRPET,Petrol,Non-renewable,Energy
+AGRPLT,Wood Pellet,Renewable,Energy
+AGRSOL,Solar,Renewable,Energy
+AGRWIN,Wind,Renewable,Energy
+AGRWOD,Wood,Renewable,Energy
+AGRWODWST,Wood waste,Renewable,Energy
+AGRWST,Agricultural waste,Renewable,Energy
+ANMMNR,Animal manure,Renewable,Energy
+BDSL,Biodiesel,Renewable,Energy
+BIG,Biogas,Renewable,Energy
+BIL,Bioethanol,Renewable,Energy
+BIM,Biomethane,Renewable,Energy
+BIMDD,Biomethane,Renewable,Energy
+BPLT,Black Pellet,Renewable,Energy
+COA,Coal,Non-renewable,Energy
+COMAGRWST,Agricultural waste,Renewable,Energy
+COMANMMNR,Animal manure,Renewable,Energy
+COMBDSL,Biodiesel,Renewable,Energy
+COMBIG,Biogas,Renewable,Energy
+COMBIL,Bioethanol,Renewable,Energy
+COMBIM,Biomethane,Renewable,Energy
+COMBPLT,Black Pellet,Renewable,Energy
+COMCOA,Coal,Non-renewable,Energy
+COMDID,Drop-in Diesel,Renewable,Energy
+COMDIJ,Drop-in Jet fuel,Renewable,Energy
+COMDSL,Diesel,Non-renewable,Energy
+COMELC,Electricity,Electricity,Energy
+COMFOL,Fuel oil,Non-renewable,Energy
+COMGEO,Geothermal,Renewable,Energy
+COMH2R,Hydrogen,Renewable,Energy
+COMHYD,Hydro,Renewable,Energy
+COMINDOSDWOD,Wood residuals (onsite industrial),Renewable,Energy
+COMJET,Jet fuel,Non-renewable,Energy
+COMLNG,LNG,Non-renewable,Energy
+COMLPG,LPG,Non-renewable,Energy
+COMMNCWST,Municipal waste,Renewable,Energy
+COMNGA,Natural gas,Non-renewable,Energy
+COMOSWOD,Wood residuals (onsite),Renewable,Energy
+COMPET,Petrol,Non-renewable,Energy
+COMPLT,Wood Pellet,Renewable,Energy
+COMSOL,Solar,Renewable,Energy
+COMWIN,Wind,Renewable,Energy
+COMWOD,Wood,Renewable,Energy
+COMWODWST,Wood waste,Renewable,Energy
+DID,Drop-in Diesel,Renewable,Energy
+DIJ,Drop-in Jet fuel,Renewable,Energy
+DSL,Diesel,Non-renewable,Energy
+ELC,Electricity,Electricity,Energy
+ELCAGRWST,Agricultural waste,Renewable,Energy
+ELCANMMNR,Animal manure,Renewable,Energy
+ELCBDSL,Biodiesel,Renewable,Energy
+ELCBIG,Biogas,Renewable,Energy
+ELCBIL,Bioethanol,Renewable,Energy
+ELCBIM,Biomethane,Renewable,Energy
+ELCBPLT,Black Pellet,Renewable,Energy
+ELCCOA,Coal,Non-renewable,Energy
+ELCDD,Electricity,Electricity,Energy
+ELCDID,Drop-in Diesel,Renewable,Energy
+ELCDIJ,Drop-in Jet fuel,Renewable,Energy
+ELCDSL,Diesel,Non-renewable,Energy
+ELCELC,Electricity,Electricity,Energy
+ELCFOL,Fuel oil,Non-renewable,Energy
+ELCGEO,Geothermal,Renewable,Energy
+ELCH2R,Hydrogen,Renewable,Energy
+ELCHV,Electricity,Electricity,Energy
+ELCHYD,Hydro,Renewable,Energy
+ELCINDOSDWOD,Wood residuals (onsite industrial),Renewable,Energy
+ELCJET,Jet fuel,Non-renewable,Energy
+ELCLNG,LNG,Non-renewable,Energy
+ELCLPG,LPG,Non-renewable,Energy
+ELCMNCWST,Municipal waste,Renewable,Energy
+ELCNGA,Natural gas,Non-renewable,Energy
+ELCOSWOD,Wood residuals (onsite),Renewable,Energy
+ELCPET,Petrol,Non-renewable,Energy
+ELCPLT,Wood Pellet,Renewable,Energy
+ELCSOL,Solar,Renewable,Energy
+ELCWIN,Wind,Renewable,Energy
+ELCWOD,Wood,Renewable,Energy
+ELCWODWST,Wood waste,Renewable,Energy
+FOL,Fuel oil,Non-renewable,Energy
+FSTKCOA,Coal,Non-renewable,Energy
+FSTKNGA,Natural gas,Non-renewable,Energy
+GEO,Geothermal,Renewable,Energy
+H2R,Hydrogen,Renewable,Energy
+HYD,Hydro,Renewable,Energy
+INDAGRWST,Agricultural waste,Renewable,Energy
+INDANMMNR,Animal manure,Renewable,Energy
+INDBDSL,Biodiesel,Renewable,Energy
+INDBIG,Biogas,Renewable,Energy
+INDBIL,Bioethanol,Renewable,Energy
+INDBIM,Biomethane,Renewable,Energy
+INDBPLT,Black Pellet,Renewable,Energy
+INDCOA,Coal,Non-renewable,Energy
+INDDID,Drop-in Diesel,Renewable,Energy
+INDDIJ,Drop-in Jet fuel,Renewable,Energy
+INDDSL,Diesel,Non-renewable,Energy
+INDELC,Electricity,Electricity,Energy
+INDFOL,Fuel oil,Non-renewable,Energy
+INDGEO,Geothermal,Renewable,Energy
+INDH2R,Hydrogen,Renewable,Energy
+INDHYD,Hydro,Renewable,Energy
+INDINDOSDWOD,Wood residuals (onsite industrial),Renewable,Energy
+INDJET,Jet fuel,Non-renewable,Energy
+INDLNG,LNG,Non-renewable,Energy
+INDLPG,LPG,Non-renewable,Energy
+INDMNCWST,Municipal waste,Renewable,Energy
+INDNGA,Natural gas,Non-renewable,Energy
+INDOSDWOD,Wood residuals (onsite industrial),Renewable,Energy
+INDOSWOD,Wood residuals (onsite),Renewable,Energy
+INDPET,Petrol,Non-renewable,Energy
+INDPLT,Wood Pellet,Renewable,Energy
+INDSOL,Solar,Renewable,Energy
+INDWIN,Wind,Renewable,Energy
+INDWOD,Wood,Renewable,Energy
+INDWODWST,Wood waste,Renewable,Energy
+JET,Jet fuel,Non-renewable,Energy
+LNG,LNG,Non-renewable,Energy
+LPG,LPG,Non-renewable,Energy
+MNCWST,Municipal waste,Renewable,Energy
+NGA,Natural gas,Non-renewable,Energy
+NGADD,Natural gas,Non-renewable,Energy
+OSWOD,Wood residuals (onsite),Renewable,Energy
+PET,Petrol,Non-renewable,Energy
+PLT,Wood Pellet,Renewable,Energy
+RESAGRWST,Agricultural waste,Renewable,Energy
+RESANMMNR,Animal manure,Renewable,Energy
+RESBDSL,Biodiesel,Renewable,Energy
+RESBIG,Biogas,Renewable,Energy
+RESBIL,Bioethanol,Renewable,Energy
+RESBIM,Biomethane,Renewable,Energy
+RESBPLT,Black Pellet,Renewable,Energy
+RESCOA,Coal,Non-renewable,Energy
+RESDID,Drop-in Diesel,Renewable,Energy
+RESDIJ,Drop-in Jet fuel,Renewable,Energy
+RESDSL,Diesel,Non-renewable,Energy
+RESELC,Electricity,Electricity,Energy
+RESFOL,Fuel oil,Non-renewable,Energy
+RESGEO,Geothermal,Renewable,Energy
+RESH2R,Hydrogen,Renewable,Energy
+RESHYD,Hydro,Renewable,Energy
+RESINDOSDWOD,Wood residuals (onsite industrial),Renewable,Energy
+RESJET,Jet fuel,Non-renewable,Energy
+RESLNG,LNG,Non-renewable,Energy
+RESLPG,LPG,Non-renewable,Energy
+RESMNCWST,Municipal waste,Renewable,Energy
+RESNGA,Natural gas,Non-renewable,Energy
+RESOSWOD,Wood residuals (onsite),Renewable,Energy
+RESPET,Petrol,Non-renewable,Energy
+RESPLT,Wood Pellet,Renewable,Energy
+RESSOL,Solar,Renewable,Energy
+RESWIN,Wind,Renewable,Energy
+RESWOD,Wood,Renewable,Energy
+RESWODWST,Wood waste,Renewable,Energy
+SOL,Solar,Renewable,Energy
+TRAAGRWST,Agricultural waste,Renewable,Energy
+TRAANMMNR,Animal manure,Renewable,Energy
+TRABDSL,Biodiesel,Renewable,Energy
+TRABIG,Biogas,Renewable,Energy
+TRABIL,Bioethanol,Renewable,Energy
+TRABIM,Biomethane,Renewable,Energy
+TRABPLT,Black Pellet,Renewable,Energy
+TRACOA,Coal,Non-renewable,Energy
+TRADID,Drop-in Diesel,Renewable,Energy
+TRADIJ,Drop-in Jet fuel,Renewable,Energy
+TRADSL,Diesel,Non-renewable,Energy
+TRAELC,Electricity,Electricity,Energy
+TRAFOL,Fuel oil,Non-renewable,Energy
+TRAGEO,Geothermal,Renewable,Energy
+TRAH2R,Hydrogen,Renewable,Energy
+TRAHYD,Hydro,Renewable,Energy
+TRAINDOSDWOD,Wood residuals (onsite industrial),Renewable,Energy
+TRAJET,Jet fuel,Non-renewable,Energy
+TRALNG,LNG,Non-renewable,Energy
+TRALPG,LPG,Non-renewable,Energy
+TRAMNCWST,Municipal waste,Renewable,Energy
+TRANGA,Natural gas,Non-renewable,Energy
+TRAOSWOD,Wood residuals (onsite),Renewable,Energy
+TRAPET,Petrol,Non-renewable,Energy
+TRAPLT,Wood Pellet,Renewable,Energy
+TRASOL,Solar,Renewable,Energy
+TRAWIN,Wind,Renewable,Energy
+TRAWOD,Wood,Renewable,Energy
+TRAWODWST,Wood waste,Renewable,Energy
+WIN,Wind,Renewable,Energy
+WOD,Wood,Renewable,Energy
+WODWST,Wood waste,Renewable,Energy

@@ -19,6 +19,7 @@ setup/index
 prepare_times_nz/index
 solve_times_nz/index
 publish_times_nz/index
+qa_times_nz/index
 miscellaneous/index
 ```
 

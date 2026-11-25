@@ -3,6 +3,13 @@
 Creates and serves named TIMES-NZ release artefacts. Releases are local
 data and belong in the ignored `releases/` directory. Every Parquet below a
 release directory is part of that release, including raw solver results.
+Prepared CSV tables under `summaries/` are also packaged and included in the
+Explorer's full-results download.
+
+Result roots share SOLVE's processed layout: `raw_results.parquet` at the root,
+`labelled/` for labelled Parquets, and `summaries/` for summary CSVs when
+available. Solver inputs must already follow this layout. The legacy importer
+accepts flat labelled datasets and places them under `labelled/`.
 
 Manually maintained release definitions under `release_definitions/` list the cases and
 scenario labels to include. `build-release` selects the latest completed,
@@ -16,5 +23,23 @@ uv run publish-times-nz build-release release_definitions/standard.toml
 uv run publish-times-nz build <release-name> <postprocessed-directory>...
 uv run publish-times-nz import-legacy <release-name> <legacy-result-directory>
 ```
+
+Export prepared summary tables from a release without chart rendering or
+recalculating values:
+
+```bash
+uv run publish-times-nz export-summaries v308 --scenario steady-v308 --output /tmp/v308-summary-csvs
+```
+
+The output directory must be new and outside the release. Omit `--scenario` to
+export all scenarios, or repeat it to select several. CSVs use the release's
+display labels; `summary-export-manifest.json` records the source and scenario IDs.
+Summary CSVs in the release retain scenario IDs. CSV reads preserve numeric
+precision and blank undefined values, and validate numeric years and values.
+Packaging and exports preserve the subject folders below `summaries/`; for
+example, the objective function exports as `indicators/objective_function.csv`.
+Shared tables may contain several fuels, vehicle classes, years or units;
+select these through their columns. For example, flow CSVs include both GW and
+GWh, and renewable-share CSVs include both `Share` and `%`.
 
 For deployment payloads and deployment instructions, see the internal TIMES-NZ Explorer deployment runbook.

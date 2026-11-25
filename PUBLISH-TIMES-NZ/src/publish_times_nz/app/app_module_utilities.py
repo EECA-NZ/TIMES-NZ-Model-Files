@@ -64,4 +64,4 @@ def info_server(inputs, outputs, session):
     # full results download zip
     @render.download(filename="times_nz_3_wip_all_results.zip")
     def all_results_zip():
-        yield build_outputs_zip_bytes(configured_bundle().parquet_files)
+        yield build_outputs_zip_bytes(configured_bundle().result_files)
