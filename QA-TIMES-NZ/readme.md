@@ -34,8 +34,7 @@ Objective differences are descriptive, with no tolerance assessment.
 
 Charts with no data on either side show "no data found". When data exists on one
 side, that side remains visible and comparisons show N/A. Invalid data and
-incomplete runs are input errors. Charts and tables show units. Demand and
-emissions boundaries are documented in `summary-migration.md`.
+incomplete runs are input errors. Charts and tables show units.
 Renewable generation and TFEC shares use the same relative tolerance as the other
 annual metrics. For example, a baseline of 63% and candidate of 76% differ by
 13 percentage points and 20.63% relative, exceeding a 5% tolerance. The report

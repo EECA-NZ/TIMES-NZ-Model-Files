@@ -74,9 +74,7 @@ for all readers. Each output key specifies its subject folder beneath
 `indicators/`. The objective function is `indicators/objective_function.csv`.
 Flow CSVs combine the existing 2035/2050 selections in GW/GWh;
 renewable-share CSVs contain both `Share` and `%` rows. Select `Period`, `Unit`,
-`Fuel` and vehicle `EndUse` as applicable. See the
-[summary migration record](../QA-TIMES-NZ/summary-migration.md) for renamed tables
-and retained differences in classifications.
+`Fuel` and vehicle `EndUse` as applicable.
 
 Further guidance on case configuration, local GAMS/TIMES setup, generated run
 files, and CPLEX options is in the
