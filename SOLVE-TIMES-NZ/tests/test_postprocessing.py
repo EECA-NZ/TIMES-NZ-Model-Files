@@ -84,6 +84,9 @@ def test_postprocess_marks_complete_only_after_all_writes(
     stale_csv = stale_summary.parent / "demand/stale.csv"
     stale_csv.parent.mkdir()
     stale_csv.write_text("old CSV summary")
+    snapshot = tmp_path / "postprocessed/metadata/fuel_labels.csv"
+    snapshot.parent.mkdir()
+    snapshot.write_text("metadata snapshot")
     frame = pd.DataFrame({"Period": ["2030"], "Value": [1.0]})
     raw = pd.DataFrame({"Period": ["2030", "-", "NONE"], "PV": [1.0, 2.0, 3.0]})
     monkeypatch.setattr(postprocessing, "read_vd", lambda _: raw.copy())
@@ -169,13 +172,15 @@ def test_postprocess_marks_complete_only_after_all_writes(
         assert set(status["files"]) == {
             path.relative_to(output).as_posix()
             for path in output.rglob("*")
-            if path.is_file()
+            if path.is_file() and path.relative_to(output).parts[0] != "metadata"
         }
         assert (output / "raw_results.parquet").is_file()
         assert (output / "labelled/energy_demand.parquet").is_file()
         assert not (output / "energy_demand.parquet").exists()
         assert not stale_summary.exists()
         assert not stale_csv.exists()
+        assert not (tmp_path / "postprocessed.tmp").exists()
+        assert snapshot.read_text() == "metadata snapshot"
         assert "summaries/demand/annual.csv" in status["files"]
         pd.testing.assert_frame_equal(
             pd.read_csv(output / "summaries/demand/annual.csv"),

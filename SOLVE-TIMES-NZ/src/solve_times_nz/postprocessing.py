@@ -597,7 +597,9 @@ def postprocess_run(run_dir: Path, metadata_dir: Path) -> Path:
     results = read_vd(files[0])
     results["Scenario"] = scenario
     output = run_dir / "postprocessed"
-    output.mkdir(exist_ok=True)
+    staging = output.with_name("postprocessed.tmp")
+    shutil.rmtree(staging, ignore_errors=True)
+    staging.mkdir()
     outputs = {
         "raw_results.parquet": results,
         "elec_generation.parquet": electricity_generation(results, metadata_dir),
@@ -650,23 +652,20 @@ def postprocess_run(run_dir: Path, metadata_dir: Path) -> Path:
             if name == "raw_results.parquet" or name.startswith("summaries/")
             else Path("labelled") / name
         )
-        destination = output / relative_path
+        destination = staging / relative_path
         destination.parent.mkdir(parents=True, exist_ok=True)
         if name.startswith("summaries/"):
             dataframe.to_csv(destination, index=False)
         else:
             dataframe.to_parquet(destination, index=False)
         written_files.append(relative_path.as_posix())
-    # Retire superseded files only after every replacement write succeeds.
-    for name in outputs:
-        if "/" not in name and name != "raw_results.parquet":
-            (output / name).unlink(missing_ok=True)
-    for path in (output / "summaries").rglob("*"):
-        if (
-            path.suffix in {".parquet", ".csv"}
-            and path.relative_to(output).as_posix() not in outputs
-        ):
-            path.unlink()
+    # Replace the live outputs only after every write succeeds. The metadata
+    # snapshot is not an output, so carry it across.
+    if (output / "metadata").is_dir():
+        shutil.copytree(output / "metadata", staging / "metadata")
+    if output.exists():
+        shutil.rmtree(output)
+    staging.rename(output)
     manifest["postprocessing"] = {
         "status": "completed",
         "completed_at": datetime.now(UTC).isoformat(),
