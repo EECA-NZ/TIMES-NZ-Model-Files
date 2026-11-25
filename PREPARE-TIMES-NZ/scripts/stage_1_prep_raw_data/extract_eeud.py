@@ -169,25 +169,6 @@ def clean_eeud_data(df: pd.DataFrame) -> pd.DataFrame:
     # Drop superseded columns
     df = df.drop(columns=["EnergyValue", "PeriodEndDate"])
 
-    # Normalize residential labels that changed in the newer EEUD workbook
-    geo_mask = (
-        (df["Sector"] == "Residential")
-        & (df["Fuel"] == "Geothermal")
-        & (df["Technology"] == "Direct Heat")
-        & (df["EndUse"] == "Low Temperature Heat (<100 C), Space Heating")
-    )
-    df.loc[geo_mask, "Technology"] = "Ground source heat pump"
-
-    solar_mask = (
-        (df["Sector"] == "Residential")
-        & (df["Fuel"] == "Solar")
-        & df["Technology"].isna()
-    )
-    df.loc[solar_mask, "TechnologyGroup"] = "Heat/Cooling Devices"
-    df.loc[solar_mask, "Technology"] = "Solar hot water cylinder"
-    df.loc[solar_mask, "EnduseGroup"] = "Heating/Cooling"
-    df.loc[solar_mask, "EndUse"] = "Low Temperature Heat (<100 C), Water Heating"
-
     return df
 
 

@@ -1,4 +1,8 @@
-#This file contains a list of changes we've made to EEUD categories 
+# This file contains a list of changes we've made to EEUD categories, for all sectors.
+# It is applied by the industry and residential stage 2 scripts, so every rule must
+# name its sector (SectorGroup or Sector) or it will apply everywhere.
+# Industry rules run after TIMES sectors are derived (so may use names like "Wood Products"
+# or "Urea"); residential rules run on the raw EEUD sectors.
 
 # add more by creating another [[rule]] block, then listing its conditions and updates. 
 # Recommend you also add a name and justification - these will be reported by the scripts.
@@ -9,6 +13,7 @@ Name = "Geothermal Heat Exchangers"
 Justification = "Redefining Geothermal Boilers as Heat Exchangers"
 
   [rule.conditions]
+  SectorGroup = "Industrial"
   Fuel = "Geothermal"
   Technology = "Boiler Systems"
 
@@ -61,6 +66,7 @@ Name = "Heat pumps for space heating"
 Justification = "We distinguish different technologies for heatpumps for space heating v space cooling"
 
   [rule.conditions]       
+  SectorGroup = "Industrial"
   Technology = "Heat Pump (for Heating)"
   EndUse = "Low Temperature Heat (<100 C), Space Heating"
 
@@ -72,6 +78,7 @@ Justification = "We distinguish different technologies for heatpumps for space h
 Name = "Heat pumps for process heating"
 Justification = "We distinguish different technologies for heatpumps for space heating v space cooling"
   [rule.conditions]       
+  SectorGroup = "Industrial"
   Technology = "Heat Pump (for Heating)"
   EndUse = "Low Temperature Heat (<100 C), Process Requirements"
   [rule.updates]  
@@ -113,3 +120,30 @@ Justification = "This ensures that all 'Other' intermediate process heat is flex
 
   [rule.updates]
   Technology = "Boiler Systems"
+
+
+[[rule]]
+Name = "Residential geothermal heat as ground source heat pumps"
+Justification = "Older EEUD vintages label residential geothermal space heating as Direct Heat"
+
+  [rule.conditions]
+  Sector = "Residential"
+  Fuel = "Geothermal"
+  Technology = "Direct Heat"
+  EndUse = "Low Temperature Heat (<100 C), Space Heating"
+
+  [rule.updates]
+  Technology = "Ground source heat pump"
+
+
+[[rule]]
+Name = "Residential solar hot water cylinders"
+Justification = "The EEUD labels all residential solar as Hot Water Cylinder. This must be Solar hot water cylinder so that it takes the solar (not electric) code, costs and lifetime."
+
+  [rule.conditions]
+  Sector = "Residential"
+  Fuel = "Solar"
+  Technology = "Hot Water Cylinder"
+
+  [rule.updates]
+  Technology = "Solar hot water cylinder"

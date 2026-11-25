@@ -7,7 +7,12 @@ At this stage, this is just some column renaming to standardise cases.
 """
 
 import re
+import tomllib
 import unicodedata
+
+import pandas as pd
+
+from prepare_times_nz.utilities.logger_setup import logger
 
 # Column name tidying:
 
@@ -54,3 +59,30 @@ def remove_diacritics(text: str) -> str:
     """Strip accent marks so names are ASCII-safe for GAMS/VEDA."""
     nfkd = unicodedata.normalize("NFKD", text)
     return "".join(c for c in nfkd if not unicodedata.combining(c))
+
+
+def rename_eeud_techs(df, rules_file, report=False):
+    """
+    Apply the [[rule]] blocks from an EEUD rename TOML file to the dataframe.
+
+    Each rule's `conditions` select rows by exact column match, and its
+    `updates` overwrite columns on those rows.
+    """
+    with open(rules_file, "rb") as f:
+        rules = tomllib.load(f)["rule"]
+    for rule in rules:
+        cond = pd.Series(True, index=df.index)
+        if report:
+            logger.info("Applying technology definition adjustment: %s", rule["Name"])
+            logger.info("          Justification: %s", rule["Justification"])
+        for col, val in rule["conditions"].items():
+            if col not in df.columns:
+                logger.warning("Column '%s' not found in DataFrame", col)
+            if report:
+                logger.info("          Condition: '%s' = '%s'", col, val)
+            cond &= df[col] == val
+        for col, val in rule["updates"].items():
+            if report:
+                logger.info("          Changing '%s' to '%s'", col, val)
+            df.loc[cond, col] = val
+    return df

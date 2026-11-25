@@ -122,6 +122,7 @@ Demand,DD-C_WASH,Residential,Detached Dwelling,"Low Temperature Heat (<100 C), C
 Demand,DD-DSL-MTV_MOB,Residential,Detached Dwelling,"Motive Power, Mobile"
 Demand,DD-D_WASH,Residential,Detached Dwelling,"Low Temperature Heat (< 100 C), Dishwashers"
 Demand,DD-FRIDG,Residential,Detached Dwelling,Refrigeration
+Demand,DD-HWATER_SC-WH_LOW,Residential,Detached Dwelling,"Low Temperature Heat (<100 C), Water Heating"
 Demand,DD-IT_ENT-ELCTR,Residential,Detached Dwelling,Electronics and Other Electrical Uses
 Demand,DD-LIGHT,Residential,Detached Dwelling,Lighting
 Demand,DD-PET-MTV_MOB,Residential,Detached Dwelling,"Motive Power, Mobile"
@@ -146,6 +147,7 @@ Demand,JD-C_WASH,Residential,Joined Dwelling,"Low Temperature Heat (<100 C), Clo
 Demand,JD-DSL-MTV_MOB,Residential,Joined Dwelling,"Motive Power, Mobile"
 Demand,JD-D_WASH,Residential,Joined Dwelling,"Low Temperature Heat (< 100 C), Dishwashers"
 Demand,JD-FRIDG,Residential,Joined Dwelling,Refrigeration
+Demand,JD-HWATER_SC-WH_LOW,Residential,Joined Dwelling,"Low Temperature Heat (<100 C), Water Heating"
 Demand,JD-IT_ENT-ELCTR,Residential,Joined Dwelling,Electronics and Other Electrical Uses
 Demand,JD-LIGHT,Residential,Joined Dwelling,Lighting
 Demand,JD-PET-MTV_MOB,Residential,Joined Dwelling,"Motive Power, Mobile"

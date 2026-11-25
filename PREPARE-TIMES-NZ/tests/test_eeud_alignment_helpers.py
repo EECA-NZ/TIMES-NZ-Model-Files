@@ -10,6 +10,8 @@ from prepare_times_nz.stage_2.common.align_eeud_sectors import (
     aggregate_eeud,
     is_missing_series,
 )
+from prepare_times_nz.utilities.data_cleaning import rename_eeud_techs
+from prepare_times_nz.utilities.filepaths import ASSUMPTIONS
 
 
 @pytest.mark.parametrize(
@@ -72,3 +74,22 @@ def test_category_mapping_and_aggregation():
     assert result["Technology"].eq("NA").all()
     assert result["Unit"].eq("PJ").all()
     assert "TIMES_Sector" not in result.columns
+
+
+def test_residential_solar_rename_rule_only_touches_matching_rows():
+    """Solar cylinders are relabelled; electric cylinders keep their name."""
+    df = pd.DataFrame(
+        {
+            "SectorGroup": ["Residential", "Residential", "Commercial"],
+            "Sector": ["Residential", "Residential", "Commercial"],
+            "Fuel": ["Solar", "Electricity", "Solar"],
+            "Technology": ["Hot Water Cylinder"] * 3,
+            "EndUse": ["Water Heating"] * 3,
+        }
+    )
+    out = rename_eeud_techs(df, ASSUMPTIONS / "eeud_patches/times_eeud_renames.toml")
+    assert out["Technology"].tolist() == [
+        "Solar hot water cylinder",
+        "Hot Water Cylinder",
+        "Hot Water Cylinder",
+    ]

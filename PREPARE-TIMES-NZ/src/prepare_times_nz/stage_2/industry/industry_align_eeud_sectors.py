@@ -12,8 +12,6 @@ Run directly:
 or import the `main()` function from elsewhere in the pipeline or tests.
 """
 
-import tomllib
-
 import pandas as pd
 
 from prepare_times_nz.stage_2.industry.common import (
@@ -23,13 +21,15 @@ from prepare_times_nz.stage_2.industry.common import (
     save_checks,
     save_preprocessing,
 )
-from prepare_times_nz.utilities.filepaths import STAGE_1_DATA
+from prepare_times_nz.utilities.data_cleaning import rename_eeud_techs
+from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_1_DATA
 from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # ----------------------------------------------------------------------------
 # Constants
 # ----------------------------------------------------------------------------
 BASE_YEAR = 2023
+EEUD_RENAMES_FILE = ASSUMPTIONS / "eeud_patches/times_eeud_renames.toml"
 BALLANCE_FEEDSTOCK_SHARE_ASSUMPTION = 0.53
 BALLANCE_DU_ASSUMPTION = 0.38
 DEFAULT_FUEL_USE_FALLBACKS = [
@@ -61,12 +61,6 @@ DEFAULT_FUEL_USE_FALLBACKS = [
 # ----------------------------------------------------------------------------
 
 
-def parse_toml_file(file_path):
-    """Read and parse a TOML file."""
-    with open(file_path, "rb") as f:
-        return tomllib.load(f)
-
-
 # ----------------------------------------------------------------------------
 # Data Loading
 # ----------------------------------------------------------------------------
@@ -88,9 +82,6 @@ def load_data():
         ),
         "nz_steel_coal_use": pd.read_csv(
             INDUSTRY_ASSUMPTIONS / "nz_steel_coal_use.csv"
-        ),
-        "eeud_tech_adjustments": parse_toml_file(
-            INDUSTRY_CONCORDANCES / "times_eeud_tech_renames.toml"
         ),
     }
     return data
@@ -143,36 +134,6 @@ def get_industry_pj(df):
     df = df[df["SectorGroup"] == "Industrial"].copy()
     df["Unit"] = "PJ"
     df["Value"] = df["Value"] / 1e3
-    return df
-
-
-def rename_eeud_techs(df, eeud_tech_adjustments, report=False):
-    """
-    Rename EEUD technologies based on the provided adjustments.
-    """
-    rules = eeud_tech_adjustments["rule"]
-
-    def apply_rules(df, rules, report=False):
-        for rule in rules:
-            cond = pd.Series([True] * len(df))
-            if report:
-                logger.info(
-                    "Applying technology definition adjustment: %s", rule["Name"]
-                )
-                logger.info("          Justification: %s", rule["Justification"])
-            for col, val in rule["conditions"].items():
-                if col not in df.columns:
-                    logger.warning("Column '%s' not found in DataFrame", col)
-                if report:
-                    logger.info("          Condition: '%s' = '%s'", col, val)
-                cond &= df[col] == val
-            for col, val in rule["updates"].items():
-                if report:
-                    logger.info("          Changing '%s' to '%s'", col, val)
-                df.loc[cond, col] = val
-        return df
-
-    df = apply_rules(df, rules, report)
     return df
 
 
@@ -581,8 +542,8 @@ def main():
         df, gic_data, data["mbie_gas_non_energy"], data["chemical_split_categories"]
     )
     df = add_times_categories(df, data["times_eeud_industry_categories"])
-    # Rename some techs using the rules provided in times_eeud_tech_renames.toml
-    df = rename_eeud_techs(df, data["eeud_tech_adjustments"])
+    # Rename some techs using the rules provided in times_eeud_renames.toml
+    df = rename_eeud_techs(df, EEUD_RENAMES_FILE)
     df = aggregate_eeud(df)
     df = apply_default_fuel_uses(df)
     # checks - must do these before filtering the year (so we can check previous years)
