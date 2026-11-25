@@ -2,7 +2,7 @@
 
 `QA-TIMES-NZ` is designed to compare the results of two scenarios and outputs a shareable report as a single HTML file. It's designed to assess the differences between two model runs and summarise these, while also providing reasonable underlying detail. 
 
-It uses summary files produced by `SOLVE-TIMES-NZ` postprocesing. New data, aggregations, or tidying should always be done in `SOLVE` postprocessing so the results are available downstream for any other consumers (like `QA-TIMES-NZ`, or one-off studies). This means that the summary results are held and stored between different scenario solves or published releases, allowing easy tracking. 
+It uses summary files produced by `SOLVE-TIMES-NZ` post-processing. New data, aggregations, or tidying should always be done in `SOLVE` post-processing so the results are available downstream for any other consumers (like `QA-TIMES-NZ`, or one-off studies). This means that the summary results are held and stored between different scenario solves or published releases, allowing easy tracking.
 
 The report is designed to read either individual scenarios packaged as releases in `PUBLISH`, or individual scenarios found in `SOLVE`, as appropriate. 
 
