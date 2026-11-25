@@ -89,7 +89,7 @@ completed.
 
 You can mess around with the report config by creating `report_config_dev.toml`, which is git-ignored. You can create this file yourself, or run `uv run qa-times-nz init-dev-config` to create it by copying the main config file. 
 
-This allows you to run a bunch of tests without messing with the "standard" report config, which is shared across the repo. The QA report will use the dev config if using a `--dev` paramater like: 
+This allows you to run a bunch of tests without messing with the "standard" report config, which is shared across the repo. The QA report will use the dev config if using a `--dev` parameter like:
 
 ```bash
 uv run qa-times-nz generate_qa --dev
