@@ -47,6 +47,20 @@ PAGES = {
                 "TechnologyGroup",
                 "TWh",
             ),
+            MetricSpec(
+                "battery-capacity-type",
+                "Battery capacity by type",
+                "electricity/battery_capacity",
+                "Technology",
+                "GW",
+            ),
+            MetricSpec(
+                "thermal-generation-fuel",
+                "Thermal generation fuel use by fuel",
+                "electricity/thermal_generation_fuel_use",
+                "Fuel",
+                "PJ",
+            ),
         ],
     ),
     "oil-and-gas": (
