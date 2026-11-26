@@ -20,7 +20,8 @@ from solve_times_nz.case import (
 )
 
 RESULTS_ROOT = REPOSITORY_ROOT / "SOLVE-TIMES-NZ" / "build" / "solves"
-VEDA_RESULT_SUFFIXES = {".vd", ".vde", ".vds", ".vdt"}
+VEDA_RESULT_SUFFIXES = {".vd", ".vde", ".vds", ".vdt", ".lst"}
+SOLVE_LOG_FILES = {"qa_check.log"}
 DIAGNOSTIC_OPTION_FILE = "convert.opt"
 DIAGNOSTIC_RUN_PREFIX = "diagnostic-"
 DIAGNOSTIC_MATRIX_FILE = "diagnostic-matrix.gdx"
@@ -316,7 +317,11 @@ def _copy_veda_results(destination: Path, diagnostic: bool = False) -> Path:
     result_files = [
         path
         for path in destination.iterdir()
-        if path.is_file() and path.suffix.lower() in VEDA_RESULT_SUFFIXES
+        if path.is_file()
+        and (
+            path.suffix.lower() in VEDA_RESULT_SUFFIXES
+            or path.name.lower() in SOLVE_LOG_FILES
+        )
     ]
     if not result_files:
         raise RuntimeError(f"GDX2VEDA produced no VEDA result files in {destination}")
