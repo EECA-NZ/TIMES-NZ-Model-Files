@@ -16,6 +16,7 @@ from qa_times_nz.report.compare import (
     read_metric,
 )
 from qa_times_nz.report.render import comparison_accordion, nz_timestamp
+from qa_times_nz.report.slices import slice_chart, slice_comparison
 
 
 def annual(values, unit="PJ", **groups):
@@ -158,10 +159,13 @@ def test_comparisons_preserve_unmatched_keys_nulls_zero_baselines_and_units():
     assert not compared.loc["A", "ExceedsTolerance"]
     assert compared.loc["B", "ExceedsTolerance"]
     assert not compared.loc["C", "ExceedsTolerance"]
-    assert pd.isna(compared.loc["D", "Value_candidate"])
-    assert pd.isna(compared.loc["F", "Value_baseline"])
-    assert compared.loc[["D", "E", "F"], "Difference"].isna().all()
-    assert compared.loc[["D", "E", "F"], "ExceedsTolerance"].isna().all()
+    # categories absent from a scenario that reports the period count as zero
+    assert compared.loc["D", "Value_candidate"] == 0
+    assert compared.loc["F", "Value_baseline"] == 0
+    assert compared.loc[["D", "F"], "ExceedsTolerance"].all()
+    # an explicit null stays unknown
+    assert pd.isna(compared.loc["E", "Difference"])
+    assert pd.isna(compared.loc["E", "ExceedsTolerance"])
     assert len(compared) == 6
     content = comparison_accordion(
         compared.reset_index(), "Type", "PJ", ["Baseline: <old>", "Candidate"]
@@ -169,7 +173,36 @@ def test_comparisons_preserve_unmatched_keys_nulls_zero_baselines_and_units():
     assert "Baseline: &lt;old&gt;" in content and "N/A" in content
     assert "Availability" not in content and "Assessment" not in content
     assert {"Availability", "Assessment", "Status"}.isdisjoint(compared.columns)
-    assert content.count('class="over-tolerance"') == 1
+    assert content.count('class="over-tolerance"') == 3
+
+
+def test_slice_comparison_zero_fills_missing_series_and_draws_season_panels():
+    def slices(technology, values):
+        return pd.DataFrame(
+            {
+                "Series": [f"{technology}: Gen, {n}" for n in range(len(values))],
+                "Period": 2050,
+                "Unit": "GW",
+                "Value": values,
+                "Variable": "Gen",
+                "Technology": technology,
+                "TimeSlice": [f"SUM-WK-{n}" for n in range(len(values))],
+                "TimeSliceOrder": list(range(len(values))),
+                "Season": "Summer",
+                "TimeSliceDayTime": "Weekday Day",
+            }
+        )
+
+    baseline = slices("Hydro", [1.0, 2.0])
+    candidate = pd.concat(
+        [slices("Hydro", [1.0, 4.0]), slices("Wind", [3.0])], ignore_index=True
+    )
+    compared = slice_comparison([baseline, candidate], 0.05)
+    assert compared.Technology.tolist() == ["Hydro", "Hydro", "Wind"]
+    assert compared.Value_baseline.tolist() == [1.0, 2.0, 0.0]
+    assert compared.ExceedsTolerance.tolist() == [False, True, True]
+    assert slice_chart(compared, "GW").count("<img") == 2
+    assert slice_chart(compared.iloc[:0], "GW") == "<p>no data found</p>"
 
 
 def test_nz_timestamp_handles_summer_winter_and_missing_timezone():
@@ -206,32 +239,50 @@ def test_renewable_reader_selects_prepared_percent_rows_without_conversion(monke
     assert selected.Unit.item() == "%"
 
 
+def test_chart_treats_category_missing_from_a_scenario_as_zero_and_highlights_it():
+    baseline = pd.DataFrame(
+        {"Type": ["A", "B"], "Period": [2030, 2030], "Unit": "PJ", "Value": [1.0, 5.0]}
+    )
+    candidate = baseline.loc[baseline.Type.eq("A")]
+    compared = period_comparison([baseline, candidate], "Type", 0.05)
+    figure = chart_figure(compared, "Type", "PJ")
+    assert [len(axis.patches) for axis in figure.axes] == [0, 1]
+    assert list(figure.axes[1].lines[1].get_ydata()) == [0.0]
+
+
 def test_panels_keep_layout_colours_and_show_negative_values():
     for count in [2, 3, 5, 6]:
         frames = [annual([1] * count, Type=[str(i) for i in range(count)])] * 2
-        figure = chart_figure(frames, "Type", "PJ", 0.05)
+        compared = period_comparison(frames, "Type", 0.05)
+        figure = chart_figure(compared, "Type", "PJ")
         assert len(figure.axes) == count
         for axis in figure.axes:
             assert axis.get_subplotspec().get_gridspec().ncols == min(3, count)
             assert [line.get_color() for line in axis.lines] == ["#447474", "#C346CE"]
             assert axis.get_ylim()[0] == 0
             assert axis.get_legend() is None
-    assert "data:image/svg+xml;base64," in detail_chart(frames, "Type", "PJ", 0.05)
-    negative = annual([-1])
-    assert (
-        chart_figure([negative, negative], None, "PJ", 0.05).axes[0].get_ylim()[0] < -1
-    )
+    assert "data:image/svg+xml;base64," in detail_chart(compared, "Type", "PJ")
+    negative = period_comparison([annual([-1])] * 2, None, 0.05)
+    assert chart_figure(negative, None, "PJ").axes[0].get_ylim()[0] < -1
 
 
 def test_missing_charts_and_unmatched_years_are_not_tolerance_failures():
     empty = annual([])
-    assert detail_chart([empty, empty], None, "PJ", 0.05) == "<p>no data found</p>"
-    content = detail_chart([empty, annual([1])], None, "PJ", 0.05)
+    nothing = period_comparison([empty, empty], None, 0.05)
+    assert detail_chart(nothing, None, "PJ") == "<p>no data found</p>"
+    content = detail_chart(
+        period_comparison([empty, annual([1])], None, 0.05), None, "PJ"
+    )
     assert "Baseline data unavailable" in content
     assert "data:image/svg+xml;base64," in content
-    baseline = {2025: 100, 2030: 100, 2035: 100, 2040: 0, 2045: 0, 2050: 10}
-    candidate = {2025: 104, 2030: 105, 2035: 106, 2040: 0, 2045: 1}
-    assert list(different_period_spans(baseline, candidate, 0.05)) == [
+    baseline = annual([100, 100, 100, 0, 0, 10]).assign(
+        Period=[2025, 2030, 2035, 2040, 2045, 2050]
+    )
+    candidate = annual([104, 105, 106, 0, 1]).assign(
+        Period=[2025, 2030, 2035, 2040, 2045]
+    )
+    compared = period_comparison([baseline, candidate], None, 0.05)
+    assert list(different_period_spans(compared)) == [
         (2032.5, 2037.5),
         (2042.5, 2047.5),
     ]
@@ -298,7 +349,8 @@ def test_cli_generates_offline_html_and_exact_prepared_comparisons(
     assert totals.Difference.item() == 1
     sectors = compared.loc[compared.Metric.eq("electricity-demand-sector")]
     assert len(sectors) == 2
-    assert sectors.Difference.isna().all() and sectors.ExceedsTolerance.isna().all()
+    assert sorted(sectors.Difference) == [-2, 2.2]
+    assert sectors.ExceedsTolerance.all()
     objective = compared.loc[compared.Metric.eq("objective_function")]
     assert objective.Period.isna().all() and objective.ExceedsTolerance.isna().all()
     assert {"Availability", "Assessment", "Status"}.isdisjoint(compared.columns)

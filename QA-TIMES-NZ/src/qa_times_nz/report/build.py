@@ -7,8 +7,9 @@ import pandas as pd
 from qa_times_nz import report_inputs
 from qa_times_nz.report.charts import detail_chart
 from qa_times_nz.report.compare import period_comparison, read_metric
-from qa_times_nz.report.metrics import PAGES
+from qa_times_nz.report.metrics import PAGES, Subheader
 from qa_times_nz.report.render import render_report
+from qa_times_nz.report.slices import read_slice_metric, slice_chart, slice_comparison
 
 OBJECTIVE_DATASET = "indicators/objective_function"
 
@@ -28,13 +29,26 @@ def build_report(*, dev=False):
     comparisons, charts, csv_tables = {}, {}, []
     for _, specs in PAGES.values():
         for spec in specs:
-            frames = [
-                read_metric(source, spec.dataset, spec.group, spec.unit, spec.filters)
-                for source in selected
-            ]
-            compared = period_comparison(frames, spec.group, tolerance)
+            if isinstance(spec, Subheader):
+                continue
+            if spec.slices:
+                frames = [
+                    read_slice_metric(source, spec.dataset, spec.unit)
+                    for source in selected
+                ]
+                compared = slice_comparison(frames, tolerance)
+                chart = slice_chart(compared, spec.unit)
+            else:
+                frames = [
+                    read_metric(
+                        source, spec.dataset, spec.group, spec.unit, spec.filters
+                    )
+                    for source in selected
+                ]
+                compared = period_comparison(frames, spec.group, tolerance)
+                chart = detail_chart(compared, spec.group, spec.unit)
             comparisons[spec.key] = compared
-            charts[spec.key] = detail_chart(frames, spec.group, spec.unit, tolerance)
+            charts[spec.key] = chart
             csv_tables.append(
                 compared.assign(
                     Metric=spec.key, Dataset=f"summaries/{spec.dataset}.csv"

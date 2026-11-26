@@ -44,12 +44,14 @@ from prepare_times_nz.stage_2.residential.common import (
     save_checks,
     save_preprocessing,
 )
-from prepare_times_nz.utilities.filepaths import STAGE_1_DATA
+from prepare_times_nz.utilities.data_cleaning import rename_eeud_techs
+from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_1_DATA
 from prepare_times_nz.utilities.logger_setup import blue_text, logger
 
 # Data locations -----------------------------
 
 EEUD_FILE = STAGE_1_DATA / "eeud/eeud.csv"
+EEUD_RENAMES_FILE = ASSUMPTIONS / "eeud_patches/times_eeud_renames.toml"
 DWELLING_HEATING_FILE = STAGE_1_DATA / "statsnz/dwelling_heating.csv"
 
 # Assumptions --------------------------------------------
@@ -356,17 +358,6 @@ def get_heating_shares(
           - VALUE_COL
     run_tests : bool, default RUN_TESTS
         If True, validates that computed shares sum to 1 and logs if not.
-
-    Returns
-    -------
-    pandas.DataFrame
-        DataFrame with columns:
-          - CensusYear, Area, DwellingType, HeatingType
-          - SHARE_COL (normalized share of heating)
-    Raises
-    ------
-    KeyError
-        If any of the required columns are missing.
     """
 
     required = {
@@ -538,7 +529,7 @@ def get_eeud_space_heating_data(eeud_file=EEUD_FILE, base_year=BASE_YEAR):
     """
     # get EEUD data for residential space heating
 
-    eeud = pd.read_csv(eeud_file)
+    eeud = rename_eeud_techs(pd.read_csv(eeud_file), EEUD_RENAMES_FILE)
     df = eeud[eeud["Sector"] == "Residential"]
     df = df[df["EndUse"] == "Low Temperature Heat (<100 C), Space Heating"]
     df = df[df["Year"] == base_year]
@@ -818,18 +809,10 @@ def get_lpg_gas_consumption_share_of_tech(
         - Fuel : str, either "Natural Gas" or "LPG"
         - Value : float, total EEUD value for that fuel
         - Share : float, Value divided by the sum of both fuels
-
-    Raises
-    ------
-    KeyError
-        If any of 'Sector', 'EndUse', 'Year', 'Fuel', 'Technology' or 'Value'
-        is missing from the EEUD data.
-    FileNotFoundError
-        If EEUD_FILE cannot be read.
     """
 
     # Load EEUD data
-    eeud = pd.read_csv(eeud_file)
+    eeud = rename_eeud_techs(pd.read_csv(eeud_file), EEUD_RENAMES_FILE)
 
     # Validate required columns
     required = {"Sector", "EndUse", "Year", "Fuel", "Technology", "Value"}

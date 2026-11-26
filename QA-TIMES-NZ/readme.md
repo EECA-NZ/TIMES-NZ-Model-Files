@@ -27,13 +27,15 @@ nullable tolerance assessments.
 The report retains the former demo's Summary, Electricity, Oil and gas,
 Renewables and Emissions pages. It reads prepared summary totals and breakdowns
 without aggregating, converting units or filling absent rows. Only matching
-year/category/unit keys are compared. Unmatched rows and existing undefined
-values remain N/A and are unassessed for tolerance. Percentage change is undefined
+year/category/unit keys are compared. A category absent from a scenario that
+reports the period counts as zero; existing undefined values remain N/A and are
+unassessed for tolerance. Percentage change is undefined
 for a zero baseline; absolute differences and tolerance checks still apply.
 Objective differences are descriptive, with no tolerance assessment.
 
 Charts with no data on either side show "no data found". When data exists on one
-side, that side remains visible and comparisons show N/A. Invalid data and
+side, that side remains visible and comparisons show N/A. Categories absent
+from a scenario's reported periods, such as a fuel with no rows, compare as zero. Invalid data and
 incomplete runs are input errors. Charts and tables show units.
 Renewable generation and TFEC shares use the same relative tolerance as the other
 annual metrics. For example, a baseline of 63% and candidate of 76% differ by

@@ -23,12 +23,14 @@ from prepare_times_nz.stage_2.residential.common import (
     save_checks,
     save_preprocessing,
 )
-from prepare_times_nz.utilities.filepaths import STAGE_1_DATA
+from prepare_times_nz.utilities.data_cleaning import rename_eeud_techs
+from prepare_times_nz.utilities.filepaths import ASSUMPTIONS, STAGE_1_DATA
 from prepare_times_nz.utilities.logger_setup import logger
 
 # Data locations -----------------------------
 
 EEUD_FILE = STAGE_1_DATA / "eeud/eeud.csv"
+EEUD_RENAMES_FILE = ASSUMPTIONS / "eeud_patches/times_eeud_renames.toml"
 DWELLING_HEATING_FILE = STAGE_1_DATA / "statsnz/dwelling_heating.csv"
 POP_DWELLING = STAGE_1_DATA / "statsnz/population_by_dwelling.csv"
 
@@ -45,7 +47,7 @@ FLOOR_AREAS = RESIDENTIAL_ASSUMPTIONS / "floor_area_per_dwelling.csv"
 def get_residential_eeud(eeud_file=EEUD_FILE, base_year=BASE_YEAR):
     """Loads residential EEUD for the base year"""
 
-    df = pd.read_csv(eeud_file)
+    df = rename_eeud_techs(pd.read_csv(eeud_file), EEUD_RENAMES_FILE)
 
     df = df[df["Sector"] == "Residential"]
     df = df[df["Year"] == base_year]

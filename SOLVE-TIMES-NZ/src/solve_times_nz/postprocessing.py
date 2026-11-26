@@ -450,6 +450,32 @@ def batteries(results: pd.DataFrame, metadata_dir: Path) -> pd.DataFrame:
     ]
 
 
+def grid_capacity(results: pd.DataFrame, metadata_dir: Path) -> pd.DataFrame:
+    """Publish transmission, distribution and HVDC capacity by island."""
+    processes = _metadata(metadata_dir, "grid_processes.csv")
+    result = results[results["Attribute"] == "VAR_Cap"].merge(
+        processes, on="Process", how="inner", validate="many_to_one"
+    )
+    result["Variable"] = "Capacity"
+    result["Unit"] = "GW"
+    result = result.rename(columns={"PV": "Value"})
+    return result[
+        [
+            "Scenario",
+            "Process",
+            "TechnologyGroup",
+            "Technology",
+            "Region",
+            "Period",
+            "TimeSlice",
+            "Vintage",
+            "Variable",
+            "Unit",
+            "Value",
+        ]
+    ]
+
+
 def battery_flows(results: pd.DataFrame, metadata_dir: Path) -> pd.DataFrame:
     """Publish battery charge and discharge in the legacy flow-output shape."""
     processes = _metadata(metadata_dir, "battery_processes.csv")
@@ -625,6 +651,7 @@ def postprocess_run(run_dir: Path, metadata_dir: Path) -> Path:
         "objective_function.parquet": objective_function(results),
         "primary_energy.parquet": primary_energy(results, metadata_dir),
         "batteries.parquet": batteries(results, metadata_dir),
+        "grid_capacity.parquet": grid_capacity(results, metadata_dir),
         "battery_flows.parquet": battery_flows(results, metadata_dir),
         "demand_flex_flows.parquet": demand_flex_flows(results, metadata_dir),
         "emissions.parquet": emissions(results, metadata_dir),

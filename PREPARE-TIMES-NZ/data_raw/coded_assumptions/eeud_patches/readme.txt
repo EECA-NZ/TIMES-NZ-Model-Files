@@ -27,3 +27,6 @@ Note: we allocated all education demand to "Education and Training: Pre-School, 
 This isn't correct, as some is tertiary, but it doesn't matter: TIMES aggregates all education subsectors into a single education sector. 
 
 We do not distinguish different kinds of wood fuel in this system currently. We could, from the original data, but TIMES-NZ does not currently use this level of detail.
+
+
+times_eeud_renames.toml holds label rewrites (not appended rows) applied to the EEUD by the stage 2 industry and residential scripts. See the comments in that file.

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from solve_times_nz.reporting_flows import flow_summaries
+from solve_times_nz.reporting_flows import flow_summaries, generation_flows
 
 PJ_TO_TWH = 277.77777778 / 1000
 
@@ -365,6 +365,20 @@ def supply_summaries(supply: pd.DataFrame) -> dict[str, pd.DataFrame]:
     return result
 
 
+def _grid_capacity(table: pd.DataFrame) -> pd.DataFrame:
+    """Sum grid capacity across islands, counting the HVDC link once (NI rows)."""
+    grid = select(table, "Capacity", "GW")
+    grid = grid.loc[grid.Technology.ne("HVDC link") | grid.Region.eq("NI")]
+    return aggregate(grid, ["Technology"])
+
+
+def _peak_demand(table: pd.DataFrame) -> pd.DataFrame:
+    """Find the national electricity demand slice with the highest average GW."""
+    slices = aggregate(select(table, "Average output", "GW"), ["TimeSlice"])
+    peak = slices.loc[slices.groupby(["Scenario", "Period"]).Value.idxmax()]
+    return peak[["Scenario", "Period", "Unit", "TimeSlice", "Value"]]
+
+
 def build_summaries(
     tables: dict[str, pd.DataFrame], fuels: pd.DataFrame, timeslices: pd.DataFrame
 ) -> dict[str, pd.DataFrame]:
@@ -426,6 +440,9 @@ def build_summaries(
     result["electricity/battery_capacity"] = aggregate(
         select(tables["batteries.parquet"], "Capacity", "GW"), ["Technology"]
     )
+    result["electricity/grid_capacity"] = _grid_capacity(
+        tables["grid_capacity.parquet"]
+    )
     fleet = select(
         tables["transport_capacity.parquet"], "Transport Capacity", "000vehicles"
     )
@@ -456,6 +473,11 @@ def build_summaries(
     ).assign(Unit="Thousand vehicles")
     years = demand[["Scenario", "Period"]].drop_duplicates()
     result = {name: complete(frame, years) for name, frame in result.items()}
+    # Added after completion: slices exist only for modelled years, so a
+    # zero-filled base year would be a false zero peak.
+    result["electricity/peak_demand"] = _peak_demand(
+        tables["electricity_demand_by_timeslice.parquet"]
+    )
     for name, frame in renewable_shares(generation, demand, fuels).items():
         result[name] = pd.concat(
             [frame, frame.assign(Value=lambda df: df.Value * 100, Unit="%")],
@@ -491,4 +513,5 @@ def build_summaries(
         ["Scenario", "Variable", "Unit", "Value"]
     ].copy()
     result.update(flow_summaries(tables, timeslices))
+    result.update(generation_flows(generation, timeslices))
     return {f"{name}.csv": frame for name, frame in result.items() if not frame.empty}

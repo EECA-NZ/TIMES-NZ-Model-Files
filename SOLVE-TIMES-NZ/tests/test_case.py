@@ -191,6 +191,8 @@ def test_solve_stages_case_and_invokes_windows_gams(
         working_directories.append(kwargs["cwd"])
         staged_dir = staging_root / f"{versioned_case_name('steady')}-trial"
         (staged_dir / "steady.vd").write_text("results", encoding="utf-8")
+        (staged_dir / "steady.lst").write_text("listing", encoding="utf-8")
+        (staged_dir / "QA_CHECK.log").write_text("checks", encoding="utf-8")
         return subprocess.CompletedProcess(command, 0)
 
     destination = solve_case(
@@ -223,6 +225,8 @@ def test_solve_stages_case_and_invokes_windows_gams(
         == [staging_root / f"{versioned_case_name('steady')}-trial"] * 2
     )
     assert (destination / "steady.vd").is_file()
+    assert (destination / "steady.lst").is_file()
+    assert (destination / "QA_CHECK.log").is_file()
     solved_manifest = json.loads((destination / "manifest.json").read_text())
     assert solved_manifest["execution"]["status"] == "completed"
     assert solved_manifest["execution"]["gdx2veda_command"] == commands[1]

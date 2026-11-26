@@ -112,6 +112,7 @@ def main() -> None:
     for source, target in [
         ("production_processes.csv", "primary_production_processes.csv"),
         ("battery_processes.csv", "battery_processes.csv"),
+        ("grid_processes.csv", "grid_processes.csv"),
         ("closure_processes.csv", "technical_processes.csv"),
         ("dummy_processes.csv", "dummy_processes.csv"),
         ("emissions_commodities.csv", "emissions_commodities.csv"),

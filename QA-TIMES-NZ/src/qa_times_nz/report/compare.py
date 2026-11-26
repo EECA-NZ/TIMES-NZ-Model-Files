@@ -55,7 +55,7 @@ def within_tolerance(baseline, candidate, tolerance):
 
 
 def period_comparison(frames, group, tolerance, *, annual=True):
-    """Outer-join supplied keys; unmatched or undefined comparisons remain N/A."""
+    """Outer-join supplied keys; categories absent from a reported period count as zero."""
     keys = ([group] if group else []) + (["Period"] if annual else []) + ["Unit"]
     compared = (
         frames[0][[*keys, "Value"]]
@@ -65,10 +65,21 @@ def period_comparison(frames, group, tolerance, *, annual=True):
             how="outer",
             suffixes=("_baseline", "_candidate"),
             validate="one_to_one",
+            indicator=True,
         )
         .sort_values(keys)
         .reset_index(drop=True)
     )
+    if annual:
+        # A row absent from a scenario that reports the period is a true zero;
+        # an explicit null stays unknown.
+        for side, absent, frame in (
+            ("baseline", "right_only", frames[0]),
+            ("candidate", "left_only", frames[1]),
+        ):
+            blank = compared["_merge"].eq(absent) & compared.Period.isin(frame.Period)
+            compared.loc[blank, f"Value_{side}"] = 0.0
+    compared = compared.drop(columns="_merge")
     compared["Difference"] = compared.Value_candidate - compared.Value_baseline
     compared["DifferenceUnit"] = compared.Unit.replace({"%": "percentage points"})
     compared["PercentDifference"] = (
@@ -92,19 +103,11 @@ def period_comparison(frames, group, tolerance, *, annual=True):
     return compared
 
 
-def different_period_spans(baseline, candidate, tolerance):
-    """Yield differing periods bounded by midpoints to neighbouring periods."""
-    nan = float("nan")
-    periods = sorted(baseline.keys() | candidate.keys())
+def different_period_spans(compared):
+    """Yield periods over tolerance, bounded by midpoints to neighbouring periods."""
+    periods = sorted(compared.Period)
     for index, period in enumerate(periods):
-        if within_tolerance(
-            baseline.get(period, nan), candidate.get(period, nan), tolerance
-        ):
-            continue
-        if not (
-            math.isfinite(baseline.get(period, nan))
-            and math.isfinite(candidate.get(period, nan))
-        ):
+        if not compared.ExceedsTolerance[compared.Period.eq(period)].any():
             continue
         if len(periods) == 1:
             yield period - 0.5, period + 0.5
