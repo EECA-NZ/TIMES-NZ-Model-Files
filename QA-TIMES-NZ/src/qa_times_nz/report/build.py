@@ -7,7 +7,7 @@ import pandas as pd
 from qa_times_nz import report_inputs
 from qa_times_nz.report.charts import detail_chart
 from qa_times_nz.report.compare import period_comparison, read_metric
-from qa_times_nz.report.metrics import PAGES
+from qa_times_nz.report.metrics import PAGES, Subheader
 from qa_times_nz.report.render import render_report
 from qa_times_nz.report.slices import read_slice_metric, slice_chart, slice_comparison
 
@@ -29,6 +29,8 @@ def build_report(*, dev=False):
     comparisons, charts, csv_tables = {}, {}, []
     for _, specs in PAGES.values():
         for spec in specs:
+            if isinstance(spec, Subheader):
+                continue
             if spec.slices:
                 frames = [
                     read_slice_metric(source, spec.dataset, spec.unit)

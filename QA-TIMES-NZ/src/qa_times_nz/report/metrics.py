@@ -16,10 +16,17 @@ class MetricSpec(NamedTuple):
     slices: bool = False
 
 
+class Subheader(NamedTuple):
+    """A heading shown in the page and its contents, above the metrics that follow."""
+
+    title: str
+
+
 PAGES = {
     "electricity": (
         "Electricity",
         [
+            Subheader("Demand"),
             MetricSpec(
                 "electricity-demand-total",
                 "Total electricity demand",
@@ -35,6 +42,14 @@ PAGES = {
                 "TWh",
             ),
             MetricSpec(
+                "peak-demand",
+                "Peak electricity demand",
+                "electricity/peak_demand",
+                None,
+                "GW",
+            ),
+            Subheader("Generation"),
+            MetricSpec(
                 "electricity-generation-total",
                 "Total electricity generation",
                 "electricity/electricity_generation",
@@ -49,23 +64,25 @@ PAGES = {
                 "TWh",
             ),
             MetricSpec(
+                "thermal-generation-fuel",
+                "Thermal generation fuel use by fuel",
+                "electricity/thermal_generation_fuel_use",
+                "Fuel",
+                "PJ",
+            ),
+            MetricSpec(
+                "generation-flows-2050",
+                "Electricity generation by timeslice (2050)",
+                "electricity/generation_flows",
+                "Series",
+                "GW",
+                slices=True,
+            ),
+            Subheader("Batteries"),
+            MetricSpec(
                 "battery-capacity-type",
                 "Battery capacity by type",
                 "electricity/battery_capacity",
-                "Technology",
-                "GW",
-            ),
-            MetricSpec(
-                "peak-demand",
-                "Peak electricity demand",
-                "electricity/peak_demand",
-                None,
-                "GW",
-            ),
-            MetricSpec(
-                "grid-capacity-type",
-                "Grid capacity by type",
-                "electricity/grid_capacity",
                 "Technology",
                 "GW",
             ),
@@ -77,20 +94,13 @@ PAGES = {
                 "GW",
                 slices=True,
             ),
+            Subheader("Grid"),
             MetricSpec(
-                "generation-flows-2050",
-                "Electricity generation by timeslice (2050)",
-                "electricity/generation_flows",
-                "Series",
+                "grid-capacity-type",
+                "Grid capacity by type",
+                "electricity/grid_capacity",
+                "Technology",
                 "GW",
-                slices=True,
-            ),
-            MetricSpec(
-                "thermal-generation-fuel",
-                "Thermal generation fuel use by fuel",
-                "electricity/thermal_generation_fuel_use",
-                "Fuel",
-                "PJ",
             ),
         ],
     ),

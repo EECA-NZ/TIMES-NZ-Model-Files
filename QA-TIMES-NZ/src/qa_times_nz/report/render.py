@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 
 from qa_times_nz.report.charts import SCENARIO_COLOURS
-from qa_times_nz.report.metrics import PAGES
+from qa_times_nz.report.metrics import PAGES, Subheader
 
 ASSETS = Path(__file__).parent / "assets"
 
@@ -121,6 +121,11 @@ def render_report(inputs, comparisons, charts, tolerance):
         navigation += f'<a href="#{page}" data-page="{page}">{page_title}</a>'
         links, sections = [], []
         for spec in specs:
+            if isinstance(spec, Subheader):
+                heading_text = html.escape(spec.title)
+                links.append(f'<span class="nav-heading">{heading_text}</span>')
+                sections.append(f'<h2 class="subheader">{heading_text}</h2>')
+                continue
             name = spec.title
             links.append(f'<a href="#{spec.key}">{html.escape(name)}</a>')
             sections.append(

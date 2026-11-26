@@ -34,5 +34,7 @@ nav[aria-label$="sections"] a {padding:10px 8px}
 nav[aria-label$="sections"] a {white-space:normal}
 nav a {line-height:20px;white-space:nowrap}
 .report-section {scroll-margin-top:132px}
+.subheader {margin:32px 0 0;padding-bottom:6px;border-bottom:2px solid #164057;color:#164057}
+nav[aria-label$="sections"] .nav-heading {padding:14px 8px 4px;font-weight:600;color:#164057}
 @media (max-width:800px) {.section-page {grid-template-columns:1fr}
 nav[aria-label$="sections"] {position:static}}
