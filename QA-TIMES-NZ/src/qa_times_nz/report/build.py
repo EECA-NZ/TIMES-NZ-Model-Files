@@ -34,7 +34,7 @@ def build_report(*, dev=False):
             ]
             compared = period_comparison(frames, spec.group, tolerance)
             comparisons[spec.key] = compared
-            charts[spec.key] = detail_chart(frames, spec.group, spec.unit, tolerance)
+            charts[spec.key] = detail_chart(compared, spec.group, spec.unit)
             csv_tables.append(
                 compared.assign(
                     Metric=spec.key, Dataset=f"summaries/{spec.dataset}.csv"
