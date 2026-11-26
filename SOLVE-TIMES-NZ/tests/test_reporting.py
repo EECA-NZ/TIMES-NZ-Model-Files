@@ -18,6 +18,7 @@ from solve_times_nz.reporting_flows import (
     TIMESLICES,
     equivalent_flex_input,
     flow_summaries,
+    generation_flows,
     timeslice_view,
 )
 
@@ -366,6 +367,26 @@ def test_consolidated_demand_keeps_fuel_vehicle_and_sector_boundaries():
     ]
     assert combined.SectorGroup.tolist() == ["Industry"]
     assert combined.Value.item() == pytest.approx(11 / 3.6)
+
+
+def test_generation_flows_total_all_technologies_for_2050_only():
+    weights = pd.DataFrame({"TimeSlice": TIMESLICES, "YearFraction": [1 / 24] * 24})
+    rows = pd.DataFrame(
+        {
+            "Scenario": ["s"] * 4,
+            "Period": [2035, 2050, 2050, 2050],
+            "Variable": ["Electricity generation"] * 3 + ["Electricity fuel use"],
+            "TechnologyGroup": ["Hydro", "Hydro", "Wind", "Wind"],
+            "TimeSlice": [TIMESLICES[0]] * 4,
+            "Value": [9.0, 1.0, 2.0, 50.0],
+            "Unit": ["PJ"] * 4,
+        }
+    )
+    combined = generation_flows(rows, weights)["electricity/generation_flows"]
+    first = combined.loc[combined.TimeSlice.eq(TIMESLICES[0]) & combined.Unit.eq("GWh")]
+    assert first.Value.item() == pytest.approx(3 * 277.77777778)
+    assert combined.Period.eq(2050).all() and len(combined) == 48
+    assert generation_flows(rows.assign(Period=2030), weights) == {}
 
 
 def test_consolidated_flows_keep_both_years_units_and_timeslice_completion():

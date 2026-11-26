@@ -13,6 +13,7 @@ class MetricSpec(NamedTuple):
     group: str | None
     unit: str
     filters: Mapping = MappingProxyType({})
+    slices: bool = False
 
 
 PAGES = {
@@ -67,6 +68,22 @@ PAGES = {
                 "electricity/grid_capacity",
                 "Technology",
                 "GW",
+            ),
+            MetricSpec(
+                "battery-flows-2050",
+                "Battery flows by timeslice (2050)",
+                "electricity/battery_flows",
+                "Series",
+                "GW",
+                slices=True,
+            ),
+            MetricSpec(
+                "generation-flows-2050",
+                "Electricity generation by timeslice (2050)",
+                "electricity/generation_flows",
+                "Series",
+                "GW",
+                slices=True,
             ),
             MetricSpec(
                 "thermal-generation-fuel",

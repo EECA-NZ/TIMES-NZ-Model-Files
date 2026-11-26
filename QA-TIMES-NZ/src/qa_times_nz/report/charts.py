@@ -50,21 +50,30 @@ def chart_figure(compared, group, value_label):
     return figure
 
 
-def detail_chart(compared, group, value_label):
-    """Embed an offline SVG, preserving the colour assigned to each input role."""
-    if compared.empty:
-        return "<p>no data found</p>"
-    message = "".join(
+def unavailable_message(compared):
+    """Say which input had no data, so its empty series isn't misread as zero."""
+    return "".join(
         f"<p>{role.title()} data unavailable; comparisons are N/A.</p>"
         for role in ["baseline", "candidate"]
         if compared[f"Value_{role}"].isna().all()
     )
-    with mpl.rc_context({"font.size": 9, "svg.fonttype": "none"}):
-        figure = chart_figure(compared, group, value_label)
-        output = io.BytesIO()
-        FigureCanvasSVG(figure).print_svg(output)
+
+
+def embed_svg(figure, alt):
+    """Embed a figure as an offline SVG image."""
+    output = io.BytesIO()
+    FigureCanvasSVG(figure).print_svg(output)
     encoded = base64.b64encode(output.getvalue()).decode("ascii")
     return (
-        message + f'<img class="chart" alt="{html.escape(value_label)}" '
+        f'<img class="chart" alt="{html.escape(alt)}" '
         f'src="data:image/svg+xml;base64,{encoded}">'
     )
+
+
+def detail_chart(compared, group, value_label):
+    """Embed an offline SVG, preserving the colour assigned to each input role."""
+    if compared.empty:
+        return "<p>no data found</p>"
+    with mpl.rc_context({"font.size": 9, "svg.fonttype": "none"}):
+        figure = chart_figure(compared, group, value_label)
+        return unavailable_message(compared) + embed_svg(figure, value_label)

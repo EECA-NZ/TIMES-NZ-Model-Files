@@ -150,3 +150,16 @@ def flow_summaries(
         if views:
             result[f"electricity/{kind}_flows"] = pd.concat(views, ignore_index=True)
     return result
+
+
+def generation_flows(
+    generation: pd.DataFrame, weights: pd.DataFrame
+) -> dict[str, pd.DataFrame]:
+    """Total electricity generation by timeslice for 2050, in GW and GWh."""
+    data = generation.loc[
+        generation.Variable.eq("Electricity generation") & generation.Period.eq(2050)
+    ].assign(Technology="Total generation")
+    if data.empty:
+        return {}
+    views = [timeslice_view(data, weights, unit) for unit in ["GW", "GWh"]]
+    return {"electricity/generation_flows": pd.concat(views, ignore_index=True)}

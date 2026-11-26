@@ -16,6 +16,7 @@ from qa_times_nz.report.compare import (
     read_metric,
 )
 from qa_times_nz.report.render import comparison_accordion, nz_timestamp
+from qa_times_nz.report.slices import slice_chart, slice_comparison
 
 
 def annual(values, unit="PJ", **groups):
@@ -173,6 +174,35 @@ def test_comparisons_preserve_unmatched_keys_nulls_zero_baselines_and_units():
     assert "Availability" not in content and "Assessment" not in content
     assert {"Availability", "Assessment", "Status"}.isdisjoint(compared.columns)
     assert content.count('class="over-tolerance"') == 3
+
+
+def test_slice_comparison_zero_fills_missing_series_and_draws_season_panels():
+    def slices(technology, values):
+        return pd.DataFrame(
+            {
+                "Series": [f"{technology}: Gen, {n}" for n in range(len(values))],
+                "Period": 2050,
+                "Unit": "GW",
+                "Value": values,
+                "Variable": "Gen",
+                "Technology": technology,
+                "TimeSlice": [f"SUM-WK-{n}" for n in range(len(values))],
+                "TimeSliceOrder": list(range(len(values))),
+                "Season": "Summer",
+                "TimeSliceDayTime": "Weekday Day",
+            }
+        )
+
+    baseline = slices("Hydro", [1.0, 2.0])
+    candidate = pd.concat(
+        [slices("Hydro", [1.0, 4.0]), slices("Wind", [3.0])], ignore_index=True
+    )
+    compared = slice_comparison([baseline, candidate], 0.05)
+    assert compared.Technology.tolist() == ["Hydro", "Hydro", "Wind"]
+    assert compared.Value_baseline.tolist() == [1.0, 2.0, 0.0]
+    assert compared.ExceedsTolerance.tolist() == [False, True, True]
+    assert slice_chart(compared, "GW").count("<img") == 2
+    assert slice_chart(compared.iloc[:0], "GW") == "<p>no data found</p>"
 
 
 def test_nz_timestamp_handles_summer_winter_and_missing_timezone():

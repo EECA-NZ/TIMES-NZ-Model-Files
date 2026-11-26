@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from solve_times_nz.reporting_flows import flow_summaries
+from solve_times_nz.reporting_flows import flow_summaries, generation_flows
 
 PJ_TO_TWH = 277.77777778 / 1000
 
@@ -513,4 +513,5 @@ def build_summaries(
         ["Scenario", "Variable", "Unit", "Value"]
     ].copy()
     result.update(flow_summaries(tables, timeslices))
+    result.update(generation_flows(generation, timeslices))
     return {f"{name}.csv": frame for name, frame in result.items() if not frame.empty}
