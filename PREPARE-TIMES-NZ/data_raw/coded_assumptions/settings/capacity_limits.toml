@@ -89,12 +89,11 @@ PSet_PN = "*HPSH-SH_LOW"
 
 # AGRICULTURE, FORESTRY AND FISHING
 
-# Roughly 5% of mobile machinery stock in the first year (seed), reaching most of
-# the stock within about 7 years, as per the uptake assumptions in the methodology docs.
+# Roughly 5% of mobile machinery stock as seed value
 [CapLimitAgMobileElectric]
 Description = "Electric mobile agricultural and forestry machinery (tractors, utes, bikes, forestry)"
-GrowthLimit = 0.5
-SeedValue = 0.011
+GrowthLimit = 0.05
+SeedValue = 0.005
 PSet_PN = "A*-MOTP-MOB-*-ELC"
 
 # TRANSPORT
