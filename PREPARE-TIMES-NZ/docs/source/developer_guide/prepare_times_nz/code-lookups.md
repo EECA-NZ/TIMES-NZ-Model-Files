@@ -8,6 +8,7 @@ codes used in reporting.
  - {download}`Demand devices<data/demand_processes.csv>`
  - {download}`Electricity generation<data/electricity_generation_processes.csv>`
  - {download}`Batteries<data/battery_processes.csv>`
+ - {download}`Electricity grid<data/grid_processes.csv>`
  - {download}`Demand flex<data/demand_flex_processes.csv>`
  - {download}`Distribution<data/distribution_processes.csv>`
  - {download}`Primary production<data/primary_production_processes.csv>`

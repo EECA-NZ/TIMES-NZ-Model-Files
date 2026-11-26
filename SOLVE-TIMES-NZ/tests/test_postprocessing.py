@@ -17,6 +17,7 @@ from solve_times_nz.postprocessing import (
     energy_service_demand,
     energy_service_demand_by_timeslice,
     generation_by_timeslice,
+    grid_capacity,
     objective_function,
     snapshot_metadata,
     technology_capacity,
@@ -104,6 +105,7 @@ def test_postprocess_marks_complete_only_after_all_writes(
         "objective_function",
         "primary_energy",
         "batteries",
+        "grid_capacity",
         "battery_flows",
         "demand_flex_flows",
         "emissions",
@@ -229,6 +231,13 @@ def _metadata(tmp_path):
             "Technology": ["Utility battery (2 hour)"],
         }
     ).to_csv(tmp_path / "battery_processes.csv", index=False)
+    pd.DataFrame(
+        {
+            "Process": ["G_ELC_HV", "TB_ELC_NI_SI_01"],
+            "TechnologyGroup": ["Electricity grid"] * 2,
+            "Technology": ["Transmission", "HVDC link"],
+        }
+    ).to_csv(tmp_path / "grid_processes.csv", index=False)
     pd.DataFrame(
         {
             "Process": ["JD-WH_LOW-FLEX"],
@@ -552,6 +561,28 @@ def test_batteries_publish_legacy_capacity_and_flow_outputs(tmp_path):
             "Unit": "PJ",
             "Value": 0.6,
         },
+    ]
+
+
+def test_grid_capacity_keeps_islands_and_drops_unlabelled_processes(tmp_path):
+    _metadata(tmp_path)
+    data = pd.DataFrame(
+        {
+            "Attribute": ["VAR_Cap"] * 3,
+            "Process": ["G_ELC_HV", "G_ELC_HV", "ELC_HYD"],
+            "Commodity": ["-"] * 3,
+            "PV": [5.0, 2.5, 9.0],
+            "Scenario": ["steady-v3.0.9"] * 3,
+            "Region": ["NI", "SI", "NI"],
+            "Period": [2030] * 3,
+            "TimeSlice": ["ANNUAL"] * 3,
+            "Vintage": ["-"] * 3,
+        }
+    )
+    capacity = grid_capacity(data, tmp_path)
+    assert capacity[["Technology", "Region", "Unit", "Value"]].to_dict("records") == [
+        {"Technology": "Transmission", "Region": "NI", "Unit": "GW", "Value": 5.0},
+        {"Technology": "Transmission", "Region": "SI", "Unit": "GW", "Value": 2.5},
     ]
 
 

@@ -365,6 +365,13 @@ def supply_summaries(supply: pd.DataFrame) -> dict[str, pd.DataFrame]:
     return result
 
 
+def _grid_capacity(table: pd.DataFrame) -> pd.DataFrame:
+    """Sum grid capacity across islands, counting the HVDC link once (NI rows)."""
+    grid = select(table, "Capacity", "GW")
+    grid = grid.loc[grid.Technology.ne("HVDC link") | grid.Region.eq("NI")]
+    return aggregate(grid, ["Technology"])
+
+
 def build_summaries(
     tables: dict[str, pd.DataFrame], fuels: pd.DataFrame, timeslices: pd.DataFrame
 ) -> dict[str, pd.DataFrame]:
@@ -425,6 +432,9 @@ def build_summaries(
     ).assign(Value=lambda df: df.Value / 1000, Unit="Mt CO2e")
     result["electricity/battery_capacity"] = aggregate(
         select(tables["batteries.parquet"], "Capacity", "GW"), ["Technology"]
+    )
+    result["electricity/grid_capacity"] = _grid_capacity(
+        tables["grid_capacity.parquet"]
     )
     fleet = select(
         tables["transport_capacity.parquet"], "Transport Capacity", "000vehicles"

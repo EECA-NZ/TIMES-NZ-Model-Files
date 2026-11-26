@@ -1,0 +1,4 @@
+Process,TechnologyGroup,Technology
+G_ELC_HV,Electricity grid,Transmission
+G_ELC_LV,Electricity grid,Distribution
+TB_ELC_NI_SI_01,Electricity grid,HVDC link

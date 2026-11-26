@@ -214,6 +214,9 @@ def test_build_summaries_includes_demo_objective_indicators_and_publication_tabl
         "batteries.parquet": use.iloc[:1].assign(
             Variable="Capacity", Technology="Battery", Unit="GW"
         ),
+        "grid_capacity.parquet": use.iloc[:1]
+        .assign(Variable="Capacity", Technology="HVDC link", Unit="GW")
+        .pipe(lambda df: pd.concat([df, df.assign(Region="SI")], ignore_index=True)),
         "transport_capacity.parquet": pd.concat(
             [use.iloc[:1]] * 3, ignore_index=True
         ).assign(
@@ -250,6 +253,7 @@ def test_build_summaries_includes_demo_objective_indicators_and_publication_tabl
         "electricity/electricity_generation.csv"
     ].Value.item() == pytest.approx(20 / 3.6)
     assert result["emissions/emissions.csv"].Value.item() == 1
+    assert result["electricity/grid_capacity.csv"].Value.item() == use.Value.iloc[0]
     assert result["indicators/objective_function.csv"].Value.item() == 1.5
     fleet = result["transport/transport_capacity.csv"]
     assert fleet.TechnologyGroup.unique().tolist() == ["BEV"]

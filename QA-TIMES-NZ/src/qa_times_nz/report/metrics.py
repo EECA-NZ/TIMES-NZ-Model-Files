@@ -55,6 +55,13 @@ PAGES = {
                 "GW",
             ),
             MetricSpec(
+                "grid-capacity-type",
+                "Grid capacity by type",
+                "electricity/grid_capacity",
+                "Technology",
+                "GW",
+            ),
+            MetricSpec(
                 "thermal-generation-fuel",
                 "Thermal generation fuel use by fuel",
                 "electricity/thermal_generation_fuel_use",
