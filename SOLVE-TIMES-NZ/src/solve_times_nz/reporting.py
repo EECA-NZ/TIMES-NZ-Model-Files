@@ -372,6 +372,13 @@ def _grid_capacity(table: pd.DataFrame) -> pd.DataFrame:
     return aggregate(grid, ["Technology"])
 
 
+def _peak_demand(table: pd.DataFrame) -> pd.DataFrame:
+    """Find the national electricity demand slice with the highest average GW."""
+    slices = aggregate(select(table, "Average output", "GW"), ["TimeSlice"])
+    peak = slices.loc[slices.groupby(["Scenario", "Period"]).Value.idxmax()]
+    return peak[["Scenario", "Period", "Unit", "TimeSlice", "Value"]]
+
+
 def build_summaries(
     tables: dict[str, pd.DataFrame], fuels: pd.DataFrame, timeslices: pd.DataFrame
 ) -> dict[str, pd.DataFrame]:
@@ -466,6 +473,11 @@ def build_summaries(
     ).assign(Unit="Thousand vehicles")
     years = demand[["Scenario", "Period"]].drop_duplicates()
     result = {name: complete(frame, years) for name, frame in result.items()}
+    # Added after completion: slices exist only for modelled years, so a
+    # zero-filled base year would be a false zero peak.
+    result["electricity/peak_demand"] = _peak_demand(
+        tables["electricity_demand_by_timeslice.parquet"]
+    )
     for name, frame in renewable_shares(generation, demand, fuels).items():
         result[name] = pd.concat(
             [frame, frame.assign(Value=lambda df: df.Value * 100, Unit="%")],

@@ -6,6 +6,7 @@ import pandas as pd
 import pytest
 
 from solve_times_nz.reporting import (
+    _peak_demand,
     aggregate,
     build_summaries,
     complete,
@@ -217,6 +218,9 @@ def test_build_summaries_includes_demo_objective_indicators_and_publication_tabl
         "grid_capacity.parquet": use.iloc[:1]
         .assign(Variable="Capacity", Technology="HVDC link", Unit="GW")
         .pipe(lambda df: pd.concat([df, df.assign(Region="SI")], ignore_index=True)),
+        "electricity_demand_by_timeslice.parquet": use.iloc[:1].assign(
+            Variable="Average output", Unit="GW", TimeSlice="WIN-WK-P"
+        ),
         "transport_capacity.parquet": pd.concat(
             [use.iloc[:1]] * 3, ignore_index=True
         ).assign(
@@ -283,6 +287,24 @@ def test_build_summaries_includes_demo_objective_indicators_and_publication_tabl
     assert all(
         frame.Period.dtype == "int64" for frame in result.values() if "Period" in frame
     )
+
+
+def test_peak_demand_sums_regions_and_reports_the_highest_slice():
+    rows = pd.DataFrame(
+        {
+            "Scenario": ["s"] * 6,
+            "Period": [2030] * 6,
+            "Region": ["NI", "SI", "NI", "SI", "NI", "SI"],
+            "TimeSlice": ["SUM-WK-D"] * 2 + ["WIN-WK-P"] * 2 + ["WIN-WK-N"] * 2,
+            "Value": [1.0, 1.0, 3.0, 2.0, 4.0, 0.5],
+            "Variable": "Average output",
+            "Unit": "GW",
+        }
+    )
+    peak = _peak_demand(rows)
+    assert peak[["TimeSlice", "Value"]].to_dict("records") == [
+        {"TimeSlice": "WIN-WK-P", "Value": 5.0}
+    ]
 
 
 def test_legacy_industrial_publication_exclusions_do_not_change_full_qa_totals():

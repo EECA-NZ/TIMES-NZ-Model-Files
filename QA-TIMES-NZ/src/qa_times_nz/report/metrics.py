@@ -55,6 +55,13 @@ PAGES = {
                 "GW",
             ),
             MetricSpec(
+                "peak-demand",
+                "Peak electricity demand",
+                "electricity/peak_demand",
+                None,
+                "GW",
+            ),
+            MetricSpec(
                 "grid-capacity-type",
                 "Grid capacity by type",
                 "electricity/grid_capacity",
