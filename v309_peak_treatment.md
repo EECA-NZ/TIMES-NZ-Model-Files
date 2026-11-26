@@ -26,7 +26,4 @@ The last row matches base exactly, so the groups removing peak credit explain th
 
 The v308 behaviour was an artefact of the Veda group handling, not a modelling choice. v309 follows the TIMES default, where every generator counts toward the peak at its explicit `NCAP_PKCNT`. v309 derated margins are about 5-9% against the 5% reserve (`COM_PKRSV`).
 
-## Open items
 
-- The 8 candidate diesel peakers (`ELC_DSLPKR_GENERICDIESELPEAKER1`-`8`) have no `NCAP_AF` or `NCAP_PKCNT`, unlike their gas twins. This looks like an input omission.
-- Downstream impacts (residential gas, diesel, emissions) will be reported by QA.

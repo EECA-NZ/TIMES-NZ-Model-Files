@@ -396,7 +396,9 @@ def reshape_genstack(df):
     # add lower-bound outputs for selected techs
 
     df["AFA~LO"] = np.nan
-    df["AFA~LO"] = np.where(df["Tech"].isin(["GasPkr", "OCGT"]), 0.02, df["AFA~LO"])
+    df["AFA~LO"] = np.where(
+        df["Tech"].isin(["GasPkr", "DslPkr", "OCGT"]), 0.02, df["AFA~LO"]
+    )
 
     df["CAP2ACT"] = CAP2ACT_PJGW
 
